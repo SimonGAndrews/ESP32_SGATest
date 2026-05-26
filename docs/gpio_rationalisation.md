@@ -3,9 +3,14 @@
 This document starts the GPIO allocation work for the first ESP32 Espruino
 hardware test harnesses.
 
-The aim is to keep the peripheral/test blocks physically consistent across
-the harness boards while allowing the device-under-test socket and wiring fanout
-to differ per target board.
+The aim is to keep both the physical peripheral/test blocks and the test suites
+consistent across the harness boards, while allowing the device-under-test
+socket and wiring fanout to differ per target board.
+
+In other words, each board variant should prove the same Espruino hardware
+interfaces wherever possible. The board-specific work is deciding which GPIOs
+connect to the shared harness nodes, not redesigning the tests for every
+target.
 
 Initial boards:
 
@@ -34,12 +39,25 @@ The harness family should use the same test block layout on each board:
 - common analog feedback block
 - common serial-loopback or serial-peer block
 
-The difference between harness variants should be the DUT socket and the
-wirewrap fanout from each board pin to the shared named harness nodes.
+The intention is that the test electronics feel the same from one harness to
+the next. Each harness has a DUT, meaning Device Under Test: the ESP32 board
+currently plugged into, or soldered onto, that particular test harness.
 
-This keeps early wirewrap builds practical and leaves a clean path toward a
-future PCB family where most copper can be reused and only the target-board
-socket/fanout changes.
+The DUT socket is the physical part of the harness that accepts the target
+board. That part will naturally be different for an ESP32-C3-DevKitC-02,
+an Olimex ESP32-DevKit-LiPo, or a future ESP32 target. The wirewrap fanout is
+the group of wires that adapts the DUT pins to the named harness nodes.
+
+For example, the MCP23008 block should always connect to a harness node called
+`I2C_SDA`. On the ESP32-C3 harness, `I2C_SDA` may be reached from `D1`. On the
+classic ESP32 harness, it may be reached from `D21`. The expander circuit and
+the test idea stay the same; only the board-specific adapter wiring changes.
+
+In practical terms: keep the common test blocks consistent, and let each
+target-board harness translate its own GPIO pins onto those shared test names.
+This keeps early wirewrap builds understandable and leaves a clean path toward
+a future PCB family where most of the reusable test circuitry can stay the
+same.
 
 ## Common Harness Nodes
 
@@ -53,7 +71,7 @@ These names describe the logical harness, not final pin choices.
 | `GPIO_LOOP_B_IN` | digital input/watch input for loopback pair B |
 | `PWM_OUT` | PWM or digital level source for analog feedback |
 | `ANALOG_FB` | filtered feedback node driven by `PWM_OUT` |
-| `ADC_IN` | target ADC input connected to `ANALOG_FB` |
+| `ADC_IN` | target ADC input selected to `ANALOG_FB` |
 | `I2C_SDA` | MCP23008 SDA |
 | `I2C_SCL` | MCP23008 SCL |
 | `I2C_INT` | MCP23008 interrupt output back to target GPIO |
@@ -130,60 +148,69 @@ Practical consequence:
   `GPIO19` are reserved by default for USB D-/D+.
 - If both UART0 and native USB are reserved, the C3 does not have enough
   comfortable GPIO for the full RP2040-style always-connected harness.
-- Therefore the C3 harness probably needs either:
-  - a smaller phase-1 fixed harness plus later alternate wiring modes, or
-  - jumper-selectable blocks that allow the same pins to be reused across
-    mutually exclusive test phases.
+- Therefore the C3 harness uses selector-controlled blocks that allow the same
+  pins to be reused across mutually exclusive test phases.
 
-### ESP32-C3 First-Pass Allocation Strategy
+### ESP32-C3 Allocation Used By Current Harness
 
-This is a starting strategy, not a final wiring table.
+This is the allocation implemented by the ESP32-C3 v1 schematic.
 
-Use fixed wiring for the most important baseline tests:
+Use selector-controlled wiring for the shared C3 pins:
 
-| Harness node | Candidate C3 GPIO | Rationale |
+| Harness node | C3 GPIO | Rationale |
 |---|---:|---|
 | `GPIO_LOOP_A_OUT` | `GPIO1` | normal exposed GPIO, avoids strapping and connectivity pins |
-| `GPIO_LOOP_A_IN` | `GPIO3` | normal exposed GPIO, ADC-capable if later needed |
-| `GPIO_LOOP_B_OUT` | `GPIO4` | normal exposed GPIO, also used by OneWire/Serial alternate modes |
-| `GPIO_LOOP_B_IN` | `GPIO2` | strapping pin, but only through removable/resistor-protected loopback; confirm boot safety |
-| `PWM_OUT` | `GPIO5` | exposed output-capable GPIO |
-| `ADC_IN` | `GPIO0` | ADC-capable, avoids known C3 strapping pins |
-| `I2C_SDA` | `GPIO6` | exposed GPIO, candidate software/peripheral I2C pin |
-| `I2C_SCL` | `GPIO7` | exposed GPIO, candidate software/peripheral I2C pin |
-| `I2C_INT` | `GPIO10` | exposed GPIO, useful as expander interrupt input |
-| `I2C_FB` | `GPIO2` | shares the loopback-B input through I2C mode jumper; no fixed pull |
-| `ONEWIRE_DQ` | `GPIO4` | shares loopback-B output through OneWire mode jumper |
+| `GPIO_LOOP_A_IN` | `GPIO2` | strapping pin, but only through selector/resistor-protected loopback; confirm boot safety during bring-up |
+| `GPIO_LOOP_B_OUT` | `GPIO3` | normal exposed GPIO, also used by SPI MISO and serial TX alternate modes |
+| `GPIO_LOOP_B_IN` | `GPIO4` | normal exposed GPIO, also used by I2C SCL and serial RX alternate modes |
+| `PWM_OUT` | `GPIO8` | strapping/RGB LED pin, used only through 10k into analog feedback so SPI can run concurrently |
+| `ADC_IN` | `GPIO0` | ADC-capable, selected to `ANALOG_FB` by `SEL_D0` |
+| `I2C_SDA` | `GPIO1` | uses baseline loopback output pin so I2C can coexist with SPI |
+| `I2C_SCL` | `GPIO4` | uses baseline loopback input pin so I2C can coexist with SPI and OneWire |
+| `I2C_INT` | `GPIO10` | exposed GPIO, useful as expander interrupt input; excludes optional flash CS in combined mode |
+| `I2C_FB` | `GPIO2` | shares the loopback-A input through `SEL_D2`; no fixed pull |
+| `ONEWIRE_DQ` | `GPIO0` | selected instead of `ANALOG_FB` by `SEL_D0`, freeing I2C SCL |
 
-Candidate alternate-mode allocation for SPI:
+SPI allocation:
 
-| Harness node | Candidate C3 GPIO | Rationale |
+| Harness node | C3 GPIO | Rationale |
 |---|---:|---|
 | `SPI_MISO` | `GPIO3` | reused from loopback block in SPI mode |
-| `SPI_MOSI` | `GPIO5` | reused from PWM block in SPI mode |
-| `SPI_SCK` | `GPIO6` | reused from I2C block in SPI mode |
-| `SPI_CS_ADC` | `GPIO7` | reused from I2C block in SPI mode |
-| `SPI_CS_FLASH` | `GPIO10` | reused from interrupt input in SPI mode |
+| `SPI_MOSI` | `GPIO5` | dedicated MOSI in combined SPI/I2C bus mode |
+| `SPI_SCK` | `GPIO6` | dedicated to SPI in combined SPI/I2C bus mode |
+| `SPI_CS_ADC` | `GPIO7` | dedicated MCP3008 chip select in combined SPI/I2C bus mode |
+| `SPI_CS_FLASH` | `GPIO10` | optional extended mode only, mutually exclusive with `I2C_INT` |
 
-Candidate alternate-mode allocation for non-console serial:
+Non-console serial allocation:
 
-| Harness node | Candidate C3 GPIO | Rationale |
+| Harness node | C3 GPIO | Rationale |
 |---|---:|---|
-| `UART_TX` | `GPIO3` | reused from loopback-A input in serial-peer mode |
-| `UART_RX` | `GPIO4` | reused from loopback-B output in serial-peer mode |
+| `UART_TX` | `GPIO3` | reused from loopback-B output in serial-peer mode |
+| `UART_RX` | `GPIO4` | reused from loopback-B input in serial-peer mode |
 
-Open C3 decision:
+Settled C3 v1 decisions and remaining caveats:
 
 - preserve native USB pins `GPIO18` and `GPIO19` by default from phase one
-- decide whether a later explicit alternate mode may borrow `GPIO18` and
-  `GPIO19`, with jumpers and warnings, after native USB testing is complete
+- do not borrow `GPIO18` or `GPIO19` for v1 peripheral tests
 - `GPIO2` is accepted as a resistor-protected loopback/input and I2C feedback
   input with no fixed pull, despite being a strapping pin
-- decide whether `GPIO8` can be used for LED-specific tests only, leaving it
-  out of general harness wiring because it is both a strapping pin and the RGB
-  LED pin
+- use `GPIO8` for `PWM_OUT` only through the 10k analog feedback path, with no
+  fixed pull-up/down and a removable/default-open link if boot sensitivity is
+  seen
+- use `SEL_D0` as a dual-row selector on `GPIO0`: one shunt position selects
+  target ADC feedback from `ANALOG_FB`, the other selects `ONEWIRE_DQ`; do not
+  load the OneWire bus with the analog RC/MCP3008 node
+- use dual-row selector headers for the other C3 multi-use GPIOs:
+  `SEL_D1`, `SEL_D2`, `SEL_D3`, `SEL_D4`, and `SEL_D10`
+- use `SEL_D08` as a single safety jumper between `GPIO8` and the 10k
+  `PWM_OUT` to `ANALOG_FB` path
 - avoid using `GPIO9` for general harness wiring unless an alternate mode is
   explicitly designed around boot-button constraints
+
+No C3 v1 GPIO allocation decisions remain open in this document. The remaining
+C3 work is bring-up validation, especially confirming `GPIO0`/`D0` analog
+feedback behavior in Espruino and defining runner prompts for manual selector
+modes.
 
 ## Olimex ESP32-DevKit-LiPo Rev.D GPIO Position
 
@@ -267,10 +294,11 @@ GPIO numbers. Raw GPIO numbers differ by target; harness functions should not.
 
 ## Next Work
 
-Before final wiring:
+For the ESP32-C3 v1 harness:
 
-1. Confirm C3 `GPIO0` analog feedback behavior in Espruino.
-2. Review and refine the first wiring specs:
-   - [wiring_common_blocks.md](wiring_common_blocks.md)
-   - [wiring_esp32_c3_devkitc_02.md](wiring_esp32_c3_devkitc_02.md)
-   - [wiring_olimex_esp32_devkit_lipo_rev_d.md](wiring_olimex_esp32_devkit_lipo_rev_d.md)
+1. Confirm C3 `GPIO0` / `D0` analog feedback behavior in Espruino during
+   bring-up.
+2. Define runner prompts and confirmation flow for manual selector modes.
+3. Continue schematic/netlist reviews against
+   [wiring_esp32_c3_devkitc_02.md](wiring_esp32_c3_devkitc_02.md) as the
+   wirewrap build progresses.

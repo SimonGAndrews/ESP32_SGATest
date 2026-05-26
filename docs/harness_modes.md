@@ -241,9 +241,9 @@ Proposed default pin use:
 | Harness node | C3 pin |
 |---|---:|
 | `GPIO_LOOP_A_OUT` | `D1` |
-| `GPIO_LOOP_A_IN` | `D3` |
-| `GPIO_LOOP_B_OUT` | `D4` |
-| `GPIO_LOOP_B_IN` | `D2` |
+| `GPIO_LOOP_A_IN` | `D2` |
+| `GPIO_LOOP_B_OUT` | `D3` |
+| `GPIO_LOOP_B_IN` | `D4` |
 
 Reserved pins:
 
@@ -268,11 +268,15 @@ Purpose:
 Links:
 
 - connect `PWM_OUT` to `ANALOG_FB` through the RC feedback network
-- connect `ANALOG_FB` to selected C3 ADC input
+- select `ADC_IN` on `SEL_D0`, which connects `D0` to `ANALOG_FB`
 
 Open pin decision:
 
 - current candidate `ADC_IN` is `D0`, avoiding known C3 strapping pins
+- `D0` is the row-A common on `SEL_D0`: one shunt selects `ADC_IN` by
+  connecting to `ANALOG_FB`, and the other shunt selects `ONEWIRE_DQ`
+- `PWM_OUT` uses `D8` only through the 10k analog feedback path; no fixed pull
+  is allowed because `D8` is a strapping/RGB LED pin
 - `D2` is accepted for loopback/input feedback use despite being a strapping
   pin, provided it has no fixed pull and is only connected through
   resistor-protected/manual-mode wiring.
@@ -281,7 +285,7 @@ Proposed pin use:
 
 | Harness node | C3 pin |
 |---|---:|
-| `PWM_OUT` | `D5` |
+| `PWM_OUT` | `D8` |
 | `ADC_IN` | `D0` |
 
 Enabled tests:
@@ -289,12 +293,14 @@ Enabled tests:
 - `analogRead`
 - digital low/high feedback into ADC
 - PWM-derived analog feedback
+- PWM-derived analog feedback read by MCP3008 over SPI in `C3_BUS_SPI_I2C`
 
 ### `C3_I2C`
 
 Purpose:
 
 - prove I2C API and MCP23008 behavior
+- normally run as part of `C3_BUS_SPI_I2C`
 
 Links:
 
@@ -306,8 +312,8 @@ Proposed pin use:
 
 | Harness node | C3 pin |
 |---|---:|
-| `I2C_SDA` | `D6` |
-| `I2C_SCL` | `D7` |
+| `I2C_SDA` | `D1` |
+| `I2C_SCL` | `D4` |
 | `I2C_INT` | `D10` |
 | `I2C_FB` | `D2` |
 
@@ -323,27 +329,38 @@ Enabled tests:
 - expander feedback if allocated
 - expander interrupt polling/watch if allocated
 
-### `C3_SPI`
+### `C3_BUS_SPI_I2C`
 
 Purpose:
 
-- prove SPI API using MCP3008 and optional W25xxx
+- prove SPI API using MCP3008
+- prove I2C API using MCP23008
+- run SPI and I2C tests in the same manual harness mode
 
 Links:
 
-- jumper selected C3 pins to `SPI_MISO`, `SPI_MOSI`, `SPI_SCK`,
-  `SPI_CS_ADC`, and optional `SPI_CS_FLASH`
-- disconnect those pins from conflicting I2C/GPIO blocks in this mode
+- set the C3 selector bank to connect `D3` to `SPI_MISO`
+- use fixed C3 wiring for `SPI_MOSI`, `SPI_SCK`, and `SPI_CS_ADC`
+- set the C3 selector bank to connect `D1`, `D4`, `D10`, and optional `D2`
+  to `I2C_SDA`, `I2C_SCL`, `I2C_INT`, and `I2C_FB`
+- disconnect those pins from conflicting GPIO, serial, and optional flash
+  blocks in this mode
+- set `SEL_D0` to `ADC_IN` if the target ADC comparison is included
 
 Proposed pin use:
 
 | Harness node | C3 pin |
 |---|---:|
+| `I2C_SDA` | `D1` |
+| `I2C_SCL` | `D4` |
+| `I2C_INT` | `D10` |
+| `I2C_FB` | `D2` |
+| `ADC_IN` selector position | `D0` -> `ANALOG_FB` via `SEL_D0` |
+| `PWM_OUT` | `D8` |
 | `SPI_MISO` | `D3` |
 | `SPI_MOSI` | `D5` |
 | `SPI_SCK` | `D6` |
 | `SPI_CS_ADC` | `D7` |
-| `SPI_CS_FLASH` | `D10` |
 
 Reserved pins:
 
@@ -352,8 +369,34 @@ Reserved pins:
 
 Enabled tests:
 
+- `I2C.setup`
+- MCP23008 register read/write
+- expander feedback and interrupt polling/watch
 - `SPI.setup`
 - MCP3008 transfer/read
+- PWM-to-ADC and PWM-to-MCP3008 analog feedback comparison
+
+### `C3_SPI_FLASH_EXTENDED`
+
+Purpose:
+
+- prove optional W25xxx shared-bus behavior after the primary SPI/I2C mode
+
+Links:
+
+- keep `SPI_MISO`, `SPI_MOSI`, `SPI_SCK`, and `SPI_CS_ADC` as used in
+  `C3_BUS_SPI_I2C`
+- open `D10` -> `I2C_INT`
+- close `D10` -> `SPI_CS_FLASH`
+
+Proposed pin use:
+
+| Harness node | C3 pin |
+|---|---:|
+| `SPI_CS_FLASH` | `D10` |
+
+Enabled tests:
+
 - optional W25xxx JEDEC/status
 - optional shared-bus chip-select behavior
 
@@ -365,18 +408,22 @@ Purpose:
 
 Links:
 
-- connect selected bidirectional GPIO to `ONEWIRE_DQ`
+- select `D0` to `ONEWIRE_DQ` using `SEL_D0`
 - connect two DS18B20 devices to the shared `ONEWIRE_DQ` bus
 - keep one 4.7k pull-up on the OneWire node
 
 Open pin decision:
 
-- proposed `ONEWIRE_DQ` is `D4`, without borrowing native USB pins
+- proposed `ONEWIRE_DQ` is `D0`, without borrowing native USB pins
+- `ANALOG_FB` must be isolated from `D0` in this mode so the RC smoothing
+  capacitor and MCP3008 CH0 do not load the OneWire bus
 
 Conflict:
 
-- `D4` is also used as `GPIO_LOOP_B_OUT` in baseline GPIO mode and `UART_RX`
-  in serial-peer mode
+- `D0` OneWire is mutually exclusive with the target ADC connection to
+  `ANALOG_FB`
+- I2C can remain active on `D1` / `D4`, so I2C display/logging of temperature
+  readings can be tested in the same manual mode
 
 Enabled tests:
 
@@ -384,6 +431,7 @@ Enabled tests:
 - family/ROM validation for both devices
 - addressed temperature conversion/readback for each selected ROM
 - scratchpad read from each selected ROM
+- optional combined I2C + OneWire temperature display/logging
 
 ### `C3_SERIAL_PEER`
 
@@ -458,11 +506,36 @@ Each jumper group should have:
 The runner should treat mode state as operator-confirmed rather than
 auto-detected unless a later harness revision adds reliable sensing.
 
-## Open Items Before Wiring Tables
+## ESP32-C3 Selector Bank
+
+The ESP32-C3 schematic uses named selector headers rather than many individual
+two-pin links. The runner should prompt for these selector positions by name.
+
+| Mode | `SEL_D0` | `SEL_D1` | `SEL_D2` | `SEL_D3` | `SEL_D4` | `SEL_D08` | `SEL_D10` |
+|---|---|---|---|---|---|---|---|
+| `C3_BASELINE_GPIO` | not fitted | loop A out | loop A in | loop B out | loop B in | open | not required |
+| `C3_ANALOG_PWM` | `ADC_IN` | not required | not required | not required | not required | closed after boot | not required |
+| `C3_I2C` | not required | `I2C_SDA` | `I2C_FB` if tested | not required | `I2C_SCL` | open | `I2C_INT` |
+| `C3_BUS_SPI_I2C` | `ADC_IN` if ADC comparison is run | `I2C_SDA` | `I2C_FB` if tested | `SPI_MISO` | `I2C_SCL` | closed after boot if PWM feedback is run | `I2C_INT` |
+| `C3_SPI_FLASH_EXTENDED` | optional `ANALOG_FB` | optional I2C | optional I2C feedback | `SPI_MISO` | optional I2C | optional | `SPI_CS_FLASH` |
+| `C3_ONEWIRE` | `ONEWIRE_DQ` | optional I2C | optional I2C feedback | not required | optional I2C | open | optional I2C interrupt |
+| `C3_SERIAL_PEER` | not required | not required | not required | peer UART TX | peer UART RX | open | not required |
+
+Fixed C3 bus links in the schematic:
+
+- `D5` -> `SPI_MOSI`
+- `D6` -> `SPI_SCK`
+- `D7` -> `SPI_CS_ADC`
+- `D18` -> native USB D-
+- `D19` -> native USB D+
+- `D20` / `D21` remain unconnected in the harness
+
+`SEL_D08` is a single safety jumper rather than a multi-way selector. It
+connects `D8/GPIO8` to the 10k PWM feedback path, so leave it open for the
+safest boot state and fit it only for analog/PWM tests.
+
+## Remaining Open Items
 
 1. Confirm C3 `D0` analog feedback behavior in Espruino.
-2. Define C3 jumper conflict rules for `D3`, `D4`, `D5`, `D6`, `D7`, and
-   `D10`.
-3. Define the reset/boot/GND automation connector.
-4. Define runner prompts and confirmation flow for manual harness mode
+2. Define runner prompts and confirmation flow for manual harness mode
    selection.

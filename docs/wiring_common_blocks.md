@@ -7,6 +7,10 @@ Board-specific documents map target `Dxx` pins onto these named harness nodes.
 The physical harness boards should keep these blocks in the same relative
 layout where practical, even when the DUT socket and fanout differ.
 
+These are logical harness nodes. A board-specific schematic may use more
+specific net names, for example `I2C_A_SDA` for the primary `I2C_SDA` block, or
+selector-side nets for loopback nodes.
+
 ## Electrical Baseline
 
 | Item | Requirement |
@@ -28,9 +32,9 @@ test explicitly requires separate supply control.
 | `GPIO_LOOP_A_IN` | GPIO input/watch input for loopback pair A |
 | `GPIO_LOOP_B_OUT` | GPIO output for loopback pair B |
 | `GPIO_LOOP_B_IN` | GPIO input/watch input for loopback pair B |
-| `PWM_OUT` | PWM or digital level source |
+| `PWM_OUT` | PWM or digital level source for analog feedback |
 | `ANALOG_FB` | filtered feedback node driven by `PWM_OUT` |
-| `ADC_IN` | target ADC input connected to `ANALOG_FB` |
+| `ADC_IN` | target ADC input selected to `ANALOG_FB` |
 | `I2C_SDA` | MCP23008 SDA |
 | `I2C_SCL` | MCP23008 SCL |
 | `I2C_INT` | MCP23008 interrupt output to target |
@@ -41,8 +45,8 @@ test explicitly requires separate supply control.
 | `SPI_CS_ADC` | MCP3008 chip select |
 | `SPI_CS_FLASH` | optional W25xxx chip select |
 | `ONEWIRE_DQ` | shared DS18B20 OneWire data bus |
-| `UART_TX` | target TX for non-console serial test |
-| `UART_RX` | target RX for non-console serial test |
+| `UART_TX` | target TX for non-console serial validation |
+| `UART_RX` | target RX for non-console serial validation |
 
 ## Digital Loopback Block
 
@@ -70,8 +74,12 @@ Create one filtered node named `ANALOG_FB`.
 |---|---:|---|
 | `PWM_OUT` -> `ANALOG_FB` | 10k | series resistor |
 | `ANALOG_FB` -> GND | 0.1uF | filter capacitor |
-| `ANALOG_FB` -> `ADC_IN` | direct or short protected route | target ADC input |
+| `ANALOG_FB` -> `ADC_IN` | direct, short-protected, or selector-routed path | target ADC input |
 | `ANALOG_FB` -> MCP3008 CH0 | direct | external SPI ADC cross-check |
+
+On pin-limited targets, `ADC_IN` may be selected away from `ANALOG_FB` for
+another mode. In that case the selector must isolate the RC filter capacitor
+and MCP3008 CH0 from the alternate bus.
 
 Test coverage:
 
@@ -102,7 +110,9 @@ Use one MCP23008 as the standard I2C test device.
 | SDA | `I2C_SDA` |
 | SCL | `I2C_SCL` |
 
-Fit I2C pull-ups if they are not provided elsewhere:
+For the first ESP32-C3 harness schematic revision, assume the attached I2C
+module side provides SDA/SCL pull-ups. If a future build uses a bare MCP23008
+without module pull-ups, add removable or DNP 4.7k pull-ups:
 
 | Signal | Pull-up |
 |---|---:|
@@ -140,6 +150,22 @@ Use one MCP3008 as the standard SPI ADC.
 | DIN | `SPI_MOSI` |
 | CS/SHDN | `SPI_CS_ADC` |
 | CH0 | `ANALOG_FB` |
+| CH1-CH7 | unconnected for first revision, or optional analog test header |
+
+MCP3008 PDIP pin detail:
+
+| Pin | Function | Harness node / connection |
+|---:|---|---|
+| 1 | CH0 | `ANALOG_FB` |
+| 2-8 | CH1-CH7 | unconnected for first revision, or optional analog test header |
+| 9 | DGND | GND |
+| 10 | CS/SHDN | `SPI_CS_ADC` |
+| 11 | DIN | `SPI_MOSI` |
+| 12 | DOUT | `SPI_MISO` |
+| 13 | CLK | `SPI_SCK` |
+| 14 | AGND | GND |
+| 15 | VREF | 3.3 V |
+| 16 | VDD | 3.3 V |
 
 Test coverage:
 
@@ -150,7 +176,8 @@ Test coverage:
 
 ## Optional SPI Flash Block
 
-Reserve footprint/socket/header space for a W25xxx-compatible SPI flash device.
+Reserve footprint/socket/header space for a W25xxx-compatible SPI flash device
+or module.
 
 | W25xxx signal | Harness node / connection |
 |---|---|
@@ -160,6 +187,8 @@ Reserve footprint/socket/header space for a W25xxx-compatible SPI flash device.
 | DO | `SPI_MISO` |
 | DI | `SPI_MOSI` |
 | CS | `SPI_CS_FLASH` |
+| WP | 3.3 V, if using a bare flash IC |
+| HOLD | 3.3 V, if using a bare flash IC |
 
 Test coverage:
 
@@ -168,6 +197,9 @@ Test coverage:
 - shared-bus operation with MCP3008
 
 This block is optional for first bring-up but should be planned into the layout.
+If the harness uses a small SPI flash module rather than a bare IC, `WP` and
+`HOLD` may already be handled on the module and need not appear on the harness
+connector.
 
 ## OneWire DS18B20 Block
 
@@ -206,7 +238,7 @@ Provide either:
 - a local resistor-protected TX/RX loopback, or
 - a header for an external USB-UART adapter
 
-Preferred:
+Where GPIO budget and board space allow:
 
 - include both options and select with jumpers
 - use 470R series protection on local loopback links

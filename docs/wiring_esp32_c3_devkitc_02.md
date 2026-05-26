@@ -31,143 +31,226 @@ These pins are not general harness GPIO in the default design.
 | `D20` | UART0 RX | reserve for board USB-UART REPL/flashing |
 | `D21` | UART0 TX | reserve for board USB-UART REPL/flashing |
 | `D9` | boot/download button path | reserve for boot/download control only |
-| `D8` | onboard RGB LED / strapping | reserve for LED-specific tests, no general harness load |
+| `D8` | onboard RGB LED / strapping | used only as `PWM_OUT` through 10k series resistance; no fixed pull |
 
 ## Default Connectivity Wiring
+
+The ESP32-C3-DevKitC-02 already has a USB connector on the board. That board
+USB path goes through the onboard USB-UART bridge to UART0, and it is expected
+to be the normal REPL/flashing/control connection for most automated tests.
+
+The harness additionally provides a separate native USB Serial/JTAG connector.
+This is not the normal board USB-UART path. It wires directly to the ESP32-C3
+native USB pins so phase-one testing can prove the direct USB Serial/JTAG
+function independently.
 
 | Board pin / signal | Harness connection | Notes |
 |---|---|---|
 | Board Micro-USB | host USB | UART0 REPL/flashing path |
-| `D18` | USB D- connector/header | native USB Serial/JTAG |
-| `D19` | USB D+ connector/header | native USB Serial/JTAG |
-| GND | USB GND and harness GND | common ground |
+| `D18` | fixed wire to native USB/JTAG connector D- | native USB Serial/JTAG |
+| `D19` | fixed wire to native USB/JTAG connector D+ | native USB Serial/JTAG |
+| GND | native USB/JTAG connector GND and harness GND | common ground |
+| VBUS | native USB/JTAG connector VBUS through inline shunt | optional host 5 V feed; default shunt state to be marked |
 | EN / reset | automation header `RESET` | also keep manual reset accessible |
 | Boot/download path | automation header `BOOT` | expected to control board boot/download path |
 
-Native USB D-/D+ should be permanently/default connected for phase-one C3
-bring-up. Do not route `D18` or `D19` to peripheral test blocks in the default
-wiring.
+In this harness revision, `D18` and `D19` are used only by the additional
+harness native USB Serial/JTAG connector. They are not part of the board
+USB-UART path, and they are not shared with peripheral test blocks:
+`D18` / GPIO18 is fixed-wired to the harness connector USB D-, and
+`D19` / GPIO19 is fixed-wired to the harness connector USB D+.
 
-## Approved Harness Node Allocation
+Use a four-position screw connector for the harness USB Serial/JTAG cable:
 
-| Harness node | C3 pin | Mode / notes |
-|---|---:|---|
-| `GPIO_LOOP_A_OUT` | `D1` | baseline GPIO |
-| `GPIO_LOOP_A_IN` | `D3` | baseline GPIO; shared with SPI MISO and UART TX modes |
-| `GPIO_LOOP_B_OUT` | `D4` | baseline GPIO; shared with OneWire and UART RX modes |
-| `GPIO_LOOP_B_IN` | `D2` | baseline GPIO input; strapping pin, no fixed pull |
-| `PWM_OUT` | `D5` | analog/PWM; shared with SPI MOSI |
-| `ADC_IN` | `D0` | analog feedback input |
-| `I2C_SDA` | `D6` | I2C mode; shared with SPI SCK |
-| `I2C_SCL` | `D7` | I2C mode; shared with SPI CS ADC |
-| `I2C_INT` | `D10` | I2C mode; shared with SPI CS flash |
-| `I2C_FB` | `D2` | I2C mode; shared with loopback-B input |
-| `SPI_MISO` | `D3` | SPI mode |
-| `SPI_MOSI` | `D5` | SPI mode |
-| `SPI_SCK` | `D6` | SPI mode |
-| `SPI_CS_ADC` | `D7` | SPI mode |
-| `SPI_CS_FLASH` | `D10` | optional SPI flash |
-| `ONEWIRE_DQ` | `D4` | OneWire mode |
-| `UART_TX` | `D3` | serial-peer mode |
-| `UART_RX` | `D4` | serial-peer mode |
+| Connector pin | Signal | Harness connection |
+|---|---|---|
+| 1 | USB GND | harness GND |
+| 2 | USB VBUS | inline shunt to harness/board 5 V rail |
+| 3 | USB D- | fixed wire to `D18` |
+| 4 | USB D+ | fixed wire to `D19` |
+
+The VBUS connection must be shunt-selectable so the harness can be tested with
+the native USB/JTAG connector providing signalling only, or with VBUS connected
+when that is explicitly desired. This is not a switched 5 V power subsystem;
+it is an inline VBUS link for the native USB/JTAG connector.
+
+## Selector-Based GPIO Allocation
+
+The ESP32-C3 has limited spare GPIO once UART0, native USB Serial/JTAG, boot
+control, and strapping safety are respected. This harness therefore does not
+wire every test function to a dedicated pin. Instead, several C3 GPIOs are
+routed through labelled selector blocks.
+
+A selector block lets one GPIO serve one of several test roles. Only one shunt
+should be fitted per selector at a time. The mode tables later in this document
+state which selector positions are required for each test mode.
+
+## Schematic Selector Bank
+
+The schematic is the master wiring definition for the C3 harness. Multi-use
+GPIOs use dual-row selector headers with the MCU GPIO repeated on row A and
+the selectable function nets on row B. Fit one vertical shunt only per selector.
+
+| Selector | Header | Row A common | Row B options | Notes |
+|---|---:|---|---|---|
+| `SEL_D0` | 2x02 | `GPIO0` on `a1`, `a2` | `b1` = `ONEWIRE_DQ`; `b2` = `ADC_IN` via `ANALOG_FB` | `ADC_IN` is the user-facing role; it connects D0 to the `ANALOG_FB` net |
+| `SEL_D1` | 2x02 | `GPIO1` on `a1`, `a2` | `b1` = `I2C_A_SDA`; `b2` = loop A output via `R5` | `b2` loops to `SEL_D2 b2` through 470R |
+| `SEL_D2` | 2x02 | `GPIO2` on `a1`, `a2` | `b1` = `I2C_A_FB`; `b2` = loop A input via `R5` | `I2C_A_FB` is MCP23008 GP0 feedback through `R2` |
+| `SEL_D3` | 2x03 | `GPIO3` on `a1`, `a2`, `a3` | `b1` = `SPI_MISO`; `b2` = loop B output via `R7`; `b3` = `PEER_RX_FROM_D3_UART_TX` | peer connector receives target TX |
+| `SEL_D4` | 2x03 | `GPIO4` on `a1`, `a2`, `a3` | `b1` = `I2C_A_SCL`; `b2` = loop B input via `R7`; `b3` = `PEER_TX_TO_D4_UART_RX` | peer connector drives target RX |
+| `SEL_D10` | 2x02 | `GPIO10` on `a1`, `a2` | `b1` = `I2C_INT`; `b2` = `SPI_CS_FLASH` | selects MCP23008 interrupt or optional flash CS |
+| `SEL_D08` | 1x02 | `GPIO8` / `PWM_OUT` | `R3` 10k to `ANALOG_FB` | single safety jumper; default open for safest boot |
+
+Schematic net names use the `I2C_A_` prefix for the primary I2C block. In test
+descriptions, `I2C_SDA`, `I2C_SCL`, and `I2C_FB` refer to `I2C_A_SDA`,
+`I2C_A_SCL`, and `I2C_A_FB` respectively.
+
+## C3 GPIO Test Role Allocation
+
+The table below lists the approved C3 test roles for each GPIO. For
+selector-controlled pins, the roles are alternatives selected by the named
+selector; they are not
+simultaneously connected.
+
+| C3 pin | Harness roles | Selector / wiring | Notes |
+|---:|---|---|---|
+| `D0` / GPIO0 | `ADC_IN`, `ONEWIRE_DQ` | `SEL_D0` | ADC position connects to `ANALOG_FB`; OneWire position isolates `ANALOG_FB` from the OneWire bus |
+| `D1` / GPIO1 | `I2C_SDA`, `GPIO_LOOP_A_OUT` | `SEL_D1` | `I2C_A_SDA` or loop A output through `R5` |
+| `D2` / GPIO2 | `I2C_FB`, `GPIO_LOOP_A_IN` | `SEL_D2` | strapping pin; no fixed pull; loop/I2C feedback through resistors |
+| `D3` / GPIO3 | `SPI_MISO`, `GPIO_LOOP_B_OUT`, `UART_TX` | `SEL_D3` | SPI MISO, loop B output through `R7`, or serial peer TX |
+| `D4` / GPIO4 | `I2C_SCL`, `GPIO_LOOP_B_IN`, `UART_RX` | `SEL_D4` | I2C clock, loop B input through `R7`, or serial peer RX |
+| `D5` / GPIO5 | `SPI_MOSI` | fixed wire | fixed SPI bus wiring |
+| `D6` / GPIO6 | `SPI_SCK` | fixed wire | fixed SPI bus wiring |
+| `D7` / GPIO7 | `SPI_CS_ADC` | fixed wire | MCP3008 chip select |
+| `D8` / GPIO8 | `PWM_OUT` | `SEL_D08` safety jumper | strapping/RGB LED pin; only through 10k to `ANALOG_FB`; default open |
+| `D9` / GPIO9 | BOOT automation | fixed automation header wiring | boot/download control only |
+| `D10` / GPIO10 | `I2C_INT`, `SPI_CS_FLASH` | `SEL_D10` | MCP23008 interrupt or optional flash chip select |
+| `D18` / GPIO18 | native USB D- | fixed wire to `J1` | reserved for native USB Serial/JTAG |
+| `D19` / GPIO19 | native USB D+ | fixed wire to `J1` | reserved for native USB Serial/JTAG |
+| `D20` / GPIO20 | UART0 RX | no harness peripheral wiring | reserved for board USB-UART REPL/flashing |
+| `D21` / GPIO21 | UART0 TX | no harness peripheral wiring | reserved for board USB-UART REPL/flashing |
 
 ## Permanent Wiring
 
-These connections may be wired permanently because they do not conflict with
-approved modes.
+These connections are either permanent or built as the fixed/default selector
+paths because they do not create unmanaged mode conflicts.
 
 | Connection | Notes |
 |---|---|
 | `D18` -> native USB D- | default phase-one requirement |
 | `D19` -> native USB D+ | default phase-one requirement |
 | `D20` / `D21` reserved | no peripheral harness wiring |
-| `D0` -> `ADC_IN` / `ANALOG_FB` | analog feedback input |
-| `D5` -> `PWM_OUT` side of analog block | may need jumper isolation before SPI mode |
+| `D5` -> `SPI_MOSI` | fixed SPI bus wiring |
+| `D6` -> `SPI_SCK` | fixed SPI bus wiring |
+| `D7` -> `SPI_CS_ADC` | fixed MCP3008 chip-select wiring |
+| `D8` -> `SEL_D08` -> 10k -> `ANALOG_FB` | single safety jumper; no fixed pull on strapping pin |
 | 3.3 V and GND rails | common harness rails |
 | reset and boot lines to automation header | manual/automation access |
 
-Because `D5` is reused as `SPI_MOSI`, the analog block should include a clear
-link or jumper so `PWM_OUT` can be disconnected when running SPI mode if needed.
+`D8` is a strapping pin and also drives the onboard RGB LED. The harness must
+not add a fixed pull-up or pull-down. The only normal external load is the 10k
+series path into `ANALOG_FB`, which may be opened with a jumper if bring-up
+shows any boot sensitivity.
 
-## Baseline GPIO Mode
+`D0` is the common row of `SEL_D0`. One shunt position selects `ADC_IN` by
+connecting `D0` to `ANALOG_FB` for ADC/PWM/SPI analog tests. The other shunt
+position connects `D0` to `ONEWIRE_DQ` for DS18B20 tests. Do not fit both shunts:
+`ANALOG_FB` has the RC smoothing capacitor and MCP3008 CH0 load, which should
+be isolated from the OneWire bus.
+
+## Harness Test Modes
+
+The following sections define the manual harness modes used by the test
+runner. Each mode lists the required selector positions and any conflicting
+selector positions that must not be fitted.
+
+### Baseline GPIO Mode
 
 Mode name:
 
 - `C3_BASELINE_GPIO`
 
-Required links:
+Required selector positions / wiring:
 
-| Link | Position |
+| Selector or wiring | Position |
 |---|---|
-| `D1` -> `GPIO_LOOP_A_OUT` | closed |
-| `D3` -> `GPIO_LOOP_A_IN` | closed |
-| `GPIO_LOOP_A_OUT` -> 470R -> `GPIO_LOOP_A_IN` | closed |
-| `D4` -> `GPIO_LOOP_B_OUT` | closed |
-| `D2` -> `GPIO_LOOP_B_IN` | closed |
-| `GPIO_LOOP_B_OUT` -> 470R -> `GPIO_LOOP_B_IN` | closed |
+| `SEL_D1` | shunt `GPIO1` to loop A output, `a2-b2` |
+| `SEL_D2` | shunt `GPIO2` to loop A input, `a2-b2` |
+| loop A resistor | `SEL_D1 b2` -> `R5` 470R -> `SEL_D2 b2` |
+| `SEL_D3` | shunt `GPIO3` to loop B output, `a2-b2` |
+| `SEL_D4` | shunt `GPIO4` to loop B input, `a2-b2` |
+| loop B resistor | `SEL_D3 b2` -> `R7` 470R -> `SEL_D4 b2` |
 
-Open/conflicting links:
+Open/conflicting selector positions:
 
-| Link group | Required state |
+| Selector group | Required state |
 |---|---|
-| SPI links on `D3`, `D5`, `D6`, `D7`, `D10` | open unless test explicitly shares |
-| OneWire link on `D4` | open |
-| Serial-peer links on `D3` / `D4` | open |
-| I2C feedback link to `D2` | open |
+| `SEL_D1` / `SEL_D2` I2C positions | not fitted |
+| `SEL_D3` SPI or UART position | not fitted |
+| `SEL_D4` I2C or UART position | not fitted |
+| `SEL_D08` analog/PWM path | open unless analog/PWM testing is active |
+| `SEL_D0` OneWire position | not fitted |
 
 Notes:
 
 - `D2` is accepted as a strapping pin only because it has no fixed pull and is
   used through resistor-protected/manual-mode wiring.
+- Physical loopback wiring should be `D1 -> 470R -> D2` and
+  `D3 -> 470R -> D4`.
 
-## Analog/PWM Mode
+### Analog/PWM Mode
 
 Mode name:
 
 - `C3_ANALOG_PWM`
 
-Required links:
+Required selector positions / wiring:
 
-| Link | Position |
+| Selector or wiring | Position |
 |---|---|
-| `D5` -> `PWM_OUT` | closed |
+| `SEL_D08` | closed after safe boot if PWM feedback is being run |
 | `PWM_OUT` -> 10k -> `ANALOG_FB` | permanent |
 | `ANALOG_FB` -> 0.1uF -> GND | permanent |
-| `ANALOG_FB` -> `D0` / `ADC_IN` | closed/permanent |
+| `SEL_D0` | select `ADC_IN`: shunt `GPIO0` to `ANALOG_FB`, `a2-b2` |
 | `ANALOG_FB` -> MCP3008 CH0 | closed/permanent if MCP3008 fitted |
 
-Open/conflicting links:
+Boot-safety requirement:
 
-| Link group | Required state |
-|---|---|
-| SPI MOSI link on `D5` | open during analog/PWM test |
+- no direct `D8` pull-up or pull-down
+- no low-value LED/test load from `D8` to either rail
+- if fitted, a `D8` -> `PWM_OUT` jumper should default open until the board has
+  booted cleanly with the harness attached
 
 Test note:
 
 - `D0` analog feedback behavior must be confirmed during bring-up.
+- PWM-generated `ANALOG_FB` can be read by both target ADC on `D0` and MCP3008
+  CH0 over SPI in `C3_BUS_SPI_I2C`.
+- OneWire tests require the `D0` selector to move away from `ANALOG_FB`.
 
-## I2C Mode
+### I2C Mode
 
 Mode name:
 
 - `C3_I2C`
 
-Required links:
+Required selector positions / wiring:
 
-| Link | Position |
+| Selector or wiring | Position |
 |---|---|
-| `D6` -> `I2C_SDA` | closed |
-| `D7` -> `I2C_SCL` | closed |
-| `D10` -> `I2C_INT` | closed |
-| `D2` -> `I2C_FB` | closed if feedback tests are run |
-| MCP23008 SDA/SCL pull-ups | fitted |
+| `SEL_D1` | shunt `GPIO1` to `I2C_A_SDA`, `a1-b1` |
+| `SEL_D4` | shunt `GPIO4` to `I2C_A_SCL`, `a1-b1` |
+| `SEL_D10` | shunt `GPIO10` to `I2C_INT`, `a1-b1` |
+| `SEL_D2` | shunt `GPIO2` to `I2C_A_FB`, `a1-b1`, if feedback tests are run |
+| I2C SDA/SCL pull-ups | provided by attached I2C module(s) for this revision |
 
-Open/conflicting links:
+Open/conflicting selector positions:
 
-| Link group | Required state |
+| Selector group | Required state |
 |---|---|
-| SPI links on `D6`, `D7`, `D10` | open |
-| baseline loopback-B link to `D2` | open if using `I2C_FB` |
+| `SEL_D1` / `SEL_D2` loopback positions | not fitted |
+| `SEL_D3` / `SEL_D4` serial-peer positions | not fitted |
+| `SEL_D4` loopback position | not fitted |
 
 Enabled coverage:
 
@@ -176,59 +259,129 @@ Enabled coverage:
 - INT through `D10`
 - `setWatch` on expander feedback/interrupt where supported
 
-## SPI Mode
+### Combined SPI/I2C Bus Mode
 
 Mode name:
 
-- `C3_SPI`
+- `C3_BUS_SPI_I2C`
 
-Required links:
+Purpose:
 
-| Link | Position |
+- verify Espruino SPI pin mapping and transfer behavior using the MCP3008
+- verify Espruino I2C pin mapping and MCP23008 operation in the same physical harness mode
+- exercise both bus APIs without moving jumpers between SPI and I2C tests
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
 |---|---|
-| `D3` -> `SPI_MISO` | closed |
+| `SEL_D1` | shunt `GPIO1` to `I2C_A_SDA`, `a1-b1` |
+| `SEL_D4` | shunt `GPIO4` to `I2C_A_SCL`, `a1-b1` |
+| `SEL_D10` | shunt `GPIO10` to `I2C_INT`, `a1-b1` |
+| `SEL_D2` | shunt `GPIO2` to `I2C_A_FB`, `a1-b1`, if feedback tests are run |
+| `SEL_D08` | closed after boot if PWM-to-ADC/SPI comparison is being run |
+| `SEL_D0` | select `ADC_IN`: shunt `GPIO0` to `ANALOG_FB`, `a2-b2`, if target ADC comparison is run |
+| `SEL_D3` | shunt `GPIO3` to `SPI_MISO`, `a1-b1` |
 | `D5` -> `SPI_MOSI` | closed |
 | `D6` -> `SPI_SCK` | closed |
 | `D7` -> `SPI_CS_ADC` | closed |
-| `D10` -> `SPI_CS_FLASH` | closed if optional W25xxx fitted/tested |
 | MCP3008 CH0 -> `ANALOG_FB` | closed |
+| I2C SDA/SCL pull-ups | provided by attached I2C module(s) for this revision |
 
-Open/conflicting links:
+ESP32-C3 harness wiring:
 
-| Link group | Required state |
+| ESP32-C3 pin | Harness node | Peripheral connection |
+|---|---|---|
+| `D1` / GPIO1 | `I2C_SDA` | MCP23008 `SDA`; Grove `SDA` |
+| `D4` / GPIO4 | `I2C_SCL` | MCP23008 `SCL`; Grove `SCL` |
+| `D10` / GPIO10 | `I2C_INT` | MCP23008 `INT` |
+| `D2` / GPIO2 | `I2C_FB` | MCP23008 `GP0` via 470R |
+| `D8` / GPIO8 | `PWM_OUT` | 10k to `ANALOG_FB`; no fixed pull |
+| `D0` / GPIO0 | `ADC_IN` selector common | select to `ANALOG_FB` for target ADC comparison |
+| `D3` / GPIO3 | `SPI_MISO` | MCP3008 `DOUT`; optional W25xxx `DO` |
+| `D5` / GPIO5 | `SPI_MOSI` | MCP3008 `DIN`; optional W25xxx `DI` |
+| `D6` / GPIO6 | `SPI_SCK` | MCP3008 `CLK`; optional W25xxx `CLK` |
+| `D7` / GPIO7 | `SPI_CS_ADC` | MCP3008 `CS/SHDN` |
+
+MCP3008 wiring detail:
+
+| MCP3008 PDIP pin | Function | Connection |
+|---:|---|---|
+| 16 | `VDD` | `3V3` |
+| 15 | `VREF` | `3V3` |
+| 14 | `AGND` | GND |
+| 9 | `DGND` | GND |
+| 13 | `CLK` | `SPI_SCK` |
+| 12 | `DOUT` | `SPI_MISO` |
+| 11 | `DIN` | `SPI_MOSI` |
+| 10 | `CS/SHDN` | `SPI_CS_ADC` |
+| 1 | `CH0` | `ANALOG_FB` |
+| 2-8 | `CH1`-`CH7` | no connection for first revision, or optional analog test header |
+
+Open/conflicting selector positions:
+
+| Selector group | Required state |
 |---|---|
-| baseline loopback link on `D3` | open |
-| analog `PWM_OUT` drive on `D5` | open if it conflicts with SPI MOSI |
-| I2C links on `D6`, `D7`, `D10` | open |
-| serial-peer link on `D3` | open |
+| loopback selector positions on `SEL_D1`, `SEL_D2`, `SEL_D3`, `SEL_D4` | not fitted |
+| `SEL_D08` analog/PWM drive | close only after confirming boot safety |
+| `SEL_D0` OneWire position | not fitted |
+| serial-peer positions on `SEL_D3` / `SEL_D4` | not fitted |
+| `SEL_D10` flash-CS position | not fitted while `GPIO10` is used for `I2C_INT` |
 
 Enabled coverage:
 
 - MCP3008 transfer/read
-- optional W25xxx JEDEC/status
-- shared-bus chip-select behavior
+- MCP23008 register read/write
+- MCP23008 feedback and interrupt behavior
+- SPI and I2C operation in one manual harness mode
 
-## OneWire Mode
+### SPI Flash Extended Mode
+
+Mode name:
+
+- `C3_SPI_FLASH_EXTENDED`
+
+This optional mode reuses the SPI bus above but moves `D10` from `I2C_INT` to
+`SPI_CS_FLASH`. It is not part of the first combined SPI/I2C bus mode.
+
+Required selector change from `C3_BUS_SPI_I2C`:
+
+| Selector or wiring | Position |
+|---|---|
+| `SEL_D10` | move shunt from `I2C_INT` `a1-b1` to `SPI_CS_FLASH` `a2-b2` |
+
+Enabled coverage:
+
+- optional W25xxx JEDEC/status
+- shared-bus chip-select behavior with MCP3008
+
+### OneWire Mode
 
 Mode name:
 
 - `C3_ONEWIRE`
 
-Required links:
+Required selector positions / wiring:
 
-| Link | Position |
+| Selector or wiring | Position |
 |---|---|
-| `D4` -> `ONEWIRE_DQ` | closed |
+| `SEL_D0` | shunt `GPIO0` to `ONEWIRE_DQ`, `a1-b1` |
 | `ONEWIRE_DQ` -> 4.7k -> 3.3 V | fitted |
 | DS18B20 A DQ -> `ONEWIRE_DQ` | closed/permanent within OneWire block |
 | DS18B20 B DQ -> `ONEWIRE_DQ` | closed/permanent within OneWire block |
 
-Open/conflicting links:
+Open/conflicting selector positions:
 
-| Link group | Required state |
+| Selector group | Required state |
 |---|---|
-| baseline loopback-B output link on `D4` | open |
-| serial-peer RX link on `D4` | open |
+| `SEL_D0` analog feedback position | not fitted |
+| analog filtered node / MCP3008 CH0 load | isolated from `D0` by selector |
+
+Compatible selector positions:
+
+| Selector group | Allowed state |
+|---|---|
+| I2C links on `D1`, `D4`, `D10`, and `D2` | may remain closed for combined I2C + OneWire tests |
 
 Enabled coverage:
 
@@ -236,53 +389,55 @@ Enabled coverage:
 - addressed DS18B20 selection
 - scratchpad read
 - temperature conversion
+- optional I2C display/logging of temperature readings while OneWire is active
 
-## Serial Peer Mode
+### Serial Peer Mode
 
 Mode name:
 
 - `C3_SERIAL_PEER`
 
-Required links:
+Required selector positions / wiring:
 
-| Link | Position |
+| Selector or wiring | Position |
 |---|---|
-| `D3` -> `UART_TX` | closed |
-| `D4` -> `UART_RX` | closed |
-| `UART_TX` -> peer RX | closed |
-| peer TX -> `UART_RX` | closed |
+| `SEL_D3` | shunt `GPIO3` to `PEER_RX_FROM_D3_UART_TX`, `a3-b3` |
+| `SEL_D4` | shunt `GPIO4` to `PEER_TX_TO_D4_UART_RX`, `a3-b3` |
+| `J10` pin 3 | peer RX from target `D3` TX |
+| `J10` pin 2 | peer TX to target `D4` RX |
 | peer GND -> harness GND | closed |
 
-Open/conflicting links:
+Open/conflicting selector positions:
 
-| Link group | Required state |
+| Selector group | Required state |
 |---|---|
-| baseline loopback links on `D3` / `D4` | open |
-| SPI MISO link on `D3` | open |
-| OneWire link on `D4` | open |
+| loopback positions on `SEL_D3` / `SEL_D4` | not fitted |
+| `SEL_D3` SPI MISO position | not fitted |
+| `SEL_D0` OneWire position | not fitted unless combining intentionally |
 
 Alternative:
 
 - fit a local 470R loopback option between `UART_TX` and `UART_RX` if a peer
   adapter is not used.
 
-## Native USB Serial/JTAG Mode
+### Native USB Serial/JTAG Mode
 
 Mode name:
 
 - `C3_CONNECTIVITY_USB_SERIAL_JTAG`
 
-Required links:
+Required selector positions / wiring:
 
-| Link | Position |
+| Selector or wiring | Position |
 |---|---|
-| `D18` -> USB D- | closed/default |
-| `D19` -> USB D+ | closed/default |
-| USB GND -> harness GND | closed/default |
+| `D18` -> native USB/JTAG connector D- | fixed wire |
+| `D19` -> native USB/JTAG connector D+ | fixed wire |
+| native USB/JTAG connector GND -> harness GND | fixed wire |
+| native USB/JTAG connector VBUS -> 5 V rail | inline shunt, fit only when VBUS feed is wanted |
 
-Open/conflicting links:
+Open/conflicting selector positions:
 
-| Link group | Required state |
+| Selector group | Required state |
 |---|---|
 | any peripheral use of `D18` / `D19` | not allowed in phase-one default design |
 
@@ -295,6 +450,11 @@ Enabled coverage:
 
 ## Automation Header
 
+The automation header is a provision for later repeatable reset and
+boot/download control. It does not automate the harness by itself: a future
+runner controller or external interface will be required to pull these lines to
+the required states under software control.
+
 Minimum C3 automation header:
 
 | Header pin | C3/board signal | Purpose |
@@ -303,28 +463,46 @@ Minimum C3 automation header:
 | RESET | EN / reset | reset control |
 | BOOT | boot/download path | download-mode selection |
 
-5 V power switching is not required for this first harness.
+5 V power switching is not required for this first harness. Native USB/JTAG
+VBUS is provided through a simple inline shunt, not through a power switch.
 
 ## Default Jumper State
 
-Default state should support:
+Default state means the safe starting configuration after assembly, before a
+specific test mode has been selected. It should allow the DUT to boot normally,
+preserve the board USB-UART path for the usual REPL/flashing connection, keep the
+harness USB Serial/JTAG connector wired but not force it to power the board, and
+support the baseline GPIO loopback tests.
 
-- safe boot
-- normal board USB-UART flashing
-- native USB Serial/JTAG connection
-- baseline GPIO tests
+Permanent wiring, no shunt required:
 
-Default closed:
+| Wiring | Default state |
+|---|---|
+| Board USB-UART path | left untouched; use the ESP32-C3-DevKitC-02 USB connector for normal REPL/flashing |
+| Harness USB Serial/JTAG data | `D18` / GPIO18 wired to harness USB `D-`; `D19` / GPIO19 wired to harness USB `D+` |
+| SPI fixed lines | `D5` / GPIO5 to `SPI_MOSI`, `D6` / GPIO6 to `SPI_SCK`, `D7` / GPIO7 to `SPI_CS_ADC` |
+| Automation header | available, but inactive unless an external runner/controller is connected |
 
-- native USB `D18` / `D19`
-- UART0 board USB left untouched
-- baseline GPIO loopback links
-- reset/boot automation header available
+Default fitted shunts:
 
-Default open:
+| Selector | Default position | Purpose |
+|---|---|---|
+| `SEL_D1` | `a2-b2` | `D1` / GPIO1 to loopback A output |
+| `SEL_D2` | `a2-b2` | `D2` / GPIO2 to loopback A input |
+| `SEL_D3` | `a2-b2` | `D3` / GPIO3 to loopback B output |
+| `SEL_D4` | `a2-b2` | `D4` / GPIO4 to loopback B input |
 
-- SPI mode links
-- I2C mode links that conflict with baseline GPIO
-- OneWire link to `D4`
-- serial-peer links
-- any peripheral link to `D18` / `D19`
+Default open / not fitted:
+
+| Selector or shunt | Default state | Reason |
+|---|---|---|
+| `SEL_D0` | no shunt fitted | choose `ONEWIRE_DQ` or `ADC_IN` only for the relevant test mode |
+| `SEL_D08` | open | keeps the `D8` / GPIO8 PWM drive path disconnected until analog feedback tests |
+| `SEL_D10` | no shunt fitted | choose `I2C_INT` or `SPI_FLASH_CS` only for the relevant test mode |
+| `SEL_D3` / `SEL_D4` UART positions | not fitted | peer-UART testing is a deliberate mode, not the baseline |
+| `JP1` harness USB VBUS shunt | open unless intentionally using harness USB VBUS | avoids an unintended 5 V feed into the board/harness rail |
+| `JP12` external 5 V shunt | open unless intentionally using external 5 V input | avoids an unintended 5 V feed into the board/harness rail |
+
+Do not fit `JP1` and `JP12` together unless the power-source arrangement has
+been deliberately reviewed. Test-runner prompts should name the required selector
+positions before each non-default mode is run.

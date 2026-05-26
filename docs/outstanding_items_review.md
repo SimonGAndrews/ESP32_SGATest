@@ -61,62 +61,58 @@ The C3 should use manual modes. `D18` / `D19` remain native USB by default and
 | Harness node | C3 pin | Notes |
 |---|---:|---|
 | `GPIO_LOOP_A_OUT` | `D1` | normal GPIO |
-| `GPIO_LOOP_A_IN` | `D3` | normal GPIO |
-| `GPIO_LOOP_B_OUT` | `D4` | shared with OneWire/serial mode |
-| `GPIO_LOOP_B_IN` | `D2` | strapping pin; no fixed pull, resistor-protected only |
-| `PWM_OUT` | `D5` | output/PWM candidate |
-| `ADC_IN` | `D0` | ADC-capable and avoids known C3 strapping pins |
+| `GPIO_LOOP_A_IN` | `D2` | strapping pin; no fixed pull, resistor-protected only |
+| `GPIO_LOOP_B_OUT` | `D3` | shared with SPI MISO and serial TX mode |
+| `GPIO_LOOP_B_IN` | `D4` | shared with I2C SCL and serial RX mode |
+| `PWM_OUT` | `D8` | strapping/RGB LED pin; 10k analog feedback path only |
+| `ADC_IN` | `D0` | ADC-capable, analog/OneWire selector common |
 
 Decision:
 
 - Use `D0` for ADC feedback rather than `D2`.
+- Use `SEL_D0` on `D0`: one shunt position connects to `ANALOG_FB`, the other
+  position connects to `ONEWIRE_DQ`.
 - Use `D2` only as a resistor-protected input/feedback node, with no fixed
   pull-up/down.
 - `D2` is accepted for this use despite being a strapping pin.
 
-### C3 I2C Mode
+### C3 Combined SPI/I2C Bus Mode
 
 | Harness node | C3 pin | Notes |
 |---|---:|---|
-| `I2C_SDA` | `D6` | mode pin |
-| `I2C_SCL` | `D7` | mode pin |
-| `I2C_INT` | `D10` | mode pin |
+| `I2C_SDA` | `D1` | shares baseline loopback-A output |
+| `I2C_SCL` | `D4` | shares baseline loopback-B input |
+| `I2C_INT` | `D10` | compatible with MCP3008 SPI, excludes optional flash CS |
 | `I2C_FB` | `D2` | shares baseline loopback input |
-
-Decision:
-
-- Accepted as C3 I2C mode allocation.
-- This mode can test MCP23008 register access, feedback, and interrupt/watch
-  without borrowing native USB pins.
-
-### C3 SPI Mode
-
-| Harness node | C3 pin | Notes |
-|---|---:|---|
+| `PWM_OUT` | `D8` | enables PWM analog feedback while SPI uses D5 MOSI |
 | `SPI_MISO` | `D3` | reuses loopback-A input |
-| `SPI_MOSI` | `D5` | reuses PWM output |
-| `SPI_SCK` | `D6` | reuses I2C SDA |
-| `SPI_CS_ADC` | `D7` | reuses I2C SCL |
-| `SPI_CS_FLASH` | `D10` | reuses I2C INT |
+| `SPI_MOSI` | `D5` | dedicated MOSI in combined bus mode |
+| `SPI_SCK` | `D6` | SPI clock |
+| `SPI_CS_ADC` | `D7` | MCP3008 chip select |
+| `SPI_CS_FLASH` | `D10` | optional extended mode only, mutually exclusive with I2C INT |
 
 Decision:
 
-- Accepted as C3 SPI mode allocation.
-- SPI mode is mutually exclusive with I2C mode and full baseline loopback mode.
-- This keeps native USB and UART0 reserved while still supporting MCP3008 and
-  optional W25xxx shared-bus testing.
+- Use one combined C3 SPI/I2C bus mode for MCP3008 plus MCP23008 testing.
+- Move `PWM_OUT` to `D8` so PWM-generated `ANALOG_FB` can be measured by both
+  `D0` and MCP3008 while SPI is active.
+- Keep optional W25xxx flash testing as an extended SPI mode by moving `D10`
+  from `I2C_INT` to `SPI_CS_FLASH`.
+- This keeps native USB and UART0 reserved while reducing manual harness mode
+  changes.
 
 ### C3 OneWire Mode
 
 | Harness node | C3 pin | Notes |
 |---|---:|---|
-| `ONEWIRE_DQ` | `D4` | shares loopback-B output and serial RX mode pin |
+| `ONEWIRE_DQ` | `D0` | selected instead of `ANALOG_FB` by `SEL_D0` |
 
 Decision:
 
-- Accepted `D4` for two-device DS18B20 OneWire mode.
-- OneWire mode is mutually exclusive with baseline loopback-B and serial-peer
-  mode.
+- Accepted `D0` for two-device DS18B20 OneWire mode via `SEL_D0`.
+- OneWire mode is mutually exclusive with target ADC feedback on `ANALOG_FB`.
+- I2C on `D1` / `D4` can remain active with OneWire, supporting combined
+  temperature read plus I2C display/logging tests.
 
 ### C3 Serial Peer Mode
 
