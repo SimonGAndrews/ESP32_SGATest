@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "ESP32_C3_Harness")(type "KiCad")(uri "${KIPRJMOD}/ESP32_C3_Harness.kicad_sym")(options "")(descr "Curated symbols for this ESP32-C3 harness project"))
+)
