@@ -829,7 +829,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1029,7 +1029,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_RowLetter_P2.54mm_Vertical"
 			(at 0 0 0)
 			(effects
 				(font
@@ -2172,7 +2172,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "Grove Header"
+		(property "Value" "Grove I2C"
 			(at -5.08 -8.382 0)
 			(effects
 				(font

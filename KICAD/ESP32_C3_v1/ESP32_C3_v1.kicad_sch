@@ -35,7 +35,7 @@
 					)
 				)
 			)
-			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 				(at 0 0 0)
 				(effects
 					(font
@@ -235,7 +235,7 @@
 					)
 				)
 			)
-			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 				(at 0 0 0)
 				(effects
 					(font
@@ -435,7 +435,7 @@
 					)
 				)
 			)
-			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1438,7 +1438,7 @@
 					)
 				)
 			)
-			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1638,7 +1638,7 @@
 					)
 				)
 			)
-			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_P2.54mm_Vertical"
+			(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_RowLetter_P2.54mm_Vertical"
 				(at 0 0 0)
 				(effects
 					(font
@@ -2781,7 +2781,7 @@
 					(justify left bottom)
 				)
 			)
-			(property "Value" "Grove Header"
+			(property "Value" "Grove I2C"
 				(at -5.08 -8.382 0)
 				(effects
 					(font
@@ -5891,6 +5891,16 @@
 	)
 	(wire
 		(pts
+			(xy 96.52 21.59) (xy 97.79 21.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "181d7a5e-3105-4d9b-bdc7-cd5c02cfd6b7")
+	)
+	(wire
+		(pts
 			(xy 62.23 128.27) (xy 62.23 129.54)
 		)
 		(stroke
@@ -6071,7 +6081,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 26.67) (xy 99.06 26.67)
+			(xy 96.52 26.67) (xy 99.06 26.67)
 		)
 		(stroke
 			(width 0)
@@ -6641,6 +6651,16 @@
 	)
 	(wire
 		(pts
+			(xy 96.52 19.05) (xy 97.79 19.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b5b8598-3c82-4b5b-951a-c72b075fc787")
+	)
+	(wire
+		(pts
 			(xy 232.41 59.69) (xy 237.49 59.69)
 		)
 		(stroke
@@ -6741,7 +6761,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 24.13) (xy 102.87 24.13)
+			(xy 96.52 24.13) (xy 102.87 24.13)
 		)
 		(stroke
 			(width 0)
@@ -8573,7 +8593,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_RowLetter_P2.54mm_Vertical"
 			(at 149.86 58.42 0)
 			(effects
 				(font
@@ -8924,7 +8944,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 			(at 147.32 39.37 0)
 			(effects
 				(font
@@ -9001,7 +9021,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 			(at 147.32 19.05 0)
 			(effects
 				(font
@@ -9077,7 +9097,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_RowLetter_P2.54mm_Vertical"
 			(at 148.59 86.36 0)
 			(effects
 				(font
@@ -9828,7 +9848,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 			(at 144.78 143.51 0)
 			(effects
 				(font
@@ -10391,7 +10411,7 @@
 	)
 	(symbol
 		(lib_id "ESP32_C3_Harness:Grove_Female_Header_-_DIP-4P-2.0mm")
-		(at 87.63 21.59 0)
+		(at 86.36 21.59 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10400,7 +10420,7 @@
 		(dnp no)
 		(uuid "cae0173c-0c0e-4091-8cdb-e4ff1420320f")
 		(property "Reference" "J3"
-			(at 86.106 11.938 0)
+			(at 84.074 14.986 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10408,8 +10428,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Grove Header"
-			(at 97.028 13.97 0)
+		(property "Value" "Grove I2C"
+			(at 90.932 30.734 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10418,7 +10438,7 @@
 			)
 		)
 		(property "Footprint" "ESP32_C3_Harness:Grove_1x04_P2mm(SEEED_110990030)"
-			(at 87.122 8.382 0)
+			(at 85.852 8.382 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10428,7 +10448,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.snapeda.com/parts/110990030%2010PCS/PACK/Seeed+Studio/view-part/?ref=snap"
-			(at 53.086 12.954 0)
+			(at 51.816 12.954 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10437,7 +10457,7 @@
 			)
 		)
 		(property "Description" "Grove_Female_Header  DIP-4P-2.0mm"
-			(at 80.772 10.668 0)
+			(at 79.502 10.668 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10822,7 +10842,7 @@
 				)
 			)
 		)
-		(property "Value" "EXT_5V_SHUNT"
+		(property "Value" "EXT_5V"
 			(at 229.87 39.37 90)
 			(effects
 				(font
@@ -11039,7 +11059,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_P2.54mm_Vertical"
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
 			(at 146.05 107.95 0)
 			(effects
 				(font
