@@ -7,7 +7,7 @@
 	(title_block
 		(title "Espruino ESP32_C3 Test Harness")
 		(date "2026-05-24")
-		(rev "1.0")
+		(rev "1.1")
 		(company "SimonGAndrews")
 	)
 	(lib_symbols
@@ -5591,14 +5591,6 @@
 		(color 0 0 0 0)
 		(uuid "f4f5ea0b-74ca-480d-85ac-6b5a44f4d7fb")
 	)
-	(no_connect
-		(at 248.92 133.35)
-		(uuid "de0625f3-1f7e-4582-920e-a1c40a96b78b")
-	)
-	(no_connect
-		(at 248.92 130.81)
-		(uuid "e97853c4-1fee-4f08-9991-6d6f455cb18b")
-	)
 	(wire
 		(pts
 			(xy 30.48 46.99) (xy 60.96 46.99)
@@ -5608,16 +5600,6 @@
 			(type default)
 		)
 		(uuid "00a00576-aba8-42fd-92cb-4948bc9f6a97")
-	)
-	(wire
-		(pts
-			(xy 194.31 29.21) (xy 212.09 29.21)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0320221d-d810-4318-8dfb-f155dd8ce83e")
 	)
 	(wire
 		(pts
@@ -5721,16 +5703,6 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 26.67) (xy 215.9 26.67)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0bf560fe-4238-4e82-87e4-3460e42e53a5")
-	)
-	(wire
-		(pts
 			(xy 30.48 66.04) (xy 30.48 46.99)
 		)
 		(stroke
@@ -5828,6 +5800,16 @@
 			(type default)
 		)
 		(uuid "124e599e-986e-47d5-be94-716c117b5b7d")
+	)
+	(wire
+		(pts
+			(xy 270.51 15.24) (xy 270.51 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "130594a8-1ed4-4fa0-8cb6-31b9c93ec20c")
 	)
 	(wire
 		(pts
@@ -5958,6 +5940,16 @@
 			(type default)
 		)
 		(uuid "2334654d-b9e7-444b-bcb4-adb34f3f6176")
+	)
+	(wire
+		(pts
+			(xy 234.95 34.29) (xy 234.95 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24b7894f-2880-4d62-a267-7ea0c0aaf568")
 	)
 	(wire
 		(pts
@@ -6221,6 +6213,16 @@
 	)
 	(wire
 		(pts
+			(xy 267.97 17.78) (xy 267.97 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "454030c6-14e4-49fa-8577-13270b449860")
+	)
+	(wire
+		(pts
 			(xy 214.63 78.74) (xy 217.17 78.74)
 		)
 		(stroke
@@ -6341,6 +6343,16 @@
 	)
 	(wire
 		(pts
+			(xy 248.92 130.81) (xy 270.51 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51a37608-c6e8-455f-af27-c237c988b3ce")
+	)
+	(wire
+		(pts
 			(xy 64.77 124.46) (xy 62.23 124.46)
 		)
 		(stroke
@@ -6421,6 +6433,16 @@
 	)
 	(wire
 		(pts
+			(xy 234.95 17.78) (xy 267.97 17.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56c1cb79-889a-4f0a-b18d-9718163d8420")
+	)
+	(wire
+		(pts
 			(xy 187.96 115.57) (xy 193.04 115.57)
 		)
 		(stroke
@@ -6428,6 +6450,16 @@
 			(type default)
 		)
 		(uuid "56c8cde5-6ad5-4f8c-a400-d0f93da83ec3")
+	)
+	(wire
+		(pts
+			(xy 270.51 38.1) (xy 270.51 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "576a86f9-21c7-484e-86f3-fe5c333cb2c2")
 	)
 	(wire
 		(pts
@@ -6561,6 +6593,16 @@
 	)
 	(wire
 		(pts
+			(xy 248.92 133.35) (xy 267.97 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61a4e591-8e60-4f56-9e94-0992667fb205")
+	)
+	(wire
+		(pts
 			(xy 158.75 26.67) (xy 167.64 26.67)
 		)
 		(stroke
@@ -6618,6 +6660,16 @@
 			(type default)
 		)
 		(uuid "67bcf1a0-e7bb-45d1-aba8-636374584c92")
+	)
+	(wire
+		(pts
+			(xy 267.97 31.75) (xy 267.97 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6870be31-d37d-43f6-bc30-2c7aa41cb4ab")
 	)
 	(wire
 		(pts
@@ -6831,6 +6883,16 @@
 	)
 	(wire
 		(pts
+			(xy 232.41 31.75) (xy 232.41 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "836a91ff-f637-48b0-b487-b1d80e8cbcc3")
+	)
+	(wire
+		(pts
 			(xy 125.73 185.42) (xy 125.73 167.64)
 		)
 		(stroke
@@ -7011,16 +7073,6 @@
 	)
 	(wire
 		(pts
-			(xy 215.9 26.67) (xy 215.9 34.29)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9de21bc8-dac1-4978-8f0c-4e6e6c755a10")
-	)
-	(wire
-		(pts
 			(xy 76.2 66.04) (xy 72.39 66.04)
 		)
 		(stroke
@@ -7121,16 +7173,6 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 29.21) (xy 212.09 31.75)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a9229986-1c30-409f-8470-0931dc2a1a25")
-	)
-	(wire
-		(pts
 			(xy 40.64 76.2) (xy 46.99 76.2)
 		)
 		(stroke
@@ -7221,7 +7263,7 @@
 	)
 	(wire
 		(pts
-			(xy 215.9 34.29) (xy 186.69 34.29)
+			(xy 186.69 34.29) (xy 234.95 34.29)
 		)
 		(stroke
 			(width 0)
@@ -7418,6 +7460,16 @@
 			(type default)
 		)
 		(uuid "c9f95273-2f5b-412e-9a71-bea0fc0af9d2")
+	)
+	(wire
+		(pts
+			(xy 232.41 15.24) (xy 270.51 15.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cbfb05de-ed10-4e32-a1b8-a26580af25a3")
 	)
 	(wire
 		(pts
@@ -7741,7 +7793,7 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 31.75) (xy 212.09 31.75)
+			(xy 185.42 31.75) (xy 232.41 31.75)
 		)
 		(stroke
 			(width 0)
@@ -7798,6 +7850,16 @@
 			(type default)
 		)
 		(uuid "fd9429ef-d742-4d1e-9c41-2dc8ae202af5")
+	)
+	(wire
+		(pts
+			(xy 232.41 15.24) (xy 232.41 17.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fdac478c-4073-4347-815b-07bc38107d51")
 	)
 	(wire
 		(pts
@@ -7909,6 +7971,16 @@
 		)
 		(uuid "668a3154-2d87-41a7-8a0d-47b9eee85be2")
 	)
+	(label "D20_UART0_RX"
+		(at 236.22 15.24 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "70d3d593-c0a1-4441-b614-ceaff14a171e")
+	)
 	(label "SPI_MISO"
 		(at 129.54 67.31 0)
 		(effects
@@ -7949,26 +8021,6 @@
 		)
 		(uuid "9e2b46fa-0b9c-40ec-8325-6449f0adf21e")
 	)
-	(label "PEER_TX_TO_D4_UART_RX"
-		(at 201.93 26.67 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ad786eaa-5368-4574-a387-d5d871eb3b8c")
-	)
-	(label "PEER_RX_FROM_D3_UART_TX"
-		(at 199.39 29.21 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b069ac6d-e1fe-46c6-8b9d-3a23a01297a3")
-	)
 	(label "GPIO3"
 		(at 172.72 53.34 0)
 		(effects
@@ -7979,6 +8031,26 @@
 		)
 		(uuid "c7248b49-a1a6-4a54-8f7e-87005e105aa1")
 	)
+	(label "D21_UART0_TX"
+		(at 252.73 17.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d32fb661-8929-4c29-9709-43c4758df9f4")
+	)
+	(label "D4_UART1_RX"
+		(at 196.85 34.29 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d45d4962-a5e3-4f0b-ac7d-d68935a46a51")
+	)
 	(label "GPIO10"
 		(at 170.18 102.87 0)
 		(effects
@@ -7988,6 +8060,16 @@
 			(justify left bottom)
 		)
 		(uuid "d5f8db8f-e7d1-4161-a8a7-8cc5ea2138f3")
+	)
+	(label ""
+		(at 255.27 36.83 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e45f5c4e-9de6-4b6d-8858-767a2d1abb42")
 	)
 	(label "GPIO4"
 		(at 171.45 81.28 0)
@@ -8018,6 +8100,16 @@
 			(justify left bottom)
 		)
 		(uuid "f8d1e042-9594-4e18-920d-94b52551671d")
+	)
+	(label "D3_UART1_TX"
+		(at 213.36 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fda87f71-1b8f-4816-a595-10bae8a676b6")
 	)
 	(global_label "3V3"
 		(shape input)
@@ -8230,28 +8322,6 @@
 		(uuid "9080141e-8f0a-4334-b20e-d485e884d43c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 71.2628 124.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape input)
-		(at 194.31 24.13 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "9f0f0b50-0e08-4b12-85be-d03728a33d11")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 201.1657 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8993,6 +9063,84 @@
 		)
 	)
 	(symbol
+		(lib_name "Conn_02x02_Row_Letter_First_3")
+		(lib_id "ESP32_C3_Harness:Conn_02x02_Row_Letter_First")
+		(at 232.41 22.86 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4f119cdf-685d-4f36-b421-8f42ef24f943")
+		(property "Reference" "SEL_UART0_UART1"
+			(at 229.87 22.8599 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "D3TX-D20RX | D21TX-D4RX"
+			(at 246.634 33.528 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
+			(at 232.41 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 232.41 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, double row, 02x02, row letter first pin numbering scheme (pin number consists of a letter for the row and a number for the pin index in this row. a1, ..., aN; b1, ..., bN), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 232.41 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "a1"
+			(uuid "aca4a33e-1023-470e-90e9-a782c3960106")
+		)
+		(pin "b2"
+			(uuid "7db6a8da-1482-4d4e-86ac-a5bfaf05c4e4")
+		)
+		(pin "b1"
+			(uuid "8667e66d-9734-41e4-8f3d-768024947245")
+		)
+		(pin "a2"
+			(uuid "6303cda1-b183-4c68-afe0-42e25cc5b16a")
+		)
+		(instances
+			(project "ESP32_C3_v1"
+				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
+					(reference "SEL_UART0_UART1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_name "Conn_02x02_Row_Letter_First_1")
 		(lib_id "ESP32_C3_Harness:Conn_02x02_Row_Letter_First")
 		(at 147.32 19.05 90)
@@ -9683,7 +9831,7 @@
 			)
 		)
 		(property "Value" "SEL_JTAG_5.5v"
-			(at 275.082 48.26 0)
+			(at 249.428 56.642 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9891,6 +10039,76 @@
 			(project "ESP32_C3_v1"
 				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
 					(reference "SEL_D0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ESP32_C3_Harness:Resistor")
+		(at 267.97 27.94 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "aea16ebe-f75b-4b5c-90bd-d186063a79e9")
+		(property "Reference" "R8"
+			(at 265.684 30.988 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "470R"
+			(at 265.684 27.686 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "ESP32_C3_Harness:R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical"
+			(at 266.192 27.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 267.97 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 267.97 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "57804ffe-8b94-4e3a-ac4a-e139708637a7")
+		)
+		(pin "2"
+			(uuid "b1207010-f712-460e-9e78-5ee317d070ba")
+		)
+		(instances
+			(project "ESP32_C3_v1"
+				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -10257,35 +10475,34 @@
 		)
 	)
 	(symbol
-		(lib_id "ESP32_C3_Harness:Screw_Terminal_01x03")
-		(at 189.23 26.67 0)
-		(mirror y)
+		(lib_id "ESP32_C3_Harness:Resistor")
+		(at 270.51 34.29 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c7f36c10-1816-4396-83df-6e720fc7631e")
-		(property "Reference" "J10"
-			(at 192.024 19.304 0)
+		(uuid "c15c8538-60b9-46dc-827c-27c4b419fef1")
+		(property "Reference" "R6"
+			(at 272.796 39.878 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Value" "Peer_UART"
-			(at 198.374 21.336 0)
+		(property "Value" "470R"
+			(at 273.05 36.576 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Footprint" "ESP32_C3_Harness:TerminalBlock_Phoenix_MPT-0,5-3-2.54_1x03_P2.54mm_Horizontal"
-			(at 189.23 26.67 0)
+		(property "Footprint" "ESP32_C3_Harness:R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical"
+			(at 272.288 34.29 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10294,7 +10511,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 189.23 26.67 0)
+			(at 270.51 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10302,8 +10519,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 189.23 26.67 0)
+		(property "Description" "Resistor"
+			(at 270.51 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10312,18 +10529,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "4f122a69-1a73-405b-816d-09e8cb3e746c")
+			(uuid "5a0c5938-a6cb-4188-8d22-57a9143c5bbd")
 		)
 		(pin "2"
-			(uuid "59e1c553-b906-478d-a447-cb6fe455c5fc")
-		)
-		(pin "3"
-			(uuid "019f2aa2-abf0-4551-aaf7-cb1a5c619ba8")
+			(uuid "4e454199-ed6c-4afd-bcc5-47b31655d91c")
 		)
 		(instances
 			(project "ESP32_C3_v1"
 				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
-					(reference "J10")
+					(reference "R6")
 					(unit 1)
 				)
 			)
