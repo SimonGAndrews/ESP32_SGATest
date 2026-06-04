@@ -243,6 +243,12 @@ Where GPIO budget and board space allow:
 - include both options and select with jumpers
 - use 470R series protection on local loopback links
 
+ESP32-C3 v1.1 uses a board-specific variant of this block. Instead of a simple
+external peer terminal, it provides `SEL_UART0_UART1` so UART1 on `D3` / `D4`
+can be crossed to UART0 on `D20` / `D21` while native USB Serial/JTAG provides
+the runner/control connection. The crossed links are resistor-protected and
+default open.
+
 Test coverage:
 
 - `Serial.setup`

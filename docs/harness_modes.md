@@ -50,7 +50,7 @@ These should be present in all normal harness modes.
 | Connection | Status | Notes |
 |---|---|---|
 | Board Micro-USB | permanent | USB-UART bridge to UART0, normal serial/flashing path |
-| UART0 `GPIO20` / `GPIO21` | reserved | not used for peripheral harness wiring |
+| UART0 `GPIO20` / `GPIO21` | reserved by default | used only through `SEL_UART0_UART1` in the deliberate UART0/UART1 crosslink mode |
 | Native USB D-/D+ on `GPIO18` / `GPIO19` | permanent/default | phase-one USB Serial/JTAG bring-up path |
 | Reset access | permanent | should support manual and automated reset |
 | Boot/download access | permanent | should support manual and automated boot/download selection |
@@ -433,23 +433,31 @@ Enabled tests:
 - scratchpad read from each selected ROM
 - optional combined I2C + OneWire temperature display/logging
 
-### `C3_SERIAL_PEER`
+### `C3_SERIAL_UART0_UART1_CROSSLINK`
 
 Purpose:
 
-- prove non-console `Serial` API separately from UART0 REPL/flashing
+- prove non-console `Serial` API while also exercising UART0 ownership
+- run the serial test without an external USB-UART peer
+- use native USB Serial/JTAG as the runner/control path while UART0 and UART1
+  are connected to each other
 
 Links:
 
-- connect selected TX/RX pair to external USB-UART peer or loopback
-- avoid `GPIO20` / `GPIO21` unless deliberately testing UART0 ownership
+- set `SEL_D3` to the `UART_TX` / `D3_UART1_TX` position
+- set `SEL_D4` to the `UART_RX` / `D4_UART1_RX` position
+- fit both `SEL_UART0_UART1` shunts:
+  `D3_UART1_TX` -> `D20_UART0_RX`, and
+  `D21_UART0_TX` -> `D4_UART1_RX`
+- keep the board USB-UART path out of the runner/control role during this mode
 
 Proposed pin use:
 
-| Harness node | C3 pin |
-|---|---:|
-| `UART_TX` | `D3` |
-| `UART_RX` | `D4` |
+| Harness node | C3 pin / route |
+|---|---|
+| `UART1_TX` | `D3` -> `SEL_D3 a3-b3` -> `SEL_UART0_UART1 b1-a1` -> `R6` -> `D20` UART0 RX |
+| `UART0_TX` | `D21` -> `R8` -> `SEL_UART0_UART1 a2-b2` -> `SEL_D4 b3-a3` -> `D4` UART1 RX |
+| runner/control | native USB Serial/JTAG on `D18` / `D19` |
 
 Enabled tests:
 
@@ -457,6 +465,7 @@ Enabled tests:
 - `Serial.read`
 - `Serial.on("data")`
 - `Serial.unsetup` / re-setup
+- UART0 ownership while the console/control path is native USB Serial/JTAG
 - optional error/parity handling if supported
 
 ### `C3_POWER_RESET`
@@ -511,15 +520,15 @@ auto-detected unless a later harness revision adds reliable sensing.
 The ESP32-C3 schematic uses named selector headers rather than many individual
 two-pin links. The runner should prompt for these selector positions by name.
 
-| Mode | `SEL_D0` | `SEL_D1` | `SEL_D2` | `SEL_D3` | `SEL_D4` | `SEL_D08` | `SEL_D10` |
-|---|---|---|---|---|---|---|---|
-| `C3_BASELINE_GPIO` | not fitted | loop A out | loop A in | loop B out | loop B in | open | not required |
-| `C3_ANALOG_PWM` | `ADC_IN` | not required | not required | not required | not required | closed after boot | not required |
-| `C3_I2C` | not required | `I2C_SDA` | `I2C_FB` if tested | not required | `I2C_SCL` | open | `I2C_INT` |
-| `C3_BUS_SPI_I2C` | `ADC_IN` if ADC comparison is run | `I2C_SDA` | `I2C_FB` if tested | `SPI_MISO` | `I2C_SCL` | closed after boot if PWM feedback is run | `I2C_INT` |
-| `C3_SPI_FLASH_EXTENDED` | optional `ANALOG_FB` | optional I2C | optional I2C feedback | `SPI_MISO` | optional I2C | optional | `SPI_CS_FLASH` |
-| `C3_ONEWIRE` | `ONEWIRE_DQ` | optional I2C | optional I2C feedback | not required | optional I2C | open | optional I2C interrupt |
-| `C3_SERIAL_PEER` | not required | not required | not required | peer UART TX | peer UART RX | open | not required |
+| Mode | `SEL_D0` | `SEL_D1` | `SEL_D2` | `SEL_D3` | `SEL_D4` | `SEL_D08` | `SEL_D10` | `SEL_UART0_UART1` |
+|---|---|---|---|---|---|---|---|---|
+| `C3_BASELINE_GPIO` | not fitted | loop A out | loop A in | loop B out | loop B in | open | not required | open |
+| `C3_ANALOG_PWM` | `ADC_IN` | not required | not required | not required | not required | closed after boot | not required | open |
+| `C3_I2C` | not required | `I2C_SDA` | `I2C_FB` if tested | not required | `I2C_SCL` | open | `I2C_INT` | open |
+| `C3_BUS_SPI_I2C` | `ADC_IN` if ADC comparison is run | `I2C_SDA` | `I2C_FB` if tested | `SPI_MISO` | `I2C_SCL` | closed after boot if PWM feedback is run | `I2C_INT` | open |
+| `C3_SPI_FLASH_EXTENDED` | optional `ANALOG_FB` | optional I2C | optional I2C feedback | `SPI_MISO` | optional I2C | optional | `SPI_CS_FLASH` | open |
+| `C3_ONEWIRE` | `ONEWIRE_DQ` | optional I2C | optional I2C feedback | not required | optional I2C | open | optional I2C interrupt | open |
+| `C3_SERIAL_UART0_UART1_CROSSLINK` | not required | not required | not required | `UART1_TX` | `UART1_RX` | open | not required | both shunts fitted |
 
 Fixed C3 bus links in the schematic:
 
@@ -528,7 +537,8 @@ Fixed C3 bus links in the schematic:
 - `D7` -> `SPI_CS_ADC`
 - `D18` -> native USB D-
 - `D19` -> native USB D+
-- `D20` / `D21` remain unconnected in the harness
+- `D20` / `D21` remain reserved by default and connect only through
+  `SEL_UART0_UART1` in the UART0/UART1 crosslink mode
 
 `SEL_D08` is a single safety jumper rather than a multi-way selector. It
 connects `D8/GPIO8` to the 10k PWM feedback path, so leave it open for the

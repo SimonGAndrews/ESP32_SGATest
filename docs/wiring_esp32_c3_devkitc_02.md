@@ -28,8 +28,8 @@ These pins are not general harness GPIO in the default design.
 |---:|---|---|
 | `D18` | native USB D- | connect to native USB D- block |
 | `D19` | native USB D+ | connect to native USB D+ block |
-| `D20` | UART0 RX | reserve for board USB-UART REPL/flashing |
-| `D21` | UART0 TX | reserve for board USB-UART REPL/flashing |
+| `D20` | UART0 RX | reserve for board USB-UART REPL/flashing; selector-used only in UART0/UART1 crosslink mode |
+| `D21` | UART0 TX | reserve for board USB-UART REPL/flashing; selector-used only in UART0/UART1 crosslink mode |
 | `D9` | boot/download button path | reserve for boot/download control only |
 | `D8` | onboard RGB LED / strapping | used only as `PWM_OUT` through 10k series resistance; no fixed pull |
 
@@ -96,9 +96,10 @@ the selectable function nets on row B. Fit one vertical shunt only per selector.
 | `SEL_D0` | 2x02 | `GPIO0` on `a1`, `a2` | `b1` = `ONEWIRE_DQ`; `b2` = `ADC_IN` via `ANALOG_FB` | `ADC_IN` is the user-facing role; it connects D0 to the `ANALOG_FB` net |
 | `SEL_D1` | 2x02 | `GPIO1` on `a1`, `a2` | `b1` = `I2C_A_SDA`; `b2` = loop A output via `R5` | `b2` loops to `SEL_D2 b2` through 470R |
 | `SEL_D2` | 2x02 | `GPIO2` on `a1`, `a2` | `b1` = `I2C_A_FB`; `b2` = loop A input via `R5` | `I2C_A_FB` is MCP23008 GP0 feedback through `R2` |
-| `SEL_D3` | 2x03 | `GPIO3` on `a1`, `a2`, `a3` | `b1` = `SPI_MISO`; `b2` = loop B output via `R7`; `b3` = `PEER_RX_FROM_D3_UART_TX` | peer connector receives target TX |
-| `SEL_D4` | 2x03 | `GPIO4` on `a1`, `a2`, `a3` | `b1` = `I2C_A_SCL`; `b2` = loop B input via `R7`; `b3` = `PEER_TX_TO_D4_UART_RX` | peer connector drives target RX |
+| `SEL_D3` | 2x03 | `GPIO3` on `a1`, `a2`, `a3` | `b1` = `SPI_MISO`; `b2` = loop B output via `R7`; `b3` = `D3_UART1_TX` | UART1 TX route for crosslink mode |
+| `SEL_D4` | 2x03 | `GPIO4` on `a1`, `a2`, `a3` | `b1` = `I2C_A_SCL`; `b2` = loop B input via `R7`; `b3` = `D4_UART1_RX` | UART1 RX route for crosslink mode |
 | `SEL_D10` | 2x02 | `GPIO10` on `a1`, `a2` | `b1` = `I2C_INT`; `b2` = `SPI_CS_FLASH` | selects MCP23008 interrupt or optional flash CS |
+| `SEL_UART0_UART1` | 2x02 | `a1` = `D20_UART0_RX` via `R6`; `a2` = `D21_UART0_TX` via `R8` | `b1` = `D3_UART1_TX`; `b2` = `D4_UART1_RX` | fit both shunts only for UART0/UART1 crosslink testing |
 | `SEL_D08` | 1x02 | `GPIO8` / `PWM_OUT` | `R3` 10k to `ANALOG_FB` | single safety jumper; default open for safest boot |
 
 Schematic net names use the `I2C_A_` prefix for the primary I2C block. In test
@@ -117,8 +118,8 @@ simultaneously connected.
 | `D0` / GPIO0 | `ADC_IN`, `ONEWIRE_DQ` | `SEL_D0` | ADC position connects to `ANALOG_FB`; OneWire position isolates `ANALOG_FB` from the OneWire bus |
 | `D1` / GPIO1 | `I2C_SDA`, `GPIO_LOOP_A_OUT` | `SEL_D1` | `I2C_A_SDA` or loop A output through `R5` |
 | `D2` / GPIO2 | `I2C_FB`, `GPIO_LOOP_A_IN` | `SEL_D2` | strapping pin; no fixed pull; loop/I2C feedback through resistors |
-| `D3` / GPIO3 | `SPI_MISO`, `GPIO_LOOP_B_OUT`, `UART_TX` | `SEL_D3` | SPI MISO, loop B output through `R7`, or serial peer TX |
-| `D4` / GPIO4 | `I2C_SCL`, `GPIO_LOOP_B_IN`, `UART_RX` | `SEL_D4` | I2C clock, loop B input through `R7`, or serial peer RX |
+| `D3` / GPIO3 | `SPI_MISO`, `GPIO_LOOP_B_OUT`, `UART1_TX` | `SEL_D3` | SPI MISO, loop B output through `R7`, or UART1 TX for crosslink mode |
+| `D4` / GPIO4 | `I2C_SCL`, `GPIO_LOOP_B_IN`, `UART1_RX` | `SEL_D4` | I2C clock, loop B input through `R7`, or UART1 RX for crosslink mode |
 | `D5` / GPIO5 | `SPI_MOSI` | fixed wire | fixed SPI bus wiring |
 | `D6` / GPIO6 | `SPI_SCK` | fixed wire | fixed SPI bus wiring |
 | `D7` / GPIO7 | `SPI_CS_ADC` | fixed wire | MCP3008 chip select |
@@ -127,8 +128,8 @@ simultaneously connected.
 | `D10` / GPIO10 | `I2C_INT`, `SPI_CS_FLASH` | `SEL_D10` | MCP23008 interrupt or optional flash chip select |
 | `D18` / GPIO18 | native USB D- | fixed wire to `J1` | reserved for native USB Serial/JTAG |
 | `D19` / GPIO19 | native USB D+ | fixed wire to `J1` | reserved for native USB Serial/JTAG |
-| `D20` / GPIO20 | UART0 RX | no harness peripheral wiring | reserved for board USB-UART REPL/flashing |
-| `D21` / GPIO21 | UART0 TX | no harness peripheral wiring | reserved for board USB-UART REPL/flashing |
+| `D20` / GPIO20 | UART0 RX | `SEL_UART0_UART1` via `R6` only | reserved by default; used only for UART0/UART1 crosslink when native USB Serial/JTAG is the runner control path |
+| `D21` / GPIO21 | UART0 TX | `SEL_UART0_UART1` via `R8` only | reserved by default; used only for UART0/UART1 crosslink when native USB Serial/JTAG is the runner control path |
 
 ## Permanent Wiring
 
@@ -139,7 +140,7 @@ paths because they do not create unmanaged mode conflicts.
 |---|---|
 | `D18` -> native USB D- | default phase-one requirement |
 | `D19` -> native USB D+ | default phase-one requirement |
-| `D20` / `D21` reserved | no peripheral harness wiring |
+| `D20` / `D21` reserved by default | selector-connected only through `SEL_UART0_UART1` for the deliberate UART0/UART1 crosslink mode |
 | `D5` -> `SPI_MOSI` | fixed SPI bus wiring |
 | `D6` -> `SPI_SCK` | fixed SPI bus wiring |
 | `D7` -> `SPI_CS_ADC` | fixed MCP3008 chip-select wiring |
@@ -249,7 +250,7 @@ Open/conflicting selector positions:
 | Selector group | Required state |
 |---|---|
 | `SEL_D1` / `SEL_D2` loopback positions | not fitted |
-| `SEL_D3` / `SEL_D4` serial-peer positions | not fitted |
+| `SEL_D3` / `SEL_D4` UART crosslink positions | not fitted |
 | `SEL_D4` loopback position | not fitted |
 
 Enabled coverage:
@@ -325,7 +326,7 @@ Open/conflicting selector positions:
 | loopback selector positions on `SEL_D1`, `SEL_D2`, `SEL_D3`, `SEL_D4` | not fitted |
 | `SEL_D08` analog/PWM drive | close only after confirming boot safety |
 | `SEL_D0` OneWire position | not fitted |
-| serial-peer positions on `SEL_D3` / `SEL_D4` | not fitted |
+| UART crosslink positions on `SEL_D3` / `SEL_D4` | not fitted |
 | `SEL_D10` flash-CS position | not fitted while `GPIO10` is used for `I2C_INT` |
 
 Enabled coverage:
@@ -391,21 +392,28 @@ Enabled coverage:
 - temperature conversion
 - optional I2C display/logging of temperature readings while OneWire is active
 
-### Serial Peer Mode
+### UART0/UART1 Crosslink Mode
 
 Mode name:
 
-- `C3_SERIAL_PEER`
+- `C3_SERIAL_UART0_UART1_CROSSLINK`
+
+Purpose:
+
+- prove non-console `Serial` API behavior on a second UART mapping
+- deliberately exercise UART0 ownership while the runner controls/monitors the
+  DUT through native USB Serial/JTAG
+- avoid needing an external USB-UART peer for the C3 serial test
 
 Required selector positions / wiring:
 
 | Selector or wiring | Position |
 |---|---|
-| `SEL_D3` | shunt `GPIO3` to `PEER_RX_FROM_D3_UART_TX`, `a3-b3` |
-| `SEL_D4` | shunt `GPIO4` to `PEER_TX_TO_D4_UART_RX`, `a3-b3` |
-| `J10` pin 3 | peer RX from target `D3` TX |
-| `J10` pin 2 | peer TX to target `D4` RX |
-| peer GND -> harness GND | closed |
+| Runner/control path | native USB Serial/JTAG on `D18` / `D19` |
+| `SEL_D3` | shunt `GPIO3` to `D3_UART1_TX`, `a3-b3` |
+| `SEL_D4` | shunt `GPIO4` to `D4_UART1_RX`, `a3-b3` |
+| `SEL_UART0_UART1` column 1 | fit shunt: `D3_UART1_TX` -> `D20_UART0_RX` through `R6` |
+| `SEL_UART0_UART1` column 2 | fit shunt: `D21_UART0_TX` -> `D4_UART1_RX` through `R8` |
 
 Open/conflicting selector positions:
 
@@ -413,12 +421,19 @@ Open/conflicting selector positions:
 |---|---|
 | loopback positions on `SEL_D3` / `SEL_D4` | not fitted |
 | `SEL_D3` SPI MISO position | not fitted |
+| `SEL_D4` I2C SCL position | not fitted |
 | `SEL_D0` OneWire position | not fitted unless combining intentionally |
+| board USB-UART control path | do not use as the runner/control path while UART0 is under test |
 
-Alternative:
+Enabled coverage:
 
-- fit a local 470R loopback option between `UART_TX` and `UART_RX` if a peer
-  adapter is not used.
+- `Serial.setup` on UART0 and UART1-capable mappings
+- TX/RX transfer across the crossed UART pair
+- `Serial.read`
+- `Serial.on("data")`
+- `Serial.unsetup` / re-setup
+- detection of console/ownership conflicts between UART0 and the selected REPL
+  path
 
 ### Native USB Serial/JTAG Mode
 
@@ -499,7 +514,8 @@ Default open / not fitted:
 | `SEL_D0` | no shunt fitted | choose `ONEWIRE_DQ` or `ADC_IN` only for the relevant test mode |
 | `SEL_D08` | open | keeps the `D8` / GPIO8 PWM drive path disconnected until analog feedback tests |
 | `SEL_D10` | no shunt fitted | choose `I2C_INT` or `SPI_FLASH_CS` only for the relevant test mode |
-| `SEL_D3` / `SEL_D4` UART positions | not fitted | peer-UART testing is a deliberate mode, not the baseline |
+| `SEL_D3` / `SEL_D4` UART positions | not fitted | UART crosslink testing is a deliberate mode, not the baseline |
+| `SEL_UART0_UART1` | no shunts fitted | keeps UART0 pins reserved for board USB-UART unless crosslink mode is active |
 | `JP1` harness USB VBUS shunt | open unless intentionally using harness USB VBUS | avoids an unintended 5 V feed into the board/harness rail |
 | `JP12` external 5 V shunt | open unless intentionally using external 5 V input | avoids an unintended 5 V feed into the board/harness rail |
 

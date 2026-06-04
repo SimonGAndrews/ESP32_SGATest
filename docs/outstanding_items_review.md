@@ -114,18 +114,24 @@ Decision:
 - I2C on `D1` / `D4` can remain active with OneWire, supporting combined
   temperature read plus I2C display/logging tests.
 
-### C3 Serial Peer Mode
+### C3 UART0/UART1 Crosslink Mode
 
 | Harness node | C3 pin | Notes |
 |---|---:|---|
-| `UART_TX` | `D3` | external peer RX |
-| `UART_RX` | `D4` | external peer TX |
+| `UART1_TX` | `D3` | selected through `SEL_D3` UART position |
+| `UART1_RX` | `D4` | selected through `SEL_D4` UART position |
+| `UART0_RX` | `D20` | crossed from `D3` through `SEL_UART0_UART1` and `R6` |
+| `UART0_TX` | `D21` | crossed to `D4` through `R8` and `SEL_UART0_UART1` |
 
 Decision:
 
-- Accepted as the first C3 non-console serial candidate.
+- Accepted schematic v1.1 UART crosslink as the first C3 automated serial test
+  path.
 - Confirm Espruino C3 UART mapping during bring-up.
-- Keep UART0 `D20` / `D21` untouched for normal board USB-UART REPL/flashing.
+- Keep UART0 `D20` / `D21` reserved by default for normal board USB-UART
+  REPL/flashing.
+- Use `D20` / `D21` only when `SEL_UART0_UART1` is fitted and the runner is
+  controlling/monitoring the DUT via native USB Serial/JTAG.
 
 ## Automation Connector
 
