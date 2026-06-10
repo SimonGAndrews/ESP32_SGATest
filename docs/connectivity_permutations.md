@@ -83,7 +83,7 @@ Native USB Serial/JTAG modes:
 | `C3_USB_SERIAL_JTAG_CONSOLE` | separate USB D+/D- harness connection | native USB Serial/JTAG on `GPIO18` / `GPIO19` | reserve `GPIO18` / `GPIO19` and provide USB wiring | validate native USB serial console behavior |
 | `C3_USB_SERIAL_JTAG_FLASH` | separate USB D+/D- harness connection | native USB Serial/JTAG download/debug path | reserve `GPIO18` / `GPIO19` and provide USB wiring | validate flashing or monitor path through native USB/JTAG |
 | `C3_DUAL_CONNECTION_OBSERVE` | board Micro-USB plus native USB D+/D- harness connection | UART0 plus native USB Serial/JTAG | reserve `GPIO18` / `GPIO19` and `GPIO20` / `GPIO21` | compare console behavior and recovery paths |
-| `C3_USB_SERIAL_JTAG_CONTROL_UART0_UART1_CROSSLINK` | separate USB D+/D- harness connection | native USB Serial/JTAG controls runner; UART1 on `GPIO3` / `GPIO4` crossed to UART0 on `GPIO20` / `GPIO21` | fit `SEL_D3`, `SEL_D4`, and both `SEL_UART0_UART1` shunts; do not use board USB-UART as runner control | validate UART0/UART1 serial API behavior without an external USB-UART peer |
+| `C3_USB_SERIAL_JTAG_CONTROL_UART0_UART1_CROSSLINK` | separate USB D+/D- harness connection | native USB Serial/JTAG controls runner; UART1 on `GPIO3` / `GPIO4` crossed to UART0 on `GPIO20` / `GPIO21` | fit `SEL_D3`, `SEL_D4`, and both `J10` / `SEL_UART0_UART1` signal shunts; do not use board USB-UART as runner control | validate UART0/UART1 serial API behavior without an external USB-UART peer |
 
 Harness implication:
 
@@ -98,8 +98,10 @@ Harness implication:
   budget becomes tight enough that some peripheral tests must move to alternate
   harness modes.
 - Schematic v1.1 deliberately borrows `GPIO20` / `GPIO21` only through
-  `SEL_UART0_UART1`, allowing UART0/UART1 crosslink testing while native USB
-  Serial/JTAG remains the runner/control path.
+  `J10` / `SEL_UART0_UART1`, allowing UART0/UART1 crosslink testing while
+  native USB Serial/JTAG remains the runner/control path. The same 2x3
+  connector also carries GND for deliberate external UART access when the
+  signal shunts are open.
 
 ## Proposed Harness Connectivity Blocks
 
@@ -108,7 +110,7 @@ Add a small connectivity area to each harness board:
 | Block | Classic ESP32 use | ESP32-C3 use |
 |---|---|---|
 | Main board USB | UART0 REPL/flashing | UART0 REPL/flashing through USB-UART bridge |
-| External USB-UART header | optional peer serial / second UART | not required for v1.1 UART crosslink; optional future peer serial |
+| External USB-UART header | optional peer serial / second UART | `J10` provides local UART access/GND; external peer remains optional |
 | Native USB D+/D- header | not used on classic ESP32 | USB Serial/JTAG on `GPIO18` / `GPIO19` |
 | Reset access | reset/reconnect tests | reset/reconnect tests |
 | Boot/download access | flashing tests | flashing tests, plus native USB Serial/JTAG boot checks |
@@ -119,8 +121,8 @@ The wirewrap harness should make these modes visible and deliberate:
 - labelled jumpers for native USB D+ and D-
 - labelled disconnects where GPIO18/GPIO19 also feed peripheral blocks
 - labelled UART0 reservation near the DUT socket
-- a visible selector-controlled UART crosslink area; optional future place to
-  connect an external USB-UART adapter for peer serial tests
+- a visible `J10` UART connector/selector area for crosslink shunts and
+  optional external UART access
 - reset and boot-button access that remains reachable with the DUT installed
 - provision for repeatable automation of reset, boot/download selection, and
   eventually controlled power cycling

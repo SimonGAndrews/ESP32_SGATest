@@ -120,8 +120,9 @@ Decision:
 |---|---:|---|
 | `UART1_TX` | `D3` | selected through `SEL_D3` UART position |
 | `UART1_RX` | `D4` | selected through `SEL_D4` UART position |
-| `UART0_RX` | `D20` | crossed from `D3` through `SEL_UART0_UART1` and `R6` |
-| `UART0_TX` | `D21` | crossed to `D4` through `R8` and `SEL_UART0_UART1` |
+| `UART0_RX` | `D20` | crossed from `D3` through `J10` / `SEL_UART0_UART1` and `R6` |
+| `UART0_TX` | `D21` | crossed to `D4` through `R8` and `J10` / `SEL_UART0_UART1` |
+| UART GND | GND | `J10` GND column supports external UART access |
 
 Decision:
 
@@ -130,8 +131,9 @@ Decision:
 - Confirm Espruino C3 UART mapping during bring-up.
 - Keep UART0 `D20` / `D21` reserved by default for normal board USB-UART
   REPL/flashing.
-- Use `D20` / `D21` only when `SEL_UART0_UART1` is fitted and the runner is
-  controlling/monitoring the DUT via native USB Serial/JTAG.
+- Use `D20` / `D21` only when `J10` / `SEL_UART0_UART1` is deliberately used:
+  fit both signal shunts for UART0/UART1 crosslink, or leave them open when
+  using `J10` as an external UART access connector.
 
 ## Automation Connector
 

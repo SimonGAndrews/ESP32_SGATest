@@ -151,8 +151,9 @@ Practical consequence:
 - Therefore the C3 harness uses selector-controlled blocks that allow the same
   pins to be reused across mutually exclusive test phases.
 - In schematic v1.1, `GPIO20` and `GPIO21` remain reserved by default, but may
-  be deliberately connected through `SEL_UART0_UART1` for a UART0/UART1
-  crosslink test when native USB Serial/JTAG is the runner/control path.
+  be deliberately connected through `J10` / `SEL_UART0_UART1` for a UART0/UART1
+  crosslink test when native USB Serial/JTAG is the runner/control path, or
+  exposed for deliberate external UART access with the signal shunts open.
 
 ### ESP32-C3 Allocation Used By Current Harness
 
@@ -190,8 +191,8 @@ Non-console serial allocation:
 |---|---:|---|
 | `UART1_TX` | `GPIO3` | reused from loopback-B output in UART crosslink mode |
 | `UART1_RX` | `GPIO4` | reused from loopback-B input in UART crosslink mode |
-| `UART0_RX` | `GPIO20` | reserved by default; selector-connected through `R6` only in UART0/UART1 crosslink mode |
-| `UART0_TX` | `GPIO21` | reserved by default; selector-connected through `R8` only in UART0/UART1 crosslink mode |
+| `UART0_RX` | `GPIO20` | reserved by default; selector-connected through `R6` only via `J10` / `SEL_UART0_UART1` |
+| `UART0_TX` | `GPIO21` | reserved by default; selector-connected through `R8` only via `J10` / `SEL_UART0_UART1` |
 
 Settled C3 v1 decisions and remaining caveats:
 
@@ -207,8 +208,9 @@ Settled C3 v1 decisions and remaining caveats:
   load the OneWire bus with the analog RC/MCP3008 node
 - use dual-row selector headers for the other C3 multi-use GPIOs:
   `SEL_D1`, `SEL_D2`, `SEL_D3`, `SEL_D4`, and `SEL_D10`
-- use `SEL_UART0_UART1` as a default-open crosslink selector for the deliberate
-  UART0/UART1 serial test: `D3TX-D20RX` and `D21TX-D4RX`
+- use `J10` / `SEL_UART0_UART1` as a default-open 2x3 UART connector/selector:
+  two signal columns for the deliberate UART0/UART1 serial test
+  (`D3TX-D20RX` and `D21TX-D4RX`) plus a GND column for external UART access
 - use `SEL_D08` as a single safety jumper between `GPIO8` and the 10k
   `PWM_OUT` to `ANALOG_FB` path
 - avoid using `GPIO9` for general harness wiring unless an alternate mode is

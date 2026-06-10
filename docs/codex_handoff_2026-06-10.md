@@ -1,0 +1,405 @@
+# Codex Handoff - ESP32_SGATest
+
+Date: 2026-06-10
+
+This note captures the working context from the Windows Codex thread so a new
+Codex session, likely on Ubuntu, can continue test development without losing
+the design intent behind the ESP32-C3 harness work.
+
+## Repository Purpose
+
+`ESP32_SGATest` is the design, documentation, and test-development repo for an
+automated hardware test harness proving ESP32-family Espruino ports. The focus
+is the Espruino target hardware interface, especially the `jshardware.js` layer
+between Espruino core and target board implementations.
+
+The intended test scope follows the earlier RP2040 Espruino harness approach:
+
+- GPIO read/write, `pinMode`, `digitalPulse`, `shiftOut`, `setWatch`
+- ADC and PWM feedback
+- SPI via MCP3008
+- I2C via MCP23008
+- OneWire via two DS18B20 sensors on one bus
+- Serial/UART behavior
+- reset/reconnect/bootloader behavior
+- later runner automation
+
+The repo currently contains documentation, KiCad design files, schematic PDFs,
+and the first ESP32-C3 harness design.
+
+## Target Boards
+
+Initial targets:
+
+- ESP32-C3-DevKitC-02, Espressif manufactured, with ESP32-C3-WROOM-02 module
+- Olimex ESP32-DevKit-LiPo Rev.D, module marked ESP32-WROOM-32E / MGN4
+
+The current active hardware work is for the ESP32-C3 harness:
+
+```text
+KICAD/ESP32_C3_v1/
+```
+
+## Current Hardware Build State
+
+The ESP32-C3 wirewrap harness has been initially wired, except:
+
+- `J10` / `SEL_UART0_UART1` UART test connector/selector is not yet wired
+- `J_Auto` automation header is not yet wired
+
+Completed bring-up checks so far:
+
+- power/GND continuity and rail checks
+- DUT fitted with default jumper state
+
+Not yet completed:
+
+- DUT boot test, because Espruino still needs to be flashed
+- UART0/UART1 crosslink test, because J10 is not wired
+- automation tests, because J_Auto is not wired
+
+The next planned firmware step is to flash a known-good custom Espruino build
+with `ESPR_USE_USB_SERIAL_JTAG` disabled/commented out. That should make the
+initial console/control path use the board USB-UART route rather than native
+USB Serial/JTAG.
+
+Initial firmware profile:
+
+```text
+C3 bring-up firmware profile:
+- Known-good Espruino build
+- ESPR_USE_USB_SERIAL_JTAG disabled/commented out
+- Expected console: UART0 via board USB-UART
+- Harness mode: default jumper state / C3_CONNECTIVITY_UART0
+- Deferred: native USB Serial/JTAG REPL, UART0/UART1 crosslink, automation header
+```
+
+## Important Design Principle
+
+The harness aims to keep common peripheral/test blocks consistent across target
+families while allowing board-specific DUT socket/fanout changes. In plain
+terms: the MCP3008, MCP23008, OneWire sensors, analog feedback, serial block,
+and test ideas should remain familiar from harness to harness. The board socket
+and wirewrap fanout adapt each board's actual pins to those common harness
+roles.
+
+This is not just about physical consistency; it is also about keeping the test
+suite consistent. The tests should refer to logical roles such as `SPI_MISO`,
+`I2C_SDA`, `ONEWIRE_DQ`, `ADC_IN`, and so on, while each target harness maps
+those roles to the board's actual `Dxx` pins.
+
+## ESP32-C3 Pin Naming
+
+In Espruino builds for this work, GPIO numbers are expected to be addressed with
+a `D` prefix. Examples:
+
+```text
+GPIO0  -> D0
+GPIO21 -> D21
+```
+
+Board aliases such as `LED1` may exist, but harness tests should use `Dxx`
+names because board aliases themselves are subject to test.
+
+## ESP32-C3 Connectivity Model
+
+The ESP32-C3-DevKitC-02 has two relevant USB/serial paths:
+
+1. Board USB connector through the onboard USB-UART bridge to UART0.
+2. Native USB Serial/JTAG on GPIO18/GPIO19, exposed by the harness through a
+   separate USB Serial/JTAG connector.
+
+Default bring-up uses board USB-UART as the normal REPL/flashing path.
+
+Native USB Serial/JTAG is still a phase-one test feature and remains wired to
+the harness, but it is not assumed to be the initial REPL path. It becomes very
+important for later UART0/UART1 crosslink testing because UART0 is then under
+test and cannot also be the runner/control channel.
+
+Reserved/default connectivity pins:
+
+| Pin | Role |
+|---|---|
+| `D18` / GPIO18 | native USB D- |
+| `D19` / GPIO19 | native USB D+ |
+| `D20` / GPIO20 | UART0 RX, board USB-UART path by default |
+| `D21` / GPIO21 | UART0 TX, board USB-UART path by default |
+| `D9` / GPIO9 | boot/download path |
+| `D8` / GPIO8 | strapping/RGB LED pin, only used through 10k PWM feedback path |
+
+## Selector Philosophy
+
+The ESP32-C3 pin budget is tight, so the harness uses manual selector blocks.
+Only one shunt should be fitted per selector unless explicitly stated. Runner
+design is expected to prompt the operator for the required selector state, then
+wait for confirmation.
+
+Default state should be safe to boot, safe to flash, safe to run connectivity
+tests, and safe to run baseline GPIO tests.
+
+Default fitted shunts:
+
+| Selector | Default |
+|---|---|
+| `SEL_D1` | loop A output, `a2-b2` |
+| `SEL_D2` | loop A input, `a2-b2` |
+| `SEL_D3` | loop B output, `a2-b2` |
+| `SEL_D4` | loop B input, `a2-b2` |
+
+Default open/not fitted:
+
+| Selector or shunt | Reason |
+|---|---|
+| `SEL_D0` | choose `ADC_IN` or `ONEWIRE_DQ` only for relevant mode |
+| `SEL_D08` | D8/PWM path defaults open for boot safety |
+| `SEL_D10` | choose `I2C_INT` or `SPI_CS_FLASH` only for relevant mode |
+| `J10` / `SEL_UART0_UART1` | UART0 pins remain reserved unless crosslink/external UART access is deliberate |
+| `JP1` | harness USB VBUS shunt, open unless deliberately using harness USB VBUS |
+| `JP12` | external 5 V shunt, open unless deliberately using external 5 V input |
+
+Do not fit `JP1` and `JP12` together unless the 5 V source arrangement has
+been deliberately reviewed.
+
+## ESP32-C3 v1.1 Selector Bank
+
+The schematic is the master. Current docs have just been updated to reflect the
+following v1.1 selector intent.
+
+| Selector | Function |
+|---|---|
+| `SEL_D0` | `D0` selects either `ONEWIRE_DQ` or `ADC_IN` via `ANALOG_FB` |
+| `SEL_D1` | `D1` selects `I2C_A_SDA` or loop A output |
+| `SEL_D2` | `D2` selects `I2C_A_FB` or loop A input |
+| `SEL_D3` | `D3` selects `SPI_MISO`, loop B output, or `D3_UART1_TX` |
+| `SEL_D4` | `D4` selects `I2C_A_SCL`, loop B input, or `D4_UART1_RX` |
+| `SEL_D10` | `D10` selects `I2C_INT` or `SPI_CS_FLASH` |
+| `SEL_D08` | single safety jumper from `D8/PWM_OUT` through 10k to `ANALOG_FB` |
+| `J10` / `SEL_UART0_UART1` | 2x3 UART connector/selector for crosslink or external UART access |
+
+### J10 / SEL_UART0_UART1 Subtlety
+
+This changed late in the thread and is easy to misunderstand.
+
+Earlier docs/design described a simple `SEL_UART0_UART1` 2x2 selector. The
+current v1.1 schematic changes this to `J10`, a 2x3 connector. It doubles as:
+
+- UART0/UART1 crosslink selector
+- external UART access connector
+
+Expected conceptual pinout:
+
+| J10 column | Signal pair | Purpose |
+|---|---|---|
+| Column 1 | `D3_UART1_TX` <-> `D20_UART0_RX` through `R6` | fit shunt for UART1 TX to UART0 RX |
+| Column 2 | `D21_UART0_TX` through `R8` <-> `D4_UART1_RX` | fit shunt for UART0 TX to UART1 RX |
+| Column 3 | GND <-> GND | local ground for external UART access |
+
+For internal crosslink test:
+
+```text
+fit J10 column 1 signal shunt
+fit J10 column 2 signal shunt
+use native USB Serial/JTAG as runner/control path
+do not use board USB-UART as runner/control path while UART0 is under test
+```
+
+For external UART access:
+
+```text
+leave J10 signal shunts open unless a deliberate loop/crosslink is intended
+use J10 signal pins plus GND column as local UART access
+```
+
+This is why the docs now use `J10` / `SEL_UART0_UART1` rather than only
+`SEL_UART0_UART1`.
+
+## UART Test Mode
+
+The C3 serial test mode is:
+
+```text
+C3_SERIAL_UART0_UART1_CROSSLINK
+```
+
+It is not the old external-peer-only `C3_SERIAL_PEER` idea.
+
+Purpose:
+
+- prove non-console `Serial` API behavior on a second UART mapping
+- deliberately exercise UART0 ownership while the runner controls/monitors the
+  DUT through native USB Serial/JTAG
+- avoid requiring an external USB-UART peer for the C3 serial test
+
+Required selector state:
+
+| Selector | Position |
+|---|---|
+| `SEL_D3` | `D3` to `D3_UART1_TX`, `a3-b3` |
+| `SEL_D4` | `D4` to `D4_UART1_RX`, `a3-b3` |
+| `J10` column 1 | shunt `D3_UART1_TX` to `D20_UART0_RX` through `R6` |
+| `J10` column 2 | shunt `D21_UART0_TX` through `R8` to `D4_UART1_RX` |
+| control path | native USB Serial/JTAG on `D18` / `D19` |
+
+The board USB-UART path should not be the runner/control path during this mode
+because UART0 is under test.
+
+## Main C3 Harness Modes
+
+| Mode | Purpose |
+|---|---|
+| `C3_CONNECTIVITY_UART0` | initial board USB-UART REPL/flashing path |
+| `C3_CONNECTIVITY_USB_SERIAL_JTAG` | native USB Serial/JTAG enumeration/REPL/flash tests |
+| `C3_BASELINE_GPIO` | loopback GPIO tests using D1/D2 and D3/D4 |
+| `C3_ANALOG_PWM` | D8 PWM through 10k/RC analog feedback, D0 ADC input |
+| `C3_I2C` | MCP23008/Grove I2C on D1/D4, optional D2 feedback and D10 INT |
+| `C3_BUS_SPI_I2C` | MCP3008 SPI plus MCP23008 I2C in one manual mode |
+| `C3_SPI_FLASH_EXTENDED` | optional W25xxx flash CS via D10 instead of I2C INT |
+| `C3_ONEWIRE` | two DS18B20 devices on D0 OneWire bus |
+| `C3_SERIAL_UART0_UART1_CROSSLINK` | UART0/UART1 serial test through J10 |
+| `C3_POWER_RESET` | reset/boot automation when J_Auto is wired |
+
+## Common Hardware Blocks
+
+The common harness blocks are:
+
+- MCP3008 for SPI/ADC comparison
+- MCP23008 for I2C
+- two DS18B20 sensors on a OneWire bus
+- PWM/ADC feedback through `ANALOG_FB`
+- GPIO loopback pairs through 470R protection
+- UART block, now board-specific for C3 v1.1 via J10
+
+I2C pull-ups:
+
+- for this revision, assume attached I2C modules provide pull-ups
+- do not add duplicate low-value pull-ups unless the actual bus needs them
+
+OneWire:
+
+- powered mode, not parasite power
+- two DS18B20 devices share `ONEWIRE_DQ`
+- use one 4.7k pull-up on the OneWire node
+
+Analog:
+
+- `ANALOG_FB` is the smoothed feedback node
+- `D0` selects `ADC_IN` by connecting to `ANALOG_FB`
+- `D8/PWM_OUT` reaches `ANALOG_FB` through 10k and a default-open safety jumper
+- MCP3008 CH0 also reads `ANALOG_FB`
+- OneWire mode must move `D0` away from `ANALOG_FB`
+
+## KiCad State And PDFs
+
+Current KiCad project:
+
+```text
+KICAD/ESP32_C3_v1/
+```
+
+Important committed history before this handoff included:
+
+```text
+affeeb4 Add ESP32-C3 schematic v1.1 UART crosslink
+52ce358 Document ESP32-C3 v1.1 UART crosslink mode
+5ea43b3 Refine ESP32-C3 v1.1 PCB layout
+```
+
+There are new local changes after those commits:
+
+- schematic and PCB changed so `SEL_UART0_UART1` is now identified as `J10`
+- `J10` is now 2x3 and includes a GND column
+- docs were updated in this handoff session for the J10 change
+- a new schematic PDF exists and is still v1.1
+- v1.0 schematic PDF is kept as reference
+
+Do not assume the working tree is clean. Before committing, inspect:
+
+```text
+git status --short
+git diff --stat
+```
+
+The Windows shell was failing in the final thread with:
+
+```text
+windows sandbox: spawn setup refresh
+```
+
+So the last documentation updates were applied directly with patches and were
+not verified with `git grep` or committed in this session. The Ubuntu session
+should do the final status/diff/grep checks before committing.
+
+## Recommended Next Checks On Ubuntu
+
+1. Check status:
+
+```bash
+git status --short
+git diff --stat
+```
+
+2. Verify no stale C3 peer names remain:
+
+```bash
+rg "C3_SERIAL_PEER|PEER_RX_FROM_D3|PEER_TX_TO_D4|J10 pin|remain unconnected" docs KICAD/ESP32_C3_v1
+```
+
+Some generic "serial peer" wording may remain in common/classic ESP32 docs; that
+is acceptable. The stale items to avoid are the old C3-specific J10/external
+peer assumptions.
+
+3. Verify current J10 wording:
+
+```bash
+rg "J10|SEL_UART0_UART1|D3_UART1_TX|D4_UART1_RX|D20_UART0_RX|D21_UART0_TX" docs KICAD/ESP32_C3_v1
+```
+
+4. Commit in two parts if both docs and KiCad files changed:
+
+```bash
+git add docs
+git commit -m "Document ESP32-C3 v1.1 J10 UART connector"
+
+git add KICAD/ESP32_C3_v1
+git commit -m "Refine ESP32-C3 v1.1 J10 UART schematic and PCB"
+```
+
+Adjust commit messages after inspecting actual changes.
+
+## Testing Development Next Step
+
+After moving to Ubuntu, likely next work is not more harness design but test
+development and flashing/running known-good Espruino.
+
+Suggested first practical test path:
+
+1. Flash known-good custom Espruino with `ESPR_USE_USB_SERIAL_JTAG` disabled.
+2. Confirm board USB-UART console in default jumper state.
+3. Record serial port discovery and Espruino prompt handshake.
+4. Add an initial runner profile for `C3_CONNECTIVITY_UART0`.
+5. Add a manual mode prompt/checklist system before any hardware tests.
+6. Exercise baseline GPIO loopback.
+7. Move to I2C, SPI/MCP3008, analog feedback, OneWire.
+8. Defer `C3_SERIAL_UART0_UART1_CROSSLINK` until J10 is physically wired.
+9. Defer automation tests until `J_Auto` is physically wired.
+
+## Do Not Miss These Subtleties
+
+- `D20/D21` are reserved by default but no longer "never wired"; they are
+  intentionally available through J10 only.
+- `J10` is not just a shunt block; it also provides GND for external UART
+  access.
+- UART0/UART1 crosslink requires native USB Serial/JTAG as the control path.
+- Initial flashing deliberately disables native USB Serial/JTAG console so the
+  known-good bring-up path is board USB-UART.
+- `D8` is a strapping/RGB LED pin; keep its PWM feedback path default-open.
+- `D2` is a strapping pin; it is accepted only because use is
+  resistor-protected/no-fixed-pull/manual-mode.
+- `D0` is shared by analog ADC feedback and OneWire; never connect both at the
+  same time.
+- I2C and SPI can run in the combined bus mode because D3 is SPI MISO and D4 is
+  I2C SCL, while D5/D6/D7 are fixed SPI lines.
+- Optional SPI flash uses D10 as `SPI_CS_FLASH`, which is mutually exclusive
+  with `I2C_INT`.
+- `J_Auto` is a future automation provision and does not automate anything
+  until an external runner/controller is wired.

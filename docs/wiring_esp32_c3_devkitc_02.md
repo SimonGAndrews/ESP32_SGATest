@@ -99,7 +99,7 @@ the selectable function nets on row B. Fit one vertical shunt only per selector.
 | `SEL_D3` | 2x03 | `GPIO3` on `a1`, `a2`, `a3` | `b1` = `SPI_MISO`; `b2` = loop B output via `R7`; `b3` = `D3_UART1_TX` | UART1 TX route for crosslink mode |
 | `SEL_D4` | 2x03 | `GPIO4` on `a1`, `a2`, `a3` | `b1` = `I2C_A_SCL`; `b2` = loop B input via `R7`; `b3` = `D4_UART1_RX` | UART1 RX route for crosslink mode |
 | `SEL_D10` | 2x02 | `GPIO10` on `a1`, `a2` | `b1` = `I2C_INT`; `b2` = `SPI_CS_FLASH` | selects MCP23008 interrupt or optional flash CS |
-| `SEL_UART0_UART1` | 2x02 | `a1` = `D20_UART0_RX` via `R6`; `a2` = `D21_UART0_TX` via `R8` | `b1` = `D3_UART1_TX`; `b2` = `D4_UART1_RX` | fit both shunts only for UART0/UART1 crosslink testing |
+| `J10` / `SEL_UART0_UART1` | 2x03 | `a1` = `D20_UART0_RX` via `R6`; `a2` = `D21_UART0_TX` via `R8`; `a3` = GND | `b1` = `D3_UART1_TX`; `b2` = `D4_UART1_RX`; `b3` = GND | fit both signal shunts only for UART0/UART1 crosslink testing; GND pins support external UART access |
 | `SEL_D08` | 1x02 | `GPIO8` / `PWM_OUT` | `R3` 10k to `ANALOG_FB` | single safety jumper; default open for safest boot |
 
 Schematic net names use the `I2C_A_` prefix for the primary I2C block. In test
@@ -128,8 +128,8 @@ simultaneously connected.
 | `D10` / GPIO10 | `I2C_INT`, `SPI_CS_FLASH` | `SEL_D10` | MCP23008 interrupt or optional flash chip select |
 | `D18` / GPIO18 | native USB D- | fixed wire to `J1` | reserved for native USB Serial/JTAG |
 | `D19` / GPIO19 | native USB D+ | fixed wire to `J1` | reserved for native USB Serial/JTAG |
-| `D20` / GPIO20 | UART0 RX | `SEL_UART0_UART1` via `R6` only | reserved by default; used only for UART0/UART1 crosslink when native USB Serial/JTAG is the runner control path |
-| `D21` / GPIO21 | UART0 TX | `SEL_UART0_UART1` via `R8` only | reserved by default; used only for UART0/UART1 crosslink when native USB Serial/JTAG is the runner control path |
+| `D20` / GPIO20 | UART0 RX | `J10` / `SEL_UART0_UART1` via `R6` only | reserved by default; used only for UART0/UART1 crosslink or deliberate external UART access |
+| `D21` / GPIO21 | UART0 TX | `J10` / `SEL_UART0_UART1` via `R8` only | reserved by default; used only for UART0/UART1 crosslink or deliberate external UART access |
 
 ## Permanent Wiring
 
@@ -140,7 +140,7 @@ paths because they do not create unmanaged mode conflicts.
 |---|---|
 | `D18` -> native USB D- | default phase-one requirement |
 | `D19` -> native USB D+ | default phase-one requirement |
-| `D20` / `D21` reserved by default | selector-connected only through `SEL_UART0_UART1` for the deliberate UART0/UART1 crosslink mode |
+| `D20` / `D21` reserved by default | selector-connected only through `J10` / `SEL_UART0_UART1` for deliberate UART0/UART1 crosslink or external UART access |
 | `D5` -> `SPI_MOSI` | fixed SPI bus wiring |
 | `D6` -> `SPI_SCK` | fixed SPI bus wiring |
 | `D7` -> `SPI_CS_ADC` | fixed MCP3008 chip-select wiring |
@@ -412,8 +412,9 @@ Required selector positions / wiring:
 | Runner/control path | native USB Serial/JTAG on `D18` / `D19` |
 | `SEL_D3` | shunt `GPIO3` to `D3_UART1_TX`, `a3-b3` |
 | `SEL_D4` | shunt `GPIO4` to `D4_UART1_RX`, `a3-b3` |
-| `SEL_UART0_UART1` column 1 | fit shunt: `D3_UART1_TX` -> `D20_UART0_RX` through `R6` |
-| `SEL_UART0_UART1` column 2 | fit shunt: `D21_UART0_TX` -> `D4_UART1_RX` through `R8` |
+| `J10` / `SEL_UART0_UART1` column 1 | fit shunt: `D3_UART1_TX` -> `D20_UART0_RX` through `R6` |
+| `J10` / `SEL_UART0_UART1` column 2 | fit shunt: `D21_UART0_TX` -> `D4_UART1_RX` through `R8` |
+| `J10` / `SEL_UART0_UART1` column 3 | GND/GND; available as common ground for external UART access |
 
 Open/conflicting selector positions:
 
@@ -424,6 +425,13 @@ Open/conflicting selector positions:
 | `SEL_D4` I2C SCL position | not fitted |
 | `SEL_D0` OneWire position | not fitted unless combining intentionally |
 | board USB-UART control path | do not use as the runner/control path while UART0 is under test |
+
+External UART access:
+
+- with the two signal shunts open, `J10` can also be used as an external UART
+  access connector for either side of the UART test block.
+- the two GND pins on column 3 provide a local common reference for an external
+  USB-UART adapter or test instrument.
 
 Enabled coverage:
 
@@ -515,7 +523,7 @@ Default open / not fitted:
 | `SEL_D08` | open | keeps the `D8` / GPIO8 PWM drive path disconnected until analog feedback tests |
 | `SEL_D10` | no shunt fitted | choose `I2C_INT` or `SPI_FLASH_CS` only for the relevant test mode |
 | `SEL_D3` / `SEL_D4` UART positions | not fitted | UART crosslink testing is a deliberate mode, not the baseline |
-| `SEL_UART0_UART1` | no shunts fitted | keeps UART0 pins reserved for board USB-UART unless crosslink mode is active |
+| `J10` / `SEL_UART0_UART1` | no signal shunts fitted | keeps UART0 pins reserved for board USB-UART unless crosslink or external UART access is active |
 | `JP1` harness USB VBUS shunt | open unless intentionally using harness USB VBUS | avoids an unintended 5 V feed into the board/harness rail |
 | `JP12` external 5 V shunt | open unless intentionally using external 5 V input | avoids an unintended 5 V feed into the board/harness rail |
 
