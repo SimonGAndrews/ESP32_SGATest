@@ -5472,6 +5472,12 @@
 		(uuid "7be0034b-da06-47d9-bbb7-2be2b52397ec")
 	)
 	(junction
+		(at 252.73 16.51)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7c2dfc32-c019-4c4e-bf76-87def1afe8fc")
+	)
+	(junction
 		(at 101.6 130.81)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5488,6 +5494,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "98cc440c-93c4-4773-bb88-2b72e118c724")
+	)
+	(junction
+		(at 245.11 24.13)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9bb1dc3c-77fc-4442-a3df-929f4c0f8486")
 	)
 	(junction
 		(at 220.98 146.05)
@@ -5853,6 +5865,16 @@
 	)
 	(wire
 		(pts
+			(xy 234.95 17.78) (xy 234.95 16.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14f62a70-6c9c-4735-aad4-2f83e299da65")
+	)
+	(wire
+		(pts
 			(xy 149.86 26.67) (xy 151.13 26.67)
 		)
 		(stroke
@@ -6083,6 +6105,16 @@
 	)
 	(wire
 		(pts
+			(xy 234.95 16.51) (xy 252.73 16.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33d8e795-2ed5-42bd-bf93-3052051fd793")
+	)
+	(wire
+		(pts
 			(xy 254 120.65) (xy 254 76.2)
 		)
 		(stroke
@@ -6130,6 +6162,16 @@
 			(type default)
 		)
 		(uuid "3b16faf0-e9bb-4a16-b57d-e0c794ea2ac1")
+	)
+	(wire
+		(pts
+			(xy 252.73 16.51) (xy 267.97 16.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c0fc567-268d-45ba-874f-5907928611c5")
 	)
 	(wire
 		(pts
@@ -6213,7 +6255,7 @@
 	)
 	(wire
 		(pts
-			(xy 267.97 17.78) (xy 267.97 24.13)
+			(xy 267.97 16.51) (xy 267.97 24.13)
 		)
 		(stroke
 			(width 0)
@@ -6433,16 +6475,6 @@
 	)
 	(wire
 		(pts
-			(xy 234.95 17.78) (xy 267.97 17.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "56c1cb79-889a-4f0a-b18d-9718163d8420")
-	)
-	(wire
-		(pts
 			(xy 187.96 115.57) (xy 193.04 115.57)
 		)
 		(stroke
@@ -6580,6 +6612,16 @@
 			(type default)
 		)
 		(uuid "5ecdba0c-3a3c-488a-868a-db06c1ade295")
+	)
+	(wire
+		(pts
+			(xy 245.11 24.13) (xy 245.11 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5f677155-dd6a-48c3-b4b3-b72a0907b966")
 	)
 	(wire
 		(pts
@@ -6883,6 +6925,16 @@
 	)
 	(wire
 		(pts
+			(xy 245.11 30.48) (xy 237.49 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "815b2e8a-114f-46c1-b2ec-f45e3662ff93")
+	)
+	(wire
+		(pts
 			(xy 232.41 31.75) (xy 232.41 30.48)
 		)
 		(stroke
@@ -7040,6 +7092,26 @@
 			(type default)
 		)
 		(uuid "961a9894-2548-4034-8c37-c44c5a0de70d")
+	)
+	(wire
+		(pts
+			(xy 245.11 24.13) (xy 247.65 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96555de0-4a41-4ebc-b28a-bf100553375a")
+	)
+	(wire
+		(pts
+			(xy 237.49 17.78) (xy 245.11 17.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96bb3151-bcc1-4874-b45e-573894ef4904")
 	)
 	(wire
 		(pts
@@ -7303,6 +7375,16 @@
 	)
 	(wire
 		(pts
+			(xy 245.11 17.78) (xy 245.11 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6c33fd4-bd54-4259-8387-9c924779198b")
+	)
+	(wire
+		(pts
 			(xy 62.23 124.46) (xy 62.23 128.27)
 		)
 		(stroke
@@ -7350,6 +7432,16 @@
 			(type default)
 		)
 		(uuid "bec820b6-0e5e-4f08-b477-eb9b1acff137")
+	)
+	(wire
+		(pts
+			(xy 252.73 19.05) (xy 252.73 16.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bee6793a-e48d-4f2a-b638-0e96a8d4235f")
 	)
 	(wire
 		(pts
@@ -7881,6 +7973,16 @@
 		)
 		(uuid "ffbca745-8cca-4cda-bdb1-5e04ce7e2f2d")
 	)
+	(label "Reset"
+		(at 199.39 57.15 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "134c6450-9581-4d19-a02a-7427a619317c")
+	)
 	(label "I2C_A_SDA"
 		(at 129.54 26.67 0)
 		(effects
@@ -7930,6 +8032,16 @@
 			(justify left bottom)
 		)
 		(uuid "51b110ef-ea43-473d-9a26-a1f7c3c2886f")
+	)
+	(label "GPIO09"
+		(at 208.28 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "544eb4ba-80bb-491c-974f-ace929196056")
 	)
 	(label "ONEWIRE_DQ"
 		(at 125.73 151.13 0)
@@ -8032,7 +8144,7 @@
 		(uuid "c7248b49-a1a6-4a54-8f7e-87005e105aa1")
 	)
 	(label "D21_UART0_TX"
-		(at 252.73 17.78 0)
+		(at 252.73 19.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8410,6 +8522,28 @@
 		(uuid "dca01045-3d7a-498f-b0ce-8e4dea18b6d5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 123.6957 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 247.65 24.13 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dd5c3fc1-23c2-42ed-905d-ee5084efc330")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 254.5057 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9063,84 +9197,6 @@
 		)
 	)
 	(symbol
-		(lib_name "Conn_02x02_Row_Letter_First_3")
-		(lib_id "ESP32_C3_Harness:Conn_02x02_Row_Letter_First")
-		(at 232.41 22.86 90)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "4f119cdf-685d-4f36-b421-8f42ef24f943")
-		(property "Reference" "SEL_UART0_UART1"
-			(at 229.87 22.8599 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "D3TX-D20RX | D21TX-D4RX"
-			(at 246.634 33.528 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x02_RowLetter_P2.54mm_Vertical"
-			(at 232.41 22.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 232.41 22.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x02, row letter first pin numbering scheme (pin number consists of a letter for the row and a number for the pin index in this row. a1, ..., aN; b1, ..., bN), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 232.41 22.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "a1"
-			(uuid "aca4a33e-1023-470e-90e9-a782c3960106")
-		)
-		(pin "b2"
-			(uuid "7db6a8da-1482-4d4e-86ac-a5bfaf05c4e4")
-		)
-		(pin "b1"
-			(uuid "8667e66d-9734-41e4-8f3d-768024947245")
-		)
-		(pin "a2"
-			(uuid "6303cda1-b183-4c68-afe0-42e25cc5b16a")
-		)
-		(instances
-			(project "ESP32_C3_v1"
-				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
-					(reference "SEL_UART0_UART1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_name "Conn_02x02_Row_Letter_First_1")
 		(lib_id "ESP32_C3_Harness:Conn_02x02_Row_Letter_First")
 		(at 147.32 19.05 90)
@@ -9556,6 +9612,88 @@
 			(project "ESP32_C3_v1"
 				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
 					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ESP32_C3_Harness:Conn_02x03_Row_Letter_First")
+		(at 234.95 22.86 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6dc05d4a-247f-47ba-b7ec-54054f5319b4")
+		(property "Reference" "J10"
+			(at 229.87 22.8599 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SEL_UART0_UART1"
+			(at 229.87 25.3999 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "ESP32_C3_Harness:PinHeader_2x03_RowLetter_P2.54mm_Vertical"
+			(at 234.95 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 234.95 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, double row, 02x03, row letter first pin numbering scheme (pin number consists of a letter for the row and a number for the pin index in this row. a1, ..., aN; b1, ..., bN), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 234.95 22.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "a2"
+			(uuid "2e273f0e-be95-4e39-a220-164eb0978597")
+		)
+		(pin "a3"
+			(uuid "d3847fcc-2903-400d-81f4-cd4c274bf0ed")
+		)
+		(pin "a1"
+			(uuid "37d707f2-60d7-4c76-96b0-44d03c7e7a0a")
+		)
+		(pin "b1"
+			(uuid "c08e8e4e-1c48-4dc6-b1b3-9a128263681e")
+		)
+		(pin "b3"
+			(uuid "87305d52-8214-4b1a-969f-429089a2f445")
+		)
+		(pin "b2"
+			(uuid "07c4aabd-3c2c-499d-a30d-d4875fd882df")
+		)
+		(instances
+			(project ""
+				(path "/31f8d3b5-36d0-4e19-8e74-b3daeb7826ed"
+					(reference "J10")
 					(unit 1)
 				)
 			)
