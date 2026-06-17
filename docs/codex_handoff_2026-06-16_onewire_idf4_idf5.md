@@ -28,6 +28,50 @@ This note supplements, rather than replaces:
 - [esp32_onewire_quiet_timing_design_2026-06-16.md](./esp32_onewire_quiet_timing_design_2026-06-16.md)
 - [onewire_cross_target_comparison_2026-06-15.md](./onewire_cross_target_comparison_2026-06-15.md)
 - [onewire_logic_trace_comparison_2026-06-15.md](./onewire_logic_trace_comparison_2026-06-15.md)
+- [repl_bringup_esp32_c3.md](./repl_bringup_esp32_c3.md)
+
+## Start Here For A New Thread
+
+If a new Codex thread is opened to continue ESP32 harness work, the minimum
+bootstrap set should be:
+
+1. [AGENTS.md](/home/simon/MaBecker/ESP32_SGATest/AGENTS.md)
+2. [codex_handoff_2026-06-16_onewire_idf4_idf5.md](./codex_handoff_2026-06-16_onewire_idf4_idf5.md)
+3. [esp32_c3_idf5_regressions_2026-06-12.md](./esp32_c3_idf5_regressions_2026-06-12.md)
+4. [repl_bringup_esp32_c3.md](./repl_bringup_esp32_c3.md)
+5. [wiring_esp32_c3_devkitc_02.md](./wiring_esp32_c3_devkitc_02.md)
+6. [harness_modes.md](./harness_modes.md)
+7. [gpio_rationalisation.md](./gpio_rationalisation.md)
+
+For the next thread's planned starting point, also read:
+
+- [esp32_c3_digitalpulse_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_digitalpulse_check.py)
+- [esp32_c3_gpio_block1.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_gpio_block1.py)
+
+If the new thread needs the full OneWire investigation record, this handoff
+already points to the deeper notes:
+
+- [esp32_onewire_quiet_timing_design_2026-06-16.md](./esp32_onewire_quiet_timing_design_2026-06-16.md)
+- [onewire_cross_target_comparison_2026-06-15.md](./onewire_cross_target_comparison_2026-06-15.md)
+- [onewire_logic_trace_comparison_2026-06-15.md](./onewire_logic_trace_comparison_2026-06-15.md)
+
+## Current Continuation Objective
+
+The next thread should assume:
+
+- OneWire on ESP32-C3 is fixed on the bench in both IDF4 and IDF5 local trees
+- the original harness-mounted OneWire path has been revalidated
+- the harness/tooling/docs work is now committed
+- the next active firmware/debug target is `digitalPulse`, followed by broader
+  coexistence and regression coverage in the harness suite
+
+## Current Repo Heads
+
+At the point this handoff was refreshed, the relevant repo heads were:
+
+- harness repo `/home/simon/MaBecker/ESP32_SGATest`: `7b5bc92e8`
+- IDF4 firmware repo `/home/simon/Espruino2/Espruino`: `8c6aa317c`
+- IDF5 firmware repo `/home/simon/MaBecker/Espruino`: `52381bb30`
 
 ## Repos And Paths
 
@@ -156,8 +200,10 @@ Path:
 
 State used for the successful OneWire timing fix:
 
-- git `HEAD` at `b21cc4c1e`
-- modified files remained uncommitted at handoff time
+- git `HEAD` at `8c6aa317c`
+- committed changes now include:
+  - `feat(esp32/onewire): add searchDebug and local timing guard`
+  - `chore(board): disable USB Serial JTAG on ESP32C3_IDF4 bench build`
 
 ### 2. MaBecker / IDF5 Tree
 
@@ -167,9 +213,10 @@ Path:
 
 State at handoff:
 
-- git `HEAD` at `a15e268a0`
-- one known local modification already present:
-  `boards/ESP32C3_IDF5.py`
+- git `HEAD` at `52381bb30`
+- committed changes now include:
+  - `feat(esp32/onewire): add searchDebug and local timing guard`
+  - `chore(board): disable USB Serial JTAG on ESP32C3_IDF5 bench build`
 
 The MaBecker repo is the relevant IDF5-capable tree because it contains:
 
