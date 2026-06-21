@@ -1,0 +1,574 @@
+EESchema Schematic File Version 4
+LIBS:power
+LIBS:device
+LIBS:Connector_Generic
+LIBS:Interface_Expansion
+LIBS:Analog_ADC
+LIBS:Sensor_Temperature
+LIBS:Memory_Flash
+EELAYER 29 0
+EELAYER END
+$Descr A3 16535 11693
+Sheet 1 1
+Title "Espruino ESP32 DevKitC V4 Test Harness"
+Date "2026-06-21"
+Rev "1.0"
+Comp "SimonGAndrews"
+Comment1 "ESP-IDF 5 port test harness - fixed GPIO allocation"
+Comment2 "Tests use Espruino Dxx names matching GPIO numbers"
+Comment3 "UART0 D1/D3 and boot straps remain reserved"
+Comment4 "See docs/wiring_esp32_devkitc_v4.md"
+$EndDescr
+Text Notes 650 650 0    120  ~ 24
+ESP32-DEVKITC V4 DUT SOCKET / HEADER MAP
+Text Notes 650 900 0    60   ~ 12
+Two 1x19 sockets represent the DevKitC V4 headers, viewed from the component side with USB at the bottom.
+Text Notes 650 1050 0    60   ~ 12
+Header labels are the electrical definition; verify physical socket orientation before PCB/wirewrap construction.
+$Comp
+L Connector_Generic:Conn_01x19 J_DUT_L1
+U 1 1 60000001
+P 2350 2650
+F 0 "J_DUT_L1" H 2268 3767 50  0000 C CNN
+F 1 "DEVKITC_V4_LEFT" H 2268 3676 50 0000 C CNN
+	1    2350 2650
+	-1 0 0 -1
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x19 J_DUT_R1
+U 1 1 60000002
+P 4800 2650
+F 0 "J_DUT_R1" H 4880 2642 50 0000 L CNN
+F 1 "DEVKITC_V4_RIGHT" H 4880 2551 50 0000 L CNN
+	1    4800 2650
+	1 0 0 -1
+$EndComp
+Text Label 2650 1750 0    50   ~ 0
+3V3
+Text Label 2650 1850 0    50   ~ 0
+RESET_EN
+Text Label 2650 1950 0    50   ~ 0
+D36_UART_RX
+Text Label 2650 2050 0    50   ~ 0
+D39_I2C_FB
+Text Label 2650 2150 0    50   ~ 0
+D34_ADC_IN
+Text Label 2650 2250 0    50   ~ 0
+D35_I2C_INT
+Text Label 2650 2350 0    50   ~ 0
+D32_LOOP_A_OUT
+Text Label 2650 2450 0    50   ~ 0
+D33_LOOP_A_IN
+Text Label 2650 2550 0    50   ~ 0
+D25_LOOP_B_OUT
+Text Label 2650 2650 0    50   ~ 0
+D26_LOOP_B_IN
+Text Label 2650 2750 0    50   ~ 0
+D27_PWM_OUT
+Text Label 2650 2850 0    50   ~ 0
+D14_UART_TX
+Text Label 2650 2950 0    50   ~ 0
+D12_RESERVED_STRAP
+Text Label 2650 3050 0    50   ~ 0
+GND
+Text Label 2650 3150 0    50   ~ 0
+D13_ONEWIRE_DQ
+Text Label 2650 3250 0    50   ~ 0
+D9_FLASH_SD2
+Text Label 2650 3350 0    50   ~ 0
+D10_FLASH_SD3
+Text Label 2650 3450 0    50   ~ 0
+D11_FLASH_CMD
+Text Label 2650 3550 0    50   ~ 0
+5V
+Wire Wire Line
+	2550 1750 3300 1750
+Wire Wire Line
+	2550 1850 3300 1850
+Wire Wire Line
+	2550 1950 3300 1950
+Wire Wire Line
+	2550 2050 3300 2050
+Wire Wire Line
+	2550 2150 3300 2150
+Wire Wire Line
+	2550 2250 3300 2250
+Wire Wire Line
+	2550 2350 3300 2350
+Wire Wire Line
+	2550 2450 3300 2450
+Wire Wire Line
+	2550 2550 3300 2550
+Wire Wire Line
+	2550 2650 3300 2650
+Wire Wire Line
+	2550 2750 3300 2750
+Wire Wire Line
+	2550 2850 3300 2850
+Wire Wire Line
+	2550 2950 3300 2950
+Wire Wire Line
+	2550 3050 3300 3050
+Wire Wire Line
+	2550 3150 3300 3150
+Wire Wire Line
+	2550 3250 3300 3250
+Wire Wire Line
+	2550 3350 3300 3350
+Wire Wire Line
+	2550 3450 3300 3450
+Wire Wire Line
+	2550 3550 3300 3550
+Text Label 3850 1750 2    50   ~ 0
+GND
+Text Label 3850 1850 2    50   ~ 0
+D23_SPI_MOSI
+Text Label 3850 1950 2    50   ~ 0
+D22_I2C_SCL
+Text Label 3850 2050 2    50   ~ 0
+D1_UART0_TX_RESERVED
+Text Label 3850 2150 2    50   ~ 0
+D3_UART0_RX_RESERVED
+Text Label 3850 2250 2    50   ~ 0
+D21_I2C_SDA
+Text Label 3850 2350 2    50   ~ 0
+GND
+Text Label 3850 2450 2    50   ~ 0
+D19_SPI_MISO
+Text Label 3850 2550 2    50   ~ 0
+D18_SPI_SCK
+Text Label 3850 2650 2    50   ~ 0
+D5_RESERVED_STRAP
+Text Label 3850 2750 2    50   ~ 0
+D17_SPI_CS_FLASH
+Text Label 3850 2850 2    50   ~ 0
+D16_SPI_CS_ADC
+Text Label 3850 2950 2    50   ~ 0
+D4_SPARE
+Text Label 3850 3050 2    50   ~ 0
+D0_BOOT
+Text Label 3850 3150 2    50   ~ 0
+D2_RESERVED_STRAP
+Text Label 3850 3250 2    50   ~ 0
+D15_RESERVED_STRAP
+Text Label 3850 3350 2    50   ~ 0
+D8_FLASH_SD1
+Text Label 3850 3450 2    50   ~ 0
+D7_FLASH_SD0
+Text Label 3850 3550 2    50   ~ 0
+D6_FLASH_CLK
+Wire Wire Line
+	3850 1750 4600 1750
+Wire Wire Line
+	3850 1850 4600 1850
+Wire Wire Line
+	3850 1950 4600 1950
+Wire Wire Line
+	3850 2050 4600 2050
+Wire Wire Line
+	3850 2150 4600 2150
+Wire Wire Line
+	3850 2250 4600 2250
+Wire Wire Line
+	3850 2350 4600 2350
+Wire Wire Line
+	3850 2450 4600 2450
+Wire Wire Line
+	3850 2550 4600 2550
+Wire Wire Line
+	3850 2650 4600 2650
+Wire Wire Line
+	3850 2750 4600 2750
+Wire Wire Line
+	3850 2850 4600 2850
+Wire Wire Line
+	3850 2950 4600 2950
+Wire Wire Line
+	3850 3050 4600 3050
+Wire Wire Line
+	3850 3150 4600 3150
+Wire Wire Line
+	3850 3250 4600 3250
+Wire Wire Line
+	3850 3350 4600 3350
+Wire Wire Line
+	3850 3450 4600 3450
+Wire Wire Line
+	3850 3550 4600 3550
+Text Notes 5700 650 0    120  ~ 24
+RATIONALISED GPIO FANOUT
+Text Notes 5700 900 0    60   ~ 12
+All common blocks are permanently connected. Only JP_UART_LOOP is a mode link.
+$Comp
+L Device:R R_LOOP_A1
+U 1 1 60000003
+P 7500 1450
+F 0 "R_LOOP_A1" V 7293 1450 50 0000 C CNN
+F 1 "470R" V 7384 1450 50 0000 C CNN
+	1    7500 1450
+	0 1 1 0
+$EndComp
+Text Label 6650 1450 0    50   ~ 0
+D32_LOOP_A_OUT
+Text Label 8350 1450 2    50   ~ 0
+D33_LOOP_A_IN
+Wire Wire Line
+	6650 1450 7350 1450
+Wire Wire Line
+	7650 1450 8350 1450
+$Comp
+L Device:R R_LOOP_B1
+U 1 1 60000004
+P 7500 1750
+F 0 "R_LOOP_B1" V 7293 1750 50 0000 C CNN
+F 1 "470R" V 7384 1750 50 0000 C CNN
+	1    7500 1750
+	0 1 1 0
+$EndComp
+Text Label 6650 1750 0    50   ~ 0
+D25_LOOP_B_OUT
+Text Label 8350 1750 2    50   ~ 0
+D26_LOOP_B_IN
+Wire Wire Line
+	6650 1750 7350 1750
+Wire Wire Line
+	7650 1750 8350 1750
+Text Notes 6500 1250 0    80   ~ 16
+GPIO LOOPBACKS
+$Comp
+L Device:R R_PWM1
+U 1 1 60000005
+P 7500 2450
+F 0 "R_PWM1" V 7293 2450 50 0000 C CNN
+F 1 "10k" V 7384 2450 50 0000 C CNN
+	1    7500 2450
+	0 1 1 0
+$EndComp
+$Comp
+L Device:C C_FB1
+U 1 1 60000006
+P 8000 2750
+F 0 "C_FB1" H 8115 2796 50 0000 L CNN
+F 1 "100nF" H 8115 2705 50 0000 L CNN
+	1    8000 2750
+	1 0 0 -1
+$EndComp
+Text Label 6650 2450 0    50   ~ 0
+D27_PWM_OUT
+Text Label 8350 2450 2    50   ~ 0
+ANALOG_FB
+Text Label 8350 2250 2    50   ~ 0
+D34_ADC_IN
+Text Label 8000 3100 3    50   ~ 0
+GND
+Wire Wire Line
+	6650 2450 7350 2450
+Wire Wire Line
+	7650 2450 8350 2450
+Wire Wire Line
+	8000 2450 8000 2600
+Wire Wire Line
+	8000 2450 8000 2250
+Wire Wire Line
+	8000 2250 8350 2250
+Wire Wire Line
+	8000 2900 8000 3100
+Connection ~ 8000 2450
+Text Notes 6500 2200 0    80   ~ 16
+PWM / ADC FEEDBACK
+$Comp
+L Interface_Expansion:MCP23008-xP U_I2C1
+U 1 1 60000007
+P 10300 2250
+F 0 "U_I2C1" H 9800 2900 50 0000 C CNN
+F 1 "MCP23008-xP" H 10750 2900 50 0000 C CNN
+	1    10300 2250
+	1 0 0 -1
+$EndComp
+Text Label 9450 1950 2    50   ~ 0
+D22_I2C_SCL
+Text Label 9450 2050 2    50   ~ 0
+D21_I2C_SDA
+Text Label 11200 1950 0    50   ~ 0
+D35_I2C_INT
+Text Label 11200 2150 0    50   ~ 0
+I2C_GP0
+Wire Wire Line
+	9450 1950 9900 1950
+Wire Wire Line
+	9450 2050 9900 2050
+Wire Wire Line
+	10700 1950 11200 1950
+Wire Wire Line
+	10700 2150 11200 2150
+$Comp
+L Device:R R_I2C_FB1
+U 1 1 60000008
+P 11700 2150
+F 0 "R_I2C_FB1" V 11493 2150 50 0000 C CNN
+F 1 "470R" V 11584 2150 50 0000 C CNN
+	1    11700 2150
+	0 1 1 0
+$EndComp
+Wire Wire Line
+	11200 2150 11550 2150
+Text Label 12250 2150 0    50   ~ 0
+D39_I2C_FB
+Wire Wire Line
+	11850 2150 12250 2150
+$Comp
+L Device:R R_I2C_LOOP1
+U 1 1 60000009
+P 11700 2350
+F 0 "R_I2C_LOOP1" V 11500 2350 50 0000 C CNN
+F 1 "470R" V 11600 2350 50 0000 C CNN
+	1    11700 2350
+	0 1 1 0
+$EndComp
+Text Label 11200 2350 0    50   ~ 0
+I2C_GP1
+Text Label 12250 2350 0    50   ~ 0
+I2C_GP2
+Wire Wire Line
+	10700 2250 11200 2250
+Wire Wire Line
+	11200 2250 11200 2350
+Wire Wire Line
+	11200 2350 11550 2350
+Wire Wire Line
+	11850 2350 12250 2350
+Wire Wire Line
+	12250 2350 12250 2450
+Wire Wire Line
+	12250 2450 10700 2450
+Text Label 10300 1450 1    50   ~ 0
+3V3
+Text Label 10300 3150 3    50   ~ 0
+GND
+Wire Wire Line
+	10300 1450 10300 1650
+Wire Wire Line
+	10300 2850 10300 3150
+Text Notes 9500 1250 0    80   ~ 16
+I2C MCP23008 (0x20)
+$Comp
+L Analog_ADC:MCP3008 U_SPI1
+U 1 1 6000000A
+P 10300 4350
+F 0 "U_SPI1" H 9850 5000 50 0000 C CNN
+F 1 "MCP3008" H 10700 5000 50 0000 C CNN
+	1    10300 4350
+	1 0 0 -1
+$EndComp
+Text Label 9450 4150 2    50   ~ 0
+D18_SPI_SCK
+Text Label 9450 4250 2    50   ~ 0
+D23_SPI_MOSI
+Text Label 9450 4350 2    50   ~ 0
+D19_SPI_MISO
+Text Label 9450 4550 2    50   ~ 0
+D16_SPI_CS_ADC
+Text Label 9450 3850 2    50   ~ 0
+ANALOG_FB
+Wire Wire Line
+	9450 3850 9900 3850
+Wire Wire Line
+	9450 4150 9900 4150
+Wire Wire Line
+	9450 4250 9900 4250
+Wire Wire Line
+	9450 4350 9900 4350
+Wire Wire Line
+	9450 4550 9900 4550
+Text Label 10200 3450 1    50   ~ 0
+3V3
+Text Label 10400 3450 1    50   ~ 0
+3V3
+Text Label 10200 5150 3    50   ~ 0
+GND
+Text Label 10400 5150 3    50   ~ 0
+GND
+Wire Wire Line
+	10200 3450 10200 3750
+Wire Wire Line
+	10400 3450 10400 3750
+Wire Wire Line
+	10200 4950 10200 5150
+Wire Wire Line
+	10400 4950 10400 5150
+$Comp
+L Connector_Generic:Conn_01x06 J_FLASH1
+U 1 1 6000000B
+P 12400 4250
+F 0 "J_FLASH1" H 12480 4242 50 0000 L CNN
+F 1 "OPTIONAL_W25xxx_MODULE" H 12480 4151 50 0000 L CNN
+	1    12400 4250
+	1 0 0 -1
+$EndComp
+Text Label 11600 4050 2    50   ~ 0
+3V3
+Text Label 11600 4150 2    50   ~ 0
+GND
+Text Label 11600 4250 2    50   ~ 0
+D18_SPI_SCK
+Text Label 11600 4350 2    50   ~ 0
+D19_SPI_MISO
+Text Label 11600 4450 2    50   ~ 0
+D23_SPI_MOSI
+Text Label 11600 4550 2    50   ~ 0
+D17_SPI_CS_FLASH
+Wire Wire Line
+	11600 4050 12200 4050
+Wire Wire Line
+	11600 4150 12200 4150
+Wire Wire Line
+	11600 4250 12200 4250
+Wire Wire Line
+	11600 4350 12200 4350
+Wire Wire Line
+	11600 4450 12200 4450
+Wire Wire Line
+	11600 4550 12200 4550
+Text Notes 9500 3400 0    80   ~ 16
+SPI MCP3008 + OPTIONAL FLASH
+$Comp
+L Sensor_Temperature:DS18B20 U_1W1
+U 1 1 6000000C
+P 7000 4300
+F 0 "U_1W1" H 6770 4346 50 0000 R CNN
+F 1 "DS18B20_A" H 6770 4255 50 0000 R CNN
+	1    7000 4300
+	1 0 0 -1
+$EndComp
+$Comp
+L Sensor_Temperature:DS18B20 U_1W2
+U 1 1 6000000D
+P 8000 4300
+F 0 "U_1W2" H 7770 4346 50 0000 R CNN
+F 1 "DS18B20_B" H 7770 4255 50 0000 R CNN
+	1    8000 4300
+	1 0 0 -1
+$EndComp
+Text Label 7000 3650 1    50   ~ 0
+3V3
+Text Label 8000 3650 1    50   ~ 0
+3V3
+Text Label 7000 4950 3    50   ~ 0
+GND
+Text Label 8000 4950 3    50   ~ 0
+GND
+Wire Wire Line
+	7000 3650 7000 4000
+Wire Wire Line
+	8000 3650 8000 4000
+Wire Wire Line
+	7000 4600 7000 4950
+Wire Wire Line
+	8000 4600 8000 4950
+Text Label 7500 4300 0    50   ~ 0
+D13_ONEWIRE_DQ
+Wire Wire Line
+	7300 4300 7700 4300
+$Comp
+L Device:R R_1W1
+U 1 1 6000000E
+P 7500 3950
+F 0 "R_1W1" H 7570 3996 50 0000 L CNN
+F 1 "4k7" H 7570 3905 50 0000 L CNN
+	1    7500 3950
+	1 0 0 -1
+$EndComp
+Text Label 7500 3650 1    50   ~ 0
+3V3
+Wire Wire Line
+	7500 3650 7500 3800
+Wire Wire Line
+	7500 4100 7500 4300
+Connection ~ 7500 4300
+Text Notes 6500 3400 0    80   ~ 16
+ONEWIRE - TWO POWERED DEVICES
+Text Notes 650 4550 0    120  ~ 24
+NON-CONSOLE UART
+$Comp
+L Device:R R_UART1
+U 1 1 6000000F
+P 2500 5100
+F 0 "R_UART1" V 2293 5100 50 0000 C CNN
+F 1 "470R" V 2384 5100 50 0000 C CNN
+	1    2500 5100
+	0 1 1 0
+$EndComp
+$Comp
+L Jumper:Jumper_2_Open JP_UART_LOOP1
+U 1 1 60000010
+P 3500 5100
+F 0 "JP_UART_LOOP1" H 3500 5335 50 0000 C CNN
+F 1 "LOCAL_LOOP_DEFAULT_OPEN" H 3500 5244 50 0000 C CNN
+	1    3500 5100
+	1 0 0 -1
+$EndComp
+Text Label 1500 5100 0    50   ~ 0
+D14_UART_TX
+Text Label 4500 5100 2    50   ~ 0
+D36_UART_RX
+Wire Wire Line
+	1500 5100 2350 5100
+Wire Wire Line
+	2650 5100 3300 5100
+Wire Wire Line
+	3700 5100 4500 5100
+$Comp
+L Connector_Generic:Conn_01x03 J_UART1
+U 1 1 60000011
+P 3000 5800
+F 0 "J_UART1" H 3080 5842 50 0000 L CNN
+F 1 "EXTERNAL_UART_PEER" H 3080 5751 50 0000 L CNN
+	1    3000 5800
+	1 0 0 -1
+$EndComp
+Text Label 2000 5700 0    50   ~ 0
+D14_UART_TX
+Text Label 2000 5800 0    50   ~ 0
+D36_UART_RX
+Text Label 2000 5900 0    50   ~ 0
+GND
+Wire Wire Line
+	2000 5700 2800 5700
+Wire Wire Line
+	2000 5800 2800 5800
+Wire Wire Line
+	2000 5900 2800 5900
+Text Notes 650 6350 0    120  ~ 24
+RESET / BOOT AUTOMATION PROVISION
+$Comp
+L Connector_Generic:Conn_01x03 J_AUTO1
+U 1 1 60000012
+P 3000 6850
+F 0 "J_AUTO1" H 3080 6892 50 0000 L CNN
+F 1 "RESET_BOOT_AUTOMATION" H 3080 6801 50 0000 L CNN
+	1    3000 6850
+	1 0 0 -1
+$EndComp
+Text Label 1900 6750 0    50   ~ 0
+GND
+Text Label 1900 6850 0    50   ~ 0
+RESET_EN
+Text Label 1900 6950 0    50   ~ 0
+D0_BOOT
+Wire Wire Line
+	1900 6750 2800 6750
+Wire Wire Line
+	1900 6850 2800 6850
+Wire Wire Line
+	1900 6950 2800 6950
+Text Notes 650 7450 0    90   ~ 18
+FIXED ALLOCATION SUMMARY
+Text Notes 650 7750 0    60   ~ 12
+D32->470R->D33 loop A      D25->470R->D26 loop B      D27->10k/100nF->D34 + MCP3008 CH0
+Text Notes 650 7950 0    60   ~ 12
+I2C D21/D22, INT D35, FB D39      SPI D18/D19/D23, CS ADC D16, CS flash D17
+Text Notes 650 8150 0    60   ~ 12
+OneWire D13      test UART TX D14 / RX D36      UART0 D1/D3 reserved for REPL/flashing
+Text Notes 650 8350 0    60   ~ 12
+No fixed loads on D0/D2/D5/D12/D15. D6-D11 are module flash signals and must not be used.
+$EndSCHEMATC
