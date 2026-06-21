@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Probe digitalPulse behavior on the ESP32-C3 harness."""
+"""Probe digitalPulse behavior on the ESP32-C3 harness without debounce."""
 
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import sys
 import time
@@ -17,28 +16,9 @@ echo(false);
 function emit(name, value) {
   print(name + "=" + value);
 }
-function hasUtilTimerDebug() {
-  return typeof ESP32 !== "undefined" &&
-         ESP32 &&
-         ESP32.getUtilTimerDebug &&
-         ESP32.resetUtilTimerDebug;
-}
-function hasPinDebug() {
-  return typeof ESP32 !== "undefined" &&
-         ESP32 &&
-         ESP32.getPinDebug &&
-         ESP32.resetPinDebug;
-}
 function finish() {
   echo(true);
-  print("DONE DIGITALPULSE_CHECK");
-}
-
-if (hasUtilTimerDebug()) {
-  ESP32.resetUtilTimerDebug();
-}
-if (hasPinDebug()) {
-  ESP32.resetPinDebug();
+  print("DONE DIGITALPULSE_NODEBOUNCE_CHECK");
 }
 
 pinMode(D3, "output");
@@ -52,8 +32,8 @@ var statesPulse = [];
 
 var ww = setWatch(function() {
   seenWrite++;
-  statesWrite.push(digitalRead(D4));
-}, D4, {repeat:true, edge:"both", debounce:1});
+  statesWrite.push(arguments[0].state ? 1 : 0);
+}, D4, {repeat:true, edge:"both"});
 
 setTimeout(function() { digitalWrite(D3, 1); }, 20);
 setTimeout(function() { digitalWrite(D3, 0); }, 60);
@@ -63,10 +43,10 @@ setTimeout(function() {
   emit("WRITE_SEEN", seenWrite);
   emit("WRITE_STATES", JSON.stringify(statesWrite));
 
-  var wp = setWatch(function() {
+  var wp = setWatch(function(e) {
     seenPulse++;
-    statesPulse.push(digitalRead(D4));
-  }, D4, {repeat:true, edge:"both", debounce:1});
+    statesPulse.push(e.state ? 1 : 0);
+  }, D4, {repeat:true, edge:"both"});
 
   setTimeout(function() { digitalPulse(D3, 1, [20,20,20]); }, 20);
 
@@ -75,12 +55,6 @@ setTimeout(function() {
     emit("PULSE_SEEN", seenPulse);
     emit("PULSE_STATES", JSON.stringify(statesPulse));
     emit("D4_FINAL", digitalRead(D4));
-    if (hasUtilTimerDebug()) {
-      emit("UTILTIMER_DEBUG", JSON.stringify(ESP32.getUtilTimerDebug()));
-    }
-    if (hasPinDebug()) {
-      emit("PIN_DEBUG", JSON.stringify(ESP32.getPinDebug()));
-    }
     finish();
   }, 260);
 }, 160);
@@ -157,51 +131,23 @@ def main() -> int:
         ser.reset_input_buffer()
         ser.write((JS_TEST + "\n").encode("utf-8"))
         ser.flush()
-        output = read_until_marker(ser, "DONE DIGITALPULSE_CHECK", timeout=4.0)
+        output = read_until_marker(ser, "DONE DIGITALPULSE_NODEBOUNCE_CHECK", timeout=4.0)
         print(output.rstrip())
 
-    if "DONE DIGITALPULSE_CHECK" not in output:
+    if "DONE DIGITALPULSE_NODEBOUNCE_CHECK" not in output:
         print("Missing completion marker from REPL.", file=sys.stderr)
         return 2
 
     write_seen = int(metric(output, "WRITE_SEEN") or "0")
     pulse_seen = int(metric(output, "PULSE_SEEN") or "0")
-    util_timer_debug = metric(output, "UTILTIMER_DEBUG")
-    pin_debug = metric(output, "PIN_DEBUG")
 
     print(f"Summary: write transitions seen={write_seen}, pulse transitions seen={pulse_seen}")
-    if util_timer_debug:
-        try:
-            debug = json.loads(util_timer_debug)
-        except json.JSONDecodeError:
-            print("UtilTimer debug present but could not be parsed.", file=sys.stderr)
-        else:
-            print(
-                "UtilTimer debug:"
-                f" insert={debug.get('insertCount')}"
-                f" start={debug.get('startCount')}"
-                f" isr={debug.get('isrCount')}"
-                f" set={debug.get('setCount')}"
-                f" resched={debug.get('reschedCount')}"
-                f" disable={debug.get('disableCount')}"
-            )
-    if pin_debug:
-        try:
-            debug = json.loads(pin_debug)
-        except json.JSONDecodeError:
-            print("Pin debug present but could not be parsed.", file=sys.stderr)
-        else:
-            print(
-                "Pin debug:"
-                f" set={debug.get('setCount')}"
-                f" entries={len(debug.get('entries', []))}"
-            )
 
-    if write_seen >= 2 and pulse_seen == 0:
-        print("digitalPulse appears broken while digitalWrite transitions work.", file=sys.stderr)
-        return 1
     if write_seen < 2:
         print("Baseline write transition test failed; check harness mode.", file=sys.stderr)
+        return 1
+    if pulse_seen == 0:
+        print("digitalPulse still appears dead even without debounce.", file=sys.stderr)
         return 1
     return 0
 
