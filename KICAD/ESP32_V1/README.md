@@ -82,14 +82,38 @@ orientation clearly on the PCB silkscreen.
 
 ## Prototype Board Geometry
 
-`ESP32_V1.kicad_pcb` includes the same substrate guide used by the ESP32-C3
-harness:
+`ESP32_V1.kicad_pcb` includes a measured guide for the 90 mm x 70 mm
+wirewrap/prototype board used for the first build:
 
-- 90 mm x 70 mm board outline
-- 31 x 26 guide-hole grid at 2.54 mm pitch on `Dwgs.User`
-- four measured 1 mm NPTH mounting holes
+- board outline: 90 mm x 70 mm
+- KiCad board outline coordinates: `(70,45)` to `(160,115)`
+- main prototype matrix: 31 columns x 26 rows
+- matrix pitch: 2.54 mm
+- first main matrix hole centre: `(78.5,48.25)`
+- last main matrix hole centre: `(154.7,111.75)`
+- the main matrix is vertically centred in the 70 mm board height
+- four mounting-hole footprints use 1 mm NPTH drills
 
-The guide circles are locked. They represent the plated-through prototype
-board hole pattern and are not PCB drill holes. Keep `Dwgs.User` visible while
-placing footprints, and include it only when producing the construction-guide
-printout.
+The first main matrix hole is 8.5 mm from the left board edge. The board also
+has vertical side pad columns, visible in the reference photo, but these are
+not modelled in the KiCad construction guide because they are not used for the
+planned component placement.
+
+The guide circles are locked on `Dwgs.User`. They represent the physical
+prototype-board hole pattern for placement/print guidance and are not PCB
+drill holes. Keep `Dwgs.User` visible while placing footprints, and include it
+only when producing the construction-guide printout.
+
+For footprint placement, set the PCB editor grid to 2.54 mm and place the grid
+origin on the first main matrix hole centre, `(78.5,48.25)`. Hole-aligned
+placement can then be calculated as:
+
+```text
+X = 78.5  + column * 2.54
+Y = 48.25 + row    * 2.54
+```
+
+Use 1:1 / actual-size print settings for construction guides. A trial print
+showed approximately 91 mm for the nominal 90 mm board width when the print
+path scaled the output, which is enough to create about 1 mm cumulative drift
+towards the lower-right corner.

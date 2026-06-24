@@ -15,10 +15,11 @@ The classic ESP32 has enough exposed GPIO to keep the normal test blocks
 connected simultaneously. Unlike the ESP32-C3 harness, the DevKitC V4 does not
 need a general GPIO selector bank.
 
-One selector is required because `D35` is shared between the MCP23008 interrupt
-input and UART1 RX. A separate default-open link completes the second side of
-the UART1/UART2 crosslink. UART0 remains dedicated to the board USB-UART
-REPL/flashing path.
+`D35` is shared between the MCP23008 interrupt input and UART1 RX. Two further
+selectors allow the normal GPIO loopback inputs (`D33` and `D26`) to be used
+instead as feedback inputs from a removable DS2413 OneWire GPIO breakout. A
+separate default-open link completes the second side of the UART1/UART2
+crosslink. UART0 remains dedicated to the board USB-UART REPL/flashing path.
 
 Tests use Espruino `Dxx` names matching GPIO numbers.
 
@@ -39,10 +40,10 @@ harness sources must provide a defined level where a test depends on one.
 
 | Harness node | ESP32 GPIO | Direction | Wiring |
 |---|---:|---|---|
-| `GPIO_LOOP_A_OUT` | `D32` | output | 470R to `D33` |
-| `GPIO_LOOP_A_IN` | `D33` | input/watch | fixed loop A input |
-| `GPIO_LOOP_B_OUT` | `D25` | output | 470R to `D26` |
-| `GPIO_LOOP_B_IN` | `D26` | input/watch | fixed loop B input |
+| `GPIO_LOOP_A_OUT` | `D32` | output | selected by `SEL_D33` |
+| `GPIO_LOOP_A_IN` / `DS2413_PIOA_FB` | `D33` | input/watch | through 470R from `SEL_D33` common |
+| `GPIO_LOOP_B_OUT` | `D25` | output | selected by `SEL_D26` |
+| `GPIO_LOOP_B_IN` / `DS2413_PIOB_FB` | `D26` | input/watch | through 470R from `SEL_D26` common |
 | `PWM_OUT` | `D27` | output/PWM | 10k to `ANALOG_FB` |
 | `ADC_IN` | `D34` | ADC input-only | fixed to `ANALOG_FB` |
 | `I2C_SDA` | `D21` | bidirectional | MCP23008 and Grove I2C |
@@ -54,7 +55,7 @@ harness sources must provide a defined level where a test depends on one.
 | `SPI_SCK` | `D18` | output | shared SPI clock |
 | `SPI_CS_ADC` | `D16` | output | MCP3008 CS |
 | `SPI_CS_FLASH` | `D17` | output | optional W25xxx CS |
-| `ONEWIRE_DQ` | `D13` | bidirectional | two powered DS18B20 devices |
+| `ONEWIRE_DQ` | `D13` | bidirectional | two powered DS18B20 devices, external connector and DS2413 breakout |
 | `UART1_TX` | `D4` | output | crossed through 470R/link to `D36` |
 | `UART1_RX` | `D35` | input-only | selected from `D14` through `SEL_D35` |
 | `UART2_TX` | `D14` | output | crossed through 470R/`SEL_D35` to `D35` |
@@ -66,12 +67,20 @@ chip select.
 
 ## Common Test Blocks
 
-### GPIO loopbacks
+### GPIO loopbacks and DS2413 feedback selectors
 
-- `D32 -> 470R -> D33`
-- `D25 -> 470R -> D26`
+Normal GPIO-loop mode:
 
-The connections are permanent. Test code controls which side is an output.
+- `D32 -> SEL_D33 pin 1 -> common pin 2 -> 470R -> D33`
+- `D25 -> SEL_D26 pin 1 -> common pin 2 -> 470R -> D26`
+
+DS2413 feedback mode:
+
+- `DS2413_PIOA -> SEL_D33 pin 3 -> common pin 2 -> 470R -> D33`
+- `DS2413_PIOB -> SEL_D26 pin 3 -> common pin 2 -> 470R -> D26`
+
+Fit only one shunt on each three-pin selector. The 470 Ω resistors are in the
+common paths, so they protect the ESP32 inputs in either selected mode.
 
 ### Analog/PWM feedback
 
@@ -126,9 +135,9 @@ include SDA/SCL pull-ups.
 ### OneWire
 
 - `D13` to two powered DS18B20 devices
-- one 4.7k pull-up from `ONEWIRE_DQ` to 3.3V
+- one 2.2k pull-up from `ONEWIRE_DQ` to 3.3V
 
-`J?_OneWire1`, labelled **External OneWire** on the schematic, exposes the
+`J_ONEWIRE1`, labelled **External OneWire** on the schematic, exposes the
 same powered OneWire bus for additional external devices:
 
 | External OneWire pin | Signal |
@@ -137,10 +146,41 @@ same powered OneWire bus for additional external devices:
 | 2 | `D13_ONEWIRE_DQ` |
 | 3 | GND |
 
-External devices share the existing 4.7k bus pull-up. Do not add another
+External devices share the existing 2.2k bus pull-up. Do not add another
 strong pull-up without checking the combined resistance and bus loading.
 The connector is for powered-mode devices; parasite-power operation is not the
 baseline harness configuration.
+
+#### Removable DS2413 GPIO breakout
+
+`J_DS2413` is a vertical 1x04, 2.54 mm female socket for a removable DS2413
+two-channel open-drain GPIO breakout. Fit downward-facing male pins to the
+breakout so that it plugs into the harness only when required.
+
+| `J_DS2413` pin | Signal | Breakout function |
+|---:|---|---|
+| 1 | `DS2413_PIOB` | PIOB open-drain I/O |
+| 2 | `DS2413_PIOA` | PIOA open-drain I/O |
+| 3 | `D13_ONEWIRE_DQ` | OneWire IO and parasite power |
+| 4 | GND | Ground |
+
+Each PIO signal has a 4.7 kΩ pull-up to 3.3 V:
+
+- `DS2413_PIOA -> 4.7k -> 3.3V`
+- `DS2413_PIOB -> 4.7k -> 3.3V`
+
+The DS2413 is parasite-powered from the OneWire bus; there is no separate VDD
+connection. Its PIO outputs are open-drain and are observed by selecting:
+
+| Feedback test | Selector position | ESP32 input |
+|---|---|---:|
+| PIOA | `SEL_D33` pins 2-3 | `D33` through 470R |
+| PIOB | `SEL_D26` pins 2-3 | `D26` through 470R |
+
+This permits software to discover the DS2413, command each PIO low or released,
+and verify the resulting level at the corresponding ESP32 input. Return both
+selectors to pins 1-2 for the normal `D32`/`D33` and `D25`/`D26` GPIO
+loopbacks.
 
 ### UART
 
@@ -199,6 +239,45 @@ Expose:
 This is a provision for an external open-drain reset/boot controller. It must
 not add fixed levels that interfere with normal boot.
 
+## Prototype Board And Construction Guide
+
+The first ESP32 DevKitC V4 harness build uses the same style of 90 mm x 70 mm
+wirewrap/prototype board as the ESP32-C3 harness. The KiCad PCB is used as a
+placement and silkscreen print guide rather than as a routed copper PCB.
+
+Measured board/grid details used in `KICAD/ESP32_V1/ESP32_V1.kicad_pcb`:
+
+| Item | Value |
+|---|---:|
+| Board outline | 90 mm x 70 mm |
+| KiCad outline coordinates | `(70,45)` to `(160,115)` |
+| Main matrix | 31 columns x 26 rows |
+| Main matrix pitch | 2.54 mm |
+| First main matrix hole centre | `(78.5,48.25)` |
+| Last main matrix hole centre | `(154.7,111.75)` |
+| First hole offset from left edge | 8.5 mm |
+| Mounting-hole drill | 1 mm NPTH |
+
+The main matrix is vertically centred in the board height. The physical board
+has vertical side pad columns, but these are deliberately not included in the
+KiCad guide because they are not used for the planned component placement.
+
+For manual placement in KiCad, set the PCB editor grid to 2.54 mm and place the
+grid origin at `(78.5,48.25)`, the top-left hole of the main matrix. Any matrix
+hole can then be addressed as:
+
+```text
+X = 78.5  + column * 2.54
+Y = 48.25 + row    * 2.54
+```
+
+where column 0, row 0 is the top-left main matrix hole.
+
+When printing construction guides, use actual-size / 100% scaling. A test print
+that produced about 91 mm for the nominal 90 mm board width caused visible
+cumulative drift towards the lower-right corner, even though the KiCad geometry
+was correct.
+
 ## External 5V Power
 
 `J_External_PWR1` provides an optional external 5V input:
@@ -217,7 +296,8 @@ unless their power-sharing arrangement has been explicitly reviewed.
 
 ## Default State
 
-- all fixed test blocks connected
+- `SEL_D33` pins 1-2 fitted for the normal `D32` to `D33` loopback
+- `SEL_D26` pins 1-2 fitted for the normal `D25` to `D26` loopback
 - `SEL_D35` fitted in the I2C interrupt position
 - `JP_UART_LOOP2` open, leaving the UART1/UART2 crosslink incomplete
 - `JP_External_5V1` open, isolating the external 5V connector
