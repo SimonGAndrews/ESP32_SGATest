@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "ESP32_V1")(type "KiCad")(uri "${KIPRJMOD}/ESP32_V1.pretty")(options "")(descr "Project-local footprints for the ESP32 DevKitC V4 wirewrap harness"))
+)
