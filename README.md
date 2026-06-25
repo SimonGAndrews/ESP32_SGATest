@@ -1,1 +1,166 @@
-Workfiles for the testing of ESP32 family targets in Espruino.
+# ESP32 Espruino Hardware Test Harnesses
+
+This repository designs, documents, builds, and exercises ESP32-family hardware
+test harnesses for Espruino port validation.
+
+It is both a hardware-design repo and a test/debug evidence base. The harnesses
+are intended to prove Espruino hardware behaviour on ESP32 targets, especially
+the low-level target-port layer where GPIO, timers, buses, serial ports, and
+timing-sensitive protocols meet the ESP-IDF implementation.
+
+## Purpose
+
+The practical goal is to build repeatable ESP32-family Espruino hardware
+harnesses, run target-port validation tests against them, and preserve enough
+design/debug context that hardware faults, firmware regressions, and test-runner
+behaviour are documented.
+
+The design principles are:
+
+- keep the logical test blocks common across ESP32-family targets
+- adapt those blocks to each board through target-specific pin allocation,
+  selectors, and wiring fanout
+- record the physical mode and firmware/test evidence well enough that future
+  runs are comparable
+
+## Project Progression
+
+The work in this repository has progressed through these stages:
+
+1. Developed the first ESP32-C3-DevKitC-02 hardware harness around the common
+   Espruino test blocks.
+2. Brought up the C3 harness with IDF4-based Espruino builds and validated the
+   initial GPIO, analog, bus, and OneWire test paths.
+3. Compared C3 IDF4 and IDF5 behaviour and captured IDF5 regression evidence,
+   especially around `digitalPulse`.
+4. Investigated C3-specific failures using comparison hardware and reference
+   targets, separating harness wiring questions from firmware timing issues.
+5. Resolved the major ESP32 OneWire instability as a targeted firmware timing
+   issue while preserving the evidence and rationale in `docs/investigations/`.
+6. Started the classic ESP32 harness generation, using the Olimex
+   ESP32-DevKit-LiPo Rev.D / ESP32-WROOM-32E-style pinout as the practical
+   DevKitC-compatible target for `ESP32_V1`.
+7. Designed the ESP32 DevKitC V4 / `ESP32_V1` harness and PCB construction
+   guide, ready for wirewrap build and bring-up.
+
+## Current Targets
+
+### ESP32-C3-DevKitC-02
+
+The ESP32-C3 harness is the first built harness and has already been used for
+bring-up and firmware debugging.
+
+Important C3-specific features include:
+
+- native USB Serial/JTAG on `D18` / `D19`
+- UART0 on `D20` / `D21` reserved by default for board USB-UART REPL/flashing
+- selector-heavy GPIO allocation due to the smaller available pin budget
+- UART0/UART1 crosslink mode that uses native USB Serial/JTAG as the runner
+  path because UART0 is under test
+
+KiCad project:
+
+```text
+KICAD/ESP32_C3_v1/
+```
+
+### Classic ESP32 DevKitC V4 / ESP32_V1
+
+The classic ESP32 DevKitC V4 harness is the current wirewrap build target. The
+practical target is the Olimex ESP32-DevKit-LiPo Rev.D. Olimex describe this
+board as pin-to-pin comparable with the Espressif ESP32-CoreBoard
+(`ESP32-DevKitC`), while adding LiPo charging and battery-powered operation.
+The selected Rev.D hardware uses the classic ESP32 / ESP32-WROOM-32E-class
+module family.
+
+The harness uses a KiCad PCB design as a placement/silkscreen construction
+guide rather than as a routed copper PCB.
+
+Important ESP32_V1-specific features include:
+
+- UART0 on `D1` / `D3` reserved for board USB-UART REPL/flashing/control
+- UART1/UART2 crosslink for serial testing
+- mostly fixed wiring because the classic ESP32 has more available GPIO
+- selected sharing for `D35`, `D33`, and `D26`
+- DS2413 removable OneWire GPIO breakout support
+
+KiCad project:
+
+```text
+KICAD/ESP32_V1/
+```
+
+## Common Harness Blocks
+
+The harness family reuses the same logical test blocks wherever possible:
+
+- GPIO loopbacks for `digitalWrite`, `digitalRead`, `pinMode`, `setWatch`, and
+  `digitalPulse`
+- PWM-to-ADC feedback
+- SPI validation through MCP3008, with optional shared-bus flash device
+- I2C validation through MCP23008, with feedback and interrupt paths
+- OneWire validation through two DS18B20 devices
+- OneWire GPIO validation through a DS2413 breakout
+- UART/Serial crosslink tests
+- reset/boot/automation provisions
+
+Tests and documentation use Espruino `Dxx` pin names, matching GPIO numbers.
+
+## Repository Map
+
+```text
+AGENTS.md                  Codex/new-thread operating notes
+docs/                      Wiring specs, handoffs, investigation notes
+tools/                     Python/REPL test utilities
+KICAD/                     Harness schematic/PCB projects
+Hardware/                  Hardware reference material
+tests/repl/                Portable community-facing REPL test scripts
+```
+
+Key starting documents:
+
+- `AGENTS.md`
+- `docs/handoff/2026-06-25-esp32-family-tests.md`
+- `docs/design/common-blocks.md`
+- `docs/design/harness-modes.md`
+- `docs/design/gpio-rationalisation.md`
+- `docs/targets/esp32-c3-devkitc-02/wiring.md`
+- `docs/targets/esp32-devkitc-v4/wiring.md`
+
+Useful external references:
+
+- Olimex ESP32-DevKit-LiPo open-source hardware page:
+  <https://www.olimex.com/Products/IoT/ESP32/ESP32-DevKit-LiPo/open-source-hardware>
+
+## Test And Debug Context
+
+The repo preserves the history and reasoning from real Espruino ESP32 testing,
+including:
+
+- REPL bring-up process
+- C3 harness block tests
+- OneWire investigation and final timing-fix shape
+- IDF4 vs IDF5 comparisons
+- `digitalPulse` regression evidence
+- watch/debounce investigation notes
+- scripted REPL test tools
+
+Important conclusions from prior work:
+
+- ESP32 OneWire instability was narrowed to firmware-side timing behaviour, not
+  simply bad harness wiring.
+- The accepted OneWire fix shape is a localized ESP32 timing guard inside
+  `src/jswrap_onewire.c`, not a broad/global interrupt semantic change.
+- `digitalPulse` was a separate ESP32-C3 IDF5 regression signal after basic
+  `digitalWrite`, `digitalRead`, and `setWatch` paths had been shown to work.
+- Selector/jumper state is part of every test precondition and must be recorded
+  with test evidence.
+
+## Current Active Work
+
+The current hardware task is to wire and bring up the ESP32 DevKitC V4 harness
+from `KICAD/ESP32_V1/`.
+
+The next software task is to evolve the existing C3-oriented Python tools into
+ESP32-family harness runners that share logical test blocks and use
+target-specific pin/mode maps.

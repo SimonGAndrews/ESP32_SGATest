@@ -23,7 +23,7 @@ footprint-library prefix where available so the project remains portable.
 Design notes and the authoritative GPIO table are in:
 
 ```text
-../../docs/wiring_esp32_devkitc_v4.md
+../../docs/targets/esp32-devkitc-v4/wiring.md
 ```
 
 The UART test block crosses UART1 and UART2 while UART0 remains available for
@@ -64,12 +64,12 @@ the existing `D13_ONEWIRE_DQ` bus:
 | 3 | `D13_ONEWIRE_DQ` |
 | 4 | GND |
 
-`DS2413_PIOA` and `DS2413_PIOB` each have a 4.7 kΩ pull-up to 3.3 V. The
+`DS2413_PIOA` and `DS2413_PIOB` each have a 4.7 kÎ© pull-up to 3.3 V. The
 breakout is parasite-powered from the OneWire data connection and ground.
 
 `SEL_D33` selects whether `D33` receives the normal `D32` loopback or
 `DS2413_PIOA`. `SEL_D26` similarly selects the normal `D25` loopback or
-`DS2413_PIOB`. A single 470 Ω resistor in each selector common path protects
+`DS2413_PIOB`. A single 470 Î© resistor in each selector common path protects
 the ESP32 input:
 
 ```text

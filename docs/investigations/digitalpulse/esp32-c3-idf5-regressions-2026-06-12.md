@@ -63,7 +63,7 @@ target/build, not a general GPIO or watch failure.
 Script:
 
 ```bash
-python3 tools/esp32_c3_gpio_block1.py --port /dev/ttyUSB0
+python3 tools/targets/esp32_c3/gpio_block1.py --port /dev/ttyUSB0
 ```
 
 Observed result:
@@ -89,7 +89,7 @@ Interpretation:
 Script:
 
 ```bash
-python3 tools/esp32_c3_digitalpulse_check.py --port /dev/ttyUSB0
+python3 tools/targets/esp32_c3/digitalpulse_check.py --port /dev/ttyUSB0
 ```
 
 Observed result:
@@ -143,7 +143,7 @@ Historical status when this note was first written:
 Later cross-target testing with a new minimal external OneWire daughterboard
 and an Espruino Pico materially improved the evidence quality. See:
 
-- [onewire_cross_target_comparison_2026-06-15.md](/home/simon/MaBecker/ESP32_SGATest/docs/onewire_cross_target_comparison_2026-06-15.md)
+- [docs/investigations/onewire/cross-target-comparison-2026-06-15.md](../onewire/cross-target-comparison-2026-06-15.md)
 
 That note shows the same daughterboard and sensors passing a `50/50` soak on
 the Pico while remaining unstable on the ESP32-C3 reference build, which makes
@@ -218,8 +218,8 @@ Serial-port note:
 
 ## Related Scripts
 
-- [esp32_c3_gpio_block1.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_gpio_block1.py)
-- [esp32_c3_digitalpulse_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_digitalpulse_check.py)
-- [esp32_c3_analog_block2.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_analog_block2.py)
-- [esp32_c3_bus_spi_i2c_block3.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_bus_spi_i2c_block3.py)
-- [esp32_c3_onewire_block4.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_onewire_block4.py)
+- [esp32_c3_gpio_block1.py](../../../tools/targets/esp32_c3/gpio_block1.py)
+- [esp32_c3_digitalpulse_check.py](../../../tools/targets/esp32_c3/digitalpulse_check.py)
+- [esp32_c3_analog_block2.py](../../../tools/targets/esp32_c3/analog_block2.py)
+- [esp32_c3_bus_spi_i2c_block3.py](../../../tools/targets/esp32_c3/bus_spi_i2c_block3.py)
+- [esp32_c3_onewire_block4.py](../../../tools/targets/esp32_c3/onewire_block4.py)

@@ -1,4 +1,10 @@
-# Outstanding Items And Proposed Responses
+# Historical Pre-Wiring Decisions And Proposed Responses
+
+> Historical note: this document records pre-wiring design decisions from the
+> early ESP32-C3/classic ESP32 harness planning phase. It is not the current
+> outstanding-items list. For current wiring, see the target documents under
+> `../../targets/`; for current continuation context, see
+> `../../handoff/2026-06-25-esp32-family-tests.md`.
 
 This document collects the remaining pre-wiring decisions and proposes
 responses for review.
@@ -163,8 +169,8 @@ Proposed response:
 ## Remaining Work
 
 1. Review the first wiring specs:
-   - [wiring_common_blocks.md](wiring_common_blocks.md)
-   - [wiring_esp32_c3_devkitc_02.md](wiring_esp32_c3_devkitc_02.md)
-   - [wiring_olimex_esp32_devkit_lipo_rev_d.md](wiring_olimex_esp32_devkit_lipo_rev_d.md)
+   - [docs/design/common-blocks.md](../common-blocks.md)
+   - [docs/targets/esp32-c3-devkitc-02/wiring.md](../../targets/esp32-c3-devkitc-02/wiring.md)
+   - [docs/targets/olimex-esp32-devkit-lipo/wiring.md](../../targets/olimex-esp32-devkit-lipo/wiring.md)
 2. Refine C3 jumper/link group names and physical labels for the schematic.
 3. Define runner prompts and confirmation text for manual harness modes.

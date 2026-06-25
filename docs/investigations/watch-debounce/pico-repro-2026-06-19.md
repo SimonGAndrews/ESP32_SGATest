@@ -34,7 +34,7 @@ Logic-analyser connections:
 
 Script:
 
-- [espruino_pico_watch_debounce_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/espruino_pico_watch_debounce_check.py)
+- [espruino_pico_watch_debounce_check.py](../../../tools/experiments/pico/watch_debounce_check.py)
 
 Current bench serial port when this note was written:
 
@@ -60,7 +60,7 @@ The stressed case also drives `B5` high during the busy window so the analyser
 Command:
 
 ```bash
-python3 tools/espruino_pico_watch_debounce_check.py \
+python3 tools/experiments/pico/watch_debounce_check.py \
   --port /dev/ttyACM0 \
   --mode control \
   --pulse-seq-ms 20,20,20
@@ -97,7 +97,7 @@ Interpretation:
 Command:
 
 ```bash
-python3 tools/espruino_pico_watch_debounce_check.py \
+python3 tools/experiments/pico/watch_debounce_check.py \
   --port /dev/ttyACM0 \
   --mode stressed \
   --pulse-seq-ms 20,20,20 \

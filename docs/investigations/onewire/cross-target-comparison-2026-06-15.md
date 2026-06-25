@@ -59,7 +59,7 @@ OW_SCAN_4=["2838498700e8136b"]
 OW_SCAN_5=["2838498700e8136b","28253387008562df"]
 ```
 
-Soak result using `tools/esp32_c3_onewire_soak.py`:
+Soak result using `tools/targets/esp32_c3/onewire_soak.py`:
 
 ```text
 scans=50
@@ -101,7 +101,7 @@ console.log(sensors);
 
 Returned two devices with the expected ROM codes.
 
-Soak result using `tools/espruino_onewire_soak_generic.py`:
+Soak result using `tools/common/onewire_soak_generic.py`:
 
 ```text
 scans=50
@@ -138,7 +138,7 @@ Most likely remaining fault domains are:
 Logic-analyzer comparison of the Pico reference and multiple ESP32-C3 search
 outcomes is recorded in:
 
-- [onewire_logic_trace_comparison_2026-06-15.md](/home/simon/MaBecker/ESP32_SGATest/docs/onewire_logic_trace_comparison_2026-06-15.md)
+- [docs/investigations/onewire/logic-trace-comparison-2026-06-15.md](logic-trace-comparison-2026-06-15.md)
 
 That note shows the ESP32-C3 failing runs start with a broadly plausible
 waveform family but appear to terminate the search transaction early.
@@ -156,6 +156,6 @@ Future C3 work can use this comparison as evidence that:
 
 ## Related Tools
 
-- [esp32_c3_onewire_block4.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_onewire_block4.py)
-- [esp32_c3_onewire_soak.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_onewire_soak.py)
-- [espruino_onewire_soak_generic.py](/home/simon/MaBecker/ESP32_SGATest/tools/espruino_onewire_soak_generic.py)
+- [esp32_c3_onewire_block4.py](../../../tools/targets/esp32_c3/onewire_block4.py)
+- [esp32_c3_onewire_soak.py](../../../tools/targets/esp32_c3/onewire_soak.py)
+- [espruino_onewire_soak_generic.py](../../../tools/common/onewire_soak_generic.py)

@@ -5,10 +5,10 @@ ESP32-C3-DevKitC-02.
 
 Related documents:
 
-- [wiring_common_blocks.md](wiring_common_blocks.md)
-- [harness_modes.md](harness_modes.md)
-- [gpio_rationalisation.md](gpio_rationalisation.md)
-- [connectivity_permutations.md](connectivity_permutations.md)
+- [docs/design/common-blocks.md](../../design/common-blocks.md)
+- [docs/design/harness-modes.md](../../design/harness-modes.md)
+- [docs/design/gpio-rationalisation.md](../../design/gpio-rationalisation.md)
+- [docs/design/connectivity-permutations.md](../../design/connectivity-permutations.md)
 
 ## Board Under Test
 

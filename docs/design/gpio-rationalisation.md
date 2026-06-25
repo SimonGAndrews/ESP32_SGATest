@@ -309,5 +309,5 @@ For the ESP32-C3 v1 harness:
    bring-up.
 2. Define runner prompts and confirmation flow for manual selector modes.
 3. Continue schematic/netlist reviews against
-   [wiring_esp32_c3_devkitc_02.md](wiring_esp32_c3_devkitc_02.md) as the
+   [docs/targets/esp32-c3-devkitc-02/wiring.md](../targets/esp32-c3-devkitc-02/wiring.md) as the
    wirewrap build progresses.

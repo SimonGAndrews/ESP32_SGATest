@@ -65,7 +65,7 @@ In a normal run, JavaScript should therefore see:
 
 The easiest way to demonstrate this is now the direct REPL/Web IDE script:
 
-- [pico_watch_debounce_repl.js](/home/simon/MaBecker/ESP32_SGATest/tools/pico_watch_debounce_repl.js)
+- [pico_watch_debounce_repl.js](../../../tools/experiments/pico/watch_debounce_repl.js)
 
 That script supports both the control and stressed runs by changing one flag:
 

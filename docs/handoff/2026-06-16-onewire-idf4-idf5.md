@@ -23,12 +23,12 @@ session can continue without needing to reconstruct:
 
 This note supplements, rather than replaces:
 
-- [codex_handoff_2026-06-10.md](./codex_handoff_2026-06-10.md)
-- [esp32_c3_idf5_regressions_2026-06-12.md](./esp32_c3_idf5_regressions_2026-06-12.md)
-- [esp32_onewire_quiet_timing_design_2026-06-16.md](./esp32_onewire_quiet_timing_design_2026-06-16.md)
-- [onewire_cross_target_comparison_2026-06-15.md](./onewire_cross_target_comparison_2026-06-15.md)
-- [onewire_logic_trace_comparison_2026-06-15.md](./onewire_logic_trace_comparison_2026-06-15.md)
-- [repl_bringup_esp32_c3.md](./repl_bringup_esp32_c3.md)
+- [docs/handoff/2026-06-10.md](2026-06-10.md)
+- [esp32_c3_idf5_regressions_2026-06-12.md](../investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md)
+- [docs/investigations/onewire/quiet-timing-design-2026-06-16.md](../investigations/onewire/quiet-timing-design-2026-06-16.md)
+- [docs/investigations/onewire/cross-target-comparison-2026-06-15.md](../investigations/onewire/cross-target-comparison-2026-06-15.md)
+- [docs/investigations/onewire/logic-trace-comparison-2026-06-15.md](../investigations/onewire/logic-trace-comparison-2026-06-15.md)
+- [docs/targets/esp32-c3-devkitc-02/bringup.md](../targets/esp32-c3-devkitc-02/bringup.md)
 
 ## Start Here For A New Thread
 
@@ -36,24 +36,24 @@ If a new Codex thread is opened to continue ESP32 harness work, the minimum
 bootstrap set should be:
 
 1. [AGENTS.md](/home/simon/MaBecker/ESP32_SGATest/AGENTS.md)
-2. [codex_handoff_2026-06-16_onewire_idf4_idf5.md](./codex_handoff_2026-06-16_onewire_idf4_idf5.md)
-3. [esp32_c3_idf5_regressions_2026-06-12.md](./esp32_c3_idf5_regressions_2026-06-12.md)
-4. [repl_bringup_esp32_c3.md](./repl_bringup_esp32_c3.md)
-5. [wiring_esp32_c3_devkitc_02.md](./wiring_esp32_c3_devkitc_02.md)
-6. [harness_modes.md](./harness_modes.md)
-7. [gpio_rationalisation.md](./gpio_rationalisation.md)
+2. [docs/handoff/2026-06-16-onewire-idf4-idf5.md](2026-06-16-onewire-idf4-idf5.md)
+3. [esp32_c3_idf5_regressions_2026-06-12.md](../investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md)
+4. [docs/targets/esp32-c3-devkitc-02/bringup.md](../targets/esp32-c3-devkitc-02/bringup.md)
+5. [docs/targets/esp32-c3-devkitc-02/wiring.md](../targets/esp32-c3-devkitc-02/wiring.md)
+6. [docs/design/harness-modes.md](../design/harness-modes.md)
+7. [docs/design/gpio-rationalisation.md](../design/gpio-rationalisation.md)
 
 For the next thread's planned starting point, also read:
 
-- [esp32_c3_digitalpulse_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_digitalpulse_check.py)
-- [esp32_c3_gpio_block1.py](/home/simon/MaBecker/ESP32_SGATest/tools/esp32_c3_gpio_block1.py)
+- [esp32_c3_digitalpulse_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/targets/esp32_c3/digitalpulse_check.py)
+- [esp32_c3_gpio_block1.py](/home/simon/MaBecker/ESP32_SGATest/tools/targets/esp32_c3/gpio_block1.py)
 
 If the new thread needs the full OneWire investigation record, this handoff
 already points to the deeper notes:
 
-- [esp32_onewire_quiet_timing_design_2026-06-16.md](./esp32_onewire_quiet_timing_design_2026-06-16.md)
-- [onewire_cross_target_comparison_2026-06-15.md](./onewire_cross_target_comparison_2026-06-15.md)
-- [onewire_logic_trace_comparison_2026-06-15.md](./onewire_logic_trace_comparison_2026-06-15.md)
+- [docs/investigations/onewire/quiet-timing-design-2026-06-16.md](../investigations/onewire/quiet-timing-design-2026-06-16.md)
+- [docs/investigations/onewire/cross-target-comparison-2026-06-15.md](../investigations/onewire/cross-target-comparison-2026-06-15.md)
+- [docs/investigations/onewire/logic-trace-comparison-2026-06-15.md](../investigations/onewire/logic-trace-comparison-2026-06-15.md)
 
 ## Current Continuation Objective
 
@@ -327,7 +327,7 @@ Practical conclusion:
 
 See the detailed comparison note:
 
-- [onewire_cross_target_comparison_2026-06-15.md](./onewire_cross_target_comparison_2026-06-15.md)
+- [docs/investigations/onewire/cross-target-comparison-2026-06-15.md](../investigations/onewire/cross-target-comparison-2026-06-15.md)
 
 ## Logic Analyzer Work
 
@@ -348,7 +348,7 @@ Key captured files in the harness repo:
 
 These are discussed in:
 
-- [onewire_logic_trace_comparison_2026-06-15.md](./onewire_logic_trace_comparison_2026-06-15.md)
+- [docs/investigations/onewire/logic-trace-comparison-2026-06-15.md](../investigations/onewire/logic-trace-comparison-2026-06-15.md)
 
 Key observation from that note:
 
@@ -389,7 +389,7 @@ turning the board interaction into a huge logging exercise.
 
 New harness-side tool:
 
-- `/home/simon/MaBecker/ESP32_SGATest/tools/espruino_onewire_search_debug.py`
+- `/home/simon/MaBecker/ESP32_SGATest/tools/common/onewire_search_debug.py`
 
 Purpose:
 
@@ -892,7 +892,7 @@ Historical status at the time this note was first requested:
 
 Existing IDF5 regression note:
 
-- [esp32_c3_idf5_regressions_2026-06-12.md](./esp32_c3_idf5_regressions_2026-06-12.md)
+- [esp32_c3_idf5_regressions_2026-06-12.md](../investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md)
 
 That note records:
 

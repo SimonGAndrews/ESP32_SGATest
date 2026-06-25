@@ -72,7 +72,7 @@ Reasons:
    OneWire, so changing them globally would widen the risk far beyond this
    specific timing problem.
 3. On ESP32-family targets, especially SMP-capable ones such as ESP32 and
-   ESP32-S3, a naïve single-core mental model of interrupt disabling is not a
+   ESP32-S3, a naÃƒÂ¯ve single-core mental model of interrupt disabling is not a
    good match for the platform's concurrency model.
 
 So the design target was:
@@ -342,6 +342,6 @@ is:
 
 ## Related Notes
 
-- [codex_handoff_2026-06-16_onewire_idf4_idf5.md](./codex_handoff_2026-06-16_onewire_idf4_idf5.md)
-- [onewire_cross_target_comparison_2026-06-15.md](./onewire_cross_target_comparison_2026-06-15.md)
-- [onewire_logic_trace_comparison_2026-06-15.md](./onewire_logic_trace_comparison_2026-06-15.md)
+- [docs/handoff/2026-06-16-onewire-idf4-idf5.md](../../handoff/2026-06-16-onewire-idf4-idf5.md)
+- [docs/investigations/onewire/cross-target-comparison-2026-06-15.md](cross-target-comparison-2026-06-15.md)
+- [docs/investigations/onewire/logic-trace-comparison-2026-06-15.md](logic-trace-comparison-2026-06-15.md)

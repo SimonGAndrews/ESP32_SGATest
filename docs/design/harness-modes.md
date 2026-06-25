@@ -9,12 +9,12 @@ state.
 
 Related documents:
 
-- [target_reference_links.md](target_reference_links.md)
-- [connectivity_permutations.md](connectivity_permutations.md)
-- [gpio_rationalisation.md](gpio_rationalisation.md)
-- [wiring_common_blocks.md](wiring_common_blocks.md)
-- [wiring_esp32_c3_devkitc_02.md](wiring_esp32_c3_devkitc_02.md)
-- [wiring_olimex_esp32_devkit_lipo_rev_d.md](wiring_olimex_esp32_devkit_lipo_rev_d.md)
+- [docs/design/target-reference-links.md](target-reference-links.md)
+- [docs/design/connectivity-permutations.md](connectivity-permutations.md)
+- [docs/design/gpio-rationalisation.md](gpio-rationalisation.md)
+- [docs/design/common-blocks.md](common-blocks.md)
+- [docs/targets/esp32-c3-devkitc-02/wiring.md](../targets/esp32-c3-devkitc-02/wiring.md)
+- [docs/targets/olimex-esp32-devkit-lipo/wiring.md](../targets/olimex-esp32-devkit-lipo/wiring.md)
 
 ## Mode Design Principles
 

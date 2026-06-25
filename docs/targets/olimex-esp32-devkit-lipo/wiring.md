@@ -5,10 +5,10 @@ ESP32-DevKit-LiPo Rev.D.
 
 Related documents:
 
-- [wiring_common_blocks.md](wiring_common_blocks.md)
-- [harness_modes.md](harness_modes.md)
-- [gpio_rationalisation.md](gpio_rationalisation.md)
-- [outstanding_items_review.md](outstanding_items_review.md)
+- [docs/design/common-blocks.md](../../design/common-blocks.md)
+- [docs/design/harness-modes.md](../../design/harness-modes.md)
+- [docs/design/gpio-rationalisation.md](../../design/gpio-rationalisation.md)
+- [docs/design/history/pre-wiring-decisions-2026-06-10.md](../../design/history/pre-wiring-decisions-2026-06-10.md)
 
 ## Board Under Test
 

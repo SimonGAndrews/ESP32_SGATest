@@ -10,18 +10,18 @@ daughterboard and the same two DS18B20 devices.
 
 Reference Pico capture:
 
-- [Test_Pico_01.csv](/home/simon/MaBecker/ESP32_SGATest/docs/artifacts/onewire_logic_traces/Test_Pico_01.csv)
+- [Test_Pico_01.csv](artifacts/logic-traces/Test_Pico_01.csv)
 - board: `PICO_R1_3`
 - firmware: `2v29`
 - data pin: `B1`
 
 ESP32-C3 captures:
 
-- [Test_c3_01.csv](/home/simon/MaBecker/ESP32_SGATest/docs/artifacts/onewire_logic_traces/Test_c3_01.csv)
+- [Test_c3_01.csv](artifacts/logic-traces/Test_c3_01.csv)
   - run result: both devices found
-- [Test_c3_01(One results).csv](</home/simon/MaBecker/ESP32_SGATest/docs/artifacts/onewire_logic_traces/Test_c3_01(One results).csv>)
+- [Test_c3_01(One results).csv](<artifacts/logic-traces/Test_c3_01(One results).csv>)
   - run result: one device found
-- [Test_c3_02(No results).csv](</home/simon/MaBecker/ESP32_SGATest/docs/artifacts/onewire_logic_traces/Test_c3_02(No results).csv>)
+- [Test_c3_02(No results).csv](<artifacts/logic-traces/Test_c3_02(No results).csv>)
   - run result: no devices found
 - board: `ESP32C3_IDF4`
 - firmware: `2v29.81`
@@ -164,7 +164,7 @@ Interpretation:
 
 ## Combined Reading With Cross-Target Soak Tests
 
-From [onewire_cross_target_comparison_2026-06-15.md](/home/simon/MaBecker/ESP32_SGATest/docs/onewire_cross_target_comparison_2026-06-15.md):
+From [docs/investigations/onewire/cross-target-comparison-2026-06-15.md](cross-target-comparison-2026-06-15.md):
 
 - Pico + same daughterboard: `50/50` stable
 - ESP32-C3 + same daughterboard: unstable
