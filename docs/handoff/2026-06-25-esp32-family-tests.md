@@ -267,7 +267,8 @@ Pinout:
 
 Electrical details:
 
-- OneWire bus pull-up: 2.2 kOhm to 3.3 V
+- OneWire bus pull-up: nominal 2.2 kOhm to 3.3 V; 2.0 kOhm fitted/acceptable
+  for the short ESP32_V1 wirewrap bus
 - `DS2413_PIOA`: 4.7 kOhm pull-up to 3.3 V
 - `DS2413_PIOB`: 4.7 kOhm pull-up to 3.3 V
 - DS2413 breakout is parasite-powered from the OneWire data connection and GND

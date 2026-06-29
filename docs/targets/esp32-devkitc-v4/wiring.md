@@ -135,7 +135,11 @@ include SDA/SCL pull-ups.
 ### OneWire
 
 - `D13` to two powered DS18B20 devices
-- one 2.2k pull-up from `ONEWIRE_DQ` to 3.3V
+- one nominal 2.2k pull-up from `ONEWIRE_DQ` to 3.3V
+
+For this wirewrap build, fitting 2.0k for `R6` is acceptable in place of
+2.2k. It gives a slightly stronger pull-up on the short harness OneWire bus
+without materially changing the test intent.
 
 `J_ONEWIRE1`, labelled **External OneWire** on the schematic, exposes the
 same powered OneWire bus for additional external devices:
@@ -146,8 +150,9 @@ same powered OneWire bus for additional external devices:
 | 2 | `D13_ONEWIRE_DQ` |
 | 3 | GND |
 
-External devices share the existing 2.2k bus pull-up. Do not add another
-strong pull-up without checking the combined resistance and bus loading.
+External devices share the existing bus pull-up, nominally 2.2k and acceptable
+as 2.0k for this build. Do not add another strong pull-up without checking the
+combined resistance and bus loading.
 The connector is for powered-mode devices; parasite-power operation is not the
 baseline harness configuration.
 
@@ -277,6 +282,13 @@ When printing construction guides, use actual-size / 100% scaling. A test print
 that produced about 91 mm for the nominal 90 mm board width caused visible
 cumulative drift towards the lower-right corner, even though the KiCad geometry
 was correct.
+
+## Wirewrap Power Distribution
+
+`J1` (`3v3 Dist`) and `J2` (`GND Dist`) provide local 3.3V and GND distribution
+points to simplify power wiring and fanout during wirewrap construction. Both
+pins of each header are connected to its named rail. These are construction
+distribution points, not separate external power inputs.
 
 ## External 5V Power
 

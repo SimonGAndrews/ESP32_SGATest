@@ -12,7 +12,6 @@
 		(comment 1 "ESP-IDF 5 port test harness - fixed GPIO allocation")
 		(comment 2 "Tests use Espruino Dxx names matching GPIO numbers")
 		(comment 3 "UART0 D1/D3 and boot straps remain reserved")
-		(comment 4 "See docs/wiring_esp32_devkitc_v4.md")
 	)
 	(lib_symbols
 		(symbol "Analog_ADC:MCP3008"
@@ -3733,16 +3732,6 @@
 		)
 		(uuid dd721856-80d6-4ddd-b52c-0a5761deb0be)
 	)
-	(text "R? 4.7k: 3V3 → DS2413_PIOA\nR? 4.7k: 3V3 → DS2413_PIOB"
-		(exclude_from_sim no)
-		(at 332.74 185.42 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "0858dd70-6c30-4f3c-ae43-3e8251711cd5")
-	)
 	(text "R_UART1 "
 		(exclude_from_sim no)
 		(at 77.47 146.05 0)
@@ -3831,6 +3820,17 @@
 			(justify right bottom)
 		)
 		(uuid "2b8aaa3d-dbac-44d6-bc5c-4ca45a5c11e4")
+	)
+	(text "FIXED GPIO ALLOCATION\n\nGPIO LOOP A: D32 -> SEL_D33 -> 470R -> D33\nGPIO LOOP B: D25 -> SEL_D26 -> 470R -> D26\nPWM/ADC: D27 -> 10k/100nF -> D34 and MCP3008 CH0\n\nI2C: SDA D21, SCL D22, INT via SEL_D35 to D35, FB to D39\nSPI: SCK D18, MISO D19, MOSI D23, ADC CS D16, FLASH CS D17\nONEWIRE: D13, DS18B20 bus and removable DS2413\nUART0: D1/D3 reserved for REPL and flashing\nUART TEST: D4 -> JP_UART_LOOP2 -> D36\n           D14 -> SEL_D35 -> D35\n\nDEFAULT SELECTOR / SHUNT STATE\n\nSEL_D33: pins 1-2 fitted - D32 to D33 GPIO loop\nSEL_D26: pins 1-2 fitted - D25 to D26 GPIO loop\nSEL_D35: pins 1-2 fitted - I2C_INT to D35\nJP_UART_LOOP2: OPEN\nJP_External_5V1: OPEN\n\nFor UART crosslink testing:\nSEL_D35 pins 2-3 fitted and JP_UART_LOOP2 CLOSED.\n\nD0 reserved for BOOT.\nNo fixed loads on strapping pins D2/D5/D12/D15.\nD6-D11 are module flash signals and must not be used.\nD34-D39 are input-only and have no internal pulls."
+		(exclude_from_sim no)
+		(at 20.32 252.73 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "30b494da-cfc0-4ee5-8167-12567a9c2086")
 	)
 	(text "D15_RESERVED_STRAP"
 		(exclude_from_sim no)
@@ -3985,16 +3985,6 @@
 		)
 		(uuid "75c632d0-a572-43f2-b1e8-46497fdbcd5f")
 	)
-	(text "DS2413_PIOA ── R? 470R ── DS2413_FB_A\nDS2413_PIOB ── R? 470R ── DS2413_FB_B"
-		(exclude_from_sim no)
-		(at 339.09 198.12 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "83cbef65-ffec-4ce5-a39e-39ae0f8fa7fb")
-	)
 	(text "RESET / BOOT AUTOMATION PROVISION"
 		(exclude_from_sim no)
 		(at 22.86 193.04 0)
@@ -4030,39 +4020,6 @@
 		)
 		(uuid "974e6f61-abc9-435f-bf2c-5d525baca7cc")
 	)
-	(text "R_DS2413_PUA\nR_DS2413_PUB"
-		(exclude_from_sim no)
-		(at 325.12 190.5 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "984c85a1-9880-413a-9606-539197e9e139")
-	)
-	(text "I’d retain R3 and R4, relocate them to the common paths, and remove R9 and R10."
-		(exclude_from_sim no)
-		(at 246.38 257.81 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "a5100623-915d-4331-a927-ea343de4a6ea")
-	)
-	(text "FIXED ALLOCATION SUMMARY"
-		(exclude_from_sim no)
-		(at 18.796 246.888 0)
-		(effects
-			(font
-				(size 2.286 2.286)
-				(thickness 0.4572)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "a9031007-3287-452c-ac93-03e685660432")
-	)
 	(text "UART - Full LOOPBACK"
 		(exclude_from_sim no)
 		(at 21.59 130.81 0)
@@ -4074,19 +4031,6 @@
 			(justify left bottom)
 		)
 		(uuid "abe48a85-ca46-4c9a-aa8d-b3179d39a913")
-	)
-	(text "D32->470R->D33 loop A      D32->470R->D33 loop A      D25->470R->D26 loop B\nD27->10k/100nF->D34 + MCP3008 CH0\n\nI2C D21/D22, INT D35 via SEL_D35, FB D39\nSPI SCK/MISO/MOSI D18/D19/D23, CS ADC D16, CS flash D17\n\nOneWire D13\nUART1 TX D4 / RX D35; UART2 TX D14 / RX D36\nD35 selects I2C INT or UART1 RX; UART0 D1/D3 reserved for REPL/flashing\n\nNo fixed loads on D0/D2/D5/D12/D15.\nD6-D11 are module-flash signals and must not be used."
-		(exclude_from_sim no)
-		(at 19.05 278.13 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-				(thickness 0.3048)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "aff39425-3093-42a1-ab47-61edf1b54a09")
 	)
 	(text "D10_FLASH_SD3"
 		(exclude_from_sim no)
@@ -4223,6 +4167,12 @@
 		(uuid "33c1819e-1290-459a-b5b5-07e7887cee0a")
 	)
 	(junction
+		(at 132.08 49.53)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3da41aeb-2f54-48fa-8650-4a5eeae8c7cc")
+	)
+	(junction
 		(at 309.88 57.15)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4251,6 +4201,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6395cc1e-7b48-48c7-b97e-a9ae5321fed5")
+	)
+	(junction
+		(at 130.81 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "645c8d67-661e-42bd-92a9-4853964630c6")
 	)
 	(junction
 		(at 278.13 166.37)
@@ -4672,6 +4628,16 @@
 	)
 	(wire
 		(pts
+			(xy 130.81 66.04) (xy 133.35 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3924398d-8f25-485b-a315-f82410510fcb")
+	)
+	(wire
+		(pts
 			(xy 335.28 116.84) (xy 345.44 116.84)
 		)
 		(stroke
@@ -4892,6 +4858,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.08 49.53) (xy 133.35 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f105701-5c5c-4607-955c-955345a78576")
+	)
+	(wire
+		(pts
 			(xy 335.28 125.73) (xy 341.63 125.73)
 		)
 		(stroke
@@ -4949,6 +4925,16 @@
 			(type default)
 		)
 		(uuid "78be4ba0-50b5-4b84-a5ce-c55e3d590208")
+	)
+	(wire
+		(pts
+			(xy 130.81 63.5) (xy 133.35 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78dab56c-bea9-4890-8f37-14132ae70698")
 	)
 	(wire
 		(pts
@@ -5522,6 +5508,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.08 52.07) (xy 133.35 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6656951-ad39-45c7-abc1-3528ebf4617f")
+	)
+	(wire
+		(pts
 			(xy 166.37 198.12) (xy 179.07 198.12)
 		)
 		(stroke
@@ -5559,6 +5555,16 @@
 			(type default)
 		)
 		(uuid "cd9478f9-a510-4bb3-a29b-636535004f99")
+	)
+	(wire
+		(pts
+			(xy 130.81 63.5) (xy 130.81 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce309f95-9cae-486c-9b78-4d7f088633ea")
 	)
 	(wire
 		(pts
@@ -5679,6 +5685,16 @@
 			(type default)
 		)
 		(uuid "e2b85f78-6a25-42d3-b16b-c1bfe97bcfbd")
+	)
+	(wire
+		(pts
+			(xy 127 63.5) (xy 130.81 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e37fafcd-2cf0-4e05-a6fd-52636e29aa2e")
 	)
 	(wire
 		(pts
@@ -5862,6 +5878,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.08 49.53) (xy 132.08 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fb437ad8-8e16-429a-99e1-d82346e2489f")
+	)
+	(wire
+		(pts
 			(xy 166.37 163.83) (xy 186.69 163.83)
 		)
 		(stroke
@@ -5869,6 +5895,16 @@
 			(type default)
 		)
 		(uuid "fc191c2d-f7d6-40f0-8a1f-06c29aece423")
+	)
+	(wire
+		(pts
+			(xy 127 49.53) (xy 132.08 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe6b2ed6-4ade-42b5-8be9-da5bd2a220cb")
 	)
 	(wire
 		(pts
@@ -6277,6 +6313,16 @@
 		)
 		(uuid "222ef160-9899-4117-890b-e39ff911a8c6")
 	)
+	(label "3V3"
+		(at 127 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "22e7ae85-189b-4f4f-934d-6d48575d0a62")
+	)
 	(label "GND"
 		(at 292.1 83.82 270)
 		(effects
@@ -6656,6 +6702,16 @@
 			(justify right bottom)
 		)
 		(uuid "9499eb2a-1c22-4af8-a5a4-9884502be778")
+	)
+	(label "GND"
+		(at 127 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9ea813a6-3196-4aad-bed0-70312c01f6da")
 	)
 	(label "3V3"
 		(at 289.56 101.6 90)
@@ -8102,7 +8158,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2K2"
+		(property "Value" "2K"
 			(at 290.83 172.72 90)
 			(effects
 				(font
@@ -8358,6 +8414,75 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
+		(at 138.43 49.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "008080a5-dc5e-4018-9091-efda61ea9c3c")
+		(property "Reference" "J1"
+			(at 138.43 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "3v3 Dist"
+			(at 138.43 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "ESP32_V1:PinHeader_1x02_P2.54mm_Vertical"
+			(at 138.43 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 138.43 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 138.43 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a1e0a246-d1bb-46f8-8fa2-1353d8d0f6d9")
+		)
+		(pin "2"
+			(uuid "2839b523-cd5d-42b2-877a-49cb66dbee60")
+		)
+		(instances
+			(project "ESP32_V1"
+				(path "/0aa2c02d-1b7b-43cf-8c1b-1544a5fb93d3"
+					(reference "J1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x02")
 		(at 204.47 198.12 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8420,6 +8545,75 @@
 			(project ""
 				(path "/0aa2c02d-1b7b-43cf-8c1b-1544a5fb93d3"
 					(reference "J_External_PWR1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x02")
+		(at 138.43 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "30e7d5df-c21a-4d98-995d-514bc586ee46")
+		(property "Reference" "J2"
+			(at 138.43 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND Dist"
+			(at 138.43 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "ESP32_V1:PinHeader_1x02_P2.54mm_Vertical"
+			(at 138.43 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 138.43 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 138.43 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1a30d1e3-0976-4498-b48b-01b259661650")
+		)
+		(pin "2"
+			(uuid "5a545819-e53d-434e-af8a-789de43eba62")
+		)
+		(instances
+			(project "ESP32_V1"
+				(path "/0aa2c02d-1b7b-43cf-8c1b-1544a5fb93d3"
+					(reference "J2")
 					(unit 1)
 				)
 			)
