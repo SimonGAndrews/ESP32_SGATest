@@ -16,10 +16,10 @@ Current examples:
 - generic OneWire soak testing
 - DS18B20 read soak testing
 
-## `targets/`
+## `wiring_tests/`
 
-Target-specific automation scripts. These usually encode a particular harness
-pin allocation, selector state, or bring-up sequence.
+Target-specific wiring-test runners. These encode a particular harness pin
+allocation, selector state, or bring-up sequence.
 
 Current targets:
 

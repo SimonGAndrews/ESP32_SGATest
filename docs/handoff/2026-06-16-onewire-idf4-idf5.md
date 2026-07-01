@@ -45,8 +45,8 @@ bootstrap set should be:
 
 For the next thread's planned starting point, also read:
 
-- [esp32_c3_digitalpulse_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/targets/esp32_c3/digitalpulse_check.py)
-- [esp32_c3_gpio_block1.py](/home/simon/MaBecker/ESP32_SGATest/tools/targets/esp32_c3/gpio_block1.py)
+- [esp32_c3_digitalpulse_check.py](/home/simon/MaBecker/ESP32_SGATest/tools/wiring_tests/esp32_c3/digitalpulse_check.py)
+- [esp32_c3_gpio_block1.py](/home/simon/MaBecker/ESP32_SGATest/tools/wiring_tests/esp32_c3/gpio_block1.py)
 
 If the new thread needs the full OneWire investigation record, this handoff
 already points to the deeper notes:

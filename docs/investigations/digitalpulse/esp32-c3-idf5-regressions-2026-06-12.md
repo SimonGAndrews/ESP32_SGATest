@@ -63,7 +63,7 @@ target/build, not a general GPIO or watch failure.
 Script:
 
 ```bash
-python3 tools/targets/esp32_c3/gpio_block1.py --port /dev/ttyUSB0
+python3 tools/wiring_tests/esp32_c3/gpio_block1.py --port /dev/ttyUSB0
 ```
 
 Observed result:
@@ -89,7 +89,7 @@ Interpretation:
 Script:
 
 ```bash
-python3 tools/targets/esp32_c3/digitalpulse_check.py --port /dev/ttyUSB0
+python3 tools/wiring_tests/esp32_c3/digitalpulse_check.py --port /dev/ttyUSB0
 ```
 
 Observed result:
@@ -218,8 +218,8 @@ Serial-port note:
 
 ## Related Scripts
 
-- [esp32_c3_gpio_block1.py](../../../tools/targets/esp32_c3/gpio_block1.py)
-- [esp32_c3_digitalpulse_check.py](../../../tools/targets/esp32_c3/digitalpulse_check.py)
-- [esp32_c3_analog_block2.py](../../../tools/targets/esp32_c3/analog_block2.py)
-- [esp32_c3_bus_spi_i2c_block3.py](../../../tools/targets/esp32_c3/bus_spi_i2c_block3.py)
-- [esp32_c3_onewire_block4.py](../../../tools/targets/esp32_c3/onewire_block4.py)
+- [esp32_c3_gpio_block1.py](../../../tools/wiring_tests/esp32_c3/gpio_block1.py)
+- [esp32_c3_digitalpulse_check.py](../../../tools/wiring_tests/esp32_c3/digitalpulse_check.py)
+- [esp32_c3_analog_block2.py](../../../tools/wiring_tests/esp32_c3/analog_block2.py)
+- [esp32_c3_bus_spi_i2c_block3.py](../../../tools/wiring_tests/esp32_c3/bus_spi_i2c_block3.py)
+- [esp32_c3_onewire_block4.py](../../../tools/wiring_tests/esp32_c3/onewire_block4.py)

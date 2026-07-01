@@ -19,7 +19,7 @@
 
 - `tests/repl/` contains the authoritative JavaScript test suite
 - `tools/` runs those same JavaScript files through Python automation
-- `tools/targets/` contains target maps or target-specific runner defaults, not separate copies of the test logic
+- `tools/wiring_tests/` contains target maps or target-specific runner defaults, not separate copies of the test logic
 
 ## One File Per Task
 

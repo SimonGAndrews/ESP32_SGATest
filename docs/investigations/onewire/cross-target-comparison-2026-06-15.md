@@ -59,7 +59,7 @@ OW_SCAN_4=["2838498700e8136b"]
 OW_SCAN_5=["2838498700e8136b","28253387008562df"]
 ```
 
-Soak result using `tools/targets/esp32_c3/onewire_soak.py`:
+Soak result using `tools/wiring_tests/esp32_c3/onewire_soak.py`:
 
 ```text
 scans=50
@@ -156,6 +156,6 @@ Future C3 work can use this comparison as evidence that:
 
 ## Related Tools
 
-- [esp32_c3_onewire_block4.py](../../../tools/targets/esp32_c3/onewire_block4.py)
-- [esp32_c3_onewire_soak.py](../../../tools/targets/esp32_c3/onewire_soak.py)
+- [esp32_c3_onewire_block4.py](../../../tools/wiring_tests/esp32_c3/onewire_block4.py)
+- [esp32_c3_onewire_soak.py](../../../tools/wiring_tests/esp32_c3/onewire_soak.py)
 - [espruino_onewire_soak_generic.py](../../../tools/common/onewire_soak_generic.py)

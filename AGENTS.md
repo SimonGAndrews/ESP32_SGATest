@@ -6,6 +6,7 @@ Start by reading:
 
 - `README.md`
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
+- `docs/handoff/2026-07-01-espruino-repo-structure.md`
 - `docs/README.md`
 - `docs/handoff/2026-06-10.md`
 - `docs/handoff/2026-06-16-onewire-idf4-idf5.md`

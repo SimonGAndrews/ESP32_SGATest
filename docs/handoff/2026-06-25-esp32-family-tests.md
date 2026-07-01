@@ -37,6 +37,7 @@ hardware and firmware.
 Additional useful docs:
 
 - `docs/design/target-reference-links.md`
+- `docs/handoff/2026-07-01-espruino-repo-structure.md`
 
 ## Generic ESP32-Family Test Model
 
@@ -339,13 +340,13 @@ Suggested first-run order after wiring any ESP32-family harness:
 
 Current Python tools are C3-oriented unless named generic:
 
-- `tools/targets/esp32_c3/gpio_block1.py`
-- `tools/targets/esp32_c3/analog_block2.py`
-- `tools/targets/esp32_c3/bus_spi_i2c_block3.py`
-- `tools/targets/esp32_c3/onewire_block4.py`
-- `tools/targets/esp32_c3/digitalpulse_check.py`
-- `tools/targets/esp32_c3/digitalpulse_nondebounce_check.py`
-- `tools/targets/esp32_c3/onewire_soak.py`
+- `tools/wiring_tests/esp32_c3/gpio_block1.py`
+- `tools/wiring_tests/esp32_c3/analog_block2.py`
+- `tools/wiring_tests/esp32_c3/bus_spi_i2c_block3.py`
+- `tools/wiring_tests/esp32_c3/onewire_block4.py`
+- `tools/wiring_tests/esp32_c3/digitalpulse_check.py`
+- `tools/wiring_tests/esp32_c3/digitalpulse_nondebounce_check.py`
+- `tools/wiring_tests/esp32_c3/onewire_soak.py`
 - `tools/common/onewire_search_debug.py`
 - `tools/common/onewire_soak_generic.py`
 - `tools/common/ds18b20_read_soak.py`
