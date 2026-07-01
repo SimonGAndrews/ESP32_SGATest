@@ -25,6 +25,7 @@ Current targets:
 
 - `esp32_c3/` - scripts originally developed for the ESP32-C3-DevKitC-02
   harness
+- `esp32_v1/` - first-pass scripts for the classic ESP32 DevKitC V4 harness
 
 Future ESP32-family work should prefer a shared runner plus target maps, rather
 than copying whole scripts for each board.
