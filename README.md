@@ -42,13 +42,18 @@ The work in this repository has progressed through these stages:
    DevKitC-compatible target for `ESP32_V1`.
 7. Designed the ESP32 DevKitC V4 / `ESP32_V1` harness and PCB construction
    guide, ready for wirewrap build and bring-up.
+8. Completed wirewrap builds for both the ESP32-C3 and classic ESP32 harnesses
+   and added board photos under `Hardware/`.
+9. Completed scripted wiring checks for the current harness blocks, including
+   GPIO, analog/PWM, SPI, I2C, OneWire, DS2413, UART crosslink, and external
+   connector paths where fitted.
 
 ## Current Targets
 
 ### ESP32-C3-DevKitC-02
 
-The ESP32-C3 harness is the first built harness and has already been used for
-bring-up and firmware debugging.
+The ESP32-C3 harness is built and has already been used for bring-up, scripted
+wiring checks, and firmware debugging.
 
 Important C3-specific features include:
 
@@ -66,9 +71,10 @@ KICAD/ESP32_C3_v1/
 
 ### Classic ESP32 DevKitC V4 / ESP32_V1
 
-The classic ESP32 DevKitC V4 harness is the current wirewrap build target. The
-practical target is the Olimex ESP32-DevKit-LiPo Rev.D. Olimex describe this
-board as pin-to-pin comparable with the Espressif ESP32-CoreBoard
+The classic ESP32 DevKitC V4 harness is now built and has completed its first
+scripted wiring-check phase. The practical target is the Olimex
+ESP32-DevKit-LiPo Rev.D. Olimex describe this board as pin-to-pin comparable
+with the Espressif ESP32-CoreBoard
 (`ESP32-DevKitC`), while adding LiPo charging and battery-powered operation.
 The selected Rev.D hardware uses the classic ESP32 / ESP32-WROOM-32E-class
 module family.
@@ -111,7 +117,7 @@ Tests and documentation use Espruino `Dxx` pin names, matching GPIO numbers.
 ```text
 AGENTS.md                  Codex/new-thread operating notes
 docs/                      Wiring specs, handoffs, investigation notes
-tools/                     Python/REPL test utilities
+tools/                     Python/REPL test utilities and wiring-test runners
 KICAD/                     Harness schematic/PCB projects
 Hardware/                  Hardware reference material
 tests/repl/                Portable community-facing REPL test scripts
@@ -158,9 +164,9 @@ Important conclusions from prior work:
 
 ## Current Active Work
 
-The current hardware task is to wire and bring up the ESP32 DevKitC V4 harness
-from `KICAD/ESP32_V1/`.
+The current hardware state is that both harness boards are built and their
+initial scripted wiring-check coverage is in place.
 
-The next software task is to evolve the existing C3-oriented Python tools into
-ESP32-family harness runners that share logical test blocks and use
-target-specific pin/mode maps.
+The current software task is to extend from wiring-focused checks into fuller
+functional REPL-style coverage across ESP32-family targets and across IDF4 and
+IDF5 firmware variants.
