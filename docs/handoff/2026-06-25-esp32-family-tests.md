@@ -7,10 +7,10 @@ test work from the current repository state. It combines the generic test
 process developed on the ESP32-C3 harness with the current classic ESP32
 DevKitC V4 hardware work, and then calls out the target-specific differences.
 
-The immediate physical phase is to build and then test the classic ESP32
-DevKitC V4 wirewrap harness using the newly completed KiCad schematic/PCB
-placement guide. The test methodology, evidence rules, and most software test
-blocks should remain generic across ESP32-family harnesses.
+The immediate physical phase is to continue ESP32-family harness validation
+using the now-built classic ESP32 DevKitC V4 and ESP32-C3 wirewrap harnesses.
+The test methodology, evidence rules, and most software test blocks should
+remain generic across ESP32-family harnesses.
 
 ## Start Here In A New Thread
 
@@ -18,18 +18,17 @@ Minimum read set:
 
 1. `AGENTS.md`
 2. `docs/handoff/2026-06-25-esp32-family-tests.md`
-3. `docs/design/common-blocks.md`
+3. `docs/design/common-harness-design-and-blocks.md`
 4. `docs/design/harness-modes.md`
-5. `docs/design/gpio-rationalisation.md`
-6. `docs/targets/esp32-c3-devkitc-02/wiring.md`
-7. `docs/targets/esp32-devkitc-v4/wiring.md`
-8. `KICAD/ESP32_V1/README.md`
-9. `docs/handoff/2026-06-16-onewire-idf4-idf5.md`
-10. `docs/investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md`
-11. `docs/targets/esp32-c3-devkitc-02/bringup.md`
+5. `docs/targets/esp32-c3-devkitc-02/wiring.md`
+6. `docs/targets/esp32-devkitc-v4/wiring.md`
+7. `KICAD/ESP32_V1/README.md`
+8. `docs/handoff/2026-06-16-onewire-idf4-idf5.md`
+9. `docs/investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md`
+10. `docs/targets/esp32-c3-devkitc-02/bringup.md`
 
-Files 3-5 describe the generic harness blocks and design principles. Files 6-8
-describe the two current physical targets. Files 9-11 preserve the firmware and
+Files 3-4 describe the generic harness blocks and design principles. Files 5-7
+describe the two current physical targets. Files 8-10 preserve the firmware and
 test subtleties from the previous C3 debugging work, especially OneWire timing,
 `digitalPulse`, REPL handling, and the way evidence was separated between
 hardware and firmware.

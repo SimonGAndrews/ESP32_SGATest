@@ -169,7 +169,7 @@ Proposed response:
 ## Remaining Work
 
 1. Review the first wiring specs:
-   - [docs/design/common-blocks.md](../common-blocks.md)
+   - [docs/design/common-harness-design-and-blocks.md](../common-harness-design-and-blocks.md)
    - [docs/targets/esp32-c3-devkitc-02/wiring.md](../../targets/esp32-c3-devkitc-02/wiring.md)
    - [docs/targets/olimex-esp32-devkit-lipo/wiring.md](../../targets/olimex-esp32-devkit-lipo/wiring.md)
 2. Refine C3 jumper/link group names and physical labels for the schematic.

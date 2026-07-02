@@ -127,9 +127,8 @@ Key starting documents:
 
 - `AGENTS.md`
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
-- `docs/design/common-blocks.md`
+- `docs/design/common-harness-design-and-blocks.md`
 - `docs/design/harness-modes.md`
-- `docs/design/gpio-rationalisation.md`
 - `docs/targets/esp32-c3-devkitc-02/wiring.md`
 - `docs/targets/esp32-devkitc-v4/wiring.md`
 

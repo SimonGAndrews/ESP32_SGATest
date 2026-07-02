@@ -1,7 +1,7 @@
-# Common Harness Wiring Blocks
+# Common Harness Design And Blocks
 
-This document defines the common reusable wiring blocks for the ESP32 hardware
-test harness family.
+This document defines the common reusable wiring blocks and design rules for the
+ESP32 hardware test harness family.
 
 Board-specific documents map target `Dxx` pins onto these named harness nodes.
 The physical harness boards should keep these blocks in the same relative
@@ -10,6 +10,61 @@ layout where practical, even when the DUT socket and fanout differ.
 These are logical harness nodes. A board-specific schematic may use more
 specific net names, for example `I2C_A_SDA` for the primary `I2C_SDA` block, or
 selector-side nets for loopback nodes.
+
+Target harnesses may also include additional devices or target-specific wiring
+extensions beyond these baseline common blocks. Those additional items should be
+documented in the relevant target wiring notes, not here.
+
+## Design Intent
+
+The harness family should prove the same Espruino hardware interfaces wherever
+practical, even when different target boards need different GPIO choices and
+different fanout wiring.
+
+In other words:
+
+- keep the logical test blocks consistent across targets
+- keep the test tasks consistent across targets
+- let each target harness translate its own GPIOs onto the common harness nodes
+- avoid redesigning the tests every time the DUT changes
+
+The board-specific work is choosing safe GPIOs and documenting the selector or
+link state for that target. The family-level work is keeping the logical block
+names, block purpose, and overall harness structure consistent.
+
+## Pin Naming
+
+Tests should use Espruino `Dxx` names matching raw GPIO numbers.
+
+Examples:
+
+- `GPIO21` is addressed as `D21`
+- `GPIO0` is addressed as `D0`
+
+Board aliases such as `LED1` may exist, but harness wiring and target mapping
+should be specified in raw GPIO / `Dxx` terms.
+
+## Pin Selection Rules
+
+Prefer pins that are:
+
+- exposed on the development board headers
+- normal bidirectional GPIO
+- available at boot without changing strapping state
+- not connected to module SPI flash or PSRAM
+- not required by the normal REPL/flashing path
+- ADC-capable where an ADC test input is needed
+- usable with Espruino's target pin naming and peripheral mapping
+
+Avoid or treat as conditional:
+
+- flash/PSRAM pins
+- boot strapping pins that may change startup mode
+- UART0 pins when UART0 is the REPL/flashing console
+- native USB pins when native USB is the REPL/flashing path
+- input-only pins for output, loopback-drive, SPI, I2C, or PWM roles
+- board-specific pins tied to LEDs, buttons, battery sensing, or power sensing
+  unless the test explicitly covers that board feature
 
 ## Electrical Baseline
 
@@ -47,6 +102,28 @@ test explicitly requires separate supply control.
 | `ONEWIRE_DQ` | shared DS18B20 OneWire data bus |
 | `UART_TX` | target TX for non-console serial validation |
 | `UART_RX` | target RX for non-console serial validation |
+
+## Shared Layout Intent
+
+Keep the same logical block order and relative placement across harnesses where
+practical, even when the DUT socket and selector details differ.
+
+Suggested physical regions:
+
+| Region | Suggested content |
+|---|---|
+| DUT socket edge | target board headers/socket and labelled fanout rows |
+| Digital loopback block | two resistor-protected removable loopbacks |
+| Analog block | `PWM_OUT -> resistor -> ANALOG_FB`, filter capacitor, ADC feed |
+| I2C block | MCP23008 socket, pull-ups, INT and feedback links |
+| SPI block | MCP3008 socket, optional W25xxx socket, chip-select links |
+| OneWire block | two DS18B20 devices on one bus and one pull-up |
+| Serial block | loopback or peer jumper area |
+| Expansion strip | spare labelled pads for later tests or target-specific additions |
+
+Use named harness nodes on the board silkscreen or labels rather than only raw
+GPIO numbers. Raw GPIO numbers differ by target; the harness functions should
+not.
 
 ## Digital Loopback Block
 
@@ -110,9 +187,8 @@ Use one MCP23008 as the standard I2C test device.
 | SDA | `I2C_SDA` |
 | SCL | `I2C_SCL` |
 
-For the first ESP32-C3 harness schematic revision, assume the attached I2C
-module side provides SDA/SCL pull-ups. If a future build uses a bare MCP23008
-without module pull-ups, add removable or DNP 4.7k pull-ups:
+If a harness uses a bare MCP23008 without module-side pull-ups, add removable
+or DNP 4.7k pull-ups:
 
 | Signal | Pull-up |
 |---|---:|
@@ -242,14 +318,6 @@ Where GPIO budget and board space allow:
 
 - include both options and select with jumpers
 - use 470R series protection on local loopback links
-
-ESP32-C3 v1.1 uses a board-specific variant of this block. Instead of a simple
-external peer terminal, it provides `J10` / `SEL_UART0_UART1` as a 2x3 UART
-connector/selector. Two columns allow UART1 on `D3` / `D4` to be crossed to
-UART0 on `D20` / `D21` while native USB Serial/JTAG provides the runner/control
-connection. The third column carries GND so the same connector can also support
-external UART access with the signal shunts left open. The crossed links are
-resistor-protected and default open.
 
 Test coverage:
 

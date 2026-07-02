@@ -8,7 +8,6 @@ Generic ESP32-family harness design and operating principles:
 
 - common hardware blocks
 - harness modes
-- GPIO rationalisation
 - connectivity permutations
 - reference links
 

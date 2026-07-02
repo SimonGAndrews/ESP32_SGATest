@@ -10,11 +10,10 @@ Start by reading:
 - `docs/README.md`
 - `docs/handoff/2026-06-10.md`
 - `docs/handoff/2026-06-16-onewire-idf4-idf5.md`
-- `docs/design/common-blocks.md`
+- `docs/design/common-harness-design-and-blocks.md`
 - `docs/targets/esp32-c3-devkitc-02/wiring.md`
 - `docs/targets/esp32-devkitc-v4/wiring.md`
 - `docs/design/harness-modes.md`
-- `docs/design/gpio-rationalisation.md`
 
 Current active hardware focus:
 
@@ -22,7 +21,7 @@ Current active hardware focus:
 - ESP32-C3-DevKitC-02 harness, KiCad project `KICAD/ESP32_C3_v1/`,
   schematic/PCB revision v1.1
 - classic ESP32 DevKitC V4 harness, KiCad project `KICAD/ESP32_V1/`,
-  ready for initial wirewrap build and test bring-up
+  wirewrap-built with scripted wiring checks completed
 
 Important generic test notes:
 

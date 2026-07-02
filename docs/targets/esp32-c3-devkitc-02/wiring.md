@@ -3,11 +3,16 @@
 This document maps the common harness blocks onto the Espressif
 ESP32-C3-DevKitC-02.
 
+The current schematic PDFs are in:
+
+```text
+Hardware/ESP32_C3/
+```
+
 Related documents:
 
-- [docs/design/common-blocks.md](../../design/common-blocks.md)
+- [docs/design/common-harness-design-and-blocks.md](../../design/common-harness-design-and-blocks.md)
 - [docs/design/harness-modes.md](../../design/harness-modes.md)
-- [docs/design/gpio-rationalisation.md](../../design/gpio-rationalisation.md)
 - [docs/design/connectivity-permutations.md](../../design/connectivity-permutations.md)
 
 ## Board Under Test
@@ -164,6 +169,43 @@ be isolated from the OneWire bus.
 The following sections define the manual harness modes used by the test
 runner. Each mode lists the required selector positions and any conflicting
 selector positions that must not be fitted.
+
+### Connectivity UART0 Mode
+
+Mode name:
+
+- `C3_CONNECTIVITY_UART0`
+
+Purpose:
+
+- prove the normal board USB-UART path through UART0
+- provide the default flashing and control path for repeated test runs
+
+Runner/control path:
+
+- board USB-UART through the board Micro-USB connector on `D20` / `D21`
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
+|---|---|
+| board USB-UART path | left untouched |
+| `J10` / `SEL_UART0_UART1` | no signal shunts fitted |
+| `SEL_D3` / `SEL_D4` UART positions | not fitted |
+| BOOT and RESET access | available for flashing and reset tests |
+
+Compatible selector positions:
+
+| Selector group | Allowed state |
+|---|---|
+| baseline loopback positions on `SEL_D1`, `SEL_D2`, `SEL_D3`, and `SEL_D4` | may remain fitted |
+| native USB Serial/JTAG wiring on `D18` / `D19` | may remain physically wired, but is not the runner/control path in this mode |
+
+Enabled coverage:
+
+- REPL attach over the normal board USB-UART path
+- reset and reconnect
+- flashing with the harness attached
 
 ### Baseline GPIO Mode
 
@@ -470,6 +512,44 @@ Enabled coverage:
 - native USB serial REPL if firmware exposes it
 - reset/reconnect behavior
 - flashing/debug path if supported by selected tooling
+
+### Power Reset Mode
+
+Mode name:
+
+- `C3_POWER_RESET`
+
+Purpose:
+
+- prove reset, bootloader entry, watchdog reset, and later controlled power
+  behaviour using the harness control provisions
+
+Runner/control path:
+
+- board USB-UART on `D20` / `D21` or native USB Serial/JTAG on `D18` / `D19`,
+  depending on which recovery path is under test
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
+|---|---|
+| automation header | connected or manually accessible for RESET and BOOT control |
+| board USB-UART path | available for normal reconnect and flashing checks |
+| native USB Serial/JTAG wiring | available for native reconnect and flashing checks |
+| `J10` / `SEL_UART0_UART1` | no signal shunts fitted unless a deliberate serial-crosslink combination is under test |
+
+Open/conflicting selector positions:
+
+| Selector group | Required state |
+|---|---|
+| UART0/UART1 crosslink wiring | leave open unless deliberately combining reset testing with the serial-crosslink mode |
+
+Enabled coverage:
+
+- reset reconnect on the normal UART0 path
+- reset reconnect on the native USB Serial/JTAG path
+- bootloader entry and flashing
+- watchdog reset recovery
 
 ## Automation Header
 

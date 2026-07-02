@@ -3,11 +3,16 @@
 This document maps the common Espruino hardware-test blocks onto the Espressif
 ESP32-DevKitC V4 using an ESP32-WROOM-32E/32UE module.
 
-The first schematic is in:
+The current schematic PDFs are in:
 
 ```text
-KICAD/ESP32_V1/
+Hardware/ESP32_V1/
 ```
+
+Related documents:
+
+- [docs/design/common-harness-design-and-blocks.md](../../design/common-harness-design-and-blocks.md)
+- [docs/design/harness-modes.md](../../design/harness-modes.md)
 
 ## Design Position
 
@@ -35,6 +40,19 @@ Tests use Espruino `Dxx` names matching GPIO numbers.
 
 `D34`-`D39` do not have internal pull-up/pull-down resistors. Their assigned
 harness sources must provide a defined level where a test depends on one.
+
+## Default Connectivity Wiring
+
+The normal control path uses the DevKitC V4 board USB connector and its onboard
+USB-UART bridge to UART0 on `D1` / `D3`.
+
+| Board pin / signal | Harness connection | Notes |
+|---|---|---|
+| board Micro-USB | host USB | normal REPL/flashing/control path |
+| `D1` / `D3` | reserved for UART0 | not used for peripheral harness wiring |
+| EN / reset | automation header `RESET` | also keep manual reset accessible |
+| BOOT / `D0` | automation header `BOOT` | reserved for boot/download control |
+| `5V` rail | board USB by default; external 5V only through `JP_External_5V1` | keep `JP_External_5V1` open unless deliberate external power is wanted |
 
 ## Rationalised Fixed GPIO Allocation
 
@@ -141,6 +159,9 @@ For this wirewrap build, fitting 2.0k for `R6` is acceptable in place of
 2.2k. It gives a slightly stronger pull-up on the short harness OneWire bus
 without materially changing the test intent.
 
+This is an intentional target-specific deviation from the family baseline
+4.7k pull-up used in the generic common-block note.
+
 `J_ONEWIRE1`, labelled **External OneWire** on the schematic, exposes the
 same powered OneWire bus for additional external devices:
 
@@ -231,7 +252,7 @@ I2C interrupt and UART1 RX are mutually exclusive because they share `D35`.
 This header supports external observation or a UART peer. It does not expose
 the complete four-signal internal crosslink.
 
-## Automation
+## Automation Header
 
 Expose:
 
@@ -306,6 +327,184 @@ powering the harness/DevKitC 5V rail from `J_External_PWR1`.
 Do not connect competing USB and external 5V sources through a closed shunt
 unless their power-sharing arrangement has been explicitly reviewed.
 
+## Harness Test Modes
+
+The following sections define the manual harness modes used by the test
+runner. Each mode lists the required selector positions or link states and any
+conflicting positions that must not be fitted.
+
+### Connectivity Mode
+
+Mode name:
+
+- `ESP32_CONNECTIVITY`
+
+Purpose:
+
+- prove the normal UART0 REPL and flashing path
+- prove reset and reconnect behaviour with the harness attached
+
+Runner/control path:
+
+- board USB-UART through the board Micro-USB connector on `D1` / `D3`
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
+|---|---|
+| board USB-UART path | left untouched |
+| `SEL_D35` | I2C interrupt position |
+| `JP_UART_LOOP2` | open |
+| `JP_External_5V1` | open unless deliberate external power is being tested |
+| BOOT and RESET access | available for flashing and reset tests |
+
+Open/conflicting positions:
+
+| Selector group | Required state |
+|---|---|
+| `SEL_D35` UART position | not fitted |
+| `JP_UART_LOOP2` | open |
+
+Enabled coverage:
+
+- REPL attach over UART0
+- reset and reconnect
+- flashing with the harness attached
+
+### Baseline Hardware Mode
+
+Mode name:
+
+- `ESP32_BASELINE_HARDWARE`
+
+Purpose:
+
+- run the standard always-wired hardware regression pack on the classic harness
+
+Runner/control path:
+
+- board USB-UART through the board Micro-USB connector on `D1` / `D3`
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
+|---|---|
+| `SEL_D33` | pins 1-2 for `D32` to `D33` loopback |
+| `SEL_D26` | pins 1-2 for `D25` to `D26` loopback |
+| `SEL_D35` | I2C interrupt position |
+| `JP_UART_LOOP2` | open |
+| optional I2C pull-up links | fitted only if no attached module supplies pull-ups |
+| `JP_External_5V1` | open unless deliberate external power is being used |
+
+Compatible extensions:
+
+| Extension | Allowed state |
+|---|---|
+| `J_Grove_I2C1` external I2C device | allowed if total bus pull-up loading is reviewed |
+| `J_ONEWIRE1` external powered OneWire device | allowed if combined pull-up and bus loading are reviewed |
+| optional W25xxx on `SPI_CS_FLASH` / `D17` | allowed when the flash device is fitted for shared-bus tests |
+
+Open/conflicting positions:
+
+| Selector group | Required state |
+|---|---|
+| `SEL_D33` / `SEL_D26` DS2413 feedback positions | not fitted unless the DS2413 feedback extension is under test |
+| `SEL_D35` UART position | not fitted |
+| `JP_UART_LOOP2` | open |
+
+Enabled coverage:
+
+- GPIO loopbacks
+- analog/PWM feedback
+- MCP23008 I2C
+- MCP3008 SPI ADC
+- OneWire DS18B20
+- optional shared-bus SPI flash
+
+Baseline extensions:
+
+- DS2413 feedback extension:
+  move `SEL_D33` and/or `SEL_D26` from pins 1-2 to pins 2-3 to route DS2413
+  PIO feedback into `D33` and `D26` when DS2413 validation is being run
+- Grove I2C extension:
+  attach external I2C devices to `J_Grove_I2C1` with no selector change
+- external OneWire extension:
+  attach powered OneWire devices to `J_ONEWIRE1` with no selector change
+
+### Serial Crosslink Mode
+
+Mode name:
+
+- `ESP32_SERIAL_UART1_UART2_CROSSLINK`
+
+Purpose:
+
+- prove non-console `Serial` behaviour using the two non-console hardware UARTs
+- keep UART0 available as the runner/control path
+
+Runner/control path:
+
+- board USB-UART through the board Micro-USB connector on `D1` / `D3`
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
+|---|---|
+| `SEL_D35` | UART position, selecting `D14_UART2_TX` to `D35_UART1_RX` |
+| `JP_UART_LOOP2` | closed to connect `D4_UART1_TX` to `D36_UART2_RX` |
+
+Open/conflicting positions:
+
+| Selector group | Required state |
+|---|---|
+| `SEL_D35` I2C interrupt position | not fitted |
+
+Enabled coverage:
+
+- `Serial.setup`
+- TX/RX transfer across the UART1/UART2 crosslink
+- `Serial.read`
+- `Serial.on("data")`
+- reconfiguration
+
+After the test, reopen `JP_UART_LOOP2` and return `SEL_D35` to the I2C
+interrupt position.
+
+### Power Reset Mode
+
+Mode name:
+
+- `ESP32_POWER_RESET`
+
+Purpose:
+
+- prove reset, bootloader entry, watchdog reset, and later controlled power
+  behaviour on the classic harness
+
+Runner/control path:
+
+- board USB-UART through the board Micro-USB connector on `D1` / `D3`
+
+Required selector positions / wiring:
+
+| Selector or wiring | Position |
+|---|---|
+| automation header | connected or manually accessible for RESET and BOOT control |
+| board USB-UART path | left untouched for reconnect and flashing checks |
+| `JP_External_5V1` | open unless a deliberate external-power test is being run |
+
+Open/conflicting positions:
+
+| Selector group | Required state |
+|---|---|
+| UART crosslink state | optional, but leave `JP_UART_LOOP2` open and `SEL_D35` in I2C interrupt position unless deliberately combining with serial tests |
+
+Enabled coverage:
+
+- reset reconnect
+- bootloader entry and flashing
+- watchdog reset recovery
+
 ## Default State
 
 - `SEL_D33` pins 1-2 fitted for the normal `D32` to `D33` loopback
@@ -316,18 +515,3 @@ unless their power-sharing arrangement has been explicitly reviewed.
 - optional I2C pull-up links fitted only if no attached module supplies them
 - UART0 and BOOT path untouched
 - no fixed harness loads on `D2`, `D5`, `D12`, or `D15`
-
-## UART Crosslink Test Mode
-
-Mode name:
-
-- `ESP32_SERIAL_UART1_UART2_CROSSLINK`
-
-Before running:
-
-1. Keep the runner attached to UART0 through the board USB-UART connector.
-2. Move `SEL_D35` from `I2C_INT` to the UART position.
-3. Close `JP_UART_LOOP2`.
-4. Configure UART1 on `D4`/`D35` and UART2 on `D14`/`D36`.
-
-After the test, reopen `JP_UART_LOOP2` and return `SEL_D35` to `I2C_INT`.

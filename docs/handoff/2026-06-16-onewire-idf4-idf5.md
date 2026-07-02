@@ -41,7 +41,7 @@ bootstrap set should be:
 4. [docs/targets/esp32-c3-devkitc-02/bringup.md](../targets/esp32-c3-devkitc-02/bringup.md)
 5. [docs/targets/esp32-c3-devkitc-02/wiring.md](../targets/esp32-c3-devkitc-02/wiring.md)
 6. [docs/design/harness-modes.md](../design/harness-modes.md)
-7. [docs/design/gpio-rationalisation.md](../design/gpio-rationalisation.md)
+7. [docs/design/common-harness-design-and-blocks.md](../design/common-harness-design-and-blocks.md)
 
 For the next thread's planned starting point, also read:
 
