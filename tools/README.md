@@ -16,6 +16,16 @@ Current examples:
 - generic OneWire soak testing
 - DS18B20 read soak testing
 
+## `repl/`
+
+Shared functional REPL runners for tests under `tests/repl/`.
+
+Current direction:
+
+- Python owns metadata capture, parsing, and overall result handling
+- transport may be direct serial or an optional EspruinoTools CLI backend
+- shared tests remain authoritative in JavaScript under `tests/repl/`
+
 ## `wiring_tests/`
 
 Target-specific wiring-test runners. These encode a particular harness pin

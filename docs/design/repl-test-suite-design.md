@@ -1,5 +1,42 @@
 # REPL Test Suite Design
 
+## Functional Test Strategy
+
+The shared functional REPL suite exists to exercise Espruino's user-facing APIs
+on real target hardware, especially where those APIs drive the target port's
+`jshardware` layer.
+
+The primary goal is to show that the Espruino MCU port behaves correctly when
+the API is used through realistic hardware feedback paths.
+
+A correctly wired and operational harness is an enabling condition for these
+tests, not the end goal of the functional suite.
+
+This gives the suite a layered strategy:
+
+1. the harness design is broken into reusable physical test blocks
+2. each block provides a hardware mechanism such as loopback, analog feedback,
+   bus-attached peripherals, or serial crosslink
+3. those mechanisms create controlled test contexts for exercising the
+   relevant Espruino APIs
+4. the shared `tests/repl/` files then verify API behaviour in those contexts
+   across targets
+
+So the harness blocks are the physical enablers, while the functional REPL
+tests are the API-facing validation layer built on top of them.
+
+The same functional tests should also serve two execution contexts:
+
+1. direct REPL or Web IDE use, so an individual test can be shared and run by
+   community users or during interactive bench investigation
+2. automated runner use, so the same test can be executed efficiently in
+   repeatable regression runs
+
+This dual-use requirement is fundamental to the design. The shared test file
+must remain understandable and usable as plain Espruino JavaScript, while also
+producing structured output that a Python or Codex runner can consume without
+changing the test logic.
+
 ## Requirements
 
 - one test file per logical test task
@@ -18,6 +55,8 @@
 ## File Layout
 
 - `tests/repl/` contains the authoritative JavaScript test suite
+- block-specific subdirectories under `tests/repl/` group tests by physical
+  harness block
 - `tools/` runs those same JavaScript files through Python automation
 - `tools/wiring_tests/` contains target maps or target-specific runner defaults, not separate copies of the test logic
 
@@ -25,23 +64,114 @@
 
 Examples:
 
-- `tests/repl/gpio_block1.js`
-- `tests/repl/analog_block2.js`
-- `tests/repl/bus_spi_i2c_block3.js`
-- `tests/repl/onewire_block4.js`
+- `tests/repl/gpio_block1/gpio_readwrite_basic.js`
+- `tests/repl/gpio_block1/gpio_watch_edges.js`
+- `tests/repl/gpio_block1/gpio_pulse.js`
+- `tests/repl/analog_block2/analog_pwm_feedback.js`
+- `tests/repl/bus_spi_i2c_block3/i2c_mcp23008_registers.js`
+- `tests/repl/onewire_block4/onewire_ds18b20_basic.js`
 
 Each file should be standalone and directly shareable in GitHub issues, discussions, and forum posts.
+
+The directory name identifies the physical harness block. The filename
+identifies the API-scope task being exercised within that block.
+
+This means one hardware block may contain several individual tests as API
+coverage grows, without forcing one large monolithic script.
+
+## Block Scope Principle
+
+In the shared functional suite, a block name defines the hardware test
+precondition, not the limit of API scope.
+
+For example, a GPIO loopback block is not only a wiring proof for
+`digitalWrite`/`digitalRead`. It is the hardware context in which the relevant
+Espruino GPIO-facing APIs should be exercised, especially where they engage the
+target port's `jshardware` layer.
+
+So each shared block test should be designed by:
+
+1. defining the required harness mode and physical block precondition
+2. identifying which Espruino APIs can be validly exercised in that context
+3. using the block to cover that API surface, not just the narrower legacy
+   wiring-check behaviour
+
+The existing `tools/wiring_tests/` scripts remain the canonical hardware
+regression references, but the shared `tests/repl/` files are functional API
+tests rather than rewrites of those wiring checks.
+
+The same Espruino API may be exercised in more than one block where different
+hardware contexts are relevant. This is expected. The important distinction is
+that each individual test should state clearly which API functions it covers
+and why that block is the right context for them.
+
+## Naming And Grouping Scheme
+
+Use the following structure for shared functional tests:
+
+- one subdirectory per physical harness block under `tests/repl/`
+- one JavaScript file per logical API-scope task within that block
+
+Recommended directory naming:
+
+- `gpio_block1/`
+- `analog_block2/`
+- `bus_spi_i2c_block3/`
+- `onewire_block4/`
+
+Recommended file naming:
+
+- start with the API family or functional area
+- end with the specific behaviour under test
+- keep names descriptive enough to stand alone when shared
+
+Recommended `PASS` / `FAIL` check naming:
+
+- use a compact API-family prefix that loosely matches the Espruino API grouping
+- follow it with the specific behaviour, path, or condition under test
+- keep the name short enough for direct REPL readability
+- do not repeat the full API function name unless extra clarity is needed
+
+Examples:
+
+- `gpio_loop_a_low`
+- `gpio_watch_loop_a_rising`
+- `i2c_mcp23008_readback`
+- `onewire_ds18b20_search`
+
+Examples:
+
+- `gpio_readwrite_basic.js`
+- `gpio_watch_edges.js`
+- `gpio_pulse.js`
+- `gpio_shiftout.js`
+- `analog_read_levels.js`
+- `analog_pwm_feedback.js`
+- `i2c_mcp23008_registers.js`
+- `spi_mcp3008_basic.js`
+- `onewire_ds18b20_basic.js`
+
+For block 1 specifically, the intended grouping is:
+
+- `tests/repl/gpio_block1/gpio_readwrite_basic.js`
+- `tests/repl/gpio_block1/gpio_watch_edges.js`
+- `tests/repl/gpio_block1/gpio_pulse.js`
+- `tests/repl/gpio_block1/gpio_shiftout.js`
+
+These files share the same physical loopback block and harness mode family, but
+they split the Espruino GPIO API surface into clearer debugging units.
 
 ## Target Presets
 
 Each test file should contain:
 
 ```js
-var TARGET = "ESP32_V1";
+var TARGET = "AUTO";
 
 var CFGS = {
   ESP32_V1 : {
     name : "ESP32_V1",
+    boardIds : ["ESP32_IDF4", "ESP32_IDF5", "ESP32"],
     selectorInfo : "SEL_D33=1-2 SEL_D26=1-2 SEL_D35=I2C_INT JP_UART_LOOP2=open",
     GPIO_LOOP_A_OUT : D32,
     GPIO_LOOP_A_IN  : D33,
@@ -50,6 +180,7 @@ var CFGS = {
   },
   ESP32_C3 : {
     name : "ESP32_C3",
+    boardIds : ["ESP32C3_IDF4", "ESP32C3_IDF5", "ESP32C3"],
     selectorInfo : "set C3 loopback selector positions for block 1",
     GPIO_LOOP_A_OUT : D1,
     GPIO_LOOP_A_IN  : D2,
@@ -58,17 +189,35 @@ var CFGS = {
   }
 };
 
-var CFG = CFGS[TARGET];
-if (!CFG) throw new Error("Unknown TARGET: " + TARGET);
+function resolveCfg() {
+  if (TARGET !== "AUTO") return CFGS[TARGET];
+  var boardId = process.env.BOARD;
+  for (var k in CFGS) {
+    var ids = CFGS[k].boardIds || [];
+    if (ids.indexOf(boardId) >= 0) return CFGS[k];
+  }
+  throw new Error("Unsupported BOARD for AUTO target: " + boardId);
+}
+
+var CFG = resolveCfg();
 ```
 
-The only user edit should normally be the `TARGET` line.
+The normal default should be `TARGET = "AUTO"` so the same file can select the
+right preset directly in the REPL from `process.env.BOARD`.
+
+Where a manual override is needed, it should happen only in the REPL editor or
+temporary pasted copy for that run. Do not change the committed master test
+script away from its normal `AUTO` behaviour just to force one run.
+
+The visible mapping from runtime board ID to logical harness preset should live
+inside each `CFGS` entry through `boardIds`, so the user can see which Espruino
+board identities select each harness configuration.
 
 ## Test Structure
 
 Each test file should contain:
 
-1. short purpose comment
+1. short purpose comment, including covered API functions
 2. `TARGET` selection
 3. `CFGS` preset table
 4. `CFG` lookup
@@ -85,12 +234,21 @@ Helpers should stay minimal, for example:
 - `cleanup`
 - `finish`
 
+Recommended top-of-file comment style:
+
+```js
+// GPIO block 1 basic read/write functional test
+// Covers: pinMode, digitalWrite, digitalRead
+```
+
 ## Output Contract
 
 Each test should print structured lines only:
 
 - `TEST=<name>`
 - `TARGET=<cfg-name>`
+- `INFO board=<process.env.BOARD>`
+- `INFO api=<comma-separated api functions>`
 - `INFO selectors=<text>`
 - `PASS <check> ...`
 - `FAIL <check> ...`
@@ -108,6 +266,7 @@ harness mode. It must not be used for an actual failing result.
 Each preset should include:
 
 - harness name
+- `boardIds` values used for `AUTO` selection
 - selector or jumper state
 - any special console or port assumptions
 
@@ -155,7 +314,7 @@ Normal success and `SKIP` paths should use the same cleanup function.
 Python should:
 
 - load the JS test file unchanged
-- optionally select the target preset automatically
+- allow the JS test to auto-select its preset from `process.env.BOARD`
 - send the same JS to the REPL
 - wait for `DONE=<name>`
 - parse `PASS` / `FAIL` / `SKIP` / `METRIC`
@@ -168,6 +327,48 @@ Python should not be the source of the test logic.
 This should be done with minimal impact on the JavaScript test content. The JS
 files should only need the common structured output contract.
 
+## Transport Backends
+
+The runner architecture should remain Python-first. Python owns:
+
+- suite selection
+- metadata capture
+- result parsing
+- overall pass/fail handling
+- bench workflow integration
+
+The transport layer used to send JavaScript to the board may vary.
+
+Current practical options are:
+
+- direct serial transport from Python
+- EspruinoTools / `espruino` CLI used as a transport backend
+
+Current position:
+
+- direct serial transport is simple and has no extra tool dependency, but raw
+  REPL paste can produce noisy echoed output
+- EspruinoTools can provide cleaner upload behaviour and still preserve the
+  structured test output, but it introduces an additional Node-based tool
+  dependency and its own startup noise
+
+So EspruinoTools should be treated as an optional transport implementation
+choice, not as the core test-runner architecture.
+
+If EspruinoTools is used, the installation must be explicit and validated. Do
+not rely on a globally installed `espruino` command or on whatever happens to
+exist on one development machine.
+
+The runner should either:
+
+- call a known local `espruino-cli.js` path explicitly, or
+- validate a supported installation path before use and fail clearly if it is
+  missing
+
+The direct-serial backend should remain available as a fallback until the
+EspruinoTools installation and behaviour are considered sufficiently stable for
+this repo's workflow.
+
 ## Design Rules
 
 - keep logical test names common across targets
@@ -176,3 +377,69 @@ files should only need the common structured output contract.
 - prefer small visible configuration over hidden injection
 - prefer plain JS that can be pasted directly into the REPL
 - keep execution non-interactive once the test starts
+
+## Working Positions And Open Questions
+
+The design above fixes the shared test-suite model. The points below capture
+the current working positions for the first shared-runner implementation, while
+also marking the items that still need design discussion before they should be
+treated as settled decisions.
+
+### Working Positions
+
+- First authoritative logical test:
+  `gpio_block1`
+- Shared-runner proving strategy:
+  block at a time on both targets, using Espruino IDF4 builds first where
+  practical to establish a reliable baseline, while accepting that some IDF4
+  fixes may still be required
+- Minimum runner scope:
+  start with single-test execution, then add suite execution early, beginning
+  with the second logical block
+- First runner output format:
+  console/log output only in v1; JSON may be added later
+- Wiring-test migration strategy:
+  phased migration after behaviour parity is demonstrated
+- Capability flags:
+  standardise across tests so `SKIP` remains deliberate and consistent
+- Shared JS helper structure:
+  keep it to the minimum needed by the REPL test itself; prefer the runner to
+  do transport, orchestration, and result handling work
+- V1 runner metadata set:
+  board or harness identity, Espruino version, firmware build provenance,
+  harness mode, exact command, test file or test name, resolved target preset,
+  and pass/fail/skip result summary
+
+For v1, the following are non-mandatory or derived rather than required as
+separate metadata fields:
+
+- serial port, if it is already visible in the recorded command
+- selector state, if it is fully implied by the chosen harness mode
+- hardware-versus-firmware distinction, treated as a test or suite
+  classification rule rather than a per-run metadata field
+
+### Open Questions Requiring Design Discussion
+
+- Which target-selection mechanism should the Python runner use while still
+  keeping the JS test effectively unchanged for direct REPL use?
+  Current idea: the JS test should normally resolve its own preset from
+  `process.env.BOARD` using `boardIds` inside `CFGS`, while the runner probes
+  `process.env` for metadata capture and validation.
+
+```js
+>print process.env
+={
+  VERSION: "2v28",
+  GIT_COMMIT: "dedba55bf",
+  BOARD: "ESP32C3_IDF5",
+  RAM: 409600, FLASH: 0, STORAGE: 917504,
+  SERIAL: "dcda0cd1-c190",
+  CONSOLE: "Serial1",
+  MODULES: "timer,Flash,Storage,heatshr" ... "JS,Wifi,TelnetServer,crypto",
+  EXPTR: 1008160952 }
+>
+```
+
+- Which saved artifact shape should follow the console/log output in a later
+  runner revision, if and when JSON or other machine-readable outputs are
+  added?
