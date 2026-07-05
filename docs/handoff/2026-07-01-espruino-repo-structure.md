@@ -157,8 +157,13 @@ Note:
 
 Path:
 
+
 ```text
+Previously :
 /home/simon/MaBecker/Espruino
+
+Renamed to:
+/home/simon/MaBecker/Espruino_ARCHIVEONLY_SeeESP32_SGATEST
 ```
 
 Role:
@@ -181,11 +186,7 @@ Rule:
 
 ### MaBecker-targeted ESP32 work
 
-Use:
-
-```text
-/home/simon/MaBecker/Espruino_IDF5
-```
+Use the MaBecker ESP32 IDF5 working repo from section 2.
 
 Flow:
 
@@ -196,11 +197,7 @@ Flow:
 
 ### Upstream Espruino work
 
-Use:
-
-```text
-/home/simon/MaBecker/Espruino_upstream_idf4
-```
+Use the upstream Espruino repo from section 4.
 
 Flow:
 
@@ -213,11 +210,7 @@ Flow:
 
 ### Harness and test evidence work
 
-Use:
-
-```text
-/home/simon/MaBecker/ESP32_SGATest
-```
+Use the harness repo from section 1.
 
 Flow:
 
