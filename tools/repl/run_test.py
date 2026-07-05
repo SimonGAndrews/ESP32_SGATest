@@ -45,6 +45,23 @@ def send_and_capture(ser: serial.Serial, text: str, settle: float = 0.2) -> str:
     return read_available(ser, settle)
 
 
+def send_script_paced(ser: serial.Serial, text: str) -> str:
+    lines = text.splitlines()
+    chunks: list[str] = []
+
+    for idx, line in enumerate(lines):
+        ser.write((line + "\n").encode("utf-8"))
+        ser.flush()
+
+        # Pace multi-line REPL uploads so larger tests do not overrun the console.
+        if idx == len(lines) - 1 or idx % 8 == 7:
+            chunks.append(read_available(ser, 0.04))
+        else:
+            time.sleep(0.005)
+
+    return "".join(chunks)
+
+
 def read_until_done(ser: serial.Serial, timeout: float) -> str:
     deadline = time.monotonic() + timeout
     chunks: list[bytes] = []
@@ -104,10 +121,13 @@ def run_direct(test_path: Path, port: str, baud: int, timeout: float) -> str:
     js_test = test_path.read_text()
     with serial.Serial(port, baud, timeout=0.1) as ser:
         sync_repl(ser)
+        send_and_capture(ser, "reset();\n", settle=0.8)
+        send_and_capture(ser, "echo(true);\n", settle=0.2)
         ser.reset_input_buffer()
-        ser.write((js_test + "\n").encode("utf-8"))
-        ser.flush()
-        return read_until_done(ser, timeout)
+        raw_output = send_script_paced(ser, js_test)
+        if "DONE=" in raw_output:
+            return raw_output
+        return raw_output + read_until_done(ser, timeout)
 
 
 def validate_cli_path(cli_path: str) -> Path:
