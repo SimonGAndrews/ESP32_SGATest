@@ -2,6 +2,14 @@
 
 Date: 2026-06-19
 
+Outcome update:
+
+- this note records the investigation-time split plan
+- the final outcome is summarised in
+  [conclusion-2026-07-05.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/conclusion-2026-07-05.md)
+- the target-side fix line was preserved in
+  [MaBecker/Espruino#4](https://github.com/MaBecker/Espruino/pull/4)
+
 ## Purpose
 
 This note records the intended submission shape for the ESP32-C3 `digitalPulse`

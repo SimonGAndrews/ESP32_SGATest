@@ -1,0 +1,584 @@
+diff --git a/src/jsinteractive.c b/src/jsinteractive.c
+index 3ca415b0b..6cc01173b 100644
+--- a/src/jsinteractive.c
++++ b/src/jsinteractive.c
+@@ -2187,6 +2187,20 @@ bool jsiHasTimers() {
+   return !jsvArrayIsEmpty(timerArray);
+ }
+ 
++static JsVar *jsiWatchCreateTimeout(JsVar *watchPtr, Pin pin, bool pinIsHigh, JsSysTime eventTime, JsVarInt debounce) {
++  JsVar *timeout = jsvNewObject();
++  if (timeout) {
++    jsvObjectSetChild(timeout, "watch", watchPtr); // no unlock
++    jsvObjectSetChildAndUnLock(timeout, "time", jsvNewFromLongInteger((JsSysTime)(eventTime - jsiLastIdleTime) + debounce));
++    jsvObjectSetChildAndUnLock(timeout, "cb", jsvObjectGetChildIfExists(watchPtr, "cb"));
++    jsvObjectSetChildAndUnLock(timeout, "lastTime", jsvObjectGetChildIfExists(watchPtr, "lastTime"));
++    jsvObjectSetChildAndUnLock(timeout, "pin", jsvNewFromPin(pin));
++    jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(pinIsHigh));
++    jsiTimerAdd(timeout);
++  }
++  return timeout;
++}
++
+ /// Is the given watch object meant to be executed when the current value of the pin is pinIsHigh
+ bool jsiShouldExecuteWatch(JsVar *watchPtr, bool pinIsHigh) {
+   int watchEdge = (int)jsvObjectGetIntegerChild(watchPtr, "edge");
+@@ -2368,31 +2382,34 @@ void jsiIdle() {
+             bool oldWatchState = jsvObjectGetBoolChild(watchPtr, "state");
+             JsVar *timeout = jsvObjectGetChildIfExists(watchPtr, "timeout");
+             if (timeout) { // if we had a timeout, update the callback time
++              bool currentPinIsHigh = pinIsHigh;
++              JsSysTime currentEventTime = eventTime;
+               JsSysTime timeoutTime = jsiLastIdleTime + (JsSysTime)jsvGetLongIntegerAndUnLock(jsvObjectGetChildIfExists(timeout, "time"));
+-              jsvUnLock(jsvObjectSetChild(timeout, "time", jsvNewFromLongInteger((JsSysTime)(eventTime - jsiLastIdleTime) + debounce)));
+-              jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(pinIsHigh));
+-              if (ignoreEvent || ((eventTime > timeoutTime) && (pinIsHigh!=oldWatchState))) {
+-                // timeout should have fired, but we didn't get around to executing it!
+-                // Do it now (with the old timeout time)
++              bool timeoutState = jsvObjectGetBoolChild(timeout, "state");
++              if (ignoreEvent || ((currentEventTime > timeoutTime) && (timeoutState != oldWatchState))) {
++                // This timeout should have fired already. Flush that edge first, then
++                // keep the current edge as a fresh debounce timeout if it differs.
+                 executeNow = !ignoreEvent;
+                 eventTime = timeoutTime - debounce;
+-                jsvObjectSetChildAndUnLock(watchPtr, "state", jsvNewFromBool(pinIsHigh));
++                pinIsHigh = timeoutState;
++                jsvObjectSetChildAndUnLock(watchPtr, "state", jsvNewFromBool(timeoutState));
+                 // Remove the timeout
+                 jsiClearTimeout(timeout);
+                 jsvObjectRemoveChild(watchPtr, "timeout");
++                if (!ignoreEvent && (currentPinIsHigh != timeoutState)) {
++                  JsVar *newTimeout = jsiWatchCreateTimeout(watchPtr, pin, currentPinIsHigh, currentEventTime, debounce);
++                  if (newTimeout) {
++                    jsvObjectSetChild(watchPtr, "timeout", newTimeout); // no unlock
++                    jsvUnLock(newTimeout);
++                  }
++                }
++              } else {
++                jsvUnLock(jsvObjectSetChild(timeout, "time", jsvNewFromLongInteger((JsSysTime)(currentEventTime - jsiLastIdleTime) + debounce)));
++                jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(currentPinIsHigh));
+               }
+             } else if (!ignoreEvent && pinIsHigh!=oldWatchState) { // else create a new timeout
+-              timeout = jsvNewObject();
++              timeout = jsiWatchCreateTimeout(watchPtr, pin, pinIsHigh, eventTime, debounce);
+               if (timeout) {
+-                jsvObjectSetChild(timeout, "watch", watchPtr); // no unlock
+-                jsvObjectSetChildAndUnLock(timeout, "time", jsvNewFromLongInteger((JsSysTime)(eventTime - jsiLastIdleTime) + debounce));
+-                jsvObjectSetChildAndUnLock(timeout, "cb", jsvObjectGetChildIfExists(watchPtr, "cb"));
+-                jsvObjectSetChildAndUnLock(timeout, "lastTime", jsvObjectGetChildIfExists(watchPtr, "lastTime"));
+-                jsvObjectSetChildAndUnLock(timeout, "pin", jsvNewFromPin(pin));
+-                jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(pinIsHigh));
+-                // Add to timer array
+-                jsiTimerAdd(timeout);
+-                // Add to our watch
+                 jsvObjectSetChild(watchPtr, "timeout", timeout); // no unlock
+               }
+             } else if (ignoreEvent) {
+@@ -3036,4 +3053,3 @@ void jsiDebuggerLine(JsVar *line) {
+ }
+ #endif // USE_DEBUGGER
+ 
+-
+diff --git a/src/jstimer.c b/src/jstimer.c
+index 17b93839a..1ac6e174c 100644
+--- a/src/jstimer.c
++++ b/src/jstimer.c
+@@ -33,6 +33,125 @@ JsSysTime utilTimerSetTime;
+ /// Incremented with utilTimerPeriod - used when we're adding multiple items and we want them all relative to each other
+ volatile int utilTimerOffset;
+ 
++#define UTIL_TIMER_DEBUG_LOG_LEN 32
++
++typedef enum {
++  UTDBG_RESET = 1,
++  UTDBG_INSERT,
++  UTDBG_START,
++  UTDBG_ISR,
++  UTDBG_SET,
++  UTDBG_RESCHED,
++  UTDBG_DISABLE,
++} UtilTimerDebugKind;
++
++typedef struct {
++  uint8_t kind;
++  uint8_t timerId;
++  uint8_t pin;
++  uint8_t value;
++  uint8_t head;
++  uint8_t tail;
++  int taskTime;
++  int period;
++} UtilTimerDebugEntry;
++
++static UtilTimerDebugEntry utilTimerDebugLog[UTIL_TIMER_DEBUG_LOG_LEN];
++static uint8_t utilTimerDebugLogHead = 0;
++static uint32_t utilTimerDebugLogCount = 0;
++static uint32_t utilTimerDebugInsertCount = 0;
++static uint32_t utilTimerDebugStartCount = 0;
++static uint32_t utilTimerDebugIsrCount = 0;
++static uint32_t utilTimerDebugSetCount = 0;
++static uint32_t utilTimerDebugReschedCount = 0;
++static uint32_t utilTimerDebugDisableCount = 0;
++
++static const char *jstUtilTimerDebugKindName(uint8_t kind) {
++  switch (kind) {
++    case UTDBG_RESET: return "reset";
++    case UTDBG_INSERT: return "insert";
++    case UTDBG_START: return "start";
++    case UTDBG_ISR: return "isr";
++    case UTDBG_SET: return "set";
++    case UTDBG_RESCHED: return "resched";
++    case UTDBG_DISABLE: return "disable";
++    default: return "unknown";
++  }
++}
++
++static inline void jstUtilTimerDebugLogEvent(uint8_t kind, uint8_t timerId, Pin pin, uint8_t value, int taskTime, int period) {
++  UtilTimerDebugEntry *entry = &utilTimerDebugLog[utilTimerDebugLogHead];
++  entry->kind = kind;
++  entry->timerId = timerId;
++  entry->pin = (uint8_t)pin;
++  entry->value = value;
++  entry->head = utilTimerTasksHead;
++  entry->tail = utilTimerTasksTail;
++  entry->taskTime = taskTime;
++  entry->period = period;
++  utilTimerDebugLogHead = (uint8_t)((utilTimerDebugLogHead + 1) % UTIL_TIMER_DEBUG_LOG_LEN);
++  utilTimerDebugLogCount++;
++}
++
++void jstUtilTimerDebugReset() {
++  utilTimerDebugLogHead = 0;
++  utilTimerDebugLogCount = 0;
++  utilTimerDebugInsertCount = 0;
++  utilTimerDebugStartCount = 0;
++  utilTimerDebugIsrCount = 0;
++  utilTimerDebugSetCount = 0;
++  utilTimerDebugReschedCount = 0;
++  utilTimerDebugDisableCount = 0;
++  for (int i = 0; i < UTIL_TIMER_DEBUG_LOG_LEN; i++) {
++    utilTimerDebugLog[i].kind = 0;
++    utilTimerDebugLog[i].timerId = 0;
++    utilTimerDebugLog[i].pin = 0;
++    utilTimerDebugLog[i].value = 0;
++    utilTimerDebugLog[i].head = 0;
++    utilTimerDebugLog[i].tail = 0;
++    utilTimerDebugLog[i].taskTime = 0;
++    utilTimerDebugLog[i].period = 0;
++  }
++  jstUtilTimerDebugLogEvent(UTDBG_RESET, 0, PIN_UNDEFINED, 0, 0, 0);
++}
++
++JsVar *jstUtilTimerDebugSnapshot() {
++  JsVar *debug = jsvNewObject();
++  JsVar *entries = jsvNewEmptyArray();
++  uint32_t entryCount = utilTimerDebugLogCount;
++  if (entryCount > UTIL_TIMER_DEBUG_LOG_LEN) entryCount = UTIL_TIMER_DEBUG_LOG_LEN;
++  uint32_t start = (utilTimerDebugLogHead + UTIL_TIMER_DEBUG_LOG_LEN - entryCount) % UTIL_TIMER_DEBUG_LOG_LEN;
++
++  jsvObjectSetChildAndUnLock(debug, "insertCount", jsvNewFromInteger(utilTimerDebugInsertCount));
++  jsvObjectSetChildAndUnLock(debug, "startCount", jsvNewFromInteger(utilTimerDebugStartCount));
++  jsvObjectSetChildAndUnLock(debug, "isrCount", jsvNewFromInteger(utilTimerDebugIsrCount));
++  jsvObjectSetChildAndUnLock(debug, "setCount", jsvNewFromInteger(utilTimerDebugSetCount));
++  jsvObjectSetChildAndUnLock(debug, "reschedCount", jsvNewFromInteger(utilTimerDebugReschedCount));
++  jsvObjectSetChildAndUnLock(debug, "disableCount", jsvNewFromInteger(utilTimerDebugDisableCount));
++  jsvObjectSetChildAndUnLock(debug, "utilTimerOn", jsvNewFromBool(utilTimerOn));
++  jsvObjectSetChildAndUnLock(debug, "utilTimerPeriod", jsvNewFromInteger(utilTimerPeriod));
++  jsvObjectSetChildAndUnLock(debug, "utilTimerOffset", jsvNewFromInteger(utilTimerOffset));
++  jsvObjectSetChildAndUnLock(debug, "queueHead", jsvNewFromInteger(utilTimerTasksHead));
++  jsvObjectSetChildAndUnLock(debug, "queueTail", jsvNewFromInteger(utilTimerTasksTail));
++
++  for (uint32_t i = 0; i < entryCount; i++) {
++    const UtilTimerDebugEntry *entry = &utilTimerDebugLog[(start + i) % UTIL_TIMER_DEBUG_LOG_LEN];
++    JsVar *entryObj = jsvNewObject();
++    jsvObjectSetChildAndUnLock(entryObj, "kind", jsvNewFromString(jstUtilTimerDebugKindName(entry->kind)));
++    jsvObjectSetChildAndUnLock(entryObj, "timerId", jsvNewFromInteger(entry->timerId));
++    jsvObjectSetChildAndUnLock(entryObj, "pin", jsvNewFromInteger(entry->pin));
++    jsvObjectSetChildAndUnLock(entryObj, "value", jsvNewFromInteger(entry->value));
++    jsvObjectSetChildAndUnLock(entryObj, "taskTime", jsvNewFromInteger(entry->taskTime));
++    jsvObjectSetChildAndUnLock(entryObj, "period", jsvNewFromInteger(entry->period));
++    jsvObjectSetChildAndUnLock(entryObj, "head", jsvNewFromInteger(entry->head));
++    jsvObjectSetChildAndUnLock(entryObj, "tail", jsvNewFromInteger(entry->tail));
++    jsvArrayPushAndUnLock(entries, entryObj);
++  }
++
++  jsvObjectSetChildAndUnLock(debug, "entries", entries);
++  return debug;
++}
++
+ 
+ #ifndef SAVE_ON_FLASH
+ 
+@@ -102,6 +221,8 @@ void jstUtilTimerInterruptHandler() {
+   /* Note: we're using 32 bit times here, even though the real time counter is 64 bit. We
+    * just make sure nothing is scheduled that far in the future */
+   if (utilTimerOn) {
++    utilTimerDebugIsrCount++;
++    jstUtilTimerDebugLogEvent(UTDBG_ISR, 0, PIN_UNDEFINED, 0, 0, utilTimerPeriod);
+     utilTimerSetTime = jshGetSystemTime();
+     /* We keep UtilTimer running and then jshUtilTimerReschedule reschedules
+     based on the time from when this IRQ was triggered, *not* from the
+@@ -120,6 +241,8 @@ void jstUtilTimerInterruptHandler() {
+       void *executeData = 0;
+       switch (task->type) {
+       case UET_SET: {
++        utilTimerDebugSetCount++;
++        jstUtilTimerDebugLogEvent(UTDBG_SET, timerId, task->data.set.pins[0], task->data.set.value, task->time, utilTimerPeriod);
+         int j;
+         for (j=0;j<UTILTIMERTASK_PIN_COUNT;j++) {
+           if (task->data.set.pins[j] == PIN_UNDEFINED) break;
+@@ -235,13 +358,19 @@ void jstUtilTimerInterruptHandler() {
+     if (utilTimerTasksTail != utilTimerTasksHead) {
+       utilTimerPeriod = utilTimerTaskInfo[utilTimerTasks[utilTimerTasksTail]].time;
+       if (utilTimerPeriod<0) utilTimerPeriod=0;
++      utilTimerDebugReschedCount++;
++      jstUtilTimerDebugLogEvent(UTDBG_RESCHED, utilTimerTasks[utilTimerTasksTail], PIN_UNDEFINED, 0, utilTimerPeriod, utilTimerPeriod);
+       jshUtilTimerReschedule(utilTimerPeriod);
+     } else {
+       utilTimerOn = false;
++      utilTimerDebugDisableCount++;
++      jstUtilTimerDebugLogEvent(UTDBG_DISABLE, 0, PIN_UNDEFINED, 0, 0, 0);
+       jshUtilTimerDisable();
+     }
+   } else {
+     // Nothing left to do - disable the timer
++    utilTimerDebugDisableCount++;
++    jstUtilTimerDebugLogEvent(UTDBG_DISABLE, 0, PIN_UNDEFINED, 0, 0, 0);
+     jshUtilTimerDisable();
+   }
+ }
+@@ -272,6 +401,8 @@ void jstRestartUtilTimer() {
+   utilTimerPeriod = utilTimerTaskInfo[utilTimerTasks[utilTimerTasksTail]].time;
+   utilTimerSetTime = jshGetSystemTime();
+   if (utilTimerPeriod<0) utilTimerPeriod=0;
++  utilTimerDebugStartCount++;
++  jstUtilTimerDebugLogEvent(UTDBG_START, utilTimerTasks[utilTimerTasksTail], PIN_UNDEFINED, 0, utilTimerPeriod, utilTimerPeriod);
+   jshUtilTimerStart(utilTimerPeriod);
+ }
+ 
+@@ -336,6 +467,11 @@ bool utilTimerInsertTask(uint8_t taskIdx, uint32_t *timerOffset, bool firstOnly)
+     task->time += timePassed;
+   // add new item
+   utilTimerTasks[insertPos] = taskIdx;
++  utilTimerDebugInsertCount++;
++  if (UET_IS_SET_EVENT(task->type))
++    jstUtilTimerDebugLogEvent(UTDBG_INSERT, taskIdx, task->data.set.pins[0], task->data.set.value, task->time, utilTimerPeriod);
++  else
++    jstUtilTimerDebugLogEvent(UTDBG_INSERT, taskIdx, PIN_UNDEFINED, 0, task->time, utilTimerPeriod);
+   //jsiConsolePrint("Head is %d\n", utilTimerTasksHead);
+   // now set up timer if not already set up...
+   if (!utilTimerOn || haveChangedTimer) {
+@@ -695,6 +831,7 @@ void jstReset() {
+   utilTimerOffset = 0;
+   utilTimerPeriod = 0;
+   utilTimerSetTime = jshGetSystemTime();
++  jstUtilTimerDebugReset();
+ }
+ 
+ /** when system time is changed, also change the time in the timers.
+diff --git a/src/jstimer.h b/src/jstimer.h
+index 9637294a8..7a6af9990 100644
+--- a/src/jstimer.h
++++ b/src/jstimer.h
+@@ -134,6 +134,12 @@ extern UtilTimerTask utilTimerTaskInfo[UTILTIMERTASK_TASKS];
+ /// Called from the utility timer interrupt to handle timer events
+ void jstUtilTimerInterruptHandler();
+ 
++/// Reset temporary debug counters/logging for the utility timer
++void jstUtilTimerDebugReset();
++
++/// Return a snapshot of temporary utility-timer debug state
++JsVar *jstUtilTimerDebugSnapshot();
++
+ /// Wait until the utility timer is totally empty (use with care as timers can repeat)
+ void jstUtilTimerWaitEmpty();
+ 
+@@ -217,4 +223,3 @@ bool utilTimerGetLastTask(bool (checkCallback)(UtilTimerTask *task, void* data),
+ void jstOnCustomEvent(IOEventFlags eventFlags, uint8_t *data, int dataLen);
+ 
+ #endif /* JSTIMER_H_ */
+-
+diff --git a/targets/esp32/jshardware.c b/targets/esp32/jshardware.c
+index 97e424404..643d33bff 100644
+--- a/targets/esp32/jshardware.c
++++ b/targets/esp32/jshardware.c
+@@ -25,6 +25,7 @@
+  */
+ #include <stdio.h>
+ #include <sys/time.h>
++ESP32 IDF5 digitalPulse Fix Notes#include "freertos/FreeRTOS.h"
+ 
+ #include "jshardware.h"
+ #include "jshardwareUart.h"
+@@ -34,9 +35,8 @@
+ #include "rtosutil.h"
+ #if ESP_IDF_VERSION_MAJOR>=5
+ #include "driver/gptimer.h"
+-#else
+-#include "driver/timer.h"
+ #endif
++#include "driver/timer.h"
+ 
+ #ifdef BLUETOOTH
+ #include "BLE/esp32_gap_func.h"
+@@ -109,6 +109,74 @@ static IOEventFlags pinToEV_EXTI(
+ 
+ static uint8_t g_pinState[JSH_PIN_COUNT];
+ 
++#define PIN_DEBUG_LOG_LEN 32
++
++typedef struct {
++  uint8_t pin;
++  uint8_t requestedValue;
++  uint8_t rawBefore;
++  uint8_t rawAfter;
++  uint8_t logicalAfter;
++  uint8_t inIsr;
++} PinDebugEntry;
++
++static PinDebugEntry pinDebugLog[PIN_DEBUG_LOG_LEN];
++static uint8_t pinDebugLogHead = 0;
++static uint32_t pinDebugLogCount = 0;
++static uint32_t pinDebugSetCount = 0;
++
++static inline void jshPinDebugLog(Pin pin, bool requestedValue, bool rawBefore, bool rawAfter, bool logicalAfter, bool inIsr) {
++  PinDebugEntry *entry = &pinDebugLog[pinDebugLogHead];
++  entry->pin = (uint8_t)pin;
++  entry->requestedValue = requestedValue ? 1 : 0;
++  entry->rawBefore = rawBefore ? 1 : 0;
++  entry->rawAfter = rawAfter ? 1 : 0;
++  entry->logicalAfter = logicalAfter ? 1 : 0;
++  entry->inIsr = inIsr ? 1 : 0;
++  pinDebugLogHead = (uint8_t)((pinDebugLogHead + 1) % PIN_DEBUG_LOG_LEN);
++  pinDebugLogCount++;
++  pinDebugSetCount++;
++}
++
++void jshPinDebugReset(void) {
++  pinDebugLogHead = 0;
++  pinDebugLogCount = 0;
++  pinDebugSetCount = 0;
++  for (int i = 0; i < PIN_DEBUG_LOG_LEN; i++) {
++    pinDebugLog[i].pin = 0;
++    pinDebugLog[i].requestedValue = 0;
++    pinDebugLog[i].rawBefore = 0;
++    pinDebugLog[i].rawAfter = 0;
++    pinDebugLog[i].logicalAfter = 0;
++    pinDebugLog[i].inIsr = 0;
++  }
++}
++
++JsVar *jshPinDebugSnapshot(void) {
++  JsVar *debug = jsvNewObject();
++  JsVar *entries = jsvNewEmptyArray();
++  uint32_t entryCount = pinDebugLogCount;
++  if (entryCount > PIN_DEBUG_LOG_LEN) entryCount = PIN_DEBUG_LOG_LEN;
++  uint32_t start = (pinDebugLogHead + PIN_DEBUG_LOG_LEN - entryCount) % PIN_DEBUG_LOG_LEN;
++
++  jsvObjectSetChildAndUnLock(debug, "setCount", jsvNewFromInteger(pinDebugSetCount));
++
++  for (uint32_t i = 0; i < entryCount; i++) {
++    const PinDebugEntry *entry = &pinDebugLog[(start + i) % PIN_DEBUG_LOG_LEN];
++    JsVar *entryObj = jsvNewObject();
++    jsvObjectSetChildAndUnLock(entryObj, "pin", jsvNewFromInteger(entry->pin));
++    jsvObjectSetChildAndUnLock(entryObj, "requestedValue", jsvNewFromInteger(entry->requestedValue));
++    jsvObjectSetChildAndUnLock(entryObj, "rawBefore", jsvNewFromInteger(entry->rawBefore));
++    jsvObjectSetChildAndUnLock(entryObj, "rawAfter", jsvNewFromInteger(entry->rawAfter));
++    jsvObjectSetChildAndUnLock(entryObj, "logicalAfter", jsvNewFromInteger(entry->logicalAfter));
++    jsvObjectSetChildAndUnLock(entryObj, "inIsr", jsvNewFromInteger(entry->inIsr));
++    jsvArrayPushAndUnLock(entries, entryObj);
++  }
++
++  jsvObjectSetChildAndUnLock(debug, "entries", entries);
++  return debug;
++}
++
+ /// Whether a pin is being used for soft PWM or not
+ BITFIELD_DECL(jshPinSoftPWM, JSH_PIN_COUNT);
+ 
+@@ -225,6 +293,7 @@ void jshReset() {
+   jshResetDevices();
+   jshPinDefaultPullup() ;
+ //  UartReset();
++  jshPinDebugReset();
+   RMTReset();
+   ADCReset();
+   I2CReset();
+@@ -402,12 +471,17 @@ void jshPinSetValue(
+   ) {
+   if (pinInfo[pin].port & JSH_PIN_NEGATED) value=!value;
+   gpio_num_t gpioNum = pinToESP32Pin(pin);
++  bool rawBefore = gpio_get_level(gpioNum);
+ #if ESP_IDF_VERSION_MAJOR>=5
+   gpio_iomux_out(gpioNum, SIG_GPIO_OUT_IDX, 0); // reset pin to be GPIO in case it was used as rmt or something else
+ #else
+   gpio_matrix_out(gpioNum,SIG_GPIO_OUT_IDX,0,0);  // reset pin to be GPIO in case it was used as rmt or something else
+ #endif
+   gpio_set_level(gpioNum, (uint32_t)value);
++  bool rawAfter = gpio_get_level(gpioNum);
++  bool logicalAfter = rawAfter;
++  if (pinInfo[pin].port & JSH_PIN_NEGATED) logicalAfter = !logicalAfter;
++  jshPinDebugLog(pin, value, rawBefore, rawAfter, logicalAfter, xPortInIsrContext() != 0);
+ }
+ 
+ 
+@@ -743,26 +817,20 @@ void jshSetSystemTime(JsSysTime newTime) {
+   tz.tz_dsttime=0;
+   settimeofday(&tm, &tz);
+ }
+-#if ESP_IDF_VERSION_MAJOR>=5
+-  void jshUtilTimerDisable() {}
+-  void jshUtilTimerStart(JsSysTime period) {}
+-  void jshUtilTimerReschedule(JsSysTime period) {}
+-#else
+-  void jshUtilTimerDisable() {
+-    timer_pause(TIMER_GROUP_0, 0);
+-    timer_disable_intr(TIMER_GROUP_0, 0);
+-  }
++void jshUtilTimerDisable() {
++  timer_pause(TIMER_GROUP_0, 0);
++  timer_disable_intr(TIMER_GROUP_0, 0);
++}
+ 
+-  void jshUtilTimerStart(JsSysTime period) {
+-    if(period <= 30){period = 30;}
+-    timer_Start(0, period);
+-  }
++void jshUtilTimerStart(JsSysTime period) {
++  if (period <= 30) period = 30;
++  timer_Start(0, period);
++}
+ 
+-  void jshUtilTimerReschedule(JsSysTime period) {
+-    if(period <= 30){period = 30;}
+-    timer_Reschedule(0,(uint64_t)period);
+-  }
+-#endif
++void jshUtilTimerReschedule(JsSysTime period) {
++  if (period <= 30) period = 30;
++  timer_Reschedule(0, (uint64_t)period);
++}
+ 
+ //===== Miscellaneous =====
+ 
+diff --git a/targets/esp32/jswrap_esp32.c b/targets/esp32/jswrap_esp32.c
+index bf8228a3b..3f5b497b4 100644
+--- a/targets/esp32/jswrap_esp32.c
++++ b/targets/esp32/jswrap_esp32.c
+@@ -19,6 +19,7 @@
+ #include "jsinteractive.h"
+ #include "jsparse.h"
+ #include "jsflash.h"
++#include "jstimer.h"
+ 
+ #include "esp_system.h"
+ #include "esp_sleep.h"
+@@ -36,6 +37,9 @@
+ #include "jsinteractive.h"
+ #include "jsparse.h"
+ 
++extern JsVar *jshPinDebugSnapshot(void);
++extern void jshPinDebugReset(void);
++
+ /*JSON{
+   "type": "class",
+   "class" : "ESP32",
+@@ -234,6 +238,60 @@ JsVar *jswrap_ESP32_getState() {
+   return esp32State;
+ } // End of jswrap_ESP32_getState
+ 
++/*JSON{
++  "type"     : "staticmethod",
++  "class"    : "ESP32",
++  "ifdef"    : "ESP32",
++  "name"     : "getUtilTimerDebug",
++  "generate" : "jswrap_ESP32_getUtilTimerDebug",
++  "return"   : ["JsVar", "Temporary utility-timer debug state"]
++}
++Returns a snapshot of temporary utility-timer debug counters and recent events.
++*/
++JsVar *jswrap_ESP32_getUtilTimerDebug() {
++  return jstUtilTimerDebugSnapshot();
++}
++
++/*JSON{
++  "type"     : "staticmethod",
++  "class"    : "ESP32",
++  "ifdef"    : "ESP32",
++  "name"     : "resetUtilTimerDebug",
++  "generate" : "jswrap_ESP32_resetUtilTimerDebug"
++}
++Reset temporary utility-timer debug counters and recent events.
++*/
++void jswrap_ESP32_resetUtilTimerDebug() {
++  jstUtilTimerDebugReset();
++}
++
++/*JSON{
++  "type"     : "staticmethod",
++  "class"    : "ESP32",
++  "ifdef"    : "ESP32",
++  "name"     : "getPinDebug",
++  "generate" : "jswrap_ESP32_getPinDebug",
++  "return"   : ["JsVar", "Temporary pin-write debug state"]
++}
++Returns a snapshot of temporary pin-write debug counters and recent events.
++*/
++JsVar *jswrap_ESP32_getPinDebug() {
++  return jshPinDebugSnapshot();
++}
++
++/*JSON{
++  "type"     : "staticmethod",
++  "class"    : "ESP32",
++  "ifdef"    : "ESP32",
++  "name"     : "resetPinDebug",
++  "generate" : "jswrap_ESP32_resetPinDebug"
++}
++Reset temporary pin-write debug counters and recent events.
++*/
++void jswrap_ESP32_resetPinDebug() {
++  jshPinDebugReset();
++}
++
+ #ifdef BLUETOOTH
+ /*JSON{
+  "type"     : "staticmethod",
+@@ -314,4 +372,3 @@ void jswrap_ESP32_setOTAValid(bool isValid) {
+   if (isValid) esp_ota_mark_app_valid_cancel_rollback();
+   else esp_ota_mark_app_invalid_rollback_and_reboot();
+ }
+-
+diff --git a/targets/esp32/jswrap_esp32.h b/targets/esp32/jswrap_esp32.h
+index 6be9155c8..54eac9c8e 100644
+--- a/targets/esp32/jswrap_esp32.h
++++ b/targets/esp32/jswrap_esp32.h
+@@ -20,6 +20,10 @@
+ 
+ //===== ESP32 Library
+ JsVar *jswrap_ESP32_getState();
++JsVar *jswrap_ESP32_getUtilTimerDebug();
++JsVar *jswrap_ESP32_getPinDebug();
++void   jswrap_ESP32_resetUtilTimerDebug();
++void   jswrap_ESP32_resetPinDebug();
+ JsVar *jswrap_ESP32_setBoot(JsVar *jsPartitionName);
+ void   jswrap_ESP32_reboot();
+ void   jswrap_ESP32_deepSleep(int us);
+diff --git a/targets/esp32/rtosutil.c b/targets/esp32/rtosutil.c
+index 6ad41912a..1374291f1 100644
+--- a/targets/esp32/rtosutil.c
++++ b/targets/esp32/rtosutil.c
+@@ -174,8 +174,13 @@ void timer_Reschedule(int idx, uint64_t duration) {
+   int timer_n = ESP32Timers[idx].index;
+   
+   if (duration < TIMER_FINE_ADJ + 1) duration = TIMER_FINE_ADJ + 1;
++#if ESP_IDF_VERSION_MAJOR >= 5
++  timer_group_set_alarm_value_in_isr(group, timer_n, duration - TIMER_FINE_ADJ);
++  timer_group_enable_alarm_in_isr(group, timer_n);
++#else
+   timer_set_alarm_value(group, timer_n, duration - TIMER_FINE_ADJ);
+   TIMER_ALARM_EN(timer_n);
++#endif
+ }
+ 
+ void timer_List() {

@@ -2,6 +2,14 @@
 
 Date: 2026-06-12
 
+Outcome update:
+
+- this note records the original regression evidence
+- the final target-side `digitalPulse` outcome is summarised in
+  [conclusion-2026-07-05.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/conclusion-2026-07-05.md)
+- the preserved target-side fix is
+  [MaBecker/Espruino#4](https://github.com/MaBecker/Espruino/pull/4)
+
 This note records observed regressions when comparing the newer ESP32-C3
 Espruino build running on Espressif IDF 5.x against the earlier reference
 bring-up build used on the same harness.

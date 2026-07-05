@@ -1,5 +1,13 @@
 # Draft: MaBecker IDF5 `digitalPulse` PR
 
+Outcome update:
+
+- this note preserves the draft PR wording
+- the final investigation close-out is summarised in
+  [conclusion-2026-07-05.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/conclusion-2026-07-05.md)
+- the actual preserved PR is
+  [MaBecker/Espruino#4](https://github.com/MaBecker/Espruino/pull/4)
+
 ## Suggested Title
 
 `ESP32 IDF5: restore digitalPulse timer path`

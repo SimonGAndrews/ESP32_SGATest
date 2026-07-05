@@ -1,0 +1,331 @@
+From ea72b37c9ad15d468a2b96c45cf07d413dfb20c4 Mon Sep 17 00:00:00 2001
+From: Simon Andrews <Simon.g.andrews@live.co.uk>
+Date: Wed, 17 Jun 2026 17:42:26 +0100
+Subject: [PATCH] feat(esp32/onewire): add searchDebug and local timing guard
+
+---
+ src/jswrap_onewire.c | 209 ++++++++++++++++++++++++++++++++++++++++---
+ src/jswrap_onewire.h |   1 +
+ 2 files changed, 200 insertions(+), 10 deletions(-)
+
+diff --git a/src/jswrap_onewire.c b/src/jswrap_onewire.c
+index 3eb2df73a..679140d96 100644
+--- a/src/jswrap_onewire.c
++++ b/src/jswrap_onewire.c
+@@ -17,6 +17,15 @@
+ #include "jsdevices.h"
+ #include "jsinteractive.h"
+ 
++#ifdef ESP32
++#include "freertos/FreeRTOS.h"
++static portMUX_TYPE JSQuietTimingMux = portMUX_INITIALIZER_UNLOCKED;
++// Override the normal ESP32 interrupt stubs in this file only so OneWire
++// timing windows use an IDF critical section.
++#define jshInterruptOff() portENTER_CRITICAL(&JSQuietTimingMux)
++#define jshInterruptOn() portEXIT_CRITICAL(&JSQuietTimingMux)
++#endif
++
+ #if defined(BLUETOOTH) && defined(NRF52_SERIES)
+ #define ESPR_ONEWIRE_IN_TIMESLOT
+ #endif
+@@ -51,16 +60,132 @@ static Pin onewire_getpin(JsVar *parent) {
+   return jshGetPinFromVarAndUnLock(jsvObjectGetChildIfExists(parent, "pin"));
+ }
+ 
++#define ONEWIRE_SEARCH_DEBUG_MAX_PASSES 8
++#define ONEWIRE_SEARCH_DEBUG_MAX_SLOTS 64
++
++typedef struct {
++  bool resetOk;
++  bool abortedOn11;
++  bool searchResult;
++  bool rom0Valid;
++  int abortBit;
++  int slotsUsed;
++  int idBitsRead;
++  int lastZero;
++  int lastDiscrepancyIn;
++  int lastDiscrepancyOut;
++  bool lastDeviceFlagIn;
++  bool lastDeviceFlagOut;
++  unsigned char romNo[8];
++  uint32_t slots[ONEWIRE_SEARCH_DEBUG_MAX_SLOTS];
++} OneWireSearchDebugPass;
++
++static void onewire_rom_to_string(const unsigned char romNo[8], char buf[17]) {
++  int i;
++  for (i=0;i<8;i++) {
++    buf[i*2] = itoch((romNo[i]>>4) & 15);
++    buf[i*2+1] = itoch(romNo[i] & 15);
++  }
++  buf[16] = 0;
++}
++
++static uint32_t onewire_search_debug_encode_slot(
++  int idBitNumber,
++  unsigned char idBit,
++  unsigned char cmpIdBit,
++  unsigned char searchDirection,
++  int lastZero,
++  int romByteNumber,
++  unsigned char romByteValue
++) {
++  return ((uint32_t)(idBitNumber & 0x7F)) |
++         ((uint32_t)(idBit & 1) << 7) |
++         ((uint32_t)(cmpIdBit & 1) << 8) |
++         ((uint32_t)(searchDirection & 1) << 9) |
++         ((uint32_t)((idBit == cmpIdBit) ? 1 : 0) << 10) |
++         ((uint32_t)(romByteNumber & 7) << 11) |
++         ((uint32_t)(lastZero & 0x7F) << 14) |
++         ((uint32_t)romByteValue << 21);
++}
++
++static JsVar *onewire_search_debug_slots_to_js(const uint32_t *slots, int count) {
++  JsVar *arr = jsvNewTypedArray(ARRAYBUFFERVIEW_UINT32, count);
++  if (!arr) return 0;
++  JsvArrayBufferIterator it;
++  jsvArrayBufferIteratorNew(&it, arr, 0);
++  while (count-- > 0) {
++    jsvArrayBufferIteratorSetIntegerValue(&it, (JsVarInt)*(slots++));
++    jsvArrayBufferIteratorNext(&it);
++  }
++  jsvArrayBufferIteratorFree(&it);
++  return arr;
++}
++
++static JsVar *onewire_search_debug_to_js(
++  Pin pin,
++  int command,
++  JsVar *devices,
++  const OneWireSearchDebugPass *passes,
++  int passCount,
++  bool passOverflow
++) {
++  JsVar *result = jsvNewObject();
++  JsVar *passArray = jsvNewEmptyArray();
++  int i;
++  if (!result || !passArray) {
++    jsvUnLock2(result, passArray);
++    jsvUnLock(devices);
++    return 0;
++  }
++
++  jsvObjectSetChildAndUnLock(result, "pin", jsvNewFromPin(pin));
++  jsvObjectSetChildAndUnLock(result, "command", jsvNewFromInteger(command));
++  jsvObjectSetChildAndUnLock(result, "devices", devices);
++  jsvObjectSetChildAndUnLock(result, "passOverflow", jsvNewFromBool(passOverflow));
++
++  for (i=0;i<passCount;i++) {
++    JsVar *pass = jsvNewObject();
++    if (!pass) continue;
++    jsvObjectSetChildAndUnLock(pass, "resetOk", jsvNewFromBool(passes[i].resetOk));
++    jsvObjectSetChildAndUnLock(pass, "abortedOn11", jsvNewFromBool(passes[i].abortedOn11));
++    jsvObjectSetChildAndUnLock(pass, "searchResult", jsvNewFromBool(passes[i].searchResult));
++    jsvObjectSetChildAndUnLock(pass, "rom0Valid", jsvNewFromBool(passes[i].rom0Valid));
++    jsvObjectSetChildAndUnLock(pass, "abortBit", jsvNewFromInteger(passes[i].abortBit));
++    jsvObjectSetChildAndUnLock(pass, "idBitsRead", jsvNewFromInteger(passes[i].idBitsRead));
++    jsvObjectSetChildAndUnLock(pass, "lastZero", jsvNewFromInteger(passes[i].lastZero));
++    jsvObjectSetChildAndUnLock(pass, "lastDiscrepancyIn", jsvNewFromInteger(passes[i].lastDiscrepancyIn));
++    jsvObjectSetChildAndUnLock(pass, "lastDiscrepancyOut", jsvNewFromInteger(passes[i].lastDiscrepancyOut));
++    jsvObjectSetChildAndUnLock(pass, "lastDeviceFlagIn", jsvNewFromBool(passes[i].lastDeviceFlagIn));
++    jsvObjectSetChildAndUnLock(pass, "lastDeviceFlagOut", jsvNewFromBool(passes[i].lastDeviceFlagOut));
++
++    {
++      char rom[17];
++      onewire_rom_to_string(passes[i].romNo, rom);
++      jsvObjectSetChildAndUnLock(pass, "rom", jsvNewFromString(rom));
++    }
++
++    jsvObjectSetChildAndUnLock(
++      pass,
++      "slots",
++      onewire_search_debug_slots_to_js(passes[i].slots, passes[i].slotsUsed)
++    );
++    jsvArrayPushAndUnLock(passArray, pass);
++  }
++
++  jsvObjectSetChildAndUnLock(result, "passes", passArray);
++  return result;
++}
++
+ /** Reset one-wire, return true if a device was present */
+ static bool NO_INLINE OneWireReset(Pin pin) {
+   jshPinSetState(pin, JSHPINSTATE_GPIO_OUT_OPENDRAIN_PULLUP);
+-  //jshInterruptOff();
++  jshInterruptOff();
+   jshPinSetValue(pin, 0);
+   jshDelayMicroseconds(500);
+   jshPinSetValue(pin, 1);
+   jshDelayMicroseconds(80);
+   bool hasDevice = !jshPinGetValue(pin);
+-  //jshInterruptOn();
++  jshInterruptOn();
+   jshDelayMicroseconds(420);
+   return hasDevice;
+ }
+@@ -354,7 +479,7 @@ JsVar *jswrap_onewire_read(JsVar *parent, JsVar *count) {
+ }
+ Search for devices
+  */
+-JsVar *jswrap_onewire_search(JsVar *parent, int command) {
++static JsVar *jswrap_onewire_search_internal(JsVar *parent, int command, bool returnDebug) {
+   // search - code from http://www.maximintegrated.com/app-notes/index.mvp/id/187
+   Pin pin = onewire_getpin(parent);
+   if (!jshIsPinValid(pin)) return 0;
+@@ -362,6 +487,11 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+   JsVar *array = jsvNewEmptyArray();
+   if (!array) return 0;
+ 
++  OneWireSearchDebugPass debugPasses[ONEWIRE_SEARCH_DEBUG_MAX_PASSES];
++  int debugPassCount = 0;
++  bool debugPassOverflow = false;
++  memset(debugPasses, 0, sizeof(debugPasses));
++
+   if (command<=0 || command>255)
+     command = 0xF0; // normal search command
+ 
+@@ -372,6 +502,7 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+   int LastDeviceFlag;
+ 
+   // reset the search state
++  memset(ROM_NO, 0, sizeof(ROM_NO));
+   LastDiscrepancy = 0;
+   LastDeviceFlag = FALSE;
+   LastFamilyDiscrepancy = 0;
+@@ -395,15 +526,33 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+     // if the last call was not the last one
+     if (!LastDeviceFlag)
+     {
++      OneWireSearchDebugPass *debugPass = 0;
++      if (returnDebug) {
++        if (debugPassCount < ONEWIRE_SEARCH_DEBUG_MAX_PASSES) {
++          debugPass = &debugPasses[debugPassCount++];
++          memset(debugPass, 0, sizeof(*debugPass));
++          debugPass->lastDiscrepancyIn = LastDiscrepancy;
++          debugPass->lastDeviceFlagIn = LastDeviceFlag;
++        } else {
++          debugPassOverflow = true;
++        }
++      }
++
+       // 1-Wire reset
+       if (!OneWireReset(pin))
+       {
++        if (debugPass)
++          debugPass->resetOk = false;
+         // reset the search
+         LastDiscrepancy = 0;
+         LastDeviceFlag = FALSE;
+         LastFamilyDiscrepancy = 0;
++        if (returnDebug)
++          return onewire_search_debug_to_js(pin, command, array, debugPasses, debugPassCount, debugPassOverflow);
+         return array;
+       }
++      if (debugPass)
++        debugPass->resetOk = true;
+ 
+       // issue the search command
+       OneWireWrite(pin, 8, (unsigned long long)command);
+@@ -416,9 +565,17 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+         cmp_id_bit = (unsigned char)OneWireRead(pin, 1);
+ 
+         // check for no devices on 1-wire
+-        if ((id_bit == 1) && (cmp_id_bit == 1))
++        if ((id_bit == 1) && (cmp_id_bit == 1)) {
++          if (debugPass) {
++            debugPass->abortedOn11 = true;
++            debugPass->abortBit = id_bit_number;
++            if (debugPass->slotsUsed < ONEWIRE_SEARCH_DEBUG_MAX_SLOTS)
++              debugPass->slots[debugPass->slotsUsed++] = onewire_search_debug_encode_slot(
++                id_bit_number, id_bit, cmp_id_bit, 0, last_zero, rom_byte_number, ROM_NO[rom_byte_number]
++              );
++          }
+           break;
+-        else
++        } else
+         {
+           // all devices coupled have 0 or 1
+           if (id_bit != cmp_id_bit)
+@@ -451,6 +608,11 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+           else
+             ROM_NO[rom_byte_number] &= (unsigned char)~rom_byte_mask;
+ 
++          if (debugPass && debugPass->slotsUsed < ONEWIRE_SEARCH_DEBUG_MAX_SLOTS)
++            debugPass->slots[debugPass->slotsUsed++] = onewire_search_debug_encode_slot(
++              id_bit_number, id_bit, cmp_id_bit, search_direction, last_zero, rom_byte_number, ROM_NO[rom_byte_number]
++            );
++
+           // serial number search direction write bit
+           OneWireWrite(pin, 1, search_direction);
+ 
+@@ -481,6 +643,16 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+ 
+         search_result = TRUE;
+       }
++
++      if (debugPass) {
++        debugPass->searchResult = search_result;
++        debugPass->rom0Valid = ROM_NO[0] != 0;
++        debugPass->idBitsRead = id_bit_number - 1;
++        debugPass->lastZero = last_zero;
++        debugPass->lastDiscrepancyOut = LastDiscrepancy;
++        debugPass->lastDeviceFlagOut = LastDeviceFlag;
++        memcpy(debugPass->romNo, ROM_NO, sizeof(ROM_NO));
++      }
+     }
+ 
+     // if no device found then reset counters so next 'search' will be like a first
+@@ -495,17 +667,34 @@ JsVar *jswrap_onewire_search(JsVar *parent, int command) {
+     if (search_result) {
+       int i;
+       char buf[17];
+-      for (i=0;i<8;i++) {
+-        buf[i*2] = itoch((ROM_NO[i]>>4) & 15);
+-        buf[i*2+1] = itoch(ROM_NO[i] & 15);
+-      }
+-      buf[16]=0;
++      onewire_rom_to_string(ROM_NO, buf);
+       jsvArrayPushString(array, buf);
+     }
+ 
+     NOT_USED(LastFamilyDiscrepancy);
+   }
+ 
++  if (returnDebug)
++    return onewire_search_debug_to_js(pin, command, array, debugPasses, debugPassCount, debugPassOverflow);
+   return array;
+ }
+ 
++JsVar *jswrap_onewire_search(JsVar *parent, int command) {
++  return jswrap_onewire_search_internal(parent, command, false);
++}
++
++/*JSON{
++  "type" : "method",
++  "class" : "OneWire",
++  "name" : "searchDebug",
++  "generate" : "jswrap_onewire_searchDebug",
++  "params" : [
++    ["command","int32","(Optional) command byte. If not specified (or zero), this defaults to 0xF0. This can could be set to 0xEC to perform a DS18B20 'Alarm Search Command'"]
++  ],
++  "return" : ["JsVar","A debug object containing devices plus compact per-pass slot traces"]
++}
++Search for devices and return compact debug trace data for each ROM search pass.
++ */
++JsVar *jswrap_onewire_searchDebug(JsVar *parent, int command) {
++  return jswrap_onewire_search_internal(parent, command, true);
++}
+diff --git a/src/jswrap_onewire.h b/src/jswrap_onewire.h
+index ab8645116..102ab5827 100644
+--- a/src/jswrap_onewire.h
++++ b/src/jswrap_onewire.h
+@@ -24,5 +24,6 @@ void jswrap_onewire_skip(JsVar *parent);
+ void jswrap_onewire_write(JsVar *parent, JsVar *data, bool leavePowerOn);
+ JsVar *jswrap_onewire_read(JsVar *parent, JsVar *count);
+ JsVar *jswrap_onewire_search(JsVar *parent, int command);
++JsVar *jswrap_onewire_searchDebug(JsVar *parent, int command);
+ 
+ #endif // JSWRAP_ONEWIRE_H_
+-- 
+2.43.0
+

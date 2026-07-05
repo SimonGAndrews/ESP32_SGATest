@@ -1,6 +1,7 @@
 # Espruino Repo Structure And PR Workflow
 
 Date: 2026-07-01
+Updated: 2026-07-05
 
 This note records which local repositories are used for which class of work,
 how they connect to forks/upstream, and which branches currently hold the live
@@ -56,7 +57,37 @@ Rule:
 - keep all harness docs, runner scripts, and workflow notes here
 - do not use this repo for Espruino firmware PR code
 
-### 2. MaBecker ESP32 IDF5 PR repo
+### 2. MaBecker ESP32 IDF5 working repo
+
+Path:
+
+```text
+/home/simon/MaBecker/Espruino_IDF5
+```
+
+Role:
+
+- clean working clone for current MaBecker ESP32 IDF5 firmware work
+- current local base for IDF5 builds, investigation continuation, and future
+  clean branch work against the MaBecker repo
+
+Remotes:
+
+- `origin` -> `https://github.com/MaBecker/Espruino.git`
+- `fork` -> `https://github.com/SimonGAndrews/Espruino.git`
+
+Current active branch:
+
+- `esp32_5`
+
+Rule:
+
+- use this repo when the intended destination is `MaBecker/Espruino`
+- create new clean branches from here for any follow-on MaBecker-targeted work
+- do not use the older mixed `/home/simon/MaBecker/Espruino` sandbox for new
+  development
+
+### 3. Historical clean PR repo for `MaBecker/Espruino#4`
 
 Path:
 
@@ -66,25 +97,25 @@ Path:
 
 Role:
 
-- clean working clone for the MaBecker ESP32 IDF5 `digitalPulse` PR
-- target-side ESP32 work only
+- historical clean working clone used for the ESP32 IDF5 `digitalPulse` PR
+- preserves the branch layout used to raise `MaBecker/Espruino#4`
 
 Remotes:
 
 - `origin` -> `https://github.com/MaBecker/Espruino.git`
 - `fork` -> `https://github.com/SimonGAndrews/Espruino.git`
 
-Current active branch:
+Current branch of interest:
 
 - `fix/esp32-idf5-digitalpulse-target-v2`
 
 Rule:
 
-- use this repo when the intended destination is `MaBecker/Espruino`
-- keep the PR focused on the ESP32 IDF5 target files only
-- keep wider Core issues and unrelated ESP32 investigations out of this PR
+- keep this repo as historical PR context if needed
+- do not treat it as the default starting point for new IDF5 work now that
+  `/home/simon/MaBecker/Espruino_IDF5` exists
 
-### 3. Upstream Espruino repo for clean upstreamable work
+### 4. Upstream Espruino repo for clean upstreamable work
 
 Path:
 
@@ -122,7 +153,7 @@ Note:
 - `broken-origin` is kept only as a breadcrumb of the earlier remote mistake
 - it can be deleted later once there is no value in retaining that record
 
-### 4. Older mixed Espruino working clone
+### 5. Older mixed Espruino working clone
 
 Path:
 
@@ -138,12 +169,13 @@ Current state:
 
 - branch `esp32_5`
 - contains mixed local changes spanning multiple files and issues
+- non-PR investigation residue is now archived as patch artifacts under
+  `ESP32_SGATest/docs/investigations/`
 
 Rule:
 
 - do not use this repo as the base for new clean PR preparation
-- keep it only as historical local context unless there is a specific reason
-  to inspect its contents
+- it can now be retired or deleted once the archive note has been reviewed
 
 ## PR Routing Rules
 
@@ -152,12 +184,12 @@ Rule:
 Use:
 
 ```text
-/home/simon/MaBecker/Espruino_pr_digitalpulse
+/home/simon/MaBecker/Espruino_IDF5
 ```
 
 Flow:
 
-1. branch in the MaBecker-targeted repo
+1. branch in the clean MaBecker IDF5 repo
 2. keep the diff tightly scoped to the MaBecker issue
 3. push branch to `fork`
 4. open PR from `SimonGAndrews/Espruino` to `MaBecker/Espruino`
@@ -203,6 +235,12 @@ merged.
 
 - `main`
 
+### `Espruino_IDF5`
+
+Active/current:
+
+- `esp32_5`
+
 ### `Espruino_pr_digitalpulse`
 
 Active/current:
@@ -242,13 +280,18 @@ Deleted local throwaway branch:
 At the time of this note, the intended submission split is:
 
 - MaBecker repo:
-  - ESP32 IDF5 `digitalPulse` target fix
+  - ESP32 IDF5 `digitalPulse` target fix, already preserved by
+    `MaBecker/Espruino#4`
 - upstream Espruino repo:
   - classic ESP32 IDF4 I2C fix
   - classic ESP32 IDF4 OneWire quiet-timing fix
 - separate Core issue/reporting path:
   - `jsinteractive.c` watch/debounce behavior, handled separately from the
     ESP32 target fixes
+
+Non-PR investigation code that still matters is preserved as patch artifacts
+under `ESP32_SGATest/docs/investigations/` rather than by keeping the older
+mixed repo alive.
 
 ## New Thread Guidance
 
@@ -267,5 +310,5 @@ sequence is:
 The main operational rule is simple:
 
 - harness work stays in `ESP32_SGATest`
-- MaBecker PR work stays in `Espruino_pr_digitalpulse`
+- MaBecker PR work stays in `Espruino_IDF5`
 - upstream Espruino PR work stays in `Espruino_upstream_idf4`

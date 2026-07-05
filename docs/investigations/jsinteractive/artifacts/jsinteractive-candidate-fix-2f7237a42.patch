@@ -1,0 +1,93 @@
+From 2f7237a42e97e351e2617848c9864b69737e0be3 Mon Sep 17 00:00:00 2001
+From: Simon Andrews <Simon.g.andrews@live.co.uk>
+Date: Thu, 18 Jun 2026 22:25:43 +0100
+Subject: [PATCH] esp32: fix digitalPulse on IDF5
+
+---
+ src/jsinteractive.c | 50 ++++++++++++++++++++++++++++++---------------
+ 1 file changed, 33 insertions(+), 17 deletions(-)
+
+diff --git a/src/jsinteractive.c b/src/jsinteractive.c
+index 3ca415b0b..6cc01173b 100644
+--- a/src/jsinteractive.c
++++ b/src/jsinteractive.c
+@@ -2187,6 +2187,20 @@ bool jsiHasTimers() {
+   return !jsvArrayIsEmpty(timerArray);
+ }
+ 
++static JsVar *jsiWatchCreateTimeout(JsVar *watchPtr, Pin pin, bool pinIsHigh, JsSysTime eventTime, JsVarInt debounce) {
++  JsVar *timeout = jsvNewObject();
++  if (timeout) {
++    jsvObjectSetChild(timeout, "watch", watchPtr); // no unlock
++    jsvObjectSetChildAndUnLock(timeout, "time", jsvNewFromLongInteger((JsSysTime)(eventTime - jsiLastIdleTime) + debounce));
++    jsvObjectSetChildAndUnLock(timeout, "cb", jsvObjectGetChildIfExists(watchPtr, "cb"));
++    jsvObjectSetChildAndUnLock(timeout, "lastTime", jsvObjectGetChildIfExists(watchPtr, "lastTime"));
++    jsvObjectSetChildAndUnLock(timeout, "pin", jsvNewFromPin(pin));
++    jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(pinIsHigh));
++    jsiTimerAdd(timeout);
++  }
++  return timeout;
++}
++
+ /// Is the given watch object meant to be executed when the current value of the pin is pinIsHigh
+ bool jsiShouldExecuteWatch(JsVar *watchPtr, bool pinIsHigh) {
+   int watchEdge = (int)jsvObjectGetIntegerChild(watchPtr, "edge");
+@@ -2368,31 +2382,34 @@ void jsiIdle() {
+             bool oldWatchState = jsvObjectGetBoolChild(watchPtr, "state");
+             JsVar *timeout = jsvObjectGetChildIfExists(watchPtr, "timeout");
+             if (timeout) { // if we had a timeout, update the callback time
++              bool currentPinIsHigh = pinIsHigh;
++              JsSysTime currentEventTime = eventTime;
+               JsSysTime timeoutTime = jsiLastIdleTime + (JsSysTime)jsvGetLongIntegerAndUnLock(jsvObjectGetChildIfExists(timeout, "time"));
+-              jsvUnLock(jsvObjectSetChild(timeout, "time", jsvNewFromLongInteger((JsSysTime)(eventTime - jsiLastIdleTime) + debounce)));
+-              jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(pinIsHigh));
+-              if (ignoreEvent || ((eventTime > timeoutTime) && (pinIsHigh!=oldWatchState))) {
+-                // timeout should have fired, but we didn't get around to executing it!
+-                // Do it now (with the old timeout time)
++              bool timeoutState = jsvObjectGetBoolChild(timeout, "state");
++              if (ignoreEvent || ((currentEventTime > timeoutTime) && (timeoutState != oldWatchState))) {
++                // This timeout should have fired already. Flush that edge first, then
++                // keep the current edge as a fresh debounce timeout if it differs.
+                 executeNow = !ignoreEvent;
+                 eventTime = timeoutTime - debounce;
+-                jsvObjectSetChildAndUnLock(watchPtr, "state", jsvNewFromBool(pinIsHigh));
++                pinIsHigh = timeoutState;
++                jsvObjectSetChildAndUnLock(watchPtr, "state", jsvNewFromBool(timeoutState));
+                 // Remove the timeout
+                 jsiClearTimeout(timeout);
+                 jsvObjectRemoveChild(watchPtr, "timeout");
++                if (!ignoreEvent && (currentPinIsHigh != timeoutState)) {
++                  JsVar *newTimeout = jsiWatchCreateTimeout(watchPtr, pin, currentPinIsHigh, currentEventTime, debounce);
++                  if (newTimeout) {
++                    jsvObjectSetChild(watchPtr, "timeout", newTimeout); // no unlock
++                    jsvUnLock(newTimeout);
++                  }
++                }
++              } else {
++                jsvUnLock(jsvObjectSetChild(timeout, "time", jsvNewFromLongInteger((JsSysTime)(currentEventTime - jsiLastIdleTime) + debounce)));
++                jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(currentPinIsHigh));
+               }
+             } else if (!ignoreEvent && pinIsHigh!=oldWatchState) { // else create a new timeout
+-              timeout = jsvNewObject();
++              timeout = jsiWatchCreateTimeout(watchPtr, pin, pinIsHigh, eventTime, debounce);
+               if (timeout) {
+-                jsvObjectSetChild(timeout, "watch", watchPtr); // no unlock
+-                jsvObjectSetChildAndUnLock(timeout, "time", jsvNewFromLongInteger((JsSysTime)(eventTime - jsiLastIdleTime) + debounce));
+-                jsvObjectSetChildAndUnLock(timeout, "cb", jsvObjectGetChildIfExists(watchPtr, "cb"));
+-                jsvObjectSetChildAndUnLock(timeout, "lastTime", jsvObjectGetChildIfExists(watchPtr, "lastTime"));
+-                jsvObjectSetChildAndUnLock(timeout, "pin", jsvNewFromPin(pin));
+-                jsvObjectSetChildAndUnLock(timeout, "state", jsvNewFromBool(pinIsHigh));
+-                // Add to timer array
+-                jsiTimerAdd(timeout);
+-                // Add to our watch
+                 jsvObjectSetChild(watchPtr, "timeout", timeout); // no unlock
+               }
+             } else if (ignoreEvent) {
+@@ -3036,4 +3053,3 @@ void jsiDebuggerLine(JsVar *line) {
+ }
+ #endif // USE_DEBUGGER
+ 
+-
+-- 
+2.43.0
+
