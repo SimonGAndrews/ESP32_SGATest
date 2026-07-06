@@ -1,0 +1,37 @@
+From d254cf11fdbb88ff6c7fc4ee43992882f58722cb Mon Sep 17 00:00:00 2001
+From: Simon Andrews <Simon.g.andrews@live.co.uk>
+Date: Sun, 5 Jul 2026 22:36:21 +0100
+Subject: [PATCH] esp32: fix serial rx event string assembly
+
+---
+ src/jsinteractive.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/jsinteractive.c b/src/jsinteractive.c
+index dc0852e3d..db3069be6 100644
+--- a/src/jsinteractive.c
++++ b/src/jsinteractive.c
+@@ -2226,13 +2226,14 @@ void jsiCtrlC() {
+  * grabbed, the number of extra events (not characters) is returned */
+ int jsiHandleIOEventForSerial(JsVar *usartClass, IOEventFlags eventFlags, uint8_t *data, unsigned int length) {
+   int eventsHandled = length+2;
+-  JsVar *stringData = length ? jsvNewStringOfLength(length, (char*)data) : NULL;
++  JsVar *stringData = length ? jsvNewFromEmptyString() : NULL;
+   if (stringData) {
++    jsvAppendStringBuf(stringData, (char*)data, length);
+     while (jshIsTopEvent(IOEVENTFLAGS_GETTYPE(eventFlags))) {
+       jshPopIOEvent(data, &length); // we know data/length are big enough
+       eventsHandled += length+2;
+       jsvAppendStringBuf(stringData, (char*)data, length);
+-      // don't use an iterator for appending as we just assume we're probably not handling *that* much data this way - normally it'll come in big chunks
++      // Build serial event data incrementally so multi-event receives never append onto a flat string.
+     }
+     // Now run the handler
+     jswrap_stream_pushData(usartClass, stringData, true);
+@@ -3036,4 +3037,3 @@ void jsiDebuggerLine(JsVar *line) {
+ }
+ #endif // USE_DEBUGGER
+ 
+-
+-- 
+2.43.0
