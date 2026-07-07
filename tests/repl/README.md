@@ -22,6 +22,7 @@ Recommended structure:
 - `tests/repl/analog_block2/`
 - `tests/repl/bus_spi_i2c_block3/`
 - `tests/repl/onewire_block4/`
+- `tests/repl/grove_i2c_block8/`
 - `tests/repl/uart_block6/`
 
 Within each block directory, use one file per logical API-scope task. For
