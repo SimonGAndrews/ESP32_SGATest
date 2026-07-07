@@ -72,12 +72,12 @@ Logical serial mapping:
 
 The current shared functional tests for this investigation are:
 
-- [uart_rx_burst_s2_to_s3.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block6/uart_rx_burst_s2_to_s3.js)
-- [uart_rx_burst_s3_to_s2.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block6/uart_rx_burst_s3_to_s2.js)
-- [uart_rx_burst_128_s2_to_s3.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block6/uart_rx_burst_128_s2_to_s3.js)
-- [uart_rx_burst_128_s3_to_s2.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block6/uart_rx_burst_128_s3_to_s2.js)
-- [uart_rx_burst_200_s2_to_s3.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block6/uart_rx_burst_200_s2_to_s3.js)
-- [uart_rx_burst_200_s3_to_s2.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block6/uart_rx_burst_200_s3_to_s2.js)
+- [uart_rx_burst_s2_to_s3.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block7/uart_rx_burst_s2_to_s3.js)
+- [uart_rx_burst_s3_to_s2.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block7/uart_rx_burst_s3_to_s2.js)
+- [uart_rx_burst_128_s2_to_s3.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block7/uart_rx_burst_128_s2_to_s3.js)
+- [uart_rx_burst_128_s3_to_s2.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block7/uart_rx_burst_128_s3_to_s2.js)
+- [uart_rx_burst_200_s2_to_s3.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block7/uart_rx_burst_200_s2_to_s3.js)
+- [uart_rx_burst_200_s3_to_s2.js](/home/simon/MaBecker/ESP32_SGATest/tests/repl/uart_block7/uart_rx_burst_200_s3_to_s2.js)
 
 Current design intent:
 

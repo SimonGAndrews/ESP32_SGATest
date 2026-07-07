@@ -179,6 +179,12 @@ bad low ADC reading, but an immediate direct SPI probe and a second full block
 run both produced the expected low/high ADC result. So the I2C issue itself is
 considered confirmed fixed by this patch.
 
+Later shared-test work on the same block also showed that an
+`I2C_INT_ASSERT=1` result should not be assumed to mean a fresh ESP32 I2C
+firmware regression by itself. On the `ESP32_V1` harness, that assert failure
+can also be caused by the `SEL_D35` link being left in the wrong position
+instead of selecting `I2C_INT` through to `D35`.
+
 ## Next Debug Order
 
 1. Move the confirmed patch from the clean test tree into the working ESP32

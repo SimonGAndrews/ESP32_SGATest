@@ -229,5 +229,5 @@ Serial-port note:
 - [esp32_c3_gpio_block1.py](../../../tools/wiring_tests/esp32_c3/gpio_block1.py)
 - [esp32_c3_digitalpulse_check.py](../../../tools/wiring_tests/esp32_c3/digitalpulse_check.py)
 - [esp32_c3_analog_block2.py](../../../tools/wiring_tests/esp32_c3/analog_block2.py)
-- [esp32_c3_bus_spi_i2c_block3.py](../../../tools/wiring_tests/esp32_c3/bus_spi_i2c_block3.py)
-- [esp32_c3_onewire_block4.py](../../../tools/wiring_tests/esp32_c3/onewire_block4.py)
+- [esp32_c3_i2c_spi_block34.py](../../../tools/wiring_tests/esp32_c3/i2c_spi_block34.py)
+- [esp32_c3_onewire_block5.py](../../../tools/wiring_tests/esp32_c3/onewire_block5.py)

@@ -1,4 +1,4 @@
-# Analog Block 2 Functional Tests
+# `analog_block2` Functional Tests
 
 This directory groups shared functional REPL tests that use the analog/PWM
 feedback hardware context of harness block 2.

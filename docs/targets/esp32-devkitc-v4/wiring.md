@@ -28,6 +28,33 @@ crosslink. UART0 remains dedicated to the board USB-UART REPL/flashing path.
 
 Tests use Espruino `Dxx` names matching GPIO numbers.
 
+## Block Mapping
+
+This target wiring document follows the family distinction between:
+
+- `block`: a logical hardware capability grouping
+- `mode`: a target-specific harness configuration that enables one or more
+  blocks
+- `test`: a validation task that may use one block or multiple blocks
+
+For the classic ESP32 harness, the block mapping is:
+
+| Block | Block name | Practical target meaning |
+|---:|---|---|
+| 1 | `gpio_block` | `D32/D33` and `D25/D26` loopback pairs |
+| 2 | `analog_block` | `D27 -> ANALOG_FB -> D34` |
+| 3 | `i2c_block` | onboard MCP23008 on `D21/D22`, feedback on `D39`, interrupt on `D35` |
+| 4 | `spi_block` | shared SPI bus on `D18/D19/D23` with MCP3008 chip select on `D16` and SPI extension chip select on `D17` |
+| 5 | `onewire_block` | DS18B20 bus on `D13` |
+| 6 | `onewire_gpio_block` | removable DS2413 breakout with feedback via `SEL_D33` / `SEL_D26` |
+| 7 | `uart_block` | UART1/UART2 crosslink using `D4/D35` and `D14/D36` |
+| 8 | `grove_i2c_block` | external Grove I2C device on the same `D21/D22` bus |
+
+The important consequence is that a mode does not need a one-to-one
+relationship with a block. For example, `ESP32_BASELINE_HARDWARE` enables
+several blocks at the same time, while the shared REPL tests still
+split their API coverage into smaller block-oriented tasks.
+
 ## Reserved And Avoided Pins
 
 | Pin | Rule |
@@ -72,7 +99,7 @@ USB-UART bridge to UART0 on `D1` / `D3`.
 | `SPI_MOSI` | `D23` | output | MCP3008/W25xxx data in |
 | `SPI_SCK` | `D18` | output | shared SPI clock |
 | `SPI_CS_ADC` | `D16` | output | MCP3008 CS |
-| `SPI_CS_FLASH` | `D17` | output | optional W25xxx CS |
+| `SPI_CS_FLASH` | `D17` | output | secondary SPI extension chip select; used by W25xxx-class device when fitted |
 | `ONEWIRE_DQ` | `D13` | bidirectional | two powered DS18B20 devices, external connector and DS2413 breakout |
 | `UART1_TX` | `D4` | output | crossed through 470R/link to `D36` |
 | `UART1_RX` | `D35` | input-only | selected from `D14` through `SEL_D35` |
@@ -83,7 +110,11 @@ This allocation intentionally keeps VSPI on its conventional `D18`/`D19`/`D23`
 pins. Chip selects use `D16` and `D17`, avoiding the usual `D5` strapping-pin
 chip select.
 
-## Common Test Blocks
+## Harness Blocks And Extensions
+
+The sections below describe the target wiring that implements each hardware
+capability area. These are blocks even when one practical harness
+mode enables several of them together.
 
 ### GPIO loopbacks and DS2413 feedback selectors
 
@@ -143,12 +174,25 @@ The connector supplies 3.3V, not 5V. Check the total bus pull-up resistance
 when external modules are attached, because multiple Grove devices may each
 include SDA/SCL pull-ups.
 
+This external connector is the practical extension point for block 8
+on this target. It shares the same physical I2C bus as block 3
+rather than introducing a separate target-side I2C controller path.
+
 ### SPI
 
 - shared `D18` SCK, `D19` MISO, `D23` MOSI
 - MCP3008 CS on `D16`
-- optional W25xxx CS on `D17`
+- SPI extension CS on `D17`
 - MCP3008 CH0 on `ANALOG_FB`
+
+This is the block 4 SPI area on the classic ESP32 harness even though the
+baseline hardware mode also leaves the I2C and analog blocks available.
+
+On the ESP32_V1 harness, `D17` is wired as a real secondary chip-select for the
+shared SPI extension path. A W25xxx-class device is the current intended use,
+but the important target-wiring point is that the extension CS wiring exists
+independently of whether a particular extension device is populated for a given
+test run.
 
 ### OneWire
 
@@ -380,6 +424,8 @@ Mode name:
 Purpose:
 
 - run the standard always-wired hardware regression pack on the classic harness
+- keep the default non-conflicting blocks available together for efficient
+  bench testing
 
 Runner/control path:
 
@@ -402,7 +448,7 @@ Compatible extensions:
 |---|---|
 | `J_Grove_I2C1` external I2C device | allowed if total bus pull-up loading is reviewed |
 | `J_ONEWIRE1` external powered OneWire device | allowed if combined pull-up and bus loading are reviewed |
-| optional W25xxx on `SPI_CS_FLASH` / `D17` | allowed when the flash device is fitted for shared-bus tests |
+| SPI extension on `SPI_CS_FLASH` / `D17` | allowed when the extension device is fitted for shared-bus tests |
 
 Open/conflicting positions:
 
@@ -414,19 +460,19 @@ Open/conflicting positions:
 
 Enabled coverage:
 
-- GPIO loopbacks
-- analog/PWM feedback
-- MCP23008 I2C
-- MCP3008 SPI ADC
-- OneWire DS18B20
-- optional shared-bus SPI flash
+- block 1 GPIO loopbacks
+- block 2 analog/PWM feedback
+- block 3 MCP23008 I2C
+- block 4 MCP3008 SPI ADC
+- block 5 OneWire DS18B20
+- shared-bus SPI extension on `D17` when an extension device is fitted
 
 Baseline extensions:
 
-- DS2413 feedback extension:
+- block 6 DS2413 feedback extension:
   move `SEL_D33` and/or `SEL_D26` from pins 1-2 to pins 2-3 to route DS2413
   PIO feedback into `D33` and `D26` when DS2413 validation is being run
-- Grove I2C extension:
+- block 8 Grove I2C extension:
   attach external I2C devices to `J_Grove_I2C1` with no selector change
 - external OneWire extension:
   attach powered OneWire devices to `J_ONEWIRE1` with no selector change

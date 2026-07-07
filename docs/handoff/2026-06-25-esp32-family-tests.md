@@ -341,8 +341,8 @@ Current Python tools are C3-oriented unless named generic:
 
 - `tools/wiring_tests/esp32_c3/gpio_block1.py`
 - `tools/wiring_tests/esp32_c3/analog_block2.py`
-- `tools/wiring_tests/esp32_c3/bus_spi_i2c_block3.py`
-- `tools/wiring_tests/esp32_c3/onewire_block4.py`
+- `tools/wiring_tests/esp32_c3/i2c_spi_block34.py`
+- `tools/wiring_tests/esp32_c3/onewire_block5.py`
 - `tools/wiring_tests/esp32_c3/digitalpulse_check.py`
 - `tools/wiring_tests/esp32_c3/digitalpulse_nondebounce_check.py`
 - `tools/wiring_tests/esp32_c3/onewire_soak.py`

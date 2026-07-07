@@ -27,6 +27,26 @@ It tells the operator and the runner:
 The exact physical implementation is target-specific. The mode meaning should
 remain stable across targets even when the selector names or pin choices differ.
 
+## Relationship To Blocks And Tests
+
+Modes are not the same thing as blocks or tests.
+
+- a block is a logical hardware capability grouping
+- a mode is a harness configuration that enables one or more blocks
+- a test is a validation task that may use one block or multiple blocks
+
+This means a mode does not need a one-to-one relationship with a block.
+
+For example, a target may have:
+
+- a mode that enables only an I2C block
+- a mode that enables only a OneWire block
+- a combined mode that enables both SPI and I2C blocks concurrently
+
+The same principle applies to tests. Many tests should prefer the smallest
+useful block set for better fault isolation, but a valid test may still use
+multiple blocks where that is the right context for the behaviour under test.
+
 ## Mode Rules
 
 - mode state is manual and operator-confirmed unless a later harness revision
@@ -82,6 +102,10 @@ Examples:
 - `ESP32_BASELINE_HARDWARE`
 - `C3_BASELINE_GPIO`
 - `C3_BUS_SPI_I2C`
+
+`C3_BUS_SPI_I2C` is a useful example of why modes and blocks must stay
+distinct. It is a single mode name, but it can enable both the I2C and SPI
+blocks together on the ESP32-C3 harness.
 
 ### Alternate Shared-Pin Modes
 

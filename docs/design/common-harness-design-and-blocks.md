@@ -32,6 +32,28 @@ The board-specific work is choosing safe GPIOs and documenting the selector or
 link state for that target. The family-level work is keeping the logical block
 names, block purpose, and overall harness structure consistent.
 
+## Blocks, Modes, And Tests
+
+This repo uses three related but distinct concepts:
+
+- a `block` is a logical hardware capability grouping such as GPIO, analog,
+  I2C, SPI, OneWire, or UART
+- a `mode` is a harness configuration or operator precondition that enables one
+  or more blocks on a specific target
+- a `test` is a functional validation task that may exercise one block or
+  multiple blocks, depending on what behaviour it is trying to prove
+
+These concepts should not be treated as interchangeable.
+
+A mode does not need to map one-to-one onto a block. For example, a
+target-specific combined bus mode may deliberately enable both an I2C block and
+a SPI block at the same time.
+
+A test also does not need to map one-to-one onto a block. Many tests should
+prefer the smallest useful block set for clear fault isolation, but some valid
+tests will deliberately exercise multiple blocks together, especially when
+checking coexistence, shared-node behaviour, or multi-peripheral bus activity.
+
 ## Pin Naming
 
 Tests should use Espruino `Dxx` names matching raw GPIO numbers.
@@ -125,7 +147,7 @@ Use named harness nodes on the board silkscreen or labels rather than only raw
 GPIO numbers. Raw GPIO numbers differ by target; the harness functions should
 not.
 
-## Digital Loopback Block
+## Digital Loopback Block (`gpio_block`)
 
 Provide two resistor-protected loopback pairs.
 
@@ -143,7 +165,7 @@ Test coverage:
 - `shiftOut`
 - `setWatch`
 
-## Analog Feedback Block
+## Analog Feedback Block (`analog_block`)
 
 Create one filtered node named `ANALOG_FB`.
 
@@ -164,7 +186,7 @@ Test coverage:
 - PWM / `analogWrite` feedback through `analogRead`
 - MCP3008 CH0 comparison against target ADC
 
-## I2C MCP23008 Block
+## I2C MCP23008 Block (`i2c_block`)
 
 Use one MCP23008 as the standard I2C test device.
 
@@ -211,7 +233,7 @@ Test coverage:
 - MCP23008 interrupt polling
 - target `setWatch` on expander interrupt or feedback input
 
-## SPI MCP3008 Block
+## SPI MCP3008 Block (`spi_block`)
 
 Use one MCP3008 as the standard SPI ADC.
 
@@ -250,7 +272,7 @@ Test coverage:
 - chip-select behavior
 - analog feedback comparison through external ADC
 
-## Optional SPI Flash Block
+## Optional SPI Flash Block (`spi_block`)
 
 Reserve footprint/socket/header space for a W25xxx-compatible SPI flash device
 or module.
@@ -277,7 +299,7 @@ If the harness uses a small SPI flash module rather than a bare IC, `WP` and
 `HOLD` may already be handled on the module and need not appear on the harness
 connector.
 
-## OneWire DS18B20 Block
+## OneWire DS18B20 Block (`onewire_block`)
 
 Use two DS18B20 devices on the same OneWire bus.
 
@@ -299,7 +321,7 @@ Test coverage:
 - addressed temperature conversion/readback
 - scratchpad read for each selected ROM
 
-## Serial Peer Block
+## Serial Peer Block (`uart_block`)
 
 Provide a serial-peer area for non-console UART tests.
 
@@ -360,3 +382,19 @@ Default state should always be:
 - safe to flash
 - safe for connectivity tests
 - no unsafe fixed pull on strapping pins
+
+## Appendix: Block Numbering Reference
+
+This appendix summarises the current block model and how it is
+expressed in the repo.
+
+| Block | Block name | Purpose | Repo expression |
+|---:|---|---|---|
+| 1 | `gpio_block` | GPIO loopback tasks such as `digitalWrite`, `digitalRead`, `setWatch`, `digitalPulse`, and `shiftOut` | shared tests in `gpio_block1`; target wiring scripts such as `gpio_block1.py` |
+| 2 | `analog_block` | PWM/digital feedback into target ADC and analog validation tasks | shared tests in `analog_block2`; target wiring scripts such as `analog_block2.py` |
+| 3 | `i2c_block` | MCP23008 bus access, read/write, feedback, and interrupt tasks | shared tests in `i2c_block3`; combined target cross-checks may still appear in `i2c_spi_block34.py` |
+| 4 | `spi_block` | MCP3008 SPI transfer/read tasks and SPI-specific cross-checks | shared tests in `spi_block4`; SPI extension checks also remain within block 4, including `spi_extension_block4.py` |
+| 5 | `onewire_block` | DS18B20 OneWire discovery and temperature-read tasks | shared tests in `onewire_block5`; target wiring scripts such as `onewire_block5.py` |
+| 6 | `onewire_gpio_block` | DS2413 OneWire GPIO output/feedback tasks | shared tests reserved under `onewire_gpio_block6`; target wiring scripts such as `onewire_gpio_block6.py` |
+| 7 | `uart_block` | non-console UART crosslink or peer serial tests | shared tests in `uart_block7`; target wiring scripts such as `uart_block7.py` |
+| 8 | `grove_i2c_block` | external Grove I2C extension and secondary-device tasks | shared tests in `grove_i2c_block8`; target wiring scripts such as `grove_i2c_block8.py` |

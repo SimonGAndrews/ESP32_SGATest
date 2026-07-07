@@ -276,7 +276,7 @@ Purpose:
 Host-side script:
 
 ```bash
-python3 tools/wiring_tests/esp32_c3/bus_spi_i2c_block3.py --port /dev/ttyUSB0
+python3 tools/wiring_tests/esp32_c3/i2c_spi_block34.py --port /dev/ttyUSB0
 ```
 
 Pass criteria:
@@ -319,7 +319,7 @@ Purpose:
 Host-side script:
 
 ```bash
-python3 tools/wiring_tests/esp32_c3/onewire_block4.py --port /dev/ttyUSB0
+python3 tools/wiring_tests/esp32_c3/onewire_block5.py --port /dev/ttyUSB0
 ```
 
 Pass criteria:

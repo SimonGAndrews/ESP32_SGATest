@@ -18,12 +18,25 @@ targets.
 
 Recommended structure:
 
+- block 1: `gpio_block`
+- block 2: `analog_block`
+- block 3: `i2c_block`
+- block 4: `spi_block`
+- block 5: `onewire_block`
+- block 6: `onewire_gpio_block`
+- block 7: `uart_block`
+- block 8: `grove_i2c_block`
+
+Current shared repo directories:
+
 - `tests/repl/gpio_block1/`
 - `tests/repl/analog_block2/`
-- `tests/repl/bus_spi_i2c_block3/`
-- `tests/repl/onewire_block4/`
+- `tests/repl/i2c_block3/`
+- `tests/repl/spi_block4/`
+- `tests/repl/onewire_block5/`
+- `tests/repl/onewire_gpio_block6/`
 - `tests/repl/grove_i2c_block8/`
-- `tests/repl/uart_block6/`
+- `tests/repl/uart_block7/`
 
 Within each block directory, use one file per logical API-scope task. For
 example:
@@ -31,7 +44,11 @@ example:
 - `tests/repl/gpio_block1/gpio_readwrite_basic.js`
 - `tests/repl/gpio_block1/gpio_watch_edges.js`
 - `tests/repl/gpio_block1/gpio_pulse.js`
-- `tests/repl/uart_block6/uart_rx_burst_basic.js`
+- `tests/repl/i2c_block3/i2c_mcp23008_registers.js`
+- `tests/repl/i2c_block3/i2c_mcp23008_interrupt.js`
+- `tests/repl/spi_block4/spi_mcp3008_basic.js`
+- `tests/repl/grove_i2c_block8/i2c_grove_mcp23008_secondary.js`
+- `tests/repl/uart_block7/uart_rx_burst_s2_to_s3.js`
 
 So the directory name identifies the physical harness block, while the filename
 identifies the specific Espruino API behaviour under test.

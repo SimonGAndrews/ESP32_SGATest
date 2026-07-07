@@ -25,6 +25,15 @@ This gives the suite a layered strategy:
 So the harness blocks are the physical enablers, while the functional REPL
 tests are the API-facing validation layer built on top of them.
 
+The suite also needs to keep three concepts distinct:
+
+- `block`: a logical hardware capability grouping
+- `mode`: a harness configuration that enables one or more blocks
+- `test`: a functional validation task that may use one block or multiple
+  blocks
+
+Those three should not be forced into a one-to-one mapping.
+
 The same functional tests should also serve two execution contexts:
 
 1. direct REPL or Web IDE use, so an individual test can be shared and run by
@@ -68,8 +77,9 @@ Examples:
 - `tests/repl/gpio_block1/gpio_watch_edges.js`
 - `tests/repl/gpio_block1/gpio_pulse.js`
 - `tests/repl/analog_block2/analog_pwm_feedback.js`
-- `tests/repl/bus_spi_i2c_block3/i2c_mcp23008_registers.js`
-- `tests/repl/onewire_block4/onewire_ds18b20_basic.js`
+- `tests/repl/i2c_block3/i2c_mcp23008_registers.js`
+- `tests/repl/spi_block4/spi_mcp3008_basic.js`
+- `tests/repl/onewire_block5/onewire_ds18b20_basic.js`
 
 Each file should be standalone and directly shareable in GitHub issues, discussions, and forum posts.
 
@@ -81,29 +91,37 @@ coverage grows, without forcing one large monolithic script.
 
 ## Block Scope Principle
 
-In the shared functional suite, a block name defines the hardware test
-precondition, not the limit of API scope.
+In the shared functional suite, the block name tells you the hardware context
+required for the test.
 
-For example, a GPIO loopback block is not only a wiring proof for
-`digitalWrite`/`digitalRead`. It is the hardware context in which the relevant
-Espruino GPIO-facing APIs should be exercised, especially where they engage the
-target port's `jshardware` layer.
+The filename tells you the specific Espruino behaviour being exercised in that
+context.
 
-So each shared block test should be designed by:
+For example, `gpio_block1/` is not just a wiring proof for
+`digitalWrite`/`digitalRead`. It is the GPIO hardware context in which GPIO
+APIs such as `pinMode`, `digitalWrite`, `digitalRead`, `digitalPulse`,
+`shiftOut`, and `setWatch` can be exercised.
 
-1. defining the required harness mode and physical block precondition
-2. identifying which Espruino APIs can be validly exercised in that context
-3. using the block to cover that API surface, not just the narrower legacy
-   wiring-check behaviour
+So each shared test should:
 
-The existing `tools/wiring_tests/` scripts remain the canonical hardware
-regression references, but the shared `tests/repl/` files are functional API
-tests rather than rewrites of those wiring checks.
+1. state the required block or blocks clearly
+2. stay focused on one clear behaviour or API-scope task
+3. use the smallest useful hardware context for clear fault isolation
 
-The same Espruino API may be exercised in more than one block where different
-hardware contexts are relevant. This is expected. The important distinction is
-that each individual test should state clearly which API functions it covers
-and why that block is the right context for them.
+The `tools/wiring_tests/` scripts remain the authoritative target wiring
+regression references. The shared `tests/repl/` files are functional API tests
+that use those proven hardware blocks.
+
+A shared test may use more than one block, but only when the combined hardware
+context is part of the behaviour being checked. That is valid for cases such as
+shared-node comparison, bus coexistence, or extension-device access.
+
+In practice:
+
+- prefer one block when one block is enough
+- do not combine unrelated checks just because a mode leaves several blocks
+  available
+- use multiple blocks only when the test intent genuinely depends on them
 
 ## Naming And Grouping Scheme
 
@@ -112,12 +130,44 @@ Use the following structure for shared functional tests:
 - one subdirectory per physical harness block under `tests/repl/`
 - one JavaScript file per logical API-scope task within that block
 
-Recommended directory naming:
+The directory identifies the primary hardware block context for the test.
+That does not forbid a specific test from also using another block where the
+test intent clearly requires it.
+
+### Block Sequence
+
+The family block sequence is:
+
+- block 1: `gpio_block`
+- block 2: `analog_block`
+- block 3: `i2c_block`
+- block 4: `spi_block`
+- block 5: `onewire_block`
+- block 6: `onewire_gpio_block`
+- block 7: `uart_block`
+- block 8: `grove_i2c_block`
+
+Current shared repo directory naming:
 
 - `gpio_block1/`
 - `analog_block2/`
-- `bus_spi_i2c_block3/`
-- `onewire_block4/`
+- `i2c_block3/`
+- `spi_block4/`
+- `onewire_block5/`
+- `onewire_gpio_block6/`
+- `grove_i2c_block8/`
+- `uart_block7/`
+
+Current shared repo directory intent:
+
+- `gpio_block1/` -> block 1 `gpio_block`
+- `analog_block2/` -> block 2 `analog_block`
+- `i2c_block3/` -> block 3 `i2c_block`
+- `spi_block4/` -> block 4 `spi_block`
+- `onewire_block5/` -> block 5 `onewire_block`
+- `onewire_gpio_block6/` -> block 6 `onewire_gpio_block`
+- `grove_i2c_block8/` -> block 8 `grove_i2c_block`
+- `uart_block7/` -> block 7 `uart_block`
 
 Recommended file naming:
 
@@ -148,8 +198,10 @@ Examples:
 - `analog_read_levels.js`
 - `analog_pwm_feedback.js`
 - `i2c_mcp23008_registers.js`
+- `i2c_mcp23008_interrupt.js`
 - `spi_mcp3008_basic.js`
 - `onewire_ds18b20_basic.js`
+- `i2c_grove_mcp23008_secondary.js`
 
 For block 1 specifically, the intended grouping is:
 
@@ -160,6 +212,16 @@ For block 1 specifically, the intended grouping is:
 
 These files share the same physical loopback block and harness mode family, but
 they split the Espruino GPIO API surface into clearer debugging units.
+
+For blocks 3 and 4, the current shared split is:
+
+- `tests/repl/i2c_block3/i2c_mcp23008_registers.js`
+- `tests/repl/i2c_block3/i2c_mcp23008_interrupt.js`
+- `tests/repl/spi_block4/spi_mcp3008_basic.js`
+
+The shared functional suite now keeps I2C and SPI in separate directories even
+though some target-specific wiring regression scripts still use a combined
+`i2c_spi_block34.py` cross-check where that matches the underlying bench task.
 
 ## Target Presets
 

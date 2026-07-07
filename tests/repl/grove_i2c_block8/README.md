@@ -1,4 +1,4 @@
-# Grove I2C Block 8 Functional Tests
+# `grove_i2c_block8` Functional Tests
 
 This directory groups shared functional REPL tests that use the external Grove
 I2C extension path.

@@ -19,8 +19,11 @@ Typical examples are:
 - `gpio_block1.py`
   proves the basic GPIO loopback wiring used for `digitalWrite`,
   `digitalRead`, watches, and pulse observation
-- `uart_block6.py`
+- `uart_block7.py`
   proves the non-console UART crosslink wiring on the classic ESP32 harness
+- `i2c_spi_block34.py`
+  proves a deliberate combined I2C plus SPI wiring cross-check where one
+  target wiring script still exercises blocks 3 and 4 together
 - `grove_i2c_block8.py`
   proves that the external Grove I2C connector can reach an external device on
   the same bus as the onboard harness I2C block

@@ -7,7 +7,7 @@ using the UART1/UART2 crosslink, with UART0 left as the REPL/control path.
 
 We built a small shared REPL test pack in my
 [`ESP32_SGATest`](https://github.com/SimonGAndrews/ESP32_SGATest) repo under
-`tests/repl/uart_block6/` and used it to check:
+`tests/repl/uart_block7/` and used it to check:
 
 - boundary cases around the original failure point: `32`, `64`, `65`, `96`
 - clean-start larger bursts: `128` and `200`

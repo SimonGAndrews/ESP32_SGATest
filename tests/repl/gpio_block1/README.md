@@ -1,4 +1,4 @@
-# GPIO Block 1 Functional Tests
+# `gpio_block1` Functional Tests
 
 This directory groups shared functional REPL tests that use the GPIO loopback
 hardware context of harness block 1.

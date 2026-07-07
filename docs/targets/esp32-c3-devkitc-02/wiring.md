@@ -15,6 +15,36 @@ Related documents:
 - [docs/design/harness-modes.md](../../design/harness-modes.md)
 - [docs/design/connectivity-permutations.md](../../design/connectivity-permutations.md)
 
+## Block Mapping
+
+This target wiring document follows the family distinction between:
+
+- `block`: a logical hardware capability grouping
+- `mode`: a target-specific harness configuration that enables one or more
+  blocks
+- `test`: a validation task that may use one block or multiple blocks
+
+For the ESP32-C3 harness, the block mapping is:
+
+| Block | Block name | Practical target meaning |
+|---:|---|---|
+| 1 | `gpio_block` | loopbacks on `D1/D2` and `D3/D4` in baseline GPIO mode |
+| 2 | `analog_block` | `D8 -> ANALOG_FB -> D0` |
+| 3 | `i2c_block` | MCP23008 on `D1/D4` with feedback on `D2` and interrupt on `D10` |
+| 4 | `spi_block` | MCP3008 on `D3/D5/D6/D7` |
+| 5 | `onewire_block` | DS18B20 bus on `D0` selected away from `ANALOG_FB` |
+| 6 | `onewire_gpio_block` | not fitted on the current C3 harness revision |
+| 7 | `uart_block` | UART0/UART1 crosslink using `D3/D4` and `D20/D21` through `J10` |
+| 8 | `grove_i2c_block` | external Grove I2C device on the same `D1/D4` bus |
+
+The important consequence is that modes do not need a one-to-one relationship
+with blocks. For example, `C3_I2C` is a primarily I2C-focused mode, while
+`C3_BUS_SPI_I2C` is a combined mode that enables blocks 3 and 4 at
+the same time.
+
+Block 6 remains part of the family numbering even though the current
+ESP32-C3 harness does not implement a DS2413-style OneWire GPIO extension.
+
 ## Board Under Test
 
 | Item | Value |
@@ -213,6 +243,12 @@ Mode name:
 
 - `C3_BASELINE_GPIO`
 
+Purpose:
+
+- enable block 1 GPIO loopback testing
+- preserve a safe default state for the shared analog, I2C, SPI, and UART
+  selector paths
+
 Required selector positions / wiring:
 
 | Selector or wiring | Position |
@@ -241,11 +277,22 @@ Notes:
 - Physical loopback wiring should be `D1 -> 470R -> D2` and
   `D3 -> 470R -> D4`.
 
+Enabled coverage:
+
+- block 1 GPIO loopback behavior
+- `pinMode`, `digitalWrite`, `digitalRead`, `digitalPulse`, and `setWatch`
+  coverage on the baseline loopback pairs
+
 ### Analog/PWM Mode
 
 Mode name:
 
 - `C3_ANALOG_PWM`
+
+Purpose:
+
+- enable block 2 analog and PWM feedback testing
+- connect `D0` to the filtered `ANALOG_FB` node while keeping OneWire isolated
 
 Required selector positions / wiring:
 
@@ -271,11 +318,23 @@ Test note:
   CH0 over SPI in `C3_BUS_SPI_I2C`.
 - OneWire tests require the `D0` selector to move away from `ANALOG_FB`.
 
+Enabled coverage:
+
+- block 2 `analogRead` low/high level checks
+- block 2 PWM or `analogWrite` feedback into the target ADC
+- target-side ADC preparation for optional MCP3008 comparison in combined
+  block 3 plus block 4 mode
+
 ### I2C Mode
 
 Mode name:
 
 - `C3_I2C`
+
+Purpose:
+
+- enable block 3 I2C testing on the primary MCP23008 path
+- optionally keep the Grove I2C extension available on the same bus
 
 Required selector positions / wiring:
 
@@ -297,9 +356,10 @@ Open/conflicting selector positions:
 
 Enabled coverage:
 
-- MCP23008 register read/write
-- GP0 feedback through `D2`
-- INT through `D10`
+- block 3 MCP23008 register read/write
+- block 3 GP0 feedback through `D2`
+- block 3 INT through `D10`
+- block 8 external Grove I2C devices on the same bus where fitted
 - `setWatch` on expander feedback/interrupt where supported
 
 ### Combined SPI/I2C Bus Mode
@@ -310,9 +370,13 @@ Mode name:
 
 Purpose:
 
+- provide one practical harness mode that enables block 3 I2C and
+  block 4 SPI concurrently
 - verify Espruino SPI pin mapping and transfer behavior using the MCP3008
-- verify Espruino I2C pin mapping and MCP23008 operation in the same physical harness mode
-- exercise both bus APIs without moving jumpers between SPI and I2C tests
+- verify Espruino I2C pin mapping and MCP23008 operation in the same physical
+  harness mode
+- exercise both bus APIs without moving jumpers between separate I2C and SPI
+  selector states
 
 Required selector positions / wiring:
 
@@ -373,10 +437,11 @@ Open/conflicting selector positions:
 
 Enabled coverage:
 
-- MCP3008 transfer/read
-- MCP23008 register read/write
-- MCP23008 feedback and interrupt behavior
-- SPI and I2C operation in one manual harness mode
+- block 4 MCP3008 transfer/read
+- block 3 MCP23008 register read/write
+- block 3 MCP23008 feedback and interrupt behavior
+- block 8 external Grove I2C devices on the same bus where fitted
+- concurrent SPI and I2C operation in one manual harness mode
 
 ### SPI Flash Extended Mode
 
@@ -403,6 +468,11 @@ Enabled coverage:
 Mode name:
 
 - `C3_ONEWIRE`
+
+Purpose:
+
+- enable block 5 OneWire testing on `D0`
+- isolate `D0` from the analog feedback node while the OneWire bus is active
 
 Required selector positions / wiring:
 
@@ -433,6 +503,9 @@ Enabled coverage:
 - scratchpad read
 - temperature conversion
 - optional I2C display/logging of temperature readings while OneWire is active
+
+These are block 5 behaviours. The current C3 harness does not add a
+block 6 DS2413-style OneWire GPIO extension.
 
 ### UART0/UART1 Crosslink Mode
 
