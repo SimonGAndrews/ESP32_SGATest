@@ -22,6 +22,7 @@ Recommended structure:
 - `tests/repl/analog_block2/`
 - `tests/repl/bus_spi_i2c_block3/`
 - `tests/repl/onewire_block4/`
+- `tests/repl/uart_block6/`
 
 Within each block directory, use one file per logical API-scope task. For
 example:
@@ -29,6 +30,7 @@ example:
 - `tests/repl/gpio_block1/gpio_readwrite_basic.js`
 - `tests/repl/gpio_block1/gpio_watch_edges.js`
 - `tests/repl/gpio_block1/gpio_pulse.js`
+- `tests/repl/uart_block6/uart_rx_burst_basic.js`
 
 So the directory name identifies the physical harness block, while the filename
 identifies the specific Espruino API behaviour under test.
