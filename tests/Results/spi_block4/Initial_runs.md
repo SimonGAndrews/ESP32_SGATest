@@ -6,6 +6,7 @@ the common REPL functional suite on the classic ESP32 harness.
 The shared SPI file is:
 
 - `tests/repl/spi_block4/spi_mcp3008_basic.js`
+- `tests/repl/spi_block4/spi_extension_flash_basic.js`
 
 It keeps the test focused on Espruino SPI API behaviour and uses the shared
 analog feedback node only as the physical stimulus strategy for MCP3008
@@ -15,6 +16,9 @@ This run used the shared Python runner:
 
 ```bash
 python3 tools/repl/run_test.py tests/repl/spi_block4/spi_mcp3008_basic.js \
+  --port /dev/ttyUSB0 --timeout 10
+
+python3 tools/repl/run_test.py tests/repl/spi_block4/spi_extension_flash_basic.js \
   --port /dev/ttyUSB0 --timeout 10
 ```
 
@@ -72,6 +76,46 @@ METRIC checks_passed=11
 METRIC checks_failed=0
 DONE=spi_mcp3008_basic
 
+### Shared Test: `spi_extension_flash_basic`
+
+TEST=spi_extension_flash_basic
+TARGET=ESP32_V1
+INFO board=ESP32
+INFO api=SPI.setup,SPI.send,digitalWrite,pinMode
+INFO harness=ESP32 DevKitC V4 / ESP32_V1 harness
+INFO mode=ESP32_BASELINE_HARDWARE
+INFO console=UART0 via board USB-UART on D1/D3
+INFO selectors=SEL_D33=1-2 SEL_D26=1-2 SEL_D35=I2C_INT JP_UART_LOOP2=open
+INFO spi_port=SPI1
+INFO spi_miso=D19
+INFO spi_mosi=D23
+INFO spi_sck=D18
+INFO spi_cs_adc=D16
+INFO spi_cs_flash=D17
+INFO pwm_out=D27
+INFO expect_flash_mfr=ef
+METRIC spi_extension_adc_low=0
+METRIC spi_extension_jedec_raw=ffef4017
+METRIC spi_extension_mfr=ef
+METRIC spi_extension_type=40
+METRIC spi_extension_cap=17
+METRIC spi_extension_sr1_raw=ff00
+METRIC spi_extension_sr1=00
+METRIC spi_extension_adc_high=1021
+PASS spi_extension_adc_low value=0
+PASS spi_extension_adc_high value=1021
+PASS spi_extension_adc_span span=1021
+PASS spi_extension_jedec_shape raw=ffef4017
+PASS spi_extension_mfr_expected mfr=ef expected=ef
+PASS spi_extension_type_present type=40
+PASS spi_extension_cap_present cap=17
+PASS spi_extension_sr1_shape raw=ff00
+PASS spi_extension_sr1_readable sr1=00
+METRIC checks_total=9
+METRIC checks_passed=9
+METRIC checks_failed=0
+DONE=spi_extension_flash_basic
+
 So the current evidence is:
 
 - `SPI1.setup(...)` and MCP3008 transfers on `D18/D19/D23` with `D16` chip
@@ -79,3 +123,5 @@ So the current evidence is:
 - the MCP3008 CH0 low/high readback follows the harness analog node cleanly
 - target ADC and SPI ADC agree closely enough at low, mid, and high levels for
   this shared functional test
+- the fitted SPI extension device on `D17` responds with stable JEDEC and
+  status-register data on the same shared bus
