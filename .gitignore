@@ -5,3 +5,10 @@
 **/*.lck
 **/fp-info-cache
 **/*.bak
+**/__pycache__/
+*.code-workspace
+
+# Local firmware archives are kept for bench use but not committed remotely.
+firmware/*/
+firmware/*/*/
+!firmware/README.md

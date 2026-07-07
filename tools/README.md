@@ -15,6 +15,8 @@ Current examples:
 - OneWire search/debug diagnostics
 - generic OneWire soak testing
 - DS18B20 read soak testing
+- `archive_firmware.py` for extracting flashable build bundles into
+  `firmware/` for repeatable reflashing
 
 ## `repl/`
 
