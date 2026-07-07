@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run combined SPI/I2C checks against an ESP32_V1 Espruino REPL."""
+"""Run combined block 3/4 I2C plus SPI checks against an ESP32_V1 Espruino REPL."""
 
 from __future__ import annotations
 
@@ -43,7 +43,7 @@ function finish() {
   wrI2C(0x0A, 0x00);
   digitalWrite(D27, 0);
   echo(true);
-  print("DONE BUS_SPI_I2C_BLOCK3");
+  print("DONE I2C_SPI_BLOCK34");
 }
 
 I2C1.setup({scl:D22, sda:D21, bitrate:100000});
@@ -186,10 +186,10 @@ def main() -> int:
         ser.reset_input_buffer()
         ser.write((JS_TEST + "\n").encode("utf-8"))
         ser.flush()
-        output = read_until_marker(ser, "DONE BUS_SPI_I2C_BLOCK3", timeout=4.0)
+        output = read_until_marker(ser, "DONE I2C_SPI_BLOCK34", timeout=4.0)
         print(output.rstrip())
 
-    if "DONE BUS_SPI_I2C_BLOCK3" not in output:
+    if "DONE I2C_SPI_BLOCK34" not in output:
         print("Missing completion marker from REPL.", file=sys.stderr)
         return 2
 
@@ -230,7 +230,7 @@ def main() -> int:
         print("Detected failing combined bus checks.", file=sys.stderr)
         return 1
 
-    print("All Block 3 combined SPI/I2C checks passed.")
+    print("All combined block 3/4 I2C+SPI checks passed.")
     return 0
 
 

@@ -1,10 +1,10 @@
 # Initial REPL Runs During Development
 
-This note records the first shared `bus_spi_i2c_block3` bench runs from the
-common REPL functional suite on the classic ESP32 harness.
+This note records the first shared block 3 `i2c_block` bench runs
+from the common REPL functional suite on the classic ESP32 harness.
 
-The current shared block-3 work has started by splitting the older combined
-wiring script into smaller API-focused tests. The first two files are:
+The current shared block-3 work keeps the MCP23008 tasks as smaller
+API-focused tests. The first two files are:
 
 - `i2c_mcp23008_registers.js`
 - `i2c_mcp23008_interrupt.js`
@@ -12,10 +12,10 @@ wiring script into smaller API-focused tests. The first two files are:
 These runs used the shared Python runner:
 
 ```bash
-python3 tools/repl/run_test.py tests/repl/bus_spi_i2c_block3/i2c_mcp23008_registers.js \
+python3 tools/repl/run_test.py tests/repl/i2c_block3/i2c_mcp23008_registers.js \
   --port /dev/ttyUSB0 --timeout 8
 
-python3 tools/repl/run_test.py tests/repl/bus_spi_i2c_block3/i2c_mcp23008_interrupt.js \
+python3 tools/repl/run_test.py tests/repl/i2c_block3/i2c_mcp23008_interrupt.js \
   --port /dev/ttyUSB0 --timeout 8
 ```
 
@@ -107,12 +107,12 @@ After correcting the jumper state and rerunning:
 - the interrupt line was observed low during assert
 - `INTF` and `INTCAP` still matched the expected GP2-triggered event
 
-### Canonical Wiring Script Cross-Check
+### Wiring Script Cross-Check
 
-The older canonical wiring script remains a useful cross-check for this block:
+The older wiring script remains a useful cross-check for this block:
 
 ```bash
-python3 tools/wiring_tests/esp32_v1/bus_spi_i2c_block3.py --port /dev/ttyUSB0
+python3 tools/wiring_tests/esp32_v1/i2c_spi_block34.py --port /dev/ttyUSB0
 ```
 
 When `I2C_INT_ASSERT=1` is seen for this block on `ESP32_V1`, bench setup

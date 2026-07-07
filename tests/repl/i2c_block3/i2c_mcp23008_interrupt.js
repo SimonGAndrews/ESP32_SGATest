@@ -1,4 +1,4 @@
-// Block 3 MCP23008 I2C interrupt functional test
+// i2c_block3 MCP23008 interrupt functional test
 // Covers: I2C.setup, I2C.writeTo, I2C.readFrom, pinMode, digitalRead
 
 echo(false);

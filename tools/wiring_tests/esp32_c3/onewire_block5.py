@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run OneWire DS18B20 checks against an ESP32_V1 Espruino REPL."""
+"""Run OneWire DS18B20 checks against an ESP32-C3 Espruino REPL."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ import serial
 
 JS_TEST = r"""
 echo(false);
-var ow = new OneWire(D13);
+var ow = new OneWire(D0);
 function bytesToHex(a) {
   return a.map(function(x) { return ("0" + x.toString(16)).slice(-2); }).join("");
 }
@@ -38,7 +38,6 @@ emit("OW_RESET", ow.reset());
 var scans = [];
 var roms = [];
 for (var i = 0; i < 6; i++) {
-  ow.reset();
   var found = ow.search();
   scans.push(found);
   emit("OW_SCAN_" + i, JSON.stringify(found));
@@ -95,31 +94,13 @@ def read_until_marker(ser: serial.Serial, marker: str, timeout: float) -> str:
     return b"".join(chunks).decode("utf-8", "replace")
 
 
-def sync_repl(ser: serial.Serial) -> None:
-    ser.reset_input_buffer()
-    ser.reset_output_buffer()
-    send_and_capture(ser, "\x03", settle=0.2)
-    send_and_capture(ser, "\x03", settle=0.2)
-    send_and_capture(ser, "\n", settle=0.2)
-    send_and_capture(ser, "echo(true);\n", settle=0.15)
-
-
 def query_value(ser: serial.Serial, expr: str, label: str) -> str:
-    marker = f"__{label}__"
-    output = send_and_capture(
-        ser,
-        f'print("{marker}="+JSON.stringify({expr}))\n',
-        settle=0.45,
-    )
-    m = re.search(rf"{re.escape(marker)}=(.*)", output)
-    if not m:
-        return "UNKNOWN"
-    value = m.group(1).strip()
-    try:
-        parsed = json.loads(value)
-    except json.JSONDecodeError:
-        return value
-    return str(parsed)
+    output = send_and_capture(ser, f'print("{label}="+({expr}))\n', settle=0.35)
+    for line in output.splitlines():
+        line = line.strip()
+        if line.startswith(label + "="):
+            return line[len(label) + 1 :]
+    return output.strip()
 
 
 def crc8_maxim(data: bytes) -> int:
@@ -171,7 +152,11 @@ def main() -> int:
     args = parser.parse_args()
 
     with serial.Serial(args.port, args.baud, timeout=0.1) as ser:
-        sync_repl(ser)
+        ser.reset_input_buffer()
+        ser.reset_output_buffer()
+
+        send_and_capture(ser, "\x03\n", settle=0.25)
+        send_and_capture(ser, "echo(true);\n", settle=0.1)
 
         board = query_value(ser, "process.env.BOARD", "BOARD")
         version = query_value(ser, "process.version", "VERSION")
@@ -251,7 +236,7 @@ def main() -> int:
         print("Detected failing OneWire checks.", file=sys.stderr)
         return 1
 
-    print("All Block 4 OneWire checks passed.")
+    print("All Block 5 OneWire checks passed.")
     return 0
 
 

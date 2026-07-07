@@ -23,7 +23,7 @@ function finish() {
   try { Serial2.unsetup(); } catch (e) {}
   try { Serial3.unsetup(); } catch (e) {}
   echo(true);
-  print("DONE UART_BLOCK6");
+  print("DONE UART_BLOCK7");
 }
 function drain(port) {
   var s = "";
@@ -180,10 +180,10 @@ def main() -> int:
         ser.reset_input_buffer()
         ser.write((JS_TEST + "\n").encode("utf-8"))
         ser.flush()
-        output = read_until_marker(ser, "DONE UART_BLOCK6", timeout=3.5)
+        output = read_until_marker(ser, "DONE UART_BLOCK7", timeout=3.5)
         print(output.rstrip())
 
-    if "DONE UART_BLOCK6" not in output:
+    if "DONE UART_BLOCK7" not in output:
         print("Missing completion marker from REPL.", file=sys.stderr)
         return 2
 
@@ -213,7 +213,7 @@ def main() -> int:
         print("Detected failing UART crosslink checks.", file=sys.stderr)
         return 1
 
-    print("All Block 6 UART checks passed.")
+    print("All Block 7 UART checks passed.")
     return 0
 
 

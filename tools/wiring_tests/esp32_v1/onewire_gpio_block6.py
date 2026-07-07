@@ -34,7 +34,7 @@ function wrDs2413(rom, value) {
 }
 function finish() {
   echo(true);
-  print("DONE DS2413_BLOCK5");
+  print("DONE ONEWIRE_GPIO_BLOCK6");
 }
 
 var ds2413 = [];
@@ -202,10 +202,10 @@ def main() -> int:
         ser.reset_input_buffer()
         ser.write((JS_TEST + "\n").encode("utf-8"))
         ser.flush()
-        output = read_until_marker(ser, "DONE DS2413_BLOCK5", timeout=4.0)
+        output = read_until_marker(ser, "DONE ONEWIRE_GPIO_BLOCK6", timeout=4.0)
         print(output.rstrip())
 
-    if "DONE DS2413_BLOCK5" not in output:
+    if "DONE ONEWIRE_GPIO_BLOCK6" not in output:
         print("Missing completion marker from REPL.", file=sys.stderr)
         return 2
 
@@ -262,7 +262,7 @@ def main() -> int:
         print("Detected failing DS2413 checks.", file=sys.stderr)
         return 1
 
-    print("All Block 5 DS2413 checks passed.")
+    print("All Block 6 DS2413 checks passed.")
     return 0
 
 

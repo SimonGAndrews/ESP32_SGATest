@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run shared SPI flash checks against an ESP32_V1 Espruino REPL."""
+"""Run shared SPI extension checks against an ESP32_V1 Espruino REPL."""
 
 from __future__ import annotations
 
@@ -39,7 +39,7 @@ function bytesToHex(a) {
 function finish() {
   digitalWrite(D27, 0);
   echo(true);
-  print("DONE SPI_FLASH_BLOCK7");
+  print("DONE SPI_EXTENSION_BLOCK4");
 }
 
 SPI1.setup({miso:D19, mosi:D23, sck:D18});
@@ -138,10 +138,10 @@ def main() -> int:
         ser.reset_input_buffer()
         ser.write((JS_TEST + "\n").encode("utf-8"))
         ser.flush()
-        output = read_until_marker(ser, "DONE SPI_FLASH_BLOCK7", timeout=3.0)
+        output = read_until_marker(ser, "DONE SPI_EXTENSION_BLOCK4", timeout=3.0)
         print(output.rstrip())
 
-    if "DONE SPI_FLASH_BLOCK7" not in output:
+    if "DONE SPI_EXTENSION_BLOCK4" not in output:
         print("Missing completion marker from REPL.", file=sys.stderr)
         return 2
 
@@ -179,7 +179,7 @@ def main() -> int:
         print("Detected failing shared SPI flash checks.", file=sys.stderr)
         return 1
 
-    print("All Block 7 SPI flash checks passed.")
+    print("All Block 4 SPI extension checks passed.")
     return 0
 
 

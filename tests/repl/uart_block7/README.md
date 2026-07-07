@@ -1,7 +1,7 @@
-# UART Block 6 Functional Tests
+# `uart_block7` Functional Tests
 
 This directory groups shared functional REPL tests that use the non-console
-UART crosslink hardware context of harness block 6.
+UART crosslink hardware context of harness block 7.
 
 The current UART RX burst pack targets the `ESP32_V1` harness, using the
 existing UART1/UART2 crosslink while UART0 remains the runner/control path.
