@@ -339,6 +339,45 @@ Residual notes:
   `ERROR: jshPinSetState: Unexpected state: 0`; this did not correlate with a
   UART data-integrity failure in the passing runs
 
+## Upstream Master Verification On Legacy ESP32
+
+On 2026-07-06, the same shared UART burst pack was rerun on a freshly flashed
+legacy `ESP32` build taken from current upstream `master`.
+
+Bench firmware observed by the runner:
+
+- board `ESP32`
+- version `2v29.97`
+- runner metadata `git_commit=916c92d63`
+
+Local repo context used for the build:
+
+- repo: `/home/simon/MaBecker/Espruino_master`
+- synced local `master` to current `origin/master` / `upstream/master`
+- created branch `test/gordon-uart-master-2026-07-06` as a stable verification
+  snapshot
+- current synced master tip at test time: `d3d33f4aa`
+- upstream UART fix present in history:
+  `a3f085979 Fix data loss if >64b data appears in one packet - issue only spotted on ESP32 (#2718)`
+
+Observed result:
+
+- all six shared UART burst scripts passed
+- `32` and `64` byte cases arrived in one callback
+- `65`, `96`, and `128` byte cases arrived in two callbacks
+- `200` byte cases arrived in four callbacks
+- maximum observed chunk size remained `64`
+
+Interpretation:
+
+- Gordon's upstream fix changes the behavior from "one coalesced string or
+  crash/truncation" to "correct payload delivered as multiple serial data
+  callbacks when needed"
+- this is a valid behavioral change for the shared test pack and matches the
+  intended upstream direction
+- for now, the important practical result is that the legacy `ESP32` build no
+  longer asserts, truncates, or loses integrity in this burst pack
+
 ## First Code Areas To Understand
 
 The first code question is no longer just "why 64?" because the current target
@@ -377,17 +416,30 @@ Relevant current observations from the code:
   `jsiHandleIOEventForSerial()`, so the transition from one `64`-byte chunk to
   the next is a prime place to inspect
 
+## Current Status
+
+The current status is:
+
+- the original legacy `ESP32` failure has been reproduced, bounded, and turned
+  into a shared regression pack
+- the earlier candidate fix proved that the fault could be removed across
+  legacy `ESP32`, `ESP32_IDF4`, and `ESP32_IDF5`
+- Gordon has now landed an upstream master fix with a different internal shape
+  and that fix passes the full shared UART burst pack on legacy `ESP32`
+- the shared pack should now be retained as the practical regression set while
+  upstream discussion settles on the final fix shape and any follow-on porting
+  to IDF4/IDF5 lines
+
 ## Next Investigation Order
 
-1. Decide how to package the `src/jsinteractive.c` fix for upstream review and
-   whether to split it by ESP32 line or present it as one Core-side change with
-   cross-line evidence.
-2. Tighten the runner/test output contract so `DONE=` values are always emitted
+1. Monitor upstream discussion on issue `#2718`, especially any feedback from
+   Gordon or Rui on the changed callback/chunking behavior.
+2. Verify the upstream fix shape, or its equivalent follow-on, on `ESP32_IDF4`
+   and `ESP32_IDF5`.
+3. Tighten the runner/test output contract so `DONE=` values are always emitted
    consistently.
-3. Decide whether the `jshPinSetState: Unexpected state: 0` console noise needs
+4. Decide whether the `jshPinSetState: Unexpected state: 0` console noise needs
    a separate follow-up investigation or can be parked as unrelated for now.
-4. Preserve the current UART burst pack as the regression set for any later
-   UART or stream-event changes on ESP32-family builds.
 
 ## Working Position
 
@@ -396,8 +448,11 @@ The current working position is:
 - this is a good example of a focused UART functional regression test
 - it is valuable both for upstream comparison and for practical legacy-user
   bug fixing
-- the narrow `src/jsinteractive.c` change is now the working candidate fix with
-  bench evidence on legacy `ESP32`, `ESP32_IDF4`, and `ESP32_IDF5`
+- the narrow `src/jsinteractive.c` change remains useful as a bounded candidate
+  fix and diagnostic reference with bench evidence on legacy `ESP32`,
+  `ESP32_IDF4`, and `ESP32_IDF5`
+- current upstream `master` now has Gordon's alternative fix shape, and that
+  shape passes the shared burst pack on legacy `ESP32`
 - we should preserve the investigation as a distinct UART workstream rather
   than blur it into the general block-6 design discussion
 - any firmware instrumentation or candidate fix work should be done on a

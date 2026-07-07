@@ -57,5 +57,5 @@ Screenshot to attach:
 - `src/jsinteractive.c` diff for `jsiHandleIOEventForSerial()`
 - suggested caption:
   "Narrow candidate fix: build serial RX event data from an empty string and append chunks incrementally"
-
-[Insert diff screenshot here]
+- screenshot saved as:
+  [canidate_fix_01.png](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/uart/canidate_fix_01.png)

@@ -223,6 +223,21 @@ At the time of this note:
 - no separate active PR-prep repo is required beyond the current working repos
   above
 
+Current exception kept intentionally for issue verification:
+
+- `/home/simon/MaBecker/Espruino_master`
+  branch `test/gordon-uart-master-2026-07-06`
+- created after syncing local `master` to current `origin/master` /
+  `upstream/master`
+- purpose: hold a stable verification point for Gordon's upstream
+  `ESP32` UART RX fix from issue
+  [espruino/Espruino#2718](https://github.com/espruino/Espruino/issues/2718)
+  without disturbing the legacy investigation branch
+  `investigate/esp32-uart-rx-burst-legacy`
+- practical effect: local `master` already contains the same upstream fix; the
+  extra branch exists as a named test snapshot for bench reruns and discussion
+  follow-up
+
 If new PR work starts later, record:
 
 - destination repo
