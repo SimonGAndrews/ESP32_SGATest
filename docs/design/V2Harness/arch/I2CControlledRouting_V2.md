@@ -100,6 +100,17 @@ Likewise, a single test block may support several candidate GPIO pins.
 
 This architecture provides flexibility while avoiding the complexity of a full crosspoint switch.
 
+Each target harness should define only the routing options that are electrically
+valid and practically useful for that target. The Routing Layer is therefore a
+controlled set of legal routes, not a mechanism for arbitrary GPIO-to-resource
+connection.
+
+This preserves an important balance:
+
+* the PCB and harness designer retains control over what routing combinations
+  are electrically sensible
+* the software gains flexibility to select among those predefined options
+
 ---
 
 # 6. Resource Model
@@ -224,6 +235,9 @@ The Routing Layer should:
 * Support incremental implementation.
 
 It should **not** attempt to connect every GPIO to every resource.
+
+It should also avoid creating routing combinations that are not explicitly
+supported by the target harness design.
 
 ---
 

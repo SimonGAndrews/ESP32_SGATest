@@ -18,6 +18,15 @@ It describes the logical organisation of future test harnesses, identifies the r
 
 This document intentionally concentrates on architecture rather than implementation. Detailed hardware designs and board-specific implementations are described separately.
 
+It is intended to be a relatively stable architectural reference rather than a
+running design notebook. Implementation detail, component choice and
+board-specific routing strategies should be captured in companion documents.
+
+At the current project stage, this architecture work runs in parallel with V1
+development only. Shared functional tests, bench regression work and practical
+harness refinement remain centered on the existing V1 harnesses while V2 stays
+at the architectural-definition stage.
+
 ---
 
 # 2. Objectives
@@ -48,6 +57,10 @@ Where several solutions exist, the simplest solution should normally be preferre
 The existing ESP32_SGATest project forms the baseline for future development.
 
 Future harnesses should evolve from proven designs rather than introducing unnecessary architectural change.
+
+This applies to both hardware and software structure. The current V1 harnesses,
+shared REPL tests and bench workflows remain the proving ground for ideas that
+may later be generalised into the V2 architecture.
 
 ---
 
@@ -131,6 +144,11 @@ Standard Test Blocks implement reusable hardware functions.
 
 Where practical, every target harness should contain the same logical collection of test blocks.
 
+The starting point for defining these blocks is the proven V1 harness model.
+Existing ESP32-family blocks and their associated functional tests should be
+treated as the first evidence set for deciding which block concepts are truly
+general and which remain target-specific.
+
 Typical examples include:
 
 * GPIO loopback
@@ -198,6 +216,21 @@ The software should not require knowledge of:
 
 This abstraction allows identical software tests to execute across multiple target harnesses.
 
+However, V2 should be developed in a way that remains consistent with the
+current V1 testing approach. In V1, tests deliberately keep visible target
+presets and harness expectations inside the JS test files rather than hiding
+all configuration in the runner. V2 should therefore treat logical resource
+abstraction as a harness capability model layered underneath the tests, not as
+a reason to make test behavior opaque to the user.
+
+In practical terms:
+
+* the harness software may resolve logical resources through board profiles or
+  routing rules
+* tests should still remain understandable when run directly in the REPL
+* target-specific capability differences should remain visible and inspectable
+  rather than being hidden inside a large runner-side configuration model
+
 ---
 
 # 7. Relationship to ESP32_SGATest
@@ -212,6 +245,11 @@ Future harnesses are expected to retain the successful concepts developed during
 * Support for additional target platforms.
 
 The objective is evolution rather than replacement.
+
+The V1 harnesses also remain the active validation platform while V2 is being
+designed. Architectural proposals should therefore be checked against V1
+experience and, where practical, proven first through V1 functional test and
+bench work before being treated as settled V2 direction.
 
 ---
 

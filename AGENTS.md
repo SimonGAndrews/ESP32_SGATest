@@ -7,6 +7,7 @@ Start by reading:
 - `README.md`
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
 - `docs/handoff/2026-07-01-espruino-repo-structure.md`
+- `docs/design/V2Harness/README.md`
 - `docs/README.md`
 - `docs/handoff/2026-06-10.md`
 - `docs/handoff/2026-06-16-onewire-idf4-idf5.md`
@@ -22,6 +23,13 @@ Current active hardware focus:
   schematic/PCB revision v1.1
 - classic ESP32 DevKitC V4 harness, KiCad project `KICAD/ESP32_V1/`,
   wirewrap-built with scripted wiring checks completed
+
+V2 architecture note:
+
+- `docs/design/V2Harness/` is an architecture-only parallel workstream at
+  present
+- active shared test development, bench regression work, and harness refinement
+  remain focused on the V1 harnesses
 
 Important generic test notes:
 

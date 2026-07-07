@@ -45,6 +45,28 @@ Current areas of investigation include:
 
 No final implementation decisions have yet been made.
 
+## Current Scope
+
+The current scope of V2 work is deliberately limited.
+
+At present, V2 is a parallel architecture workstream only. It exists to define
+concepts, terminology and design direction for future harness generations.
+
+It is **not** currently the active delivery path for:
+
+* shared functional test development
+* bench regression execution
+* day-to-day harness refinement
+* target bring-up or firmware issue investigation
+
+Those activities remain focused on the existing V1 harnesses.
+
+In practical terms:
+
+* V1 remains the active platform for test development and harness refinement
+* V2 remains a design study until architectural ideas are mature enough to
+  justify hardware and software implementation work
+
 ---
 
 ## Guiding Principles
@@ -93,19 +115,32 @@ Existing hardware designs remain the reference implementation.
 
 Future harnesses are expected to retain successful concepts from the original project while introducing improvements that simplify configuration, improve reuse and support greater levels of automation.
 
+The V1 harnesses and their functional tests are also the practical evidence base
+for V2. New architectural ideas should be checked against proven V1 block
+designs, bench workflows and software test structure before they are treated as
+general patterns.
+
 ---
 
 ## Current Architecture Documents
 
 The following documents provide the current architectural direction for the project.
 
-* **TestHarnessArchitecture.md**
+* **TestHarnessArchitecture_V2.md**
   Defines the overall architecture and guiding principles for future harnesses.
 
-* **I2CControlledRouting.md**
+* **I2CControlledRouting_V2.md**
   Explores a proposed Routing Layer to support programmable allocation of hardware test resources.
 
 These documents represent the current design direction and are expected to evolve as the project progresses.
+
+The two documents currently have different roles:
+
+* `TestHarnessArchitecture_V2.md` is the top-level architectural definition and
+  should change only when a genuine architectural decision is made.
+* `I2CControlledRouting_V2.md` is a working proposal for one important part of
+  that architecture and can evolve more freely as implementation thinking
+  matures.
 
 ---
 
@@ -122,6 +157,13 @@ The architecture is expected to evolve incrementally as practical experience is 
 Development of the V2 Harness architecture will progress in parallel with the continued development and expansion of the existing V1 test harnesses.
 
 The V1 harnesses remain the primary platform for developing, validating and refining the Espruino hardware test framework. Experience gained from practical implementation and day-to-day use of these harnesses will continue to inform the V2 architecture.
+
+In practical terms, V1 remains the active delivery path for:
+
+* new shared REPL functional tests
+* runner and evidence conventions
+* target-specific block coverage
+* bench validation of assumptions that may later become V2 architectural rules
 
 This parallel approach provides several advantages:
 
