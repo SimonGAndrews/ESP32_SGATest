@@ -134,7 +134,7 @@ Targets with plentiful GPIO resources may connect directly to many test blocks, 
 
 The Routing Layer presents a consistent logical interface to the software while allowing different electrical implementations on different targets.
 
-Further details are provided in *I2CControlledRouting.md*.
+Further details are provided in *I2CControlledRouting_V2.md*.
 
 ---
 

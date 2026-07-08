@@ -93,6 +93,9 @@ V2Harness/
 ├── arch/
 │   Architecture specifications
 │
+├── targets/
+│   Provisional target-specific architecture and routing studies
+│
 ├── schematics/
 │   Hardware schematics and PCB development
 │
@@ -131,6 +134,14 @@ The following documents provide the current architectural direction for the proj
 
 * **I2CControlledRouting_V2.md**
   Explores a proposed Routing Layer to support programmable allocation of hardware test resources.
+
+Current target studies:
+
+* **targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md**
+  Captures the provisional ESP32-C3 V2 GPIO rationalisation, routing model,
+  prototype component direction and unresolved design questions. It is the V2
+  design-phase precursor to a target wiring specification, not an implemented
+  wiring definition.
 
 These documents represent the current design direction and are expected to evolve as the project progresses.
 
