@@ -97,21 +97,29 @@ Use for:
 - shared fixes intended for `espruino/Espruino`
 - clean upstream PR preparation
 
-Current working branch at the time of this note:
+Current working branch:
 
-- `fix/esp32-idf4-onewire-quiet-timing`
+- `fix/esp32-idf4-onewire-v1-harness`
 
 Remotes:
 
 - `origin` -> `git@github.com:SimonGAndrews/Espruino.git`
 - `upstream` -> `git@github.com:espruino/Espruino.git`
-- `broken-origin` -> `git@github.com:SimonGAndrews/ESP32_SGATest.git`
 
 Rule:
 
 - use this repo when the destination is upstream `espruino/Espruino`
 - create or refresh clean feature branches from current `upstream/master`
 - do not use this repo for MaBecker-targeted IDF5 work
+
+Current local preservation note:
+
+- the main repo path is now used directly for active IDF4 branch work
+- an unrelated local UART investigation snapshot is preserved separately at
+  `/home/simon/MaBecker/Espruino_upstream_idf4_uart_local`
+  on branch `wip/esp32-uart-rx-burst-idf4-local`
+- this exists only to keep unrelated in-progress local changes out of the main
+  IDF4 repo path while active OneWire work proceeds
 
 ### 4. IDF5 / MaBecker codebase
 
