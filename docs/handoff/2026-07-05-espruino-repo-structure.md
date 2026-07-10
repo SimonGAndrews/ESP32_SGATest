@@ -34,6 +34,12 @@ Path:
 /home/simon/MaBecker/ESP32_SGATest
 ```
 
+Windows counterpart:
+
+```text
+C:\Users\simon\Documents\ESP32_SGATest
+```
+
 Use for:
 
 - the main interactive Codex working repo
@@ -46,6 +52,10 @@ Use for:
 Current branch:
 
 - `main`
+
+Remotes:
+
+- `origin` -> `git@github.com:SimonGAndrews/ESP32_SGATest.git`
 
 Rule:
 

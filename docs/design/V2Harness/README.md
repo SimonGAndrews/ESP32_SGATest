@@ -38,6 +38,7 @@ Work is presently focused on defining the logical structure of future harnesses 
 Current areas of investigation include:
 
 * Overall harness architecture.
+* Hybrid manufactured-PCB plus target-wirewrap prototype structure.
 * Standard hardware test blocks.
 * A programmable Routing Layer for targets with limited GPIO resources.
 * Common software abstractions for hardware resource allocation.
@@ -135,6 +136,11 @@ The following documents provide the current architectural direction for the proj
 * **I2CControlledRouting_V2.md**
   Explores a proposed Routing Layer to support programmable allocation of hardware test resources.
 
+* **HybridHarnessArchitecture_V2.md**
+  Defines the current hybrid prototype direction: a reusable manufactured PCB
+  containing test blocks, routing hardware and named target-interface pins,
+  combined with a target-specific wirewrap adaptation area.
+
 Current target studies:
 
 * **targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md**
@@ -145,13 +151,16 @@ Current target studies:
 
 These documents represent the current design direction and are expected to evolve as the project progresses.
 
-The two documents currently have different roles:
+The architecture documents currently have different roles:
 
 * `TestHarnessArchitecture_V2.md` is the top-level architectural definition and
   should change only when a genuine architectural decision is made.
 * `I2CControlledRouting_V2.md` is a working proposal for one important part of
   that architecture and can evolve more freely as implementation thinking
   matures.
+* `HybridHarnessArchitecture_V2.md` captures the current prototype build
+  approach and is the bridge between the general architecture and the first V2
+  KiCad schematic work.
 
 ---
 
