@@ -103,14 +103,24 @@ allowing target mappings to evolve through hands-on prototype work.
 
 The current V2 target envelope includes:
 
-* classic ESP32 DevKitC V4 style targets, including the Olimex
-  ESP32-DevKit-LiPo already used by the V1 harness work
-* ESP32-C3 targets, specifically the Olimex ESP32-C3-DevKit-LiPo class
-* ESP32-S3 targets, specifically the Olimex ESP32-S3-DevKit-Lipo-EA
+* classic ESP32 targets, including the Espressif ESP32-DevKitC V4 family and the
+  Olimex ESP32-DevKit-LiPo already used by the V1 harness work
+* ESP32-C3 targets, including the Espressif ESP32-C3-DevKitC-02 family and the
+  Olimex ESP32-C3-DevKit-LiPo class
+* ESP32-S3 targets, including the Espressif ESP32-S3-DevKitC-1 and the Olimex
+  ESP32-S3-DevKit-LiPo-EA
 * Espruino MDBT42Q breakout/module targets
 * Espruino Pico
 * Raspberry Pi Pico W and Pico 2 W, which share the Pico-family board shape and
   pinout concept
+
+Where practical, target mappings should be developed against the Espressif
+DevKitC family, which provides the documented reference hardware and pin layouts
+for the ESP32 MCU families. Alternative development boards, such as the Olimex
+variants, remain fully supported through target-specific mappings to the common
+Target Interface (`TI_*`) signals. This allows the reusable V2 harness
+architecture to remain independent of any particular development board while
+encouraging a consistent baseline for future target definitions.
 
 These targets differ substantially in:
 
