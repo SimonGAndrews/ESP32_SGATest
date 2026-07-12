@@ -1,6 +1,6 @@
 # V2 Harness Conceptual Model
 
-**Status:** Draft for review  
+**Status:** Accepted  
 **Version:** 0.1  
 **Last Updated:** 12 July 2026
 
