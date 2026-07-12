@@ -2,7 +2,7 @@
 
 **Status:** Draft
 **Version:** 0.1
-**Last Updated:** 10 July 2026
+**Last Updated:** 12 July 2026
 
 ---
 
@@ -403,3 +403,182 @@ unimplemented or excluded resources as appropriate.
 
 This preserves the flexibility of the V1 wirewrap process while moving the
 repeatable harness circuitry toward a manufacturable V2 PCB.
+
+---
+
+# Appendix A. Plug-In Target Daughter-Board Direction
+
+## A.1 Agreed Direction
+
+The preferred V2 target-adaptation approach is a removable target daughter
+board rather than a target wirewrapped directly onto the reusable harness PCB.
+
+The target-interface pin banks become the physical and electrical boundary
+between the two assemblies. Their signals and pin assignments are fixed on the
+harness side. Each target daughter board implements the target-specific
+mapping needed to meet that common interface contract.
+
+Conceptually:
+
+```text
+Target module
+     │
+     │ target-specific sockets and wirewrap
+     ▼
+Target daughter board
+     │
+     │ fixed Target Interface pin-bank contract
+     ▼
+Reusable harness PCB
+     │
+     ├── direct test connections
+     └── routing/switching → functional test blocks
+```
+
+The initial daughter boards may use through-hole prototype board, turned-pin
+male and female connectors, and point-to-point wirewrap. The reusable harness
+PCB is not expected to know the target's physical pin names or header layout;
+it sees only the fixed logical target-interface signals.
+
+## A.2 Functional Roles
+
+The target module or development board provides:
+
+* the MCU and its target-board support circuitry
+* the firmware instance under test
+* native target connectors such as USB, UART, SWD or JTAG where fitted
+
+The target daughter board provides:
+
+* the physical target footprint, socket or removable header arrangement
+* target-specific mapping from physical target pins to the interface banks
+* target-specific wirewrap and construction documentation
+* target-specific straps, exclusions and optional selection links
+* target and daughter-board identity and revision markings
+* target-specific protection or level translation only where genuinely needed
+
+The reusable harness PCB provides:
+
+* fixed target-interface pin-bank connectors and signal assignments
+* standard test blocks and direct test connections
+* reusable routing, switching and route-control hardware
+* reusable power, reset, boot and measurement provisions
+* stable logical test resources independent of target header layout
+
+General test circuitry and active routing should remain on the reusable harness
+by default. A daughter board should normally be a passive adapter. This keeps
+the common harness behaviour consistent and confines target-specific details to
+the replaceable assembly.
+
+## A.3 Construction and Operating Model
+
+A daughter board can be continuity-tested and inspected independently before
+it is connected to the reusable harness. Once proved, it becomes the physical
+target profile for that board family.
+
+Different targets, board revisions or firmware versions can then be exchanged
+without rebuilding the permanent harness. A small number of reusable harness
+PCBs can support a larger collection of targets and daughter boards. This is
+particularly useful during early development, when several target mappings
+need to be proved and corrected.
+
+The connector system should be keyed or unmistakably marked. Power and ground
+should use sufficient contacts, and sensitive analogue or faster signals
+should be placed with suitable adjacent ground returns. Connector orientation,
+pin numbering and safe insertion/removal practice form part of the interface
+contract.
+
+## A.4 Resilience and Replacement Boundaries
+
+The removable target and daughter board add resilience compared with a target
+hardwired directly into the harness. An MCU or development-board failure does
+not require the permanent harness wiring to be disturbed.
+
+Depending on the target socket arrangement, either the target alone or the
+complete daughter-board assembly can be exchanged. A known-good spare also
+provides a quick diagnostic boundary:
+
+```text
+Replace target MCU/module
+          ↓ if fault remains
+Replace target daughter board
+          ↓ if fault remains
+Diagnose reusable harness
+```
+
+This helps separate target failure, daughter-board mapping faults and reusable
+harness faults. Mechanical wear, damaged GPIOs and early wiring mistakes are
+also confined to a smaller and more easily reproduced assembly.
+
+## A.5 Evolution into Permanent Adapter PCBs
+
+The daughter-board boundary provides a deliberate migration path:
+
+```text
+Wire-wrapped prototype daughter board
+              ↓ mapping proven
+Tidied/repeatable wire-wrapped revision
+              ↓ target support stable
+Manufactured passive adapter PCB
+```
+
+All stages remain interchangeable with the reusable harness because they meet
+the same target-interface contract. Early adapters remain inexpensive and easy
+to correct, while mature or frequently used targets can later receive durable
+manufactured PCBs.
+
+The target daughter-board schematic should be the controlled description of
+the mapping. Initially it acts as a wirewrap build and verification guide;
+later it becomes the source for the adapter PCB layout. This avoids committing
+to manufacture before pin allocation, strapping, power behaviour and test
+routing have been proved.
+
+## A.6 Comparison with Alternative Approaches
+
+| Approach | Strength | Main limitation |
+|---|---|---|
+| Target directly mounted and wired on each harness | Simplest electrical path and fewest connector contacts | Requires another permanent harness build or wiring rework for each target |
+| Universal socket or patch field on the harness | Highly flexible during experimentation | Target-specific wiring remains on the main harness and is harder to reproduce or exchange |
+| Ribbon-cabled external target adapter | Allows flexible physical positioning | Adds cable-related power, grounding, contact and signal-integrity uncertainty |
+| Plug-in target daughter board | Reusable, inspectable, replaceable and independently testable | Requires a disciplined connector and target-interface contract |
+| Fully active switching matrix | Maximum software-controlled routing flexibility | Much greater circuit, firmware, cost and debugging complexity |
+
+For V2, the plug-in daughter board gives the best balance of prototype
+flexibility, serviceability, repeatability and a credible path to manufactured
+hardware.
+
+## A.7 Summary of Advantages
+
+The selected approach provides:
+
+* rapid target interchange without rebuilding the reusable harness
+* convenient exchange of targets carrying different firmware versions
+* easy replacement after MCU, development-board or connector failure
+* independent construction, continuity testing and fault diagnosis
+* good use of available turned-pin wirewrap male and female connectors
+* visible and inspectable target-specific wiring during early development
+* fewer permanent harness boards for a larger supported-target collection
+* containment of target-specific straps, exceptions and physical layouts
+* stable reusable test blocks, routing and control circuitry
+* reproducible spare adapters and known-good diagnostic substitutions
+* a direct evolution from wirewrapped prototype to manufactured adapter PCB
+
+## A.8 Required Target-Interface Contract
+
+This decision makes definition of the target-interface pin-bank contract a
+prerequisite for final daughter-board and reusable-harness layout. The contract
+should define at least:
+
+* connector type, count, numbering, keying and physical orientation
+* logical signal name, direction and required or optional status
+* voltage domain, current allowance and default safe state
+* allocation of duplicated power and ground contacts
+* direct, routable, reserved and target-service signals
+* treatment of unimplemented resources on a particular target
+* insertion/removal and power-off requirements
+* daughter-board identity, target compatibility and revision scheme
+
+Each daughter-board schematic and build document must map the target's physical
+pins to this contract explicitly. The reusable harness schematic should show
+the fixed interface-bank connectors and remain unchanged when a new target
+daughter board is introduced.
