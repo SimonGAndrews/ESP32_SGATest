@@ -62,6 +62,9 @@ The work in this repository has progressed through these stages:
 11. Proved the first shared functional block (`gpio_block1`) end to end across
     both current family targets on IDF4 firmware, using the same logical test
     files unchanged.
+12. Started the V2 prototype implementation in `KICAD_V2/`, created curated
+    target libraries, and adopted removable target daughter boards as the
+    target-specific adaptation boundary.
 
 ## Current Targets
 
@@ -160,6 +163,7 @@ AGENTS.md                  Codex/new-thread operating notes
 docs/                      Wiring specs, handoffs, investigation notes
 tools/                     Python/REPL test utilities and wiring-test runners
 KICAD/                     Harness schematic/PCB projects
+KICAD_V2/                  V2 prototype project and curated project libraries
 Hardware/                  Hardware reference material
 tests/repl/                Portable community-facing REPL test scripts
 ```
@@ -223,3 +227,12 @@ functional suite, with the aim of:
   references
 - establishing IDF4 as the baseline family proof first
 - then repeating the same shared functional coverage on IDF5 firmware variants
+
+In parallel, V2 architecture and KiCad implementation are active. V2 is
+defining a reusable harness with removable target daughter boards and a fixed
+Target Interface contract. See `docs/design/V2Harness/README.md` for the V2
+entry point.
+
+Routine V1 hardware development and prototyping have stopped. The completed V1
+harnesses remain the stable bench platforms for runner development, regression
+testing and firmware evidence.

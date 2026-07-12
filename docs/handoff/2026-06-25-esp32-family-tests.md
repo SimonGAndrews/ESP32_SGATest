@@ -2,41 +2,45 @@
 
 Date: 2026-06-25
 
+> **Current-status overlay - 12 July 2026:** The V1 harness hardware described
+> here is now complete. Routine V1 hardware development and prototyping have
+> stopped. Use the C3 and classic ESP32 harnesses as stable bench platforms for
+> shared functional-test development, runner development, regression evidence
+> and firmware comparison. The historical construction and "immediate physical
+> work" sections below remain useful evidence but are no longer the active task
+> list. Read the root `README.md` and inspect `tests/repl/` for progress completed
+> after this handover.
+
 This handoff prepares a fresh Codex thread to continue ESP32-family Espruino
 test work from the current repository state. It combines the generic test
 process developed on the ESP32-C3 harness with the current classic ESP32
 DevKitC V4 hardware work, and then calls out the target-specific differences.
 
-The immediate physical phase is to continue ESP32-family harness validation
-using the now-built classic ESP32 DevKitC V4 and ESP32-C3 wirewrap harnesses.
-The test methodology, evidence rules, and most software test blocks should
-remain generic across ESP32-family harnesses.
+The current phase is ESP32-family bench validation and shared functional-test
+development using the completed classic ESP32 DevKitC V4 and ESP32-C3 wirewrap
+harnesses. The test methodology, evidence rules and most software test blocks
+should remain generic across ESP32-family harnesses.
 
 ## Start Here In A New Thread
 
-Minimum read set:
+Core read set:
 
 1. `AGENTS.md`
 2. `docs/handoff/2026-06-25-esp32-family-tests.md`
 3. `docs/design/common-harness-design-and-blocks.md`
 4. `docs/design/harness-modes.md`
-5. `docs/targets/esp32-c3-devkitc-02/wiring.md`
-6. `docs/targets/esp32-devkitc-v4/wiring.md`
-7. `KICAD/ESP32_V1/README.md`
-8. `docs/handoff/2026-06-16-onewire-idf4-idf5.md`
-9. `docs/investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md`
-10. `docs/targets/esp32-c3-devkitc-02/bringup.md`
+5. the wiring document for the target being used
+6. the relevant block under `tests/repl/`
 
-Files 3-4 describe the generic harness blocks and design principles. Files 5-7
-describe the two current physical targets. Files 8-10 preserve the firmware and
-test subtleties from the previous C3 debugging work, especially OneWire timing,
-`digitalPulse`, REPL handling, and the way evidence was separated between
-hardware and firmware.
+Read `KICAD/ESP32_V1/README.md` only when physical construction detail is
+needed. Read the OneWire and `digitalPulse` investigation documents only when
+the task concerns those behaviours. This avoids loading historical firmware
+debug context into ordinary runner work.
 
 Additional useful docs:
 
 - `docs/design/target-reference-links.md`
-- `docs/handoff/2026-07-01-espruino-repo-structure.md`
+- `docs/handoff/2026-07-05-espruino-repo-structure.md`
 
 ## Generic ESP32-Family Test Model
 
@@ -151,6 +155,10 @@ untracked local reference photo. It is useful for human inspection but is not
 required by the committed design.
 
 ## Immediate Physical Work
+
+**Historical status:** completed. This section records the construction plan
+that produced the current classic ESP32 V1 bench harness; it is not an active
+V1 hardware task list.
 
 The ESP32 DevKitC V4 harness is ready to print and wire.
 
@@ -350,7 +358,11 @@ Current Python tools are C3-oriented unless named generic:
 - `tools/common/onewire_soak_generic.py`
 - `tools/common/ds18b20_read_soak.py`
 
-Expected next software task:
+At the time of the original handover, the expected next software task was:
+
+**Historical note:** subsequent shared functional-runner work is reflected in
+the root `README.md`, `docs/design/repl-test-suite-design.md` and `tests/repl/`.
+Use those current files to determine the next unimplemented block.
 
 - create ESP32-family parameterized harness runners that map the same logical
   test blocks onto C3 and ESP32_V1 target allocations

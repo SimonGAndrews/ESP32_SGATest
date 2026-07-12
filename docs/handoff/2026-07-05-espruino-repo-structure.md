@@ -4,7 +4,7 @@ Date: 2026-07-05
 
 This note is a simplified successor to:
 
-- [2026-07-01-espruino-repo-structure.md](/home/simon/MaBecker/ESP32_SGATest/docs/handoff/2026-07-01-espruino-repo-structure.md)
+- [`2026-07-01-espruino-repo-structure.md`](2026-07-01-espruino-repo-structure.md)
 
 Keep the older note as the transitional history record.
 Use this note as the main operational guide for current work.
@@ -12,8 +12,8 @@ Use this note as the main operational guide for current work.
 Use this note together with:
 
 - `AGENTS.md`
-- [2026-06-25-esp32-family-tests.md](/home/simon/MaBecker/ESP32_SGATest/docs/handoff/2026-06-25-esp32-family-tests.md)
-- [artifact-index-2026-07-old-espruino-sandbox.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/artifact-index-2026-07-old-espruino-sandbox.md)
+- [`2026-06-25-esp32-family-tests.md`](2026-06-25-esp32-family-tests.md)
+- [`artifact-index-2026-07-old-espruino-sandbox.md`](../investigations/artifact-index-2026-07-old-espruino-sandbox.md)
 
 ## Purpose
 
@@ -23,6 +23,11 @@ The aim of this note is simple:
 - preserve the repo context behind completed PR work
 - keep Codex and future threads on the correct codebase without relying on
   older mixed sandboxes
+
+The absolute paths below document particular local clones and are examples for
+repository selection, not canonical project paths. Documentation links and
+project configuration should remain repository-relative so this harness repo
+works on both Windows and Ubuntu.
 
 ## Current Working Repos By Purpose
 
@@ -231,8 +236,8 @@ Current follow-on repo:
 
 Related notes:
 
-- [conclusion-2026-07-05.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/conclusion-2026-07-05.md)
-- [artifact-index-2026-07-old-espruino-sandbox.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/artifact-index-2026-07-old-espruino-sandbox.md)
+- [`conclusion-2026-07-05.md`](../investigations/digitalpulse/conclusion-2026-07-05.md)
+- [`artifact-index-2026-07-old-espruino-sandbox.md`](../investigations/artifact-index-2026-07-old-espruino-sandbox.md)
 
 ## Open PR Or Issue-Prep Codebases
 
@@ -307,7 +312,7 @@ the intended destination.
 If a new thread is opened for firmware or PR work:
 
 1. read `AGENTS.md`
-2. read [2026-06-25-esp32-family-tests.md](/home/simon/MaBecker/ESP32_SGATest/docs/handoff/2026-06-25-esp32-family-tests.md)
+2. read [`2026-06-25-esp32-family-tests.md`](2026-06-25-esp32-family-tests.md)
 3. read this note
 4. confirm the destination codebase:
    - legacy `ESP32`
