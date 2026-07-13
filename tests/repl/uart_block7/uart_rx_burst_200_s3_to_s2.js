@@ -1,4 +1,4 @@
-// UART block 6 RX burst functional test
+// UART block 7 RX burst functional test
 // Covers: Serial.setup, Serial.write, Serial.on("data"), Serial.read, Serial.available, Serial.unsetup
 
 echo(false);
@@ -202,7 +202,7 @@ function runBurstCase(index, sender, receiver, label, doneFn) {
     expectEq(checkName + "_hash", receivedHash, expectedHash);
     expectTextMarkerEq(checkName + "_head", markers.head, payload.substr(0, 16));
     expectTextMarkerEq(checkName + "_tail", markers.tail, payload.substr(-16));
-    schedule(0, function() { runBurstCase(index + 1, sender, receiver, label, doneFn); });
+    runBurstCase(index + 1, sender, receiver, label, doneFn);
   });
 }
 function run() {

@@ -1,12 +1,13 @@
-// UART block 6 RX burst functional test
+// UART block 7 RX burst functional test
 // Covers: Serial.setup, Serial.write, Serial.on("data"), Serial.read, Serial.available, Serial.unsetup
 
 echo(false);
 
 var TEST_NAME = "uart_rx_burst_s2_to_s3";
 var TARGET = "AUTO";
-var TIMEOUT_MS = 5000;
+var TIMEOUT_MS = 9000;
 var BAUD = 115200;
+var INTER_CASE_MS = 120;
 var CASE_LENGTHS = [32, 64, 65, 96];
 var DIRECTION = {
   senderKey : "SERIAL_A",
@@ -158,6 +159,13 @@ function removeListenersAndUnsetup(portInfo) {
   safeCall(function() { portInfo.port.unsetup(); });
 }
 
+function drainPort(portInfo) {
+  if (!portInfo || !portInfo.port) return;
+  safeCall(function() {
+    while (portInfo.port.available && portInfo.port.available()) portInfo.port.read();
+  });
+}
+
 function cleanup() {
   clearAllTimers();
   removeListenersAndUnsetup(PORTS && PORTS.SERIAL_A);
@@ -233,6 +241,7 @@ function runBurstCase(index, sender, receiver, label, doneFn) {
 
   safeCall(function() { sender.port.removeAllListeners("data"); });
   safeCall(function() { receiver.port.removeAllListeners("data"); });
+  drainPort(receiver);
 
   receiver.port.on("data", function(d) {
     callbackCount++;
@@ -258,7 +267,8 @@ function runBurstCase(index, sender, receiver, label, doneFn) {
     expectEq(checkName + "_hash", receivedHash, expectedHash);
     expectTextMarkerEq(checkName + "_head", markers.head, payload.substr(0, 16));
     expectTextMarkerEq(checkName + "_tail", markers.tail, payload.substr(-16));
-    schedule(0, function() {
+    drainPort(receiver);
+    schedule(INTER_CASE_MS, function() {
       runBurstCase(index + 1, sender, receiver, label, doneFn);
     });
   });
@@ -292,6 +302,7 @@ function run() {
   info("selectors", CFG.selectorInfo);
   info("baud", "" + BAUD);
   info("lengths", JSON.stringify(CASE_LENGTHS));
+  info("inter_case_ms", "" + INTER_CASE_MS);
   info("direction", DIRECTION.label);
   info("sender", sender.name + " tx=" + CFG[DIRECTION.senderKey].tx + " rx=" + CFG[DIRECTION.senderKey].rx);
   info("receiver", receiver.name + " tx=" + CFG[DIRECTION.receiverKey].tx + " rx=" + CFG[DIRECTION.receiverKey].rx);

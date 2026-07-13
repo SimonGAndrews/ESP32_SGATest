@@ -71,7 +71,7 @@ def read_until_done(ser: serial.Serial, timeout: float) -> str:
             chunks.append(ser.read(waiting))
             text = b"".join(chunks).decode("utf-8", "replace")
             if "DONE=" in text:
-                return text
+                return text + read_available(ser, 0.25)
         else:
             time.sleep(0.02)
     return b"".join(chunks).decode("utf-8", "replace")
@@ -126,7 +126,7 @@ def run_direct(test_path: Path, port: str, baud: int, timeout: float) -> str:
         ser.reset_input_buffer()
         raw_output = send_script_paced(ser, js_test)
         if "DONE=" in raw_output:
-            return raw_output
+            return raw_output + read_available(ser, 0.25)
         return raw_output + read_until_done(ser, timeout)
 
 
