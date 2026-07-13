@@ -1,4 +1,15 @@
-# Draft Issue Response
+# Historical Draft Issue Response
+
+Status: historical draft, superseded by upstream fix application and local
+close-out evidence.
+
+The investigation close-out is now recorded in:
+
+- `docs/investigations/uart/esp32-legacy-rx-burst-regression-2026-07-05.md`
+
+Parked follow-up items are recorded in:
+
+- `docs/investigations/uart/esp32-v1-block7-followups-2026-07-14.md`
 
 Hi Gordon,
 

@@ -19,6 +19,51 @@ Issue summary:
   64 bytes
 - WiFi softAP appears to make the problem worse
 
+## Close-Out Status
+
+Status: closed for the original UART RX burst regression.
+
+Close-out date: 2026-07-14
+
+Outcome:
+
+- the original `>64` byte UART RX burst failure was reproduced on the
+  `ESP32_V1` harness without requiring external modem hardware
+- the failure was turned into a shared Block 7 UART regression pack under
+  `tests/repl/uart_block7/`
+- the investigation showed that the practical problem was not confined to the
+  legacy `ESP32` build:
+  - legacy `ESP32` and `ESP32_IDF4` asserted/rebooted at the first multi-chunk
+    boundary
+  - `ESP32_IDF5` showed truncation at the same practical boundary
+- upstream master now contains the applied fix:
+  `a3f085979 Fix data loss if >64b data appears in one packet - issue only spotted on ESP32 (#2718)`
+- a later upstream-master `ESP32_IDF4` build flashed to the V1 bench reported:
+  - board: `ESP32_IDF4`
+  - version: `2v29.107`
+  - git commit: `0af6e1568`
+- that build passed the split Block 7 UART burst pack through the former
+  failure boundary and through clean-start `128` and `200` byte transfers in
+  both directions
+
+Closed investigation conclusion:
+
+- the original issue `#2718` behaviour is resolved by the upstream fix present
+  in current master at the time of this close-out
+- the expected post-fix behaviour for large continuous UART RX bursts is that
+  the complete payload may arrive across multiple `data` callbacks, with chunk
+  sizes around the internal `64` byte event boundary
+- the shared Block 7 UART burst tests should remain as regression coverage
+- no further action is required in this investigation for the original
+  `>64` byte RX loss/crash/truncation problem
+
+Separate follow-up items discovered during the later expanded Block 7 work are
+parked in:
+
+- `docs/investigations/uart/esp32-v1-block7-followups-2026-07-14.md`
+
+Those follow-ups are deliberately not part of this close-out.
+
 This investigation should stay separate from:
 
 - the earlier GPIO and `digitalPulse` work
@@ -420,26 +465,31 @@ Relevant current observations from the code:
 
 The current status is:
 
-- the original legacy `ESP32` failure has been reproduced, bounded, and turned
-  into a shared regression pack
+- the original legacy `ESP32` failure was reproduced, bounded, and turned into
+  a shared regression pack
 - the earlier candidate fix proved that the fault could be removed across
   legacy `ESP32`, `ESP32_IDF4`, and `ESP32_IDF5`
-- Gordon has now landed an upstream master fix with a different internal shape
-  and that fix passes the full shared UART burst pack on legacy `ESP32`
-- the shared pack should now be retained as the practical regression set while
-  upstream discussion settles on the final fix shape and any follow-on porting
-  to IDF4/IDF5 lines
+- upstream master now carries the applied fix
+  `a3f085979 Fix data loss if >64b data appears in one packet - issue only spotted on ESP32 (#2718)`
+- the flashed upstream-master `ESP32_IDF4` bench build `0af6e1568` passes the
+  Block 7 burst pack through `200` bytes in both directions
+- the original UART RX burst regression is closed from this repository's
+  investigation point of view
+- the shared pack remains the practical regression set for future firmware
+  comparisons
 
 ## Next Investigation Order
 
-1. Monitor upstream discussion on issue `#2718`, especially any feedback from
-   Gordon or Rui on the changed callback/chunking behavior.
-2. Verify the upstream fix shape, or its equivalent follow-on, on `ESP32_IDF4`
-   and `ESP32_IDF5`.
-3. Tighten the runner/test output contract so `DONE=` values are always emitted
-   consistently.
-4. Decide whether the `jshPinSetState: Unexpected state: 0` console noise needs
-   a separate follow-up investigation or can be parked as unrelated for now.
+No active next step remains for the original `#2718` UART RX burst regression.
+
+Follow-up work is intentionally split out:
+
+1. Keep the Block 7 UART burst tests as regression coverage.
+2. Use `docs/investigations/uart/esp32-v1-block7-followups-2026-07-14.md` for
+   the parked `Serial.flush()`, `Serial.unsetup()` warning and
+   `Serial.isConnected()` observations.
+3. Use `docs/design/V2Harness/arch/Block7_V1TestNotes.md` for V2 UART block
+   design implications, especially console testing and flow-control gaps.
 
 ## Working Position
 
@@ -448,12 +498,12 @@ The current working position is:
 - this is a good example of a focused UART functional regression test
 - it is valuable both for upstream comparison and for practical legacy-user
   bug fixing
-- the narrow `src/jsinteractive.c` change remains useful as a bounded candidate
-  fix and diagnostic reference with bench evidence on legacy `ESP32`,
-  `ESP32_IDF4`, and `ESP32_IDF5`
-- current upstream `master` now has Gordon's alternative fix shape, and that
-  shape passes the shared burst pack on legacy `ESP32`
+- the narrow local `src/jsinteractive.c` change remains useful as historical
+  diagnostic context, but it is superseded by the upstream master fix
+- current upstream `master` has the applied fix shape, and that shape passes
+  the shared burst pack on the retested `ESP32_IDF4` V1 bench firmware
 - we should preserve the investigation as a distinct UART workstream rather
-  than blur it into the general block-6 design discussion
-- any firmware instrumentation or candidate fix work should be done on a
-  dedicated investigation branch, not directly on the base branch
+  than blur it into general harness design notes
+- any new UART firmware observations should be logged against a fresh focused
+  follow-up unless they directly regress the original `>64` byte RX burst
+  behaviour

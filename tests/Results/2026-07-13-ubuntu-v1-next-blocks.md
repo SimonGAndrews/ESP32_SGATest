@@ -844,3 +844,7 @@ Conclusion:
   console or adding flow-control wiring
 - remaining non-routine areas are `Serial.setConsole`, hardware/software flow
   control and true framing/parity error events
+
+Follow-up issues discovered during this work are parked in:
+
+- `docs/investigations/uart/esp32-v1-block7-followups-2026-07-14.md`
