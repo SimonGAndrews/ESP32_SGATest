@@ -1,0 +1,213 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model NE555DR
+#/6648/2/2.37/8/4/Integrated Circuit
+DEF NE555DR IC 0 30 Y Y 1 F N
+F0 "IC" 1050 600 50 H V L CNN
+F1 "NE555DR" 1050 500 50 H V L CNN
+F2 "SOIC127P600X175-8N" 1050 400 50 H I L CNN
+F3 "http://www.ti.com/lit/ds/symlink/ne555.pdf" 1050 300 50 H I L CNN
+F4 "Single Precision Timer" 1050 200 50 H I L CNN "Description"
+F5 "1.75" 1050 100 50 H I L CNN "Height"
+F6 "Texas Instruments" 1050 0 50 H I L CNN "Manufacturer_Name"
+F7 "NE555DR" 1050 -100 50 H I L CNN "Manufacturer_Part_Number"
+F8 "595-NE555DR" 1050 -200 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.com/Search/Refine.aspx?Keyword=595-NE555DR" 1050 -300 50 H I L CNN "Mouser Price/Stock"
+F10 "1218414" 1050 -400 50 H I L CNN "RS Part Number"
+F11 "http//uk.rs-online.com/web/p/products/1218414" 1050 -500 50 H I L CNN "RS Price/Stock"
+DRAW
+X GND 1 600 -1000 200 U 50 50 0 0 B
+X TRIG 2 0 -400 200 R 50 50 0 0 B
+X OUT 3 1200 -200 200 L 50 50 0 0 B
+X ~RESET 4 0 0 200 R 50 50 0 0 B
+X CONT 5 500 600 200 D 50 50 0 0 B
+X THRES 6 0 -300 200 R 50 50 0 0 B
+X DISCH 7 0 -100 200 R 50 50 0 0 B
+X VCC 8 700 600 200 D 50 50 0 0 B
+P 5 0 1 6 200 400 1000 400 1000 -800 200 -800 200 400 N
+ENDDRAW
+ENDDEF
+#
+#SamacSys ECAD Model LCQT-MSOP10
+#/714281/2108688/2.50/10/3/Connector
+DEF LCQT-MSOP10 J 0 30 Y Y 1 F N
+F0 "J" 750 300 50 H V L CNN
+F1 "LCQT-MSOP10" 750 200 50 H V L CNN
+F2 "DIPS762W72P250L1524H425Q10N" 750 100 50 H I L CNN
+F3 "https://www.arieselec.com/products/data/19000-small-outline-prototyping-adapters.pdf" 750 0 50 H I L CNN
+F4 "ARIES - LCQT-MSOP10 - IC ADAPTOR, 10MSOP TO DIP, 2.54MM" 750 -100 50 H I L CNN "Description"
+F5 "4.25" 750 -200 50 H I L CNN "Height"
+F6 "ARIES" 750 -300 50 H I L CNN "Manufacturer_Name"
+F7 "LCQT-MSOP10" 750 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "535-LCQT-MSOP10" 750 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Aries-Electronics/LCQT-MSOP10?qs=%252Bfs1VP4DyWlPyGx8YbXRjA%3D%3D" 750 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "" 750 -700 50 H I L CNN "Arrow Part Number"
+F11 "" 750 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+X 1 1 0 0 200 R 50 50 0 0 P
+X 2 2 0 -100 200 R 50 50 0 0 P
+X 3 3 0 -200 200 R 50 50 0 0 P
+X 4 4 0 -300 200 R 50 50 0 0 P
+X 5 5 0 -400 200 R 50 50 0 0 P
+X 10 10 900 0 200 L 50 50 0 0 P
+X 9 9 900 -100 200 L 50 50 0 0 P
+X 8 8 900 -200 200 L 50 50 0 0 P
+X 7 7 900 -300 200 L 50 50 0 0 P
+X 6 6 900 -400 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 700 100 700 -500 200 -500 200 100 N
+ENDDRAW
+ENDDEF
+#
+#SamacSys ECAD Model DG409LEDY-GE3
+#/637317/2108688/2.50/16/3/Integrated Circuit
+DEF DG409LEDY-GE3 IC 0 30 Y Y 1 F N
+F0 "IC" 850 300 50 H V L CNN
+F1 "DG409LEDY-GE3" 850 200 50 H V L CNN
+F2 "SOIC127P600X175-16N" 850 100 50 H I L CNN
+F3 "https://componentsearchengine.com/Datasheets/2/DG409LEDY-GE3.pdf" 850 0 50 H I L CNN
+F4 "Multiplexer Switch ICs Dual 4-Ch Diffrntial Multiplexer 3-16V" 850 -100 50 H I L CNN "Description"
+F5 "1.75" 850 -200 50 H I L CNN "Height"
+F6 "Vishay" 850 -300 50 H I L CNN "Manufacturer_Name"
+F7 "DG409LEDY-GE3" 850 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "78-DG409LEDY-GE3" 850 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Vishay-Siliconix/DG409LEDY-GE3?qs=fiO5xLM32htM6xiv6kIKRw%3D%3D" 850 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "DG409LEDY-GE3" 850 -700 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/dg409ledy-ge3/vishay?region=nac" 850 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+X A0 1 0 0 200 R 50 50 0 0 P
+X EN 2 0 -100 200 R 50 50 0 0 P
+X V- 3 0 -200 200 R 50 50 0 0 P
+X S1A 4 0 -300 200 R 50 50 0 0 P
+X S2A 5 0 -400 200 R 50 50 0 0 P
+X S3A 6 0 -500 200 R 50 50 0 0 P
+X S4A 7 0 -600 200 R 50 50 0 0 P
+X DA 8 0 -700 200 R 50 50 0 0 P
+X A1 16 1000 0 200 L 50 50 0 0 P
+X GND 15 1000 -100 200 L 50 50 0 0 P
+X V+ 14 1000 -200 200 L 50 50 0 0 P
+X S1B 13 1000 -300 200 L 50 50 0 0 P
+X S2B 12 1000 -400 200 L 50 50 0 0 P
+X S3B 11 1000 -500 200 L 50 50 0 0 P
+X S4B 10 1000 -600 200 L 50 50 0 0 P
+X DB 9 1000 -700 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 800 100 800 -800 200 -800 200 100 N
+ENDDRAW
+ENDDEF
+#
+#SamacSys ECAD Model TMUX1204DGSR
+#/2049007/2108688/2.50/10/3/Integrated Circuit
+DEF TMUX1204DGSR IC 0 30 Y Y 1 F N
+F0 "IC" 850 300 50 H V L CNN
+F1 "TMUX1204DGSR" 850 200 50 H V L CNN
+F2 "SOP50P490X110-10N" 850 100 50 H I L CNN
+F3 "http://www.ti.com/lit/gpn/TMUX1204" 850 0 50 H I L CNN
+F4 "5-V 4:1 general-purpose analog multiplexer" 850 -100 50 H I L CNN "Description"
+F5 "1.1" 850 -200 50 H I L CNN "Height"
+F6 "Texas Instruments" 850 -300 50 H I L CNN "Manufacturer_Name"
+F7 "TMUX1204DGSR" 850 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "595-TMUX1204DGSR" 850 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/TMUX1204DGSR?qs=EBDBlbfErPw42Q0DdvAwUg%3D%3D" 850 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "TMUX1204DGSR" 850 -700 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/tmux1204dgsr/texas-instruments.html?utm_currency=USD&region=europe" 850 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+X A0 1 0 0 200 R 50 50 0 0 I
+X S1 2 0 -100 200 R 50 50 0 0 B
+X GND 3 0 -200 200 R 50 50 0 0 W
+X S3 4 0 -300 200 R 50 50 0 0 B
+X EN 5 0 -400 200 R 50 50 0 0 I
+X A1 10 1000 0 200 L 50 50 0 0 I
+X S2 9 1000 -100 200 L 50 50 0 0 B
+X D 8 1000 -200 200 L 50 50 0 0 B
+X S4 7 1000 -300 200 L 50 50 0 0 B
+X VDD 6 1000 -400 200 L 50 50 0 0 W
+P 5 0 1 6 200 100 800 100 800 -500 200 -500 200 100 N
+ENDDRAW
+ENDDEF
+#
+#SamacSys ECAD Model MCP23017-E_SP
+#/239918/2108688/2.50/28/3/Integrated Circuit
+DEF MCP23017-E_SP IC 0 30 Y Y 1 F N
+F0 "IC" 1050 300 50 H V L CNN
+F1 "MCP23017-E_SP" 1050 200 50 H V L CNN
+F2 "DIP794W56P254L3486H508Q28N" 1050 100 50 H I L CNN
+F3 "https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00090057.pdf" 1050 0 50 H I L CNN
+F4 "MCP23017-E/SP, I/O Expander, 28-Pin SPDIP" 1050 -100 50 H I L CNN "Description"
+F5 "5.08" 1050 -200 50 H I L CNN "Height"
+F6 "Microchip" 1050 -300 50 H I L CNN "Manufacturer_Name"
+F7 "MCP23017-E/SP" 1050 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "579-MCP23017-E/SP" 1050 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Microchip-Technology/MCP23017-E-SP?qs=usxtMOJb1RyESXZDw7ia5A%3D%3D" 1050 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "MCP23017-E/SP" 1050 -700 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/mcp23017-esp/microchip-technology.html?utm_currency=USD&region=nac" 1050 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+X GPB0 1 0 0 200 R 50 50 0 0 P
+X GPB1 2 0 -100 200 R 50 50 0 0 P
+X GPB2 3 0 -200 200 R 50 50 0 0 P
+X GPB3 4 0 -300 200 R 50 50 0 0 P
+X GPB4 5 0 -400 200 R 50 50 0 0 P
+X GPB5 6 0 -500 200 R 50 50 0 0 P
+X GPB6 7 0 -600 200 R 50 50 0 0 P
+X GPB7 8 0 -700 200 R 50 50 0 0 P
+X VDD 9 0 -800 200 R 50 50 0 0 P
+X VSS 10 0 -900 200 R 50 50 0 0 P
+X NC_1 11 0 -1000 200 R 50 50 0 0 P
+X SCL 12 0 -1100 200 R 50 50 0 0 P
+X SDA 13 0 -1200 200 R 50 50 0 0 P
+X NC_2 14 0 -1300 200 R 50 50 0 0 P
+X GPA7 28 1200 0 200 L 50 50 0 0 P
+X GPA6 27 1200 -100 200 L 50 50 0 0 P
+X GPA5 26 1200 -200 200 L 50 50 0 0 P
+X GPA4 25 1200 -300 200 L 50 50 0 0 P
+X GPA3 24 1200 -400 200 L 50 50 0 0 P
+X GPA2 23 1200 -500 200 L 50 50 0 0 P
+X GPA1 22 1200 -600 200 L 50 50 0 0 P
+X GPA0 21 1200 -700 200 L 50 50 0 0 P
+X INTA 20 1200 -800 200 L 50 50 0 0 P
+X INTB 19 1200 -900 200 L 50 50 0 0 P
+X ~RESET 18 1200 -1000 200 L 50 50 0 0 P
+X A2 17 1200 -1100 200 L 50 50 0 0 P
+X A1 16 1200 -1200 200 L 50 50 0 0 P
+X A0 15 1200 -1300 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 1000 100 1000 -1400 200 -1400 200 100 N
+ENDDRAW
+ENDDEF
+#
+#SamacSys ECAD Model MCP23008-E_P
+#/233206/2108688/2.50/18/3/Integrated Circuit
+DEF MCP23008-E_P IC 0 30 Y Y 1 F N
+F0 "IC" 1050 300 50 H V L CNN
+F1 "MCP23008-E_P" 1050 200 50 H V L CNN
+F2 "DIP794W56P254L2286H533Q18N" 1050 100 50 H I L CNN
+F3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21919e.pdf" 1050 0 50 H I L CNN
+F4 "I/O Expander 8bit 8-channel 5MHz I2C, Serial MHz, 18-pin PDIP" 1050 -100 50 H I L CNN "Description"
+F5 "5.334" 1050 -200 50 H I L CNN "Height"
+F6 "Microchip" 1050 -300 50 H I L CNN "Manufacturer_Name"
+F7 "MCP23008-E/P" 1050 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "579-MCP23008-E/P" 1050 -500 50 H I L CNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/Microchip-Technology/MCP23008-E-P?qs=8FMarzwez060sofcCmNWdQ%3D%3D" 1050 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "MCP23008-E/P" 1050 -700 50 H I L CNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/mcp23008-ep/microchip-technology?utm_currency=USD&region=nac" 1050 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+X SCL 1 0 0 200 R 50 50 0 0 P
+X SDA 2 0 -100 200 R 50 50 0 0 P
+X A2 3 0 -200 200 R 50 50 0 0 P
+X A1 4 0 -300 200 R 50 50 0 0 P
+X A0 5 0 -400 200 R 50 50 0 0 P
+X ~RESET 6 0 -500 200 R 50 50 0 0 P
+X NC 7 0 -600 200 R 50 50 0 0 N
+X INT 8 0 -700 200 R 50 50 0 0 P
+X VSS 9 0 -800 200 R 50 50 0 0 P
+X VDD 18 1200 0 200 L 50 50 0 0 P
+X GP7 17 1200 -100 200 L 50 50 0 0 P
+X GP6 16 1200 -200 200 L 50 50 0 0 P
+X GP5 15 1200 -300 200 L 50 50 0 0 P
+X GP4 14 1200 -400 200 L 50 50 0 0 P
+X GP3 13 1200 -500 200 L 50 50 0 0 P
+X GP2 12 1200 -600 200 L 50 50 0 0 P
+X GP1 11 1200 -700 200 L 50 50 0 0 P
+X GP0 10 1200 -800 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 1000 100 1000 -900 200 -900 200 100 N
+ENDDRAW
+ENDDEF
+#
+#End Library
