@@ -52,3 +52,18 @@ investigations/onewire/artifacts/logic-traces/
 
 Codex/thread continuity notes. These are intended to preserve working context
 between sessions and should point to the current design and target docs.
+
+Start with `handoff/README.md`. It distinguishes current workstream handovers
+from historical continuity records.
+
+## Current Workstream Entry Points
+
+| Workstream | Entry point |
+|---|---|
+| V1 bench tests and functional runners | `handoff/2026-06-25-esp32-family-tests.md` |
+| Firmware investigations | `handoff/2026-07-05-espruino-repo-structure.md` and the relevant `investigations/` area |
+| V2 architecture and Target Interface | `design/V2Harness/README.md` and `handoff/2026-07-12-v2-target-interface-contract.md` |
+| V2 KiCad implementation | `design/V2Harness/README.md` and `../KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md` |
+
+Repository-relative paths are canonical because the repository is used on both
+Windows and Ubuntu.

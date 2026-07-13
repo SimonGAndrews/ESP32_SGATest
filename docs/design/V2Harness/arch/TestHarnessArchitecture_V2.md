@@ -122,6 +122,14 @@ Responsibilities include:
 * Available GPIO connections.
 * Target-specific electrical considerations.
 
+In the current hybrid prototype direction, the Target Interface may be
+implemented as a generic target area plus named target-interface pin banks.
+The target board is mounted or adapted in the target area, then wirewrapped to
+the named interface pins. The reusable PCB routes those interface pins to
+direct test-block paths or to the optional Routing Layer.
+
+This hybrid structure is described in *HybridHarnessArchitecture_V2.md*.
+
 ---
 
 ## Routing Layer
@@ -259,6 +267,7 @@ The following architectural components will be documented separately as they mat
 
 * Standard Test Blocks
 * Routing Layer
+* Hybrid Harness Prototype Structure
 * Harness Control Interface
 * Board Profiles
 * Software Harness API

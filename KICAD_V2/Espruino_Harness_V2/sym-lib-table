@@ -1,0 +1,6 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "V2_Harness")(type "KiCad")(uri "${KIPRJMOD}/V2_Harness.kicad_sym")(options "")(descr ""))
+  (lib (name "V2_Targets")(type "KiCad")(uri "${KIPRJMOD}/V2_Targets.kicad_sym")(options "")(descr "Curated target-board symbols for the Espruino V2 harness"))
+  (lib (name "SamacSys_Parts")(type "KiCad")(uri "${KIPRJMOD}/vendor/SamacSys_Parts/SamacSys_Parts.kicad_sym")(options "")(descr "Imported routing and control component symbols"))
+)

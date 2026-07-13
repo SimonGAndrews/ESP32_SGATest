@@ -1,186 +1,128 @@
 # Espruino Test Harness V2
 
-**Status:** Early Architecture and Design
+**Status:** Active architecture and prototype implementation
 
----
+## Purpose
 
-## Overview
+V2 develops a reusable hardware architecture for Espruino target validation.
+It builds on the completed ESP32-family V1 harnesses while separating reusable
+test circuitry from target-specific physical adaptation.
 
-This directory contains the design work for the next generation of the Espruino hardware test harness.
+V1 remains the stable bench platform for shared functional-test and runner
+development. V2 architecture and KiCad implementation proceed in parallel and
+consume lessons proved on V1.
 
-The original **ESP32_SGATest** project demonstrated the value of a dedicated hardware platform for validating Espruino firmware running on ESP32 targets. It provides a practical foundation for hardware-assisted testing and has successfully supported development of the ESP32 platform.
+## Current Direction
 
-The objective of the V2 Harness project is not to replace the original design, but to build upon the experience gained during its development and define a reusable architecture suitable for future Espruino targets.
+The agreed prototype direction is:
 
-The long-term vision is to establish a common hardware architecture that can be adapted for multiple microcontroller families while maintaining a consistent software testing framework.
+- a reusable manufactured harness PCB containing standard test blocks,
+  routing, control and fixed Target Interface pin banks
+- removable target daughter boards containing the target socket and
+  target-specific mapping to that interface
+- wirewrapped prototype daughter boards first, with manufactured passive
+  adapter PCBs possible after mappings are stable
 
----
+```text
+Target module
+     │ target-specific socket and wirewrap
+     ▼
+Target daughter board
+     │ fixed Target Interface contract
+     ▼
+Reusable V2 harness PCB
+     ├── direct test resources
+     └── routed resources → functional test blocks
+```
 
-## Project Objectives
+The next architecture deliverable is a working Target Interface contract. The
+current KiCad project is a prototype implementation and must not be mistaken
+for a frozen production design.
 
-The V2 Harness project aims to:
+## Active V2 Workstreams
 
-* Define a common architecture for future Espruino hardware test harnesses.
-* Maximise reuse of hardware design across multiple target platforms.
-* Reduce manual test configuration.
-* Improve support for automated and unattended testing.
-* Maintain a simple, low-cost design suitable for small production runs.
-* Continue evolving from the proven ESP32_SGATest implementation.
+### Architecture and Target Interface
 
----
+Defines:
 
-## Current Status
+- logical resource inventory
+- direct, routed, optional and reserved signals
+- connector-bank semantics and electrical safety
+- daughter-board responsibilities
+- cross-target compatibility rules
 
-The project is currently in the architectural design phase.
+Start with:
 
-Work is presently focused on defining the logical structure of future harnesses rather than detailed hardware implementation.
+- `arch/TestHarnessArchitecture_V2.md`
+- `arch/HybridHarnessArchitecture_V2.md`
+- `../../handoff/2026-07-12-v2-target-interface-contract.md`
 
-Current areas of investigation include:
+### KiCad implementation
 
-* Overall harness architecture.
-* Standard hardware test blocks.
-* A programmable Routing Layer for targets with limited GPIO resources.
-* Common software abstractions for hardware resource allocation.
-* Reusable design patterns that can be applied across multiple target platforms.
+Implements accepted architecture in:
 
-No final implementation decisions have yet been made.
+- `../../../KICAD_V2/Espruino_Harness_V2/`
 
-## Current Scope
+The project currently contains:
 
-The current scope of V2 work is deliberately limited.
+- an exploratory hierarchical schematic
+- project-local `V2_Harness` component libraries
+- project-local `V2_Targets` symbol and footprint libraries
+- reviewed target assets for the main ESP32, ESP32-S3, Pico and Espruino
+  target set
 
-At present, V2 is a parallel architecture workstream only. It exists to define
-concepts, terminology and design direction for future harness generations.
+Read `../../../KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+before modifying target assets. Several footprints contain authoritative
+interactive edits.
 
-It is **not** currently the active delivery path for:
+## Document Roles
 
-* shared functional test development
-* bench regression execution
-* day-to-day harness refinement
-* target bring-up or firmware issue investigation
+- `arch/TestHarnessArchitecture_V2.md` defines the overall architecture and
+  should change only for genuine architectural decisions.
+- `arch/I2CControlledRouting_V2.md` is the working routing-layer proposal.
+- `arch/HybridHarnessArchitecture_V2.md` defines the prototype boundary and
+  records the removable daughter-board decision in Appendix A.
+- `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
+  provisional target study, not an implemented wiring specification.
+- `../../handoff/2026-07-12-v2-target-interface-contract.md` transfers the
+  current contract-design context into its focused workstream.
 
-Those activities remain focused on the existing V1 harnesses.
+## Relationship to V1
 
-In practical terms:
+Routine V1 hardware construction and prototyping have stopped. The completed
+ESP32-C3 and classic ESP32 harnesses are used for:
 
-* V1 remains the active platform for test development and harness refinement
-* V2 remains a design study until architectural ideas are mature enough to
-  justify hardware and software implementation work
+- shared REPL functional-test development
+- runner and result-format development
+- regression testing and firmware comparison
+- bench evidence for assumptions that may inform V2
 
----
+V2 does not replace this active bench role. It generalises the proven ideas
+into a reusable future harness.
 
 ## Guiding Principles
 
-The architecture is being developed around several key principles.
+- Evolution rather than replacement.
+- Simplicity before unnecessary automation.
+- Stable logical interfaces and explicit physical boundaries.
+- Separation of reusable harness functions from target-specific adaptation.
+- Hardware proof before firmware conclusions.
+- Prototype and measure before committing to manufactured adapters.
+- Preserve replaceability, inspectability and independent fault diagnosis.
 
-* **Evolution rather than replacement** – build upon the successful ESP32_SGATest project.
-* **Simplicity first** – favour understandable, maintainable hardware over unnecessary complexity.
-* **Standardisation** – reuse common hardware building blocks wherever practical.
-* **Automation where it adds value** – reduce manual intervention without introducing excessive complexity.
-* **Separation of concerns** – isolate target-specific hardware from reusable architectural components.
-
----
-
-## Repository Structure
-
-The V2 Harness documentation will gradually expand as the architecture matures.
-
-At present the following areas are planned.
+## Repository Layout
 
 ```text
-V2Harness/
+docs/design/V2Harness/
+├── README.md
+├── arch/             Current architecture specifications
+└── targets/          Provisional target allocation studies
 
-├── arch/
-│   Architecture specifications
-│
-├── targets/
-│   Provisional target-specific architecture and routing studies
-│
-├── schematics/
-│   Hardware schematics and PCB development
-│
-├── research/
-│   Design investigations and technical studies
-│
-└── decisions/
-    Architecture Decision Records (ADRs)
+KICAD_V2/Espruino_Harness_V2/
+├── project files and hierarchical sheets
+├── V2_Harness.*      Project component libraries
+├── V2_Targets.*      Curated target libraries
+└── TARGET_LIBRARY_PROVENANCE.md
 ```
 
-Additional directories may be introduced as the project evolves.
-
----
-
-## Relationship to ESP32_SGATest
-
-The V2 Harness project should be regarded as the architectural successor to ESP32_SGATest.
-
-Existing hardware designs remain the reference implementation.
-
-Future harnesses are expected to retain successful concepts from the original project while introducing improvements that simplify configuration, improve reuse and support greater levels of automation.
-
-The V1 harnesses and their functional tests are also the practical evidence base
-for V2. New architectural ideas should be checked against proven V1 block
-designs, bench workflows and software test structure before they are treated as
-general patterns.
-
----
-
-## Current Architecture Documents
-
-The following documents provide the current architectural direction for the project.
-
-* **TestHarnessArchitecture_V2.md**
-  Defines the overall architecture and guiding principles for future harnesses.
-
-* **I2CControlledRouting_V2.md**
-  Explores a proposed Routing Layer to support programmable allocation of hardware test resources.
-
-Current target studies:
-
-* **targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md**
-  Captures the provisional ESP32-C3 V2 GPIO rationalisation, routing model,
-  prototype component direction and unresolved design questions. It is the V2
-  design-phase precursor to a target wiring specification, not an implemented
-  wiring definition.
-
-These documents represent the current design direction and are expected to evolve as the project progresses.
-
-The two documents currently have different roles:
-
-* `TestHarnessArchitecture_V2.md` is the top-level architectural definition and
-  should change only when a genuine architectural decision is made.
-* `I2CControlledRouting_V2.md` is a working proposal for one important part of
-  that architecture and can evolve more freely as implementation thinking
-  matures.
-
----
-
-## Project Philosophy
-
-The intention of the V2 Harness project is to create a reusable hardware framework rather than a collection of independent test boards.
-
-Future harnesses should share common architectural concepts, common software interfaces and reusable hardware building blocks while allowing each target platform to implement those concepts in the most appropriate manner.
-
-The architecture is expected to evolve incrementally as practical experience is gained through implementation and testing.
-
-## Relationship to V1 Development
-
-Development of the V2 Harness architecture will progress in parallel with the continued development and expansion of the existing V1 test harnesses.
-
-The V1 harnesses remain the primary platform for developing, validating and refining the Espruino hardware test framework. Experience gained from practical implementation and day-to-day use of these harnesses will continue to inform the V2 architecture.
-
-In practical terms, V1 remains the active delivery path for:
-
-* new shared REPL functional tests
-* runner and evidence conventions
-* target-specific block coverage
-* bench validation of assumptions that may later become V2 architectural rules
-
-This parallel approach provides several advantages:
-
-* Continued delivery of practical testing capability using proven hardware.
-* Validation of software test methodologies before new hardware is introduced.
-* Opportunity to evaluate architectural ideas against real-world experience.
-* Reduced project risk through incremental evolution rather than wholesale redesign.
-
-The V2 Harness project should therefore be viewed as the long-term architectural evolution of the existing platform, with both hardware and software development expected to progress together as the architecture matures.
+Repository-relative paths are canonical on both Windows and Ubuntu.

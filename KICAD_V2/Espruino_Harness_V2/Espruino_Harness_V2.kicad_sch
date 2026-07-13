@@ -1,0 +1,434 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "d963e9d0-39be-47fe-b8bd-9ec6fa256faa")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 19.05 144.78)
+		(size 58.42 19.05)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "009ee69a-1113-4ea8-8899-4f03da591d74")
+		(property "Sheetname" "GPIO_Loopbacks"
+			(at 19.05 144.0684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "gpio_loopbacks.kicad_sch"
+			(at 19.05 164.4146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 17.78 21.59)
+		(size 62.23 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6b2aa498-f7c9-4b40-a07e-030f921560ad")
+		(property "Sheetname" "Target_Interface"
+			(at 17.78 20.8784 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "target_interface.kicad_sch"
+			(at 17.78 57.7346 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 91.44 24.13)
+		(size 54.61 34.29)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "704135a7-0940-4e56-9de2-c1f3cfd9ca49")
+		(property "Sheetname" "Analog_PWM"
+			(at 91.44 23.4184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "analog_pwm.kicad_sch"
+			(at 91.44 59.0046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 92.71 144.78)
+		(size 58.42 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "78295ae3-e3a2-4903-ae5a-d7b4fca41018")
+		(property "Sheetname" "OneWire"
+			(at 92.71 144.0684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "onewire.kicad_sch"
+			(at 92.71 165.6846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "9")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 91.44 67.31)
+		(size 54.61 29.21)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "8815f02e-1be0-4e28-99d2-b3a8392e8329")
+		(property "Sheetname" "I2C_Functional"
+			(at 91.44 66.5984 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "i2c_functional.kicad_sch"
+			(at 91.44 97.1046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 19.05 113.03)
+		(size 55.88 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c2451a36-5070-407f-ac11-fc6972885dd1")
+		(property "Sheetname" "Routing_Switches"
+			(at 19.05 112.3184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "routing_switches.kicad_sch"
+			(at 19.05 133.9346 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 92.71 113.03)
+		(size 54.61 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c59095ba-37a3-48d9-8d47-76dc0286dab8")
+		(property "Sheetname" "SPI_ADC"
+			(at 92.71 112.3184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "spi_adc.kicad_sch"
+			(at 92.71 135.2046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "8")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 161.29 24.13)
+		(size 67.31 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "d62d1030-7e07-4b56-b00d-4f92c3ce5d0f")
+		(property "Sheetname" "UART"
+			(at 161.29 23.4184 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "uart.kicad_sch"
+			(at 161.29 57.7346 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "10")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 17.78 63.5)
+		(size 55.88 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "dd286627-028a-45a4-8943-018cd5a63625")
+		(property "Sheetname" "Routing_Control"
+			(at 17.78 62.7884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "routing_control.kicad_sch"
+			(at 17.78 97.1046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 161.29 68.58)
+		(size 69.85 27.94)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "fb7b65f5-6c6a-4811-a039-978c298571e3")
+		(property "Sheetname" "Power_Reset_Boot"
+			(at 161.29 67.8684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power_reset_boot.kicad_sch"
+			(at 161.29 97.1046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_V2"
+				(path "/d963e9d0-39be-47fe-b8bd-9ec6fa256faa"
+					(page "11")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

@@ -66,6 +66,16 @@ Targets with abundant GPIO resources may bypass the Routing Layer entirely for m
 
 Targets with limited GPIO resources may use the Routing Layer only where necessary.
 
+In the current hybrid prototype direction, the Routing Layer is PCB-resident
+and is fed by named target-interface pins. A target GPIO may therefore reach a
+routed resource by wirewrap to a routed target-interface pin, rather than by
+being directly connected to a switch input in the target board area.
+
+The same hybrid PCB may also provide direct target-interface pins for targets
+with enough GPIO to dedicate pins to particular test blocks. The Routing Layer
+is therefore a standard available capability, not a requirement that every
+target must route every resource through switches.
+
 ---
 
 # 5. Routing Philosophy
@@ -117,7 +127,7 @@ This preserves an important balance:
 
 Every routed connection joins:
 
-**Target MCU GPIO**
+**Target MCU GPIO, via a target-interface pin**
 
 to
 

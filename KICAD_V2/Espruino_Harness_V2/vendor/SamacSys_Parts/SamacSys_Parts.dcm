@@ -1,0 +1,39 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP NE555DR
+D Single Precision Timer
+K
+F http://www.ti.com/lit/ds/symlink/ne555.pdf
+$ENDCMP
+#
+$CMP LCQT-MSOP10
+D ARIES - LCQT-MSOP10 - IC ADAPTOR, 10MSOP TO DIP, 2.54MM
+K
+F https://www.arieselec.com/products/data/19000-small-outline-prototyping-adapters.pdf
+$ENDCMP
+#
+$CMP DG409LEDY-GE3
+D Multiplexer Switch ICs Dual 4-Ch Diffrntial Multiplexer 3-16V
+K
+F https://componentsearchengine.com/Datasheets/2/DG409LEDY-GE3.pdf
+$ENDCMP
+#
+$CMP TMUX1204DGSR
+D 5-V 4:1 general-purpose analog multiplexer
+K
+F http://www.ti.com/lit/gpn/TMUX1204
+$ENDCMP
+#
+$CMP MCP23017-E_SP
+D MCP23017-E/SP, I/O Expander, 28-Pin SPDIP
+K
+F https://datasheet.datasheetarchive.com/originals/distributors/SFDatasheet-4/sf-00090057.pdf
+$ENDCMP
+#
+$CMP MCP23008-E_P
+D I/O Expander 8bit 8-channel 5MHz I2C, Serial MHz, 18-pin PDIP
+K
+F http://ww1.microchip.com/downloads/en/DeviceDoc/21919e.pdf
+$ENDCMP
+#
+#End Doc Library
