@@ -12,6 +12,9 @@
 # Revisions and licences are recorded in the V2 target-library provenance.
 KICAD_V2/upstream/
 
+# Local V2 parts research, purchasing records and draft reference material.
+docs/design/V2Harness/Parts/
+
 # Local firmware archives are kept for bench use but not committed remotely.
 firmware/*/
 firmware/*/*/
