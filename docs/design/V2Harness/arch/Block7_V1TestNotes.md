@@ -1,6 +1,10 @@
 
 Notes copied from V1 block 7 uart testing.
 
+
+see https://github.com/espruino/Espruino/issues/2718#issuecomment-4886914338  which the V1 test harness was instrumental in closing via PR.  Note the issue raiser was uing modem hardware to debug and the test harness was able to reproduce with the V1 Block7 crosover capability.
+
+
 Question - As an aside we are designing the v2 harness and are currently evaluating what gaps we have in out test block capabilities.  so for the uart block on the ESP32_V1  what imporvements could we make.  it seems we need a way to easily test the console.  Any thing else ?
 
 Codex Response - 
