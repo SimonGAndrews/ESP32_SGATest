@@ -1,8 +1,10 @@
 # V2 Standard Test Blocks
 
-**Status:** Draft block-by-block review scaffold  
-**Version:** 0.1  
-**Last Updated:** 14 July 2026
+**Status:** Accepted
+
+**Version:** 0.2
+
+**Last Updated:** 15 July 2026
 
 ## 1. Purpose
 
@@ -11,15 +13,15 @@ harness PCB.
 
 Its scope is Test Block hardware and behaviour, not the complete harness
 hardware specification. A block may require a Control Service such as an
-independent console, routing, reset, boot or power operation. The block review
-records that dependency, while the service behaviour remains owned by the
-planned `StandardControlServices_V2.md` specification.
+independent console, routing, reset, boot or power operation. The block
+definition records that dependency, while the service behaviour remains owned
+by the planned `StandardControlServices_V2.md` specification.
 
 It uses the completed V1 harnesses, functional tests and bench evidence as the
-starting point, then reviews each block for V2. A V1 block is not carried into
-V2 unchanged merely because it exists on the current harnesses.
+starting point for the accepted V2 block definitions. A V1 block is not carried
+into V2 unchanged merely because it exists on the current harnesses.
 
-This document will establish:
+This document establishes:
 
 * the purpose and boundary of each standard Test Block
 * which V1 behaviour is retained, changed or removed
@@ -28,7 +30,7 @@ This document will establish:
 * safe inactive states and electrical constraints
 * isolation, replacement and diagnostic provisions
 * functional-test coverage enabled by the block
-* open questions requiring prototype evidence
+* prototype-verification and downstream-design responsibilities
 
 Detailed component selection, routing-fabric implementation, connector pin
 allocation and target-specific GPIO mappings belong in their focused
@@ -67,8 +69,8 @@ The authoritative conceptual and physical context is defined in:
 
 ## 3. Common V2 Block Principles
 
-The following principles apply to every candidate Test Block unless its review
-records a justified exception.
+The following principles apply to every standard Test Block unless its
+definition records a justified exception.
 
 ### 3.1 Stable Logical Purpose
 
@@ -90,7 +92,7 @@ become Interface signals without a demonstrated target-facing requirement.
 All `TI_*` names in this document are provisional logical names until accepted
 by the Target Interface contract. That contract owns final signal naming and
 physical connector-pin allocation; this qualification applies throughout and
-is not repeated in each block review.
+is not repeated in each block definition.
 
 This document uses **1-Wire** for the bus and protocol in prose, `OneWire` only
 for the Espruino API or class name, and `ONEWIRE_*` / `TI_ONEWIRE_*` for signal
@@ -98,9 +100,9 @@ identifiers.
 
 ### 3.4 Direct And Routed Access
 
-The block review identifies which signals require direct paths and which may be
-connected through the routing fabric. Direct and routed access to the same
-block must not create contention or an unreviewable parallel path.
+The block definition identifies which signals require direct paths and which
+may be connected through the routing fabric. Direct and routed access to the
+same block must not create contention or an unreviewable parallel path.
 
 ### 3.5 Safe Inactive State
 
@@ -110,7 +112,7 @@ normal target boot, flashing or the selected control connection.
 
 ### 3.6 Isolation And Diagnosis
 
-V2 should provide practical means to isolate a block, remove or replace a test
+V2 shall provide practical means to isolate a block, remove or replace a test
 device where useful, and observe relevant signals. Fixed loads that obstruct
 fault isolation should be avoided or made disconnectable.
 
@@ -128,12 +130,12 @@ are 3.3 V-only. A target requiring another logic domain needs an Adapter
 Service rather than a voltage exception within a standard block.
 
 A standard block may generate a contained local rail solely for an internal or
-removable test-device implementation where its block review records the
+removable test-device implementation where its block definition records the
 reason, isolation, current demand and safe-state behaviour. Such a rail must
 not reach the Target Interface or become a general-purpose harness peripheral
 supply. Block 9 records the initial exception to this rule.
 
-Each block review must identify pull-ups, biasing, current paths, analogue
+Each block definition identifies pull-ups, biasing, current paths, analogue
 loading and power-off behaviour. USB VBUS and other service supplies are not
 Test Block logic rails. Final 3.3 V source, control, measurement and ownership
 rules belong in the Control Service, power and Target Interface work.
@@ -165,9 +167,9 @@ manufacturing-package review. Any transition to SMD must preserve the required
 electrical behaviour, isolation, observation and repair strategy rather than
 being treated as a footprint-only substitution.
 
-## 4. Block Review Method
+## 4. Block Definition Structure
 
-Each block will be reviewed under the following concise structure:
+Each accepted block is recorded under the following concise structure:
 
 1. **Purpose** — behaviour the block makes observable.
 2. **V1 evidence** — proven implementation and practical lessons.
@@ -178,22 +180,24 @@ Each block will be reviewed under the following concise structure:
 7. **Isolation and diagnostics** — links, sockets, test points or removal needs.
 8. **Functional coverage** — Espruino behaviour the block enables tests to
    validate.
-9. **Open questions** — evidence or implementation decisions still required.
+9. **Prototype verification or downstream decisions** — follow-up owned outside
+   the accepted block definition.
 
-The review should define requirements before selecting final components or
-allocating physical Target Interface pins.
+The block definitions establish requirements before final component selection
+or physical Target Interface pin allocation.
 
 Target-specific selection of permitted direct or routed paths is a common
-downstream decision. It is not repeated as a block-specific open question
+downstream decision. It is not repeated as a block-specific downstream item
 unless a block introduces a special constraint beyond the requirements
 recorded in its connection behaviour.
 
-## 5. Provisional Block Inventory
+## 5. Accepted Block Inventory
 
-The V1 block numbering is retained during review for traceability. The final V2
-inventory may retain, combine, rename or remove entries.
+References 1 through 8 preserve the V1 review numbering for traceability.
+Block 9 is new in V2. Absorbed V1 entries remain visible so their disposition
+is unambiguous.
 
-| V1 block | Candidate V2 block | Review status |
+| Traceability reference | Accepted V2 block or treatment | Status |
 |---:|---|---|
 | 1 | Digital GPIO loopback | Accepted and complete |
 | 2 | Analogue/PWM feedback | Accepted and complete |
@@ -205,10 +209,11 @@ inventory may retain, combine, rename or remove entries.
 | 8 | External I2C extension | Absorbed into Block 3; no separate V2 block |
 | 9 | Addressable RGB output | Accepted and complete |
 
-## 6. Detailed Block Reviews
+## 6. Accepted Block Definitions
 
-The headings below reserve the review order. Until a subsection is completed
-and accepted, its V2 implementation remains undefined.
+The following sections record the accepted V2 requirements. Prototype
+verification and downstream decisions do not reopen a block unless new evidence
+requires an architectural change.
 
 ### 6.1 Block 1 — Digital GPIO Loopback
 
@@ -315,7 +320,7 @@ The block enables functional validation of:
 
 Tests may use one or both pairs according to the behaviour under test.
 
-#### Open Questions
+#### Downstream Decisions
 
 None.
 
@@ -490,10 +495,10 @@ reported for the target and loaded firmware. `ESP32.setAtten` is ESP32-specific,
 low-flash builds. A correctly reported unavailable capability is not a Block 2
 test failure.
 
-#### Open Questions
+#### Prototype Verification
 
-Prototype evidence must still determine permissible external-source impedance
-and any additional input protection.
+Prototype evidence shall determine permissible external-source impedance and
+any additional input protection.
 
 ### 6.3 Block 3 — I2C Functional Device
 
@@ -698,10 +703,10 @@ The block enables functional validation of:
 * communication with one additional Grove device or devices attached through
   a Grove hub
 
-#### Open Questions
+#### Downstream Decisions
 
-The block functionality is accepted. Later specifications or prototype
-evidence must still decide:
+The block functionality is accepted. The following follow-up is assigned under
+Section 7.6:
 
 * the reserved address map for all routing-control devices
 * restrictions or address checks applied to external Grove devices
@@ -927,10 +932,10 @@ The block enables functional validation of:
 * repeated switching between two devices on one shared SPI bus
 * diagnosis of an absent, incorrectly fitted or non-responding extension device
 
-#### Open Questions
+#### Downstream Decisions
 
-The block functionality is accepted. Later specifications or prototype
-evidence must still decide:
+The block functionality is accepted. The following follow-up is assigned under
+Section 7.6:
 
 * the baseline and maximum required SPI clock after routing-path validation
 * the local chip-select pull-up values
@@ -1179,10 +1184,10 @@ The block enables functional validation of:
 * comparison of device populations and pull-up values during firmware or
   signal-integrity investigation
 
-#### Open Questions
+#### Downstream Decisions
 
-The block concept and prototype arrangement are agreed. Prototype evidence and
-later specifications must still decide:
+The block concept and prototype arrangement are accepted. The following
+follow-up is assigned under Section 7.6:
 
 * whether 4.7 kOhm remains the normal pull-up after validation and when the
   2.2 kOhm alternative is permitted
@@ -1438,9 +1443,10 @@ The block enables functional validation of:
 * console-related UART tests when the required independent Control Services
   and recovery path are available
 
-#### Open Questions
+#### Downstream Decisions
 
-The V1 crosslink behaviour is proven. The V2 block review must still decide:
+The V1 crosslink behaviour and V2 block requirements are accepted. The
+following follow-up is assigned under Section 7.6:
 
 * the exact direct and routed topology used to provide both UART endpoints
 * the baseline and maximum baud required after routing-path validation
@@ -1622,29 +1628,13 @@ Prototype implementation and testing must confirm:
 
 ## 7. Cross-Block Review
 
-After the individual block reviews, this document records cross-block
-requirements that cannot be decided safely in isolation, including:
+**Status:** Complete; accepted Test Block input to Control Service, connection
+matrix, Target Interface and routing work
 
-* blocks that must operate concurrently
-* shared buses and chip-select ownership
-* analogue feedback shared with SPI ADC measurement
-* interrupt and GPIO feedback interactions
-* pull-up and fixed-load accumulation
-* routing-fabric capacity and control-signal demand
-* Test Block dependencies on Control Services and Adapter Services
-* whether Block 1 and Block 2 diagnostic connections provide sufficient
-  protected external access to at least one target digital input, one digital
-  output and one PWM-capable output
-* whether spare routing capacity justifies a dedicated external target-I/O pair
-  after the accepted block and service requirements are allocated
-* block power, isolation and measurement provisions
-* cumulative header, shunt and test-point count, PCB area and component cost
-* prioritisation of routine controls, construction aids and fault-isolation
-  provisions
-* where compact 0 Ω links or solder jumpers are sufficient and where removable
-  shunts remain justified
-* diagnostic and repair provisions required for SMD Test Block and routing
-  devices
+This review consolidates the accepted signal inventory, dependencies,
+physical provisions and programmable-peer requirement. It defines the routing
+analysis boundary without selecting switches, routes or physical Interface
+contacts.
 
 ### 7.1 Consolidated Provisional Interface-Signal Inventory
 
@@ -1828,17 +1818,62 @@ The consolidated inventory, dependency table and peer requirement provide the
 Test Block inputs to the subsequent Control Service, connection-matrix, Target
 Interface and routing-fabric reviews.
 
+### 7.5 Routing-Analysis Handoff
+
+The routing analysis shall use the following accepted inputs:
+
+| Subject | Accepted requirement |
+|---|---|
+| Mandatory direct path | `TI_I2C_SDA` and `TI_I2C_SCL` remain direct and usable before route control is configured |
+| Candidate routed roles | The other 21 logical Test Block roles may be direct or routed subject to direction, loading, timing and safe-state validation |
+| Within-block concurrency | Every signal listed for one selected block operates concurrently where that block section requires it |
+| Cross-block concurrency | Block 2 operates with MCP3008 CH0 in Block 4; routing control operates alongside any routed test; UART tests retain independent console/recovery; peer paths coexist only with their selected stimulus or capture nodes |
+| Reconfiguration | Arbitrary simultaneous operation of all Test Blocks is not required; target resources may be reused between separately resolved test configurations |
+| Permitted logical reuse | The two Block 5 feedback roles may exclusively reuse the two Block 1 input roles; no other reuse is accepted without connection-matrix review |
+| Reset and route changes | Routed paths default high impedance; establish and verify routes before enabling drivers; disable competing sources before changing or clearing routes |
+| Control independence | Route establishment, verification and clearing must remain possible without responsive target firmware, with defined I2C ownership and recovery |
+| Performance | Characterise switch resistance, capacitance, leakage and bandwidth against PWM/analogue, SPI, 1-Wire, UART and RGB requirements; retain the direct I2C baseline |
+| Expansion | Do not allocate a spare target-I/O or peer connector until accepted Control Service requirements and routing capacity are known |
+
+These requirements are sufficient to begin routing topology and component
+analysis. The resulting connection matrix shall show legal source-to-destination
+paths, simultaneous sets, exclusive reuse, reset state and recovery ownership.
+
+### 7.6 Deferred Decision Ownership
+
+The remaining block-level questions do not block routing analysis. They are
+owned downstream as follows:
+
+| Owner | Deferred decisions |
+|---|---|
+| Prototype verification | Final pull-ups, protection, clock/baud margins, routed signal integrity, module clearance and current measurements |
+| Routing and connection matrix | Exact direct/routed topology, Block 1/5 reuse, route exclusivity, peer access and switch recovery |
+| Standard Control Services | Routing ownership, console/recovery, programmable peer, reset/boot and 3.3 V power behaviour |
+| Target Interface and Target Profiles | Physical contacts, target assignments, unavailable roles, onboard-bridge constraints and Adapter Services |
+| Manufacturing review | SMD packages and compact isolation, repair and replacement provisions equivalent to the prototype |
+
+### 7.7 Capabilities Without A Standard Test Block
+
+Wi-Fi and Bluetooth functional tests use suitable external peers or network
+infrastructure and do not require another fixed Test Block. Formal RF
+performance and compliance testing are outside the V2 harness scope.
+
 ## 8. Expected Outputs
 
-Completion of this specification should provide:
+| Expected output | Status | Recorded in |
+|---|---|---|
+| Accepted V2 Test Block inventory | Complete | Section 5 |
+| Accepted requirement set for each block | Complete | Section 6 |
+| Provisional list of required Target Interface signals | Complete | Section 7.1 |
+| Direct, routable and simultaneous-use requirements | Complete | Sections 7.1, 7.2 and 7.5 |
+| Safe-state, loading, isolation and diagnostic rules | Complete | Sections 3, 6 and 7.2–7.4 |
+| Open prototype investigations | Complete: identified and assigned | Block prototype-verification and downstream-decision subsections; Section 7.6 |
+| Routing-fabric requirements derived from the blocks | Complete | Section 7.5 |
 
-* an accepted V2 Test Block inventory
-* an accepted requirement set for each block
-* a provisional list of required Target Interface signals
-* direct, routable and simultaneous-use requirements
-* safe-state, loading, isolation and diagnostic rules
-* open prototype investigations
-* routing-fabric requirements derived from the blocks
+All expected specification outputs are therefore complete. Prototype
+measurements and downstream design decisions remain future work under the
+ownership recorded in Section 7.6; they are not missing outputs from this
+specification.
 
 Physical connector pin assignment remains outside this document.
 
