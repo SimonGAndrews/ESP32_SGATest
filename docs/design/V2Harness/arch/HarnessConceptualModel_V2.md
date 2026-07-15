@@ -99,6 +99,14 @@ Harness Capabilities
 This distinction separates hardware used as the subject or physical context of
 a functional test from hardware used to configure and operate the test system.
 
+Every functional circuit on the reusable harness PCB must implement or support
+a Test Block or Control Service requirement. Routing, protection, connectors,
+power distribution, decoupling and other shared implementation infrastructure
+do not form additional Harness Capability categories. Their purpose and
+requirement ownership must nevertheless remain explicit. Hardware shared by
+more than one capability may support several requirements without being
+defined more than once.
+
 ### 4.1 Test Blocks
 
 A **Test Block** is a reusable hardware capability implemented on the harness
@@ -201,6 +209,7 @@ It is expected to describe:
 * target identity, board revision and capabilities
 * daughter-board identity, revision and compatibility
 * target pin names and relevant peripheral capabilities
+* the hardware-supported API envelope and any build-variant expectations
 * mappings between target pins and Target Interface signals
 * Test Blocks and Control Services available to the target
 * legal pin roles, routes and simultaneous combinations
@@ -237,12 +246,15 @@ should present the same conceptual API to tests.
 Using the selected Target Profile, the Target Support Module is expected to:
 
 * resolve requested Test Blocks and Control Services
+* obtain or verify the loaded firmware build identity and relevant API
+  capability inventory
 * supply target pin and peripheral assignments to the test
 * request and verify the necessary harness routing
 * configure target-side pins and peripherals where appropriate
 * establish or confirm the required control connection
 * operate reset, boot or power services where requested
-* reject unsupported or conflicting configurations
+* distinguish deliberately unavailable API coverage from an unexpectedly
+  missing API and reject unsupported or conflicting configurations
 * expose the resolved configuration for evidence and diagnosis
 
 The detailed division between target-side code, host runner and harness-control
@@ -298,6 +310,35 @@ The detailed V2 test structure, result format and relationship to the Target
 Support Module should be defined in a separate V2 functional-test
 specification.
 
+### 8.1 Build-Specific API Coverage
+
+API coverage is resolved against the exact firmware build loaded on the target,
+not inferred only from the MCU, board or available harness hardware. Different
+builds for the same target may expose different APIs.
+
+Each relevant API in the test scope shall have one recorded disposition:
+
+* validation through one or more Test Blocks
+* validation through a Control Service or programmable peer
+* validation through a target self-test requiring no additional harness
+  hardware
+* an explicit exclusion or unavailable-coverage result
+
+The Target Profile describes the hardware-supported API envelope and expected
+build variants. The loaded build identity and applicable API inventory are
+runtime inputs to the Target Support Module.
+
+An API deliberately omitted from the identified build is unavailable coverage,
+not a failure. An API expected for that build but missing at runtime is a build,
+provenance or configuration discrepancy and must not silently become a skip.
+An API that is present but cannot be assigned safely to the available hardware
+is reported as a coverage limitation rather than as validated.
+
+Evidence records the firmware provenance, applicable API-inventory revision and
+the disposition of APIs in the test scope. The complete inventory may remain
+host-side rather than consuming target memory. Its detailed format belongs in
+the later Target Profile, API and functional-test specifications.
+
 ## 9. Resolved Test Configuration
 
 A **Resolved Test Configuration** is the runtime result of combining a test's
@@ -319,6 +360,8 @@ including where applicable:
 * unsupported optional capabilities
 * required external preconditions
 * firmware and test-support provenance
+* applicable build-specific API inventory or inventory revision
+* disposition of the APIs within the test's declared scope
 
 The Resolved Test Configuration is part of the test evidence.
 

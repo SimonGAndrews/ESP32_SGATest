@@ -158,12 +158,24 @@ The schematic should use explicit net names on the Target Interface pin banks.
 The daughter-board side is target-specific, so the reusable harness PCB side
 must be unambiguous and unchanged when a new target daughter board is added.
 
+The reusable harness logic and standard Test Block domain is fixed at 3.3 V
+with a common reference ground. Standard Test Block signals and external
+peripheral connections are 3.3 V-only. A target requiring another logic domain
+must provide an Adapter Service on its daughter board. USB VBUS and any other
+service supply remain separate from the 3.3 V logic domain; their source,
+isolation and ownership belong to the power-service and Target Interface work.
+
+A Test Block may generate a contained local rail solely for its own documented
+test-device implementation. Such a rail is not a Target Interface voltage
+domain or general-purpose peripheral supply and must not reach the target.
+`StandardTestBlocks_V2.md` defines and constrains any accepted exception.
+
 Representative Target Interface signal classes include:
 
 * control and power:
   * `TI_GND`
   * `TI_3V3`
-  * `TI_5V`
+  * `TI_USB_VBUS`
   * `TI_RESET`
   * `TI_BOOT`
   * `TI_CTRL_I2C_SDA`
@@ -184,7 +196,7 @@ Representative Target Interface signal classes include:
   * `TI_SPI_MOSI`
   * `TI_SPI_SCK`
   * `TI_SPI_CS_ADC`
-  * `TI_SPI_CS_FLASH`
+  * `TI_SPI_CS_EXT`
   * `TI_I2C_SDA`
   * `TI_I2C_SCL`
   * `TI_ONEWIRE_DQ`
@@ -228,16 +240,24 @@ report that result explicitly rather than turning it into a misleading test
 failure.
 
 The detailed connection properties remain necessary for electrical review,
-conflict detection, routing, acceptance testing and diagnosis. They belong in
-the Target Interface contract, Target Profiles and Resolved Test
-Configurations.
+conflict detection, routing, acceptance testing and diagnosis. A combined
+capability connection matrix will consolidate the requirements from Test Block
+and Control Service specifications as the design-stage input to routing and
+Target Interface work. It records ownership, direct and routed paths,
+simultaneous use, conflicts, safe states and recovery dependencies without
+becoming a second behavioural specification.
+
+The accepted connection properties ultimately belong in the Target Interface
+contract, Target Profiles and Resolved Test Configurations.
 
 ---
 
 # 7. Routing Fabric Policy
 
 The reusable harness PCB should include a standard routing fabric designed
-around the tightest useful GPIO target in the current envelope.
+around the tightest useful GPIO target in the current envelope. The routing
+fabric is the physical implementation of the routing Control Service, not a
+separate class of Harness Capability.
 
 At the current design stage, ESP32-C3-class targets provide the main routing
 pressure because their practical GPIO budget is limited once boot, UART0,
@@ -255,8 +275,8 @@ connections for high-value or signal-sensitive paths.
 
 The resulting policy is:
 
-* the routing fabric is a standard populated capability on the reusable harness
-  PCB
+* the routing fabric is the standard populated implementation of the routing
+  Control Service on the reusable harness PCB
 * the Target Profile records legal assignments, routes, conflicts, unavailable
   capabilities and exclusions
 * direct and routed access to the same Test Block must be isolated by explicit
@@ -326,6 +346,23 @@ The schematic should distinguish:
 * direct block paths
 * routing-fabric paths
 * reset-safe default states
+
+Every functional circuit, component, connector and net must be traceable to an
+accepted requirement owned by one or more of:
+
+* a Standard Test Block
+* a Standard Control Service
+* the Target Interface contract
+* electrical safety, protection or power distribution
+* physical and mechanical implementation requirements
+
+Protection components, decoupling, connectors, routing devices and other
+shared implementation infrastructure do not create additional Harness
+Capability categories. Where hardware supports more than one capability, the
+combined capability connection matrix records each relationship, concurrency
+rule and conflict while the hardware itself is defined once. Reserved
+expansion must also be identified explicitly rather than appearing as
+unexplained circuitry.
 
 The first schematic should be treated as a routing and hybrid-architecture
 evaluation harness, not as the final V2 production design.

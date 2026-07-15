@@ -31,13 +31,16 @@ Target daughter board
      │ fixed Target Interface contract
      ▼
 Reusable V2 harness PCB
-     ├── direct test resources
-     └── routed resources → functional test blocks
+     ├── Standard Test Blocks
+     ├── Standard Control Services
+     └── direct and routed connections
 ```
 
-The next architecture deliverable is a working Target Interface contract. The
-current KiCad project is a prototype implementation and must not be mistaken
-for a frozen production design.
+The current specification sequence completes the Standard Test Blocks, defines
+the Standard Control Services, and then combines their connection requirements
+before refining routing and the Target Interface contract. The current KiCad
+project is a prototype implementation and must not be mistaken for a frozen
+production design.
 
 ## Active V2 Workstreams
 
@@ -50,11 +53,14 @@ Defines:
 - connector-bank semantics and electrical safety
 - daughter-board responsibilities
 - cross-target compatibility rules
+- Standard Test Blocks and Control Services
+- combined direct, routed, simultaneous-use and recovery requirements
 
 Start with:
 
 - `arch/TestHarnessArchitecture_V2.md`
 - `arch/HybridHarnessArchitecture_V2.md`
+- `arch/StandardTestBlocks_V2.md`
 - `../../handoff/2026-07-12-v2-target-interface-contract.md`
 
 ### KiCad implementation
@@ -79,6 +85,15 @@ interactive edits.
 
 - `arch/TestHarnessArchitecture_V2.md` defines the overall architecture and
   should change only for genuine architectural decisions.
+- `arch/HarnessConceptualModel_V2.md` owns the shared capability vocabulary and
+  relationships.
+- `arch/StandardTestBlocks_V2.md` owns reusable Test Block behaviour and
+  electrical requirements.
+- planned `arch/StandardControlServices_V2.md` will own reusable console,
+  routing-control, reset, boot and 3.3 V power-service behaviour.
+- a combined capability connection matrix will integrate Test Block and
+  Control Service requirements for routing and Target Interface design without
+  duplicating their behavioural specifications.
 - `arch/I2CControlledRouting_V2.md` is the working routing-layer proposal.
 - `arch/HybridHarnessArchitecture_V2.md` defines the prototype boundary and
   records the removable daughter-board decision in Appendix A.

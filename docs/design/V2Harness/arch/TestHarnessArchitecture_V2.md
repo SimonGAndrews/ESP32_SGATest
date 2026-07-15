@@ -1,299 +1,317 @@
-# Espruino Test Harness Architecture
+# V2 Espruino Test Harness Architecture
 
-**Status:** Draft
-**Version:** 0.1
-**Last Updated:** 7 July 2026
+**Status:** Accepted  
+**Version:** 0.2  
+**Last Updated:** 13 July 2026
 
----
+## 1. Purpose
 
-# 1. Introduction
+This document is the top-level architecture entry point for the V2 Espruino
+test harness.
 
-The Espruino Test Harness provides a hardware platform for validating Espruino firmware running on supported microcontroller targets.
+It explains the overall system direction, design principles and relationship
+between the focused V2 specifications. It does not duplicate their detailed
+conceptual, physical, electrical or software definitions.
 
-The original **ESP32_SGATest** project demonstrated the value of a dedicated hardware test harness for validating GPIO, communications interfaces and other hardware peripherals. As additional target platforms are supported, the objective is no longer to develop individual test boards independently, but to define a common architecture that can be reused across all future harnesses.
+V2 develops a reusable hardware platform for validating Espruino firmware
+across targets with different physical layouts, GPIO budgets, peripheral
+capabilities and control paths. It evolves from the proven ESP32-family V1
+harnesses while separating reusable harness circuitry from target-specific
+adaptation.
 
-This document defines that architecture.
+## 2. Objectives
 
-It describes the logical organisation of future test harnesses, identifies the reusable architectural components and establishes the design principles that will guide future development.
+The V2 architecture aims to:
 
-This document intentionally concentrates on architecture rather than implementation. Detailed hardware designs and board-specific implementations are described separately.
+* provide a common harness architecture across multiple Espruino targets
+* maximise reuse of hardware, functional tests and documentation
+* support repeatable and increasingly automated hardware validation
+* minimise manual configuration without hiding target-specific constraints
+* remain understandable, inspectable and suitable for low-volume manufacture
+* support independent construction, continuity testing and fault isolation
+* evolve from proven V1 hardware and bench evidence
 
-It is intended to be a relatively stable architectural reference rather than a
-running design notebook. Implementation detail, component choice and
-board-specific routing strategies should be captured in companion documents.
+## 3. System Overview
 
-At the current project stage, this architecture work runs in parallel with V1
-development only. Shared functional tests, bench regression work and practical
-harness refinement remain centered on the existing V1 harnesses while V2 stays
-at the architectural-definition stage.
-
----
-
-# 2. Objectives
-
-The architecture has the following objectives:
-
-* Provide a common architecture for hardware test harnesses across multiple Espruino targets.
-* Maximise reuse of hardware, software and documentation.
-* Support automated execution of hardware validation tests.
-* Minimise manual configuration during testing.
-* Remain suitable for low-volume manufacture by contributors and hobbyists.
-* Build incrementally upon proven hardware rather than replacing successful designs.
-
----
-
-# 3. Design Principles
-
-## Simplicity
-
-Hardware should remain understandable, buildable and maintainable without specialist manufacturing techniques or expensive components.
-
-Where several solutions exist, the simplest solution should normally be preferred.
-
----
-
-## Incremental Evolution
-
-The existing ESP32_SGATest project forms the baseline for future development.
-
-Future harnesses should evolve from proven designs rather than introducing unnecessary architectural change.
-
-This applies to both hardware and software structure. The current V1 harnesses,
-shared REPL tests and bench workflows remain the proving ground for ideas that
-may later be generalised into the V2 architecture.
-
----
-
-## Standardisation
-
-Future harnesses should share a common logical architecture wherever practical.
-
-Although individual targets require different PCB layouts and routing, they should expose a common set of logical test resources to the software test suite.
-
----
-
-## Automation
-
-Automation should only be introduced where it significantly reduces manual intervention or enables unattended testing.
-
-Automation is not an objective in itself.
-
----
-
-## Separation of Responsibilities
-
-The software test suite requests logical hardware resources.
-
-The hardware implementation determines how those resources are physically connected.
-
-Software must never depend upon PCB routing, jumper locations or board-specific wiring.
-
----
-
-# 4. Architectural Overview
-
-Each target harness is considered to consist of three logical layers.
+The V2 harness system combines a target, a removable target daughter board and
+a reusable harness PCB:
 
 ```text
-                Target Interface
-                       │
-                       ▼
-             Routing Layer (optional)
-                       │
-                       ▼
-             Standard Test Blocks
+Target module or development board
+              |
+              v
+Target daughter board
+              |
+              v
+Target Interface pin banks
+              |
+              | fixed physical, electrical and logical contract
+              v
+Reusable harness PCB
+              |-- Test Blocks
+              |-- routing fabric
+              `-- Control Services
 ```
 
-Each layer has a distinct responsibility.
+The target daughter board contains the target-specific physical mapping. The
+reusable harness PCB contains the standard Test Blocks, routing fabric and
+Control Services. The Target Interface pin banks form the stable boundary
+between them.
+
+The software-facing model is:
+
+```text
+Test requirements + Target Profile
+                 |
+                 v
+        Target Support Module
+                 |
+                 v
+    Resolved Test Configuration
+                 |
+                 v
+     Harness Capabilities in use
+```
+
+Tests state their functional intent and required capabilities. Target Profiles
+provide target-specific knowledge. A Target Support Module resolves and applies
+the configuration, which is recorded with the test evidence.
+
+The accepted definitions and relationships for these terms are in
+`HarnessConceptualModel_V2.md`.
+
+## 4. Architectural Areas
+
+### 4.1 Conceptual Model
+
+`HarnessConceptualModel_V2.md` defines the accepted V2 thought model and shared
+vocabulary, including:
+
+* Harness Capabilities
+* Test Blocks
+* Control Services
+* Adapter Services
+* Target Interface signals
+* Target Profiles
+* Target Support Modules
+* Tests
+* Resolved Test Configurations
 
----
+It also defines how V2 absorbs the responsibilities of the V1 harness mode
+model without retaining modes as a central V2 abstraction.
+
+### 4.2 Physical Harness Architecture
 
-## Target Interface
+`HybridHarnessArchitecture_V2.md` defines the accepted physical prototype
+direction:
 
-The Target Interface provides the physical connection between the target development board (or target MCU) and the remainder of the harness.
+* removable target daughter boards
+* the reusable manufactured harness PCB
+* the Target Interface pin-bank boundary
+* reusable routing and control circuitry
+* wirewrapped prototype adapters that may evolve into manufactured passive
+  adapter PCBs
 
-It is the only part of the architecture that is inherently target specific.
+It also preserves the decision rationale, replacement boundaries and open
+physical-design questions.
 
-Responsibilities include:
+### 4.3 Target Interface Contract
 
-* Physical connector or socket.
-* Target power.
-* Reset and Boot control.
-* Available GPIO connections.
-* Target-specific electrical considerations.
+The Target Interface specification will define the fixed physical and
+electrical contract between every target daughter board and the reusable
+harness PCB. It must define:
 
-In the current hybrid prototype direction, the Target Interface may be
-implemented as a generic target area plus named target-interface pin banks.
-The target board is mounted or adapted in the target area, then wirewrapped to
-the named interface pins. The reusable PCB routes those interface pins to
-direct test-block paths or to the optional Routing Layer.
+* the Interface signal inventory
+* signal direction, voltage domain and safe-state rules
+* power, ground, reference and measurement provisions
+* connector banks, numbering, keying and orientation
+* direct, routable, optional, unavailable and reserved connection properties
+* daughter-board compatibility, identity and acceptance requirements
 
-This hybrid structure is described in *HybridHarnessArchitecture_V2.md*.
+Connector pin assignments must follow the logical inventory and safety rules;
+they must not be settled incidentally during KiCad implementation.
 
----
+### 4.4 Standard Test Blocks
 
-## Routing Layer
+`StandardTestBlocks_V2.md` defines the reusable Test Block inventory and the
+electrical behaviour of each block.
 
-The Routing Layer provides optional programmable routing between target GPIO pins and selected test resources.
+The V1 blocks provide the starting evidence set, but V2 must review rather than
+copy them. The review must include practical lessons about isolation,
+replaceable devices, debugging access, safe loads and interactions between
+blocks.
 
-Not every harness requires programmable routing.
+Test Blocks may declare dependencies on Control Services, but the service
+behaviour is owned by its Control Service specification rather than repeated
+in the block definition.
 
-Targets with plentiful GPIO resources may connect directly to many test blocks, while targets with limited GPIO resources may selectively share hardware resources using the Routing Layer.
+### 4.5 Standard Control Services
 
-The Routing Layer presents a consistent logical interface to the software while allowing different electrical implementations on different targets.
+A focused V2 Control Service specification will define the reusable hardware
+and behaviour used to configure, operate, observe and recover the harness. Its
+scope includes:
 
-Further details are provided in *I2CControlledRouting_V2.md*.
+* normal and alternate target control or console connections
+* routing control and route-state verification
+* reset and boot control
+* 3.3 V power ownership, switching, measurement and recovery behaviour
+* reusable host-facing serial or supervision facilities
+* the boundary between reusable services and target-specific Adapter Services
 
----
+A service may use routed connections, but the mechanism required to establish
+or recover that service must not depend solely on the route being configured.
+Route control, reset and the defined recovery path must avoid circular
+dependencies.
 
-## Standard Test Blocks
+### 4.6 Routing Fabric
 
-Standard Test Blocks implement reusable hardware functions.
+`I2CControlledRouting_V2.md` is the working routing proposal. The routing
+fabric is a standard capability of the reusable harness PCB intended to
+support constrained targets without creating a general-purpose crosspoint
+matrix.
 
-Where practical, every target harness should contain the same logical collection of test blocks.
+The routing design must eventually define:
 
-The starting point for defining these blocks is the proven V1 harness model.
-Existing ESP32-family blocks and their associated functional tests should be
-treated as the first evidence set for deciding which block concepts are truly
-general and which remain target-specific.
+* legal connection topology
+* switch and control-component selection
+* reset-safe defaults
+* route-control addressing and register behaviour
+* route application, readback and evidence
+* isolation between direct and routed paths
 
-Typical examples include:
+The routing proposal remains subject to alignment with the accepted conceptual
+and hybrid specifications.
 
-* GPIO loopback
-* UART loopback
-* SPI interface
-* I²C interface
-* OneWire interface
-* ADC reference source
-* PWM measurement
-* Interrupt generation
-* LEDs
-* Push buttons
-* Reset and Boot controls
-* Power monitoring
+### 4.7 Target Profiles And Test Support
 
-The implementation of these blocks should be standardised and reused across future harnesses wherever practical.
+Later specifications will define the Target Profile schema, Target Support
+Module API and V2 functional-test structure.
 
----
+Those specifications must keep tests understandable and efficient on
+resource-constrained targets. They must also preserve visible target
+assignments and reproducible evidence without requiring every test to upload a
+large complete profile or configuration structure.
 
-# 5. Resource Model
+## 5. Design Principles
 
-Each logical test resource is classified as one of the following.
-
-## Direct Resource
-
-The test block is permanently connected to the target.
-
-No routing is required.
-
----
-
-## Routed Resource
-
-The test block is connected through the Routing Layer.
-
-The software requests the logical resource while the Routing Layer determines the physical connection.
-
----
-
-## Unimplemented Resource
-
-The test resource is not implemented for a particular target.
-
-The software framework should be capable of recognising unavailable resources.
-
----
-
-# 6. Software Model
-
-The software test framework should operate entirely in terms of logical resources.
-
-For example:
-
-* Request a OneWire interface.
-* Request a PWM measurement input.
-* Request an interrupt generator.
-* Request an ADC reference source.
-
-The software should not require knowledge of:
-
-* GPIO numbers used by the harness.
-* PCB routing.
-* Jumper locations.
-* Switching hardware.
-
-This abstraction allows identical software tests to execute across multiple target harnesses.
-
-However, V2 should be developed in a way that remains consistent with the
-current V1 testing approach. In V1, tests deliberately keep visible target
-presets and harness expectations inside the JS test files rather than hiding
-all configuration in the runner. V2 should therefore treat logical resource
-abstraction as a harness capability model layered underneath the tests, not as
-a reason to make test behavior opaque to the user.
-
-In practical terms:
-
-* the harness software may resolve logical resources through board profiles or
-  routing rules
-* tests should still remain understandable when run directly in the REPL
-* target-specific capability differences should remain visible and inspectable
-  rather than being hidden inside a large runner-side configuration model
-
----
-
-# 7. Relationship to ESP32_SGATest
-
-The original ESP32_SGATest project forms the foundation of this architecture.
-
-Future harnesses are expected to retain the successful concepts developed during the original project while introducing improvements in areas such as:
-
-* Reduction of manual configuration.
-* Increased automation.
-* Improved reuse of hardware blocks.
-* Support for additional target platforms.
-
-The objective is evolution rather than replacement.
-
-The V1 harnesses also remain the active validation platform while V2 is being
-designed. Architectural proposals should therefore be checked against V1
-experience and, where practical, proven first through V1 functional test and
-bench work before being treated as settled V2 direction.
-
----
-
-# 8. Future Work
-
-The following architectural components will be documented separately as they mature.
-
-* Standard Test Blocks
-* Routing Layer
-* Hybrid Harness Prototype Structure
-* Harness Control Interface
-* Board Profiles
-* Software Harness API
-
-This document defines the architectural framework into which those components will fit.
-
----
-
-# 9. Architecture Summary
-
-The architecture is based upon four fundamental concepts.
-
-1. **Target Interface**
-
-   Provides the physical interface to the target hardware.
-
-2. **Routing Layer**
-
-   Optionally connects target GPIO resources to hardware test resources.
-
-3. **Standard Test Blocks**
-
-   Implements reusable hardware functions that are common across multiple harnesses.
-
-4. **Common Software Framework**
-
-   Executes hardware tests using logical resources rather than board-specific implementations.
-
-By separating these concerns, future harnesses can evolve independently while remaining compatible with a common software test framework and a common set of architectural principles.
+### Simplicity
+
+Hardware and software should remain understandable, buildable and maintainable
+without unnecessary complexity. Automation is introduced where it materially
+improves repeatability or unattended execution.
+
+### Incremental Evolution
+
+V2 builds on proven V1 blocks, tests and bench evidence. New architecture is
+introduced to solve demonstrated reuse, adaptation or automation needs rather
+than to replace successful work without evidence.
+
+### Stable Boundaries
+
+The Target Interface and software-facing capability model should remain stable
+while target daughter boards, routing implementation and Test Blocks mature
+behind their documented ownership boundaries.
+
+### Separation Of Responsibilities
+
+Tests state intent. Target Profiles contain target knowledge. Target Support
+Modules resolve configuration. Daughter boards implement target-specific
+physical adaptation. The reusable harness PCB supplies common capabilities.
+
+### Inspectability And Evidence
+
+Target mappings, applied routes, control paths and external preconditions must
+remain inspectable and recordable. Automation must not obscure the physical
+configuration used to produce a result.
+
+### Safety And Diagnosability
+
+Default states must be safe for boot, flashing and normal control. Power-source
+ownership, signal contention, routing defaults and insertion rules must be
+explicit. Replaceable assemblies and isolation points should support practical
+fault diagnosis.
+
+## 6. Relationship To V1
+
+The completed ESP32-C3 and classic ESP32 V1 harnesses remain the stable bench
+platforms for:
+
+* shared functional-test and runner development
+* regression evidence and firmware comparisons
+* practical evaluation of proposed V2 behaviour
+* lessons about test-block loading, isolation and diagnosis
+
+The V1 wiring, harness nodes and named modes remain authoritative for those
+built boards. V2 refines the model for future reusable hardware; it does not
+retroactively redefine V1 or reopen routine V1 hardware development.
+
+## 7. Specification Authority And Implementation Boundary
+
+Architecture decisions should be recorded in the appropriate V2 specification
+before they become KiCad implementation requirements.
+
+Use the following ownership:
+
+| Subject | Authority |
+|---|---|
+| Shared vocabulary and functional relationships | `HarnessConceptualModel_V2.md` |
+| Physical daughter-board and reusable-PCB architecture | `HybridHarnessArchitecture_V2.md` |
+| Routing implementation proposal | `I2CControlledRouting_V2.md` until refined or accepted |
+| Target Interface signals, safety and connector contract | planned Target Interface specification |
+| Standard Test Block inventory and electrical behaviour | `StandardTestBlocks_V2.md` |
+| Standard Control Service behaviour | planned `StandardControlServices_V2.md` |
+| Combined direct, routed, simultaneous-use and safe-state requirements | planned capability connection matrix feeding the routing and Target Interface specifications |
+| Target-specific physical mapping | daughter-board schematic and target-specific documentation |
+| KiCad symbols, footprints, schematic and PCB implementation | `KICAD_V2/Espruino_Harness_V2/` |
+
+Each requirement has one authority. Other documents should link to that
+requirement rather than restating its detailed behaviour. The combined
+connection matrix integrates requirements from Test Blocks and Control
+Services for implementation; it does not become a second behavioural
+specification.
+
+The current KiCad project is exploratory. It may evaluate components, routing
+topologies and physical arrangements, but it must not silently establish an
+architectural contract.
+
+## 8. Planned Specification Sequence
+
+The next architecture work should proceed in this order:
+
+1. define and review the V2 Standard Test Block inventory using V1 practical
+   evidence
+2. define the standard Control Services, including console/control, routing,
+   reset, boot and 3.3 V power-service behaviour
+3. derive one combined capability connection matrix covering provisional
+   logical Interface signals, direct and routed paths, simultaneous use,
+   safe states and recovery dependencies
+4. align and refine the routing proposal against that combined matrix
+5. establish the remaining Target Interface electrical safety rules
+6. validate the logical interface against constrained and generous targets
+7. assign physical connector banks only after the capability, routing and
+   safety reviews
+8. define the Target Profile schema, Target Support Module API and V2 test
+   specification
+9. add minimal V1-to-V2 cross-references without rewriting V1 specifications
+10. update the V2 documentation map, implement accepted contracts in KiCad and
+    revise the model graphic
+
+The standard harness logic, Target Interface and external Test Block connection
+domain is fixed at 3.3 V. A Test Block may generate a contained local rail only
+for its own documented test-device implementation; that rail must not reach the
+target or become a general-purpose harness supply. Power-source architecture,
+including external versus target-board supply, source isolation and prevention
+of competing supplies, remains an explicit open Control Service,
+physical-architecture and Target Interface subject.
+
+## 9. Summary
+
+V2 separates stable reusable harness capabilities from target-specific
+adaptation through removable daughter boards and a fixed Target Interface.
+
+The conceptual model defines what the system means. The hybrid architecture
+defines its physical ownership boundaries. Focused specifications will define
+the Test Blocks, routing fabric, Target Interface, target software support and
+functional tests. The KiCad project implements accepted decisions while
+remaining an exploratory prototype until those contracts are sufficiently
+complete.

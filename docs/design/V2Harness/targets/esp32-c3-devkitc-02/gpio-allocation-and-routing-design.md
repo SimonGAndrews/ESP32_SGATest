@@ -117,7 +117,7 @@ recoverable return path.
 | `D3` | GPIO loop B output; SPI MOSI; UART1 TX |
 | `D4` | GPIO loop B input; SPI SCK; UART1 RX |
 | `D5` | PWM output; MCP3008 chip select |
-| `D10` | GPIO loop A input; MCP23008 interrupt; SPI flash chip select; DS2413 PIO feedback input |
+| `D10` | GPIO loop A input; MCP23008 interrupt; SPI extension chip select; DS2413 PIO feedback input |
 
 GPIO8 is intentionally omitted from ordinary block allocation because its
 strapping, pull-up and RGB LED connections introduce avoidable boot and load
