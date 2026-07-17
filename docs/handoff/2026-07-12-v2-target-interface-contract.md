@@ -1,9 +1,13 @@
 # V2 Target Interface Contract Handover
 
 **Date:** 12 July 2026
-**Status:** Ready for a dedicated architecture workstream
+**Status:** Superseded by `2026-07-17-v2-services-and-routing.md`
 **Scope:** Define the fixed Target Interface contract between removable target
 daughter boards and the reusable V2 harness PCB
+
+> This handover records the starting position before the conceptual model,
+> Standard Test Blocks and Target Routing Envelope were completed. Use
+> `2026-07-17-v2-services-and-routing.md` for current V2 architecture context.
 
 ---
 

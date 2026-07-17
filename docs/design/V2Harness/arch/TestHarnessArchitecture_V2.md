@@ -1,8 +1,8 @@
 # V2 Espruino Test Harness Architecture
 
-**Status:** Accepted  
-**Version:** 0.2  
-**Last Updated:** 13 July 2026
+**Status:** Accepted
+**Version:** 0.3
+**Last Updated:** 17 July 2026
 
 ## 1. Purpose
 
@@ -225,9 +225,11 @@ reviewed.
 
 ### 4.6 Routing Fabric
 
-`I2CControlledRouting_V2.md` is the working routing proposal. The routing
-fabric is a standard capability of the reusable harness PCB intended to
-support constrained targets without creating a general-purpose crosspoint
+`TargetRoutingEnvelope_V2.md` defines the accepted cross-target Test Block
+routing minimum, legal common route functions and direct-path alternatives.
+`I2CControlledRouting_V2.md` is the working implementation proposal. The
+routing fabric is a standard capability of the reusable harness PCB intended
+to support constrained targets without creating a general-purpose crosspoint
 matrix.
 
 The routing design must eventually define:
@@ -239,8 +241,9 @@ The routing design must eventually define:
 * route application, readback and evidence
 * isolation between direct and routed paths
 
-The routing proposal remains subject to alignment with the accepted conceptual
-and hybrid specifications.
+The routing proposal remains subject to alignment with the accepted conceptual,
+hybrid, Test Block and Target Routing Envelope specifications and with the
+forthcoming Control Service requirements.
 
 ### 4.7 Target Profiles And Test Support
 
@@ -316,6 +319,7 @@ Use the following ownership:
 |---|---|
 | Shared vocabulary and functional relationships | `HarnessConceptualModel_V2.md` |
 | Physical daughter-board and reusable-PCB architecture | `HybridHarnessArchitecture_V2.md` |
+| Cross-target Test Block routing minimum and constraints | `TargetRoutingEnvelope_V2.md` |
 | Routing implementation proposal | `I2CControlledRouting_V2.md` until refined or accepted |
 | Target Interface signals, safety and connector contract | planned Target Interface specification |
 | Standard Test Block inventory and electrical behaviour | `StandardTestBlocks_V2.md` |
@@ -336,22 +340,26 @@ architectural contract.
 
 ## 8. Planned Specification Sequence
 
-The next architecture work should proceed in this order:
+The conceptual model, physical boundary, Standard Test Blocks and Target
+Routing Envelope are accepted. The remaining architecture work should proceed
+in this order:
 
-1. define and review the V2 Standard Test Block inventory using V1 practical
-   evidence
-2. define the standard Control Services, including console/control, routing,
+1. define the standard Control Services, including console/control, routing,
    reset, boot and 3.3 V power-service behaviour
+2. refine the routing topology and component proposal against the accepted
+   routing envelope and emerging Control Service requirements without freezing
+   the total channel or Interface contact count
 3. derive one combined capability connection matrix covering provisional
    logical Interface signals, direct and routed paths, simultaneous use,
    safe states and recovery dependencies
-4. align and refine the routing proposal against that combined matrix
+4. finalise the routing specification against the combined matrix
 5. establish the remaining Target Interface electrical safety rules
-6. validate the logical interface against constrained and generous targets
-7. assign physical connector banks only after the capability, routing and
+6. assign physical connector banks only after the capability, routing and
    safety reviews
-8. define the Target Profile schema, Target Support Module API and V2 test
+7. define the Target Profile schema, Target Support Module API and V2 test
    specification
+8. prepare a separate high-level architecture presentation for maintainer and
+   wider design feedback
 9. add minimal V1-to-V2 cross-references without rewriting V1 specifications
 10. update the V2 documentation map, implement accepted contracts in KiCad and
     revise the model graphic

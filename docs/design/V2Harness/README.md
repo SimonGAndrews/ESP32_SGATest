@@ -36,11 +36,12 @@ Reusable V2 harness PCB
      └── direct and routed connections
 ```
 
-The current specification sequence completes the Standard Test Blocks, defines
-the Standard Control Services, and then combines their connection requirements
-before refining routing and the Target Interface contract. The current KiCad
-project is a prototype implementation and must not be mistaken for a frozen
-production design.
+The conceptual model, Standard Test Blocks and Target Routing Envelope are now
+accepted. The next specification work defines the Standard Control Services
+and aligns the routing-fabric proposal with the accepted seven-entry envelope.
+Their requirements will then be combined before the physical Target Interface
+contract is fixed. The current KiCad project is a prototype implementation and
+must not be mistaken for a frozen production design.
 
 ## Active V2 Workstreams
 
@@ -59,9 +60,11 @@ Defines:
 Start with:
 
 - `arch/TestHarnessArchitecture_V2.md`
+- `arch/HarnessConceptualModel_V2.md`
 - `arch/HybridHarnessArchitecture_V2.md`
 - `arch/StandardTestBlocks_V2.md`
-- `../../handoff/2026-07-12-v2-target-interface-contract.md`
+- `arch/TargetRoutingEnvelope_V2.md`
+- `../../handoff/2026-07-17-v2-services-and-routing.md`
 
 ### KiCad implementation
 
@@ -89,6 +92,9 @@ interactive edits.
   relationships.
 - `arch/StandardTestBlocks_V2.md` owns reusable Test Block behaviour and
   electrical requirements.
+- `arch/TargetRoutingEnvelope_V2.md` owns the accepted seven-entry Test Block
+  routing minimum, legal common route functions, direct-path alternatives and
+  cross-target routing constraints.
 - planned `arch/StandardControlServices_V2.md` will own reusable console,
   routing-control, reset, boot and 3.3 V power-service behaviour.
 - a combined capability connection matrix will integrate Test Block and
@@ -99,8 +105,9 @@ interactive edits.
   records the removable daughter-board decision in Appendix A.
 - `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
   provisional target study, not an implemented wiring specification.
-- `../../handoff/2026-07-12-v2-target-interface-contract.md` transfers the
-  current contract-design context into its focused workstream.
+- `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the current
+  accepted architecture into the next Control Service and routing-design
+  thread.
 
 ## Relationship to V1
 

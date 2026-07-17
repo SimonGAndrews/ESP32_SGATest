@@ -41,7 +41,7 @@ specifications rather than relying on conversation history.
 |---|---|---|
 | V1 bench testing and functional runners | `2026-06-25-esp32-family-tests.md` | Generic family-test model and preserved target constraints; its July 12 overlay points to the root README and `tests/repl/` for newer progress |
 | Firmware repository selection | `2026-07-05-espruino-repo-structure.md` | Select the correct local Espruino checkout and workflow |
-| V2 Target Interface contract | `2026-07-12-v2-target-interface-contract.md` | Daughter-board decision, contract scope, open questions and expected outputs |
+| V2 architecture, Services and routing | `2026-07-17-v2-services-and-routing.md` | Accepted conceptual model, Test Blocks and routing envelope; next Control Service and routing-fabric work |
 
 V2 KiCad implementation currently uses the V2 architecture documents and
 `../../KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`; it does not
@@ -56,6 +56,8 @@ need a separate handover while its state is captured there and in Git history.
   simplified July 5 repository guide.
 - `2026-07-01-esp32-harness-progress-discussion-draft.md` is a discussion
   draft, not current authority.
+- `2026-07-12-v2-target-interface-contract.md` records the starting context for
+  the V2 architecture thread and is superseded by the July 17 V2 handover.
 
 ## Authority and Maintenance
 
