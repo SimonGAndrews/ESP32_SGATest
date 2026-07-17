@@ -121,6 +121,45 @@ This preserves an important balance:
   are electrically sensible
 * the software gains flexibility to select among those predefined options
 
+## 5.1 Working Clarification: Route Selection And Block-Local Switching
+
+The V2 design uses programmable switching for two related but distinct
+purposes. They may share control devices, but their requirements and channel
+counts must remain separately traceable.
+
+**Route-selection switching** connects a target GPIO or other Interface
+resource to a selected logical Test Block role. It resolves target GPIO
+constraints and is the switching counted by target routing-entry assessments.
+
+```text
+Target GPIO -> route-selection switch -> Test Block endpoint
+```
+
+**Block-local connection switching** establishes the internal electrical
+topology required to operate a Test Block or Control Service safely. It can be
+required even where the target connects directly to the block endpoint. For
+example, Block 7 requires UART connection switches so that the two protected
+target endpoints can be crossed for full-duplex testing or isolated for
+external-peer operation without competing transmitters.
+
+```text
+Test Block endpoint -> block-local connection switch -> block node or peer
+```
+
+The target routing-entry count is therefore not the total switching-hardware or
+control-output count. The routing specification and combined connection matrix
+shall maintain two inventories:
+
+1. route-selection switches derived from the target assessments
+2. common block-local connection switches derived from the accepted Test Block
+   and Control Service requirements
+
+The applicable Test Block or Control Service specification owns the required
+behaviour and safe state. The routing Control Service may operate both classes
+through a shared I2C expander or other controller, but its register map,
+readback and evidence shall identify their purposes separately rather than
+describing every controlled output as a target route.
+
 ---
 
 # 6. Resource Model

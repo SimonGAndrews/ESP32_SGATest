@@ -163,6 +163,66 @@ or recover that service must not depend solely on the route being configured.
 Route control, reset and the defined recovery path must avoid circular
 dependencies.
 
+#### Working Assumption: Optional Harness Supervisor
+
+An optional, removable Harness Supervisor board is expected to provide
+advanced host-coordinated Control Services. The current concept uses a simple
+MCU such as an ESP32-C3 running a stable Espruino tool build, connected to the
+host through USB and to the harness through I2C and selected digital control,
+stimulus and capture signals. Expected baseline functions include routing
+control, programmable-peer operation and Wi-Fi/Bluetooth functional-test
+endpoints.
+
+The standard harness remains independently usable with target-controlled
+routing when the supervisor is absent. The Supervisor Interface, hardware,
+firmware responsibilities and host protocol shall be designed in the planned
+`StandardControlServices_V2.md` specification, after the initial routing
+topology analysis and before the combined capability connection matrix and
+physical Target Interface are finalised.
+
+#### Working Assumption: Direct Target Reset And Boot Control
+
+Hardware reset is expected to be a standard direct Control Service that remains
+usable without responsive target firmware and does not depend on the Test Block
+routing fabric. The provisional `TI_TARGET_RESET_N` Interface signal is an
+active-low, open-drain harness control output. The reusable harness generates
+the reset request; the target daughter board maps it to the target reset or
+enable circuit and provides any required polarity, protection or isolation.
+
+Boot-mode control is a related but separate optional service because target
+polarity, pins and sequencing differ. `TI_BOOT_REQUEST` is a provisional
+logical name only; its electrical contract, reset/boot sequence and interaction
+with onboard download circuitry remain to be defined in
+`StandardControlServices_V2.md`. Both Interface names remain provisional until
+accepted by the Target Interface contract.
+
+#### Working Consideration: Controlled Target Power Cycling
+
+Controlled removal and restoration of target power shall be evaluated as a
+standard Power Control Service. It could provide recovery when target firmware
+or a direct reset path is unavailable, repeatable cold-start and boot testing,
+verification of powered-off isolation, and restoration of a known initial
+state. It supplements direct reset and boot control rather than replacing
+them.
+
+The planned `StandardControlServices_V2.md` review shall determine whether the
+reusable harness provides a switched target supply and shall address:
+
+* an independently powered controller, manual action or timed mechanism able
+  to restore power after the target has been switched off
+* target, Harness Supervisor and manual control ownership
+* switch current rating, voltage drop, rise time, off-state discharge and
+  optional supply-state sensing
+* reverse-current and back-power prevention through USB, debug and Interface
+  signals
+* separation from the independently powered harness 3.3 V routing and logic
+  domain
+* target-specific supply inputs and any daughter-board power adaptation
+
+The switched voltage, circuit topology and physical Target Interface contacts
+remain open until that service and the wider power-source architecture are
+reviewed.
+
 ### 4.6 Routing Fabric
 
 `I2CControlledRouting_V2.md` is the working routing proposal. The routing

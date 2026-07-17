@@ -126,6 +126,15 @@ Use this order when documents differ:
 
 `docs/handoff/README.md` identifies the current handovers and their scope.
 
+## Documentation Structure
+
+Use the Pyramid Principle for architecture, specification and decision
+documents: state the conclusion or recommended approach first, then its main
+consequences, supporting reasons and detailed evidence. Avoid leading with a
+rejected option when the reader needs the accepted direction to interpret the
+discussion. Investigation and evidence records may remain chronological where
+that structure is useful.
+
 ## Cross-Platform Repository Rules
 
 - Treat repository-relative paths as canonical.

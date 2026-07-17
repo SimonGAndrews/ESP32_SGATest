@@ -166,6 +166,12 @@ polarity adaptation, a USB-to-UART interface, a Raspberry Pi Pico debug-probe
 connection, other target-specific USB, serial or debug access, voltage
 translation or protection, and target-specific power selection or measurement.
 
+Hardware debugging is a host-coordinated companion to functional harness
+testing and does not require a debug probe to be integrated into the reusable
+harness PCB. Each target shall identify a preferred direct debug path and any
+required daughter-board connector or pad adapter. Any GPIO use, Test Block
+conflict or operating restriction associated with that path must be explicit.
+
 Daughter boards should normally remain passive adapters. Adapter Services are
 an explicit exception and should not duplicate general test circuitry or
 routing that belongs on the reusable harness. A service that proves generally
