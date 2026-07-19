@@ -1,8 +1,8 @@
 # V2 Hybrid Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.2
-**Last Updated:** 12 July 2026
+**Version:** 0.3
+**Last Updated:** 19 July 2026
 
 ---
 
@@ -96,7 +96,7 @@ most: adapting a specific target on a replaceable daughter board. At the same
 time, it moves the stable reusable circuitry onto a manufactured harness PCB:
 
 * MCP3008 SPI ADC block
-* MCP23008 functional I2C block
+* MCP23017 functional I2C and Supervisor event-handshake block
 * OneWire devices and extension points
 * GPIO loopback and feedback paths
 * UART crosslink provisions

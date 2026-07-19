@@ -1,7 +1,12 @@
 # ESP32-C3-DevKitC-02 V2 GPIO Allocation And Routing Design
 
 **Status:** Provisional design study
-**Last Updated:** 8 July 2026
+**Last Updated:** 19 July 2026
+
+> **Current V2 device decision, 19 July 2026:** Accepted Block 3 now uses an
+> MCP23017 as its functional I2C and Supervisor event-handshake device. The
+> MCP23008 references in this earlier study are superseded and must be revised
+> before any of its component or register allocations are promoted.
 
 ## Purpose
 

@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.2
+**Version:** 0.3
 
-**Last Updated:** 15 July 2026
+**Last Updated:** 19 July 2026
 
 ## 1. Purpose
 
@@ -149,7 +149,7 @@ excluded without converting that capability result into a false test failure.
 
 API coverage is resolved for the exact loaded firmware build, not inferred from
 the target or available harness hardware. Each relevant API maps to a Test
-Block, Control Service, programmable peer, target self-test or explicit
+Block, Control Service, external test peer, target self-test or explicit
 exclusion. A deliberately omitted API is unavailable coverage; an API expected
 for that build but missing at runtime is a build or configuration discrepancy.
 The full rule is defined in `HarnessConceptualModel_V2.md`.
@@ -502,8 +502,9 @@ any additional input protection.
 
 ### 6.3 Block 3 — I2C Functional Device
 
-**Status:** Accepted and complete; retained from V1 with shared-bus,
-diagnostic and external-extension enhancements
+**Status:** Accepted and complete; retains the V1 behaviour with a 16-bit V2
+device, shared-bus, event-handshake, diagnostic and external-extension
+enhancements
 
 #### Purpose
 
@@ -547,9 +548,17 @@ expanding additional-device tests.
 
 #### V2 Decision
 
-Retain the MCP23008 circuit and proven V1 functional paths. The prototype uses
-a socketed through-hole MCP23008 so that the device can be removed, substituted
-and isolated during diagnosis.
+Preserve the proven MCP23008 functional paths but implement the V2 block with a
+socketed through-hole MCP23017. Its first 8-bit bank retains the V1 feedback
+and interrupt behaviour. Its second bank provides the two low-speed Supervisor
+event-handshake roles defined by `StandardControlServices_V2.md` and leaves
+controlled expansion capacity without requiring another I2C expander.
+
+The additional GPIO does not create a general routing or capture fabric.
+Target power, reset and boot recovery shall remain independent of the
+MCP23017. The prototype device shall be removable and isolatable during
+diagnosis. The authoritative component reference is the
+[Microchip MCP23017/MCP23S17 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf).
 
 Provide one vertical through-hole 2.0 mm Grove connector as part of Block 3.
 The prototype component is the Seeed `1125S-4P`, SKU `110990030`, or a verified
@@ -557,16 +566,23 @@ mechanically and electrically compatible part. A Grove hub is the standard
 means of external expansion; V2 does not require multiple onboard Grove
 connectors.
 
-Provide one vertical 2.54 mm eight-pin MCP23008 GPIO breakout connector. Its
-pins shall expose GP0 through GP7 in numerical order, with pin 1 corresponding
-to GP0. This connector provides direct observation points for all eight
-expander GPIOs and supports additional GPIO experiments without creating eight
-new Target Interface signals.
+Provide one vertical 2.54 mm 2x8 MCP23017 GPIO breakout connector. It shall
+expose GPA0 through GPA7 and GPB0 through GPB7 in two clearly identified banks
+and numerical order. This connector provides direct observation of all 16
+expander GPIO and supports additional low-speed GPIO experiments without
+creating new Target Interface signals.
 
-GP0, GP1 and GP2 remain connected to the standard Block 3 feedback and
-interrupt-stimulus paths. Their silkscreen or nearby block legend shall make
-those existing connections clear. GP3 through GP7 have no standard fixed load
-and are available as general MCP23008 GPIO extensions.
+GPA0, GPA1 and GPA2 retain the proven V1 GP0, GP1 and GP2 feedback and
+interrupt-stimulus roles. Two Port B GPIO provide the protected
+`SUP_EVENT_OUT` and `SUP_EVENT_IN` connections; their exact bit allocation
+belongs to the Control Service connection matrix and schematic. The remaining
+GPIO are unallocated expansion provision. Current MCP23017 documentation marks
+GPA7 and GPB7 as output-only, which shall be respected when assigning roles.
+
+The design shall provide one `TI_I2C_INT` path that can report both the
+standard Port A interrupt test and the Port B Supervisor event. The schematic
+shall choose and document MCP23017 interrupt mirroring or an equivalent safe
+combination of INTA and INTB.
 
 The Grove I2C pinout shall follow the official Seeed numbering:
 
@@ -597,7 +613,7 @@ The block requires four logical Target Interface signals:
 * `TI_I2C_FB`
 * `TI_I2C_INT`
 
-The MCP23008 GP1-to-GP2 connection is internal to Block 3 and does not require
+The MCP23017 GPA1-to-GPA2 connection is internal to Block 3 and does not require
 an Interface signal.
 
 #### Connection Behaviour
@@ -606,7 +622,7 @@ an Interface signal.
 
 * the target I2C controller
 * the routing-control devices
-* the MCP23008
+* the MCP23017 functional device
 * the Grove I2C connector
 
 The Interface SDA and SCL paths shall be direct and available before route
@@ -615,12 +631,12 @@ route to establish access to its own control bus.
 
 The shared-bus design is the mandatory V2 baseline so that GPIO-constrained
 targets do not require a second dedicated I2C pair. Routing-control addresses
-shall be reserved and must not conflict with the fixed MCP23008 address or an
-approved external test device. Tests shall not issue arbitrary writes to
-reserved routing-control addresses.
+shall be reserved and must not conflict with the fixed MCP23017 functional
+device address or an approved external test device. Tests shall not issue
+arbitrary writes to reserved routing-control addresses.
 
 `TI_I2C_FB` and `TI_I2C_INT` may use direct paths or legal paths through the
-routing fabric. Their selected configuration must preserve the MCP23008 signal
+routing fabric. Their selected configuration must preserve the MCP23017 signal
 direction and interrupt electrical mode.
 
 #### Electrical And Safe-State Rules
@@ -658,7 +674,7 @@ assumption that 4.7 kΩ is correct for every external configuration.
 
 #### Isolation And Diagnostics
 
-The prototype MCP23008 socket shall provide complete manual removal and
+The prototype MCP23017 socket shall provide complete manual removal and
 isolation of the functional device. The Grove branch is isolated by unplugging
 its connector. Isolation and recovery of non-removable routing-control devices
 belong in the routing specification.
@@ -675,15 +691,16 @@ Block 3 shall provide individual 2.54 mm header-pin test points for:
 The SDA, SCL and GND points shall be placed so that a logic analyser or
 oscilloscope can be connected without disturbing the Grove connector or
 pull-up configuration. The pull-up enable shunts and optional resistor
-positions shall remain accessible with the MCP23008 fitted.
+positions shall remain accessible with the MCP23017 fitted.
 
-The eight-pin MCP23008 GPIO breakout serves as the test-point access for GP0
-through GP7. It shall be placed near the 3.3 V and GND test pins and clearly
-labelled `GP0` through `GP7`. External connections must remain within the 3.3 V
-domain and the MCP23008 GPIO current limits. External circuitry must not drive
-GP0, GP1 or GP2 against the standard Block 3 paths.
+The 2x8 MCP23017 GPIO breakout serves as test-point access for GPA0 through
+GPA7 and GPB0 through GPB7. It shall be placed near the 3.3 V and GND test pins
+and clearly labelled by bank and bit. External connections must remain within
+the 3.3 V domain and the MCP23017 GPIO current limits. External circuitry must
+not drive the standard Block 3 or Supervisor event paths against their defined
+directions.
 
-Any later MCP23008 SMD transition must meet Section 3.9 and provide an
+Any later MCP23017 SMD transition must meet Section 3.9 and provide an
 equivalent means of isolating the functional device.
 
 #### Functional Coverage
@@ -691,15 +708,17 @@ equivalent means of isolating the functional device.
 The block enables functional validation of:
 
 * I2C controller setup at the selected bus speed
-* MCP23008 address and register read/write behaviour
+* MCP23017 address and both register-bank read/write behaviour
 * repeated transfers and error handling
-* MCP23008 GPIO output through GP0 to a target feedback input
-* MCP23008 GP1-to-GP2 internal feedback and interrupt generation
-* direct observation and additional input/output testing of GP0 through GP7
+* MCP23017 GPIO output through GPA0 to a target feedback input
+* MCP23017 GPA1-to-GPA2 internal feedback and interrupt generation
+* direct observation and additional input/output testing of GPA0 through GPB7
   through the GPIO breakout
 * interrupt idle, assertion and clearing behaviour
 * target `setWatch` or equivalent observation of `TI_I2C_INT`
-* coexistence of the MCP23008 with routing-control devices
+* target-configured handling of `SUP_EVENT_OUT` and target-generated
+  acknowledgement through `SUP_EVENT_IN`
+* coexistence of the functional MCP23017 with routing-control devices
 * communication with one additional Grove device or devices attached through
   a Grove hub
 
@@ -713,10 +732,12 @@ Section 7.6:
 * the final pull-up and optional parallel-resistor values after measuring the
   populated prototype bus
 * whether 400 kHz becomes a required or optional tested capability
-* final MCP23008 RESET treatment
+* final MCP23017 RESET, interrupt mirroring and INTA/INTB treatment
+* a V2 Block 3 REPL test using the MCP23017 two-bank register map while
+  preserving the existing MCP23008 tests for V1
 * the diagnostic or manual fallback if target I2C cannot configure the routing
   Control Service
-* the manufactured MCP23008 package and equivalent isolation arrangement
+* the manufactured MCP23017 package and equivalent isolation arrangement
 
 ### 6.4 Block 4 — SPI Functional Device And Removable Storage Extension
 
@@ -1222,7 +1243,7 @@ Control Service dependencies
 
 The UART Functional Crosslink And External Peer Block provides a protected
 full-duplex connection between two target UART endpoints. It also permits one
-target UART to communicate with an external programmable peer when the target
+target UART to communicate with an external peer when the target
 does not expose a second usable UART or when that second UART is unavailable
 because of console, flashing or GPIO constraints.
 
@@ -1314,15 +1335,15 @@ following logical arrangement:
 | UART A | A TX | A RX | GND |
 | UART B | B TX | B RX | GND |
 
-The header provides no power output. An external USB-UART adapter or
-programmable peer must be independently powered, use 3.3 V signalling and
+The header provides no power output. An external USB-UART adapter or other peer
+must be independently powered, use 3.3 V signalling and
 share harness ground. The final connector arrangement remains subject to the
 flow-control review in the open questions below.
 
 Dedicated bad-frame or glitch-generation circuitry is not part of this Test
 Block. Where required, malformed traffic, mismatched settings, break-like
 conditions and recovery sequences should be generated by the host-controlled
-adapter or future programmable peer defined by the Control Service work.
+adapter or a defined Supervisor peer function.
 
 #### Required Interface Signals
 
@@ -1457,9 +1478,9 @@ following follow-up is assigned under Section 7.6:
 * whether the shared peer header requires additional live observation pins
 * whether weak RX idle bias is useful and electrically safe across the target
   envelope
-* whether the host-controlled USB-UART peer remains external equipment or
-  evolves into a standard programmable peer or harness-master Control Service,
-  and when a target-specific implementation is an Adapter Service
+* whether the host-controlled USB-UART peer remains external equipment or is
+  provided by a defined Supervisor peer function, and when a target-specific
+  implementation is an Adapter Service
 * the console Control Service paths and guaranteed reset/recovery behaviour
 * target-specific isolation or external preconditions for onboard USB-UART
   bridges
@@ -1543,13 +1564,14 @@ path. `TI_RGB_DATA` may use a direct connection or a legal routed connection,
 but it must not share an active path with another driven source.
 
 The data route shall be applied and verified before the target configures the
-pin for output. A future programmable peer may observe the protected data node
+pin for output. An external test accessory may observe the protected data node
 at high impedance; it must not drive the node while the target output is
 active.
 
-Automated waveform validation shall capture the 3.3 V target-data node before
-level translation. This validates the waveform produced by the target without
-introducing a 5 V signal into the programmable peer. The module's shifted
+Automated waveform validation, when required, shall capture the 3.3 V
+target-data node before level translation. This validates the waveform
+produced by the target without introducing a 5 V signal into the test
+accessory. The module's shifted
 output may be observed separately using appropriately rated diagnostic
 equipment when translation itself is under investigation.
 
@@ -1559,8 +1581,7 @@ equipment when translation itself is under investigation.
   the 3.3 V harness domain.
 * The Pixel Shifter's generated 5 V rail and shifted outputs are contained
   module-local implementation details. They shall not connect to the Target
-  Interface, a programmable peer or a general-purpose harness peripheral
-  connector.
+  Interface or a general-purpose harness peripheral connector.
 * The generated 5 V rail is approved only for the Pixel Shifter and its onboard
   pixel. It is not an external pixel power supply.
 * Provide 470 Ohm series protection in the target-to-module data path, retaining
@@ -1611,8 +1632,8 @@ The block enables functional validation of:
   target implementation defines that behaviour
 * visual confirmation of real device response
 * observation of encoded data amplitude and timing
-* future automated decoding through a programmable peer or harness-master
-  Control Service
+* optional automated decoding through an external logic analyser or focused
+  test accessory
 
 #### Prototype Verification
 
@@ -1623,8 +1644,8 @@ Prototype implementation and testing must confirm:
 * the maximum functional-test brightness and resulting current allowance
 * whether 470 Ohm series protection preserves adequate waveform margin on all
   initial targets
-* whether programmable-peer waveform capture is required for the first
-  prototype or remains a later Control Service enhancement
+* the external measurement method used when prototype RGB waveform capture is
+  required
 
 ## 7. Cross-Block Review
 
@@ -1632,9 +1653,9 @@ Prototype implementation and testing must confirm:
 matrix, Target Interface and routing work
 
 This review consolidates the accepted signal inventory, dependencies,
-physical provisions and programmable-peer requirement. It defines the routing
-analysis boundary without selecting switches, routes or physical Interface
-contacts.
+physical provisions and Supervisor event-handshake requirement. It defines the
+routing analysis boundary without selecting switches, routes or physical
+Interface contacts.
 
 ### 7.1 Consolidated Provisional Interface-Signal Inventory
 
@@ -1658,7 +1679,7 @@ than one logical role with one physical target resource.
 | `TI_ANALOG_ADC_IN` | 2 | Analogue input | Direct or routed; measures `ANALOG_FB` concurrently with MCP3008 CH0 |
 | `TI_I2C_SDA` | 3 | Bidirectional open-drain | Mandatory direct shared bus; available before route control is configured |
 | `TI_I2C_SCL` | 3 | Bidirectional open-drain | Mandatory direct shared bus; available before route control is configured |
-| `TI_I2C_FB` | 3 | Input | Direct or routed; MCP23008 GP0 protected feedback |
+| `TI_I2C_FB` | 3 | Input | Direct or routed; MCP23017 GPA0 protected feedback |
 | `TI_I2C_INT` | 3 | Input | Direct or routed; preserve the selected interrupt electrical mode |
 | `TI_SPI_SCK` | 4 | Output | Direct or routed; shared by ADC and extension device |
 | `TI_SPI_MOSI` | 4 | Output | Direct or routed; shared by ADC and extension device |
@@ -1680,9 +1701,8 @@ inventory. Internal nodes and external harness connections—including
 Pixel Shifter module—do not add target-facing Interface signals.
 
 The inventory therefore contains 23 logical Test Block signal roles before any
-approved exclusive reuse. It does not yet allocate programmable-peer stimulus
-or capture signals; those are derived below and will be resolved through the
-Control Service specification and connection matrix.
+approved exclusive reuse. `SUP_EVENT_OUT` and `SUP_EVENT_IN` belong to the
+separate Supervisor Interface and do not add target-facing Interface roles.
 
 ### 7.2 Cross-Block And Service Dependencies
 
@@ -1690,10 +1710,10 @@ Control Service specification and connection matrix.
 |---|---|---|---|
 | Block 1 pair A with pair B | Both loopback pairs operate concurrently | Never connect two target outputs; isolate any reused input role | Connection matrix and routing Control Service |
 | Block 2 with Block 4 | Target ADC and MCP3008 CH0 measure the same `ANALOG_FB` stimulus concurrently | Keep the normal three Block 2 shunts fitted; external CH0 drive uses the Block 2 diagnostic procedure only | Block 2/4 schematic implementation and prototype verification |
-| Block 3 with routing Control Service | Target, MCP23008, Grove branch and routing devices share direct SDA/SCL | Route control must not depend on a routed path to its own bus; reserve addresses and verify aggregate pull-ups | Control Service, routing and prototype bus validation |
+| Block 3 with routing Control Service | Target, functional MCP23017, Grove branch and routing devices share direct SDA/SCL | Route control must not depend on a routed path to its own bus; reserve addresses and verify aggregate pull-ups | Control Service, routing and prototype bus validation |
 | Block 5 with optional Block 1 input reuse | Both DS2413 feedback inputs remain simultaneous while the 1-Wire bus is active | Loopback drivers and DS2413 feedback paths are mutually exclusive; change routes with target inputs high impedance | Connection matrix, routing and Target Profiles |
 | Block 7 with console/control services | UART endpoints under test require an independent control and recovery path | External peer and crossed target TX must never drive the same RX; isolate onboard bridges where required | Control Service, Adapter Services and Target Profiles |
-| Blocks 1, 2, 7 and 9 with programmable peer | Peer supplies independent digital stimulus and captures protected 3.3 V timing nodes, including RGB data before level translation | Peer outputs default high impedance; one source per driven node; module-local 5 V never reaches peer or Target Interface | Programmable-peer Control Service and connection matrix |
+| Block 3 with Supervisor event handshake | Target configures the MCP23017 event input, interrupt and acknowledgement output; Supervisor supplies and timestamps the external event | Event lines have hardware-safe defaults and neither side may back-power the other | Standard Control Services, connection matrix and schematic |
 | Routable Test Blocks with routing Control Service | Required routes are applied and verified before target pins or peers drive | Reset defaults are high impedance and conflicting direct/routed paths remain isolated | Routing specification and connection matrix |
 | All Test Blocks with power Control Service | Standard block-facing supply and logic remain in the controlled 3.3 V domain | Prevent competing sources and back-power; Block 9 local 5 V remains contained | Power Control Service and Target Interface contract |
 
@@ -1712,7 +1732,7 @@ other Control Service hardware are not included.
 |---:|---|---:|---|---|
 | 1 | Two 1x2 loopback-isolation headers and two shunts | 4 | None beyond the isolation headers | Loopback paths opened by shunt removal |
 | 2 | Three 1x2 path-isolation headers and three shunts | 5 | One 1x2 analogue-stimulus connector | Individual source, target-ADC and MCP3008 paths opened by shunt removal |
-| 3 | Two 1x2 I2C pull-up-enable headers and two shunts | 6 | One 1x8 GPIO breakout and one 1x4 2.0 mm Grove connector | Socketed MCP23008; removable Grove branch |
+| 3 | Two 1x2 I2C pull-up-enable headers and two shunts | 6 | One 2x8 GPIO breakout and one 1x4 2.0 mm Grove connector | Socketed MCP23017; removable Grove branch |
 | 4 | No routine shunt header | 1 additional `CS_ADC` pin | One 1x8 analogue breakout and one 1x9 microSD-module connector | Socketed MCP3008; removable card and breakout |
 | 5 | One 1x3 resistor-limited pull-up selector and one shunt | 5 | Two three-position sensor screw terminals and one 1x4 DS2413 header | Both sensors and the DS2413 are removable |
 | 7 | No manual isolation header | 0 additional pins | One shared 2x3 UART peer/diagnostic header | Route isolation; external peer removable |
@@ -1726,11 +1746,11 @@ The resulting Test Block baseline is:
 | Three-pin pull-up selector | 1 | 3 |
 | Fitted shunts | 8 | — |
 | Individual observation pins | 23 | 23 |
-| Functional, breakout and module connectors | 10 | 51 |
+| Functional, breakout and module connectors | 10 | 59 |
 | Socketed integrated circuits | 2 | excluded from the connector-contact total |
-| **Header and connector baseline** |  | **91** |
+| **Header and connector baseline** |  | **99** |
 
-The 91-contact baseline excludes IC-socket contacts, ordinary component leads,
+The 99-contact baseline excludes IC-socket contacts, ordinary component leads,
 mounting holes, Target Interface banks and all routing or Control Service
 hardware. It is therefore a Test Block comparison figure rather than a final
 PCB-size estimate.
@@ -1754,7 +1774,7 @@ The cross-block review accepts the following consolidation and priority rules:
 * use device or module removal for Grove, microSD, DS18B20, DS2413 and RGB
   isolation rather than adding signal shunts to every branch
 * do not add a separate spare target-I/O connector until the connection matrix
-  and programmable-peer allocation show unused protected routing capacity
+  and Supervisor event-handshake allocation show unused protected capacity
 * allow adjacent blocks to share accessible 3.3 V or ground observation pins
   only when PCB placement preserves a short, obvious probe connection; do not
   remove a required local reference merely to reduce the nominal count
@@ -1767,56 +1787,28 @@ them. Prototype placement must next confirm accessibility, module clearance and
 the area consumed by this baseline together with the still-undefined Target
 Interface, routing and Control Service hardware.
 
-### 7.4 Derived Programmable-Peer Requirement
+### 7.4 Derived Supervisor Event-Handshake Requirement
 
-The Test Block and Espruino API coverage reviews identify a need for an
-independently controlled programmable peer. Passive block wiring and target
-self-observation cannot by themselves provide independent stimulus, verify
-target-generated timing or exercise wake behaviour while the target firmware
-is suspended.
+Sleep/wake and wireless-peer tests require one independently generated event
+and one target acknowledgement. They do not require a general programmable
+stimulus or multi-channel capture fabric.
 
-The future Standard Control Service specification shall define or coordinate a
-peer capable of:
+The Test Block 3 MCP23017 provides the target-programmable endpoint. The
+Supervisor drives `SUP_EVENT_OUT` into one protected MCP23017 input. The target
+configures that input to assert the existing `TI_I2C_INT` path and may use it
+as a wake source. The target acknowledges the event through another MCP23017
+GPIO connected to `SUP_EVENT_IN`, which the Supervisor observes and timestamps.
 
-* independently driving at least one protected 3.3 V target digital-input path
-* holding or changing that stimulus while the target is asleep, reset or
-  otherwise unable to run test code
-* driving an input selected by the Target Profile as wake-capable and recording
-  the applied level and timing
-* capturing and timestamping target-generated digital timing for PWM,
-  `digitalPulse`, `shiftOut` and addressable RGB output
-* operating from power, control and route-setup paths that do not depend on the
-  target firmware being responsive
-* returning its configuration, stimulus actions, captures, timestamps and
-  result metadata to the host runner for correlation with target-side evidence
+Both event signals shall have hardware-safe states when either endpoint is
+absent or unpowered. The Target Profile shall identify whether `TI_I2C_INT` is
+mapped to a wake-capable GPIO. In Standalone operation the event input may be
+driven manually through the MCP23017 breakout; automated operation requires
+the Supervisor.
 
-At least one independent capture channel is required for basic timing
-validation. Four simultaneously usable digital capture channels are the V2
-design objective so that related multi-output sequences, including Stepper
-operation, can be captured against one timebase. If the first implementation
-provides fewer channels, the resulting coverage limitation must be explicit
-and the connection design should preserve a practical expansion path.
-
-Peer-connected outputs shall default to high impedance and use the standard
-3.3 V harness domain and protection rules. The peer must not back-power an
-unpowered target or contend with a target output. Wake stimulus, capture paths
-and any associated routing shall have defined safe states before peer or target
-software starts.
-
-The routing Control Service must be able to establish, verify and clear the
-required peer routes without assistance from the target under test. The
-combined capability connection matrix will determine which accepted Test Block
-nodes can be shared with the peer and whether a dedicated peer connector or
-additional routed target-I/O paths are required.
-
-The peer's processor, connector, host protocol, capture resolution, maximum
-sample rate and relationship to console or firmware-upload services remain
-Control Service design decisions. They are not defined independently by any
-one Test Block.
-
-The consolidated inventory, dependency table and peer requirement provide the
-Test Block inputs to the subsequent Control Service, connection-matrix, Target
-Interface and routing-fabric reviews.
+The target remains the only controller of the shared I2C bus and establishes
+required routes before a test or sleep operation. General waveform capture,
+including Stepper or RGB-data decoding, uses observation points and an
+external test accessory when required; it is not a standard Control Service.
 
 ### 7.5 Routing-Analysis Handoff
 
@@ -1827,13 +1819,13 @@ The routing analysis shall use the following accepted inputs:
 | Mandatory direct path | `TI_I2C_SDA` and `TI_I2C_SCL` remain direct and usable before route control is configured |
 | Candidate routed roles | The other 21 logical Test Block roles may be direct or routed subject to direction, loading, timing and safe-state validation |
 | Within-block concurrency | Every signal listed for one selected block operates concurrently where that block section requires it |
-| Cross-block concurrency | Block 2 operates with MCP3008 CH0 in Block 4; routing control operates alongside any routed test; UART tests retain independent console/recovery; peer paths coexist only with their selected stimulus or capture nodes |
+| Cross-block concurrency | Block 2 operates with MCP3008 CH0 in Block 4; routing control operates alongside any routed test; UART tests retain independent console/recovery; the Block 3 event handshake coexists only with its selected sleep/wake or wireless test |
 | Reconfiguration | Arbitrary simultaneous operation of all Test Blocks is not required; target resources may be reused between separately resolved test configurations |
 | Permitted logical reuse | The two Block 5 feedback roles may exclusively reuse the two Block 1 input roles; no other reuse is accepted without connection-matrix review |
 | Reset and route changes | Routed paths default high impedance; establish and verify routes before enabling drivers; disable competing sources before changing or clearing routes |
-| Control independence | Route establishment, verification and clearing must remain possible without responsive target firmware, with defined I2C ownership and recovery |
+| Control ownership and recovery | The target owns routing I2C and establishes routes before testing; a defined hardware reset or recovery action returns controlled routes to safe states without Supervisor I2C ownership |
 | Performance | Characterise switch resistance, capacitance, leakage and bandwidth against PWM/analogue, SPI, 1-Wire, UART and RGB requirements; retain the direct I2C baseline |
-| Expansion | Do not allocate a spare target-I/O or peer connector until accepted Control Service requirements and routing capacity are known |
+| Expansion | Preserve unused MCP23017 GPIO as low-speed expansion provision; do not allocate another target-I/O or peer connector without a defined test requirement |
 
 These requirements are sufficient to begin routing topology and component
 analysis. The resulting connection matrix shall show legal source-to-destination
@@ -1847,15 +1839,15 @@ owned downstream as follows:
 | Owner | Deferred decisions |
 |---|---|
 | Prototype verification | Final pull-ups, protection, clock/baud margins, routed signal integrity, module clearance and current measurements |
-| Routing and connection matrix | Exact direct/routed topology, Block 1/5 reuse, route exclusivity, peer access and switch recovery |
-| Standard Control Services | Routing ownership, console/recovery, programmable peer, reset/boot and 3.3 V power behaviour |
+| Routing and connection matrix | Exact direct/routed topology, Block 1/5 reuse, route exclusivity, Supervisor event paths and switch recovery |
+| Standard Control Services | Target routing ownership, console/recovery, Supervisor event handshake, wireless peer, reset/boot and power behaviour |
 | Target Interface and Target Profiles | Physical contacts, target assignments, unavailable roles, onboard-bridge constraints and Adapter Services |
 | Manufacturing review | SMD packages and compact isolation, repair and replacement provisions equivalent to the prototype |
 
 ### 7.7 Capabilities Without A Standard Test Block
 
-Wi-Fi and Bluetooth functional tests use suitable external peers or network
-infrastructure and do not require another fixed Test Block. Formal RF
+Wi-Fi and BLE tests that require another endpoint use the Harness Supervisor in
+`SUPERVISOR` mode and do not require another fixed Test Block. Formal RF
 performance and compliance testing are outside the V2 harness scope.
 
 ## 8. Expected Outputs
@@ -1887,7 +1879,7 @@ block sections.
 | Block | Connector | Connector format | Primary purpose |
 |---:|---|---:|---|
 | 2 | External analogue-stimulus connector | 1x2 | Inject `ANALOG_FB` with adjacent ground |
-| 3 | MCP23008 GPIO breakout | 1x8 | Expose GP0 through GP7 for observation and additional GPIO experiments |
+| 3 | MCP23017 GPIO breakout | 2x8 | Expose GPA0 through GPB7 for observation, Supervisor event diagnosis and additional low-speed GPIO experiments |
 | 3 | Grove I2C connector | 1x4, 2.0 mm | Attach one standard external I2C device or Grove hub |
 | 4 | MCP3008 analogue breakout | 1x8 | Expose CH0 through CH7 for observation and external analogue inputs |
 | 4 | MicroSD module connector | 1x9 | Mount the removable passive microSD breakout and expose its useful SPI pins on the top-side tails |
@@ -1897,7 +1889,7 @@ block sections.
 | 7 | UART peer and diagnostic header | 2x3 | Expose both UART endpoint pairs and two ground contacts |
 | 9 | Pixel Shifter connection | 1x4 right-angle | Mount the removable edge-overhanging RGB module; the `CLK` position is mechanically present but not connected |
 
-The register contains 51 PCB contact positions. It excludes isolation and
+The register contains 59 PCB contact positions. It excludes isolation and
 pull-up-selector headers, individual observation pins, IC sockets, Target
 Interface banks, routing hardware and Control Service connectors.
 
@@ -1919,8 +1911,8 @@ This appendix expands the 23 individual observation pins counted in Section
 | 2 | GND | Provide a nearby analogue measurement reference |
 | 3 | SDA | Observe shared I2C data without disturbing the Grove connector |
 | 3 | SCL | Observe shared I2C clock without disturbing the Grove connector |
-| 3 | `TI_I2C_FB` | Observe MCP23008 GP0 target feedback |
-| 3 | `TI_I2C_INT` | Observe the MCP23008 interrupt path |
+| 3 | `TI_I2C_FB` | Observe MCP23017 GPA0 target feedback |
+| 3 | `TI_I2C_INT` | Observe the MCP23017 interrupt path |
 | 3 | 3.3 V | Measure the local I2C device and pull-up supply |
 | 3 | GND | Provide a nearby I2C measurement reference |
 | 4 | `TI_SPI_CS_ADC` | Observe the MCP3008 chip select concurrently with the shared SPI bus and extension chip select |

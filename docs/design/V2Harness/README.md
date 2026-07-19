@@ -63,6 +63,7 @@ Start with:
 - `arch/HarnessConceptualModel_V2.md`
 - `arch/HybridHarnessArchitecture_V2.md`
 - `arch/StandardTestBlocks_V2.md`
+- `arch/StandardControlServices_V2.md`
 - `arch/TargetRoutingEnvelope_V2.md`
 - `../../handoff/2026-07-17-v2-services-and-routing.md`
 
@@ -95,8 +96,8 @@ interactive edits.
 - `arch/TargetRoutingEnvelope_V2.md` owns the accepted seven-entry Test Block
   routing minimum, legal common route functions, direct-path alternatives and
   cross-target routing constraints.
-- planned `arch/StandardControlServices_V2.md` will own reusable console,
-  routing-control, reset, boot and 3.3 V power-service behaviour.
+- `arch/StandardControlServices_V2.md` owns reusable power, Supervisor,
+  event-handshake and later routing, reset and boot service behaviour.
 - a combined capability connection matrix will integrate Test Block and
   Control Service requirements for routing and Target Interface design without
   duplicating their behavioural specifications.
