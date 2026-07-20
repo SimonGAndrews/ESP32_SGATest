@@ -46,6 +46,9 @@ Read:
   - `docs/targets/esp32-c3-devkitc-02/wiring.md`
   - `docs/targets/esp32-devkitc-v4/wiring.md`
 
+For cross-build comparisons or firmware-anomaly attribution, also read
+`docs/handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`.
+
 Do not infer that ordinary bench or runner work authorises redesign of V1
 hardware.
 
@@ -58,6 +61,7 @@ repository, not in this harness repository.
 Read:
 
 - `docs/handoff/2026-07-05-espruino-repo-structure.md`
+- `docs/handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`
 - the relevant document under `docs/investigations/`
 - any investigation-specific handover referenced there
 - the relevant target wiring and bring-up documents
@@ -160,7 +164,12 @@ that structure is useful.
   checks come before firmware conclusions.
 - Do not run multiple REPL tools concurrently against the same serial port.
 - Preserve board name, Espruino version, serial port, firmware build
-  provenance, harness mode and selector state in test evidence.
+  provenance, board file, ESP-IDF version, harness mode and selector state in
+  test evidence. Use the selected Espruino repo's `scripts/provision.sh` as a
+  primary build-provenance reference.
+- Treat every firmware line as a test subject. The mature classic ESP32 legacy
+  build is a useful comparator, not an infallible oracle; corroborate anomaly
+  attribution across relevant target and IDF builds.
 - Prefer a common logical runner with target-specific pin and mode maps over
   copied whole scripts.
 

@@ -41,6 +41,8 @@ Additional useful docs:
 
 - `docs/design/target-reference-links.md`
 - `docs/handoff/2026-07-05-espruino-repo-structure.md`
+- `docs/handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`
+  for cross-build comparison or firmware-anomaly attribution
 
 ## Generic ESP32-Family Test Model
 

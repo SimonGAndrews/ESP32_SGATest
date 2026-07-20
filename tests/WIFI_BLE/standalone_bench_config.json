@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "bench_id": "v1_wifi_ble_standalone",
+  "operating_mode": "STANDALONE",
+  "power_configuration": {
+    "target_supply": "usb_vbus",
+    "usb_cables": "fully_connected_with_vbus",
+    "external_target_power": false,
+    "harness_supervisor": false,
+    "controlled_power_cycle_available": false
+  },
+  "identity_policy": {
+    "path_namespace": "/dev/serial/by-path",
+    "require_unique_resolved_devices": true,
+    "verify_before_test": true
+  },
+  "positions": [
+    {
+      "position_id": "esp32_v1",
+      "label": "ESP32_V1 harness",
+      "expected_target_profile": "esp32_devkitc_v4_legacy",
+      "control_role": "console",
+      "usb_roles": {
+        "console": {
+          "path": "/dev/serial/by-path/pci-0000:00:14.0-usb-0:10.3:1.0-port0",
+          "baud": 115200
+        }
+      },
+      "expected_firmware": {
+        "board": "ESP32",
+        "version": "2v29.97",
+        "git_commit": "d3d33f4aa"
+      },
+      "required_capabilities": [
+        "wifi",
+        "ble"
+      ]
+    },
+    {
+      "position_id": "esp32_c3_v1",
+      "label": "ESP32_C3_v1 harness",
+      "expected_target_profile": "esp32_c3_devkitc_02_idf4",
+      "control_role": "console",
+      "usb_roles": {
+        "console": {
+          "path": "/dev/serial/by-path/pci-0000:00:14.0-usb-0:10.4:1.0-port0",
+          "baud": 115200
+        }
+      },
+      "expected_firmware": {
+        "board": "ESP32C3_IDF4",
+        "version": "2v29.107",
+        "git_commit": "0af6e1568"
+      },
+      "required_capabilities": [
+        "wifi",
+        "ble"
+      ]
+    }
+  ]
+}

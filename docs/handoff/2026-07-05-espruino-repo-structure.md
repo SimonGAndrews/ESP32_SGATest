@@ -13,6 +13,7 @@ Use this note together with:
 
 - `AGENTS.md`
 - [`2026-06-25-esp32-family-tests.md`](2026-06-25-esp32-family-tests.md)
+- [`2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`](2026-07-20-esp32-firmware-lineage-and-test-interpretation.md)
 - [`artifact-index-2026-07-old-espruino-sandbox.md`](../investigations/artifact-index-2026-07-old-espruino-sandbox.md)
 
 ## Purpose
@@ -314,9 +315,12 @@ If a new thread is opened for firmware or PR work:
 1. read `AGENTS.md`
 2. read [`2026-06-25-esp32-family-tests.md`](2026-06-25-esp32-family-tests.md)
 3. read this note
-4. confirm the destination codebase:
+4. read
+   [`2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`](2026-07-20-esp32-firmware-lineage-and-test-interpretation.md)
+   before selecting a reference build or attributing an anomaly
+5. confirm the destination codebase:
    - legacy `ESP32`
    - upstream/IDF4
    - MaBecker/IDF5
    - harness/docs/tests
-5. work only in the repo that matches that destination
+6. work only in the repo that matches that destination

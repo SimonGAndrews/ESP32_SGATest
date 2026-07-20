@@ -98,6 +98,9 @@ interactive edits.
   cross-target routing constraints.
 - `arch/StandardControlServices_V2.md` owns reusable power, Supervisor,
   event-handshake and later routing, reset and boot service behaviour.
+- `arch/WiFi_V1SupervisorPeerEvidence.md` assesses the completed V1 Wi-Fi
+  Supervisor Peer evidence and open gaps; it is an evidence input, not a
+  second Control Service specification.
 - a combined capability connection matrix will integrate Test Block and
   Control Service requirements for routing and Target Interface design without
   duplicating their behavioural specifications.

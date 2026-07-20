@@ -37,6 +37,7 @@ Current investigation areas:
 - `onewire/`
 - `digitalpulse/`
 - `i2c/`
+- `wifi/`
 - `uart/`
 - `watch-debounce/`
 - `jsinteractive/`
