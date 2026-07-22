@@ -23,3 +23,6 @@ docs/design/V2Harness/Parts/
 firmware/*/
 firmware/*/*/
 !firmware/README.md
+
+# Ignore draw.io backup files
+**/*.drawio.bkp

@@ -1,0 +1,144 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="TF-yPKbtaHpWDorkTLSd">
+    <mxGraphModel dx="1723" dy="616" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" style="locked=1;" value="Base Architecture" />
+        <mxCell id="bnVLw31pxS8ajflPwmId-19" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=light-dark(#010101, #39454e);fontColor=#182E3E;fillColor=none;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=left;fontStyle=1;fontSize=20;strokeWidth=2;glass=0;shadow=0;" value="&lt;font&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; Rack&lt;/font&gt;" vertex="1">
+          <mxGeometry height="945" width="785" x="-806" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-66" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Shared Supervisor&lt;br&gt;&amp;nbsp;Assembly&lt;/b&gt;" vertex="1">
+          <mxGeometry height="245" width="451" x="-796" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-20" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Target Daughter&lt;br&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="385" width="285" x="-316" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Reusable Harness&lt;br&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="605" width="440" x="-796" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Host-powered USB Hub" vertex="1">
+          <mxGeometry height="60" width="150" x="-190" y="223" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-44" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Operating Mode" vertex="1">
+          <mxGeometry height="45" width="75" x="-770" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-45" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1" value="Rack Control Endpoint&amp;nbsp;" vertex="1">
+          <mxGeometry height="50" width="130" x="-660" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-49" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="Target 5 V Power Switch" vertex="1">
+          <mxGeometry height="55" width="90" x="-495" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-54" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=16;verticalAlign=top;fontStyle=1" value="Rack Regulated&lt;br&gt;&amp;nbsp;3.3 V Supply" vertex="1">
+          <mxGeometry height="50" width="150" x="-280" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-55" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=16;verticalAlign=top;fontStyle=1" value="Rack Regulated&amp;nbsp; &amp;nbsp; &amp;nbsp;5 V Supply" vertex="1">
+          <mxGeometry height="50" width="150" x="-280" y="885" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-59" connectable="0" parent="1" style="group;fontStyle=1;fontSize=14;" value="" vertex="1">
+          <mxGeometry height="100" width="120" x="-786" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-56" parent="bnVLw31pxS8ajflPwmId-59" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1" value="Rack Position Selection&amp;nbsp;" vertex="1">
+          <mxGeometry height="100" width="120" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-57" parent="bnVLw31pxS8ajflPwmId-59" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="TCA9548A I2C Multiplexer" vertex="1">
+          <mxGeometry height="40.833333333333336" width="110" x="5" y="44.995555555555555" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-60" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#82b366;fillColor=#d5e8d4;align=center;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;Target Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="245.5" width="149" x="-190" y="515" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-62" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#0e8088;fillColor=#b0e3e6;align=center;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;Rack Control Backplane&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="260" x="-706" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-65" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#0e8088;fillColor=#b0e3e6;align=center;verticalAlign=middle;rounded=0;fontSize=20;labelBackgroundColor=none;textDirection=vertical-rl;labelPosition=center;verticalLabelPosition=middle;" value="&lt;b&gt;Target Interface&lt;/b&gt;" vertex="1">
+          <mxGeometry height="255" width="40" x="-356" y="535" as="geometry" />
+        </mxCell>
+        <mxCell id="hC3UpPHAm2SKxNlwypU9-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Ubuntu Test Host" vertex="1">
+          <mxGeometry height="60" width="440" x="-456" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="FK5LoT5IlihIK51y7edZ-1" parent="1" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Powered USB&amp;nbsp;" vertex="1">
+          <mxGeometry height="151" width="70" x="-150" y="79" as="geometry" />
+        </mxCell>
+        <mxCell id="FK5LoT5IlihIK51y7edZ-6" parent="1" style="shape=doubleArrow;direction=west;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=ltr;arrowWidth=0.4962958441840278;arrowSize=0.20833358764648438;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Target-specific&lt;br&gt;Mapping" vertex="1">
+          <mxGeometry height="90" width="160" x="-326" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-46" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&amp;nbsp; Routing Control Service" vertex="1">
+          <mxGeometry height="114.5" width="410" x="-781" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Routing Logic Supply Rail" vertex="1">
+          <mxGeometry height="20" width="188.33" x="-585" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&lt;span style=&quot;text-align: center;&quot;&gt;&amp;nbsp; Target-specific Adapter Services&lt;/span&gt;" vertex="1">
+          <mxGeometry height="45" width="240" x="-286" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; Harness &lt;br&gt;&amp;nbsp; Supervisor&lt;/span&gt;&lt;/div&gt;&amp;nbsp; MCU" vertex="1">
+          <mxGeometry height="191" width="220" x="-571" y="194" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;verticalAlign=middle;fontStyle=1;align=center;fontFamily=Helvetica;fontColor=default;" value="&lt;div&gt;Wi-Fi / BLE&lt;br&gt;Test Peer&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="80" x="-555" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Rack Control Supply Rail" vertex="1">
+          <mxGeometry height="20" width="188.33" x="-791" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="USB Interface" vertex="1">
+          <mxGeometry height="55" width="90" x="-466" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-11" parent="1" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Powered USB" vertex="1">
+          <mxGeometry height="125" width="70" x="-455" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="Test Block 3.3 V Power Switch" vertex="1">
+          <mxGeometry height="25" width="210" x="-595" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Routing Fabric&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Routing-control Devices&lt;/font&gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="55" width="145" x="-770" y="675" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Reset / Boot&lt;br&gt;Open-Drain Stages" vertex="1">
+          <mxGeometry height="55.5" width="125" x="-496" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-47" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&amp;nbsp; Standard Test Blocks&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="195" width="410" x="-776" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="FK5LoT5IlihIK51y7edZ-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Test Block Supply Rail" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-575.995" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;UART Crosslink and External Peer&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="984" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;1-Wire Functional Devices &amp;amp; GPIO&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="954" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;SPI Functional Device&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;I2C Functional Device&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-766.83" y="984.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Analogue/PWM Feedback&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-766.83" y="954.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Digital GPIO Loopback&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-767.6600000000001" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Addressable RGB Output&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="1013.23" as="geometry" />
+        </mxCell>
+        <mxCell id="FK5LoT5IlihIK51y7edZ-2" parent="1" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="USB Data + GND - No VBUS" vertex="1">
+          <mxGeometry height="260" width="70" x="-150" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Target USB" vertex="1">
+          <mxGeometry height="45" width="125" x="-177.5" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-32" parent="0" value="Power Routes — Supervisor" />
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-2" parent="0" style="locked=1;" value="TitleBlock" />
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-6" parent="8HWohwWH-p6DTj1UKp3P-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: normal;&quot;&gt;Version: 1,&amp;nbsp; 22/07/2026&lt;/span&gt;&lt;/h1&gt;" vertex="1">
+          <mxGeometry height="30" width="150" x="-797" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-7" parent="8HWohwWH-p6DTj1UKp3P-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="Shows operational components in Supervisor Mode" vertex="1">
+          <mxGeometry height="30" width="215" x="-797" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-8" parent="8HWohwWH-p6DTj1UKp3P-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;rack-architecture-overview&lt;/h1&gt;" vertex="1">
+          <mxGeometry height="30" width="365" x="-827" y="10" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
