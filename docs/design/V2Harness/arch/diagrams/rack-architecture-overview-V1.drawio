@@ -1,134 +1,251 @@
 <mxfile host="Electron">
   <diagram name="Page-1" id="TF-yPKbtaHpWDorkTLSd">
-    <mxGraphModel dx="1723" dy="616" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1659" dy="729" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
-        <mxCell id="1" parent="0" style="locked=1;" value="Base Architecture" />
-        <mxCell id="bnVLw31pxS8ajflPwmId-19" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=light-dark(#010101, #39454e);fontColor=#182E3E;fillColor=none;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=left;fontStyle=1;fontSize=20;strokeWidth=2;glass=0;shadow=0;" value="&lt;font&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; Rack&lt;/font&gt;" vertex="1">
-          <mxGeometry height="945" width="785" x="-806" y="130" as="geometry" />
+        <mxCell id="A97SX6RGzDP0tmuk_3n8-2" parent="0" style="locked=1;" value="Base - Rack and Supervisor" visible="0" />
+        <mxCell id="bnVLw31pxS8ajflPwmId-19" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=light-dark(#010101, #39454e);fontColor=#182E3E;fillColor=none;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=left;fontStyle=1;fontSize=20;strokeWidth=2;glass=0;shadow=0;" value="&lt;font&gt;Rack&lt;/font&gt;" vertex="1">
+          <mxGeometry height="945" width="785" x="-806" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-66" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Shared Supervisor&lt;br&gt;&amp;nbsp;Assembly&lt;/b&gt;" vertex="1">
-          <mxGeometry height="245" width="451" x="-796" y="170" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-20" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Target Daughter&lt;br&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
-          <mxGeometry height="385" width="285" x="-316" y="455" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Reusable Harness&lt;br&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
-          <mxGeometry height="605" width="440" x="-796" y="455" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Host-powered USB Hub" vertex="1">
-          <mxGeometry height="60" width="150" x="-190" y="223" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-44" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Operating Mode" vertex="1">
-          <mxGeometry height="45" width="75" x="-770" y="550" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-45" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1" value="Rack Control Endpoint&amp;nbsp;" vertex="1">
-          <mxGeometry height="50" width="130" x="-660" y="545" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-49" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="Target 5 V Power Switch" vertex="1">
-          <mxGeometry height="55" width="90" x="-495" y="495" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-54" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=16;verticalAlign=top;fontStyle=1" value="Rack Regulated&lt;br&gt;&amp;nbsp;3.3 V Supply" vertex="1">
+        <mxCell id="bnVLw31pxS8ajflPwmId-54" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=16;verticalAlign=top;fontStyle=1" value="Rack Regulated&lt;br&gt;&amp;nbsp;3.3 V Supply" vertex="1">
           <mxGeometry height="50" width="150" x="-280" y="960" as="geometry" />
         </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-55" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=16;verticalAlign=top;fontStyle=1" value="Rack Regulated&amp;nbsp; &amp;nbsp; &amp;nbsp;5 V Supply" vertex="1">
+        <mxCell id="bnVLw31pxS8ajflPwmId-55" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=16;verticalAlign=top;fontStyle=1" value="Rack Regulated&amp;nbsp; &amp;nbsp; &amp;nbsp;5 V Supply" vertex="1">
           <mxGeometry height="50" width="150" x="-280" y="885" as="geometry" />
         </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-59" connectable="0" parent="1" style="group;fontStyle=1;fontSize=14;" value="" vertex="1">
-          <mxGeometry height="100" width="120" x="-786" y="280" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-56" parent="bnVLw31pxS8ajflPwmId-59" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1" value="Rack Position Selection&amp;nbsp;" vertex="1">
-          <mxGeometry height="100" width="120" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-57" parent="bnVLw31pxS8ajflPwmId-59" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="TCA9548A I2C Multiplexer" vertex="1">
-          <mxGeometry height="40.833333333333336" width="110" x="5" y="44.995555555555555" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-60" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#82b366;fillColor=#d5e8d4;align=center;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;Target Board&lt;/b&gt;" vertex="1">
-          <mxGeometry height="245.5" width="149" x="-190" y="515" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-62" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#0e8088;fillColor=#b0e3e6;align=center;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;Rack Control Backplane&lt;/b&gt;" vertex="1">
+        <mxCell id="bnVLw31pxS8ajflPwmId-62" parent="A97SX6RGzDP0tmuk_3n8-2" style="text;html=1;whiteSpace=wrap;strokeColor=#0e8088;fillColor=#b0e3e6;align=center;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;Rack Control Backplane&lt;/b&gt;" vertex="1">
           <mxGeometry height="40" width="260" x="-706" y="415" as="geometry" />
         </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-65" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#0e8088;fillColor=#b0e3e6;align=center;verticalAlign=middle;rounded=0;fontSize=20;labelBackgroundColor=none;textDirection=vertical-rl;labelPosition=center;verticalLabelPosition=middle;" value="&lt;b&gt;Target Interface&lt;/b&gt;" vertex="1">
-          <mxGeometry height="255" width="40" x="-356" y="535" as="geometry" />
+        <mxCell id="5wExyTl76_0fPKPGLPEB-11" parent="A97SX6RGzDP0tmuk_3n8-2" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Powered USB" vertex="1">
+          <mxGeometry height="115" width="70" x="-455" y="95" as="geometry" />
         </mxCell>
-        <mxCell id="hC3UpPHAm2SKxNlwypU9-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Ubuntu Test Host" vertex="1">
-          <mxGeometry height="60" width="440" x="-456" y="35" as="geometry" />
+        <mxCell id="FK5LoT5IlihIK51y7edZ-1" parent="A97SX6RGzDP0tmuk_3n8-2" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Powered USB&amp;nbsp;" vertex="1">
+          <mxGeometry height="135" width="70" x="-150" y="95" as="geometry" />
         </mxCell>
-        <mxCell id="FK5LoT5IlihIK51y7edZ-1" parent="1" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Powered USB&amp;nbsp;" vertex="1">
-          <mxGeometry height="151" width="70" x="-150" y="79" as="geometry" />
+        <mxCell id="bnVLw31pxS8ajflPwmId-23" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Host-powered USB Hub" vertex="1">
+          <mxGeometry height="60" width="150" x="-190" y="223" as="geometry" />
         </mxCell>
-        <mxCell id="FK5LoT5IlihIK51y7edZ-6" parent="1" style="shape=doubleArrow;direction=west;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=ltr;arrowWidth=0.4962958441840278;arrowSize=0.20833358764648438;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Target-specific&lt;br&gt;Mapping" vertex="1">
-          <mxGeometry height="90" width="160" x="-326" y="615" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-46" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&amp;nbsp; Routing Control Service" vertex="1">
-          <mxGeometry height="114.5" width="410" x="-781" y="640" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-50" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Routing Logic Supply Rail" vertex="1">
-          <mxGeometry height="20" width="188.33" x="-585" y="650" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&lt;span style=&quot;text-align: center;&quot;&gt;&amp;nbsp; Target-specific Adapter Services&lt;/span&gt;" vertex="1">
-          <mxGeometry height="45" width="240" x="-286" y="775" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; Harness &lt;br&gt;&amp;nbsp; Supervisor&lt;/span&gt;&lt;/div&gt;&amp;nbsp; MCU" vertex="1">
-          <mxGeometry height="191" width="220" x="-571" y="194" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;verticalAlign=middle;fontStyle=1;align=center;fontFamily=Helvetica;fontColor=default;" value="&lt;div&gt;Wi-Fi / BLE&lt;br&gt;Test Peer&lt;/div&gt;" vertex="1">
-          <mxGeometry height="60" width="80" x="-555" y="285" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Rack Control Supply Rail" vertex="1">
-          <mxGeometry height="20" width="188.33" x="-791" y="240" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="USB Interface" vertex="1">
-          <mxGeometry height="55" width="90" x="-466" y="205" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-11" parent="1" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Powered USB" vertex="1">
-          <mxGeometry height="125" width="70" x="-455" y="85" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="Test Block 3.3 V Power Switch" vertex="1">
-          <mxGeometry height="25" width="210" x="-595" y="790" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Routing Fabric&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Routing-control Devices&lt;/font&gt;&lt;/span&gt;" vertex="1">
-          <mxGeometry height="55" width="145" x="-770" y="675" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Reset / Boot&lt;br&gt;Open-Drain Stages" vertex="1">
-          <mxGeometry height="55.5" width="125" x="-496" y="570" as="geometry" />
-        </mxCell>
-        <mxCell id="bnVLw31pxS8ajflPwmId-47" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&amp;nbsp; Standard Test Blocks&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="195" width="410" x="-776" y="850" as="geometry" />
-        </mxCell>
-        <mxCell id="FK5LoT5IlihIK51y7edZ-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Test Block Supply Rail" vertex="1">
-          <mxGeometry height="21.77" width="185" x="-575.995" y="860" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;UART Crosslink and External Peer&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="195" x="-571" y="984" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;1-Wire Functional Devices &amp;amp; GPIO&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="195" x="-571" y="954" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;SPI Functional Device&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="195" x="-571" y="925" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;I2C Functional Device&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="185" x="-766.83" y="984.5" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-25" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Analogue/PWM Feedback&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="185" x="-766.83" y="954.5" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Digital GPIO Loopback&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="185" x="-767.6600000000001" y="925" as="geometry" />
-        </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Addressable RGB Output&lt;/span&gt;" vertex="1">
-          <mxGeometry height="21.77" width="195" x="-571" y="1013.23" as="geometry" />
-        </mxCell>
-        <mxCell id="FK5LoT5IlihIK51y7edZ-2" parent="1" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="USB Data + GND - No VBUS" vertex="1">
+        <mxCell id="FK5LoT5IlihIK51y7edZ-2" parent="A97SX6RGzDP0tmuk_3n8-2" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="USB Data + GND - No VBUS" vertex="1">
           <mxGeometry height="260" width="70" x="-150" y="275" as="geometry" />
         </mxCell>
-        <mxCell id="8HWohwWH-p6DTj1UKp3P-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Target USB" vertex="1">
+        <mxCell id="bnVLw31pxS8ajflPwmId-66" parent="A97SX6RGzDP0tmuk_3n8-2" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Shared Supervisor&lt;br&gt;&amp;nbsp;Assembly&lt;/b&gt;" vertex="1">
+          <mxGeometry height="245" width="451" x="-796" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-7" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; Harness &lt;br&gt;&amp;nbsp; Supervisor&lt;/span&gt;&lt;/div&gt;&amp;nbsp; MCU" vertex="1">
+          <mxGeometry height="191" width="220" x="-571" y="194" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-8" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;verticalAlign=middle;fontStyle=1;align=center;fontFamily=Helvetica;fontColor=default;" value="&lt;div&gt;Wi-Fi / BLE&lt;br&gt;Test Peer&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="80" x="-555" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-9" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Rack Control Supply Rail" vertex="1">
+          <mxGeometry height="20" width="188.33" x="-791" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-12" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="USB Interface" vertex="1">
+          <mxGeometry height="55" width="90" x="-466" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-56" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1" value="Rack Position Selection&amp;nbsp;" vertex="1">
+          <mxGeometry height="100" width="120" x="-786" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-57" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="TCA9548A I2C Multiplexer" vertex="1">
+          <mxGeometry height="40.833333333333336" width="110" x="-781" y="324.99555555555554" as="geometry" />
+        </mxCell>
+        <mxCell id="A97SX6RGzDP0tmuk_3n8-1" parent="0" style="locked=0;" value="Base - Harness and Target" />
+        <mxCell id="bnVLw31pxS8ajflPwmId-20" parent="A97SX6RGzDP0tmuk_3n8-1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Target Daughter&lt;br&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="385" width="285" x="-316" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-21" parent="A97SX6RGzDP0tmuk_3n8-1" style="text;html=1;whiteSpace=wrap;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&amp;nbsp;Reusable Harness&lt;br&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="605" width="440" x="-796" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-44" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Operating Mode" vertex="1">
+          <mxGeometry height="45" width="75" x="-770" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-45" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1" value="Rack Control Endpoint&amp;nbsp;" vertex="1">
+          <mxGeometry height="50" width="130" x="-660" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-49" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="Target 5 V Power Switch" vertex="1">
+          <mxGeometry height="55" width="90" x="-496" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-60" parent="A97SX6RGzDP0tmuk_3n8-1" style="text;html=1;whiteSpace=wrap;strokeColor=#82b366;fillColor=#d5e8d4;align=center;verticalAlign=top;rounded=0;fontSize=20;labelBackgroundColor=none;" value="&lt;b&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;Target Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="225" width="149" x="-190" y="515" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-65" parent="A97SX6RGzDP0tmuk_3n8-1" style="text;html=1;whiteSpace=wrap;strokeColor=#0e8088;fillColor=#b0e3e6;align=center;verticalAlign=middle;rounded=0;fontSize=20;labelBackgroundColor=none;textDirection=vertical-rl;labelPosition=center;verticalLabelPosition=middle;points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.5,0,0,0],[0,0.75,0,0,0],[0,1,0,0,0],[0.25,0,0,0,0],[0.25,1,0,0,0],[0.5,0,0,0,0],[0.5,1,0,0,0],[0.75,0,0,0,0],[0.75,1,0,0,0],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,1,0,0,0]];" value="&lt;b&gt;Target Interface&lt;/b&gt;" vertex="1">
+          <mxGeometry height="290" width="40" x="-356" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="FK5LoT5IlihIK51y7edZ-6" parent="A97SX6RGzDP0tmuk_3n8-1" style="shape=doubleArrow;direction=west;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=ltr;arrowWidth=0.4962958441840278;arrowSize=0.20833358764648438;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="Target-specific&lt;br&gt;Mapping" vertex="1">
+          <mxGeometry height="90" width="160" x="-326" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-46" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&amp;nbsp; Routing Control Service" vertex="1">
+          <mxGeometry height="114.5" width="410" x="-781" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-50" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Routing Logic Supply Rail" vertex="1">
+          <mxGeometry height="20" width="188.33" x="-585" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-4" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&lt;span style=&quot;text-align: center;&quot;&gt;&amp;nbsp; Target-specific Adapter Services&lt;/span&gt;" vertex="1">
+          <mxGeometry height="45" width="240" x="-286" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-14" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" value="Test Block 3.3 V Power Switch" vertex="1">
+          <mxGeometry height="25" width="210" x="-595" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-15" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Routing Fabric&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Routing-control Devices&lt;/font&gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="55" width="145" x="-770" y="675" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-17" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Reset / Boot&lt;br&gt;Open-Drain Stages" vertex="1">
+          <mxGeometry height="55.5" width="125" x="-496" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="bnVLw31pxS8ajflPwmId-47" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;fontStyle=1;align=left;" value="&amp;nbsp; Standard Test Blocks&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="195" width="410" x="-776" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="FK5LoT5IlihIK51y7edZ-8" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Test Block Supply Rail" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-575.995" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-21" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;UART Crosslink and External Peer&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="984" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-22" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;1-Wire Functional Devices &amp;amp; GPIO&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="954" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-23" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;SPI Functional Device&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-24" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;I2C Functional Device&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-766.83" y="984.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-25" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Analogue/PWM Feedback&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-766.83" y="954.5" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-26" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Digital GPIO Loopback&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="185" x="-767.6600000000001" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-27" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontFamily=Helvetica;align=center;verticalAlign=middle;fontStyle=1" value="&lt;span style=&quot;font-size: 12px; font-weight: 400; text-align: left;&quot;&gt;Addressable RGB Output&lt;/span&gt;" vertex="1">
+          <mxGeometry height="21.77" width="195" x="-571" y="1013.23" as="geometry" />
+        </mxCell>
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-1" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1" value="Target USB" vertex="1">
           <mxGeometry height="45" width="125" x="-177.5" y="530" as="geometry" />
         </mxCell>
-        <mxCell id="5wExyTl76_0fPKPGLPEB-32" parent="0" value="Power Routes — Supervisor" />
-        <mxCell id="8HWohwWH-p6DTj1UKp3P-2" parent="0" style="locked=1;" value="TitleBlock" />
+        <mxCell id="Ua6y_LX7K8KgdflsGOyu-2" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontFamily=Helvetica;fontColor=default;align=center;verticalAlign=middle;fontStyle=1;points=[[0,0,0,0,0],[0,0.25,0,0,0],[0,0.75,0,0,0],[0,0.76,0,0,0],[0,1,0,0,0],[0.25,0,0,0,0],[0.25,1,0,0,0],[0.5,0,0,0,0],[0.5,1,0,0,0],[0.75,0,0,0,0],[0.75,1,0,0,0],[1,0,0,0,0],[1,0.25,0,0,0],[1,0.5,0,0,0],[1,0.75,0,0,0],[1,1,0,0,0]];arcSize=14;" value="Target 5 V&lt;br&gt;Input" vertex="1">
+          <mxGeometry height="38" width="75" x="-177.5" y="695" as="geometry" />
+        </mxCell>
+        <mxCell id="A97SX6RGzDP0tmuk_3n8-3" parent="0" style="locked=0;" value="Base - Test Host" visible="0" />
+        <mxCell id="hC3UpPHAm2SKxNlwypU9-11" parent="A97SX6RGzDP0tmuk_3n8-3" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Ubuntu Test Host" vertex="1">
+          <mxGeometry height="60" width="440" x="-456" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="5wExyTl76_0fPKPGLPEB-32" parent="0" style="locked=0;" value="Power Routes — Supervisor" />
+        <mxCell id="power-sup-green-03" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="bnVLw31pxS8ajflPwmId-62" value="Grove 3.3 V + GND">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="power-sup-green-04" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="bnVLw31pxS8ajflPwmId-45" value="RACK_CONTROL_3V3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-576" y="500.05" />
+              <mxPoint x="-574.95" y="500.05" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-06" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="bnVLw31pxS8ajflPwmId-50" value="Selected Routing Logic 3.3 V">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-732.46" y="620.08" />
+              <mxPoint x="-544.92" y="620.08" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-07" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="5wExyTl76_0fPKPGLPEB-15" value="Routing &lt;br&gt;Logic 3.3 V">
+          <mxGeometry relative="1" x="-0.2738" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-594.96" y="660" />
+              <mxPoint x="-594.96" y="702.52" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-08" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="5wExyTl76_0fPKPGLPEB-14" value="Test Block source 3.3 V">
+          <mxGeometry relative="1" x="-0.5426" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-544.92" y="730.08" />
+              <mxPoint x="-490" y="730.08" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-09" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="5wExyTl76_0fPKPGLPEB-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="FK5LoT5IlihIK51y7edZ-8" value="Switched Test Block 3.3 V">
+          <mxGeometry relative="1" x="-0.3333" y="-55" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-490" y="845" />
+              <mxPoint x="-490" y="845" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-red-01" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b91c1c;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#b91c1c;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="bnVLw31pxS8ajflPwmId-49" value="External 5 V">
+          <mxGeometry relative="1" x="0.7489" y="-10" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-365" y="899.96" />
+              <mxPoint x="-365" y="570.04" />
+              <mxPoint x="-451" y="570.04" />
+            </Array>
+            <mxPoint x="-450" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-red-02" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b91c1c;strokeWidth=4;endArrow=block;endFill=1;fontColor=#b91c1c;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1.004;exitY=0.687;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.13;entryDx=0;entryDy=0;entryPerimeter=0;" target="bnVLw31pxS8ajflPwmId-65" value="Switched &lt;br&gt;target 5 V">
+          <mxGeometry relative="1" x="0.0364" y="23" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-385" y="527.81" />
+              <mxPoint x="-356" y="527.69" />
+            </Array>
+            <mxPoint x="-400" y="514.9949999999999" as="sourcePoint" />
+            <mxPoint x="-357.08" y="524.94" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-red-03" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b91c1c;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#b91c1c;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;entryX=0.297;entryY=0.007;entryDx=0;entryDy=0;entryPerimeter=0;" target="5wExyTl76_0fPKPGLPEB-4" value="">
+          <mxGeometry relative="1" x="1" y="52" as="geometry">
+            <mxPoint x="41" y="19" as="offset" />
+            <Array as="points" />
+            <mxPoint x="-214.72" y="710" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-05" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="bnVLw31pxS8ajflPwmId-44" value="External 3.3 V">
+          <mxGeometry relative="1" x="0.4111" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-314.92" y="985" />
+              <mxPoint x="-314.92" y="915" />
+              <mxPoint x="-790" y="915" />
+              <mxPoint x="-790" y="572.54" />
+            </Array>
+            <mxPoint x="-285" y="995" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ua6y_LX7K8KgdflsGOyu-11" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="bnVLw31pxS8ajflPwmId-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b91c1c;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#b91c1c;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1.005;exitY=0.766;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.461;entryDx=0;entryDy=0;entryPerimeter=0;" target="Ua6y_LX7K8KgdflsGOyu-2" value="TI_SWITCHED&lt;br&gt;_TARGET_5V">
+          <mxGeometry relative="1" x="-0.1375" y="-7" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-305" y="712.1" />
+            </Array>
+            <mxPoint x="-375" y="732" as="sourcePoint" />
+            <mxPoint x="-232" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-01" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="5wExyTl76_0fPKPGLPEB-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="5wExyTl76_0fPKPGLPEB-9" value="Supervisor 3.3 V">
+          <mxGeometry relative="1" x="0.9199" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-580" y="285.03" />
+              <mxPoint x="-580" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="power-sup-green-02" edge="1" parent="5wExyTl76_0fPKPGLPEB-32" source="5wExyTl76_0fPKPGLPEB-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;" target="bnVLw31pxS8ajflPwmId-57" value="Multiplexer 3.3 V">
+          <mxGeometry relative="1" x="0.0873" y="25" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-645.03" y="345.45" />
+            </Array>
+            <mxPoint x="-670" y="345.41" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-2" parent="0" style="locked=1;" value="TitleBlock" visible="0" />
         <mxCell id="8HWohwWH-p6DTj1UKp3P-6" parent="8HWohwWH-p6DTj1UKp3P-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: normal;&quot;&gt;Version: 1,&amp;nbsp; 22/07/2026&lt;/span&gt;&lt;/h1&gt;" vertex="1">
           <mxGeometry height="30" width="150" x="-797" y="40" as="geometry" />
         </mxCell>
