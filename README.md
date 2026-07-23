@@ -1,10 +1,10 @@
 # ESP32 Espruino Hardware Test Harnesses
 
-This repository designs, documents, builds, and exercises ESP32-family hardware
+This repository designs, documents, builds, and exercises Espruino and ESP32-family hardware
 test harnesses for Espruino port validation.
 
 It is both a hardware-design repo and a test/debug evidence base. The harnesses
-are intended to exercise Espruino's user-facing APIs on real ESP32-family
+are intended to exercise Espruino's user-facing APIs on real Espruino and ESP32-family
 targets, especially where those APIs drive the low-level target-port layer and
 its `jshardware` implementation.
 
@@ -17,14 +17,14 @@ hardware feedback paths.
 
 ## Purpose
 
-The practical goal is to build repeatable ESP32-family Espruino hardware
+The practical goal is to build repeatable Espruino and ESP32-family Espruino hardware
 harnesses, run target-port validation tests against them, and preserve enough
 design/debug context that hardware faults, firmware regressions, and test-runner
 behaviour are documented.
 
 The design principles are:
 
-- keep the logical test blocks common across ESP32-family targets
+- keep the logical test blocks common across all targets
 - adapt those blocks to each board through target-specific pin allocation,
   selectors, and wiring fanout
 - build shared functional tests around Espruino API behaviour, not just around
