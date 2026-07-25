@@ -2,7 +2,7 @@
 
 **Status:** Working draft
 
-**Last Updated:** 19 July 2026
+**Last Updated:** 25 July 2026
 
 ## 1. Purpose
 
@@ -53,6 +53,12 @@ control. The header accepts one shunt in one of four clearly marked positions:
 | `STANDALONE EXT` | External 3.3 V | On | Off; normal powered USB is used |
 | `SUPERVISOR` | External 3.3 V | Supervisor-controlled, default off | Supervisor-controlled 5 V |
 
+`OFF` removes harness-provided routing, Test Block and target power. It does
+not disconnect a target that is independently powered through an ordinary USB
+cable or another external connection. A target that must be fully unpowered
+shall have those competing sources removed or use the defined USB No-VBUS
+connection.
+
 This removes invalid user-selected combinations while retaining externally
 powered Standalone operation for development, diagnosis or a target with
 insufficient spare 3.3 V capacity. The grouped-header implementation shall be
@@ -60,6 +66,18 @@ confirmed during schematic design.
 
 The target owns the direct routing-control I2C in both Standalone and
 Supervisor operation. Operating Mode selection does not switch I2C ownership.
+
+![V2 Harness architecture overview](diagrams/Rack-Architecture-Overview_V2.png)
+
+*Figure 1 — Common V2 harness architecture. This view shows functional
+boundaries rather than physical connector assignments. The
+[canonical draw.io source](diagrams/rack-architecture-overview.drawio)
+generates this and the mode-specific power views.*
+
+Target-specific Adapter Services may use target-local 3.3 V and/or 5 V where
+their implementation requires it. This optional daughter-board power mapping
+does not define additional mandatory Target Interface rails; the daughter-board
+schematic and Target Profile shall identify the actual sources and loads.
 
 ### 3.2 Routing-Control 3.3 V
 
@@ -93,9 +111,13 @@ associated source is powered.
 Standalone operation uses the target's normal powered USB connection for
 power, firmware upload and console access. The target establishes and verifies
 the required routes through the direct routing-control I2C.
-[Appendix C](#appendix-c-standalone-power-routes) shows the resulting active
-5 V and 3.3 V power routes, including the Test Block power-control switch held
-on by the Operating Mode selector.
+
+![Standalone power routes](diagrams/Rack-Architecture-Power-Standalone_V2.png)
+
+*Figure 2 — Active `STANDALONE` power routes. Powered USB supplies the target;
+the target returns `TI_TARGET_3V3` to the Operating Mode selection, which
+supplies the Routing Logic and Test Block rails. The target 5 V switch and
+input remain visible as parts of the common architecture but are inactive.*
 
 Automated power cycling is unavailable in this arrangement. Tests that require
 it shall be excluded, adapted to a manual step or run later with a Supervisor.
@@ -105,7 +127,33 @@ The routing fabric shall not be needed to establish the control bus or the
 normal recovery connection. This prevents an incorrect route from blocking
 the means required to correct it.
 
-### 3.4 Supervisor-Controlled Target Power
+### 3.4 Standalone External Operation
+
+`STANDALONE EXT` retains the normal powered USB connection to the target but
+uses an external regulated 3.3 V harness-system supply for the Routing Logic
+Supply Rail. The Operating Mode selection disconnects `TI_TARGET_3V3` from
+that rail, selects the external source and holds the Test Block 3.3 V power
+switch on. The target remains the owner of the direct routing-control I2C.
+
+![Standalone external power routes](diagrams/Rack-Architecture-Power-Standalone-EXT_V2.png)
+
+*Figure 3 — Active `STANDALONE EXT` power routes. Powered USB supplies the
+target; an external regulated 3.3 V source supplies Operating Mode, Routing
+Logic and Test Block services. `TI_TARGET_3V3` and harness-switched target 5 V
+are inactive.*
+
+This mode shall be used when the target does not expose a suitable 3.3 V
+output, cannot supply the complete routing and Test Block load, or must remain
+electrically independent of that load. The external source may be a standalone
+bench supply or the regulated 3.3 V harness-system supply used by a rack, but
+it shall share the defined ground reference and shall not be connected to the
+target's 3.3 V output.
+
+Target power cycling remains unavailable because ordinary powered USB still
+supplies the target. Evidence shall distinguish `STANDALONE EXT` from
+`STANDALONE` and record the external 3.3 V source and measured rail state.
+
+### 3.5 Supervisor-Controlled Target Power
 
 Supervisor operation shall provide a switched 5 V target supply while keeping
 the Supervisor and routing-control domain powered. The Supervisor shall be
@@ -137,12 +185,18 @@ source. In Standalone operation this path remains inactive while the normal
 powered USB connection supplies the target. Appendix A records the
 supplier-documented external-power connection for each assessed target.
 
+![Supervisor power routes](diagrams/Rack-Architecture-Power-Supervisor_V2.png)
+
+*Figure 4 — Active `SUPERVISOR` power routes. The rack supplies independent
+3.3 V routing power and switched 5 V target power. The host connection to the
+target carries USB data and ground with no VBUS.*
+
 The switching implementation shall provide adequate current capacity,
 reverse-current protection and predictable removal of residual target-rail
 charge. Exact ratings, sensing thresholds and circuit topology remain detailed
 design decisions.
 
-### 3.5 Host USB During Controlled Power Cycling
+### 3.6 Host USB During Controlled Power Cycling
 
 The harness system normally uses a host-powered local USB hub. Short, marked
 cables connect the hub to the target USB ports. A **USB No-VBUS Cable** passes
@@ -181,7 +235,7 @@ USB VBUS isolation alone does not prove that a target is unpowered. Prototype
 verification shall also check USB data, control I2C, routing, reset, debug,
 wake and handshake connections for back-power paths.
 
-### 3.6 Evidence And Verification
+### 3.7 Evidence And Verification
 
 Power-related test evidence shall record the Operating Mode, target power
 source, relevant USB No-VBUS Cable connections and Test Block Supply Rail
@@ -191,14 +245,15 @@ observed target-power state.
 The prototype shall demonstrate:
 
 1. safe Standalone startup with routing powered from target 3.3 V
-2. target-controlled routing from the external 3.3 V source
+2. safe `STANDALONE EXT` operation with target-controlled routing from the
+   external 3.3 V source and no connection to target 3.3 V
 3. controlled enable and removal of the Test Block Supply Rail
 4. safe routing and peripheral states during target power removal
 5. supervised removal and restoration of target 5 V
 6. absence of material back-power through every attached path
 7. restoration of the selected console or USB connection after power cycling
 
-### 3.7 Downstream Decisions
+### 3.8 Downstream Decisions
 
 Detailed design shall select the grouped Operating Mode header circuit, 3.3 V
 source connector, Test Block and target-power switches, supply ratings,
@@ -352,8 +407,8 @@ and does not require Ubuntu, the Supervisor or the Rack Control Backplane.
 
 The rack shares host, Supervisor and supply infrastructure; it does not join
 the targets' Test Blocks, routing fabric or target-controlled I2C buses.
-[Appendix D](#appendix-d-rack-architecture) shows this architecture with one
-rack position expanded to harness-board level.
+[Appendix B](#appendix-b-detailed-rack-control-architecture) shows this
+architecture with one rack position expanded to harness-board level.
 
 ### 5.1 Terms
 
@@ -541,7 +596,7 @@ The Espressif development-board guides define USB, 5 V header and 3.3 V
 header supply methods as mutually exclusive. Supervisor operation therefore
 uses USB No-VBUS Cables when the switched 5 V header supply is active.
 The ESP32-S3 daughter board also requires the optional controllable VBUS
-Adapter Service defined in Section 3.5 when USB OTG host operation is tested.
+Adapter Service defined in Section 3.6 when USB OTG host operation is tested.
 
 The Pico-family supplier guidance recommends source isolation when USB and an
 external `VSYS` source may both be present. A diode is the simple prototype
@@ -581,197 +636,7 @@ adaptation:
 * Seeed Studio XIAO ESP32-S3:
   `https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/`
 
-## Appendix B. Power Architecture Block Diagram
-
-This diagram summarises the proposed Standalone and Supervisor power
-arrangements. It shows functional connections, not physical Target Interface
-or Supervisor Interface contact assignments.
-
-```mermaid
-flowchart TB
-    subgraph External["External equipment"]
-        direction TB
-        Hub["Host + USB hub"]
-        S3["External 3.3 V"]
-        S5["External 5 V"]
-        Sup["Optional Supervisor"]
-    end
-
-    subgraph Daughter["Target daughter board"]
-        direction LR
-        TI3["TI_TARGET_3V3"]
-        TI5["TI_SWITCHED_TARGET_5V"]
-        Adapt["Target power<br/>adaptation"]
-    end
-
-    subgraph Target["Target board"]
-        direction LR
-        USB["USB"]
-        Power["5 V / VBUS<br/>VSYS / Vin"]
-        Reg["Onboard<br/>regulator"]
-        V3["Target 3.3 V"]
-        MCU["Target MCU"]
-    end
-
-    subgraph Harness["Reusable harness board"]
-        direction LR
-        Mode{"Operating mode<br/>one-shunt header<br/>OFF | STANDALONE<br/>STANDALONE EXT | SUPERVISOR"}
-        R3["Routing Logic<br/>Supply Rail"]
-        Route["Routing and<br/>switching"]
-        PerSwitch["Test Block 3.3 V<br/>power switch"]
-        TB3["Test Block<br/>Supply Rail"]
-        Periph["Test Block<br/>peripherals"]
-        Switch["Target 5 V<br/>power switch"]
-    end
-
-
-
-
-
-    Hub -->|"USB data + VBUS"| USB
-    Hub -.->|"(1) USB data + ground; no VBUS"| USB
-
-    USB -->|"VBUS"| Power
-    Power -->|"Target supply input"| Reg
-    Reg -->|"Regulated 3.3 V"| V3
-    V3 -->|"Target 3.3 V"| MCU
-
-    V3 -->|"Target 3.3 V"| TI3
-    TI3 -->|"TI_TARGET_3V3"| Mode
-    S3 -->|"External 3.3 V"| Mode
-    Mode -->|"Selected Routing Logic 3.3 V"| R3
-    R3 -->|"Routing Logic 3.3 V"| Route
-    R3 -->|"Routing Logic 3.3 V"| PerSwitch
-    PerSwitch -->|"Test Block 3.3 V"| TB3
-    TB3 -->|"Test Block Supply 3.3 V"| Periph
-    Mode -.->|"(2) Test Block power-switch selection"| PerSwitch
-
-    S5 -->|"External 5 V"| Switch
-    Switch -->|"Switched 5 V"| TI5
-    TI5 -->|"TI_SWITCHED_TARGET_5V"| Adapt
-    Adapt -->|"Adapted target supply"| Power
-    Mode -.->|"(3) Target 5 V switch selection"| Switch
-
-    MCU -.->|"(4) Direct target routing-control I2C"| Route
-    Sup -.->|"(5) Supervisor power-control signals"| Mode
-
-    Hub -->|"USB data + power"| Sup
-
-    %% Layout constraint: keep the reusable harness below external equipment.
-    External ~~~ Harness
-    Harness ~~~ Daughter
-    Daughter ~~~ Target
-
-    linkStyle default stroke-width:2px
-    linkStyle 1,14,19,20,21 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
-```
-
-Solid lines represent power paths. Wide orange dashed lines represent data or
-control paths. The grouped Operating Mode header accepts one shunt and
-coordinates the Routing Logic Supply Rail source, Test Block power-switch
-selection and target 5 V switch selection.
-
-The Operating Mode block represents a grouped, single-shunt header and the
-gating and selection circuitry controlled by that setting. The shunt indicates
-the selected mode; associated circuitry switches the power sources and switch
-enables. Dashed arrows from the block show these resulting control selections,
-not signals driven directly by the shunt.
-
-Notes for the numbered data, control and mode-selection paths:
-
-1. **USB target connection:** In `SUPERVISOR` mode, the USB No-VBUS Cable
-   physically carries USB D+, D- and ground between the host hub and target
-   while omitting the VBUS conductor. Logically, the host retains its USB data
-   connection, but target power comes only from the harness-controlled supply.
-2. **Test Block power-switch selection:** The Operating Mode setting configures
-   the Test Block power-switch enable path. Both Standalone positions hold the
-   switch on. `SUPERVISOR` connects control to the Supervisor and applies a
-   hardware default-off state. `OFF` forces the Test Block Supply Rail off. The
-   detailed gating circuit remains a schematic-design decision.
-3. **Target 5 V switch selection:** The Operating Mode setting prevents the
-   harness switched 5 V supply from operating in `OFF` and both Standalone
-   modes. In `SUPERVISOR`, it permits the independently powered Supervisor to
-   control the target-power switch. This prevents target firmware from
-   controlling the supply needed to recover it.
-4. **Direct target routing-control I2C:** The target SDA and SCL signals connect
-   directly to the routing-control devices in both Standalone and Supervisor
-   operation. They do not pass through either the Operating Mode selection or
-   the routing fabric they configure. The target establishes and verifies the
-   required routes as part of the ordinary REPL-compatible test.
-5. **Supervisor power-control signals:** In `SUPERVISOR` mode, the Operating
-   Mode circuitry connects the independently powered Supervisor to the Test
-   Block and target-power switch enable paths. These are simple power-control
-   signals; they do not give the Supervisor access to the routing-control I2C.
-
-## Appendix C. Standalone Power Routes
-
-In `STANDALONE` mode, the host USB connection powers the target. The target's
-regulated 3.3 V output then supplies the reusable harness through
-`TI_TARGET_3V3`. External 3.3 V, harness-switched target 5 V and the optional
-Supervisor are not used in this mode.
-
-```mermaid
-flowchart TB
-    subgraph ExternalStandalone["External equipment"]
-        direction LR
-        StandaloneHub["Host + USB hub"]
-        StandaloneUnused["External 3.3 V / 5 V<br/>and Supervisor: not used"]
-    end
-
-    subgraph HarnessStandalone["Reusable harness board"]
-        direction LR
-        StandaloneMode{"Operating mode<br/>STANDALONE"}
-        StandaloneR3["Routing Logic<br/>Supply Rail"]
-        StandaloneLogic["Routing and<br/>switching"]
-        StandalonePerSwitch["Test Block<br/>power-control switch<br/>ON"]
-        StandaloneBlocks["Test Block peripherals"]
-        StandaloneTarget5["Switched target 5 V: OFF"]
-    end
-
-    subgraph DaughterStandalone["Target daughter board"]
-        direction LR
-        StandaloneTI3["TI_TARGET_3V3"]
-        StandaloneTI5["TI_SWITCHED_TARGET_5V: inactive"]
-    end
-
-    subgraph TargetStandalone["Target board"]
-        direction LR
-        StandaloneUSB["USB / VBUS"]
-        StandaloneReg["Onboard regulator"]
-        StandaloneV3["Target 3.3 V"]
-        StandaloneMCU["Target MCU"]
-    end
-
-    StandaloneHub -->|"USB data + VBUS (5 V)"| StandaloneUSB
-    StandaloneUSB -->|"5 V / VBUS"| StandaloneReg
-    StandaloneReg -->|"Regulated 3.3 V"| StandaloneV3
-    StandaloneV3 -->|"Target 3.3 V"| StandaloneMCU
-    StandaloneV3 -->|"Target 3.3 V"| StandaloneTI3
-    StandaloneTI3 -->|"TI_TARGET_3V3"| StandaloneMode
-    StandaloneMode -->|"Selected 3.3 V"| StandaloneR3
-    StandaloneR3 -->|"Routing 3.3 V"| StandaloneLogic
-    StandaloneR3 -->|"Routing Logic 3.3 V"| StandalonePerSwitch
-    StandalonePerSwitch -->|"Test Block 3.3 V"| StandaloneBlocks
-
-    StandaloneMode -.->|"STANDALONE: switch held ON"| StandalonePerSwitch
-    StandaloneMCU -.->|"Direct target routing-control I2C"| StandaloneLogic
-
-    %% Layout constraints preserve the system-layer order.
-    ExternalStandalone ~~~ HarnessStandalone
-    HarnessStandalone ~~~ DaughterStandalone
-    DaughterStandalone ~~~ TargetStandalone
-
-    linkStyle default stroke-width:2px
-    linkStyle 0,1 stroke:#2563eb,stroke-width:4px
-    linkStyle 2,3,4,5,6,7,8,9 stroke:#15803d,stroke-width:4px
-    linkStyle 10,11 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
-```
-
-Blue lines show the active 5 V/VBUS route, green lines show the active 3.3 V
-routes, and orange dashed lines show control paths. Items marked `OFF`,
-`inactive` or `not used` have no active power path in `STANDALONE` mode.
-
-## Appendix D. Rack Architecture
+## Appendix B. Detailed Rack Control Architecture
 
 This diagram shows the agreed eight-position rack model and expands rack
 position 1 to show the Rack Control MCP23008 and the harness functions it
@@ -877,8 +742,8 @@ flowchart TB
     BlockMCP -.->|"SUP_EVENT_IN"| RackMCP
 
     TargetMCU -.->|"Target SDA/SCL"| TI
-    TI -.->|"Local target routing-control I2C"| Routing
-    TI -.->|"Local target functional I2C"| BlockMCP
+    TI -.->|"Local target routing-control I2C<br/>powered-off protected"| Routing
+    TI -.->|"Local target functional I2C<br/>switched-branch protected"| BlockMCP
 
     TI -->|"Switched target 5 V"| PowerAdapt
     PowerAdapt -->|"Adapted target supply"| TargetPower
@@ -890,6 +755,7 @@ flowchart TB
     Hub -.->|"USB data + GND; no VBUS"| TargetUSB
     TargetUSB -.->|"USB data"| TargetMCU
     Supervisor -.->|"Wi-Fi / BLE peer"| TargetMCU
+    Mode -.->|"Target-power-off route-safe action"| Routing
 
 
 
@@ -907,7 +773,7 @@ flowchart TB
     linkStyle 10,11,12 stroke:#7e22ce,stroke-width:5px
 
     %% Orange lines are data or control paths.
-    linkStyle 5,7,8,15,17,18,19,24,25,29,30,31,32,33,34,35,39,40,41,42,43 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
+    linkStyle 5,7,8,15,17,18,19,24,25,29,30,31,32,33,34,35,39,40,41,42,43,44 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
 ```
 
 Blue lines are powered USB paths, green lines are 3.3 V power paths, red lines
