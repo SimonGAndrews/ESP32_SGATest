@@ -2,16 +2,18 @@
 
 **Date:** 17 July 2026
 **Status:** Current V2 architecture handover
-**Scope:** Continue from the accepted V2 conceptual model, Standard Test Blocks
-and Target Routing Envelope into Standard Control Services and routing-fabric
-specification
+**Updated:** 26 July 2026
+**Scope:** Continue from the accepted V2 conceptual model, Standard Test
+Blocks, Target Routing Envelope and Standard Control Services into the
+routing-fabric specification
 
 ## 1. Purpose
 
 This handover provides the starting context for the next focused V2 design
 thread. The earlier logical-resource and target-envelope analysis is complete.
-The next work should define the reusable Control Services and turn the accepted
-routing envelope into a physical routing-fabric specification.
+The reusable Control Services are now accepted. The next work should turn the
+accepted routing envelope and service requirements into a physical
+routing-fabric specification.
 
 The detailed target assessments should be consumed as accepted design input,
 not repeated in the new thread.
@@ -26,8 +28,9 @@ Read in this order:
 4. `docs/design/V2Harness/arch/HarnessConceptualModel_V2.md`
 5. `docs/design/V2Harness/arch/HybridHarnessArchitecture_V2.md`
 6. `docs/design/V2Harness/arch/StandardTestBlocks_V2.md`
-7. `docs/design/V2Harness/arch/TargetRoutingEnvelope_V2.md`
-8. `docs/design/V2Harness/arch/I2CControlledRouting_V2.md`
+7. `docs/design/V2Harness/arch/StandardControlServices_V2.md`
+8. `docs/design/V2Harness/arch/TargetRoutingEnvelope_V2.md`
+9. `docs/design/V2Harness/arch/I2CControlledRouting_V2.md`
 
 `I2CControlledRouting_V2.md` remains a working proposal. Where it differs from
 the accepted specifications, the accepted conceptual, Test Block and routing
@@ -87,15 +90,15 @@ Pico 1/2 families, Espruino Pico and MDBT42Q. Post-design checks against the
 Seeed Studio XIAO ESP32-S3 and ESP32-C3-DevKitM-1 required no expansion of the
 envelope. No further target what-if exercise is required at this stage.
 
-## 4. Working Assumptions To Carry Forward
+## 4. Accepted Decisions To Carry Forward
 
 * The standard harness remains usable without a Harness Supervisor; the target
-  is the normal routing controller in standalone operation.
-* Routing ownership can be selected between the target and an optional
-  external Harness Supervisor or host-side controller.
-* The optional Harness Supervisor is expected to be a separate MCU board,
-  potentially ESP32-C3 based, coordinated by the host over USB and connected to
-  the harness through I2C and selected digital stimulus/capture signals.
+  owns routing in every powered Operating Mode.
+* The Supervisor may invoke Hardware Clear but does not own the target
+  routing-control I2C or select arbitrary routes.
+* The optional Harness Supervisor is a separate MCU assembly, potentially
+  ESP32-C3 based, coordinated by the host over USB and connected to rack
+  positions through its Supervisor-owned Rack Control Backplane.
 * Route-selection switching and block-local connection switching are distinct
   inventories even if they share I2C control hardware.
 * Routing-control and switching devices use an independently powered harness
@@ -104,8 +107,9 @@ envelope. No further target what-if exercise is required at this stage.
   active-low open-drain `TI_TARGET_RESET_N`.
 * Boot request is a related optional target-adapted service represented
   provisionally by `TI_BOOT_REQUEST`.
-* Controlled target-power cycling shall be evaluated as a Power Control
-  Service, including USB and debugger back-power paths.
+* `SUPERVISOR` mode provides controlled target-power cycling and power
+  measurement using an independent switch and Target Power Monitor per rack
+  position.
 * Hardware debugging is coordinated by the host and normally uses a
   target-specific connector or pad transfer on the daughter board as an
   Adapter Service. A debug probe is not integrated into the reusable harness.
@@ -115,10 +119,10 @@ contract.
 
 ## 5. Recommended Next Work
 
-### 5.1 Standard Control Services
+### 5.1 Standard Control Services — Completed
 
-Create `docs/design/V2Harness/arch/StandardControlServices_V2.md` and define,
-at minimum:
+The accepted `docs/design/V2Harness/arch/StandardControlServices_V2.md`
+defines:
 
 * host and target test-control paths
 * firmware upload and console ownership
@@ -142,7 +146,7 @@ envelope. The routing work shall determine:
 * the separate inventory of block-local switches, particularly Block 7
 * additional Control Service and programmable-peer paths
 * switch and I2C-control component selection
-* target/Supervisor ownership selection
+* target-owned route control and independent Hardware Clear implementation
 * register map, safe defaults, readback and evidence
 * signal-integrity and powered-off validation requirements
 
@@ -183,9 +187,10 @@ an accepted architecture requirement.
 ## 8. Suggested New-Thread Prompt
 
 > Workstream: V2 architecture and Target Interface contract
-> Current objective: define the V2 Standard Control Services and use them with
-> the accepted Target Routing Envelope to refine the routing-fabric
-> specification. Read `AGENTS.md`, `docs/design/V2Harness/README.md` and
+> Current objective: use the accepted Standard Control Services and Target
+> Routing Envelope to refine the routing-fabric specification. Read `AGENTS.md`,
+> `docs/design/V2Harness/README.md` and
 > `docs/handoff/2026-07-17-v2-services-and-routing.md`. Treat
-> `StandardTestBlocks_V2.md` and `TargetRoutingEnvelope_V2.md` as accepted
-> inputs. Do not assign physical Target Interface contacts yet.
+> `StandardTestBlocks_V2.md`, `StandardControlServices_V2.md` and
+> `TargetRoutingEnvelope_V2.md` as accepted inputs. Do not assign physical
+> Target Interface contacts yet.

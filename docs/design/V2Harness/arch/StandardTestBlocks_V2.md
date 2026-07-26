@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.3
+**Version:** 0.4
 
-**Last Updated:** 19 July 2026
+**Last Updated:** 26 July 2026
 
 ## 1. Purpose
 
@@ -14,8 +14,8 @@ harness PCB.
 Its scope is Test Block hardware and behaviour, not the complete harness
 hardware specification. A block may require a Control Service such as an
 independent console, routing, reset, boot or power operation. The block
-definition records that dependency, while the service behaviour remains owned
-by the planned `StandardControlServices_V2.md` specification.
+definition records that dependency, while the service behaviour is owned by
+the accepted `StandardControlServices_V2.md` specification.
 
 It uses the completed V1 harnesses, functional tests and bench evidence as the
 starting point for the accepted V2 block definitions. A V1 block is not carried
@@ -1122,9 +1122,9 @@ driven for an incompatible purpose.
 
 #### Electrical And Safe-State Rules
 
-* The two DS18B20 devices operate in powered mode from the 3.3 V harness domain
-  and common harness ground; final supply ownership remains subject to the V2
-  power design.
+* The two DS18B20 devices operate in powered mode from the Test Block Supply
+  Rail and common harness ground; source selection and switching follow
+  `StandardControlServices_V2.md`.
 * Provide one bus pull-up to 3.3 V using the resistor-limited three-pin selector
   defined above. Pins 2–3 and 4.7 kOhm are the normal prototype configuration;
   pins 1–2 and 2.2 kOhm are the stronger alternative.
@@ -1800,10 +1800,11 @@ as a wake source. The target acknowledges the event through another MCP23017
 GPIO connected to `SUP_EVENT_IN`, which the Supervisor observes and timestamps.
 
 Both event signals shall have hardware-safe states when either endpoint is
-absent or unpowered. The Target Profile shall identify whether `TI_I2C_INT` is
-mapped to a wake-capable GPIO. In Standalone operation the event input may be
-driven manually through the MCP23017 breakout; automated operation requires
-the Supervisor.
+absent or unpowered. A Target Profile supporting event wake shall map
+`TI_I2C_INT` to a GPIO capable of every declared sleep depth and record those
+supported depths. In Standalone operation the event input may be driven
+manually through the MCP23017 breakout; automated operation requires the
+Supervisor.
 
 The target remains the only controller of the shared I2C bus and establishes
 required routes before a test or sleep operation. General waveform capture,
@@ -1823,24 +1824,28 @@ The routing analysis shall use the following accepted inputs:
 | Reconfiguration | Arbitrary simultaneous operation of all Test Blocks is not required; target resources may be reused between separately resolved test configurations |
 | Permitted logical reuse | The two Block 5 feedback roles may exclusively reuse the two Block 1 input roles; no other reuse is accepted without connection-matrix review |
 | Reset and route changes | Routed paths default high impedance; establish and verify routes before enabling drivers; disable competing sources before changing or clearing routes |
-| Control ownership and recovery | The target owns routing I2C and establishes routes before testing; a defined hardware reset or recovery action returns controlled routes to safe states without Supervisor I2C ownership |
+| Control authority and recovery | The target controls routing I2C and establishes routes before testing; Hardware Clear returns controlled routes to safe states without giving the Supervisor access to routing I2C |
 | Performance | Characterise switch resistance, capacitance, leakage and bandwidth against PWM/analogue, SPI, 1-Wire, UART and RGB requirements; retain the direct I2C baseline |
 | Expansion | Preserve unused MCP23017 GPIO as low-speed expansion provision; do not allocate another target-I/O or peer connector without a defined test requirement |
 
 These requirements are sufficient to begin routing topology and component
 analysis. The resulting connection matrix shall show legal source-to-destination
-paths, simultaneous sets, exclusive reuse, reset state and recovery ownership.
+paths, simultaneous sets, exclusive reuse, reset state and the Hardware Clear
+recovery action.
 
 ### 7.6 Deferred Decision Ownership
 
 The remaining block-level questions do not block routing analysis. They are
 owned downstream as follows:
 
+`StandardControlServices_V2.md` has resolved routing-control authority,
+console and recovery, the Supervisor event handshake, wireless-peer services,
+reset and boot, and power behaviour.
+
 | Owner | Deferred decisions |
 |---|---|
 | Prototype verification | Final pull-ups, protection, clock/baud margins, routed signal integrity, module clearance and current measurements |
 | Routing and connection matrix | Exact direct/routed topology, Block 1/5 reuse, route exclusivity, Supervisor event paths and switch recovery |
-| Standard Control Services | Target routing ownership, console/recovery, Supervisor event handshake, wireless peer, reset/boot and power behaviour |
 | Target Interface and Target Profiles | Physical contacts, target assignments, unavailable roles, onboard-bridge constraints and Adapter Services |
 | Manufacturing review | SMD packages and compact isolation, repair and replacement provisions equivalent to the prototype |
 

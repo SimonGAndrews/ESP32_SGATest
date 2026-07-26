@@ -36,12 +36,12 @@ Reusable V2 harness PCB
      └── direct and routed connections
 ```
 
-The conceptual model, Standard Test Blocks and Target Routing Envelope are now
-accepted. The next specification work defines the Standard Control Services
-and aligns the routing-fabric proposal with the accepted seven-entry envelope.
-Their requirements will then be combined before the physical Target Interface
-contract is fixed. The current KiCad project is a prototype implementation and
-must not be mistaken for a frozen production design.
+The conceptual model, Standard Test Blocks, Target Routing Envelope and
+Standard Control Services are accepted. The next specification work aligns the
+routing-fabric proposal with those requirements and produces the combined
+capability connection matrix before the physical Target Interface contract is
+fixed. The current KiCad project is a prototype implementation and must not be
+mistaken for a frozen production design.
 
 ## Active V2 Workstreams
 
@@ -96,8 +96,9 @@ interactive edits.
 - `arch/TargetRoutingEnvelope_V2.md` owns the accepted seven-entry Test Block
   routing minimum, legal common route functions, direct-path alternatives and
   cross-target routing constraints.
-- `arch/StandardControlServices_V2.md` owns reusable power, Supervisor,
-  event-handshake and later routing, reset and boot service behaviour.
+- `arch/StandardControlServices_V2.md` owns reusable power, target-control,
+  routing, reset and boot, Supervisor, event-handshake and rack-service
+  behaviour.
 - `arch/WiFi_V1SupervisorPeerEvidence.md` assesses the completed V1 Wi-Fi
   Supervisor Peer evidence and open gaps; it is an evidence input, not a
   second Control Service specification.
@@ -109,9 +110,8 @@ interactive edits.
   records the removable daughter-board decision in Appendix A.
 - `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
   provisional target study, not an implemented wiring specification.
-- `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the current
-  accepted architecture into the next Control Service and routing-design
-  thread.
+- `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the accepted
+  architecture and Control Services into the routing-design thread.
 
 ## Relationship to V1
 

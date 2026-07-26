@@ -1,12 +1,17 @@
 # ESP32-C3-DevKitC-02 V2 GPIO Allocation And Routing Design
 
 **Status:** Provisional design study
-**Last Updated:** 19 July 2026
+**Last Updated:** 26 July 2026
 
 > **Current V2 device decision, 19 July 2026:** Accepted Block 3 now uses an
 > MCP23017 as its functional I2C and Supervisor event-handshake device. The
 > MCP23008 references in this earlier study are superseded and must be revised
 > before any of its component or register allocations are promoted.
+>
+> **Accepted mapping update, 26 July 2026:** The accepted
+> [Target Routing Envelope](../../arch/TargetRoutingEnvelope_V2.md) maps R5 to
+> `D10` and R6 to RTC-domain `D5`, allowing `TI_I2C_INT` to wake the C3 from
+> both light and deep sleep. The older pin allocation below is superseded.
 
 ## Purpose
 

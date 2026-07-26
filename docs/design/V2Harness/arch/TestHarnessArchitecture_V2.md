@@ -1,8 +1,8 @@
 # V2 Espruino Test Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.3
-**Last Updated:** 17 July 2026
+**Version:** 0.4
+**Last Updated:** 26 July 2026
 
 ## 1. Purpose
 
@@ -147,14 +147,15 @@ in the block definition.
 
 ### 4.5 Standard Control Services
 
-A focused V2 Control Service specification will define the reusable hardware
-and behaviour used to configure, operate, observe and recover the harness. Its
-scope includes:
+`StandardControlServices_V2.md` defines the reusable hardware and behaviour
+used to configure, operate, observe and recover the harness. Its scope
+includes:
 
 * normal and alternate target control or console connections
 * routing control and route-state verification
 * reset and boot control
-* 3.3 V power ownership, switching, measurement and recovery behaviour
+* routing-logic, Test Block and target power ownership, switching, measurement
+  and recovery behaviour
 * reusable host-facing serial or supervision facilities
 * the boundary between reusable services and target-specific Adapter Services
 
@@ -163,26 +164,26 @@ or recover that service must not depend solely on the route being configured.
 Route control, reset and the defined recovery path must avoid circular
 dependencies.
 
-#### Working Assumption: Optional Harness Supervisor
+#### Accepted Direction: Optional Harness Supervisor
 
-An optional, removable Harness Supervisor board is expected to provide
-advanced host-coordinated Control Services. The current concept uses a simple
-MCU such as an ESP32-C3 running a stable Espruino tool build, connected to the
-host through USB and to the harness through I2C and selected digital control,
-stimulus and capture signals. Expected baseline functions include routing
-control, programmable-peer operation and Wi-Fi/Bluetooth functional-test
-endpoints.
+An optional, removable Harness Supervisor provides host-coordinated recovery
+and defined test-peer services. The prototype direction uses a simple MCU such
+as an ESP32-C3 running a stable Espruino tool build, connected to the host
+through USB and to rack positions through the Supervisor-owned Rack Control
+Backplane. Its baseline functions include target and Test Block power control,
+direct reset and optional boot control, the event handshake, and Wi-Fi/BLE
+functional-test peer operation.
 
 The standard harness remains independently usable with target-controlled
-routing when the supervisor is absent. The Supervisor Interface, hardware,
-firmware responsibilities and host protocol shall be designed in the planned
-`StandardControlServices_V2.md` specification, after the initial routing
-topology analysis and before the combined capability connection matrix and
-physical Target Interface are finalised.
+routing when the Supervisor is absent. The target remains the routing owner in
+every powered Operating Mode; the Supervisor may invoke Hardware Clear but
+does not own the target routing-control I2C or select arbitrary routes. The
+accepted service boundaries and responsibilities are defined in
+`StandardControlServices_V2.md`; implementation details remain downstream.
 
-#### Working Assumption: Direct Target Reset And Boot Control
+#### Accepted Direction: Direct Target Reset And Boot Control
 
-Hardware reset is expected to be a standard direct Control Service that remains
+Hardware reset is a standard direct Control Service that remains
 usable without responsive target firmware and does not depend on the Test Block
 routing fabric. The provisional `TI_TARGET_RESET_N` Interface signal is an
 active-low, open-drain harness control output. The reusable harness generates
@@ -191,37 +192,25 @@ enable circuit and provides any required polarity, protection or isolation.
 
 Boot-mode control is a related but separate optional service because target
 polarity, pins and sequencing differ. `TI_BOOT_REQUEST` is a provisional
-logical name only; its electrical contract, reset/boot sequence and interaction
-with onboard download circuitry remain to be defined in
-`StandardControlServices_V2.md`. Both Interface names remain provisional until
-accepted by the Target Interface contract.
+logical name for an active-low open-drain request. Target Profiles define its
+availability, mapping, timing and interaction with onboard download circuitry.
+Both Interface names remain provisional until accepted by the Target Interface
+contract.
 
-#### Working Consideration: Controlled Target Power Cycling
+#### Accepted Direction: Controlled Target Power Cycling
 
-Controlled removal and restoration of target power shall be evaluated as a
-standard Power Control Service. It could provide recovery when target firmware
-or a direct reset path is unavailable, repeatable cold-start and boot testing,
-verification of powered-off isolation, and restoration of a known initial
-state. It supplements direct reset and boot control rather than replacing
-them.
+Controlled removal and restoration of target power is a standard Power Control
+Service in `SUPERVISOR` operation. An external regulated 5 V source feeds an
+independent harness switch and Target Power Monitor for each rack position.
+The daughter board maps the provisional `TI_SWITCHED_TARGET_5V` service to the
+target's accepted external-power input and provides any target-specific
+adaptation.
 
-The planned `StandardControlServices_V2.md` review shall determine whether the
-reusable harness provides a switched target supply and shall address:
-
-* an independently powered controller, manual action or timed mechanism able
-  to restore power after the target has been switched off
-* target, Harness Supervisor and manual control ownership
-* switch current rating, voltage drop, rise time, off-state discharge and
-  optional supply-state sensing
-* reverse-current and back-power prevention through USB, debug and Interface
-  signals
-* separation from the independently powered harness 3.3 V routing and logic
-  domain
-* target-specific supply inputs and any daughter-board power adaptation
-
-The switched voltage, circuit topology and physical Target Interface contacts
-remain open until that service and the wider power-source architecture are
-reviewed.
+This service supports recovery, cold-start and boot testing, powered-off
+isolation checks, and operating and sleep-current measurement. It supplements
+direct reset and boot control rather than replacing them. Exact switch,
+monitor, shunt, protection, discharge and physical Target Interface
+implementation remain downstream design decisions.
 
 ### 4.6 Routing Fabric
 
@@ -243,7 +232,7 @@ The routing design must eventually define:
 
 The routing proposal remains subject to alignment with the accepted conceptual,
 hybrid, Test Block and Target Routing Envelope specifications and with the
-forthcoming Control Service requirements.
+accepted Standard Control Service requirements.
 
 ### 4.7 Target Profiles And Test Support
 
@@ -323,7 +312,7 @@ Use the following ownership:
 | Routing implementation proposal | `I2CControlledRouting_V2.md` until refined or accepted |
 | Target Interface signals, safety and connector contract | planned Target Interface specification |
 | Standard Test Block inventory and electrical behaviour | `StandardTestBlocks_V2.md` |
-| Standard Control Service behaviour | planned `StandardControlServices_V2.md` |
+| Standard Control Service behaviour | `StandardControlServices_V2.md` |
 | Combined direct, routed, simultaneous-use and safe-state requirements | planned capability connection matrix feeding the routing and Target Interface specifications |
 | Target-specific physical mapping | daughter-board schematic and target-specific documentation |
 | KiCad symbols, footprints, schematic and PCB implementation | `KICAD_V2/Espruino_Harness_V2/` |
@@ -340,37 +329,35 @@ architectural contract.
 
 ## 8. Planned Specification Sequence
 
-The conceptual model, physical boundary, Standard Test Blocks and Target
-Routing Envelope are accepted. The remaining architecture work should proceed
-in this order:
+The conceptual model, physical boundary, Standard Test Blocks, Target Routing
+Envelope and Standard Control Services are accepted. The remaining
+architecture work should proceed in this order:
 
-1. define the standard Control Services, including console/control, routing,
-   reset, boot and 3.3 V power-service behaviour
-2. refine the routing topology and component proposal against the accepted
-   routing envelope and emerging Control Service requirements without freezing
-   the total channel or Interface contact count
-3. derive one combined capability connection matrix covering provisional
+1. refine the routing topology and component proposal against the accepted
+   routing envelope and Control Service requirements without freezing the
+   total channel or Interface contact count
+2. derive one combined capability connection matrix covering provisional
    logical Interface signals, direct and routed paths, simultaneous use,
    safe states and recovery dependencies
-4. finalise the routing specification against the combined matrix
-5. establish the remaining Target Interface electrical safety rules
-6. assign physical connector banks only after the capability, routing and
+3. finalise the routing specification against the combined matrix
+4. establish the remaining Target Interface electrical safety rules
+5. assign physical connector banks only after the capability, routing and
    safety reviews
-7. define the Target Profile schema, Target Support Module API and V2 test
+6. define the Target Profile schema, Target Support Module API and V2 test
    specification
-8. prepare a separate high-level architecture presentation for maintainer and
+7. prepare a separate high-level architecture presentation for maintainer and
    wider design feedback
-9. add minimal V1-to-V2 cross-references without rewriting V1 specifications
-10. update the V2 documentation map, implement accepted contracts in KiCad and
+8. add minimal V1-to-V2 cross-references without rewriting V1 specifications
+9. update the V2 documentation map, implement accepted contracts in KiCad and
     revise the model graphic
 
 The standard harness logic, Target Interface and external Test Block connection
 domain is fixed at 3.3 V. A Test Block may generate a contained local rail only
 for its own documented test-device implementation; that rail must not reach the
-target or become a general-purpose harness supply. Power-source architecture,
-including external versus target-board supply, source isolation and prevention
-of competing supplies, remains an explicit open Control Service,
-physical-architecture and Target Interface subject.
+target or become a general-purpose harness supply. The accepted Power Control
+Service defines source ownership, switching modes and competing-supply
+prevention. Detailed circuitry and physical Target Interface contacts remain
+physical-architecture and Target Interface work.
 
 ## 9. Summary
 

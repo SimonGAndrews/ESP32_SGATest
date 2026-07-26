@@ -1,18 +1,20 @@
 # V2 Standard Control Services
 
-**Status:** Working draft
+**Status:** Accepted
 
-**Last Updated:** 25 July 2026
+**Version:** 0.1
+
+**Last Updated:** 26 July 2026
 
 ## 1. Purpose
 
 This document defines the reusable services used to configure, operate,
-observe and recover the V2 harness system. It begins with the Power Control
-Service and the minimum Harness Supervisor services needed for recovery,
-sleep/wake, Wi-Fi and Bluetooth Low Energy (BLE) testing. It also defines the
-prototype rack arrangement in which one Supervisor serves up to eight
-independent rack positions. Later revisions will add the Routing Control
-Service and direct reset and boot behaviour.
+observe and recover the V2 harness system. It covers Power Control,
+host-facing target control, console and firmware flashing, direct reset and
+boot, Routing Control, and the minimum Harness Supervisor services needed for
+recovery, sleep/wake, Wi-Fi and Bluetooth Low Energy (BLE) testing. It also
+defines the prototype rack arrangement in which one Supervisor serves up to
+eight independent rack positions.
 
 The standard harness shall remain useful in a **Standalone** mode without a
 **Harness Supervisor**. A Supervisor adds unattended control and recovery but
@@ -52,6 +54,11 @@ control. The header accepts one shunt in one of four clearly marked positions:
 | `STANDALONE` | Target 3.3 V | On | Off; normal powered USB is used |
 | `STANDALONE EXT` | External 3.3 V | On | Off; normal powered USB is used |
 | `SUPERVISOR` | External 3.3 V | Supervisor-controlled, default off | Supervisor-controlled 5 V |
+
+These Operating Mode header positions are physical power-configuration
+preconditions, not test-facing capability modes. Tests still request
+capabilities through the Target Support Module and record the resulting
+Resolved Test Configuration.
 
 `OFF` removes harness-provided routing, Test Block and target power. It does
 not disconnect a target that is independently powered through an ordinary USB
@@ -109,7 +116,7 @@ associated source is powered.
 ### 3.3 Standalone Operation
 
 Standalone operation uses the target's normal powered USB connection for
-power, firmware upload and console access. The target establishes and verifies
+power, firmware flashing and console access. The target establishes and verifies
 the required routes through the direct routing-control I2C.
 
 ![Standalone power routes](diagrams/Rack-Architecture-Power-Standalone_V2.png)
@@ -167,9 +174,33 @@ In rack operation, the common external 5 V supply is distributed to an
 independent target-power switch on each harness board. The Supervisor selects
 the rack position through the TCA9548A and writes that harness's Rack Control
 MCP23008. One MCP23008 output controls the local switch enable; target current
-does not pass through the expander. A separate endpoint input may report the
-resulting target-power state. External biasing holds the switch off before the
-endpoint is configured or whenever its control is unavailable.
+does not pass through the expander. External biasing holds the switch off
+before the endpoint is configured or whenever its control is unavailable.
+
+Each harness board shall also provide a Supervisor-owned **Target Power
+Monitor** on its existing rack-control I2C branch. The monitor shall be powered
+from `RACK_CONTROL_3V3` so it remains available while target power is off. It
+shall observe the switched target-power path downstream of the power switch
+and before that path divides between the Target Board and Target-specific
+Adapter Services. Its bus-voltage measurement shall provide the observed
+target-power state, and it shall also report target-position current and
+power.
+
+The Target Power Monitor shall support useful measurements of both normal
+operating consumption and low-power or sleep consumption. A monitor such as
+the [INA226](https://www.ti.com/product/INA226) is a prototype candidate, but
+the selected device, shunt value and any selectable measurement ranges shall
+be demonstrated to cover the required peak-current and sleep-current range.
+The monitor shares the existing
+TCA9548A-selected SDA and SCL connection with the MCP23008; it does not add
+another I2C backplane or additional backplane conductors.
+
+The Hackaday.io article
+[Mastering the INA219 & INA226](https://hackaday.io/project/204686-mastering-the-ina219-ina226/details)
+provides non-normative background on shunt selection, high-side sensing,
+Kelvin connections, filtering and averaging. Component limits and final
+design requirements shall be taken from the manufacturer's data sheet and
+verified by prototype measurement.
 
 The Power Control Service provides the switched 5 V supply. The daughter board
 maps that supply from a dedicated logical Target Interface power-service
@@ -191,10 +222,11 @@ supplier-documented external-power connection for each assessed target.
 3.3 V routing power and switched 5 V target power. The host connection to the
 target carries USB data and ground with no VBUS.*
 
-The switching implementation shall provide adequate current capacity,
-reverse-current protection and predictable removal of residual target-rail
-charge. Exact ratings, sensing thresholds and circuit topology remain detailed
-design decisions.
+The switching and monitoring implementation shall provide adequate current
+capacity, reverse-current protection, acceptable shunt and switch voltage
+drop, and predictable removal of residual target-rail charge. Exact ratings,
+measurement ranges, accuracy, sensing thresholds and circuit topology remain
+detailed design decisions.
 
 ### 3.6 Host USB During Controlled Power Cycling
 
@@ -240,7 +272,9 @@ wake and handshake connections for back-power paths.
 Power-related test evidence shall record the Operating Mode, target power
 source, relevant USB No-VBUS Cable connections and Test Block Supply Rail
 state. Supervisor-controlled tests shall record both the commanded and
-observed target-power state.
+observed target-power state. They shall also record target-position voltage,
+current and power measurements where required by the test, including the
+settled sleep-current measurement for a low-power test.
 
 The prototype shall demonstrate:
 
@@ -252,30 +286,321 @@ The prototype shall demonstrate:
 5. supervised removal and restoration of target 5 V
 6. absence of material back-power through every attached path
 7. restoration of the selected console or USB connection after power cycling
+8. target-position current measurement across the accepted operating and
+   sleep-current ranges
 
 ### 3.8 Downstream Decisions
 
 Detailed design shall select the grouped Operating Mode header circuit, 3.3 V
 source connector, Test Block and target-power switches, supply ratings,
-sensing method, discharge behaviour and protection components. Prototype
-measurements shall determine whether any target requires USB data isolation in
-addition to the VBUS disconnection in its USB No-VBUS Cable.
+Target Power Monitor, shunt arrangement, measurement ranges, discharge
+behaviour and protection components. Prototype measurements shall demonstrate
+the required peak-current and sleep-current coverage and determine whether any
+target requires USB data isolation in addition to the VBUS disconnection in
+its USB No-VBUS Cable.
 
 Physical Target Interface contacts are not assigned by this specification.
 
-## 4. Harness Supervisor
+## 4. Target Control, Console And Firmware Flashing
+
+This service provides the host-facing **endpoints** used to prepare, run,
+observe and recover target tests. An endpoint is a distinct communication
+connection between the host and target, such as USB, UART or a wireless
+console, that can provide one or more service roles. Through these endpoints,
+**Test Control** sends JavaScript tests through the REPL and collects their
+results, while **Console** provides interactive REPL and diagnostic access.
+**Firmware Flashing** installs the selected firmware build, and **Recovery**
+restores flashing or console access when the runtime is unavailable. These
+services remain independent of the Test Block routing fabric and the
+capability under test.
+
+Every selected test configuration shall identify one direct host-facing
+test-control endpoint. The Target Profile declares the legal endpoints; the
+Resolved Test Configuration selects the endpoint used for that run.
+
+### 4.1 Roles And Ownership
+
+One physical endpoint may provide several logical roles:
+
+| Role | Purpose |
+|---|---|
+| Test Control | Sends JavaScript tests through the REPL and collects their results |
+| Console | Provides interactive REPL and diagnostic access |
+| Firmware Flashing | Installs the selected firmware build on the target |
+| Recovery | Restores firmware-flashing or console access when the runtime is unavailable |
+
+The host runner owns the selected target endpoint. The Harness Supervisor uses
+its own USB connection. The host connects directly to the target for console
+access and firmware flashing without involving the Supervisor. Only one host
+process or tool shall own a physical endpoint at a time.
+
+The selected path shall be direct or target-specific. It shall not depend on a
+Test Block route that target firmware must first establish, because the host
+may need the path before routing is configured or to recover from firmware or
+routing failure. Hardware-debug probes remain host-coordinated Adapter
+Services rather than reusable harness hardware.
+
+Where an endpoint and a Test Block share target pins, the connection matrix
+shall define mutually exclusive paths with a safe disconnected default. The
+selected test-control endpoint shall remain independent of the route under
+test.
+
+### 4.2 Path Selection
+
+In both Standalone modes, the normal powered target USB or documented
+alternative provides the host-facing path. In `SUPERVISOR`, the host still
+connects directly to the target, normally through the configured USB No-VBUS
+connection while harness-switched 5 V powers the target. `OFF` does not
+disconnect an independently powered host connection.
+
+The Target Profile shall identify each available endpoint, its supported
+roles, power behaviour, firmware dependencies, conflicts and required
+preconditions. When the normal endpoint is itself under test, an independent
+alternative shall be selected. If none is available, that capability is
+unavailable rather than failed.
+
+A target with multiple USB, UART, debug or wireless paths shall give each a
+stable logical role. Rack configuration additionally maps each selected USB
+role to the stable Linux path defined in Section 8.5.
+
+### 4.3 Safety, Recovery And Evidence
+
+No connection used for test control, console, firmware flashing or debug may
+back-power an unpowered target or compete with another driver. USB No-VBUS
+removes one supply path but does not replace powered-off validation of USB
+data, UART, I2C, debug and other attached signals.
+
+Firmware flashing shall have exclusive use of its endpoint. If the runtime path
+fails, recovery shall use the declared direct reset, boot, power-cycle,
+ROM-loader or debug path rather than an unverified Test Block route. After
+flashing or recovery, the host shall verify the expected target and firmware
+identity where the runtime permits.
+
+Evidence shall record the selected logical role and endpoint, Operating Mode,
+target power source, stable host identifier, connection power state,
+preconditions, ownership changes and observed target and firmware identity.
+Exact connectors, target-specific adapters, host software and Target Profile
+storage format remain downstream decisions.
+
+## 5. Direct Reset And Boot Control
+
+This service provides the direct target controls used to restore a known
+execution state and, where supported, select a firmware-flashing mode. It
+enables the test system to restart an unresponsive target, enter its ROM or
+board bootloader and perform repeatable reset and boot tests without depending
+on responsive target firmware or the Test Block routing fabric.
+
+**Reset Request** asserts the target's reset or enable input. **Boot Request**
+is an optional condition applied with reset or power-up to select a target
+bootloader or other recovery mode. Target power cycling remains the separate
+Power Control Service defined in Section 3.
+
+### 5.1 Controls And Ownership
+
+| Control | Purpose |
+|---|---|
+| Reset Request | Forces a direct hardware reset and returns the target to its normal boot path |
+| Boot Request | Selects a target-specific bootloader or recovery path during reset or power-up |
+
+The host runner owns the reset or boot operation. In `SUPERVISOR`, the Harness
+Supervisor performs the requested action through the Supervisor Interface and,
+in rack operation, the selected Rack Control Endpoint. In either Standalone
+mode, the host uses the target's supported automatic sequence or the operator
+uses the declared manual controls.
+
+A host endpoint may provide the same logical controls through a target-provided
+automatic sequence, such as USB-UART DTR/RTS driving onboard reset and boot
+circuitry. The Target Profile shall describe this as an endpoint capability
+rather than a separate Control Service.
+
+The provisional `TI_TARGET_RESET_N` service is an active-low open-drain
+control that defaults released. The optional provisional `TI_BOOT_REQUEST`
+service is asserted by pulling its open-drain Interface control low and is
+otherwise released. The target daughter board provides any inversion, level
+adaptation, protection or isolation needed by the target.
+
+Onboard automatic-download circuits, debug probes, manual controls and harness
+controls may share a target reset or boot node only when their inactive states
+are compatible and no source can oppose another. Neither control shall depend
+on target-controlled I2C or a Test Block route.
+
+### 5.2 Modes And Target Options
+
+In `OFF`, harness-driven reset and boot controls remain inactive, although an
+independently powered target may still respond to its onboard controls. Both
+Standalone modes retain the target's documented manual or host-endpoint
+sequence. `SUPERVISOR` adds automated reset and optional boot sequencing
+without changing their target-side meaning.
+
+Direct reset is available when the target exposes a safe reset or enable
+input. Boot Request is optional because boot polarity, sampling and onboard
+download arrangements differ between targets. A target without a safe direct
+reset mapping shall declare another recovery action, such as controlled power
+cycling, ROM USB or a debug adapter.
+
+The Target Profile shall state the available controls, their daughter-board
+mappings, active polarity, timing, power dependencies, onboard circuit
+interactions and supported Operating Modes. It shall also identify any manual
+action or connection precondition.
+
+### 5.3 Sequencing, Safety And Evidence
+
+A normal reset shall leave Boot Request inactive, assert Reset Request for the
+target's required minimum interval, release it and wait for the selected
+control endpoint to return. The host shall then verify the expected target and
+runtime identity.
+
+A firmware-flashing boot sequence shall assert Boot Request, perform the
+target-defined reset or power-up sequence, then release Boot Request at the
+time declared by the Target Profile. After flashing, the service shall restore
+the normal boot state, restart the target and verify the expected runtime where
+the endpoint permits.
+
+Reset and Boot Request shall default inactive before software configuration,
+during Supervisor loss and while the relevant control circuitry is unpowered.
+They shall not back-power the target, disturb unsafe strapping states or leave
+the target held in reset or bootloader mode after a failed operation.
+
+Evidence shall record the requested action, owner, Operating Mode, target
+power state, asserted controls, configured timing, observed endpoint
+disconnection or return, resulting boot mode and final target and firmware
+identity. Exact circuits, physical Target Interface contacts and target-specific
+adaptation remain downstream decisions.
+
+## 6. Routing Control Service
+
+This service controls the electronic switches on the reusable harness board
+that connect target GPIO signals to Standard Test Blocks. This capability
+allows a target GPIO to be reused for different Test Blocks from one test
+configuration to another. It also allows the same fixed Test Blocks to support
+targets with different GPIO and hardware-peripheral assignments, without
+manually rewiring the harness.
+
+A **target routing connection**, called a **route entry** in the Target Routing
+Envelope, carries one target GPIO signal through the Target Interface into the
+Routing Fabric. **Route Selection** uses route-selection switches to connect
+those entries to predefined Test Block signals.
+
+**Block-local connection switching** controls switches inside a Test Block
+after the target signals have reached it. For example, Block 7 selects whether
+its protected UART endpoints are cross-connected for a two-UART test,
+connected to an external peer, or isolated.
+
+Before a test, the service automatically applies and verifies the complete
+switch configuration that connects the selected target pins to the required
+Test Block. After the test, it clears those connections.
+
+**Routing-control devices** are the I2C-controlled expanders and switches that
+implement these paths. Route Selection and Block-Local Connection Switching
+remain distinct logical functions even where they share an I2C controller.
+The Target Profile declares the legal configurations; the Resolved Test
+Configuration records the complete configuration selected for a test.
+
+### 6.1 Functions And Ownership
+
+| Function | Purpose |
+|---|---|
+| Route Selection | Connects target route entries to their legal Test Block destinations using route-selection switches |
+| Block-Local Connection Switching | Selects a Test Block's predefined internal connection arrangement |
+| State Verification | Reads back the commanded routing-control state |
+| Hardware Clear | Returns every controlled path to its safe inactive state without target firmware |
+
+The target is the software owner of the Routing Control Service in every
+powered Operating Mode. The host requests a logical capability through the
+target's Test Control endpoint, and the Target Support Module applies and
+verifies the resolved configuration. The Harness Supervisor does not own the
+target routing-control I2C or select arbitrary routes.
+
+Routing control uses the mandatory direct `TI_I2C_SDA` and `TI_I2C_SCL`
+connections. The bus shall be usable before any Test Block route is configured
+and shall remain independent of the path it controls. The Supervisor may
+invoke Hardware Clear through a direct control, but it does not require access
+to the routing-control I2C.
+
+### 6.2 Modes And Configuration Options
+
+In `OFF`, routing-control power is removed and every controlled path shall
+remain in its safe inactive state. In `STANDALONE`, target 3.3 V powers the
+Routing Logic Supply Rail; in `STANDALONE EXT` and `SUPERVISOR`, the external
+regulated 3.3 V source powers it. The target remains the routing owner in all
+three powered modes.
+
+In `SUPERVISOR`, the Routing Logic Supply Rail remains powered while target
+power is cycled. Hardware Clear establishes the safe routing state before the
+target starts or is removed, and target firmware establishes the selected
+configuration after startup.
+
+The [accepted Target Routing Envelope](TargetRoutingEnvelope_V2.md) defines the
+common R0-R6 route-entry minimum, legal direct alternatives and required
+simultaneous configurations. A Target Profile may therefore use the common
+routed form, direct Test Block paths or a reviewed combination of both. It
+shall declare the legal route sets, block-local selections, conflicts,
+exclusive reuse and unavailable capabilities. The service does not provide an
+arbitrary crosspoint matrix.
+
+### 6.3 Sequencing, Safety And Evidence
+
+A route change shall use this safe order:
+
+1. place affected target and peer drivers in their inactive or high-impedance
+   states
+2. clear connections that conflict with the requested configuration
+3. apply the complete legal route and block-local selection
+4. read back and verify the commanded state
+5. enable target or Test Block drivers only after verification
+6. disable drivers, clear the configuration and verify the safe state after
+   the test
+
+An invalid or incomplete configuration shall be rejected before any driver is
+enabled. Controlled paths shall default high impedance before software
+configuration, during reset and after Hardware Clear. No configuration may
+connect two active outputs, apply more than one active source to an input,
+leave conflicting direct and routed paths enabled or back-power an unpowered
+target. Target boot, strap, console and recovery signals shall remain safe
+throughout route changes.
+
+A hardware clear associated with reset or recovery shall return routing and
+block-local switches to their safe state without target I2C activity.
+Controller readback confirms the commanded control state; prototype
+continuity and electrical tests verify that the physical path implements it.
+
+Evidence shall record the Target Profile revision, requested logical
+capability, resolved route and block-local selections, control writes,
+readback, safe state before and after the test, and any rejected or failed
+operation. Exact switch topology, components, I2C addresses, register map,
+physical Target Interface contacts and signal-integrity limits remain owned by
+the routing specification, connection matrix and schematic work.
+
+## 7. Harness Supervisor
 
 The optional **Harness Supervisor** is a removable, independently powered MCU
 board that executes host-requested Control Service operations when they cannot
 depend on responsive target firmware. It connects to the host through USB and
 to each controlled harness through its Supervisor Interface, either directly
-or through the Rack Control Backplane defined in Section 5. Its absence does
+or through the Rack Control Backplane defined in Section 8. Its absence does
 not prevent Standalone operation.
 
 The Supervisor is a recovery controller and a defined test peer, not a
 general-purpose instrumentation platform or routing controller.
 
-### 4.1 Responsibilities And Limits
+A typical supervised test uses this workflow:
+
+1. The host selects the Resolved Test Configuration and sends the next
+   **service request**, such as position selection, power control or recovery,
+   to the Supervisor.
+2. The Supervisor performs the action through the selected Rack Control
+   Endpoint and returns its command state, local **observations** and
+   timestamps to the host.
+3. After the target endpoint is available, the host starts the test directly
+   on the target. The target establishes its required routes and executes the
+   test.
+4. During the test, the host may request a Supervisor event or wireless-peer
+   action. The Supervisor returns the corresponding feedback while the target
+   independently returns its **test result**.
+5. The host correlates the target result with the Supervisor observations,
+   records the complete result and requests the safe inactive state.
+
+### 7.1 Responsibilities And Limits
 
 The Supervisor shall:
 
@@ -283,8 +608,8 @@ The Supervisor shall:
   optional boot recovery
 * operate one two-signal event handshake for sleep/wake and wireless tests
 * provide Wi-Fi and BLE functional-test peers
-* when requested, return its configuration, actions, observations and
-  timestamps to the host
+* return a structured result for every action, including its commands,
+  required observations, timestamps and completion status
 
 The target establishes and verifies ordinary Test Block routes through its
 direct routing-control I2C before executing a test or entering sleep. The
@@ -296,7 +621,49 @@ logic analyser or focused test accessory may use the Test Block observation
 points when such evidence is required. The Supervisor also does not replace
 the Target Support Module or a hardware debug probe.
 
-### 4.2 Sleep And Wake Service
+### 7.2 Action And Observation Contract
+
+The host owns each Supervisor operation. It sends one bounded action request;
+the Supervisor either rejects the request without changing the harness or
+executes it and returns a structured result. The result shall distinguish:
+
+* the **commanded state** written to a control device
+* the **local observation** returned by control readback, a digital input or
+  the Target Power Monitor
+* the **system outcome** observed through the target endpoint or test result
+
+Command readback alone shall not be reported as proof of an electrical or
+target-level outcome.
+
+Each request shall identify the action, transaction identifier, rack position
+where applicable, parameters, any required timing and timeout. Each result
+shall return the same transaction identifier, acceptance state, start and
+completion timestamps, commands issued, required local observations, final
+local state and any rejection, failure or timeout reason. Exact command names,
+encoding and host transport remain implementation decisions.
+
+The minimum action and observation contract is:
+
+| Action | Supervisor operation | Required local observation | System outcome |
+|---|---|---|---|
+| Select rack position | Makes the previous position inactive and selects one TCA9548A channel | Previous-position safe state, multiplexer selection readback and response from the selected Rack Control Endpoint | Host verifies the configured rack-position mapping |
+| Set target power | Controls the selected target 5 V switch | Target Power Monitor voltage confirms the requested on or off state; current and power are also returned | Host verifies target-endpoint appearance or removal where applicable |
+| Set Test Block power | Controls the selected Test Block Supply Rail switch | MCP23008 control-state readback | Target verifies the required Test Block devices before testing |
+| Reset or boot | Operates the direct reset and optional boot stages using Target Profile timing | Control-state readback and transition timestamps | Host verifies endpoint return and the resulting runtime or boot mode |
+| Hardware Clear | Invokes the direct route-safe action | Control-state readback and completion timestamp | Target subsequently establishes and verifies the required routes |
+| Event handshake | Drives `SUP_EVENT_OUT` and observes `SUP_EVENT_IN` | Output state, captured input state and timestamps | Host correlates the target result with the Supervisor observations |
+| Wireless peer operation | Performs the requested Wi-Fi or BLE peer exchange | Peer configuration, exchange result and timestamps | Host correlates the target and Supervisor results |
+| Make all positions inactive | Disables target and Test Block power, releases reset, boot and event outputs, and closes rack-position channels | Safe control-state readback and target-power-off observation for every accessible position | Host confirms removal of target endpoints where applicable |
+
+A request is complete only when its required local observations have been
+obtained and satisfy the action-specific completion condition. An invalid
+request or unmet precondition shall be rejected without changing the active
+configuration. A failed or timed-out action shall report the mismatch and
+invoke the defined safe recovery action before another position or test is
+selected. Supervisor timestamps provide ordered event correlation; precision
+waveform timing is not implied.
+
+### 7.3 Sleep And Wake Service
 
 Sleep and wake testing shall reuse the target-controlled MCP23017 in Test Block
 3 and its existing `TI_I2C_INT` path. This avoids a separate wake-signal route
@@ -306,8 +673,11 @@ Before sleeping, the target configures a spare MCP23017 GPIO as an interrupt
 input and configures `TI_I2C_INT` as its wake input. The protected Supervisor
 `SUP_EVENT_OUT` signal then changes the MCP23017 input while the target sleeps.
 The expander holds its interrupt active until the target wakes and reads the
-interrupt state. The Target Profile shall map `TI_I2C_INT` to a wake-capable
-target GPIO when this test is supported.
+interrupt state. A Target Profile supporting this service shall map
+`TI_I2C_INT` to a GPIO capable of every declared sleep depth and shall record
+those supported depths. The design-basis ESP32-C3 shall support timer wake and
+Supervisor event wake from both light and deep sleep; its accepted R6 mapping
+therefore uses RTC-domain `D5`.
 
 The target may acknowledge the event by configuring another spare MCP23017
 GPIO as an output connected to `SUP_EVENT_IN`. The Supervisor records the
@@ -322,11 +692,11 @@ timestamped acknowledgement require `SUPERVISOR` mode. The MCP23017 and its
 interrupt pull-up shall remain powered throughout the test; `STANDALONE EXT`
 is used if target 3.3 V is not maintained during sleep.
 
-Independent waveform capture and sleep-current measurement are not implied by
-this service; either shall be added only when a defined test demonstrates the
-need.
+Independent waveform capture is not implied by this service. In `SUPERVISOR`,
+the Target Power Monitor defined in Section 3 provides sleep-current evidence;
+Standalone sleep-current measurement requires external instrumentation.
 
-### 4.3 Wi-Fi And BLE Peer Service
+### 7.4 Wi-Fi And BLE Peer Service
 
 Wi-Fi and BLE tests that require another endpoint shall run in `SUPERVISOR`
 mode and use the Supervisor as that endpoint. If the Supervisor is absent,
@@ -349,12 +719,12 @@ correlate a wireless event with a physical action. The Supervisor may change
 acknowledge it through `SUP_EVENT_IN`. A timeout leaves the independent wired
 recovery path available.
 
-### 4.4 Supervisor Interface
+### 7.5 Supervisor Interface
 
 The Supervisor Interface is separate from the Target Interface. It shall carry
 the minimum connections needed for:
 
-* target-power control and observation
+* target-power control, rail observation and power telemetry
 * direct reset and optional boot control
 * Test Block Supply Rail control
 * `SUP_EVENT_OUT` and `SUP_EVENT_IN`
@@ -380,11 +750,11 @@ side unpowered, neither signal shall back-power the other side. MCP23017 reset
 defaults and external biasing shall establish these states without software.
 
 This is a functional inventory, not a Target Interface contact or local
-MCP23017/MCP23008 GPIO assignment. Section 5 defines the prototype rack
+MCP23017/MCP23008 GPIO assignment. Section 8 defines the prototype rack
 transport; the connection-matrix and schematic work own the remaining
 decisions.
 
-### 4.5 Prototype Direction
+### 7.6 Prototype Direction
 
 An ESP32-C3-class board running a stable Espruino tool build is the current
 prototype candidate because it provides a USB connection to the host,
@@ -396,9 +766,9 @@ later designs.
 
 The V2 prototype Supervisor design assumes that the Seeed Studio Grove
 8-Channel I2C Multiplexer/I2C Hub is an integral, replaceable component of the
-Supervisor assembly. Section 5 defines its rack role.
+Supervisor assembly. Section 8 defines its rack role.
 
-## 5. Rack Operation
+## 8. Rack Operation
 
 Rack operation uses one Ubuntu host, one host-powered USB hub and one shared
 Harness Supervisor to operate up to eight independent rack positions. Only
@@ -410,7 +780,7 @@ the targets' Test Blocks, routing fabric or target-controlled I2C buses.
 [Appendix B](#appendix-b-detailed-rack-control-architecture) shows this
 architecture with one rack position expanded to harness-board level.
 
-### 5.1 Terms
+### 8.1 Terms
 
 | Term | Meaning |
 |---|---|
@@ -418,14 +788,15 @@ architecture with one rack position expanded to harness-board level.
 | **Rack position** | One reusable harness board, target daughter board, target board and their fixed rack connections |
 | **Active position** | The single position whose target and Test Block supplies may be enabled for the current test |
 | **Rack Control Backplane** | The Supervisor-owned control connection fanned out to the rack positions |
-| **Rack Control Endpoint** | The MCP23008 on each harness board that implements that position's Supervisor controls and observations |
+| **Rack Control Endpoint** | The MCP23008 on each harness board that implements that position's Supervisor-driven digital controls and observations |
+| **Target Power Monitor** | The peer I2C device on each harness board that measures the switched target supply |
 | **Rack configuration** | The Ubuntu-host file that maps rack position, multiplexer channel, USB path and expected Target Profile |
 
 The Rack Control Backplane is a logical and physical rack boundary, not part
 of the Target Interface. Its Grove-cabled prototype implementation avoids a
 manufactured backplane while preserving fixed rack positions.
 
-### 5.2 Responsibilities And Isolation
+### 8.2 Responsibilities And Isolation
 
 The Ubuntu host runner selects the rack position, coordinates the target
 and Supervisor, and records the result. The Supervisor performs the selected
@@ -441,10 +812,11 @@ upon for bus isolation; powered-off isolation and back-power protection remain
 requirements for each local harness design.
 
 The Rack Control Backplane uses a separate Supervisor-owned I2C bus. It exists
-only to reach the Rack Control Endpoints and does not provide the Supervisor
-with access to target routing or functional I2C devices.
+only to reach the Rack Control Endpoints and Target Power Monitors and does not
+provide the Supervisor with access to target routing or functional I2C
+devices.
 
-### 5.3 Grove-Cabled Prototype Backplane
+### 8.3 Grove-Cabled Prototype Backplane
 
 The prototype Rack Control Backplane shall use the
 [Seeed Studio Grove 8-Channel I2C Multiplexer/I2C Hub](https://wiki.seeedstudio.com/Grove-8-Channel-I2C-Multiplexer-I2C-Hub-TCA9548A/),
@@ -452,11 +824,12 @@ based on the TCA9548A. Its upstream Grove connection attaches to the
 Supervisor. Channels 0 through 7 connect through individual Grove cables to
 the corresponding rack positions.
 
-Each harness board shall provide one Rack Control Endpoint using an MCP23008.
-All eight endpoints may use the same I2C address because the Supervisor opens
-only the selected multiplexer channel. The channel number identifies the
-physical rack position, so the harness boards require no rack-address DIP
-switches, solder links or programmed identity.
+Each harness board shall provide one Rack Control Endpoint using an MCP23008
+and one peer Target Power Monitor. All eight endpoints may use one common I2C
+address and all eight monitors another because the Supervisor opens only the
+selected multiplexer channel. The channel number identifies the physical rack
+position, so the harness boards require no rack-address DIP switches, solder
+links or programmed identity.
 
 Each Grove branch carries:
 
@@ -466,15 +839,16 @@ Each Grove branch carries:
 * rack-control SDA
 * rack-control SCL
 
-`RACK_CONTROL_3V3` powers only the MCP23008 and its small Supervisor-interface
-circuitry. It shall not supply the Routing Logic Supply Rail, Test Block Supply
-Rail or target. The prototype shall operate this Grove system at 3.3 V and
-shall be clearly marked to prevent connection to an unintended 5 V Grove
-system.
+`RACK_CONTROL_3V3` powers only the MCP23008, Target Power Monitor and their
+small Supervisor-interface circuitry. It shall not supply the Routing Logic
+Supply Rail, Test Block Supply Rail or target. The prototype shall operate this
+Grove system at 3.3 V and shall be clearly marked to prevent connection to an
+unintended 5 V Grove system.
 
-The Rack Control Endpoint shall provide the minimum functions needed for:
+The Rack Control Endpoint and Target Power Monitor together shall provide the
+minimum functions needed for:
 
-* target-power control and observation
+* target-power control, rail-state observation and power telemetry
 * Test Block Supply Rail control
 * direct reset and optional boot control
 * `SUP_EVENT_OUT` and `SUP_EVENT_IN`
@@ -500,15 +874,16 @@ edge-accurate waveform capture is not implied. The
 [MCP23008 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23008-and-MCP23008-Data-Sheet-DS20001919.pdf)
 defines the required interrupt-on-change, capture and open-drain behaviour.
 
-The exact MCP23008 GPIO allocation, pull-ups, protection and observation
-signals remain schematic decisions. The upstream bus and every downstream
-branch shall have deliberate pull-up provision; uncontrolled accumulation of
-Grove-module pull-ups is not permitted.
+The exact MCP23008 GPIO allocation, Target Power Monitor selection, shunt and
+range arrangement, pull-ups, protection and observation signals remain
+schematic decisions. The upstream bus and every downstream branch shall have
+deliberate pull-up provision; uncontrolled accumulation of module pull-ups is
+not permitted.
 
-Rack Control Endpoint power controls shall be effective only with the harness
-Operating Mode set to `SUPERVISOR`. In either Standalone mode, the absent or
-unpowered endpoint and its externally biased local interfaces shall be
-harmless.
+Rack Control Endpoint power controls and Target Power Monitor telemetry shall
+be effective only with the harness Operating Mode set to `SUPERVISOR`. In
+either Standalone mode, the absent or unpowered devices and their externally
+biased local interfaces shall be harmless.
 
 The multiplexer shall start with all downstream channels closed and the
 Supervisor shall explicitly open only the selected channel. The Supervisor
@@ -517,7 +892,7 @@ branch holding SDA or SCL low can be disconnected. Seeed's
 [hardware schematic](https://files.seeedstudio.com/products/103020293/document/Grove-8-Channel-I2C-Hub-TCA9548A_v1.0_SCH_190814.pdf)
 is a required input to the detailed Supervisor design.
 
-### 5.4 One-Active-Position Rule
+### 8.4 One-Active-Position Rule
 
 The Supervisor shall expose one logical position-selection operation. Before
 selecting another multiplexer channel, it shall return the current position to
@@ -538,7 +913,7 @@ The one-active-position rule limits test execution, power use, USB result
 ambiguity and use of the shared wireless peer. It is not the mechanism that
 isolates target-side I2C buses.
 
-### 5.5 Host USB And Rack Configuration
+### 8.5 Host USB And Rack Configuration
 
 Rack operation requires an Ubuntu host. Each target USB connection uses a
 fixed, labelled host-hub port and a USB No-VBUS Cable. The Supervisor remains
@@ -557,7 +932,7 @@ target appears, the runner shall query it and verify the expected board and
 firmware identity before testing. A missing, duplicate or mismatched device is
 a configuration failure and shall not be guessed from another available port.
 
-### 5.6 Test Movement And Evidence
+### 8.6 Test Movement And Evidence
 
 To move a test between positions, the host and Supervisor shall:
 
@@ -665,6 +1040,7 @@ flowchart TB
         subgraph Harness1["Reusable harness board"]
             direction LR
             RackMCP["Rack Control<br/>MCP23008"]
+            TargetPowerMonitor["Target Power Monitor<br/>shunt + I2C"]
             Mode["Operating Mode<br/>SUPERVISOR gate"]
             Target5Switch["Target 5 V<br/>power switch"]
             RouteRail["Routing Logic<br/>Supply Rail"]
@@ -705,7 +1081,9 @@ flowchart TB
     Supervisor -.->|"Supervisor I2C"| Mux
 
     Mux -->|"Grove 3.3 V + GND"| RackMCP
+    Mux -->|"Grove 3.3 V + GND"| TargetPowerMonitor
     Mux -.->|"Channel 0 SDA/SCL"| RackMCP
+    Mux -.->|"Channel 0 SDA/SCL<br/>power telemetry"| TargetPowerMonitor
     Mux -.->|"Channels 1–7 Grove SDA/SCL"| OtherPositions
     Control3 -->|"Grove control 3.3 V"| OtherPositions
 
@@ -723,8 +1101,8 @@ flowchart TB
     Ext5 -->|"External 5 V"| Target5Switch
     RackMCP -.->|"TARGET_POWER_EN"| Mode
     Mode -.->|"Gated target-power enable"| Target5Switch
-    Target5Switch -.->|"TARGET_POWER_STATE"| RackMCP
-    Target5Switch -->|"Switched target 5 V"| TI
+    Target5Switch -->|"Switched target 5 V"| TargetPowerMonitor
+    TargetPowerMonitor -->|"TI_SWITCHED_TARGET_5V"| TI
 
     Ext3 -->|"External 3.3 V"| RouteRail
     RouteRail -->|"Routing Logic 3.3 V"| Routing
@@ -764,16 +1142,16 @@ flowchart TB
     linkStyle 0,1 stroke:#2563eb,stroke-width:4px
 
     %% Green lines are 3.3 V power paths.
-    linkStyle 2,3,4,6,9,13,21,22,23,26,27,28,38 stroke:#15803d,stroke-width:4px
+    linkStyle 2,3,4,6,7,11,15,23,24,25,28,29,30,40 stroke:#15803d,stroke-width:4px
 
     %% Red lines are target 5 V and adapted target-power paths.
-    linkStyle 14,16,20,36,37 stroke:#b91c1c,stroke-width:4px
+    linkStyle 16,18,21,22,38,39 stroke:#b91c1c,stroke-width:4px
 
     %% Purple lines are the shared open-drain rack interrupt.
-    linkStyle 10,11,12 stroke:#7e22ce,stroke-width:5px
+    linkStyle 12,13,14 stroke:#7e22ce,stroke-width:5px
 
     %% Orange lines are data or control paths.
-    linkStyle 5,7,8,15,17,18,19,24,25,29,30,31,32,33,34,35,39,40,41,42,43,44 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
+    linkStyle 5,8,9,10,17,19,20,26,27,31,32,33,34,35,36,37,41,42,43,44,45,46 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
 ```
 
 Blue lines are powered USB paths, green lines are 3.3 V power paths, red lines

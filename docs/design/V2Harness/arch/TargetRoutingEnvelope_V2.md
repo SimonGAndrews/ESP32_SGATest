@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.2
+**Version:** 0.3
 
-**Last Updated:** 17 July 2026
+**Last Updated:** 26 July 2026
 
 ## 1. Purpose
 
@@ -31,7 +31,7 @@ This document records:
 * fixed direct connections and candidate routing entries
 * Test Block assignments that must operate simultaneously
 * required target-resource reuse and capability exclusions
-* console, recovery, routing-ownership and powered-off constraints
+* console, recovery, routing-control and powered-off constraints
 * the cross-target requirements derived for the routing fabric
 
 It does not define:
@@ -91,21 +91,23 @@ The target assessments shall apply these accepted routing inputs:
   sources, back-power and unsafe loading
 * unavailable or deliberately excluded capabilities are reported explicitly
 
-### 4.2 Routing-Control Working Assumptions
+### 4.2 Accepted Routing-Control Constraints
 
-The following assumptions remain subject to the routing and Control Service
-reviews:
+The target is the software owner of the direct routing-control I2C bus in every
+powered Operating Mode. The host requests capabilities through the target's
+Test Control endpoint; the Harness Supervisor neither owns this bus nor selects
+arbitrary routes.
 
-* routing ownership can be manually selected between the target and an optional
-  external host-side controller
-* the target is the normal routing controller when the harness operates without
-  the optional Harness Supervisor
-* the first routing prototype is not dependent on completion of the Harness
-  Supervisor
-* routing-control and switching devices use an independently regulated harness
-  3.3 V supply and remain safe when target power is absent
-* the detailed ownership selector, Supervisor Interface and automatic-recovery
-  behaviour are downstream design decisions
+The routing design shall also provide an independent Hardware Clear action that
+returns every controlled path to its safe inactive state without responsive
+target firmware or access to the routing-control I2C bus. This preserves a
+recovery path without making the first routing prototype dependent on completion
+of the Harness Supervisor.
+
+Routing-control and switching devices use an independently regulated harness
+3.3 V supply and remain safe when target power is absent. The detailed switch
+topology, state-readback mechanism and Hardware Clear circuit remain downstream
+routing-design decisions.
 
 ## 5. Design-Basis Target Set
 
@@ -163,7 +165,7 @@ It must also provide:
 * simultaneous connection of both 1-Wire feedback inputs
 * conditional direct access to `D20`/`D21` without contention from the onboard
   USB-UART bridge
-* target/host I2C ownership isolation and an unpowered-target-safe state
+* target-owned routing-control I2C and an unpowered-target-safe state
 * high-impedance switch defaults powered from the independent harness 3.3 V
   rail
 
@@ -207,28 +209,30 @@ Board schematic and V1 evidence establish the supporting constraints:
   assigning them to V2 Test Block and direct-I2C roles prevents simultaneous use
   of an external JTAG probe, while the separate native USB Serial/JTAG interface
   on `D18` and `D19` remains the preferred debug and alternate test-control path
+* `D0` through `D5` are RTC-domain GPIOs that can provide an external
+  deep-sleep wake input; the `TI_I2C_INT` mapping must use one of these pins so
+  the design-basis C3 supports both light- and deep-sleep event-wake testing
 
 #### Fixed Direct And Recovery Paths
 
 | GPIO or board signal | Provisional fixed purpose | Qualification |
 |---|---|---|
-| `D6` | `TI_I2C_SCL` | Direct shared functional and routing-control bus; target side of the routing-ownership selector |
-| `D7` | `TI_I2C_SDA` | Direct shared functional and routing-control bus; target side of the routing-ownership selector |
+| `D6` | `TI_I2C_SCL` | Direct shared functional and routing-control bus; target-owned in every powered Operating Mode |
+| `D7` | `TI_I2C_SDA` | Direct shared functional and routing-control bus; target-owned in every powered Operating Mode |
 | `D18`/`D19` | Native USB Serial/JTAG | Direct daughter-board USB connector Adapter Service; independent test-control path for UART crosslink tests when supported by the loaded build |
 | `D20`/`D21` | UART0 RX/TX | Normal onboard USB-UART console; conditionally become one endpoint of the UART Test Block |
 | `D9` | Provisional `TI_BOOT_REQUEST` mapping | Reserved Control Service or Adapter Service path to the active-low BOOT/download function |
 | `EN` | Provisional `TI_TARGET_RESET_N` mapping | Direct open-drain reset Control Service path outside the Test Block GPIO inventory |
 
-The normal standalone arrangement selects the target as routing-I2C owner.
-External-host ownership isolates `D6` and `D7` from the harness I2C bus; it is a
-setup, diagnosis or recovery state rather than a state in which the target can
-simultaneously run the functional I2C test. Latched routes may be configured by
-the external owner before returning ownership to the target.
+The target controls routing over `D6` and `D7` in every powered Operating Mode.
+The bus is available before any Test Block route is established. The Harness
+Supervisor does not connect to this bus; recovery instead uses the independent
+Hardware Clear action.
 
 The harness I2C pull-ups and routing devices are powered from the independent
-harness 3.3 V supply. The ownership selector must therefore isolate an
-unpowered target from SDA and SCL. The target must not remain selected when
-harness pull-ups could back-power it.
+harness 3.3 V supply. The interface implementation must isolate an unpowered
+target from SDA and SCL, or otherwise demonstrate that the pull-ups cannot
+back-power it.
 
 #### Provisional Logical Role Mapping
 
@@ -243,16 +247,16 @@ target GPIOs:
 | `D2` | `TI_GPIO_LOOP_A_IN`; `TI_I2C_FB`; `TI_SPI_CS_ADC`; `TI_ONEWIRE_GPIO_A_FB` |
 | `D3` | `TI_GPIO_LOOP_B_OUT`; `TI_SPI_MOSI`; `TI_UART_A_TX` |
 | `D4` | `TI_SPI_SCK`; `TI_UART_A_RX` |
-| `D5` | `TI_ANALOG_PWM_OUT`; `TI_RGB_DATA` |
-| `D10` | `TI_GPIO_LOOP_B_IN`; `TI_I2C_INT`; `TI_SPI_CS_EXT`; `TI_ONEWIRE_GPIO_B_FB` |
+| `D5` | `TI_GPIO_LOOP_B_IN`; `TI_I2C_INT`; `TI_SPI_CS_EXT`; `TI_ONEWIRE_GPIO_B_FB` |
+| `D10` | `TI_ANALOG_PWM_OUT`; `TI_RGB_DATA` |
 | `D6` | direct `TI_I2C_SCL` |
 | `D7` | direct `TI_I2C_SDA` |
 | `D20` | conditional direct `TI_UART_B_RX` |
 | `D21` | conditional direct `TI_UART_B_TX` |
 
 For cross-target routing analysis, the seven routed entries are provisionally
-identified as R0=`D0`, R1=`D1`, R2=`D2`, R3=`D3`, R4=`D4`, R5=`D5` and
-R6=`D10`. R0-R6 name common route-entry functions, not physical Target
+identified as R0=`D0`, R1=`D1`, R2=`D2`, R3=`D3`, R4=`D4`, R5=`D10` and
+R6=`D5`. R0-R6 name common route-entry functions, not physical Target
 Interface contacts or target GPIOs; their final contract names remain subject
 to the routing and Target Interface specifications.
 
@@ -260,38 +264,44 @@ The required concurrent configurations are:
 
 | Selected capability | Simultaneous C3 assignments |
 |---|---|
-| Block 1 GPIO loopback | `D1 -> D2` and `D3 -> D10` |
-| Block 2 analogue feedback | `D5` PWM output and `D0` target ADC input |
-| Block 3 I2C | direct `D6`/`D7`, `D2` feedback and `D10` interrupt |
-| Block 4 SPI | `D4` SCK, `D3` MOSI, `D1` MISO, `D2` ADC CS and `D10` extension CS |
+| Block 1 GPIO loopback | `D1 -> D2` and `D3 -> D5` |
+| Block 2 analogue feedback | `D10` PWM output and `D0` target ADC input |
+| Block 3 I2C | direct `D6`/`D7`, `D2` feedback and `D5` interrupt |
+| Block 4 SPI | `D4` SCK, `D3` MOSI, `D1` MISO, `D2` ADC CS and `D5` extension CS |
 | Blocks 2 and 4 analogue observation | all seven routed entries: Block 2 assignments plus the five Block 4 assignments |
-| Block 5 1-Wire and GPIO | `D0` DQ with simultaneous feedback on `D2` and `D10` |
+| Block 5 1-Wire and GPIO | `D0` DQ with simultaneous feedback on `D2` and `D5` |
 | Block 7 UART crosslink | `D3` TX to `D20` RX and `D21` TX to `D4` RX |
-| Block 9 addressable RGB | `D5` data output |
+| Block 9 addressable RGB | `D10` data output |
 
 The Block 5 feedback mapping implements the accepted exclusive reuse of the
-Block 1 input resources on `D2` and `D10`. The additional C3 reuse between
+Block 1 input resources on `D2` and `D5`. The additional C3 reuse between
 separately selected blocks is a proposed connection-matrix result, not a new
 requirement for simultaneous block operation.
 
 #### Changes From The Earlier C3 Study
 
 The rebaselined mapping resolves the earlier analogue-observation conflict by
-moving `TI_SPI_CS_ADC` to conditional strapping pin `D2` and retaining `D5` for
-PWM. The earlier allocation assigned both PWM output and the MCP3008 chip
-select to `D5`, which cannot generate the analogue stimulus while reading the
-same `ANALOG_FB` node through MCP3008 CH0.
+moving `TI_SPI_CS_ADC` to conditional strapping pin `D2`. PWM and
+addressable-RGB output use `D10`; the earlier allocation assigned both PWM
+output and the MCP3008 chip select to `D5`, which cannot generate the analogue
+stimulus while reading the same `ANALOG_FB` node through MCP3008 CH0.
 
 The rebaselined mapping also provides the second DS2413 feedback role and the
 external addressable-RGB Test Block through simultaneous feedback assignments
-on `D2`/`D10` and the routed RGB assignment on `D5`. The earlier study omitted
+on `D2`/`D5` and the routed RGB assignment on `D10`. The earlier study omitted
 both capabilities.
 
 Full Block 3 feedback/interrupt testing is not simultaneous with full Block 4
-operation because `D2` and `D10` are reused as the two SPI chip selects. The
+operation because `D2` and `D5` are reused as the two SPI chip selects. The
 direct I2C bus remains electrically available, but combined functional
 I2C-feedback/interrupt and two-device SPI testing is not an accepted cross-block
 concurrency requirement.
+
+The R5/R6 GPIO assignment was revised after accepting the Supervisor
+sleep/wake service. R6 now maps `TI_I2C_INT` to RTC-domain `D5`, allowing the
+MCP23017 interrupt path to wake the C3 from both light and deep sleep. R5 moves
+the PWM and addressable-RGB roles to general output `D10`; the reusable
+routing-fabric functions and seven-entry minimum are unchanged.
 
 #### UART And Adapter-Service Qualification
 
@@ -312,15 +322,16 @@ The preferred C3 hardware-debug path is native USB Serial/JTAG on `D18` and
 It does not reduce the seven Test Block routing entries. External four-wire
 JTAG on `D4` through `D7` is an optional diagnostic configuration that
 temporarily makes the corresponding harness assignments unavailable. Native
-USB VBUS handling and prevention of competing target-power sources remain
-power Control Service and Adapter Service design decisions.
+USB VBUS handling shall follow the accepted Power Control Service;
+target-specific isolation and prevention of competing sources remain Adapter
+Service design decisions.
 
 Hardware reset maps the provisional direct `TI_TARGET_RESET_N` service to the
 board `EN`/reset circuit. Optional automatic download maps the provisional
 `TI_BOOT_REQUEST` service to active-low `D9`. The daughter-board implementation
 must coexist safely with the onboard CP2102N automatic-download circuit; exact
-isolation and reset/boot sequencing remain open Control Service and Adapter
-Service decisions.
+isolation remains an Adapter Service decision, and the Target Profile shall
+define the reset/boot sequencing required by the accepted Control Service.
 
 ### 7.2 ESP32 DevKitC V4
 
@@ -388,7 +399,7 @@ or pull-down resistors, but remain suitable for defined input roles.
 | `EN` | Provisional `TI_TARGET_RESET_N` mapping | Direct open-drain reset service outside the Test Block GPIO inventory |
 | `D0` and onboard automatic-download circuit | Provisional active-low `TI_BOOT_REQUEST` mapping | Reserved Control or Adapter Service path; must coexist with the USB-UART bridge control circuit |
 | `D12`-`D15` JTAG functions | Optional external ESP-Prog-class hardware debug | Dedicated daughter-board Adapter Service group; no Test Block pin conflict in the proposed V2 mapping |
-| Target supply path | Normal USB power or one deliberately selected external supply | Power Control Service subject; supplies must remain mutually exclusive |
+| Target supply path | Normal USB power or one deliberately selected external supply | Follow the accepted Power Control Service; the Target Profile shall identify the selected source and any Adapter Service |
 
 The preferred source-level debug method is an external ESP-Prog-class adapter
 using OpenOCD on `D12` TDI, `D13` TCK, `D14` TMS and `D15` TDO. The daughter
@@ -456,19 +467,19 @@ tables.
 | Block 7 UART crosslink | R3 `D23` TX to direct endpoint-B RX `D36`; direct endpoint-B TX `D4` to R4 `D18` RX |
 | Block 9 addressable RGB | R5 `D27` routed to the protected RGB output |
 
-Test setup first selects target or external routing ownership, establishes the
-common route set and verifies its safe state. Block 7 then uses its separate
+Target test setup establishes the common route set and verifies its safe state
+through the direct routing-control I2C. Block 7 then uses its separate
 UART connection switches to cross-connect the two protected UART endpoints or
 connect a selected endpoint to an external peer, while isolating conflicting
 drivers. UART0 on `D1`/`D3` remains the independent test-control path
 throughout the UART test.
 
-#### Power, USB And Routing-Ownership Qualifications
+#### Power, USB And Routing-Control Qualifications
 
-The target/host ownership selector applies to direct I2C pins `D21`/`D22`.
-External-host ownership isolates the target for setup, diagnosis or recovery;
-target ownership is restored for functional I2C operation. Harness-side
-pull-ups and routing devices must not back-power an unpowered target.
+The target owns routing control over direct I2C pins `D21`/`D22` in every
+powered Operating Mode. The Harness Supervisor does not access this bus;
+recovery uses the independent Hardware Clear action. Harness-side pull-ups and
+routing devices must not back-power an unpowered target.
 
 The DevKitC documentation permits USB, 5 V-header or 3.3 V-header power as
 mutually exclusive alternatives. The V1 harness normally uses the onboard USB
@@ -551,7 +562,7 @@ loads `D38`.
 | `EN` | Provisional `TI_TARGET_RESET_N` mapping | Direct open-drain reset service outside the Test Block GPIO inventory |
 | `D0` and onboard automatic-download circuit | Provisional active-low `TI_BOOT_REQUEST` mapping | Reserved Control or Adapter Service path; must coexist with onboard download control |
 | `D39`-`D42` external JTAG functions | Optional four-wire ESP-Prog-class debug alternative | Deliberately free of Test Block loads; no ordinary Test Block conflict |
-| Target supply path | Either or both onboard USB ports, or one deliberately selected external supply | Power Control Service subject; external and USB supply arrangements must not compete |
+| Target supply path | Either or both onboard USB ports, or one deliberately selected external supply | Follow the accepted Power Control Service; the Target Profile shall identify the selected source and any required USB-power isolation |
 
 The preferred source-level debug path is the built-in USB Serial/JTAG
 controller on `D19`/`D20`, which needs no external probe and can provide JTAG
@@ -622,13 +633,13 @@ Wi-Fi and Bluetooth functional testing requires no additional Test Block
 hardware and uses the host or future Harness Supervisor as the external
 wireless peer.
 
-#### Power, USB And Routing-Ownership Qualifications
+#### Power, USB And Routing-Control Qualifications
 
-The target/host ownership selector applies to direct I2C pins `D10`/`D11`.
-External-host ownership isolates the target for setup, diagnosis or recovery;
-target ownership is restored for functional I2C operation. Independently
-powered pull-ups, routing devices, USB connections and peers must not
-back-power an unpowered target.
+The target owns routing control over direct I2C pins `D10`/`D11` in every
+powered Operating Mode. The Harness Supervisor does not access this bus;
+recovery uses the independent Hardware Clear action. Independently powered
+pull-ups, routing devices, USB connections and peers must not back-power an
+unpowered target.
 
 A controlled target-power-cycle service must account for both USB VBUS paths
 and any external supply. The board permits its two USB ports to supply it
@@ -678,7 +689,7 @@ not reduce the 26 exposed GPIOs, but its antenna keepout must be preserved.
 | `RUN` | Provisional `TI_TARGET_RESET_N` mapping | Direct open-drain reset service; no GPIO cost |
 | BOOTSEL button | ROM USB mass-storage boot entry | Manual recovery on the target; automatic BOOTSEL access is not assumed |
 | Dedicated SWD | Firmware loading and source-level debugging | Raspberry Pi Debug Probe (preferred) or compatible CMSIS-DAP/OpenOCD probe through a daughter-board Adapter Service; no exposed-GPIO cost |
-| `3V3_EN` | Candidate controlled regulator-disable input | Retain for Power Control Service review; do not treat it as proven full source isolation |
+| `3V3_EN` | Candidate controlled regulator-disable input | Retain for target-specific power and recovery evaluation; do not treat it as proven full source isolation |
 
 Pico and Pico W expose SWD through three castellated pads. Pico H and Pico WH
 add a keyed three-pin debug connector. The debug position also differs between
@@ -704,8 +715,8 @@ test runner. These arrangements do not consume additional Test Block GPIOs.
 Power may arrive through USB VBUS or the board supply pins. A controlled power
 cycle must account for every connected source; switching an external harness
 supply alone cannot depower a USB-powered target. `3V3_EN` may offer a useful
-target-specific control action, but its exact semantics belong in the Power
-Control Service design.
+target-specific control action, but its exact semantics belong in the Target
+Profile and Adapter Service design.
 
 #### Provisional Logical Role Mapping
 
@@ -932,11 +943,11 @@ competing supply paths when the onboard USB connection and harness power are
 both present. Exact VBAT, 5 V, VDD and USB-power handling belongs to the power
 Control Service and daughter-board implementation review.
 
-The selectable routing-ownership arrangement applies to the direct `B8`/`B9`
-I2C bus. External-host ownership isolates the target from the harness bus and
-is used for setup, diagnosis or recovery; target ownership is restored for
-functional I2C operation. Harness-side pull-ups and always-powered routing
-devices must not back-power an unpowered Pico through either bus signal.
+The target owns routing control over the direct `B8`/`B9` I2C bus in every
+powered Operating Mode. The Harness Supervisor does not access this bus;
+recovery uses the independent Hardware Clear action. Harness-side pull-ups and
+always-powered routing devices must not back-power an unpowered Pico through
+either bus signal.
 
 The daughter board shall either preserve usable access to the onboard Type-A
 USB plug or provide a target-specific USB socket connected to the Pico 1v4
@@ -1006,7 +1017,7 @@ and compatibility review rather than a routing-envelope input.
 | `D6`/`D8` (`TX`/`RX`) | Conditional 3.3 V wired Espruino console and Block 7 target UART endpoint | One physical UART has two mutually exclusive uses; the available uses and startup constraints must be defined in the Target Profile, and the selected use in the test configuration |
 | Module SWDIO/SWDCLK | Firmware recovery and source-level interpreter debugging | External nRF52-compatible SWD probe through a daughter-board Adapter Service; no 2.54 mm header-GPIO cost |
 | Onboard `D0` button circuit | Bootloader entry and boot without saved code | Provisional active-high `TI_BOOT_REQUEST` adaptation to the button/D0 node; manual button remains the prototype fallback |
-| Target power path | Candidate fallback recovery when no dedicated reset input is available | Controlled power cycling is subject to the Power Control Service design; no Test Block GPIO cost |
+| Target power path | Candidate fallback recovery when no dedicated reset input is available | Uses the accepted controlled target-power service; suitability as this target's recovery mechanism requires Target Profile verification |
 
 An nRF52832 development kit or compatible CMSIS-DAP/SWD probe may be used for
 debug and recovery. The daughter board must provide a reviewed transfer method
@@ -1018,11 +1029,12 @@ The breakout does not expose a dedicated reset input on its ordinary headers.
 Mapping `TI_TARGET_RESET_N` to the nRF52832 configurable reset function on
 module pin `D21` would require both verified physical access and matching
 firmware/UICR configuration. It is therefore an optional Adapter Service study,
-not an accepted prototype dependency. A controlled target-power cycle is a
-candidate fallback recovery method subject to the Power Control Service design;
-it is not yet an accepted MDBT42Q reset implementation. Automatic boot request
-through the onboard `D0` button node likewise requires a non-header
-daughter-board connection and electrical review before implementation.
+not an accepted prototype dependency. The accepted target-power service can
+provide a controlled power cycle, but its suitability as MDBT42Q recovery still
+requires Target Profile verification; it is not yet an accepted MDBT42Q reset
+implementation. Automatic boot request through the onboard `D0` button node
+likewise requires a non-header daughter-board connection and electrical review
+before implementation.
 
 #### Provisional Logical Role Mapping
 
@@ -1103,19 +1115,19 @@ unavailable until a separate test-control path is established. No
 dedicated RF Test Block hardware is required, and formal RF performance or
 compliance testing remains out of scope.
 
-#### Power, Routing Ownership And Physical Qualifications
+#### Power, Routing Control And Physical Qualifications
 
 The breakout accepts 2.5 V to 16 V at `Vin` and exposes regulated 3.3 V. A
-proposed externally controlled 5 V target supply could therefore feed `Vin`,
-while all Target Interface logic remains 3.3 V. The final source, switching,
-competing-supply protection and debugger reference-power behaviour remain
-Power Control Service and Adapter Service review items.
+controlled 5 V target supply can therefore feed `Vin`, while all Target
+Interface logic remains 3.3 V. Source switching, competing-supply protection
+and debugger reference-power behaviour shall follow the accepted Power Control
+Service and the target-specific Adapter Service design.
 
-The target/host ownership selector applies to direct I2C pins `D14`/`D15`.
-External-host ownership isolates the target for setup, diagnosis or recovery;
-target ownership is restored for functional I2C operation. Independently
-powered harness pull-ups and routing devices must not back-power an unpowered
-target through I2C, UART, SWD or any routed Test Block signal.
+The target owns routing control over direct I2C pins `D14`/`D15` in every
+powered Operating Mode. The Harness Supervisor does not access this bus;
+recovery uses the independent Hardware Clear action. Independently powered
+harness pull-ups and routing devices must not back-power an unpowered target
+through I2C, UART, SWD or any routed Test Block signal.
 
 The daughter-board placement must preserve the MDBT42Q antenna keepout and
 avoid copper, ground planes, connectors and wiring that materially obstruct the
@@ -1144,13 +1156,13 @@ or `adapter` and records qualifications where necessary.
 
 | Test Block | Concurrent target-facing roles | C3 | ESP32 | S3 | Pico 1/2 families | Espruino Pico | MDBT42Q | Routing consequence |
 |---|---:|---|---|---|---|---|---|---|
-| 1. Digital loopback | 4 | Routed: `D1`, `D2`, `D3`, `D10` | Common routes R1 `D19`, R2 `D33`, R3 `D23`, R6 `D26` | Common routes R1 `D4`, R2 `D5`, R3 `D6`, R6 `D9` | Direct outputs `D10`/`D12`; selected inputs `D11`/`D13` | Direct outputs `B3`/`B5`; routed inputs `B4`/`A4` | Direct outputs `D25`/`D27`; routed inputs `D26`/`D28` | Four roles concurrent; reusable inputs require selection |
-| 2. Analogue feedback | 2 | Routed: `D5`, `D0` | Common routes R5 `D27` PWM and R0 `D32` ADC | Common routes R5 `D8` PWM and R0 `D1` ADC | Direct `D15`/`D26` | Direct `A1`/`A0` | Direct `D4`/`D3` | Concurrent with all five Block 4 roles |
-| 3. I2C | 4, including 2 mandatory direct | Direct `D6`/`D7`; routed `D2`/`D10` | Direct `D21`/`D22`; common routes R2 `D33` feedback and R6 `D26` interrupt | Direct `D10`/`D11`; common routes R2 `D5` feedback and R6 `D9` interrupt | Direct `D4`/`D5` bus and `D6`/`D7` inputs | Direct `B9`/`B8` bus and `B10`/`B1` inputs | Direct `D15`/`D14` bus and `D16`/`D17` inputs | Mandatory direct bus retained |
-| 4. SPI | 5 | Routed: `D4`, `D3`, `D1`, `D2`, `D10` | Common routes R4 `D18`, R3 `D23`, R1 `D19`, R2 `D33`, R6 `D26` | Common routes R4 `D7`, R3 `D6`, R1 `D4`, R2 `D5`, R6 `D9` | Direct `D18`/`D19`/`D16` and `D17`/`D20` | Direct `B13`/`B15`/`B14` and `A6`/`A7` | Direct `D18`/`D19`/`D20` and `D22`/`D11` | Five roles concurrent; two independent CS roles |
-| 5. 1-Wire and GPIO | 3 | Routed: `D0`, `D2`, `D10`; feedback roles reuse Block 1 inputs | Common routes R0 `D32` DQ and R2 `D33`/R6 `D26` feedback | Common routes R0 `D1` DQ and R2 `D5`/R6 `D9` feedback | Direct `D28`; selected feedback on `D11`/`D13` | Direct `A8`; routed feedback on `B4`/`A4` | Direct `D29`; routed feedback on `D26`/`D28` | Three roles concurrent; accepted exclusive reuse |
+| 1. Digital loopback | 4 | Routed: `D1`, `D2`, `D3`, `D5` | Common routes R1 `D19`, R2 `D33`, R3 `D23`, R6 `D26` | Common routes R1 `D4`, R2 `D5`, R3 `D6`, R6 `D9` | Direct outputs `D10`/`D12`; selected inputs `D11`/`D13` | Direct outputs `B3`/`B5`; routed inputs `B4`/`A4` | Direct outputs `D25`/`D27`; routed inputs `D26`/`D28` | Four roles concurrent; reusable inputs require selection |
+| 2. Analogue feedback | 2 | Routed: `D10`, `D0` | Common routes R5 `D27` PWM and R0 `D32` ADC | Common routes R5 `D8` PWM and R0 `D1` ADC | Direct `D15`/`D26` | Direct `A1`/`A0` | Direct `D4`/`D3` | Concurrent with all five Block 4 roles |
+| 3. I2C | 4, including 2 mandatory direct | Direct `D6`/`D7`; routed `D2`/`D5` | Direct `D21`/`D22`; common routes R2 `D33` feedback and R6 `D26` interrupt | Direct `D10`/`D11`; common routes R2 `D5` feedback and R6 `D9` interrupt | Direct `D4`/`D5` bus and `D6`/`D7` inputs | Direct `B9`/`B8` bus and `B10`/`B1` inputs | Direct `D15`/`D14` bus and `D16`/`D17` inputs | Mandatory direct bus retained |
+| 4. SPI | 5 | Routed: `D4`, `D3`, `D1`, `D2`, `D5` | Common routes R4 `D18`, R3 `D23`, R1 `D19`, R2 `D33`, R6 `D26` | Common routes R4 `D7`, R3 `D6`, R1 `D4`, R2 `D5`, R6 `D9` | Direct `D18`/`D19`/`D16` and `D17`/`D20` | Direct `B13`/`B15`/`B14` and `A6`/`A7` | Direct `D18`/`D19`/`D20` and `D22`/`D11` | Five roles concurrent; two independent CS roles |
+| 5. 1-Wire and GPIO | 3 | Routed: `D0`, `D2`, `D5`; feedback roles reuse Block 1 inputs | Common routes R0 `D32` DQ and R2 `D33`/R6 `D26` feedback | Common routes R0 `D1` DQ and R2 `D5`/R6 `D9` feedback | Direct `D28`; selected feedback on `D11`/`D13` | Direct `A8`; routed feedback on `B4`/`A4` | Direct `D29`; routed feedback on `D26`/`D28` | Three roles concurrent; accepted exclusive reuse |
 | 7. UART | 4, or 2 with external peer | Routed `D3`/`D4`; conditional direct `D20`/`D21` | Common routes R3 `D23`/R4 `D18`; direct endpoint B `D4`/`D36`, with UART0 control | Common routes R3 `D6`/R4 `D7`; direct endpoint B `D17`/`D18`, with UART0 or native USB control | Direct UART0 `D0`/`D1` and UART1 `D8`/`D9`, with native USB control | Direct USART1 `B6`/`B7` and USART2 `A2`/`A3` | Direct single USART `D6`/`D8` in external-peer form | Four roles for crosslink targets; two for an accepted external-peer target |
-| 9. Addressable RGB | 1 | Routed: `D5` | Common route R5 `D27` | Common route R5 `D8` | Direct `D22` | Direct `A5` | Direct `D5` | No Block 2/Block 9 concurrency required |
+| 9. Addressable RGB | 1 | Routed: `D10` | Common route R5 `D27` | Common route R5 `D8` | Direct `D22` | Direct `A5` | Direct `D5` | No Block 2/Block 9 concurrency required |
 
 The table represents 23 logical Test Block roles for a two-UART crosslink
 target before accepted exclusive reuse. An accepted external-peer UART target
@@ -1240,7 +1252,7 @@ both:
 
 Direct and routed access to the same Test Block node shall never be active
 without explicit, reviewable isolation. The Target Profile shall declare the
-legal mapping form, direct paths, routed paths, exclusions and ownership rules
+legal mapping form, direct paths, routed paths, exclusions and control rules
 for each target.
 
 ### 9.4 Required Simultaneous Route Sets
@@ -1275,19 +1287,20 @@ or safely resolve prohibited combinations. The two SPI chip-select roles use
 separate entries and shall both remain available during one SPI test, although
 only the selected device is asserted at a time.
 
-### 9.5 Ownership, Reset And Powered-Off Safety
+### 9.5 Control, Reset And Powered-Off Safety
 
-The normal standalone configuration allows the target to control routing over
-the direct I2C bus. The design shall also support an external host-side owner
-for setup, diagnosis and recovery. Selecting external ownership shall isolate
-the target from the harness I2C bus; functional target-I2C operation resumes
-only after target ownership is restored.
+The target controls routing over the direct I2C bus in every powered Operating
+Mode. The host requests a capability through the target's Test Control
+endpoint, and target firmware establishes and verifies the resolved route
+configuration. The Harness Supervisor neither owns nor accesses this bus.
 
-Route establishment, verification and clearing shall remain possible without
-responsive target firmware. The applied configuration, ownership and readback
-shall be available as test evidence. The exact selector, controller, register
-map and readback mechanism belong to the routing and Control Service
-specifications.
+Hardware Clear shall remain possible without responsive target firmware or
+access to the routing-control I2C bus. It returns every controlled path to its
+safe inactive state but does not establish a functional route. The target's
+commanded configuration and readback, together with the Hardware Clear action
+and its completion indication where fitted, shall be available as test
+evidence. The exact switch topology, register map, readback mechanism and
+Hardware Clear circuit belong to the routing specification.
 
 All route-selection and block-local switches shall default to a defined
 high-impedance or otherwise electrically safe state before target or
@@ -1314,8 +1327,9 @@ sequence independently.
 
 This envelope fixes the minimum Test Block route-selection capacity, legal
 common route functions, direct-path requirements, simultaneous sets and safety
-constraints. It is sufficient input to begin the routing-fabric and Standard
-Control Service specifications.
+constraints. Together with the accepted Standard Control Services, it is
+sufficient input to begin the routing-fabric and combined connection-matrix
+specification.
 
 The downstream routing and combined connection-matrix work shall determine:
 
@@ -1345,10 +1359,12 @@ Any candidate routing topology shall demonstrate at least:
 4. ESP32-C3 1-Wire operation with both feedback inputs available
 5. analogue feedback observed concurrently by the target ADC and MCP3008 CH0
 6. target-controlled route establishment and verification
-7. externally controlled route establishment with target routing ownership
-   isolated
+7. Hardware Clear returning every controlled path to its safe inactive state
+   without target-I2C activity
 8. a generous target using appropriate direct paths without topology changes
 9. a non-ESP32 target mapping without changes to the reusable routing fabric
+10. ESP32-C3 Supervisor-event wake from both light and deep sleep through
+    `TI_I2C_INT` on R6
 
 ## 11. Post-Design Compatibility Exercises
 
@@ -1403,9 +1419,9 @@ subsequent accepted specification changes the assessment boundary.
 |---|---|
 | Physical switch topology, total channel count and additional Control Service or peer routes beyond the accepted seven-entry Test Block minimum | Routing specification and combined connection matrix |
 | Switch family and control-component selection | Routing specification and prototype verification |
-| Manual target/host ownership selector | Routing and Standard Control Services |
-| Routing 3.3 V supply, power sequencing and powered-off isolation | Standard Control Services and routing specification |
-| Harness Supervisor hardware, firmware and host protocol | `StandardControlServices_V2.md` |
+| Hardware Clear circuit and recovery implementation | Routing specification |
+| Detailed routing 3.3 V distribution, power sequencing and powered-off isolation | Harness schematic and routing specification, constrained by `StandardControlServices_V2.md` |
+| Detailed Harness Supervisor hardware, firmware and host protocol | Supervisor implementation specification, constrained by `StandardControlServices_V2.md` |
 | Physical Target Interface contacts | Target Interface contract |
 | Per-target GPIO assignment and exclusions | Target studies and Target Profiles |
 | Signal-integrity and timing acceptance | Prototype verification |
@@ -1424,7 +1440,7 @@ Each future target assessment should record:
 8. candidate routing entries
 9. Test Block role mapping and simultaneous-use cases
 10. routing reuse, conflicts and exclusions
-11. routing ownership and powered-off behaviour
+11. routing control, Hardware Clear and powered-off behaviour
 12. other Adapter Service requirements
 13. resulting routing-envelope implications
 
@@ -1442,6 +1458,8 @@ ESP32-C3-DevKitC-02 sources:
 * `docs/design/V2Harness/targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md`
 * official board guide covering WROOM-02 and WROOM-02U:
   `https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-devkitc-02/user_guide.html`
+* official ESP32-C3 sleep-mode and GPIO-wakeup requirements:
+  `https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-reference/system/sleep_modes.html`
 
 ESP32 DevKitC V4 sources:
 
@@ -1630,8 +1648,8 @@ requirements.
 | R2 | `D2` | Loopback A input, I2C feedback, ADC CS and 1-Wire feedback A |
 | R3 | `D3` | Loopback B output, SPI MOSI and UART A TX |
 | R4 | `D4` | SPI SCK and UART A RX |
-| R5 | `D5` | PWM and addressable-RGB output |
-| R6 | `D10` | Loopback B input, I2C interrupt, external SPI CS and 1-Wire feedback B |
+| R5 | `D10` | PWM and addressable-RGB output |
+| R6 | `D5` | Loopback B input, I2C interrupt, external SPI CS and 1-Wire feedback B |
 | Direct I2C SCL | `D6` | I2C SCL |
 | Direct I2C SDA | `D7` | I2C SDA |
 | Direct UART B RX | `D20` | UART0 RX |
@@ -1640,7 +1658,8 @@ requirements.
 `D2` is the conditional strapping-pin route and must remain disconnected or
 electrically harmless throughout reset. `D8` remains excluded because it is a
 strapping pin connected to the onboard addressable RGB LED, while `D9` remains
-reserved for BOOT/download control.
+reserved for BOOT/download control. R6 uses RTC-domain `D5` so
+`TI_I2C_INT` supports both light- and deep-sleep event wake.
 
 The complete mapping leaves no unallocated safe GPIO. This matches the C3
 design-basis lower bound and introduces no new simultaneous-use requirement.

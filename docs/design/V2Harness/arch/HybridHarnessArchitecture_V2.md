@@ -1,8 +1,8 @@
 # V2 Hybrid Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.3
-**Last Updated:** 19 July 2026
+**Version:** 0.4
+**Last Updated:** 26 July 2026
 
 ---
 
@@ -402,8 +402,9 @@ The following items remain open:
 * target daughter-board envelope and mechanical retention
 * Target Interface pin-bank count, grouping and final signal names
 * number of routed Target Interface entries
-* power-supply approach, including external harness power versus target-board
-  supplied power, source isolation and prevention of competing supplies
+* detailed implementation of the accepted power architecture, including switch
+  ratings, monitoring range, protection, discharge behaviour and physical
+  Target Interface contacts
 * direct versus routed isolation method for each test block
 * switch truth table and route-control register map
 * reset-safe switch defaults and enable/address biasing
