@@ -98,6 +98,13 @@ output from the powered target into the harness mode selection, not a general
 bidirectional 3.3 V rail or a target power input. Physical contact allocation
 remains part of the Target Interface contract.
 
+`TI_TARGET_3V3` shall also remain available as a bounded, low-current target
+I/O-domain reference whenever the target is powered. When the Operating Mode
+selection disconnects it from the Routing Logic Supply Rail, the reference may
+serve only approved loads such as target-side I2C pull-ups and target-domain
+power-valid qualification. It shall not be connected to the external 3.3 V
+source.
+
 In `STANDALONE`, the target 3.3 V rail is expected to be established before
 test code executes. Routing devices shall nevertheless enter their safe state
 in hardware while the target starts. A Target Profile shall require
@@ -146,15 +153,16 @@ switch on. The target remains the owner of the direct routing-control I2C.
 
 *Figure 3 — Active `STANDALONE EXT` power routes. Powered USB supplies the
 target; an external regulated 3.3 V source supplies Operating Mode, Routing
-Logic and Test Block services. `TI_TARGET_3V3` and harness-switched target 5 V
-are inactive.*
+Logic and Test Block services. `TI_TARGET_3V3` is disconnected as a harness
+supply source but remains a bounded target I/O-domain reference;
+harness-switched target 5 V is inactive.*
 
-This mode shall be used when the target does not expose a suitable 3.3 V
-output, cannot supply the complete routing and Test Block load, or must remain
-electrically independent of that load. The external source may be a standalone
-bench supply or the regulated 3.3 V harness-system supply used by a rack, but
-it shall share the defined ground reference and shall not be connected to the
-target's 3.3 V output.
+This mode shall be used when the target does not expose a 3.3 V output capable
+of supplying the complete routing and Test Block load, cannot supply that load
+within its rating, or must remain electrically independent of it. The external
+source may be a standalone bench supply or the regulated 3.3 V harness-system
+supply used by a rack, but it shall share the defined ground reference and
+shall not be connected to the target's low-current 3.3 V reference.
 
 Target power cycling remains unavailable because ordinary powered USB still
 supplies the target. Evidence shall distinguish `STANDALONE EXT` from
@@ -516,6 +524,12 @@ connections. The bus shall be usable before any Test Block route is configured
 and shall remain independent of the path it controls. The Supervisor may
 invoke Hardware Clear through a direct control, but it does not require access
 to the routing-control I2C.
+
+The direct bus crosses independently powered target, Routing Control Service
+and Standard Test Block domains. The reusable harness shall therefore provide
+the two fixed, power-qualified SDA/SCL isolation boundaries specified by
+`I2CControlledRouting_V2.md`. These boundaries are infrastructure and are not
+software-selected routes.
 
 ### 6.2 Modes And Configuration Options
 

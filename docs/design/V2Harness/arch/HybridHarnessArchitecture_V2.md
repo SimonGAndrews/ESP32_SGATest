@@ -1,8 +1,8 @@
 # V2 Hybrid Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.4
-**Last Updated:** 26 July 2026
+**Version:** 0.5
+**Last Updated:** 27 July 2026
 
 ---
 
@@ -170,50 +170,18 @@ test-device implementation. Such a rail is not a Target Interface voltage
 domain or general-purpose peripheral supply and must not reach the target.
 `StandardTestBlocks_V2.md` defines and constrains any accepted exception.
 
-Representative Target Interface signal classes include:
+`TargetInterfaceContract_V2.md` owns the complete current contact inventory.
+Its first accepted stage comprises seven R0-R6 route entries, 23 logical Test
+Block contacts, two target-power/reference contacts, two reset/boot controls
+and a distributed common-ground class.
 
-* control and power:
-  * `TI_GND`
-  * `TI_3V3`
-  * `TI_USB_VBUS`
-  * `TI_RESET`
-  * `TI_BOOT`
-  * `TI_CTRL_I2C_SDA`
-  * `TI_CTRL_I2C_SCL`
-* routed GPIO entries:
-  * `TI_ROUTE_0`
-  * `TI_ROUTE_1`
-  * `TI_ROUTE_2`
-  * additional routed entries as required by the switching design
-* direct test-block entries:
-  * `TI_GPIO_LOOP_A_OUT`
-  * `TI_GPIO_LOOP_A_IN`
-  * `TI_GPIO_LOOP_B_OUT`
-  * `TI_GPIO_LOOP_B_IN`
-  * `TI_PWM_OUT`
-  * `TI_ADC_IN`
-  * `TI_SPI_MISO`
-  * `TI_SPI_MOSI`
-  * `TI_SPI_SCK`
-  * `TI_SPI_CS_ADC`
-  * `TI_SPI_CS_EXT`
-  * `TI_I2C_SDA`
-  * `TI_I2C_SCL`
-  * `TI_ONEWIRE_DQ`
-  * `TI_UART_A_TX`
-  * `TI_UART_A_RX`
-  * `TI_UART_B_TX`
-  * `TI_UART_B_RX`
-
-USB, SWD, JTAG, battery and power-sense signals may also need Target Interface
-provisions, but they should be treated as target services rather than ordinary
-test-block GPIO.
-
-These names are representative rather than accepted contract assignments. The
-important architectural rule is that each Target Interface signal is labelled
-by its harness role, not by a specific target's GPIO number. Final names,
-electrical rules and pin assignments belong in the Target Interface contract
-and should not be settled incidentally during schematic work.
+USB, SWD, JTAG, UART CTS/RTS, battery services, Supervisor event signals, Rack
+Control I2C and target-power-monitor connections do not cross this boundary.
+Where required, target-specific functions belong to onboard connectors or
+daughter-board Adapter Services. Each Target Interface signal is labelled by
+its harness role, not by a particular target's GPIO number. Electrical rules,
+connector banks and pin assignments belong in the Target Interface contract
+and shall not be settled incidentally during schematic work.
 
 ---
 
@@ -240,12 +208,12 @@ report that result explicitly rather than turning it into a misleading test
 failure.
 
 The detailed connection properties remain necessary for electrical review,
-conflict detection, routing, acceptance testing and diagnosis. A combined
-capability connection matrix will consolidate the requirements from Test Block
-and Control Service specifications as the design-stage input to routing and
-Target Interface work. It records ownership, direct and routed paths,
-simultaneous use, conflicts, safe states and recovery dependencies without
-becoming a second behavioural specification.
+conflict detection, routing, acceptance testing and diagnosis.
+`CombinedCapabilityConnectionMatrix_V2.md` consolidates the requirements from
+Test Block and Control Service specifications as the design-stage input to
+routing and Target Interface work. It records ownership, direct and routed
+paths, simultaneous use, conflicts, safe states and recovery dependencies
+without becoming a second behavioural specification.
 
 The accepted connection properties ultimately belong in the Target Interface
 contract, Target Profiles and Resolved Test Configurations.
@@ -301,11 +269,11 @@ For a constrained target, the mapping may expose several GPIOs as routing
 entries:
 
 ```text
-D6  -> TI_CTRL_I2C_SCL
-D7  -> TI_CTRL_I2C_SDA
-D0  -> TI_ROUTE_0
-D1  -> TI_ROUTE_1
-D2  -> TI_ROUTE_2
+D6  -> TI_I2C_SCL
+D7  -> TI_I2C_SDA
+D0  -> R0
+D1  -> R1
+D2  -> R2
 ```
 
 For a more generous target, the mapping may dedicate pins directly to test
@@ -400,7 +368,8 @@ and electrical constraints needed to use it safely.
 The following items remain open:
 
 * target daughter-board envelope and mechanical retention
-* Target Interface pin-bank count, grouping and final signal names
+* Target Interface physical pin numbering, connector keying and final signal
+  placement across the accepted two 2×12 banks
 * number of routed Target Interface entries
 * detailed implementation of the accepted power architecture, including switch
   ratings, monitoring range, protection, discharge behaviour and physical

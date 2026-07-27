@@ -216,10 +216,10 @@ implementation remain downstream design decisions.
 
 `TargetRoutingEnvelope_V2.md` defines the accepted cross-target Test Block
 routing minimum, legal common route functions and direct-path alternatives.
-`I2CControlledRouting_V2.md` is the working implementation proposal. The
-routing fabric is a standard capability of the reusable harness PCB intended
-to support constrained targets without creating a general-purpose crosspoint
-matrix.
+`I2CControlledRouting_V2.md` is the accepted implementation specification.
+The routing fabric is a standard capability of the reusable harness PCB
+intended to support constrained targets without creating a general-purpose
+crosspoint matrix.
 
 The routing design must eventually define:
 
@@ -309,11 +309,11 @@ Use the following ownership:
 | Shared vocabulary and functional relationships | `HarnessConceptualModel_V2.md` |
 | Physical daughter-board and reusable-PCB architecture | `HybridHarnessArchitecture_V2.md` |
 | Cross-target Test Block routing minimum and constraints | `TargetRoutingEnvelope_V2.md` |
-| Routing implementation proposal | `I2CControlledRouting_V2.md` until refined or accepted |
-| Target Interface signals, safety and connector contract | planned Target Interface specification |
+| Routing implementation specification | `I2CControlledRouting_V2.md` |
+| Target Interface signals, safety and connector contract | `TargetInterfaceContract_V2.md` |
 | Standard Test Block inventory and electrical behaviour | `StandardTestBlocks_V2.md` |
 | Standard Control Service behaviour | `StandardControlServices_V2.md` |
-| Combined direct, routed, simultaneous-use and safe-state requirements | planned capability connection matrix feeding the routing and Target Interface specifications |
+| Combined direct, routed, simultaneous-use and safe-state requirements | `CombinedCapabilityConnectionMatrix_V2.md` feeding the routing and Target Interface specifications |
 | Target-specific physical mapping | daughter-board schematic and target-specific documentation |
 | KiCad symbols, footprints, schematic and PCB implementation | `KICAD_V2/Espruino_Harness_V2/` |
 
@@ -330,26 +330,20 @@ architectural contract.
 ## 8. Planned Specification Sequence
 
 The conceptual model, physical boundary, Standard Test Blocks, Target Routing
-Envelope and Standard Control Services are accepted. The remaining
-architecture work should proceed in this order:
+Envelope, Standard Control Services, combined connection matrix and
+controlled-routing specification are accepted. The remaining architecture
+work should proceed in this order:
 
-1. refine the routing topology and component proposal against the accepted
-   routing envelope and Control Service requirements without freezing the
-   total channel or Interface contact count
-2. derive one combined capability connection matrix covering provisional
-   logical Interface signals, direct and routed paths, simultaneous use,
-   safe states and recovery dependencies
-3. finalise the routing specification against the combined matrix
-4. establish the remaining Target Interface electrical safety rules
-5. assign physical connector banks only after the capability, routing and
+1. establish the remaining Target Interface electrical safety rules
+2. assign physical connector banks only after the capability, routing and
    safety reviews
-6. define the Target Profile schema, Target Support Module API and V2 test
+3. define the Target Profile schema, Target Support Module API and V2 test
    specification
-7. prepare a separate high-level architecture presentation for maintainer and
+4. prepare a separate high-level architecture presentation for maintainer and
    wider design feedback
-8. add minimal V1-to-V2 cross-references without rewriting V1 specifications
-9. update the V2 documentation map, implement accepted contracts in KiCad and
-    revise the model graphic
+5. add minimal V1-to-V2 cross-references without rewriting V1 specifications
+6. update the V2 documentation map, implement accepted contracts in KiCad and
+   revise the model graphic
 
 The standard harness logic, Target Interface and external Test Block connection
 domain is fixed at 3.3 V. A Test Block may generate a contained local rail only

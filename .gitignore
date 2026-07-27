@@ -26,3 +26,4 @@ firmware/*/*/
 
 # Ignore draw.io backup files
 **/*.drawio.bkp
+docs/design/V2Harness/arch/diagrams/Archive/

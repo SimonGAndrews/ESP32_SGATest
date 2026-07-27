@@ -2,18 +2,16 @@
 
 **Date:** 17 July 2026
 **Status:** Current V2 architecture handover
-**Updated:** 26 July 2026
-**Scope:** Continue from the accepted V2 conceptual model, Standard Test
-Blocks, Target Routing Envelope and Standard Control Services into the
-routing-fabric specification
+**Updated:** 27 July 2026
+**Scope:** Carry the accepted V2 capabilities, combined connection matrix and
+controlled-routing specification into the physical Target Interface contract
 
 ## 1. Purpose
 
 This handover provides the starting context for the next focused V2 design
-thread. The earlier logical-resource and target-envelope analysis is complete.
-The reusable Control Services are now accepted. The next work should turn the
-accepted routing envelope and service requirements into a physical
-routing-fabric specification.
+thread. The logical-resource, target-envelope, Control Service, combined
+connection and controlled-routing reviews are complete. The next work should
+define the physical Target Interface electrical and connector contract.
 
 The detailed target assessments should be consumed as accepted design input,
 not repeated in the new thread.
@@ -31,10 +29,12 @@ Read in this order:
 7. `docs/design/V2Harness/arch/StandardControlServices_V2.md`
 8. `docs/design/V2Harness/arch/TargetRoutingEnvelope_V2.md`
 9. `docs/design/V2Harness/arch/I2CControlledRouting_V2.md`
+10. `docs/design/V2Harness/arch/CombinedCapabilityConnectionMatrix_V2.md`
+11. `docs/design/V2Harness/arch/TargetInterfaceContract_V2.md`
 
-`I2CControlledRouting_V2.md` remains a working proposal. Where it differs from
-the accepted specifications, the accepted conceptual, Test Block and routing
-envelope documents take precedence.
+`I2CControlledRouting_V2.md` and
+`CombinedCapabilityConnectionMatrix_V2.md` are accepted implementation inputs
+to the Target Interface and schematic work.
 
 ## 3. Accepted Outputs From The Completed Thread
 
@@ -136,40 +136,43 @@ defines:
 Keep reusable Control Service behaviour separate from target-specific Adapter
 Service implementation.
 
-### 5.2 Routing-fabric specification
+### 5.2 Controlled routing — Completed
 
-Align and expand `I2CControlledRouting_V2.md` against the accepted routing
-envelope. The routing work shall determine:
+The accepted `I2CControlledRouting_V2.md` fixes:
 
-* physical topology for R0-R6 and their legal destinations
-* direct-versus-routed isolation
-* the separate inventory of block-local switches, particularly Block 7
-* additional Control Service and programmable-peer paths
-* switch and I2C-control component selection
-* target-owned route control and independent Hardware Clear implementation
-* register map, safe defaults, readback and evidence
-* signal-integrity and powered-off validation requirements
-
-Topology and component analysis can begin immediately, but the total channel
-and Target Interface contact counts must not be frozen until the Control
-Service inventory is available.
+* the 19 R0-R6 route-selection paths and four Block 7 UART paths
+* six software-controlled and one fixed-I2C-isolation `TMUX1511`
+* two routing-control MCP23017 devices
+* target-owned control, Hardware Clear, safe defaults and readback
+* direct-I2C power-domain isolation and separate pull-up domains
+* electrical, diagnostic and prototype-acceptance requirements
 
 ### 5.3 Subsequent integration
 
-After the Control Service and routing requirements are sufficiently complete:
+`CombinedCapabilityConnectionMatrix_V2.md` is accepted. It resolves the
+current 19 route-selection paths, four UART block-local paths, fixed direct
+and I2C-isolation paths, two fixed Supervisor event-handshake paths,
+simultaneous configurations and direct/routed conflicts without increasing
+the seven-`TMUX1511` baseline.
 
-1. produce the combined capability connection matrix
-2. resolve the total direct, routed, block-local and peer connection inventory
-3. define the physical Target Interface connector banks and electrical contract
-4. implement accepted requirements in the V2 KiCad project
+The subsequent integration order is:
+
+1. complete the Rev-A connector implementation for the accepted two-connector
+   48-pin allocation in `TargetInterfaceContract_V2.md` by selecting the exact
+   male and female parts, plating and verified KiCad footprints
+2. implement accepted requirements in the V2 KiCad project
+
+The Target Interface pin allocation is accepted. Exact connector sourcing and
+footprint/mechanical verification remain downstream work.
 
 ## 6. Deliberate Boundaries
 
 Do not reopen the accepted Test Block inventory or target mappings without new
-bench, target or implementation evidence. Do not assign physical Target
-Interface contacts before the Control Service and combined connection reviews.
-Do not put completion of the optional Harness Supervisor on the critical path
-for the first routing prototype.
+bench, target or implementation evidence. Assign physical Target Interface
+contacts only through the Target Interface specification and preserve the
+accepted matrix, routing and safety requirements. Do not put completion of the
+optional Harness Supervisor on the critical path for the first routing
+prototype.
 
 Maintainer and wider design feedback should be prepared through a separate,
 high-level architecture presentation. The detailed target-routing assessment
@@ -187,10 +190,10 @@ an accepted architecture requirement.
 ## 8. Suggested New-Thread Prompt
 
 > Workstream: V2 architecture and Target Interface contract
-> Current objective: use the accepted Standard Control Services and Target
-> Routing Envelope to refine the routing-fabric specification. Read `AGENTS.md`,
+> Current objective: use the accepted combined connection matrix and
+> controlled-routing specification to define the physical Target Interface
+> electrical contract and connector banks. Read `AGENTS.md`,
 > `docs/design/V2Harness/README.md` and
 > `docs/handoff/2026-07-17-v2-services-and-routing.md`. Treat
-> `StandardTestBlocks_V2.md`, `StandardControlServices_V2.md` and
-> `TargetRoutingEnvelope_V2.md` as accepted inputs. Do not assign physical
-> Target Interface contacts yet.
+> `CombinedCapabilityConnectionMatrix_V2.md` and
+> `I2CControlledRouting_V2.md` as accepted inputs.

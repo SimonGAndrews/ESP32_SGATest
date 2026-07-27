@@ -229,10 +229,11 @@ The bus is available before any Test Block route is established. The Harness
 Supervisor does not connect to this bus; recovery instead uses the independent
 Hardware Clear action.
 
-The harness I2C pull-ups and routing devices are powered from the independent
-harness 3.3 V supply. The interface implementation must isolate an unpowered
-target from SDA and SCL, or otherwise demonstrate that the pull-ups cannot
-back-power it.
+The harness I2C pull-ups and routing devices are powered from the selected
+Routing Logic Supply Rail. The accepted fixed direct-I2C isolation disconnects
+an unpowered target from SDA and SCL so that harness pull-ups cannot back-power
+it. The daughter board shall expose the target I/O-domain reference required
+to qualify that isolation.
 
 #### Provisional Logical Role Mapping
 
@@ -1294,6 +1295,11 @@ Mode. The host requests a capability through the target's Test Control
 endpoint, and target firmware establishes and verifies the resolved route
 configuration. The Harness Supervisor neither owns nor accesses this bus.
 
+The direct bus shall use fixed, power-qualified isolation between the target,
+Routing Control Service and switchable Standard Test Block domains as defined
+by `I2CControlledRouting_V2.md`. This isolation is not a route selection and
+shall not consume target GPIO beyond the mandatory SDA/SCL pair.
+
 Hardware Clear shall remain possible without responsive target firmware or
 access to the routing-control I2C bus. It returns every controlled path to its
 safe inactive state but does not establish a functional route. The target's
@@ -1327,22 +1333,16 @@ sequence independently.
 
 This envelope fixes the minimum Test Block route-selection capacity, legal
 common route functions, direct-path requirements, simultaneous sets and safety
-constraints. Together with the accepted Standard Control Services, it is
-sufficient input to begin the routing-fabric and combined connection-matrix
-specification.
+constraints. `I2CControlledRouting_V2.md` and
+`CombinedCapabilityConnectionMatrix_V2.md` apply those requirements to the
+switch topology, path count, block-local switching, direct/routed conflicts,
+control allocation and reserved capacity.
 
-The downstream routing and combined connection-matrix work shall determine:
-
-* physical switch topology, channel count and component families
-* block-local switching and any additional Control Service or peer routes
-* direct-versus-routed isolation for each Test Block node
-* routing-control outputs, addresses, register map and readback
-* any deliberately reserved expansion capacity
-* physical Target Interface contacts after service requirements are included
-
-Those decisions may add hardware channels but shall not reduce the accepted
-seven-entry Test Block minimum or violate the direct, simultaneous-use and
-safe-state requirements above.
+The remaining downstream work assigns physical Target Interface contacts and
+implements the accepted paths in the schematic. It may refine physical
+placement and bit allocation but shall not reduce the accepted seven-entry
+Test Block minimum or violate the direct, simultaneous-use and safe-state
+requirements above.
 
 ## 10. Routing-Envelope Validation Cases
 

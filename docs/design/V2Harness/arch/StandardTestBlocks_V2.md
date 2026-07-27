@@ -1337,8 +1337,8 @@ following logical arrangement:
 
 The header provides no power output. An external USB-UART adapter or other peer
 must be independently powered, use 3.3 V signalling and
-share harness ground. The final connector arrangement remains subject to the
-flow-control review in the open questions below.
+share harness ground. The final connector footprint and orientation remain
+subject to physical layout review.
 
 Dedicated bad-frame or glitch-generation circuitry is not part of this Test
 Block. Where required, malformed traffic, mismatched settings, break-like
@@ -1355,9 +1355,12 @@ The block requires four logical Target Interface signals:
 * `TI_UART_B_RX`
 
 Endpoint names describe block roles rather than fixed target peripheral
-numbers. Hardware-flow-control signals are not included in this initial list
-until the Espruino API and target-support review establishes a justified V2
-requirement.
+numbers. CTS and RTS hardware-flow-control signals are not part of the Rev-A
+Standard Test Block or Target Interface inventory. Where their testing is
+justified for a particular target, the daughter board may expose the required
+target pins through a target-specific Adapter Service for connection to an
+independently controlled 3.3 V UART peer. The Target Profile shall identify
+that provision, its electrical limits, required peer and test preconditions.
 
 #### Connection Behaviour
 
@@ -1471,10 +1474,10 @@ following follow-up is assigned under Section 7.6:
 
 * the exact direct and routed topology used to provide both UART endpoints
 * the baseline and maximum baud required after routing-path validation
-* whether the Espruino and initial-target support matrix justifies CTS, RTS or
-  software-flow-control hardware in the initial prototype
-* the final external-peer connector size and pinout after the flow-control
-  decision
+* any target-specific CTS or RTS Adapter Service and external-peer arrangement
+  justified by a target test requirement
+* the final standard external-peer connector footprint and orientation,
+  preserving the accepted 2x3 logical arrangement without CTS or RTS
 * whether the shared peer header requires additional live observation pins
 * whether weak RX idle bias is useful and electrically safe across the target
   envelope
@@ -1718,9 +1721,9 @@ separate Supervisor Interface and do not add target-facing Interface roles.
 | All Test Blocks with power Control Service | Standard block-facing supply and logic remain in the controlled 3.3 V domain | Prevent competing sources and back-power; Block 9 local 5 V remains contained | Power Control Service and Target Interface contract |
 
 This table records required relationships rather than a physical route design.
-The later connection matrix shall expand it into simultaneous-use cases,
-candidate resource reuse, route ownership, safe defaults and recovery
-dependencies.
+`CombinedCapabilityConnectionMatrix_V2.md` expands it into simultaneous-use
+cases, candidate resource reuse, routing-control authority, safe defaults and
+recovery dependencies.
 
 ### 7.3 Test Block Physical-Provision Review
 
@@ -1828,10 +1831,10 @@ The routing analysis shall use the following accepted inputs:
 | Performance | Characterise switch resistance, capacitance, leakage and bandwidth against PWM/analogue, SPI, 1-Wire, UART and RGB requirements; retain the direct I2C baseline |
 | Expansion | Preserve unused MCP23017 GPIO as low-speed expansion provision; do not allocate another target-I/O or peer connector without a defined test requirement |
 
-These requirements are sufficient to begin routing topology and component
-analysis. The resulting connection matrix shall show legal source-to-destination
-paths, simultaneous sets, exclusive reuse, reset state and the Hardware Clear
-recovery action.
+These requirements are the accepted Test Block inputs to routing topology and
+component analysis. `CombinedCapabilityConnectionMatrix_V2.md` records the
+resulting legal source-to-destination paths, simultaneous sets, exclusive
+reuse, reset state and Hardware Clear recovery action.
 
 ### 7.6 Deferred Decision Ownership
 

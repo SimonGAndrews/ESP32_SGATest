@@ -37,11 +37,16 @@ Reusable V2 harness PCB
 ```
 
 The conceptual model, Standard Test Blocks, Target Routing Envelope and
-Standard Control Services are accepted. The next specification work aligns the
-routing-fabric proposal with those requirements and produces the combined
-capability connection matrix before the physical Target Interface contract is
-fixed. The current KiCad project is a prototype implementation and must not be
-mistaken for a frozen production design.
+Standard Control Services are accepted. The accepted combined capability
+connection matrix turns those requirements into a concrete path inventory,
+simultaneous-use model and provisional Target Interface contact count. The
+controlled-routing specification is also accepted against that matrix. The
+accepted Target Interface uses two 24-pin connectors, each with two rows of
+12 pins. Its complete 48-pin Connector A and Connector B pinout is fixed.
+Exact connector parts, plating and KiCad footprints still need to be selected
+and mechanically checked before the Rev-A harness is released. The current
+KiCad project is a prototype implementation and must not be mistaken for a
+frozen production design.
 
 ## Active V2 Workstreams
 
@@ -65,6 +70,9 @@ Start with:
 - `arch/StandardTestBlocks_V2.md`
 - `arch/StandardControlServices_V2.md`
 - `arch/TargetRoutingEnvelope_V2.md`
+- `arch/CombinedCapabilityConnectionMatrix_V2.md`
+- `arch/TargetInterfaceContract_V2.md`
+- `arch/ReusableHarnessPrototypeStrategy_V2.md`
 - `../../handoff/2026-07-17-v2-services-and-routing.md`
 
 ### KiCad implementation
@@ -102,12 +110,19 @@ interactive edits.
 - `arch/WiFi_V1SupervisorPeerEvidence.md` assesses the completed V1 Wi-Fi
   Supervisor Peer evidence and open gaps; it is an evidence input, not a
   second Control Service specification.
-- a combined capability connection matrix will integrate Test Block and
-  Control Service requirements for routing and Target Interface design without
-  duplicating their behavioural specifications.
-- `arch/I2CControlledRouting_V2.md` is the working routing-layer proposal.
+- `arch/CombinedCapabilityConnectionMatrix_V2.md` is the accepted integration
+  of Test Block and Control Service requirements for routing and Target
+  Interface design without duplicating their behavioural specifications.
+- `arch/I2CControlledRouting_V2.md` is the accepted controlled-routing
+  specification.
+- `arch/TargetInterfaceContract_V2.md` owns the physical Target Interface
+  electrical and connector contract. Its complete two-connector 48-pin pinout
+  is accepted; exact connector parts, plating, footprints and mechanical
+  verification remain in progress.
 - `arch/HybridHarnessArchitecture_V2.md` defines the prototype boundary and
   records the removable daughter-board decision in Appendix A.
+- `arch/ReusableHarnessPrototypeStrategy_V2.md` defines the Rev-A manufactured
+  harness, wire-wrap daughter-board and pre-manufacture validation approach.
 - `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
   provisional target study, not an implemented wiring specification.
 - `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the accepted

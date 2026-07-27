@@ -1,9 +1,9 @@
 <mxfile host="Electron">
   <diagram name="Page-1" id="TF-yPKbtaHpWDorkTLSd">
-    <mxGraphModel dx="2887" dy="1416" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1506" dy="464" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
-        <mxCell id="A97SX6RGzDP0tmuk_3n8-2" parent="0" style="locked=1;" value="Base - Rack and Supervisor" />
+        <mxCell id="A97SX6RGzDP0tmuk_3n8-2" parent="0" style="locked=1;" value="Base - Rack and Supervisor" visible="0" />
         <mxCell id="bnVLw31pxS8ajflPwmId-19" parent="A97SX6RGzDP0tmuk_3n8-2" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=light-dark(#010101, #39454e);fontColor=#182E3E;fillColor=none;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=left;fontStyle=1;fontSize=20;strokeWidth=2;glass=0;shadow=0;" value="&lt;font&gt;Rack&lt;/font&gt;" vertex="1">
           <mxGeometry height="945" width="785" x="-806" y="130" as="geometry" />
         </mxCell>
@@ -119,7 +119,10 @@
         <mxCell id="6CCztpU7dE3gM8FM1voH-0" parent="A97SX6RGzDP0tmuk_3n8-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1" value="&lt;font&gt;Target Power Monitor&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="150" x="-510" y="495" as="geometry" />
         </mxCell>
-        <mxCell id="A97SX6RGzDP0tmuk_3n8-3" parent="0" style="locked=1;" value="Base - Test Host" />
+        <mxCell id="gj4g61dmffmt5EfCj-lL-0" parent="A97SX6RGzDP0tmuk_3n8-1" style="text;whiteSpace=wrap;html=1;" value="&lt;b style=&quot;forced-color-adjust: none; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 20px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(236, 236, 236); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;&amp;nbsp;Daughter&lt;br style=&quot;forced-color-adjust: none;&quot;&gt;&amp;nbsp;Board&lt;/b&gt;" vertex="1">
+          <mxGeometry height="70" width="100" x="-305" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="A97SX6RGzDP0tmuk_3n8-3" parent="0" style="locked=1;" value="Base - Test Host" visible="0" />
         <mxCell id="hC3UpPHAm2SKxNlwypU9-11" parent="A97SX6RGzDP0tmuk_3n8-3" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#9673a6;fontColor=default;fillColor=#e1d5e7;align=center;verticalAlign=top;fontFamily=Helvetica;fontSize=20;labelBackgroundColor=none;gradientColor=none;fontStyle=1" value="Ubuntu Test Host" vertex="1">
           <mxGeometry height="60" width="440" x="-456" y="35" as="geometry" />
         </mxCell>
@@ -380,14 +383,13 @@
           <mxGeometry height="135" width="55" x="-195" y="405" as="geometry" />
         </mxCell>
         <mxCell id="NV8XvhdwaGl-B8cLzhnV-7" edge="1" parent="NOm6FtaNva2zISfYiTi5-3" source="NV8XvhdwaGl-B8cLzhnV-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803d;strokeWidth=4;endArrow=classic;endFill=1;fontColor=#15803d;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;exitX=0.014;exitY=0.511;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.541;entryY=-0.009;entryDx=0;entryDy=0;entryPerimeter=0;" target="bnVLw31pxS8ajflPwmId-44" value="&lt;code&gt;TI_TARGET_3V3&lt;/code&gt;">
-          <mxGeometry relative="1" x="-0.0246" as="geometry">
+          <mxGeometry relative="1" x="-0.201" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
               <mxPoint x="-250" y="587.8" />
-              <mxPoint x="-250" y="530" />
-              <mxPoint x="-425" y="530" />
+              <mxPoint x="-250" y="540" />
+              <mxPoint x="-425" y="540" />
               <mxPoint x="-425" y="555" />
-              <mxPoint x="-424.4" y="555" />
             </Array>
             <mxPoint x="-232.49" y="529.9958064516128" as="sourcePoint" />
             <mxPoint x="-644.995376344086" y="544.77" as="targetPoint" />
@@ -529,11 +531,11 @@
             <mxPoint x="-295" y="940.46" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="NV8XvhdwaGl-B8cLzhnV-12" parent="0" style="locked=1;" value="Power Routes - Test Host" />
+        <mxCell id="NV8XvhdwaGl-B8cLzhnV-12" parent="0" style="locked=1;" value="Power Routes - Test Host" visible="0" />
         <mxCell id="NV8XvhdwaGl-B8cLzhnV-14" parent="NV8XvhdwaGl-B8cLzhnV-12" style="shape=doubleArrow;direction=south;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;textDirection=vertical-lr;arrowWidth=0.35238211495535715;arrowSize=0.16772810820561307;fontSize=16;fontStyle=1;fontFamily=Helvetica;" value="USB Data + GND - No VBUS" vertex="1">
           <mxGeometry height="255" width="55" x="-185" y="285" as="geometry" />
         </mxCell>
-        <mxCell id="8HWohwWH-p6DTj1UKp3P-2" parent="0" style="locked=1;" value="TitleBlock - Architecture Overview" />
+        <mxCell id="8HWohwWH-p6DTj1UKp3P-2" parent="0" style="locked=1;" value="TitleBlock - Architecture Overview" visible="0" />
         <mxCell id="8HWohwWH-p6DTj1UKp3P-6" parent="8HWohwWH-p6DTj1UKp3P-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: normal;&quot;&gt;Version: 2,&amp;nbsp; 26/07/2026&lt;/span&gt;&lt;/h1&gt;" vertex="1">
           <mxGeometry height="30" width="150" x="-797" y="40" as="geometry" />
         </mxCell>
