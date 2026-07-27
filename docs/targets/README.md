@@ -39,7 +39,7 @@ Status:
 - practical target board is the Olimex ESP32-DevKit-LiPo Rev.D, described by
   Olimex as pin-to-pin comparable with Espressif ESP32-CoreBoard /
   `ESP32-DevKitC`
-- KiCad project lives in `../../KICAD/ESP32_V1/`
+- KiCad project lives in `../../KICAD/V1/ESP32_V1/`
 
 Key files:
 
@@ -69,9 +69,9 @@ Key files:
 
 These directories provide manufacturer drawings, pinouts and, where present,
 target-library notes used to validate the curated symbols and footprints in
-`../../KICAD_V2/Espruino_Harness_V2/V2_Targets.*`.
+`../../KICAD/V2/Exploration/Espruino_Harness_V2/V2_Targets.*`.
 
 Target-specific daughter-board mappings will be added after the V2 Target
 Interface contract is stable. Curated KiCad assets and upstream revisions are
 described in
-`../../KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`.
+`../../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`.

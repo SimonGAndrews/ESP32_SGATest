@@ -62,7 +62,7 @@ The work in this repository has progressed through these stages:
 11. Proved the first shared functional block (`gpio_block1`) end to end across
     both current family targets on IDF4 firmware, using the same logical test
     files unchanged.
-12. Started the V2 prototype implementation in `KICAD_V2/`, created curated
+12. Started the V2 prototype implementation in `KICAD/V2/`, created curated
     target libraries, and adopted removable target daughter boards as the
     target-specific adaptation boundary.
 
@@ -84,7 +84,7 @@ Important C3-specific features include:
 KiCad project:
 
 ```text
-KICAD/ESP32_C3_v1/
+KICAD/V1/ESP32_C3_v1/
 ```
 
 ### Classic ESP32 DevKitC V4 / ESP32_V1
@@ -111,7 +111,7 @@ Important ESP32_V1-specific features include:
 KiCad project:
 
 ```text
-KICAD/ESP32_V1/
+KICAD/V1/ESP32_V1/
 ```
 
 ## Common Harness Blocks
@@ -162,8 +162,7 @@ covers:
 AGENTS.md                  Codex/new-thread operating notes
 docs/                      Wiring specs, handoffs, investigation notes
 tools/                     Python/REPL test utilities and wiring-test runners
-KICAD/                     Harness schematic/PCB projects
-KICAD_V2/                  V2 prototype project and curated project libraries
+KICAD/                     V1 and V2 schematic/PCB projects and local libraries
 Hardware/                  Hardware reference material
 tests/repl/                Portable community-facing REPL test scripts
 ```

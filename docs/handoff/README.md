@@ -45,7 +45,7 @@ specifications rather than relying on conversation history.
 | V2 architecture, Services and routing | `2026-07-17-v2-services-and-routing.md` | Accepted conceptual model, Test Blocks, routing envelope and Control Services; next routing-fabric work |
 
 V2 KiCad implementation currently uses the V2 architecture documents and
-`../../KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`; it does not
+`../../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`; it does not
 need a separate handover while its state is captured there and in Git history.
 
 ## Focused Historical Handovers

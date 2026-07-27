@@ -1484,7 +1484,7 @@ ESP32-S3-DevKitC-1 sources:
 * `docs/targets/ESP32-S3-DevKitC-1_V1.1/Resources/Connectors_ESP32-S3-DevKitC-1_V1.1_20220429.png`
 * `docs/targets/ESP32-S3-DevKitC-1_V1.1/Resources/SCH_ESP32-S3-DevKitC-1_V1.1_20221130.pdf`
 * `docs/targets/ESP32-S3-DevKitC-1_V1.1/Resources/PCB_ESP32-S3-DevKitC-1_V1.1_20220429.pdf`
-* `KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+* `KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
 * official V1.1 board guide:
   `https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-devkitc-1/user_guide_v1.1.html`
 * earlier official V1.1 ordering table retained in ESP-IDF v5.0 documentation:
@@ -1505,7 +1505,7 @@ ESP32-S3-DevKitC-1 sources:
 Raspberry Pi Pico-family sources:
 
 * `docs/targets/Raspberry-Pi-Pico-Family/Resources/picow-pinout.svg`
-* `KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+* `KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
 * official Pico-series board documentation and family comparison:
   `https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html`
 * official Raspberry Pi Pico datasheet:

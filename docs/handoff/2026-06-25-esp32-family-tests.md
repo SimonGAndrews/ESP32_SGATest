@@ -32,7 +32,7 @@ Core read set:
 5. the wiring document for the target being used
 6. the relevant block under `tests/repl/`
 
-Read `KICAD/ESP32_V1/README.md` only when physical construction detail is
+Read `KICAD/V1/ESP32_V1/README.md` only when physical construction detail is
 needed. Read the OneWire and `digitalPulse` investigation documents only when
 the task concerns those behaviours. This avoids loading historical firmware
 debug context into ordinary runner work.
@@ -90,7 +90,7 @@ Reference docs:
 
 Important peculiarities:
 
-- KiCad project: `KICAD/ESP32_C3_v1/`
+- KiCad project: `KICAD/V1/ESP32_C3_v1/`
 - schematic/PCB revision: v1.1
 - GPIO budget is tight, so selectors are central to the design.
 - `D18`/`D19` are native USB Serial/JTAG and are fixed to the harness USB
@@ -115,11 +115,11 @@ Important peculiarities:
 Reference docs:
 
 - `docs/targets/esp32-devkitc-v4/wiring.md`
-- `KICAD/ESP32_V1/README.md`
+- `KICAD/V1/ESP32_V1/README.md`
 
 Important peculiarities:
 
-- KiCad project: `KICAD/ESP32_V1/`
+- KiCad project: `KICAD/V1/ESP32_V1/`
 - The PCB is a wirewrap placement/silkscreen guide, not a routed PCB.
 - Classic ESP32 has more available GPIO, so most test blocks are fixed wiring.
 - UART0 on `D1`/`D3` remains the board USB-UART REPL/flashing/control path.
@@ -140,9 +140,9 @@ Important peculiarities:
 Harness repo:
 
 - Windows working path: `C:\Users\simon\Documents\ESP32_SGATest`
-- Active KiCad project for the classic ESP32 harness: `KICAD/ESP32_V1/`
+- Active KiCad project for the classic ESP32 harness: `KICAD/V1/ESP32_V1/`
 - Current focus: ESP32 DevKitC V4 / ESP32-WROOM-32E/32UE style target
-- Prior C3 project remains important reference material: `KICAD/ESP32_C3_v1/`
+- Prior C3 project remains important reference material: `KICAD/V1/ESP32_C3_v1/`
 
 Recent committed ESP32_V1 checkpoints:
 
@@ -152,7 +152,7 @@ Recent committed ESP32_V1 checkpoints:
 - DS2413 OneWire GPIO breakout addition
 - documentation for the final prototype board grid/datum
 
-At the time of this note, `KICAD/ESP32_V1/ProtoBoard.jpg` may exist as an
+At the time of this note, `KICAD/V1/ESP32_V1/ProtoBoard.jpg` may exist as an
 untracked local reference photo. It is useful for human inspection but is not
 required by the committed design.
 
@@ -184,7 +184,7 @@ not changing the board model.
 
 The KiCad PCB is a wirewrap placement/silkscreen guide, not a routed PCB.
 
-Measured guide geometry in `KICAD/ESP32_V1/ESP32_V1.kicad_pcb`:
+Measured guide geometry in `KICAD/V1/ESP32_V1/ESP32_V1.kicad_pcb`:
 
 | Item | Value |
 |---|---:|

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "w550io")(type "KiCad")(uri "${KIPRJMOD}/w550io.pretty")(options "")(descr ""))
+)

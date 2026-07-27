@@ -8,7 +8,7 @@
 - Footprints: `V2_Targets.pretty/`
 
 These are curated, project-local production libraries. The upstream
-repositories under `KICAD_V2/upstream/` are reference inputs only. They are not
+repositories under `KICAD/V2/upstream/` are reference inputs only. They are not
 registered as KiCad production libraries and are deliberately excluded from
 the parent repository.
 

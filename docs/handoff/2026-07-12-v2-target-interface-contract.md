@@ -173,7 +173,7 @@ The plug-in daughter board is the selected direction.
 
 The V2 KiCad project is under:
 
-`KICAD_V2/Espruino_Harness_V2/`
+`KICAD/V2/Exploration/Espruino_Harness_V2/`
 
 Project libraries include:
 

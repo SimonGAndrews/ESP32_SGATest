@@ -315,7 +315,7 @@ Use the following ownership:
 | Standard Control Service behaviour | `StandardControlServices_V2.md` |
 | Combined direct, routed, simultaneous-use and safe-state requirements | `CombinedCapabilityConnectionMatrix_V2.md` feeding the routing and Target Interface specifications |
 | Target-specific physical mapping | daughter-board schematic and target-specific documentation |
-| KiCad symbols, footprints, schematic and PCB implementation | `KICAD_V2/Espruino_Harness_V2/` |
+| KiCad symbols, footprints, schematic and PCB exploration | `KICAD/V2/Exploration/Espruino_Harness_V2/` |
 
 Each requirement has one authority. Other documents should link to that
 requirement rather than restating its detailed behaviour. The combined

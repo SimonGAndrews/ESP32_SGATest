@@ -10,11 +10,7 @@
 
 # Local upstream source checkouts used to derive curated V2 KiCad assets.
 # Revisions and licences are recorded in the V2 target-library provenance.
-KICAD_V2/upstream/
-
-# KiCad work in progress.
-KICAD_BOM/
-KICAD_PICO/
+KICAD/V2/upstream/
 
 # Local V2 parts research, purchasing records and draft reference material.
 docs/design/V2Harness/Parts/

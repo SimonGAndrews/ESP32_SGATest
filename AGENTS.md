@@ -89,14 +89,15 @@ the KiCad workstream treats them as implementation requirements.
 
 ### 4. V2 KiCad implementation
 
-This active workstream implements accepted V2 architecture in the project
-under `KICAD_V2/Espruino_Harness_V2/`.
+This active workstream implements accepted V2 architecture in a fresh Rev-A
+project under `KICAD/V2/RevA/`. The earlier exploratory project is preserved
+under `KICAD/V2/Exploration/Espruino_Harness_V2/`.
 
 Read:
 
 - `docs/design/V2Harness/README.md`
 - `docs/design/V2Harness/arch/HybridHarnessArchitecture_V2.md`
-- `KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+- `KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
 - the accepted Target Interface contract when one is published
 
 The current project contains an exploratory hierarchy plus manually reviewed
@@ -153,7 +154,7 @@ that structure is useful.
 - State when a command is PowerShell-, Bash-, Windows- or Linux-specific.
 - Avoid line-ending-only changes. Line-ending policy changes require a separate
   reviewed normalization step.
-- Keep local upstream source checkouts under `KICAD_V2/upstream/`; they are
+- Keep local upstream source checkouts under `KICAD/V2/upstream/`; they are
   ignored reference inputs, not production libraries.
 
 ## Generic Test and Evidence Rules

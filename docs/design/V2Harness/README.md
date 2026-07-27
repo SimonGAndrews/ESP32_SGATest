@@ -77,11 +77,12 @@ Start with:
 
 ### KiCad implementation
 
-Implements accepted architecture in:
+The accepted architecture will be implemented in a fresh Rev-A project under:
 
-- `../../../KICAD_V2/Espruino_Harness_V2/`
+- `../../../KICAD/V2/RevA/Espruino_Harness_RevA/`
 
-The project currently contains:
+The earlier exploratory project is preserved under
+`../../../KICAD/V2/Exploration/Espruino_Harness_V2/`. It contains:
 
 - an exploratory hierarchical schematic
 - project-local `V2_Harness` component libraries
@@ -89,7 +90,7 @@ The project currently contains:
 - reviewed target assets for the main ESP32, ESP32-S3, Pico and Espruino
   target set
 
-Read `../../../KICAD_V2/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+Read `../../../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
 before modifying target assets. Several footprints contain authoritative
 interactive edits.
 
@@ -159,11 +160,14 @@ docs/design/V2Harness/
 ├── arch/             Current architecture specifications
 └── targets/          Provisional target allocation studies
 
-KICAD_V2/Espruino_Harness_V2/
-├── project files and hierarchical sheets
-├── V2_Harness.*      Project component libraries
-├── V2_Targets.*      Curated target libraries
-└── TARGET_LIBRARY_PROVENANCE.md
+KICAD/
+├── V1/               Completed V1 harness projects
+└── V2/
+    ├── Exploration/  Preserved exploratory V2 work
+    ├── ComponentDevelopment/
+    │   └── EspruinoPicoDirectMount/
+    ├── RevA/         Fresh Rev-A implementation
+    └── upstream/     Ignored upstream reference checkouts
 ```
 
 Repository-relative paths are canonical on both Windows and Ubuntu.

@@ -315,7 +315,7 @@ The first ESP32 DevKitC V4 harness build uses the same style of 90 mm x 70 mm
 wirewrap/prototype board as the ESP32-C3 harness. The KiCad PCB is used as a
 placement and silkscreen print guide rather than as a routed copper PCB.
 
-Measured board/grid details used in `KICAD/ESP32_V1/ESP32_V1.kicad_pcb`:
+Measured board/grid details used in `KICAD/V1/ESP32_V1/ESP32_V1.kicad_pcb`:
 
 | Item | Value |
 |---|---:|
