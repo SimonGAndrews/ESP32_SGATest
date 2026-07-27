@@ -609,6 +609,19 @@
     "subpart_first_id": 65,
     "subpart_id_separator": 0
   },
-  "sheets": [],
+  "sheets": [
+    [
+      "12444148-a051-4fb0-ae7b-e3d34eecc954",
+      "Root"
+    ],
+    [
+      "de8f4588-cd43-45f8-a502-51219f80935f",
+      "Standard_Test_Blocks"
+    ],
+    [
+      "8165b755-b7b4-43f2-8c27-65baae41abc9",
+      "Prototype_Daughter_Board"
+    ]
+  ],
   "text_variables": {}
 }

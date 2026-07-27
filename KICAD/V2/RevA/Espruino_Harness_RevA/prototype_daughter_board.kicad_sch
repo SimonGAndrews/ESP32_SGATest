@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid 3c97c162-ce75-4bbc-b2ed-80adc210dbe7)
+	(uuid "3c97c162-ce75-4bbc-b2ed-80adc210dbe7")
 	(paper "A3")
 	(title_block
 		(title "V2 Rev-A Prototype Daughter Board")
