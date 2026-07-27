@@ -1018,6 +1018,27 @@
 		(stroke (width 0) (type default))
 		(uuid "331023d1-e602-4e88-8eef-603e65ba926e")
 	)
+	(wire
+		(pts
+			(xy 279.4 351.79) (xy 294.64 351.79)
+		)
+		(stroke (width 0) (type default))
+		(uuid "ddad2357-5ac1-4154-9a82-13652829ec4e")
+	)
+	(wire
+		(pts
+			(xy 279.4 364.49) (xy 294.64 364.49)
+		)
+		(stroke (width 0) (type default))
+		(uuid "1435b32d-1503-4b39-8975-9c5f51418b68")
+	)
+	(wire
+		(pts
+			(xy 15.24 351.79) (xy 30.48 351.79)
+		)
+		(stroke (width 0) (type default))
+		(uuid "05edb00e-42ff-47af-a8e0-eb82fdf9b5d6")
+	)
 	(label "TI_GPIO_LOOP_A_IN"
 		(at 285.79 127 0)
 		(effects
@@ -1518,6 +1539,21 @@
 		(effects (font (size 1.27 1.27)) (justify left bottom))
 		(uuid "8a779017-c29a-4ae9-b451-2413a940c1d7")
 	)
+	(label "TI_ANALOG_PWM_OUT"
+		(at 294.64 351.79 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "753e5dfb-55ce-4724-a698-f295caf0f4cc")
+	)
+	(label "TI_ANALOG_ADC_IN"
+		(at 294.64 364.49 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "22ce39de-16cb-4a5b-803e-e9cee829561c")
+	)
+	(label "TI_GND"
+		(at 15.24 351.79 180)
+		(effects (font (size 1.27 1.27)) (justify right bottom))
+		(uuid "3e6a7902-def8-4b96-9351-ab8fc6e05276")
+	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:Target_Interface_2x12_Odd_Even")
 		(at 171.45 149.86 0)
@@ -1879,6 +1915,21 @@
 			(at 279.4 339.09 0)
 			(uuid "387eef50-f7a3-4c99-bc2a-5ded849d63e7")
 			(effects (font (size 1.27 1.27)) (justify right))
+		)
+		(pin "TI_ANALOG_PWM_OUT" input
+			(at 279.4 351.79 0)
+			(uuid "169ecc13-91b5-467e-b581-d29af83e37e6")
+			(effects (font (size 1.27 1.27)) (justify right))
+		)
+		(pin "TI_ANALOG_ADC_IN" output
+			(at 279.4 364.49 0)
+			(uuid "8e65af2a-b1bd-4a4c-9666-c1a0243f9380")
+			(effects (font (size 1.27 1.27)) (justify right))
+		)
+		(pin "TI_GND" passive
+			(at 30.48 351.79 180)
+			(uuid "4fba5637-d62a-455b-8c7b-0037747bf352")
+			(effects (font (size 1.27 1.27)) (justify left))
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
