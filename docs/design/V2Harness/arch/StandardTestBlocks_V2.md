@@ -156,16 +156,14 @@ The full rule is defined in `HarnessConceptualModel_V2.md`.
 
 ### 3.9 Prototype Packaging And Manufacturing Review
 
-The prototype should use socketed through-hole devices where a suitable package
-exists and removal or substitution materially assists diagnosis. SMD devices
-are permitted where the required part or function is not available in a
-practical through-hole package. A combined through-hole and SMD footprint is
-not required merely to anticipate manufacture.
+Rev-A package selection follows `ReusableHarnessPrototypeStrategy_V2.md`.
+Fixed harness ICs should use practical SMD packages assembled by AISLER so the
+prototype is representative of a later manufactured board. Devices whose
+substitution is part of normal testing remain removable.
 
-After prototype testing, each applicable device shall receive a deliberate
-manufacturing-package review. Any transition to SMD must preserve the required
-electrical behaviour, isolation, observation and repair strategy rather than
-being treated as a footprint-only substitution.
+Where an SMD device replaces socket-based diagnosis, the schematic shall
+provide explicit electrical isolation, observation and repair provisions.
+Package selection is therefore not a footprint-only substitution.
 
 ## 4. Block Definition Structure
 
@@ -548,16 +546,18 @@ expanding additional-device tests.
 
 #### V2 Decision
 
-Preserve the proven MCP23008 functional paths but implement the V2 block with a
-socketed through-hole MCP23017. Its first 8-bit bank retains the V1 feedback
-and interrupt behaviour. Its second bank provides the two low-speed Supervisor
-event-handshake roles defined by `StandardControlServices_V2.md` and leaves
-controlled expansion capacity without requiring another I2C expander.
+Preserve the proven MCP23008 functional paths but implement the V2 block with
+an AISLER-assembled `MCP23017-E/SO` in the wide SOIC-28 package. Its first
+8-bit bank retains the V1 feedback and interrupt behaviour. Its second bank
+provides the two low-speed Supervisor event-handshake roles defined by
+`StandardControlServices_V2.md` and leaves controlled expansion capacity
+without requiring another I2C expander.
 
 The additional GPIO does not create a general routing or capture fabric.
 Target power, reset and boot recovery shall remain independent of the
-MCP23017. The prototype device shall be removable and isolatable during
-diagnosis. The authoritative component reference is the
+MCP23017. The SMD device shall be isolatable during diagnosis through grouped,
+accessible zero-ohm links or solder jumpers on its supply and external signal
+paths. The authoritative component reference is the
 [Microchip MCP23017/MCP23S17 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf).
 
 Provide one vertical through-hole 2.0 mm Grove connector as part of Block 3.
@@ -575,14 +575,16 @@ creating new Target Interface signals.
 GPA0, GPA1 and GPA2 retain the proven V1 GP0, GP1 and GP2 feedback and
 interrupt-stimulus roles. Two Port B GPIO provide the protected
 `SUP_EVENT_OUT` and `SUP_EVENT_IN` connections; their exact bit allocation
-belongs to the Control Service connection matrix and schematic. The remaining
-GPIO are unallocated expansion provision. Current MCP23017 documentation marks
-GPA7 and GPB7 as output-only, which shall be respected when assigning roles.
+is GPB0 for the `SUP_EVENT_OUT` input and GPB1 for the `SUP_EVENT_IN` output.
+The remaining GPIO are unallocated expansion provision. Current MCP23017
+documentation marks GPA7 and GPB7 as output-only, which shall be respected
+when assigning roles.
 
 The design shall provide one `TI_I2C_INT` path that can report both the
-standard Port A interrupt test and the Port B Supervisor event. The schematic
-shall choose and document MCP23017 interrupt mirroring or an equivalent safe
-combination of INTA and INTB.
+standard Port A interrupt test and the Port B Supervisor event. Target setup
+shall configure interrupt mirroring and open-drain operation
+(`IOCON.MIRROR=1`, `IOCON.ODR=1`). INTA supplies `TI_I2C_INT`; INTB remains
+available for diagnostic observation.
 
 The Grove I2C pinout shall follow the official Seeed numbering:
 
@@ -674,10 +676,19 @@ assumption that 4.7 kΩ is correct for every external configuration.
 
 #### Isolation And Diagnostics
 
-The prototype MCP23017 socket shall provide complete manual removal and
-isolation of the functional device. The Grove branch is isolated by unplugging
-its connector. Isolation and recovery of non-removable routing-control devices
-belong in the routing specification.
+The MCP23017 shall be isolated without removing the SOIC-28 device. Grouped,
+normally closed zero-ohm links or solder jumpers shall isolate:
+
+* its 3.3 V supply
+* SDA and SCL
+* `TI_I2C_FB`
+* `TI_I2C_INT`
+* the `SUP_EVENT_OUT` path into its Port B input
+
+The protected `SUP_EVENT_IN` output stage shall not provide a back-power path
+into the MCP23017 and therefore does not require another series isolation
+link. The Grove branch is isolated by unplugging its connector. Isolation and
+recovery of routing-control devices belong in the routing specification.
 
 Block 3 shall provide individual 2.54 mm header-pin test points for:
 
@@ -699,9 +710,6 @@ and clearly labelled by bank and bit. External connections must remain within
 the 3.3 V domain and the MCP23017 GPIO current limits. External circuitry must
 not drive the standard Block 3 or Supervisor event paths against their defined
 directions.
-
-Any later MCP23017 SMD transition must meet Section 3.9 and provide an
-equivalent means of isolating the functional device.
 
 #### Functional Coverage
 
@@ -732,12 +740,10 @@ Section 7.6:
 * the final pull-up and optional parallel-resistor values after measuring the
   populated prototype bus
 * whether 400 kHz becomes a required or optional tested capability
-* final MCP23017 RESET, interrupt mirroring and INTA/INTB treatment
 * a V2 Block 3 REPL test using the MCP23017 two-bank register map while
   preserving the existing MCP23008 tests for V1
 * the diagnostic or manual fallback if target I2C cannot configure the routing
   Control Service
-* the manufactured MCP23017 package and equivalent isolation arrangement
 
 ### 6.4 Block 4 — SPI Functional Device And Removable Storage Extension
 

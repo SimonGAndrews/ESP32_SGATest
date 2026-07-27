@@ -512,6 +512,16 @@
 	)
 	(wire
 		(pts
+			(xy 15.24 351.79) (xy 30.48 351.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "05edb00e-42ff-47af-a8e0-eb82fdf9b5d6")
+	)
+	(wire
+		(pts
 			(xy 161.29 167.64) (xy 166.37 167.64)
 		)
 		(stroke
@@ -539,6 +549,26 @@
 			(type default)
 		)
 		(uuid "10c91d8a-a256-4620-9e1f-880e18cf7172")
+	)
+	(wire
+		(pts
+			(xy 279.4 364.49) (xy 294.64 364.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1435b32d-1503-4b39-8975-9c5f51418b68")
+	)
+	(wire
+		(pts
+			(xy 279.4 326.39) (xy 294.64 326.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "166bce88-fffe-4b09-ac47-2804fd28d217")
 	)
 	(wire
 		(pts
@@ -582,6 +612,16 @@
 	)
 	(wire
 		(pts
+			(xy 279.4 339.09) (xy 294.64 339.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "331023d1-e602-4e88-8eef-603e65ba926e")
+	)
+	(wire
+		(pts
 			(xy 176.53 157.48) (xy 181.61 157.48)
 		)
 		(stroke
@@ -599,6 +639,26 @@
 			(type default)
 		)
 		(uuid "39aee1c0-8214-4cff-b3a1-cfe74a3c3fb7")
+	)
+	(wire
+		(pts
+			(xy 15.24 339.09) (xy 30.48 339.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3d84f77e-3cc9-4d97-8043-d3a946784947")
+	)
+	(wire
+		(pts
+			(xy 279.4 300.99) (xy 294.64 300.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "476cf81e-ff0f-4a46-99a9-b174087ae428")
 	)
 	(wire
 		(pts
@@ -712,6 +772,16 @@
 	)
 	(wire
 		(pts
+			(xy 15.24 288.29) (xy 30.48 288.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8638eafd-f31d-4936-90f0-6ba791917b81")
+	)
+	(wire
+		(pts
 			(xy 176.53 177.8) (xy 181.61 177.8)
 		)
 		(stroke
@@ -762,6 +832,16 @@
 	)
 	(wire
 		(pts
+			(xy 15.24 300.99) (xy 30.48 300.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95e9b03f-bf29-4a70-a6f8-4c6bced89e09")
+	)
+	(wire
+		(pts
 			(xy 161.29 157.48) (xy 166.37 157.48)
 		)
 		(stroke
@@ -789,6 +869,16 @@
 			(type default)
 		)
 		(uuid "a43e7785-4c26-40ba-8dce-317a863bbad9")
+	)
+	(wire
+		(pts
+			(xy 15.24 326.39) (xy 30.48 326.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ab3b92c4-c655-4681-b47b-34e03449125e")
 	)
 	(wire
 		(pts
@@ -892,6 +982,16 @@
 	)
 	(wire
 		(pts
+			(xy 279.4 313.69) (xy 294.64 313.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c18c88a4-1d5f-424f-a8ad-56122edb6b63")
+	)
+	(wire
+		(pts
 			(xy 161.29 142.24) (xy 166.37 142.24)
 		)
 		(stroke
@@ -899,6 +999,16 @@
 			(type default)
 		)
 		(uuid "c326dee1-3c00-4cca-843d-c5e6fee4c771")
+	)
+	(wire
+		(pts
+			(xy 15.24 364.49) (xy 30.48 364.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c401553a-fe01-41c8-8a9b-d74b99603390")
 	)
 	(wire
 		(pts
@@ -942,6 +1052,26 @@
 	)
 	(wire
 		(pts
+			(xy 279.4 351.79) (xy 294.64 351.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ddad2357-5ac1-4154-9a82-13652829ec4e")
+	)
+	(wire
+		(pts
+			(xy 15.24 313.69) (xy 30.48 313.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec123f1f-2e74-4a51-84ab-e4c948d96d44")
+	)
+	(wire
+		(pts
 			(xy 280.71 177.8) (xy 285.79 177.8)
 		)
 		(stroke
@@ -949,6 +1079,16 @@
 			(type default)
 		)
 		(uuid "f1c4db59-6eec-4cba-8ee7-fe402d5108c5")
+	)
+	(wire
+		(pts
+			(xy 279.4 288.29) (xy 294.64 288.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f62efc92-5f18-47d3-8a41-eb991a95d3cd")
 	)
 	(wire
 		(pts
@@ -990,54 +1130,25 @@
 		)
 		(uuid "ffce844d-99e5-44f0-b89b-e0a46f4e15ae")
 	)
-	(wire
-		(pts
-			(xy 279.4 300.99) (xy 294.64 300.99)
+	(label "SUP_EVENT_IN"
+		(at 294.64 288.29 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
 		)
-		(stroke (width 0) (type default))
-		(uuid "476cf81e-ff0f-4a46-99a9-b174087ae428")
+		(uuid "05dd1f36-71d0-42e7-89a0-a258a8dcf64f")
 	)
-	(wire
-		(pts
-			(xy 279.4 313.69) (xy 294.64 313.69)
+	(label "IP03_TEST_BLOCK_SDA"
+		(at 15.24 300.99 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
 		)
-		(stroke (width 0) (type default))
-		(uuid "c18c88a4-1d5f-424f-a8ad-56122edb6b63")
-	)
-	(wire
-		(pts
-			(xy 279.4 326.39) (xy 294.64 326.39)
-		)
-		(stroke (width 0) (type default))
-		(uuid "166bce88-fffe-4b09-ac47-2804fd28d217")
-	)
-	(wire
-		(pts
-			(xy 279.4 339.09) (xy 294.64 339.09)
-		)
-		(stroke (width 0) (type default))
-		(uuid "331023d1-e602-4e88-8eef-603e65ba926e")
-	)
-	(wire
-		(pts
-			(xy 279.4 351.79) (xy 294.64 351.79)
-		)
-		(stroke (width 0) (type default))
-		(uuid "ddad2357-5ac1-4154-9a82-13652829ec4e")
-	)
-	(wire
-		(pts
-			(xy 279.4 364.49) (xy 294.64 364.49)
-		)
-		(stroke (width 0) (type default))
-		(uuid "1435b32d-1503-4b39-8975-9c5f51418b68")
-	)
-	(wire
-		(pts
-			(xy 15.24 351.79) (xy 30.48 351.79)
-		)
-		(stroke (width 0) (type default))
-		(uuid "05edb00e-42ff-47af-a8e0-eb82fdf9b5d6")
+		(uuid "0d697e81-75b1-437d-b055-2a7448bb4cd1")
 	)
 	(label "TI_GPIO_LOOP_A_IN"
 		(at 285.79 127 0)
@@ -1048,6 +1159,16 @@
 			(justify left bottom)
 		)
 		(uuid "0f5cf09a-a2d7-4071-9e4f-e63228183042")
+	)
+	(label "TI_I2C_FB"
+		(at 15.24 326.39 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "15dafe68-7853-4922-8203-5cc46a183dc6")
 	)
 	(label "TI_GPIO_LOOP_A_OUT"
 		(at 265.47 127 0)
@@ -1099,6 +1220,16 @@
 		)
 		(uuid "1b886ebc-e3e8-460d-b085-26acd225cabf")
 	)
+	(label "TI_ANALOG_ADC_IN"
+		(at 294.64 364.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "22ce39de-16cb-4a5b-803e-e9cee829561c")
+	)
 	(label "TI_SWITCHED_TARGET_5V"
 		(at 161.29 177.8 0)
 		(effects
@@ -1138,6 +1269,16 @@
 			(justify left bottom)
 		)
 		(uuid "3e68511c-7641-4ca9-8fa4-069cc34f6822")
+	)
+	(label "TI_GND"
+		(at 15.24 351.79 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "3e6a7902-def8-4b96-9351-ab8fc6e05276")
 	)
 	(label "TI_ANALOG_PWM_OUT"
 		(at 161.29 172.72 0)
@@ -1199,6 +1340,16 @@
 		)
 		(uuid "4b4b051d-9188-40f3-82ac-de9b096f9fa9")
 	)
+	(label "TI_GPIO_LOOP_A_IN"
+		(at 294.64 313.69 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4f0aaa3c-a70b-4d99-992e-7178c4bb75db")
+	)
 	(label "TI_TARGET_3V3"
 		(at 161.29 121.92 0)
 		(effects
@@ -1259,6 +1410,16 @@
 		)
 		(uuid "733ffa33-cd67-4183-b085-c3202f592acb")
 	)
+	(label "TI_ANALOG_PWM_OUT"
+		(at 294.64 351.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "753e5dfb-55ce-4724-a698-f295caf0f4cc")
+	)
 	(label "R3"
 		(at 181.61 132.08 0)
 		(effects
@@ -1289,6 +1450,16 @@
 		)
 		(uuid "7ba8efaf-d924-4105-9d79-9b3dfa6678d9")
 	)
+	(label "TI_I2C_INT"
+		(at 15.24 339.09 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7fba6dc2-3bad-4965-a2f2-36ad2e607d75")
+	)
 	(label "TI_GND"
 		(at 285.79 157.48 0)
 		(effects
@@ -1309,6 +1480,16 @@
 		)
 		(uuid "83acda4e-ac3a-4edf-b1ee-759c5586f053")
 	)
+	(label "TI_GPIO_LOOP_A_OUT"
+		(at 294.64 300.99 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "854349b7-58d8-4237-9416-03c10657d899")
+	)
 	(label "TI_I2C_SCL"
 		(at 161.29 162.56 0)
 		(effects
@@ -1328,6 +1509,16 @@
 			(justify left bottom)
 		)
 		(uuid "895fdfff-f079-4f0b-bf59-b2ac28ab40fc")
+	)
+	(label "TI_GPIO_LOOP_B_IN"
+		(at 294.64 339.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8a779017-c29a-4ae9-b451-2413a940c1d7")
 	)
 	(label "TI_SPI_SCK"
 		(at 265.47 137.16 0)
@@ -1358,6 +1549,36 @@
 			(justify left bottom)
 		)
 		(uuid "920e389c-b93f-4a05-8e8a-48558e8c7a35")
+	)
+	(label "IP04_TEST_BLOCK_SCL"
+		(at 15.24 313.69 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "98ee2b79-8eec-4c3e-b8ec-fa62c2fd5e24")
+	)
+	(label "SUP_EVENT_OUT"
+		(at 15.24 364.49 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a0cab604-5726-4133-978a-eddd200065dd")
+	)
+	(label "TEST_BLOCK_3V3"
+		(at 15.24 288.29 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a4b98795-6ada-4070-89ae-fd4a66668312")
 	)
 	(label "TI_UART_A_TX"
 		(at 285.79 162.56 0)
@@ -1479,6 +1700,16 @@
 		)
 		(uuid "ecd01e2c-2f28-4da6-89a4-d8528687e81b")
 	)
+	(label "TI_GPIO_LOOP_B_OUT"
+		(at 294.64 326.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ee51576a-e387-424a-b002-44af802508e0")
+	)
 	(label "TI_GND"
 		(at 285.79 147.32 0)
 		(effects
@@ -1518,41 +1749,6 @@
 			(justify left bottom)
 		)
 		(uuid "fe42642e-eff0-40f0-9bd7-ceb602f53810")
-	)
-	(label "TI_GPIO_LOOP_A_OUT"
-		(at 294.64 300.99 0)
-		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "854349b7-58d8-4237-9416-03c10657d899")
-	)
-	(label "TI_GPIO_LOOP_A_IN"
-		(at 294.64 313.69 0)
-		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "4f0aaa3c-a70b-4d99-992e-7178c4bb75db")
-	)
-	(label "TI_GPIO_LOOP_B_OUT"
-		(at 294.64 326.39 0)
-		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "ee51576a-e387-424a-b002-44af802508e0")
-	)
-	(label "TI_GPIO_LOOP_B_IN"
-		(at 294.64 339.09 0)
-		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8a779017-c29a-4ae9-b451-2413a940c1d7")
-	)
-	(label "TI_ANALOG_PWM_OUT"
-		(at 294.64 351.79 0)
-		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "753e5dfb-55ce-4724-a698-f295caf0f4cc")
-	)
-	(label "TI_ANALOG_ADC_IN"
-		(at 294.64 364.49 0)
-		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "22ce39de-16cb-4a5b-803e-e9cee829561c")
-	)
-	(label "TI_GND"
-		(at 15.24 351.79 180)
-		(effects (font (size 1.27 1.27)) (justify right bottom))
-		(uuid "3e6a7902-def8-4b96-9351-ab8fc6e05276")
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:Target_Interface_2x12_Odd_Even")
@@ -1899,37 +2095,142 @@
 		(pin "TI_GPIO_LOOP_A_OUT" input
 			(at 279.4 300.99 0)
 			(uuid "850b5f1d-1b9b-4261-be53-ddfde72a244e")
-			(effects (font (size 1.27 1.27)) (justify right))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(pin "TI_GPIO_LOOP_A_IN" output
 			(at 279.4 313.69 0)
 			(uuid "c45ad480-9e49-4179-94b4-7a6c97b418df")
-			(effects (font (size 1.27 1.27)) (justify right))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(pin "TI_GPIO_LOOP_B_OUT" input
 			(at 279.4 326.39 0)
 			(uuid "bbf4af75-2a15-490a-8535-7236e3ae2dbd")
-			(effects (font (size 1.27 1.27)) (justify right))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(pin "TI_GPIO_LOOP_B_IN" output
 			(at 279.4 339.09 0)
 			(uuid "387eef50-f7a3-4c99-bc2a-5ded849d63e7")
-			(effects (font (size 1.27 1.27)) (justify right))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(pin "TI_ANALOG_PWM_OUT" input
 			(at 279.4 351.79 0)
 			(uuid "169ecc13-91b5-467e-b581-d29af83e37e6")
-			(effects (font (size 1.27 1.27)) (justify right))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(pin "TI_ANALOG_ADC_IN" output
 			(at 279.4 364.49 0)
 			(uuid "8e65af2a-b1bd-4a4c-9666-c1a0243f9380")
-			(effects (font (size 1.27 1.27)) (justify right))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(pin "TI_GND" passive
 			(at 30.48 351.79 180)
 			(uuid "4fba5637-d62a-455b-8c7b-0037747bf352")
-			(effects (font (size 1.27 1.27)) (justify left))
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TEST_BLOCK_3V3" input
+			(at 30.48 288.29 180)
+			(uuid "43325c41-cc3f-4adc-acef-e032d62671e1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "IP03_TEST_BLOCK_SDA" bidirectional
+			(at 30.48 300.99 180)
+			(uuid "e2d88c47-0765-4d4c-a44f-1c38af59e7ea")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "IP04_TEST_BLOCK_SCL" input
+			(at 30.48 313.69 180)
+			(uuid "564c0f1f-75c2-43b5-9b77-41306e4dd971")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TI_I2C_FB" output
+			(at 30.48 326.39 180)
+			(uuid "2582f207-4bb6-435f-8a1d-4e58bf4e39d0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TI_I2C_INT" output
+			(at 30.48 339.09 180)
+			(uuid "20a9f0f0-53b1-45df-9d05-ce2286181c7c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SUP_EVENT_OUT" input
+			(at 30.48 364.49 180)
+			(uuid "497fed05-310b-4acc-bc98-f7bdd0990831")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SUP_EVENT_IN" output
+			(at 279.4 288.29 0)
+			(uuid "57eaec27-e0e6-4ec7-8a53-91251d71c6f9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
