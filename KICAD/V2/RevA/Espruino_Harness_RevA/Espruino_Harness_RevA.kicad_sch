@@ -1,0 +1,104 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid 12444148-a051-4fb0-ae7b-e3d34eecc954)
+	(paper "A2")
+	(title_block
+		(title "V2 Rev-A Reusable Harness - System, Control and Routing")
+		(rev "A")
+		(company "ESP32_SGATest")
+		(comment 1 "Engineering validation prototype")
+	)
+	(lib_symbols)
+	(sheet
+		(at 30.48 281.94)
+		(size 248.92 88.9)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid de8f4588-cd43-45f8-a502-51219f80935f)
+		(property "Sheetname" "Standard_Test_Blocks"
+			(at 30.48 281.2284 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "standard_test_blocks.kicad_sch"
+			(at 30.48 372.1354 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 424.18 124.46)
+		(size 139.7 88.9)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid 8165b755-b7b4-43f2-8c27-65baae41abc9)
+		(property "Sheetname" "Prototype_Daughter_Board"
+			(at 424.18 123.7484 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "prototype_daughter_board.kicad_sch"
+			(at 424.18 214.6554 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

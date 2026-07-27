@@ -1,0 +1,10 @@
+(sym_lib_table
+	(version 7)
+	(lib
+		(name "Espruino_Harness_RevA")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/Espruino_Harness_RevA.kicad_sym")
+		(options "")
+		(descr "Project-local symbols for the V2 Rev-A harness and daughter board")
+	)
+)

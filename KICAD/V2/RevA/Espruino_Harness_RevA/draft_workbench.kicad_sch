@@ -1,0 +1,15 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid 368f7ba4-bbe5-4cee-a99e-44e03af59afa)
+	(paper "A3")
+	(title_block
+		(title "DRAFT WORKBENCH - NOT IN PRODUCTION HIERARCHY")
+		(rev "DRAFT")
+		(company "ESP32_SGATest")
+		(comment 1 "Candidate circuits and alternative implementations only")
+		(comment 2 "Promote accepted circuits to the production hierarchy and re-verify")
+	)
+	(lib_symbols)
+)

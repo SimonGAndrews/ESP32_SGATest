@@ -1,0 +1,14 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid 38b33216-84a3-42b4-bc75-20b857a21f0e)
+	(paper "A2")
+	(title_block
+		(title "V2 Rev-A Standard Test Blocks")
+		(rev "A")
+		(company "ESP32_SGATest")
+		(comment 1 "Engineering validation prototype")
+	)
+	(lib_symbols)
+)
