@@ -15,6 +15,24 @@ manufacture.
 
 ## Symbols
 
+### Standard KiCad symbols used by Routing Control
+
+- `Power_Supervisor:TPS3808DBV` represents the three
+  `TPS3808G30DBVR` rail-valid supervisors used by the initial
+  `routing_control.kicad_sch` implementation.
+- Source: the KiCad 9 standard `Power_Supervisor` symbol library.
+- Package: `Package_TO_SOT_SMD:SOT-23-6`.
+- Datasheet:
+  <https://www.ti.com/lit/ds/symlink/tps3808.pdf>.
+- Validation: symbol pin numbers, the `G30` 2.79 V threshold selection,
+  open-drain reset behaviour and open-CT release delay were checked against
+  the Texas Instruments data sheet when the routing-control sheet was
+  scaffolded.
+
+Standard `Device:R`, `Device:C` and `Connector:TestPoint` symbols are also
+used directly. Their Rev-A instances use reviewed standard 0603 passive
+footprints and explicit diagnostic test-point footprints.
+
 ### `Target_Interface_2x12_Odd_Even`
 
 - Purpose: logical schematic representation of one 24-contact Target Interface

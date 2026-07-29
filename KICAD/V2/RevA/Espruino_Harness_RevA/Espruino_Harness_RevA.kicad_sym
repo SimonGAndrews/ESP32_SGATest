@@ -2162,6 +2162,107 @@
 		)
 		(embedded_fonts no)
 	)
+	(symbol "TI_GND"
+		(power)
+		(pin_numbers
+			(hide yes)
+		)
+		(pin_names
+			(offset 0)
+			(hide yes)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "#PWR"
+			(at 0 -6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 0 -3.556 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "TI_GND_0_1"
+			(polyline
+				(pts
+					(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "TI_GND_1_1"
+			(pin power_in line
+				(at 0 0 270)
+				(length 0)
+				(name "~"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 	(symbol "TMUX1511_PW"
 		(pin_names
 			(offset 0.254)
@@ -2215,7 +2316,7 @@
 		(symbol "TMUX1511_PW_0_1"
 			(rectangle
 				(start -10.16 13.97)
-				(end 10.16 -13.97)
+				(end 15.24 -13.97)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -2317,7 +2418,7 @@
 				)
 			)
 			(pin input line
-				(at -3.81 -16.51 90)
+				(at -2.54 -16.51 90)
 				(length 2.54)
 				(name "SEL2"
 					(effects
@@ -2353,7 +2454,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -16.51 90)
+				(at 2.54 -16.51 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -2371,7 +2472,7 @@
 				)
 			)
 			(pin input line
-				(at 3.81 -16.51 90)
+				(at 7.62 -16.51 90)
 				(length 2.54)
 				(name "SEL3"
 					(effects
@@ -2389,7 +2490,7 @@
 				)
 			)
 			(pin input line
-				(at 7.62 -16.51 90)
+				(at 12.7 -16.51 90)
 				(length 2.54)
 				(name "SEL4"
 					(effects
@@ -2407,7 +2508,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 8.89 180)
+				(at 20.32 8.89 180)
 				(length 5.08)
 				(name "D1"
 					(effects
@@ -2425,7 +2526,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 3.81 180)
+				(at 20.32 3.81 180)
 				(length 5.08)
 				(name "D2"
 					(effects
@@ -2443,7 +2544,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 -2.54 180)
+				(at 20.32 -2.54 180)
 				(length 5.08)
 				(name "D3"
 					(effects
@@ -2461,7 +2562,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 -7.62 180)
+				(at 20.32 -7.62 180)
 				(length 5.08)
 				(name "D4"
 					(effects

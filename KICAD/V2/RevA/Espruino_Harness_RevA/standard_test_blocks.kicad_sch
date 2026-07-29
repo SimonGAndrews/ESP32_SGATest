@@ -3365,7 +3365,7 @@
 			(symbol "TMUX1511_PW_0_1"
 				(rectangle
 					(start -10.16 13.97)
-					(end 10.16 -13.97)
+					(end 15.24 -13.97)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -3467,7 +3467,7 @@
 					)
 				)
 				(pin input line
-					(at -3.81 -16.51 90)
+					(at -2.54 -16.51 90)
 					(length 2.54)
 					(name "SEL2"
 						(effects
@@ -3503,7 +3503,7 @@
 					)
 				)
 				(pin power_in line
-					(at 0 -16.51 90)
+					(at 2.54 -16.51 90)
 					(length 2.54)
 					(name "GND"
 						(effects
@@ -3521,7 +3521,7 @@
 					)
 				)
 				(pin input line
-					(at 3.81 -16.51 90)
+					(at 7.62 -16.51 90)
 					(length 2.54)
 					(name "SEL3"
 						(effects
@@ -3539,7 +3539,7 @@
 					)
 				)
 				(pin input line
-					(at 7.62 -16.51 90)
+					(at 12.7 -16.51 90)
 					(length 2.54)
 					(name "SEL4"
 						(effects
@@ -3557,7 +3557,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at 15.24 8.89 180)
+					(at 20.32 8.89 180)
 					(length 5.08)
 					(name "D1"
 						(effects
@@ -3575,7 +3575,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at 15.24 3.81 180)
+					(at 20.32 3.81 180)
 					(length 5.08)
 					(name "D2"
 						(effects
@@ -3593,7 +3593,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at 15.24 -2.54 180)
+					(at 20.32 -2.54 180)
 					(length 5.08)
 					(name "D3"
 						(effects
@@ -3611,7 +3611,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at 15.24 -7.62 180)
+					(at 20.32 -7.62 180)
 					(length 5.08)
 					(name "D4"
 						(effects
@@ -5091,6 +5091,16 @@
 	)
 	(wire
 		(pts
+			(xy 120.65 302.26) (xy 120.65 270.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b07e383-f4a2-4c20-a97f-63b3bd93d73d")
+	)
+	(wire
+		(pts
 			(xy 91.44 196.85) (xy 96.52 196.85)
 		)
 		(stroke
@@ -5128,6 +5138,16 @@
 			(type default)
 		)
 		(uuid "21fe6938-2d62-4575-9b5e-c4955c0d651a")
+	)
+	(wire
+		(pts
+			(xy 128.27 245.11) (xy 132.08 245.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23c55c3c-c4c9-434e-a6d1-4342083ab1f3")
 	)
 	(wire
 		(pts
@@ -5841,6 +5861,16 @@
 	)
 	(wire
 		(pts
+			(xy 128.27 256.54) (xy 132.08 256.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8edaff9b-3560-4e8c-a5c9-8571002f7fa3")
+	)
+	(wire
+		(pts
 			(xy 170.18 201.93) (xy 182.88 201.93)
 		)
 		(stroke
@@ -5911,7 +5941,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 292.1) (xy 97.79 292.1)
+			(xy 110.49 292.1) (xy 97.79 292.1)
 		)
 		(stroke
 			(width 0)
@@ -6028,6 +6058,16 @@
 			(type default)
 		)
 		(uuid "ad16f71f-a944-41b6-af36-e84351c2f323")
+	)
+	(wire
+		(pts
+			(xy 128.27 261.62) (xy 132.08 261.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad5b0799-60b3-4843-a93f-d26288d50c52")
 	)
 	(wire
 		(pts
@@ -6241,6 +6281,16 @@
 	)
 	(wire
 		(pts
+			(xy 128.27 250.19) (xy 132.08 250.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b8bbce3b-0d2f-465b-bdd0-68e1f33949e6")
+	)
+	(wire
+		(pts
 			(xy 359.41 43.18) (xy 373.38 43.18)
 		)
 		(stroke
@@ -6291,16 +6341,6 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 245.11) (xy 132.08 245.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7000000-0000-4000-8000-000000000105")
-	)
-	(wire
-		(pts
 			(xy 139.7 245.11) (xy 149.86 245.11)
 		)
 		(stroke
@@ -6308,16 +6348,6 @@
 			(type default)
 		)
 		(uuid "c7000000-0000-4000-8000-000000000106")
-	)
-	(wire
-		(pts
-			(xy 123.19 250.19) (xy 132.08 250.19)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7000000-0000-4000-8000-000000000107")
 	)
 	(wire
 		(pts
@@ -6331,16 +6361,6 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 256.54) (xy 132.08 256.54)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7000000-0000-4000-8000-000000000109")
-	)
-	(wire
-		(pts
 			(xy 139.7 256.54) (xy 149.86 256.54)
 		)
 		(stroke
@@ -6348,16 +6368,6 @@
 			(type default)
 		)
 		(uuid "c7000000-0000-4000-8000-00000000010a")
-	)
-	(wire
-		(pts
-			(xy 123.19 261.62) (xy 132.08 261.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7000000-0000-4000-8000-00000000010b")
 	)
 	(wire
 		(pts
@@ -6391,7 +6401,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 270.51) (xy 104.14 285.75)
+			(xy 105.41 270.51) (xy 105.41 285.75)
 		)
 		(stroke
 			(width 0)
@@ -6401,7 +6411,7 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 285.75) (xy 104.14 285.75)
+			(xy 72.39 285.75) (xy 105.41 285.75)
 		)
 		(stroke
 			(width 0)
@@ -6411,7 +6421,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 270.51) (xy 111.76 297.18)
+			(xy 115.57 270.51) (xy 115.57 297.18)
 		)
 		(stroke
 			(width 0)
@@ -6421,7 +6431,7 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 297.18) (xy 111.76 297.18)
+			(xy 72.39 297.18) (xy 115.57 297.18)
 		)
 		(stroke
 			(width 0)
@@ -6431,17 +6441,7 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 270.51) (xy 115.57 302.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7000000-0000-4000-8000-000000000115")
-	)
-	(wire
-		(pts
-			(xy 72.39 302.26) (xy 115.57 302.26)
+			(xy 72.39 302.26) (xy 120.65 302.26)
 		)
 		(stroke
 			(width 0)
@@ -6931,7 +6931,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 292.1) (xy 107.95 270.51)
+			(xy 110.49 292.1) (xy 110.49 270.51)
 		)
 		(stroke
 			(width 0)

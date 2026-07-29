@@ -3,15 +3,17 @@
 This is the fresh KiCad 9 project for the V2 Rev-A engineering-validation
 harness.
 
-The schematic deliberately uses three pages:
+The production hierarchy deliberately uses four pages:
 
 1. `Espruino_Harness_RevA.kicad_sch` — the main A2 system page containing
-   power, Rack Control, target control, routing control, routing fabric and the
-   Target Interface.
+   power, Rack Control, target control, the Target Interface and the
+   hierarchical connections between the implementation pages.
 2. `standard_test_blocks.kicad_sch` — one A2 page containing all accepted
    Standard Test Blocks as clearly labelled circuit sections.
 3. `prototype_daughter_board.kicad_sch` — one A3 page containing the flexible
    wire-wrap daughter-board implementation.
+4. `routing_control.kicad_sch` — one A3 page containing the Routing Fabric,
+   both routing-control MCP23017s and the fixed direct-I2C isolation.
 
 The main page is the visual integration view. Keep important supply, control,
 routing and Target Interface relationships visible there. Diagnostic links,

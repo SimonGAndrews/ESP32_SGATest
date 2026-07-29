@@ -535,23 +535,35 @@ paths, four Block 7 block-local paths, four fixed I2C-isolation paths, required
 simultaneous configurations and direct/routed conflict rules. It identifies no
 additional accepted software-controlled path.
 
-The following accepted requirements remain to be implemented and verified
-during schematic review:
+The Rev-A schematic baseline implements that matrix as follows:
 
-1. verify the accepted direct-I2C isolation boundaries, target-state reference
-   and independent pull-up domains
-2. confirm the two MCP23017 addresses and final physical bit allocation
-3. allocate the fixed four-channel I2C isolation device separately from the six
-   software-controlled routing devices
-4. decide which of the nine provisional controller outputs remain reserved
-5. define the exact switch package, decoupling, pull-down and test-point
-   implementation
+1. `RCTRL0` is strapped to `0x21` and controls `RP01` to `RP16`.
+2. `RCTRL1` is strapped to `0x22`; `GPA0` to `GPA2` control `RP17` to
+   `RP19`, and `GPA3` to `GPA6` control `UP01` to `UP04`. `GPA7` and
+   `GPB0` to `GPB7` remain reserved and unconnected.
+3. Five `TMUX1511` packages implement `RP01` to `RP19`; the fourth channel
+   in the final package is hard disabled. The existing Block 7 `TMUX1511`
+   implements `UP01` to `UP04`.
+4. A separate `TMUX1511` implements fixed paths `IP01` to `IP04`.
+   Target-side and Test Block-side channel pairs have independent,
+   hardware-qualified enables.
+5. `TPS3808G30` supervisors qualify `TI_TARGET_3V3`,
+   `TEST_BLOCK_3V3` and the Routing Logic Supply Rail. Their nominal
+   2.79 V threshold and delayed release keep the I2C boundaries open and the
+   routing controllers clear while the relevant rails are invalid or
+   starting.
+6. The target and routing-control I2C segments each have 4.7 kΩ pull-ups to
+   their own 3.3 V domains. The Test Block segment retains the configurable
+   pull-ups defined in Block 3.
+7. Every `RPxx` control has a 100 kΩ external pull-down in addition to the
+   switch's internal bias. Each switch and controller has local 100 nF
+   decoupling, and the required routing diagnostic points are provided.
 
-These decisions may refine supporting-component quantities and the physical
-bit allocation. Changing the accepted seven-`TMUX1511` or two-routing-MCP23017
-baseline requires a reviewed specification revision. Implementation shall not
-reduce the accepted R0-R6 envelope or weaken safe-state, powered-off or
-concurrency requirements.
+The schematic and exported netlist shall be checked against this allocation
+after every interactive routing-sheet edit. Changing the accepted
+seven-`TMUX1511` or two-routing-MCP23017 baseline requires a reviewed
+specification revision. Implementation shall not reduce the accepted R0-R6
+envelope or weaken safe-state, powered-off or concurrency requirements.
 
 ## 14. Prototype Acceptance
 
