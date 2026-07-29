@@ -120,6 +120,27 @@ when required. Passive Test Block connections do not require this rail.
 The Operating Mode is a test precondition and shall not be changed while any
 associated source is powered.
 
+The Rev-A implementation shall use a TPS2116 power multiplexer in manual mode
+to apply this static source selection. It is not used to transfer between
+supplies during a test. The grouped Operating Mode header and simple external
+biasing shall set the multiplexer as follows:
+
+| Operating Mode | `MODE` | `PR1` | Multiplexer result |
+|---|---:|---:|---|
+| `OFF` | Low | High | Both inputs disconnected |
+| `STANDALONE` | High | High | `TI_TARGET_3V3` selected |
+| `STANDALONE EXT` | High | Low | External 3.3 V selected |
+| `SUPERVISOR` | High | Low | External 3.3 V selected |
+
+The separate `STANDALONE EXT` and `SUPERVISOR` header positions shall remain
+electrically distinguishable for Test Block and target-power control even
+though they select the same 3.3 V source. The TPS2116 provides source
+isolation, reverse-current blocking and a high-impedance `OFF` state. Automatic
+priority switchover and test-time source changes are not required.
+
+Appendix C records the Rev-A circuit that implements this mode selection and
+the derived Test Block Supply Rail control.
+
 ### 3.3 Standalone Operation
 
 Standalone operation uses the target's normal powered USB connection for
@@ -299,13 +320,13 @@ The prototype shall demonstrate:
 
 ### 3.8 Downstream Decisions
 
-Detailed design shall select the grouped Operating Mode header circuit, 3.3 V
-source connector, Test Block and target-power switches, supply ratings,
-Target Power Monitor, shunt arrangement, measurement ranges, discharge
-behaviour and protection components. Prototype measurements shall demonstrate
-the required peak-current and sleep-current coverage and determine whether any
-target requires USB data isolation in addition to the VBUS disconnection in
-its USB No-VBUS Cable.
+Appendix C records the current Rev-A grouped-header biasing and Test Block
+switch. Detailed design shall complete the 3.3 V source connector,
+target-power switch, supply ratings, Target Power Monitor, shunt arrangement,
+measurement ranges, discharge behaviour and protection components. Prototype
+measurements shall demonstrate the required peak-current and sleep-current
+coverage and determine whether any target requires USB data isolation in
+addition to the VBUS disconnection in its USB No-VBUS Cable.
 
 Physical Target Interface contacts are not assigned by this specification.
 
@@ -1173,3 +1194,37 @@ are target-power paths, purple lines form the shared open-drain rack interrupt
 and wide orange dashed lines are data or control paths. The Grove cable to
 each rack position carries its green `RACK_CONTROL_3V3` path and orange
 rack-control SDA/SCL path; `RACK_INT_N` uses the additional purple conductor.
+
+## Appendix C. Rev-A Power Control Implementation
+
+This appendix explains how the current Rev-A schematic implements the
+Operating Mode and 3.3 V rail behaviour defined in Sections 3.1 and 3.2.
+Section 3 remains the behavioural authority.
+
+### C.1 Operating Mode And Routing Supply
+
+| Device | Function in this design | Specification |
+|---|---|---|
+| `J1001` | A 2x4 header accepting one shunt. Its four rows select `SUPERVISOR`, `STANDALONE EXT`, `STANDALONE` or `OFF`; the `OFF` row asserts no mode signal. | Section 3.1 |
+| `D1001`, `D1002` | Dual common-cathode Schottky diodes that decode the three active header rows into `MODE_EXT_SELECTED` and the TPS2116 `MUX_MODE` input without joining the mode signals. | Section 3.2; [BAT54C data sheet](https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf) |
+| `D1003` | Diode-ORs `TI_TARGET_3V3` and external 3.3 V into the low-current `MODE_BIAS_3V3` bias rail without connecting the two supplies together. It does not carry Routing Logic or Test Block load current. | Section 3.2; BAT54C data sheet |
+| `Q1001` | A logic-level N-channel MOSFET that pulls `MUX_PR1` low when `MODE_EXT_SELECTED` is active. Otherwise `R1002` pulls `MUX_PR1` high from `MODE_BIAS_3V3`. | Section 3.2; [2N7002 data sheet](https://assets.nexperia.com/documents/data-sheet/2N7002.pdf) |
+| `U1001` | A TPS2116 power multiplexer. `VIN1` receives `TI_TARGET_3V3`, `VIN2` receives external 3.3 V and `VOUT` supplies `ROUTING_LOGIC_3V3`. `MUX_MODE` and `MUX_PR1` produce the Section 3.2 truth table, including the high-impedance `OFF` state. | [TPS2116 data sheet](https://www.ti.com/lit/ds/symlink/tps2116.pdf), Sections 7.3.1 and 7.6.1 |
+
+The BAT54C forward-voltage drop in the decoded `MUX_MODE` path shall retain
+the TPS2116 manual-mode high-level margin under worst-case prototype
+conditions. The Operating Mode header shall be changed only while the
+associated supplies are off, as required by Section 3.2.
+
+### C.2 Test Block Supply
+
+| Device | Function in this design | Specification |
+|---|---|---|
+| `D1004` | Diode-ORs the two Standalone mode signals into `TEST_BLOCK_AUTO_EN`, making Test Block power automatic in both Standalone modes. | Sections 3.1 and 3.2; BAT54C data sheet |
+| `D1005` | Diode-ORs `TEST_BLOCK_AUTO_EN` with the Supervisor-owned `TEST_BLOCK_POWER_EN` command to form `TEST_BLOCK_SWITCH_EN` without back-feeding either control source. | Sections 3.2, 3.5 and 8.3; BAT54C data sheet |
+| `U1002` | A TPS22917 active-high load switch. `VIN` receives `ROUTING_LOGIC_3V3`; `VOUT` supplies `TEST_BLOCK_3V3`; `ON` receives `TEST_BLOCK_SWITCH_EN`. `QOD` is tied to `VOUT` for controlled output discharge and `CT` is open for the fastest standard turn-on. | [TPS22917 data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Sections 9.3.1 to 9.3.3 |
+
+`R1001`, `R1003` and `R1004` hold the decoded controls low when their sources
+are absent. `R1002` gives `MUX_PR1` its defined high default. `C1001` to
+`C1004` provide local input and output supply bypassing; their final values and
+placement shall satisfy the two TI data sheets and the Rev-A layout review.
