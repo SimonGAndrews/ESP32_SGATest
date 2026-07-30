@@ -164,6 +164,11 @@ positions. The 100 mm target shall be reviewed only for a demonstrated
 backplane, clearance or manufacturing constraint, not merely to simplify
 routing.
 
+The board shall preserve the connector datum and mechanical space required by
+the Rev-A harness-side backplane allocation defined in
+`StandardControlServices_V2.md`, Section 8.3. The candidate parts remain
+subject to mating, rating, footprint and physical-sample verification.
+
 ## 6. Combined Panel And Breakaway Links
 
 The longer-term manufacturing vision is to fabricate the reusable harness and

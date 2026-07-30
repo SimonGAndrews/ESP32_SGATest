@@ -625,6 +625,10 @@
     [
       "b4f33c56-176e-50a1-bff7-4c71621dfbc6",
       "Routing_Control"
+    ],
+    [
+      "11ed3dd2-d279-4483-beff-991112c2ba4c",
+      "Power_Control"
     ]
   ],
   "text_variables": {}

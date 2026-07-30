@@ -141,6 +141,56 @@ priority switchover and test-time source changes are not required.
 Appendix C records the Rev-A circuit that implements this mode selection and
 the derived Test Block Supply Rail control.
 
+#### 3.2.1 Rev-A External Rack Supplies
+
+The Rev-A rack shall use separate externally regulated 3.3 V and 5 V
+supplies with a common `TI_GND` reference. Their minimum requirements are:
+
+| Supply | Required output | Loads supplied |
+|---|---:|---|
+| External 3.3 V | 3.30 V nominal, ±2%, 1 A continuous | The Routing Logic Supply Rail for every installed harness position and the Test Block Supply Rail for the one active position |
+| External 5 V | 5.10 V nominal, 3 A continuous | The switched target-power path for the one active target position, including any Target-specific Adapter Service powered from that path |
+
+The external 5 V supply shall remain between 5.00 V and 5.20 V at the rack
+backplane input over the accepted load range; 5.10 V is the preferred nominal
+setting. Ripple and ordinary load transients shall remain inside that range,
+and no transient shall exceed 5.25 V. This input range, together with the
+250 mV complete-path limit in Section 3.5.1, preserves at least 4.75 V at
+`TI_SWITCHED_TARGET_5V` under the maximum accepted target load. The 3 A supply
+rating provides practical boot and load-transient margin above the 1.5 A
+per-position limit; it does not permit more than one target position to be
+active or raise the permitted current of an individual position.
+
+The external 3.3 V supply shall remain between 3.23 V and 3.37 V at the rack
+backplane input over its accepted load range. Its 1 A rating is based on a
+maximum design allowance of 50 mA for each of eight continuously powered
+Routing Logic domains, up to 250 mA for the selected position's enabled Test
+Blocks and 350 mA of supply and transient margin. Schematic and prototype
+measurements shall confirm the actual safe-state, active and peak loads
+against those allocations.
+
+Both supplies shall be mains-isolated SELV regulated sources with
+short-circuit, over-current, over-voltage and thermal protection. Their
+negative outputs shall either already share a common reference or be suitable
+for connection together at the rack distribution point. The backplane shall
+provide the functional `TI_GND` power return; USB cable ground shall not be
+used as a substitute supply return. Supply wiring, connectors, protection and
+PCB copper shall be rated and derated for the defined output current.
+
+The external supplies may remain on while the Supervisor selects and
+deactivates rack positions. Hardware defaults on each harness board shall
+keep target and Test Block power off until deliberately enabled. No
+test-critical sequencing between external 3.3 V, external 5 V and Supervisor
+USB power is required, but every order of application and removal shall leave
+the harness in a safe state.
+
+The Supervisor MCU remains powered through its own host USB connection.
+`RACK_CONTROL_3V3`, distributed by the Grove rack-control connection, is a
+separate Supervisor-derived always-on rail for the Rack Control Endpoints and
+Target Power Monitors. Its load is therefore not included in the external
+3.3 V rating above and shall be budgeted when the Supervisor schematic and
+its 3.3 V regulator are designed.
+
 ### 3.3 Standalone Operation
 
 Standalone operation uses the target's normal powered USB connection for
@@ -216,13 +266,110 @@ target-power state, and it shall also report target-position current and
 power.
 
 The Target Power Monitor shall support useful measurements of both normal
-operating consumption and low-power or sleep consumption. A monitor such as
-the [INA226](https://www.ti.com/product/INA226) is a prototype candidate, but
-the selected device, shunt value and any selectable measurement ranges shall
-be demonstrated to cover the required peak-current and sleep-current range.
-The monitor shares the existing
-TCA9548A-selected SDA and SCL connection with the MCP23008; it does not add
-another I2C backplane or additional backplane conductors.
+operating consumption and low-power or sleep consumption. Rev A shall use two
+measurement ranges so that it can measure settled sleep current without
+sacrificing the target's required boot, radio and peripheral current
+capacity. The monitor shares the existing TCA9548A-selected SDA and SCL
+connection with the MCP23008; it does not add another I2C backplane or
+additional backplane conductors.
+
+#### 3.5.1 Rev-A Target-Power Measurement Contract
+
+The accepted Rev-A design basis is one active target position, a maximum
+target current of 1.5 A and a minimum calibrated sleep-current measurement of
+100 µA at the switched 5 V input to the complete target position. Each of the
+up to eight rack positions repeats the same independently switched and
+monitored circuit, but the one-active-position rule in Section 8.4 means that
+the 1.5 A allowance is per active position rather than eight simultaneous
+1.5 A loads. The limit provides margin for complete development boards,
+radio-current peaks and attached target-side services; it is a permitted
+position maximum rather than an expected continuous load. Power-path
+components shall be rated with suitable margin above it.
+
+The two required measurement ranges are:
+
+| Range | Intended use | Required useful range |
+|---|---|---:|
+| Low-current | Settled sleep, dormant and other low-power states | 100 µA to 20 mA |
+| Normal-current | Boot, active operation, radio activity and attached peripherals | 10 mA to 1.5 A |
+
+Together these limits span 15,000:1. A nominal 50 mΩ high-current shunt
+produces only 5 µV at 100 µA, which is too small for the required low-current
+accuracy. A nominal 1 Ω low-current shunt instead produces 100 µV at 100 µA,
+but would drop 1.5 V and dissipate 2.25 W at the maximum target current.
+Neither value can therefore cover the complete requirement safely and
+accurately by itself; the design needs two effective measurement ranges.
+
+The 10 mA to 20 mA overlap shall allow the two ranges to be compared during
+prototype validation and shall allow software to change range without an
+unmeasured gap. The high-current range shall be the hardware-safe default.
+The low-current range shall be selected only after the measured current has
+fallen below a safe threshold, and the circuit shall return to the
+high-current range before reset, wake-up or any operation that can restore a
+normal target load. Loss of range control shall select the high-current
+range. Range selection shall not interrupt target power or disturb the sleep
+state being measured.
+
+The measurement and complete-path voltage-drop limits are:
+
+| Condition | Maximum drop |
+|---|---:|
+| High-current measurement shunt at 1.5 A | 75 mV |
+| Complete switched path at 1.5 A, including switch, shunt, connectors, PCB tracks and backplane connection | 250 mV |
+| Low-current measurement element at 20 mA | 20 mV |
+
+With a regulated 5.0 V rack supply, the complete-path limit preserves at
+least 4.75 V at `TI_SWITCHED_TARGET_5V`. Nominal 50 mΩ and 1 Ω shunts
+respectively satisfy the high- and low-range shunt-drop limits and are the
+Rev-A calculation basis. The detailed circuit may use equivalent values or
+another topology only if its calculated and measured range, accuracy, fault
+behaviour and voltage drop meet the same contract. In particular, the
+low-current measurement element shall be bypassed or otherwise protected from
+boot and active current.
+
+The required calibrated accuracy is:
+
+| Measured current | Required absolute accuracy |
+|---:|---:|
+| 100 µA to below 1 mA | ±10% |
+| 1 mA to 20 mA | ±5% |
+| Above 20 mA to 1.5 A | ±5% |
+
+Settled sleep-current measurements shall additionally have repeatability
+better than ±2% under the same recorded test conditions. Before a low-current
+measurement, the Supervisor shall obtain a target-power-off zero reading and
+apply the defined offset compensation. A settled sleep result shall use a
+defined observation interval and report its averaging configuration. Short
+wake, radio or other load pulses shall be preserved as separate observations
+rather than hidden in the settled sleep average.
+
+The shunts shall use Kelvin sensing and nominal 0.1% tolerance,
+low-temperature-coefficient parts. The selected monitor, switching method,
+PCB layout and compensation together shall meet the complete error budget;
+converter resolution alone is not evidence of measurement accuracy. At
+100 µA, a nominal 1 Ω low-range shunt produces only 100 µV, so the ±10%
+requirement permits approximately 10 µV of total error. An INA226-class
+device remains useful background for the architecture, but its maximum input
+offset can consume that allowance before shunt, layout and temperature errors
+are included. Rev A shall therefore use a demonstrably lower-offset monitor
+or another verified method for the low range.
+
+The 100 µA lower limit is a practical complete-board requirement rather than
+a bare-MCU current claim. Raspberry Pi documents approximately 0.95 mA for a
+Pico in dormant mode and approximately 0.18 mA for a Pico 2 in its lowest
+measured Pstate when powered through `VSYS`. The ESP32-C3 silicon can consume
+far less in deep sleep, but the accepted ESP32-C3-DevKitC-02 also powers an
+LDO, power LED and USB-to-UART bridge. Rev-A validation shall measure the
+actual accepted target boards and confirm that every declared C3 and Pico
+sleep scenario remains within the calibrated range. A target position below
+100 µA is outside the initial guaranteed range and requires external
+instrumentation or a later lower-current extension.
+
+The supporting supplier references are the
+[Raspberry Pi low-power measurements](https://www.raspberrypi.com/documentation/pico-sdk/high_level.html),
+[ESP32-C3 data sheet](https://documentation.espressif.com/esp32-c3_datasheet_en.html)
+and
+[ESP32-C3-DevKitC-02 hardware description](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-devkitc-02/user_guide.html).
 
 The Hackaday.io article
 [Mastering the INA219 & INA226](https://hackaday.io/project/204686-mastering-the-ina219-ina226/details)
@@ -251,11 +398,12 @@ supplier-documented external-power connection for each assessed target.
 3.3 V routing power and switched 5 V target power. The host connection to the
 target carries USB data and ground with no VBUS.*
 
-The switching and monitoring implementation shall provide adequate current
-capacity, reverse-current protection, acceptable shunt and switch voltage
-drop, and predictable removal of residual target-rail charge. Exact ratings,
-measurement ranges, accuracy, sensing thresholds and circuit topology remain
-detailed design decisions.
+The switching and monitoring implementation shall provide the current,
+measurement-range, accuracy and voltage-drop performance in Section 3.5.1,
+with suitable component margin, reverse-current protection and predictable
+removal of residual target-rail charge. Exact device selection, range-control
+topology, sensing thresholds and discharge circuit remain detailed design
+decisions.
 
 ### 3.6 Host USB During Controlled Power Cycling
 
@@ -317,16 +465,19 @@ The prototype shall demonstrate:
 7. restoration of the selected console or USB connection after power cycling
 8. target-position current measurement across the accepted operating and
    sleep-current ranges
+9. external 3.3 V and 5 V regulation, ripple, load-transient behaviour and
+   safe-state operation at the maximum accepted rack loads
 
 ### 3.8 Downstream Decisions
 
 Appendix C records the current Rev-A grouped-header biasing and Test Block
 switch. Detailed design shall complete the 3.3 V source connector,
-target-power switch, supply ratings, Target Power Monitor, shunt arrangement,
-measurement ranges, discharge behaviour and protection components. Prototype
-measurements shall demonstrate the required peak-current and sleep-current
-coverage and determine whether any target requires USB data isolation in
-addition to the VBUS disconnection in its USB No-VBUS Cable.
+target-power switch, Target Power Monitor, two-range measurement arrangement,
+discharge behaviour and protection components against the Section 3.5.1
+contract. Prototype measurements shall demonstrate the required peak-current,
+sleep-current, accuracy and voltage-drop performance and determine whether
+any target requires USB data isolation in addition to the VBUS disconnection
+in its USB No-VBUS Cable.
 
 Physical Target Interface contacts are not assigned by this specification.
 
@@ -851,7 +1002,7 @@ only to reach the Rack Control Endpoints and Target Power Monitors and does not
 provide the Supervisor with access to target routing or functional I2C
 devices.
 
-### 8.3 Grove-Cabled Prototype Backplane
+### 8.3 Rev-A Rack Control And Backplane Interface
 
 The prototype Rack Control Backplane shall use the
 [Seeed Studio Grove 8-Channel I2C Multiplexer/I2C Hub](https://wiki.seeedstudio.com/Grove-8-Channel-I2C-Multiplexer-I2C-Hub-TCA9548A/),
@@ -892,8 +1043,68 @@ The backplane shall also provide one shared active-low interrupt,
 `RACK_INT_N`. Each harness MCP23008 interrupt output connects as an open-drain
 source to this common signal, which has one pull-up and one GPIO input at the
 Supervisor. This requires one additional signal conductor from each harness
-board outside its four-wire Grove cable; the connector or cable arrangement
-remains a prototype mechanical decision.
+board outside its four-wire Grove cable.
+
+#### 8.3.1 Harness-Side Connector Working Assumption
+
+Rev A shall reserve two 2 x 6, 2.54 mm-pitch board-to-backplane connectors
+along the harness-board backplane edge, in addition to its four-pin Grove
+connector. The allocation below is a working assumption for schematic and PCB
+development; it does not yet select the final connector pair.
+
+`JBP1` carries the two externally regulated harness supplies. Each supply uses
+three parallel contacts, with an adjacent ground return for each contact:
+
+| Column | Odd contact | Even contact |
+|---:|---|---|
+| 1 | 1 - `EXT_5V` | 2 - `TI_GND` |
+| 2 | 3 - `EXT_5V` | 4 - `TI_GND` |
+| 3 | 5 - `EXT_5V` | 6 - `TI_GND` |
+| 4 | 7 - `EXT_3V3` | 8 - `TI_GND` |
+| 5 | 9 - `EXT_3V3` | 10 - `TI_GND` |
+| 6 | 11 - `EXT_3V3` | 12 - `TI_GND` |
+
+`JBP2` carries the shared interrupt and preserves five signal positions for
+later rack-side requirements. The spare contacts shall remain unconnected in
+Rev A:
+
+| Column | Odd contact | Even contact |
+|---:|---|---|
+| 1 | 1 - `RACK_INT_N` | 2 - `TI_GND` |
+| 2 | 3 - reserved | 4 - `TI_GND` |
+| 3 | 5 - reserved | 6 - `TI_GND` |
+| 4 | 7 - reserved | 8 - `TI_GND` |
+| 5 | 9 - reserved | 10 - `TI_GND` |
+| 6 | 11 - reserved | 12 - `TI_GND` |
+
+The separate Grove connector retains the standard I2C contact order:
+
+| Grove contact | Harness net |
+|---:|---|
+| 1 | `RACK_CONTROL_SCL` |
+| 2 | `RACK_CONTROL_SDA` |
+| 3 | `RACK_CONTROL_3V3` |
+| 4 | `TI_GND` |
+
+All parallel supply contacts shall be connected on both mating boards and
+served by suitably sized copper. Their permitted combined current shall be
+established from the selected connector rating, PCB copper, temperature-rise
+and derating checks rather than by simply multiplying the single-contact
+rating.
+
+The following parts are sourcing examples for footprint, cost and mechanical
+evaluation. They are not yet an approved mating set:
+
+| Role | Example manufacturer part | Mouser reference |
+|---|---|---|
+| Harness-side 2 x 6 PCB receptacle | Molex C-Grid III `90151-2112`, vertical, dual-row, tin | [`538-90151-2112`](https://www.mouser.co.uk/ProductDetail/Molex/90151-2112) |
+| Backplane-side 2 x 6 shrouded header | Molex C-Grid III `90130-3112`, right-angle, dual-row, tin | [`538-90130-3112`](https://www.mouser.co.uk/ProductDetail/Molex/90130-3112) |
+| Harness Grove connector | Seeed Studio `114020163`, straight SMD four-pin, 2.0 mm | [`713-114020163`](https://www.mouser.co.uk/ProductDetail/Seeed-Studio/114020163) |
+
+Before assigning authoritative footprints, Rev A shall verify manufacturer
+mating compatibility, board orientation, shroud clearance, insertion depth,
+stack height, contact rating, plating, mechanical keying and availability.
+Physical samples should be checked before the connector datum is frozen.
 
 Normally only the active endpoint has its input interrupts enabled, so the
 Supervisor knows which selected TCA9548A channel to read. The MCP23008 captures

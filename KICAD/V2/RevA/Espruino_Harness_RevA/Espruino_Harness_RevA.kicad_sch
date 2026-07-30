@@ -3879,6 +3879,48 @@
 		)
 	)
 	(sheet
+		(at 421.64 22.86)
+		(size 139.7 82.55)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "11ed3dd2-d279-4483-beff-991112c2ba4c")
+		(property "Sheetname" "Power_Control"
+			(at 421.64 22.1484 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power_control.kicad_sch"
+			(at 421.64 105.9946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
 		(at 424.18 124.46)
 		(size 139.7 88.9)
 		(exclude_from_sim no)
