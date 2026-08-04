@@ -94,6 +94,17 @@ Read `../../../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANC
 before modifying target assets. Several footprints contain authoritative
 interactive edits.
 
+### Rev-A implementation baseline
+
+The draft manufacturing baseline, circuit-block review records and visual
+review images live under:
+
+- `implementation/ReusableHarnessRevA_DesignBaseline.md`
+- `implementation/review-images/`
+
+Generated KiCad evidence and the machine-readable connectivity contract live
+under `../../../KICAD/V2/RevA/Espruino_Harness_RevA/verification/`.
+
 ## Document Roles
 
 - `arch/TestHarnessArchitecture_V2.md` defines the overall architecture and
@@ -124,6 +135,8 @@ interactive edits.
   records the removable daughter-board decision in Appendix A.
 - `arch/ReusableHarnessPrototypeStrategy_V2.md` defines the Rev-A manufactured
   harness, wire-wrap daughter-board and pre-manufacture validation approach.
+- `implementation/ReusableHarnessRevA_DesignBaseline.md` records the selected
+  Rev-A implementation and the evidence required before manufacturing release.
 - `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
   provisional target study, not an implemented wiring specification.
 - `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the accepted

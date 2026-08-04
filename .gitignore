@@ -23,3 +23,17 @@ firmware/*/*/
 # Ignore draw.io backup files
 **/*.drawio.bkp
 docs/design/V2Harness/arch/diagrams/Archive/
+
+# Local, regenerated Rev-A verification exports. Reviewed, normalized evidence
+# under verification/baseline remains tracked.
+KICAD/V2/RevA/Espruino_Harness_RevA/verification/generated/
+KICAD/V2/RevA/Espruino_Harness_RevA/*.net
+KICAD/V2/RevA/Espruino_Harness_RevA/*ERC.rpt
+
+# Local implementation notes and editor recovery files. Accepted conclusions
+# belong in the implementation baseline and source drawings.
+docs/design/V2Harness/implementation/TempNotes.md
+**/.$*.drawio.dtmp
+
+# ignore BOM experiments
+KICAD/V2/MinimalBom/

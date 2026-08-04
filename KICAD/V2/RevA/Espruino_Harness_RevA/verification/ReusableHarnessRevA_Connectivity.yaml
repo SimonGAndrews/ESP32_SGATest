@@ -1,0 +1,16 @@
+schema_version: 1
+contract_set: ReusableHarnessRevA
+
+project:
+  name: Espruino_Harness_RevA
+  board: V2 Reusable Harness Board
+  revision: A
+  root_schematic: Espruino_Harness_RevA.kicad_sch
+  baseline_document: docs/design/V2Harness/implementation/ReusableHarnessRevA_DesignBaseline.md
+
+# Add a contract only when its block analysis has produced real,
+# independently reviewed connectivity intent. The block register and status
+# remain in the human-readable design baseline.
+contracts:
+  - id: PC02
+    file: contracts/PC02-target-5v-switch-and-two-range-monitor.yaml

@@ -81,7 +81,7 @@ The following gaps remain before the complete V2 Control Service is proven:
    result protocol remains to be specified. Current runners upload focused
    Espruino roles directly through the REPL.
 3. **Rack selection:** one Supervisor serving up to eight rack positions has
-   not been exercised through the proposed TCA9548A and MCP23008 control
+   not been exercised through the proposed TCA9548A and MCP23017 control
    arrangement.
 4. **Physical event handshake:** `SUP_EVENT_OUT` and `SUP_EVENT_IN` were not
    connected. Ordinary Wi-Fi peer exchange does not require them, but

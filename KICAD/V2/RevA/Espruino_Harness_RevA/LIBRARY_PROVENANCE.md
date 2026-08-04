@@ -98,6 +98,38 @@ footprints and explicit diagnostic test-point footprints.
 - Validation: both standard KiCad 9 footprint files were confirmed present.
   Component values remain instance properties on the schematic.
 
+### Target 5 V switching and measurement symbols
+
+- `TPS2559Q1_TARGET_POWER_SWITCH` (pending): adjustable current-limited target
+  power switch with soft start, short-circuit response, thermal protection,
+  disabled-state reverse-current blocking and active-low fault indication.
+  Package: 10-pin 3 mm by 3 mm DRC VSON/SON with exposed PowerPAD; the
+  project-local footprint and pad mapping remain to be created and checked.
+  Datasheet: <https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf>.
+- `INA226_HIGH_RANGE`: normal-range current, voltage and power monitor at
+  address `0x40`. Package: `Package_SO:VSSOP-10_3x3mm_P0.5mm`. Datasheet:
+  <https://www.ti.com/lit/ds/symlink/ina226.pdf>.
+- `INA228_LOW_RANGE`: lower-offset low-current monitor at address `0x41`.
+  Package: `Package_SO:VSSOP-10_3x3mm_P0.5mm`. Datasheet:
+  <https://www.ti.com/lit/ds/symlink/ina228.pdf>.
+- `AO3401A_LOW_RANGE_BYPASS`: P-channel MOSFET that normally bypasses the
+  1 ohm low-range shunt. Package: `Package_TO_SOT_SMD:SOT-23`. Datasheet:
+  <https://www.aosmd.com/res/data_sheets/AO3401A.pdf>.
+- `74LVC2G08_POWER_CONTROL`: dual AND gate qualifying the Supervisor target
+  switch command and low-range request. Package:
+  `Package_SO:VSSOP-8_2.3x2mm_P0.5mm`. Datasheet:
+  <https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf>.
+- `74AHCT1G125_RANGE_DRIVER`: 5 V gate driver for the P-channel bypass.
+  Package: `Package_TO_SOT_SMD:SOT-23-5`. Datasheet:
+  <https://www.ti.com/lit/ds/symlink/sn74ahct1g125.pdf>.
+- Source: the INA226 geometry was adapted from the KiCad 9 standard symbol;
+  the remaining symbols were created in the project-local library from the
+  cited manufacturers' pin tables.
+- Validation: pin numbers, supply pins, monitor address straps and exported
+  Rev-A net connectivity were checked when the two-range target-power block
+  was added. Exact AISLER availability and the complete-path voltage-drop
+  budget remain implementation checks before manufacture.
+
 ### `Operating_Mode_2x04`
 
 - Purpose: four-row shunt selector for Supervisor, Standalone External,

@@ -90,7 +90,7 @@ All fixed harness ICs shall use SMD packages for Rev A, including:
 
 * the functional MCP23017
 * both routing-control MCP23017 devices
-* the Rack Control MCP23008
+* the Rack Control MCP23017
 * the MCP3008
 * the TMUX1511 routing switches
 

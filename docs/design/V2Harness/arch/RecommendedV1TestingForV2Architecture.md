@@ -65,7 +65,7 @@ Verify that:
 * failure or absence of one position does not prevent selection of another
 
 This exercises the proposed rack-position and host-configuration model. It
-does not prove the TCA9548A or per-position MCP23008 control implementation.
+does not prove the TCA9548A or per-position MCP23017 control implementation.
 
 ## Priority 3: Wireless Test Interrupted By Target Power Loss
 
@@ -163,7 +163,7 @@ V1 testing cannot prove:
 * the V2 target load switch, reverse-current protection or rail discharge
 * independent Routing Logic, Test Block and Rack Control supply rails
 * route-safe behaviour while a V2 target is unpowered
-* TCA9548A channel isolation and per-position MCP23008 control
+* TCA9548A channel isolation and per-position MCP23017 control
 * the wired-OR rack interrupt implementation
 * the physical Target Interface or daughter-board power adaptation
 

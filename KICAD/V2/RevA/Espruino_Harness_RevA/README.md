@@ -3,7 +3,7 @@
 This is the fresh KiCad 9 project for the V2 Rev-A engineering-validation
 harness.
 
-The production hierarchy deliberately uses four pages:
+The production hierarchy deliberately uses five pages:
 
 1. `Espruino_Harness_RevA.kicad_sch` — the main A2 system page containing
    power, Rack Control, target control, the Target Interface and the
@@ -14,6 +14,9 @@ The production hierarchy deliberately uses four pages:
    wire-wrap daughter-board implementation.
 4. `routing_control.kicad_sch` — one A3 page containing the Routing Fabric,
    both routing-control MCP23017s and the fixed direct-I2C isolation.
+5. `power_control.kicad_sch` — one A2 page containing operating-mode
+   selection, the 3.3 V rail selection and Test Block power control, and the
+   target 5 V switch and two-range current monitor.
 
 The main page is the visual integration view. Keep important supply, control,
 routing and Target Interface relationships visible there. Diagnostic links,
@@ -39,3 +42,7 @@ Do not treat the presence of a circuit on the workbench as design acceptance.
 
 Use the project-local libraries described in `LIBRARY_PROVENANCE.md`. Bring
 assets across from the exploratory project only after individual review.
+
+The Rev-A verification scaffold is under `verification/`. Production ERC and
+netlist evidence must be generated from the root schematic, not from an
+individual hierarchical sheet.

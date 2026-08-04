@@ -4,7 +4,7 @@
 
 **Version:** 0.1
 
-**Last Updated:** 26 July 2026
+**Last Updated:** 1 August 2026
 
 ## 1. Purpose
 
@@ -159,7 +159,12 @@ and no transient shall exceed 5.25 V. This input range, together with the
 `TI_SWITCHED_TARGET_5V` under the maximum accepted target load. The 3 A supply
 rating provides practical boot and load-transient margin above the 1.5 A
 per-position limit; it does not permit more than one target position to be
-active or raise the permitted current of an individual position.
+active or raise the permitted current of an individual position. An
+unspecified 3 A source-protection threshold cannot enforce the 1.5 A
+per-position limit, so the complete target-power system shall also provide
+hardware overload and short-circuit containment sized for its switch,
+measurement shunts, connectors and PCB copper. Target Power Monitor
+observation and firmware response are not substitutes for that protection.
 
 The external 3.3 V supply shall remain between 3.23 V and 3.37 V at the rack
 backplane input over its accepted load range. Its 1 A rating is based on a
@@ -252,7 +257,7 @@ I2C is not required.
 In rack operation, the common external 5 V supply is distributed to an
 independent target-power switch on each harness board. The Supervisor selects
 the rack position through the TCA9548A and writes that harness's Rack Control
-MCP23008. One MCP23008 output controls the local switch enable; target current
+MCP23017. One MCP23017 output controls the local switch enable; target current
 does not pass through the expander. External biasing holds the switch off
 before the endpoint is configured or whenever its control is unavailable.
 
@@ -270,7 +275,7 @@ operating consumption and low-power or sleep consumption. Rev A shall use two
 measurement ranges so that it can measure settled sleep current without
 sacrificing the target's required boot, radio and peripheral current
 capacity. The monitor shares the existing TCA9548A-selected SDA and SCL
-connection with the MCP23008; it does not add another I2C backplane or
+connection with the MCP23017; it does not add another I2C backplane or
 additional backplane conductors.
 
 #### 3.5.1 Rev-A Target-Power Measurement Contract
@@ -285,6 +290,14 @@ the 1.5 A allowance is per active position rather than eight simultaneous
 radio-current peaks and attached target-side services; it is a permitted
 position maximum rather than an expected continuous load. Power-path
 components shall be rated with suitable margin above it.
+
+The 1.5 A limit shall be enforced locally at each position by the
+TPS2559-Q1 target-power switch, independently of Supervisor firmware. Its
+programmed current-limit tolerance shall admit the 1.5 A permitted target load
+while limiting a sustained overload or target short before the measurement
+shunts, connectors or PCB copper exceed their accepted electrical or thermal
+ratings. Current-limit tolerance, trip response, transient-load behaviour and
+switch voltage drop shall be included in the complete-path budget below.
 
 The two required measurement ranges are:
 
@@ -833,8 +846,8 @@ The minimum action and observation contract is:
 | Action | Supervisor operation | Required local observation | System outcome |
 |---|---|---|---|
 | Select rack position | Makes the previous position inactive and selects one TCA9548A channel | Previous-position safe state, multiplexer selection readback and response from the selected Rack Control Endpoint | Host verifies the configured rack-position mapping |
-| Set target power | Controls the selected target 5 V switch | Target Power Monitor voltage confirms the requested on or off state; current and power are also returned | Host verifies target-endpoint appearance or removal where applicable |
-| Set Test Block power | Controls the selected Test Block Supply Rail switch | MCP23008 control-state readback | Target verifies the required Test Block devices before testing |
+| Set target power | Controls the selected target 5 V switch | Target Power Monitor voltage confirms the requested on or off state; current, power and `TARGET_POWER_FAULT_N` are also returned | Host verifies target-endpoint appearance or removal where applicable |
+| Set Test Block power | Controls the selected Test Block Supply Rail switch | MCP23017 control-state readback | Target verifies the required Test Block devices before testing |
 | Reset or boot | Operates the direct reset and optional boot stages using Target Profile timing | Control-state readback and transition timestamps | Host verifies endpoint return and the resulting runtime or boot mode |
 | Hardware Clear | Invokes the direct route-safe action | Control-state readback and completion timestamp | Target subsequently establishes and verifies the required routes |
 | Event handshake | Drives `SUP_EVENT_OUT` and observes `SUP_EVENT_IN` | Output state, captured input state and timestamps | Host correlates the target result with the Supervisor observations |
@@ -925,7 +938,7 @@ The two event signals are defined from the Supervisor's perspective:
 
 The target-side endpoint uses two unallocated GPIO on the second 8-bit bank of
 the Test Block 3 MCP23017. Another target-controlled I2C expander is not
-required. In rack operation, the separate Supervisor-controlled MCP23008 on
+required. In rack operation, the separate Supervisor-controlled MCP23017 on
 the harness board drives `SUP_EVENT_OUT` and observes `SUP_EVENT_IN`. The
 remaining MCP23017 capacity is expansion provision, not a general routing or
 capture fabric. The target remains the only controller of its local I2C bus.
@@ -936,7 +949,7 @@ side unpowered, neither signal shall back-power the other side. MCP23017 reset
 defaults and external biasing shall establish these states without software.
 
 This is a functional inventory, not a Target Interface contact or local
-MCP23017/MCP23008 GPIO assignment. Section 8 defines the prototype rack
+MCP23017 GPIO assignment. Section 8 defines the prototype rack
 transport; the connection-matrix and schematic work own the remaining
 decisions.
 
@@ -974,7 +987,7 @@ architecture with one rack position expanded to harness-board level.
 | **Rack position** | One reusable harness board, target daughter board, target board and their fixed rack connections |
 | **Active position** | The single position whose target and Test Block supplies may be enabled for the current test |
 | **Rack Control Backplane** | The Supervisor-owned control connection fanned out to the rack positions |
-| **Rack Control Endpoint** | The MCP23008 on each harness board that implements that position's Supervisor-driven digital controls and observations |
+| **Rack Control Endpoint** | The MCP23017 on each harness board that implements that position's Supervisor-driven digital controls and observations |
 | **Target Power Monitor** | The peer I2C device on each harness board that measures the switched target supply |
 | **Rack configuration** | The Ubuntu-host file that maps rack position, multiplexer channel, USB path and expected Target Profile |
 
@@ -1010,7 +1023,7 @@ based on the TCA9548A. Its upstream Grove connection attaches to the
 Supervisor. Channels 0 through 7 connect through individual Grove cables to
 the corresponding rack positions.
 
-Each harness board shall provide one Rack Control Endpoint using an MCP23008
+Each harness board shall provide one Rack Control Endpoint using an MCP23017
 and one peer Target Power Monitor. All eight endpoints may use one common I2C
 address and all eight monitors another because the Supervisor opens only the
 selected multiplexer channel. The channel number identifies the physical rack
@@ -1025,7 +1038,7 @@ Each Grove branch carries:
 * rack-control SDA
 * rack-control SCL
 
-`RACK_CONTROL_3V3` powers only the MCP23008, Target Power Monitor and their
+`RACK_CONTROL_3V3` powers only the MCP23017, Target Power Monitor and their
 small Supervisor-interface circuitry. It shall not supply the Routing Logic
 Supply Rail, Test Block Supply Rail or target. The prototype shall operate this
 Grove system at 3.3 V and shall be clearly marked to prevent connection to an
@@ -1034,13 +1047,14 @@ unintended 5 V Grove system.
 The Rack Control Endpoint and Target Power Monitor together shall provide the
 minimum functions needed for:
 
-* target-power control, rail-state observation and power telemetry
+* target-power control, hardware-fault indication, rail-state observation and
+  power telemetry
 * Test Block Supply Rail control
 * direct reset and optional boot control
 * `SUP_EVENT_OUT` and `SUP_EVENT_IN`
 
 The backplane shall also provide one shared active-low interrupt,
-`RACK_INT_N`. Each harness MCP23008 interrupt output connects as an open-drain
+`RACK_INT_N`. Each harness MCP23017 interrupt output connects as an open-drain
 source to this common signal, which has one pull-up and one GPIO input at the
 Supervisor. This requires one additional signal conductor from each harness
 board outside its four-wire Grove cable.
@@ -1107,7 +1121,7 @@ stack height, contact rating, plating, mechanical keying and availability.
 Physical samples should be checked before the connector datum is frozen.
 
 Normally only the active endpoint has its input interrupts enabled, so the
-Supervisor knows which selected TCA9548A channel to read. The MCP23008 captures
+Supervisor knows which selected TCA9548A channel to read. The MCP23017 captures
 the changed input state and holds its interrupt until the Supervisor reads its
 interrupt-capture or GPIO register. If more than one endpoint asserts the
 shared signal, the Supervisor may scan the eight channels and clear each
@@ -1116,15 +1130,50 @@ the one-active-position rule because all Rack Control Endpoints use the
 independent Rack Control Supply Rail.
 
 The Supervisor timestamps the interrupt notification and captured state;
-edge-accurate waveform capture is not implied. The
-[MCP23008 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23008-and-MCP23008-Data-Sheet-DS20001919.pdf)
-defines the required interrupt-on-change, capture and open-drain behaviour.
+edge-accurate waveform capture is not implied.
 
-The exact MCP23008 GPIO allocation, Target Power Monitor selection, shunt and
-range arrangement, pull-ups, protection and observation signals remain
-schematic decisions. The upstream bus and every downstream branch shall have
-deliberate pull-up provision; uncontrolled accumulation of module pull-ups is
-not permitted.
+Rev A shall use the following MCP23017 allocation:
+
+| GPIO | Direction | Function |
+|---|---|---|
+| `GPA0` | Output | `TARGET_POWER_EN` |
+| `GPA1` | Output | `TARGET_LOW_RANGE_EN` |
+| `GPA2` | Output | `TEST_BLOCK_POWER_EN` |
+| `GPA3` | Output | Target-reset open-drain-stage drive |
+| `GPA4` | Output | Boot-request open-drain-stage drive |
+| `GPA5` | Output | `SUP_EVENT_OUT` |
+| `GPA6`, `GPA7` | Spare | Reserved Rev-A expansion provision |
+| `GPB0` | Input | `TARGET_POWER_FAULT_N` |
+| `GPB1` | Input | `TARGET_POWER_ALERT_N` |
+| `GPB2` | Input | `SUP_EVENT_IN` |
+| `GPB3` to `GPB7` | Spare | Reserved Rev-A expansion provision |
+
+`INTB` shall be configured as the active-low open-drain source for
+`RACK_INT_N`. Interrupt-on-change is enabled only for the required Port B
+inputs. A `RACK_INT_N` notification is therefore followed by one MCP23017
+`INTFB`/`INTCAPB` read to identify and clear the captured endpoint event. The
+INA226 is read only when `TARGET_POWER_ALERT_N` was captured; it is not a
+second source on the shared interrupt conductor.
+
+Target-power fault and alert events remain Supervisor-owned host observations
+because the affected target may be unavailable. They are not forwarded
+automatically through `SUP_EVENT_OUT`. `SUP_EVENT_OUT` is driven only by an
+explicit Supervisor operation. `TARGET_POWER_FAULT_N` remains internal to the
+reusable harness and consumes no Target Interface contact.
+
+The MCP23017 shall use address `0x20` with `A2:A0` tied low. This does not
+conflict with the target-controlled Test Block MCP23017 because the two devices
+are on separate I2C domains. Its `RESET` input shall have an external pull-up;
+power-cycling `RACK_CONTROL_3V3` provides the all-position endpoint recovery
+action. The implementation shall follow the
+[MCP23017 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf)
+and the interrupt guidance in Microchip application note
+[AN1043](https://ww1.microchip.com/downloads/en/Appnotes/01043a.pdf).
+
+Target Power Monitor selection, shunt and range arrangement, pull-ups,
+protection and remaining observation signals remain schematic decisions. The
+upstream bus and every downstream branch shall have deliberate pull-up
+provision; uncontrolled accumulation of module pull-ups is not permitted.
 
 Rack Control Endpoint power controls and Target Power Monitor telemetry shall
 be effective only with the harness Operating Mode set to `SUPERVISOR`. In
@@ -1147,7 +1196,7 @@ its event, reset and boot controls in their defined inactive states. It shall
 also disable and clear that endpoint's input interrupts before closing the
 channel.
 
-Selecting or closing a TCA9548A channel does not reset the downstream MCP23008
+Selecting or closing a TCA9548A channel does not reset the downstream MCP23017
 or change its outputs. The Supervisor assembly shall therefore also provide an
 all-positions-off recovery action by resetting or power-cycling the Rack
 Control Endpoints. On startup, on Supervisor loss or after endpoint reset,
@@ -1260,9 +1309,9 @@ adaptation:
 ## Appendix B. Detailed Rack Control Architecture
 
 This diagram shows the agreed eight-position rack model and expands rack
-position 1 to show the Rack Control MCP23008 and the harness functions it
+position 1 to show the Rack Control MCP23017 and the harness functions it
 controls or observes. Positions 2 through 8 repeat the same arrangement. It
-shows functional connections, not final connector contacts or MCP23008 GPIO
+shows functional connections, not final connector contacts or MCP23017 GPIO
 assignments.
 
 ```mermaid
@@ -1285,7 +1334,7 @@ flowchart TB
 
         subgraph Harness1["Reusable harness board"]
             direction LR
-            RackMCP["Rack Control<br/>MCP23008"]
+            RackMCP["Rack Control<br/>MCP23017"]
             TargetPowerMonitor["Target Power Monitor<br/>shunt + I2C"]
             Mode["Operating Mode<br/>SUPERVISOR gate"]
             Target5Switch["Target 5 V<br/>power switch"]
@@ -1439,3 +1488,77 @@ associated supplies are off, as required by Section 3.2.
 are absent. `R1002` gives `MUX_PR1` its defined high default. `C1001` to
 `C1004` provide local input and output supply bypassing; their final values and
 placement shall satisfy the two TI data sheets and the Rev-A layout review.
+
+The source-selection implementation is consistent with TI's
+[Power Multiplexing Using Load Switches and eFuses](https://www.ti.com/lit/an/slva811a/slva811a.pdf)
+application report. That report identifies output droop, inrush, reverse
+current and switchover time as coupled design concerns. This harness avoids
+the live-switchover trade-off: Operating Mode is selected only while the
+associated supplies are off, and uninterrupted transfer between
+`TI_TARGET_3V3` and `EXT_3V3` is not a requirement. Rev-A review shall still
+verify source isolation, startup inrush and the resulting
+`ROUTING_LOGIC_3V3` rise for each permitted mode.
+
+### C.3 Supervisor Target 5 V Switch
+
+`U1101` is a TPS2559-Q1 active-high, adjustable current-limited power switch.
+Its three `IN` pins receive `EXT_5V`, its three `OUT` pins feed the two-range
+target-power measurement path, `EN` receives `TARGET_SWITCH_EN`, and `ILIM`
+uses a 66.5 kΩ 1% resistor to `TI_GND`. The implementation shall follow the
+[TPS2559-Q1 data sheet](https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf),
+SLVSD03, with these design consequences:
+
+- The 2.5 V to 6.5 V operating range, low-resistance power path, built-in
+  soft-start, programmable current limit, short-circuit response and thermal
+  shutdown implement the complete per-position switching and fault-containment
+  function required by Section 3.5.1.
+- The provisional 66.5 kΩ `ILIM` resistor gives a data-sheet current-limit
+  range of approximately 1.63 A to 1.89 A. This remains above the permitted
+  1.5 A target load at its lowest tolerance and bounds a sustained overload at
+  its highest tolerance. The exact resistor, tolerance and resulting limits
+  shall be independently rechecked before manufacture.
+- `EN` is active high and shall not float. A 100 kΩ pull-down shall be fitted
+  directly from `TARGET_SWITCH_EN` to `TI_GND`, on the switch side of control
+  logic that can become unpowered.
+- The open-drain active-low `FAULT` output shall be pulled up to
+  `RACK_CONTROL_3V3` and exposed as `TARGET_POWER_FAULT_N` for Supervisor
+  observation. Hardware protection shall not depend on that observation.
+- Input bypass, output capacitance and local `EXT_5V` bulk capacitance shall
+  satisfy the data-sheet stability, transient and layout guidance. The final
+  bulk value shall be calculated from rack-source impedance, maximum supported
+  target capacitance and the permitted rack-rail disturbance; a small device
+  bypass alone is not the bulk reservoir.
+- Disabled-state reverse-current blocking permits ordinary USB VBUS to power
+  the target in Standalone modes without feeding the harness `EXT_5V` rail.
+  While `U1101` is enabled, ordinary USB VBUS or another independent
+  target-side 5 V source shall be absent. The Supervisor USB connection to the
+  target therefore remains a No-VBUS path.
+- The selected part uses the 10-pin 3 mm by 3 mm DRC VSON/SON package with an
+  exposed PowerPAD. Pad mapping, the thermal-via pattern and AISLER assembly
+  availability shall be confirmed during the Rev-A footprint and BOM Assign
+  reviews.
+
+At the 1.5 A design maximum, the data-sheet 21 mΩ worst-case on-resistance
+corresponds to 31.5 mV drop and 47.25 mW switch dissipation. Final thermal
+review shall include the selected orderable part, exposed-pad layout,
+operating ambient and overload duty; it shall not treat junction-to-ambient
+figures as independent of PCB layout.
+
+TI's
+[Selecting a Load Switch to Replace a Discrete Solution](https://www.ti.com/lit/pdf/SLVA887)
+application report provides the supporting selection method: determine
+voltage, current, permitted drop and rise time first, then preserve every
+required protection feature. TPS2559-Q1 combines controlled turn-on,
+disabled-state reverse-current blocking, a programmable per-position current
+limit, fast short-circuit response and thermal shutdown. The two Target Power
+Monitors remain responsible for calibrated voltage, current and power
+observation; they are not part of the protection loop.
+
+TI's
+[How to Pass MFi Overcurrent Protection Test With USB Charger and Switch Device](https://www.ti.com/lit/an/slvaeq2/slvaeq2.pdf)
+shows why a current limit must be validated against legitimate transient load
+profiles rather than checked only at steady state. Its RC techniques are
+device-specific and are not copied here. Rev-A testing shall instead exercise
+the accepted target boot, radio and peripheral transients at the worst-case
+TPS2559-Q1 limit and confirm both successful operation and bounded fault
+behaviour.

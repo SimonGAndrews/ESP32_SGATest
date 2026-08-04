@@ -2840,7 +2840,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF"
+			(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -2849,7 +2849,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "2N7002 N-channel MOSFET, gate/source/drain pin numbering"
+			(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3981,6 +3981,385 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "NMOS_2N7002_GSD_1"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Q"
+				(at 5.08 1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "2N7002"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+				(at 5.08 -1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "NMOS_2N7002_GSD_1_0_1"
+				(polyline
+					(pts
+						(xy 0.254 1.905) (xy 0.254 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 0) (xy -2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 2.286) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 0.508) (xy 0.762 -0.508)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -1.27) (xy 0.762 -2.286)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -1.778) (xy 3.302 -1.778) (xy 3.302 1.778) (xy 0.762 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 0) (xy 2.032 0.381) (xy 2.032 -0.381) (xy 1.016 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(circle
+					(center 1.651 0)
+					(radius 2.794)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 2.54) (xy 2.54 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.54 1.778)
+					(radius 0.254)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(circle
+					(center 2.54 -1.778)
+					(radius 0.254)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 2.54 0) (xy 0.762 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.921 0.381) (xy 3.683 0.381)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.302 0.381) (xy 2.921 -0.254) (xy 3.683 -0.254) (xy 3.302 0.381)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "NMOS_2N7002_GSD_1_1_1"
+				(pin input line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:PWR_FLAG"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(rectangle
 		(start 336.55 17.78)
@@ -4744,6 +5123,12 @@
 		(uuid "53788ace-d2f5-4c46-8d93-2b73db854f6c")
 	)
 	(junction
+		(at 121.92 134.62)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "59544580-5415-4af3-8a93-7eb17dd6d4c4")
+	)
+	(junction
 		(at 454.66 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5051,6 +5436,16 @@
 	)
 	(wire
 		(pts
+			(xy 121.92 134.62) (xy 121.92 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14f864f3-6a20-4cee-b524-eec69a28f399")
+	)
+	(wire
+		(pts
 			(xy 496.57 212.09) (xy 496.57 214.63)
 		)
 		(stroke
@@ -5208,6 +5603,16 @@
 			(type default)
 		)
 		(uuid "2a78e223-8534-49ab-beed-a344dddd21f4")
+	)
+	(wire
+		(pts
+			(xy 185.42 147.32) (xy 210.82 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2acdc26b-805b-4efb-8d11-7a8c0d61d661")
 	)
 	(wire
 		(pts
@@ -5381,7 +5786,7 @@
 	)
 	(wire
 		(pts
-			(xy 392.43 295.91) (xy 402.59 295.91)
+			(xy 391.16 295.91) (xy 402.59 295.91)
 		)
 		(stroke
 			(width 0)
@@ -5538,6 +5943,16 @@
 			(type default)
 		)
 		(uuid "64541f94-74c1-427e-8afe-98b0d5fcf66d")
+	)
+	(wire
+		(pts
+			(xy 115.57 134.62) (xy 121.92 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6508444e-e928-4267-a710-9946f6f9d208")
 	)
 	(wire
 		(pts
@@ -6311,16 +6726,6 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 147.32) (xy 210.82 147.32)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "be4d7024-b17c-48bd-a376-2468ec31a05a")
-	)
-	(wire
-		(pts
 			(xy 396.24 215.9) (xy 396.24 218.44)
 		)
 		(stroke
@@ -6961,7 +7366,7 @@
 	)
 	(wire
 		(pts
-			(xy 121.92 127) (xy 121.92 138.43)
+			(xy 121.92 127) (xy 121.92 134.62)
 		)
 		(stroke
 			(width 0)
@@ -7559,16 +7964,6 @@
 		)
 		(uuid "b5000000-0000-4000-8000-000000000040")
 	)
-	(label "TI_ONEWIRE_DQ"
-		(at 392.43 295.91 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b5000000-0000-4000-8000-000000000042")
-	)
 	(label "TEST_BLOCK_3V3"
 		(at 392.43 298.45 180)
 		(effects
@@ -8009,6 +8404,16 @@
 		)
 		(uuid "caa37791-596d-49cc-9847-51178326bbf7")
 	)
+	(label "TI_ONEWIRE_DQ"
+		(at 391.16 295.91 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "cd58ba3c-ba08-47a4-b103-98ae6977ff11")
+	)
 	(label "ANALOG_FB"
 		(at 515.62 62.23 180)
 		(effects
@@ -8264,7 +8669,7 @@
 		(uuid "523985ab-70b8-4c3c-aced-266d19093403")
 	)
 	(hierarchical_label "TI_ONEWIRE_DQ"
-		(shape input)
+		(shape bidirectional)
 		(at 389.89 326.39 180)
 		(effects
 			(font
@@ -9805,7 +10210,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
 			(at 411.48 215.9 0)
 			(effects
 				(font
@@ -9814,7 +10219,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Protected Supervisor stimulus open-drain stage"
+		(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
 			(at 411.48 215.9 0)
 			(effects
 				(font
@@ -10986,6 +11391,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 115.57 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "986e8eb7-b7c1-4a5c-9f50-e1c0b7907f37")
+		(property "Reference" "#FLG06"
+			(at 115.57 132.715 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 115.57 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 115.57 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 115.57 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 115.57 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c0c629bb-fa97-4e24-8848-bbf01c3f7ba4")
+		)
+		(instances
+			(project ""
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#FLG06")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 182.88 198.12 0)
 		(unit 1)
@@ -11121,6 +11592,7 @@
 		)
 	)
 	(symbol
+		(lib_name "NMOS_2N7002_GSD_1")
 		(lib_id "Espruino_Harness_RevA:NMOS_2N7002_GSD")
 		(at 511.81 212.09 0)
 		(unit 1)
@@ -11156,7 +11628,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
 			(at 511.81 212.09 0)
 			(effects
 				(font
@@ -11165,7 +11637,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Protected open-drain Supervisor acknowledgement stage"
+		(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
 			(at 511.81 212.09 0)
 			(effects
 				(font
@@ -11724,6 +12196,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
@@ -11918,7 +12391,7 @@
 		(dnp no)
 		(uuid "b5000000-0000-4000-8002-000000000408")
 		(property "Reference" "J503"
-			(at 425.45 323.85 90)
+			(at 426.72 323.85 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11926,7 +12399,7 @@
 			)
 		)
 		(property "Value" "2K2_DQ_4K7"
-			(at 429.26 327.66 90)
+			(at 430.53 326.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)

@@ -1,0 +1,128 @@
+schema_version: 1
+kind: block_contract
+block_id: PC02
+
+# Independent machine-checkable assertions derived from the accepted circuit
+# analysis. Explanations, status, evidence and open issues remain in the
+# human-readable Rev-A Design Baseline.
+assertions:
+  pin_net:
+    - {ref: U1101, pin: "1", net: TI_GND}
+    - {ref: U1101, pin: "2", net: EXT_5V}
+    - {ref: U1101, pin: "3", net: EXT_5V}
+    - {ref: U1101, pin: "4", net: EXT_5V}
+    - {ref: U1101, pin: "5", net: TARGET_SWITCH_EN}
+    - {ref: U1101, pin: "6", net: TARGET_CURRENT_LIMIT_SET}
+    - {ref: U1101, pin: "7", net: HIGH_SHUNT_P}
+    - {ref: U1101, pin: "8", net: HIGH_SHUNT_P}
+    - {ref: U1101, pin: "9", net: HIGH_SHUNT_P}
+    - {ref: U1101, pin: "10", net: TARGET_POWER_FAULT_N}
+
+    - {ref: R1101, pin: "1", net: HIGH_SHUNT_P}
+    - {ref: R1101, pin: "2", net: HIGH_SHUNT_N}
+    - {ref: R1102, pin: "1", net: HIGH_SHUNT_N}
+    - {ref: R1102, pin: "2", net: TI_SWITCHED_TARGET_5V}
+
+    - {ref: Q1101, pin: "1", net: LOW_SHUNT_BYPASS_GATE}
+    - {ref: Q1101, pin: "2", net: HIGH_SHUNT_N}
+    - {ref: Q1101, pin: "3", net: TI_SWITCHED_TARGET_5V}
+
+    - {ref: U1102, pin: "1", net: TI_GND}
+    - {ref: U1102, pin: "2", net: LOW_RANGE_GATE_3V3}
+    - {ref: U1102, pin: "3", net: TI_GND}
+    - {ref: U1102, pin: "4", net: LOW_SHUNT_BYPASS_GATE}
+    - {ref: U1102, pin: "5", net: EXT_5V}
+
+    - {ref: U1103, pin: "1", net: TI_GND}
+    - {ref: U1103, pin: "2", net: TI_GND}
+    - {ref: U1103, pin: "3", net: TARGET_POWER_ALERT_N}
+    - {ref: U1103, pin: "4", net: RACK_CONTROL_SDA}
+    - {ref: U1103, pin: "5", net: RACK_CONTROL_SCL}
+    - {ref: U1103, pin: "6", net: RACK_CONTROL_3V3}
+    - {ref: U1103, pin: "7", net: TI_GND}
+    - {ref: U1103, pin: "8", net: TI_SWITCHED_TARGET_5V}
+    - {ref: U1103, pin: "9", net: HIGH_SHUNT_N}
+    - {ref: U1103, pin: "10", net: HIGH_SHUNT_P}
+
+    - {ref: U1104, pin: "1", net: TI_GND}
+    - {ref: U1104, pin: "2", net: RACK_CONTROL_3V3}
+    - {ref: U1104, pin: "3", net: LOW_RANGE_OK_N}
+    - {ref: U1104, pin: "4", net: RACK_CONTROL_SDA}
+    - {ref: U1104, pin: "5", net: RACK_CONTROL_SCL}
+    - {ref: U1104, pin: "6", net: RACK_CONTROL_3V3}
+    - {ref: U1104, pin: "7", net: TI_GND}
+    - {ref: U1104, pin: "8", net: TI_SWITCHED_TARGET_5V}
+    - {ref: U1104, pin: "9", net: TI_SWITCHED_TARGET_5V}
+    - {ref: U1104, pin: "10", net: HIGH_SHUNT_N}
+
+    - {ref: U1105, pin: "1", net: MODE_SUPERVISOR}
+    - {ref: U1105, pin: "2", net: TARGET_POWER_EN}
+    - {ref: U1105, pin: "3", net: LOW_RANGE_GATE_3V3}
+    - {ref: U1105, pin: "4", net: TI_GND}
+    - {ref: U1105, pin: "5", net: TARGET_LOW_RANGE_EN}
+    - {ref: U1105, pin: "6", net: LOW_RANGE_OK_N}
+    - {ref: U1105, pin: "7", net: TARGET_SWITCH_EN}
+    - {ref: U1105, pin: "8", net: RACK_CONTROL_3V3}
+
+    - {ref: R1103, pin: "1", net: TARGET_POWER_EN}
+    - {ref: R1103, pin: "2", net: TI_GND}
+    - {ref: R1104, pin: "1", net: TARGET_LOW_RANGE_EN}
+    - {ref: R1104, pin: "2", net: TI_GND}
+    - {ref: R1105, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: R1105, pin: "2", net: LOW_RANGE_OK_N}
+    - {ref: R1106, pin: "1", net: LOW_RANGE_GATE_3V3}
+    - {ref: R1106, pin: "2", net: TI_GND}
+    - {ref: R1107, pin: "1", net: LOW_SHUNT_BYPASS_GATE}
+    - {ref: R1107, pin: "2", net: TI_GND}
+    - {ref: R1108, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: R1108, pin: "2", net: TARGET_POWER_ALERT_N}
+    - {ref: R1110, pin: "1", net: TARGET_SWITCH_EN}
+    - {ref: R1110, pin: "2", net: TI_GND}
+    - {ref: R1111, pin: "1", net: TARGET_CURRENT_LIMIT_SET}
+    - {ref: R1111, pin: "2", net: TI_GND}
+    - {ref: R1112, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: R1112, pin: "2", net: TARGET_POWER_FAULT_N}
+
+    - {ref: C1101, pin: "1", net: EXT_5V}
+    - {ref: C1101, pin: "2", net: TI_GND}
+    - {ref: C1102, pin: "1", net: HIGH_SHUNT_P}
+    - {ref: C1102, pin: "2", net: TI_GND}
+    - {ref: C1103, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: C1103, pin: "2", net: TI_GND}
+    - {ref: C1104, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: C1104, pin: "2", net: TI_GND}
+    - {ref: C1105, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: C1105, pin: "2", net: TI_GND}
+    - {ref: C1106, pin: "1", net: EXT_5V}
+    - {ref: C1106, pin: "2", net: TI_GND}
+
+  component_value:
+    - {ref: U1101, value: TPS2559-Q1}
+    - {ref: R1101, value: "0.050R 0.1%"}
+    - {ref: R1102, value: "1.00R 0.1%"}
+    - {ref: R1103, value: 100k}
+    - {ref: R1104, value: 100k}
+    - {ref: R1105, value: 10k}
+    - {ref: R1106, value: 100k}
+    - {ref: R1107, value: 100k}
+    - {ref: R1108, value: 10k}
+    - {ref: R1110, value: 100k}
+    - {ref: R1111, value: 66.5k}
+    - {ref: R1112, value: 10k}
+    - {ref: C1101, value: 1uF}
+    - {ref: C1102, value: 100nF}
+    - {ref: C1103, value: 100nF}
+    - {ref: C1104, value: 100nF}
+    - {ref: C1105, value: 100nF}
+    - {ref: C1106, value: 100nF}
+
+  forbidden_same_net:
+    - id: PC02-F01
+      endpoints: [U1101.2, Q1101.3]
+      reason: Target 5 V must not bypass the load switch and measurement path.
+    - id: PC02-F02
+      endpoints: [R1101.1, R1101.2]
+      reason: R1101 must remain the intentional join between its sense nodes.
+    - id: PC02-F03
+      endpoints: [R1102.1, R1102.2]
+      reason: R1102 and its controlled bypass must remain explicit.
