@@ -2074,7 +2074,7 @@
 						)
 					)
 				)
-				(pin output line
+				(pin bidirectional line
 					(at 20.32 2.54 180)
 					(length 5.08)
 					(name "GPA7"
@@ -2218,7 +2218,7 @@
 						)
 					)
 				)
-				(pin output line
+				(pin bidirectional line
 					(at 20.32 -20.32 180)
 					(length 5.08)
 					(name "GPB7"
@@ -10818,7 +10818,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Block 3 functional MCP23017, AISLER-assembled SOIC-28"
+		(property "Description" "MCP23017-E/SO 16-bit I2C I/O expander, SOIC-28"
 			(at 121.92 167.64 0)
 			(effects
 				(font

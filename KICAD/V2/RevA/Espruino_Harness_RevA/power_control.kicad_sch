@@ -8205,6 +8205,16 @@
 	)
 	(wire
 		(pts
+			(xy 251.46 86.36) (xy 257.81 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d4a6eab-ee2a-42dc-8732-9fee387c6ef1")
+	)
+	(wire
+		(pts
 			(xy 91.44 59.69) (xy 115.57 59.69)
 		)
 		(stroke
@@ -8442,16 +8452,6 @@
 			(type default)
 		)
 		(uuid "2e101ebb-98a5-42f6-8783-409bd1ed209f")
-	)
-	(wire
-		(pts
-			(xy 257.81 92.71) (xy 255.27 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2fb63ffd-9d2c-4388-944e-204e5ecb8fbf")
 	)
 	(wire
 		(pts
@@ -9112,6 +9112,16 @@
 			(type default)
 		)
 		(uuid "84d458d5-756a-4b3b-a317-7882c625df28")
+	)
+	(wire
+		(pts
+			(xy 257.81 86.36) (xy 257.81 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "862f84b3-486d-435f-a6c4-65a54fe73471")
 	)
 	(wire
 		(pts
@@ -10417,7 +10427,7 @@
 	)
 	(hierarchical_label "TEST_BLOCK_POWER_EN"
 		(shape input)
-		(at 255.27 92.71 180)
+		(at 251.46 86.36 180)
 		(effects
 			(font
 				(size 1.27 1.27)

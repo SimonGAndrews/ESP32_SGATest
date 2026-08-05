@@ -629,6 +629,10 @@
     [
       "11ed3dd2-d279-4483-beff-991112c2ba4c",
       "Power_Control"
+    ],
+    [
+      "b42d37c0-332f-4415-bc51-a9ef01c1562f",
+      "V2 Rev-A Rack Control Endpoint"
     ]
   ],
   "text_variables": {}

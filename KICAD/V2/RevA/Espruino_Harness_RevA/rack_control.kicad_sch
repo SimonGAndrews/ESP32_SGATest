@@ -2,15 +2,8 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "b2ffffff-0000-4000-8000-000000000001")
-	(paper "A3")
-	(title_block
-		(title "DRAFT WORKBENCH - RACK CONTROL ENDPOINT")
-		(rev "DRAFT")
-		(company "ESP32_SGATest")
-		(comment 1 "Accepted MCP23017 allocation and direct reset/boot stages")
-		(comment 2 "Promote only after interactive review")
-	)
+	(uuid "d3cd21a5-5398-4690-8139-875fa6a9138f")
+	(paper "A4")
 	(lib_symbols
 		(symbol "Espruino_Harness_RevA:C_0603"
 			(pin_numbers
@@ -1110,20 +1103,144 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Espruino_Harness_RevA:TI_GND"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "TI_GND"
+				(at 0 -3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Espruino Test Harness - Target Interface GND"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TI_GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TI_GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
-	(text "Configure IOCON.ODR=1 before enabling GPINTENB. Read INTFB to identify the event; read INTCAPB or GPIOB to clear it."
+	(text "GPB1 = TARGET_POWER_ALERT_N"
 		(exclude_from_sim no)
-		(at 138.43 132.08 0)
+		(at 158.75 46.99 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
+			(justify left bottom)
 		)
-		(uuid "a3ff6604-db0c-4fbe-974a-90d4583a86af")
+		(uuid "06c3e7b6-b919-4363-97db-f63af0ccb16c")
+	)
+	(text "MCP output high asserts the active-low Target Interface signal; gate bias holds both released before configuration"
+		(exclude_from_sim no)
+		(at 19.05 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0a1240b7-b035-4780-bdfa-a02c986d81e7")
+	)
+	(text "GPB2 = SUP_EVENT_IN"
+		(exclude_from_sim no)
+		(at 158.75 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "36c5df06-2e5e-40ca-821d-ae77c6e28c21")
 	)
 	(text "RACK CONTROL ENDPOINT - MCP23017 REV-A DRAFT"
 		(exclude_from_sim no)
-		(at 78.74 123.19 0)
+		(at 26.67 26.67 0)
 		(effects
 			(font
 				(size 1.6 1.6)
@@ -1131,112 +1248,11 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000001")
-	)
-	(text "Address 0x20 (A2:A0 low); Port A drives controls; Port B captures events; INTB is the sole RACK_INT_N source"
-		(exclude_from_sim no)
-		(at 78.74 127 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000002")
-	)
-	(text "R1207/R1208 provide the deliberate 4.7k downstream-branch pull-ups; verify the combined selected-channel pull-up before manufacture"
-		(exclude_from_sim no)
-		(at 78.74 129.54 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000003")
-	)
-	(text "U1201 — RACK CONTROL MCP23017"
-		(exclude_from_sim no)
-		(at 124.46 147.32 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000004")
-	)
-	(text "INTERRUPT CONTRACT"
-		(exclude_from_sim no)
-		(at 210.82 153.21 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000096")
-	)
-	(text "GPB0 = TARGET_POWER_FAULT_N"
-		(exclude_from_sim no)
-		(at 210.82 156.21 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000097")
-	)
-	(text "GPB1 = TARGET_POWER_ALERT_N"
-		(exclude_from_sim no)
-		(at 210.82 158.75 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000098")
-	)
-	(text "GPB2 = SUP_EVENT_IN"
-		(exclude_from_sim no)
-		(at 210.82 161.29 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000099")
-	)
-	(text "INTB: active-low open-drain; no local pull-up"
-		(exclude_from_sim no)
-		(at 210.82 163.83 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000100")
-	)
-	(text "One INTFB/INTCAPB read identifies and clears the event"
-		(exclude_from_sim no)
-		(at 78.74 135.89 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000101")
+		(uuid "47a14a2e-ba34-4914-87ce-b70b075eb2a4")
 	)
 	(text "DIRECT TARGET RESET / BOOT OPEN-DRAIN STAGES"
 		(exclude_from_sim no)
-		(at 71.12 238.76 0)
+		(at 19.05 142.24 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1244,22 +1260,22 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000102")
+		(uuid "577de259-aad8-497e-8126-a80d51c89820")
 	)
-	(text "MCP output high asserts the active-low Target Interface signal; gate bias holds both released before configuration"
+	(text "One INTFB/INTCAPB read identifies and clears the event"
 		(exclude_from_sim no)
-		(at 71.12 241.3 0)
+		(at 26.67 39.37 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000103")
+		(uuid "584c1cfe-b880-4012-bbcb-a29c0239fc7a")
 	)
 	(text "SAFE DEFAULTS"
 		(exclude_from_sim no)
-		(at 210.82 217.17 0)
+		(at 158.75 120.65 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1267,839 +1283,1234 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000144")
-	)
-	(text "RESET pull-up: R1201 = 10k to RACK_CONTROL_3V3"
-		(exclude_from_sim no)
-		(at 210.82 219.71 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000145")
-	)
-	(text "Reset/boot gate pull-downs: R1204/R1206 = 100k to TI_GND"
-		(exclude_from_sim no)
-		(at 210.82 222.25 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000146")
+		(uuid "6318d681-49f2-46b7-92e5-62052154d348")
 	)
 	(text "SUP_EVENT_IN pull-up: R1202 = 10k to RACK_CONTROL_3V3"
 		(exclude_from_sim no)
-		(at 210.82 224.79 0)
+		(at 158.75 128.27 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000147")
+		(uuid "666ed9b8-31ba-45df-b4f8-ca47491422f0")
+	)
+	(text "Reset/boot gate pull-downs: R1204/R1206 = 100k to TI_GND"
+		(exclude_from_sim no)
+		(at 158.75 125.73 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "72901da1-aaaa-42ff-be07-05c559fa5c20")
+	)
+	(text "RESET pull-up: R1201 = 10k to RACK_CONTROL_3V3"
+		(exclude_from_sim no)
+		(at 158.75 123.19 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "750cf3f0-f86e-40bc-9e65-91e0def8cab7")
+	)
+	(text "INTB: active-low open-drain; no local pull-up"
+		(exclude_from_sim no)
+		(at 158.75 52.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8ec93627-0697-4bce-a4bf-dffa422f52f9")
 	)
 	(text "Unused GPIO are explicitly unconnected; endpoint power-cycle supplies recovery"
 		(exclude_from_sim no)
-		(at 210.82 227.33 0)
+		(at 158.75 130.81 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000148")
+		(uuid "9e9dfda3-c33d-4a93-93fb-de5db6cd27a7")
+	)
+	(text "GPB0 = TARGET_POWER_FAULT_N"
+		(exclude_from_sim no)
+		(at 158.75 44.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ade79135-89e5-4fa9-838f-ce83f9b2c55f")
+	)
+	(text "Address 0x20 (A2:A0 low); Port A drives controls; Port B captures events; INTB is the sole RACK_INT_N source"
+		(exclude_from_sim no)
+		(at 26.67 30.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b65eed79-b7ae-44ae-a0d3-bb69d9ae39e9")
+	)
+	(text "R1207/R1208 provide the deliberate 4.7k downstream-branch pull-ups; verify the combined selected-channel pull-up before manufacture"
+		(exclude_from_sim no)
+		(at 26.67 33.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c1bc358c-ec60-4a68-b440-3803880442e4")
+	)
+	(text "U1201 — RACK CONTROL MCP23017"
+		(exclude_from_sim no)
+		(at 72.39 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "d3332b34-4727-4591-b7bd-d902b398c11c")
+	)
+	(text "Configure IOCON.ODR=1 before enabling GPINTENB. Read INTFB to identify the event; read INTCAPB or GPIOB to clear it."
+		(exclude_from_sim no)
+		(at 86.36 35.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "f582d3d9-054c-4667-8dc0-79ae545d3282")
+	)
+	(text "INTERRUPT CONTRACT"
+		(exclude_from_sim no)
+		(at 158.75 41.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "fcf4da53-13ec-42fe-918a-d444924857e3")
 	)
 	(junction
-		(at 196.85 259.08)
+		(at 144.78 162.56)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "8734ee4a-73aa-425f-98ad-a78c74a789df")
+		(uuid "09d1ef60-a91e-4537-a10d-927c4b4b38fe")
 	)
 	(junction
-		(at 109.22 259.08)
+		(at 100.33 54.61)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "b2000000-0000-4000-8000-000000000149")
+		(uuid "11152f8c-6579-490d-b180-82b3ff82248f")
+	)
+	(junction
+		(at 71.12 54.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "456fbd0d-61e9-41e0-8519-ec227082b3de")
+	)
+	(junction
+		(at 127 54.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "766f3570-ae51-4e55-a03e-b0d9f297159e")
+	)
+	(junction
+		(at 59.69 54.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8eac0bf0-e3b5-42cc-aff6-f3ef91e75857")
+	)
+	(junction
+		(at 57.15 162.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e999197f-66cd-4b97-9f3f-15d0b96039cb")
 	)
 	(no_connect
-		(at 132.08 182.88)
-		(uuid "b2000000-0000-4000-8000-000000000051")
+		(at 80.01 86.36)
+		(uuid "12a98a2e-8e9e-49da-bb11-e616a890a92b")
 	)
 	(no_connect
-		(at 172.72 185.42)
-		(uuid "b2000000-0000-4000-8000-000000000077")
+		(at 120.65 104.14)
+		(uuid "3ae3daa3-c3e4-481f-80fa-864fce5b9f7e")
 	)
 	(no_connect
-		(at 172.72 187.96)
-		(uuid "b2000000-0000-4000-8000-000000000078")
+		(at 120.65 106.68)
+		(uuid "48ae7dec-ed22-4de9-a2d4-7c1bbd71961d")
 	)
 	(no_connect
-		(at 172.72 200.66)
-		(uuid "b2000000-0000-4000-8000-000000000091")
+		(at 120.65 111.76)
+		(uuid "5a5214c2-38d8-4375-8b20-726a4f8ac178")
 	)
 	(no_connect
-		(at 172.72 203.2)
-		(uuid "b2000000-0000-4000-8000-000000000092")
+		(at 120.65 109.22)
+		(uuid "6f6d2aed-3328-4d3d-a9d9-00730470d0ef")
 	)
 	(no_connect
-		(at 172.72 205.74)
-		(uuid "b2000000-0000-4000-8000-000000000093")
+		(at 120.65 114.3)
+		(uuid "ab73cf17-ed39-426d-bbce-4195486c36d3")
 	)
 	(no_connect
-		(at 172.72 208.28)
-		(uuid "b2000000-0000-4000-8000-000000000094")
+		(at 120.65 88.9)
+		(uuid "dd24061b-3c33-4c66-96f5-1fc9f23215f4")
 	)
 	(no_connect
-		(at 172.72 210.82)
-		(uuid "b2000000-0000-4000-8000-000000000095")
+		(at 120.65 91.44)
+		(uuid "fd288b27-6f08-4c5d-a136-a7088c13f898")
 	)
 	(wire
 		(pts
-			(xy 111.76 170.18) (xy 111.76 166.37)
+			(xy 54.61 162.56) (xy 57.15 162.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0ef5c5cf-ee62-4bbc-a724-6e17053e248e")
+		(uuid "0366c027-218a-486d-897e-ae4a62144691")
 	)
 	(wire
 		(pts
-			(xy 109.22 259.08) (xy 130.81 259.08)
+			(xy 144.78 173.99) (xy 144.78 175.26)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "17facaf8-dce0-4291-a36f-4a8f2c5bfbe2")
+		(uuid "04ab8478-ffe5-40aa-b888-55718ef75394")
 	)
 	(wire
 		(pts
-			(xy 196.85 259.08) (xy 215.9 259.08)
+			(xy 59.69 50.8) (xy 59.69 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1ede31ff-2ea7-4bc6-bcbc-3f2e46fd5cd3")
+		(uuid "0cf13c2f-0f46-40de-a338-e699d068adc2")
 	)
 	(wire
 		(pts
-			(xy 177.8 152.4) (xy 177.8 153.67)
+			(xy 144.78 162.56) (xy 144.78 166.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "361f1138-e05e-4a26-9414-ad1d157aaf4d")
+		(uuid "0dbb7555-209c-4be4-9482-1e7d60e9fe78")
 	)
 	(wire
 		(pts
-			(xy 152.4 152.4) (xy 177.8 152.4)
+			(xy 59.69 54.61) (xy 71.12 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5837f93d-057f-4cfd-823b-229b9bd90534")
+		(uuid "18607a36-fd69-4926-b8b5-bc56ef0951bd")
 	)
 	(wire
 		(pts
-			(xy 223.52 264.16) (xy 223.52 275.59)
+			(xy 72.39 88.9) (xy 80.01 88.9)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5e89ef77-4891-4fec-9b0b-9435629e6d6c")
+		(uuid "22951741-899f-42c0-82c9-14b515be00ab")
 	)
 	(wire
 		(pts
-			(xy 100.33 190.5) (xy 132.08 190.5)
+			(xy 139.7 162.56) (xy 144.78 162.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a164b235-cdb6-4fe6-b1fd-6b27472daf32")
+		(uuid "26127057-5fc1-4d4f-a1cd-436d78bce003")
 	)
 	(wire
 		(pts
-			(xy 152.4 161.29) (xy 152.4 152.4)
+			(xy 48.26 83.82) (xy 48.26 81.28)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000037")
+		(uuid "26d52b21-d06e-4bb5-9f7a-c35eee7ead8f")
 	)
 	(wire
 		(pts
-			(xy 177.8 161.29) (xy 177.8 163.83)
+			(xy 120.65 101.6) (xy 180.34 101.6)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000041")
+		(uuid "2dcfd877-4066-41f2-abbf-8422dd155191")
 	)
 	(wire
 		(pts
-			(xy 152.4 219.71) (xy 152.4 223.52)
+			(xy 127 54.61) (xy 180.34 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000043")
+		(uuid "30126dbf-9348-4268-8c22-4d6ab0c0c15e")
 	)
 	(wire
 		(pts
-			(xy 101.6 172.72) (xy 132.08 172.72)
+			(xy 49.53 76.2) (xy 80.01 76.2)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000047")
+		(uuid "3c07f43d-183a-4d07-a318-41faa62988fe")
 	)
 	(wire
 		(pts
-			(xy 123.19 185.42) (xy 132.08 185.42)
+			(xy 128.27 162.56) (xy 132.08 162.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000049")
+		(uuid "3ccf0219-70e4-441e-9e60-6d69a2b44d8b")
 	)
 	(wire
 		(pts
-			(xy 100.33 180.34) (xy 100.33 177.8)
+			(xy 120.65 76.2) (xy 147.32 76.2)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000055")
+		(uuid "3cee5463-7f27-4e5f-8c90-60e0ab5a44d9")
 	)
 	(wire
 		(pts
-			(xy 100.33 187.96) (xy 100.33 190.5)
+			(xy 72.39 111.76) (xy 80.01 111.76)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000057")
+		(uuid "48202eb0-60a1-48b9-a8e1-182062085f5c")
 	)
 	(wire
 		(pts
-			(xy 124.46 205.74) (xy 132.08 205.74)
+			(xy 100.33 54.61) (xy 100.33 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000059")
+		(uuid "53c5472b-0efb-44ca-8093-24b43b46a209")
 	)
 	(wire
 		(pts
-			(xy 124.46 208.28) (xy 132.08 208.28)
+			(xy 44.45 162.56) (xy 46.99 162.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000061")
+		(uuid "622059a7-0af6-4722-98b1-f2db9745c7a6")
 	)
 	(wire
 		(pts
-			(xy 124.46 210.82) (xy 132.08 210.82)
+			(xy 127 54.61) (xy 127 55.88)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000063")
+		(uuid "71504fd6-8aca-4fdc-86ad-a3b193a52e9a")
 	)
 	(wire
 		(pts
-			(xy 172.72 170.18) (xy 195.58 170.18)
+			(xy 71.12 73.66) (xy 80.01 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000065")
+		(uuid "78175526-fabb-485a-8d80-d594b2a19040")
 	)
 	(wire
 		(pts
-			(xy 172.72 172.72) (xy 195.58 172.72)
+			(xy 120.65 86.36) (xy 123.19 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000067")
+		(uuid "7b3b81a1-ca67-4173-9a57-84ce59afcc89")
 	)
 	(wire
 		(pts
-			(xy 172.72 175.26) (xy 195.58 175.26)
+			(xy 120.65 78.74) (xy 147.32 78.74)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000069")
+		(uuid "7b58a5a3-c129-45b0-a149-425cb55242cd")
 	)
 	(wire
 		(pts
-			(xy 172.72 177.8) (xy 195.58 177.8)
+			(xy 86.36 167.64) (xy 86.36 176.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000071")
+		(uuid "860f286e-d8dd-4d28-99a7-fe019df4d33e")
 	)
 	(wire
 		(pts
-			(xy 172.72 180.34) (xy 195.58 180.34)
+			(xy 100.33 54.61) (xy 127 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000073")
+		(uuid "8a2503a8-0ee4-4daf-a625-62c1b5ab52ce")
 	)
 	(wire
 		(pts
-			(xy 172.72 182.88) (xy 195.58 182.88)
+			(xy 57.15 175.26) (xy 57.15 176.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000075")
+		(uuid "9135a4ee-3d3b-462c-8bc4-23c31fd01a95")
 	)
 	(wire
 		(pts
-			(xy 172.72 193.04) (xy 176.53 193.04)
+			(xy 120.65 73.66) (xy 147.32 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000079")
+		(uuid "94a794fb-621b-45d9-84de-63464891e8b8")
 	)
 	(wire
 		(pts
-			(xy 172.72 195.58) (xy 176.53 195.58)
+			(xy 48.26 93.98) (xy 80.01 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000081")
+		(uuid "99abc323-187b-4212-b6a6-e5a1f939234f")
 	)
 	(wire
 		(pts
-			(xy 172.72 198.12) (xy 203.2 198.12)
+			(xy 100.33 123.19) (xy 100.33 121.92)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000083")
+		(uuid "99f8508c-00d6-4fda-bdf1-4adef857d4fc")
 	)
 	(wire
 		(pts
-			(xy 203.2 190.5) (xy 203.2 187.96)
+			(xy 49.53 68.58) (xy 49.53 76.2)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000088")
+		(uuid "ae5e7383-27ca-4636-b5bc-88d9d0566720")
 	)
 	(wire
 		(pts
-			(xy 96.52 259.08) (xy 99.06 259.08)
+			(xy 71.12 54.61) (xy 100.33 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000114")
+		(uuid "af5f3ae3-1526-4723-aa55-83970ab5e5bc")
 	)
 	(wire
 		(pts
-			(xy 106.68 259.08) (xy 109.22 259.08)
+			(xy 86.36 153.67) (xy 86.36 157.48)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000116")
+		(uuid "b89c7beb-f4a3-435f-b48b-6fb507392bdc")
 	)
 	(wire
 		(pts
-			(xy 109.22 259.08) (xy 109.22 264.16)
+			(xy 57.15 162.56) (xy 78.74 162.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000117")
+		(uuid "bf1f3144-ad29-4f30-899a-384ac230068b")
 	)
 	(wire
 		(pts
-			(xy 109.22 271.78) (xy 109.22 274.32)
+			(xy 120.65 96.52) (xy 123.19 96.52)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000118")
+		(uuid "c8ab5245-e982-4506-a292-f38d653675c0")
 	)
 	(wire
 		(pts
-			(xy 138.43 250.19) (xy 138.43 254)
+			(xy 71.12 54.61) (xy 71.12 60.96)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000120")
+		(uuid "ca6885e9-4790-4937-b86d-d094236d19be")
 	)
 	(wire
 		(pts
-			(xy 138.43 264.16) (xy 138.43 274.32)
+			(xy 49.53 54.61) (xy 59.69 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000122")
+		(uuid "ccfe6289-d0d6-43d5-99f9-84b6ebfd81e1")
 	)
 	(wire
 		(pts
-			(xy 180.34 259.08) (xy 184.15 259.08)
+			(xy 71.12 68.58) (xy 71.12 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000134")
+		(uuid "d3b8777c-c2f3-48a2-b556-edaec694ce41")
 	)
 	(wire
 		(pts
-			(xy 196.85 259.08) (xy 196.85 264.16)
+			(xy 49.53 54.61) (xy 49.53 60.96)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000137")
+		(uuid "d76d4e5c-40bf-4265-8810-21f654e5722e")
 	)
 	(wire
 		(pts
-			(xy 223.52 250.19) (xy 223.52 254)
+			(xy 120.65 99.06) (xy 123.19 99.06)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000140")
+		(uuid "d7c16ce8-7f01-4c86-b830-11fc591c9163")
 	)
 	(wire
 		(pts
-			(xy 111.76 158.75) (xy 111.76 151.13)
+			(xy 144.78 162.56) (xy 163.83 162.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000166")
+		(uuid "d983335f-8443-4b11-bba7-d7a4953cf336")
 	)
 	(wire
 		(pts
-			(xy 101.6 154.94) (xy 101.6 161.29)
+			(xy 180.34 54.61) (xy 180.34 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000169")
+		(uuid "dccc4aed-50ba-4208-bde0-c320364ebf7c")
 	)
 	(wire
 		(pts
-			(xy 101.6 168.91) (xy 101.6 172.72)
+			(xy 171.45 167.64) (xy 171.45 176.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000171")
+		(uuid "dd7feca0-b911-42e8-92b5-ea0acebc9b3f")
 	)
 	(wire
 		(pts
-			(xy 196.85 271.78) (xy 196.85 275.59)
+			(xy 171.45 153.67) (xy 171.45 157.48)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cd830680-0f1a-46b3-865f-dfbf42f5c208")
+		(uuid "dec16823-4f97-4d33-b6c1-0e85d9372693")
 	)
 	(wire
 		(pts
-			(xy 191.77 259.08) (xy 196.85 259.08)
+			(xy 120.65 83.82) (xy 123.19 83.82)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ee6c8a8f-3081-40a7-97a4-cd0d3b8c2017")
+		(uuid "dfe9bc9d-f8d7-4ffe-856d-4d51aafdc5c0")
 	)
 	(wire
 		(pts
-			(xy 111.76 170.18) (xy 132.08 170.18)
+			(xy 57.15 162.56) (xy 57.15 167.64)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f8fb1003-5fa1-413b-9ef9-77f12126dbc8")
+		(uuid "e32b15d2-bedd-4b47-a33b-9d339fb508ed")
 	)
-	(label "RACK_CONTROL_3V3"
-		(at 152.4 152.4 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
+	(wire
+		(pts
+			(xy 48.26 91.44) (xy 48.26 93.98)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000038")
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ead9bd70-48c5-494b-8fd9-4fba8deaea98")
 	)
-	(label "TI_GND"
-		(at 177.8 163.83 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
+	(wire
+		(pts
+			(xy 120.65 81.28) (xy 123.19 81.28)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000042")
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ed916ef5-11d7-499b-b5ae-aaed61cd45f2")
 	)
-	(label "TI_GND"
-		(at 152.4 223.52 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
+	(wire
+		(pts
+			(xy 72.39 114.3) (xy 80.01 114.3)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000044")
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee8d1f6c-58cb-43c9-8b30-f4c96d26f0f1")
 	)
-	(label "RACK_CONTROL_SDA"
-		(at 130.81 170.18 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
+	(wire
+		(pts
+			(xy 72.39 109.22) (xy 80.01 109.22)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000046")
-	)
-	(label "RACK_CONTROL_SCL"
-		(at 101.6 172.72 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
+		(stroke
+			(width 0)
+			(type default)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000048")
-	)
-	(label "RACK_INT_N"
-		(at 123.19 185.42 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000050")
-	)
-	(label "RACK_CONTROL_3V3"
-		(at 100.33 177.8 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000056")
-	)
-	(label "TI_GND"
-		(at 124.46 205.74 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000060")
-	)
-	(label "TI_GND"
-		(at 124.46 208.28 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000062")
-	)
-	(label "TI_GND"
-		(at 124.46 210.82 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000064")
-	)
-	(label "TARGET_POWER_EN"
-		(at 195.58 170.18 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000066")
-	)
-	(label "TARGET_LOW_RANGE_EN"
-		(at 195.58 172.72 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000068")
-	)
-	(label "TEST_BLOCK_POWER_EN"
-		(at 195.58 175.26 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000070")
-	)
-	(label "TARGET_RESET_DRIVE"
-		(at 195.58 177.8 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000072")
+		(uuid "f55bce11-c464-4cf3-96e7-93090153ae15")
 	)
 	(label "BOOT_REQUEST_DRIVE"
-		(at 195.58 180.34 0)
+		(at 123.19 83.82 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000074")
+		(uuid "13012808-9ecb-44c7-a21f-e852cbab98f7")
 	)
-	(label "SUP_EVENT_OUT"
-		(at 195.58 182.88 0)
+	(label "TI_GND"
+		(at 72.39 114.3 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000076")
-	)
-	(label "TARGET_POWER_FAULT_N"
-		(at 176.53 193.04 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000080")
-	)
-	(label "TARGET_POWER_ALERT_N"
-		(at 176.53 195.58 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000082")
-	)
-	(label "SUP_EVENT_IN"
-		(at 176.53 198.12 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000084")
-	)
-	(label "RACK_CONTROL_3V3"
-		(at 203.2 187.96 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000089")
+		(uuid "21e7618c-a956-4231-bc9e-98d715d4d328")
 	)
 	(label "TARGET_RESET_DRIVE"
-		(at 96.52 259.08 180)
+		(at 44.45 162.56 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000115")
+		(uuid "2d17e8b2-a0e7-44b7-b14a-9d2fc9315984")
 	)
 	(label "TI_GND"
-		(at 109.22 274.32 180)
+		(at 72.39 109.22 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000119")
-	)
-	(label "TI_TARGET_RESET_N"
-		(at 138.43 250.19 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000121")
+		(uuid "4489d1d6-127d-42a9-a953-174ee66164ef")
 	)
 	(label "TI_GND"
-		(at 138.43 274.32 180)
+		(at 72.39 111.76 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000123")
-	)
-	(label "BOOT_REQUEST_DRIVE"
-		(at 180.34 259.08 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000135")
-	)
-	(label "TI_GND"
-		(at 196.85 275.59 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000139")
-	)
-	(label "TI_BOOT_REQUEST"
-		(at 223.52 250.19 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000141")
-	)
-	(label "TI_GND"
-		(at 223.52 275.59 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "b2000000-0000-4000-8000-000000000143")
+		(uuid "5b783b27-3b80-412e-b74e-a5bfc26a2d05")
 	)
 	(label "RESET_STAGE_GATE"
-		(at 111.76 259.08 0)
+		(at 59.69 162.56 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000153")
+		(uuid "5caf68b8-0bfa-4614-9a4f-79e70d3cf5b8")
+	)
+	(label "BOOT_REQUEST_DRIVE"
+		(at 128.27 162.56 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "72452328-abab-40ad-9eb9-9a5ca2caeda6")
+	)
+	(label "TARGET_RESET_DRIVE"
+		(at 123.19 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8cd2671a-3193-402a-809c-ac098cfc0836")
+	)
+	(label "RACK_CONTROL_3V3"
+		(at 48.26 81.28 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b26fbe1a-7b9a-4e22-a88f-21011747f769")
 	)
 	(label "BOOT_STAGE_GATE"
-		(at 196.85 259.08 0)
+		(at 144.78 162.56 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000156")
+		(uuid "e78effea-e712-4bc2-a2d4-e51f6171d421")
 	)
-	(label "RACK_CONTROL_3V3"
-		(at 111.76 151.13 180)
+	(hierarchical_label "RACK_INT_N"
+		(shape output)
+		(at 72.39 88.9 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify right)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000167")
+		(uuid "0bbc08f4-b619-4863-a2f8-d2ba96383e8d")
 	)
-	(label "RACK_CONTROL_3V3"
-		(at 101.6 154.94 180)
+	(hierarchical_label "SUP_EVENT_OUT"
+		(shape output)
+		(at 123.19 86.36 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left)
 		)
-		(uuid "b2000000-0000-4000-8000-000000000170")
+		(uuid "27b33db5-a56f-4b15-b0cc-57f17f70aaf1")
+	)
+	(hierarchical_label "TI_TARGET_RESET_N"
+		(shape output)
+		(at 86.36 153.67 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "32e50682-ba34-4e80-a427-e5ae6c85fe85")
+	)
+	(hierarchical_label "RACK_CONTROL_SDA"
+		(shape bidirectional)
+		(at 71.12 73.66 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4da4bcfa-d9ba-47f1-9fea-275b4e0c5fc0")
+	)
+	(hierarchical_label "RACK_CONTROL_3V3"
+		(shape input)
+		(at 59.69 50.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5286b6f1-28bd-4031-89d4-fbaf2142bba4")
+	)
+	(hierarchical_label "SUP_EVENT_IN"
+		(shape input)
+		(at 123.19 101.6 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5e2d326a-5b1e-45ea-ae44-96d667254657")
+	)
+	(hierarchical_label "TARGET_LOW_RANGE_EN"
+		(shape output)
+		(at 147.32 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "647d205b-1088-4ab0-936f-ca4a2e1720a3")
+	)
+	(hierarchical_label "TARGET_POWER_FAULT_N"
+		(shape input)
+		(at 123.19 96.52 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "989a2745-2892-417d-bf25-c0bdac8fcde4")
+	)
+	(hierarchical_label "TEST_BLOCK_POWER_EN"
+		(shape output)
+		(at 147.32 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ad0f0adf-4493-4465-8ae7-55acf8b6f900")
+	)
+	(hierarchical_label "TARGET_POWER_EN"
+		(shape output)
+		(at 147.32 73.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "be7d069e-1f4e-4bc6-ad19-904908428910")
+	)
+	(hierarchical_label "TARGET_POWER_ALERT_N"
+		(shape input)
+		(at 123.19 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d842f469-963a-4f39-a650-990a70334057")
+	)
+	(hierarchical_label "RACK_CONTROL_SCL"
+		(shape bidirectional)
+		(at 49.53 76.2 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d9a3d5d9-16fa-4df1-ac7d-ff4c01530851")
+	)
+	(hierarchical_label "TI_BOOT_REQUEST"
+		(shape output)
+		(at 171.45 153.67 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e6f692f8-f49e-483a-8304-f58792ad2b76")
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:TI_GND")
+		(at 57.15 176.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "198afee1-f57f-46fd-9ff2-83b042163852")
+		(property "Reference" "#PWR045"
+			(at 57.15 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 57.15 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 57.15 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 57.15 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 57.15 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cdd3df9f-b8ae-4eff-b77b-e16f122cfdb4")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
+					(reference "#PWR045")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:TI_GND")
+		(at 127 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3abc2946-2ead-4789-85c4-7d6d26e41a7f")
+		(property "Reference" "#PWR041"
+			(at 127 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 127 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 127 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 127 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0771edee-4b52-41ae-91eb-4639bd4c3ca3")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
+					(reference "#PWR041")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:TI_GND")
+		(at 171.45 176.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "45be4b2e-5727-4d94-964c-cd2a245c17bc")
+		(property "Reference" "#PWR043"
+			(at 171.45 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 171.45 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 171.45 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 171.45 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 171.45 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bc1261cf-4dbb-40cb-9caa-36d73cc1b644")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
+					(reference "#PWR043")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:TI_GND")
+		(at 100.33 121.92 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "589547ba-ffb8-4706-ae22-284967c937b3")
+		(property "Reference" "#PWR042"
+			(at 100.33 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 100.33 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 100.33 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 100.33 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 100.33 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9c6933df-fd8c-458c-ad3f-4b7ca98074f9")
+		)
+		(instances
+			(project ""
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
+					(reference "#PWR042")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:TI_GND")
+		(at 144.78 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8f39359e-1a62-42e2-89e2-d59f46275d04")
+		(property "Reference" "#PWR044"
+			(at 144.78 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 144.78 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 144.78 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 144.78 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 144.78 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "edc67afb-03ce-420b-ab36-6e7737cf0c2c")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
+					(reference "#PWR044")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:MCP23017_SO")
-		(at 152.4 190.5 0)
+		(at 100.33 93.98 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2107,7 +2518,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000005")
 		(property "Reference" "U1201"
-			(at 157.48 163.83 0)
+			(at 105.41 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2115,7 +2526,7 @@
 			)
 		)
 		(property "Value" "MCP23017-E/SO"
-			(at 149.86 198.12 0)
+			(at 97.79 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2123,7 +2534,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:SOIC-28W_7.5x17.9mm_P1.27mm"
-			(at 152.4 190.5 0)
+			(at 100.33 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2132,7 +2543,7 @@
 			)
 		)
 		(property "Datasheet" "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf"
-			(at 152.4 190.5 0)
+			(at 100.33 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2141,7 +2552,7 @@
 			)
 		)
 		(property "Description" "Rack Control Endpoint: address 0x20, Port B interrupt capture"
-			(at 152.4 190.5 0)
+			(at 100.33 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2235,7 +2646,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "U1201")
 					(unit 1)
 				)
@@ -2244,7 +2655,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:C_0603")
-		(at 177.8 157.48 0)
+		(at 127 59.69 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2252,7 +2663,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000034")
 		(property "Reference" "C1201"
-			(at 172.72 154.94 0)
+			(at 121.92 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2260,7 +2671,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 172.72 157.48 0)
+			(at 121.92 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2268,7 +2679,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 177.8 157.48 0)
+			(at 127 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2277,7 +2688,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 177.8 157.48 0)
+			(at 127 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2286,7 +2697,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 ceramic capacitor"
-			(at 177.8 157.48 0)
+			(at 127 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2302,7 +2713,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "C1201")
 					(unit 1)
 				)
@@ -2311,7 +2722,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 100.33 184.15 0)
+		(at 48.26 87.63 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2319,7 +2730,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000052")
 		(property "Reference" "R1201"
-			(at 104.14 180.34 0)
+			(at 52.07 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2327,7 +2738,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 100.33 184.15 90)
+			(at 48.26 87.63 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2335,7 +2746,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 100.33 184.15 0)
+			(at 48.26 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2344,7 +2755,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 100.33 184.15 0)
+			(at 48.26 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2353,7 +2764,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 resistor"
-			(at 100.33 184.15 0)
+			(at 48.26 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2369,7 +2780,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1201")
 					(unit 1)
 				)
@@ -2378,7 +2789,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 203.2 194.31 0)
+		(at 180.34 97.79 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2386,7 +2797,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000085")
 		(property "Reference" "R1202"
-			(at 209.55 194.31 0)
+			(at 176.53 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2394,7 +2805,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 203.2 194.31 90)
+			(at 180.34 97.79 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2402,7 +2813,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 203.2 194.31 0)
+			(at 180.34 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2411,7 +2822,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 203.2 194.31 0)
+			(at 180.34 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2420,7 +2831,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 resistor"
-			(at 203.2 194.31 0)
+			(at 180.34 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2436,7 +2847,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1202")
 					(unit 1)
 				)
@@ -2445,7 +2856,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:NMOS_2N7002_GSD")
-		(at 135.89 259.08 0)
+		(at 83.82 162.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2453,7 +2864,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000104")
 		(property "Reference" "Q1201"
-			(at 142.24 254 0)
+			(at 90.17 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2461,7 +2872,7 @@
 			)
 		)
 		(property "Value" "2N7002"
-			(at 143.51 256.54 0)
+			(at 91.44 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2469,7 +2880,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 135.89 259.08 0)
+			(at 83.82 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2478,7 +2889,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
-			(at 135.89 259.08 0)
+			(at 83.82 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2487,7 +2898,7 @@
 			)
 		)
 		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
-			(at 135.89 259.08 0)
+			(at 83.82 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2506,7 +2917,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "Q1201")
 					(unit 1)
 				)
@@ -2515,7 +2926,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 102.87 259.08 90)
+		(at 50.8 162.56 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2523,7 +2934,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000108")
 		(property "Reference" "R1203"
-			(at 102.87 256.54 90)
+			(at 50.8 160.02 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2531,7 +2942,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 102.87 259.08 90)
+			(at 50.8 162.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2539,7 +2950,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 102.87 259.08 0)
+			(at 50.8 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2548,7 +2959,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 102.87 259.08 0)
+			(at 50.8 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2557,7 +2968,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 resistor"
-			(at 102.87 259.08 0)
+			(at 50.8 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2573,7 +2984,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1203")
 					(unit 1)
 				)
@@ -2582,7 +2993,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 109.22 267.97 0)
+		(at 57.15 171.45 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2590,7 +3001,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000111")
 		(property "Reference" "R1204"
-			(at 105.41 264.16 0)
+			(at 53.34 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2598,7 +3009,7 @@
 			)
 		)
 		(property "Value" "100k"
-			(at 109.22 267.97 90)
+			(at 57.15 171.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2606,7 +3017,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 109.22 267.97 0)
+			(at 57.15 171.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2615,7 +3026,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 109.22 267.97 0)
+			(at 57.15 171.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2624,7 +3035,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 resistor"
-			(at 109.22 267.97 0)
+			(at 57.15 171.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2640,7 +3051,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1204")
 					(unit 1)
 				)
@@ -2649,7 +3060,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:NMOS_2N7002_GSD")
-		(at 220.98 259.08 0)
+		(at 168.91 162.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2657,7 +3068,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000124")
 		(property "Reference" "Q1202"
-			(at 228.6 252.73 0)
+			(at 176.53 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2665,7 +3076,7 @@
 			)
 		)
 		(property "Value" "2N7002"
-			(at 229.87 255.27 0)
+			(at 177.8 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2673,7 +3084,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 220.98 259.08 0)
+			(at 168.91 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2682,7 +3093,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
-			(at 220.98 259.08 0)
+			(at 168.91 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2691,7 +3102,7 @@
 			)
 		)
 		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
-			(at 220.98 259.08 0)
+			(at 168.91 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2710,7 +3121,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "Q1202")
 					(unit 1)
 				)
@@ -2719,7 +3130,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 187.96 259.08 90)
+		(at 135.89 162.56 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2727,7 +3138,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000128")
 		(property "Reference" "R1205"
-			(at 187.96 256.54 90)
+			(at 135.89 160.02 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2735,7 +3146,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 187.96 259.08 90)
+			(at 135.89 162.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2743,7 +3154,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 187.96 259.08 0)
+			(at 135.89 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2752,7 +3163,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 187.96 259.08 0)
+			(at 135.89 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2761,7 +3172,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 resistor"
-			(at 187.96 259.08 0)
+			(at 135.89 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2777,7 +3188,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1205")
 					(unit 1)
 				)
@@ -2786,7 +3197,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 196.85 267.97 0)
+		(at 144.78 170.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2794,7 +3205,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000131")
 		(property "Reference" "R1206"
-			(at 193.04 264.16 0)
+			(at 140.97 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2802,7 +3213,7 @@
 			)
 		)
 		(property "Value" "100k"
-			(at 196.85 267.97 90)
+			(at 144.78 170.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2810,7 +3221,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 196.85 267.97 0)
+			(at 144.78 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2819,7 +3230,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 196.85 267.97 0)
+			(at 144.78 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2828,7 +3239,7 @@
 			)
 		)
 		(property "Description" "Rev-A 0603 resistor"
-			(at 196.85 267.97 0)
+			(at 144.78 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2844,7 +3255,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1206")
 					(unit 1)
 				)
@@ -2853,7 +3264,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 111.76 162.56 0)
+		(at 71.12 64.77 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2861,7 +3272,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000160")
 		(property "Reference" "R1207"
-			(at 115.57 158.75 0)
+			(at 74.93 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2869,7 +3280,7 @@
 			)
 		)
 		(property "Value" "4.7k"
-			(at 111.76 162.56 90)
+			(at 71.12 64.77 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2877,7 +3288,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 111.76 162.56 0)
+			(at 71.12 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2886,7 +3297,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 111.76 162.56 0)
+			(at 71.12 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2895,7 +3306,7 @@
 			)
 		)
 		(property "Description" "Rack Control downstream I2C branch pull-up"
-			(at 111.76 162.56 0)
+			(at 71.12 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2911,7 +3322,7 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1207")
 					(unit 1)
 				)
@@ -2920,7 +3331,7 @@
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:R_0603")
-		(at 101.6 165.1 0)
+		(at 49.53 64.77 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2928,7 +3339,7 @@
 		(dnp no)
 		(uuid "b2000000-0000-4000-8000-000000000163")
 		(property "Reference" "R1208"
-			(at 105.41 161.29 0)
+			(at 53.34 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2936,7 +3347,7 @@
 			)
 		)
 		(property "Value" "4.7k"
-			(at 101.6 165.1 90)
+			(at 49.53 64.77 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2944,7 +3355,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 101.6 165.1 0)
+			(at 49.53 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2953,7 +3364,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 101.6 165.1 0)
+			(at 49.53 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2962,7 +3373,7 @@
 			)
 		)
 		(property "Description" "Rack Control downstream I2C branch pull-up"
-			(at 101.6 165.1 0)
+			(at 49.53 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2978,17 +3389,77 @@
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
-				(path "/b2ffffff-0000-4000-8000-000000000001"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
 					(reference "R1208")
 					(unit 1)
 				)
 			)
 		)
 	)
-	(sheet_instances
-		(path "/"
-			(page "1")
+	(symbol
+		(lib_id "Espruino_Harness_RevA:TI_GND")
+		(at 86.36 176.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ce7c7589-54b7-4761-94ec-b876429e14e6")
+		(property "Reference" "#PWR046"
+			(at 86.36 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 86.36 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 86.36 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Espruino Test Harness - Target Interface GND"
+			(at 86.36 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e52808ed-636b-4381-897e-8b9e64800638")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/b42d37c0-332f-4415-bc51-a9ef01c1562f"
+					(reference "#PWR046")
+					(unit 1)
+				)
+			)
 		)
 	)
-	(embedded_fonts no)
 )
