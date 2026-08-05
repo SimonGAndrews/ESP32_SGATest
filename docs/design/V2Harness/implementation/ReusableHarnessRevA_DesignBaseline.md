@@ -51,10 +51,37 @@ analysis before release.
 | Standard Test Blocks | `standard_test_blocks.kicad_sch` |
 | Routing Control and Routing Fabric | `routing_control.kicad_sch` |
 | Power Control | `power_control.kicad_sch` |
+| Rack Control Endpoint and direct reset/boot stages | `rack_control.kicad_sch` |
 | Prototype daughter-board provision | `prototype_daughter_board.kicad_sch` |
 
 The standalone `draft_workbench.kicad_sch` is not part of the production
 hierarchy and cannot provide baseline evidence.
+
+### First-pass schematic milestone
+
+The first-pass functional schematic for the Rev-A Reusable Harness Board is
+complete. Every circuit block in the register has an implementation in the
+production hierarchy, and the root export dated 2026-08-05 completed with
+zero ERC errors and zero warnings. This establishes schematic coverage and
+hierarchical integration; it does not establish that any `Draft` block is
+electrically verified or ready for manufacture.
+
+The clean working exports are currently named `Rack_Control.net` and
+`Rack_Control_ERC.rpt`. Subsequent baseline-review exports shall use the
+full-hierarchy names defined in Appendix A so they cannot be mistaken for
+sheet-only evidence.
+
+The first-pass netlist contains 225 components. The following symbols do not
+yet have footprints and therefore remain manufacturing-release gaps:
+
+- `U1101` — TPS2559-Q1 exposed-PowerPAD package
+- `J900`, `J901` — Target Interface connector banks
+- `J2`, `J301` — Grove I2C connectors
+- `JBP2` — second provisional backplane connector
+
+The prototype daughter-board sheet remains a provision rather than a
+populated daughter-board design. The Shared Supervisor Assembly and physical
+rack backplane are separate hardware designs outside this board baseline.
 
 ## 2. Governing requirements and artifact authority
 
@@ -108,7 +135,7 @@ is a board-level decision. A material change returns the affected block to
 | TB09 | Addressable RGB output | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | TBD | Draft |
 | BP01 | Rack Control and backplane interface | High | Root schematic | Standard Control Services | TBD | Draft |
-| EP01 | Rack Control Endpoint and direct reset/boot stages | High | Root schematic | Standard Control Services | TBD | Draft |
+| EP01 | Rack Control Endpoint and direct reset/boot stages | High | `rack_control.kicad_sch` | Standard Control Services | TBD | Draft |
 
 ## 4. Circuit-block analyses
 
@@ -296,16 +323,13 @@ layout, noise and zero-offset compensation.
 | Behaviour and safe-state analysis | Operating table, unpowered-state review and current schematic | Logic recorded and required `TARGET_SWITCH_EN` pull-down implemented as `R1110` |
 | Datasheet and pin functions | Manufacturer data sheets linked from the project symbols | Functional pin connections and I2C addresses reviewed; exact MPNs pending |
 | Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml` and root netlist | All PC02 pin-to-net assertions pass by manual comparison; automated checker pending |
-| Full-hierarchy ERC | Current `ERC.rpt` and `PowerControl_ERC.rpt` | Failing on incomplete parent-sheet power, Rack Control and hierarchy integration; not acceptable as release evidence |
+| Full-hierarchy ERC | `Rack_Control_ERC.rpt`, root export dated 2026-08-05 | First-pass hierarchy passes with zero errors and zero warnings; final release export remains pending |
 | Symbol-to-footprint pin mapping | Current project-local symbols and assigned footprints | Pending independent pad-number inspection |
 | Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Existing image must be refreshed after the completed TPS2559-Q1 implementation |
 | Electrical limits | Calculations above | Protection topology accepted; complete voltage-drop, thermal, inrush, transient and accuracy budgets remain pending |
 
 #### Open issues and accepted exceptions
 
-- Resolve the remaining PC02-related ERC findings through parent-sheet
-  integration: external power-source representation, Rack Control I2C drive
-  representation and connection of the synchronized hierarchy pins.
 - Create and independently verify the TPS2559-Q1 exposed-PowerPAD footprint,
   then refresh the review image and release ERC evidence. The project-local
   symbol, 66.5 kΩ `ILIM` resistor, `TARGET_SWITCH_EN` pull-down,
@@ -359,12 +383,16 @@ block review.
 
 | ID | Decision | Implementation contract | Status |
 |---|---|---|---|
-| `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N` and `SUP_EVENT_IN`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation and verification pending |
+| `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N` and `SUP_EVENT_IN`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation complete and first-pass hierarchy ERC clean; block verification pending |
 
 ### 5.2 Open integration gaps
 
 No cross-block integration gap is currently recorded. Block-local issues and
 release checks remain in their owning analyses.
+
+The clean first-pass ERC is an integration checkpoint, not the final accepted
+release ERC. The release checklist remains unchecked until the block reviews,
+connectivity contracts, packaging review and final cold review are complete.
 
 ## 6. Manufacturing release checks and decision
 
