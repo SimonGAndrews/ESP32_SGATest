@@ -4,7 +4,7 @@
 
 **Version:** 0.1
 
-**Last Updated:** 1 August 2026
+**Last Updated:** 6 August 2026
 
 ## 1. Purpose
 
@@ -39,6 +39,32 @@ Target-specific USB, supply, polarity or protection arrangements are Adapter
 Services on the target daughter board or documented harness accessories. They
 shall not be duplicated on the reusable harness merely to accommodate one
 target.
+
+### 2.1 Operating-Mode Capability Summary
+
+The reusable harness provides its routing and Standard Test Block functions in
+all three operating modes. `SUPERVISOR` additionally provides the independent
+control, observation and recovery services that must remain available while
+the target is unpowered or unresponsive. Availability still depends on the
+interfaces declared by the applicable Target Profile.
+
+| Capability | `STANDALONE` | `STANDALONE EXT` | `SUPERVISOR` |
+|---|---|---|---|
+| Target execution, functional tests and direct Routing Control | **Available.** The target owns the routing-control I2C. | **Available.** The target owns the routing-control I2C. | **Available.** The target retains ownership of the routing-control I2C. |
+| Standard Test Blocks | **Available**, powered from `TI_TARGET_3V3`. | **Available**, powered from external regulated 3.3 V. | **Available**, powered from external regulated 3.3 V and enabled by the Supervisor when required. |
+| Host console, test control and firmware flashing | **Available** through the target's normal powered USB or another declared host endpoint. | **Available** through the target's normal powered USB or another declared host endpoint. | **Available** through a direct target endpoint, normally USB No-VBUS while the harness powers the target; the Supervisor does not proxy this connection. |
+| Harness-controlled target power cycling | **Not available.** Normal powered USB supplies the target. | **Not available.** Normal powered USB supplies the target. | **Available** through the switched and protected external 5 V target supply. |
+| Integrated target voltage, current and sleep-current measurement | **Not available.** Use external instrumentation. | **Not available.** Use external instrumentation. | **Available** through the Target Power Monitor and its normal- and low-current ranges. |
+| Harness-controlled direct reset and boot requests | **Not available.** Use a declared target/host automatic sequence or manual controls. | **Not available.** Use a declared target/host automatic sequence or manual controls. | **Available** through the selected Rack Control Endpoint and target-specific daughter-board mapping. |
+| Rack-position selection and Rack Control Endpoint services | **Not available.** | **Not available.** | **Available.** The Supervisor selects and controls one rack position at a time. |
+| Automated external sleep/wake stimulus and timestamped acknowledgement | **Not available.** Timer wake and manual stimulus remain possible. | **Not available.** Timer wake and manual stimulus remain possible while external 3.3 V keeps the harness services powered. | **Available** through the Supervisor event interface; timer wake also remains available. |
+| Harness Supervisor Wi-Fi/BLE test peer | **Not available.** An independently provided peer may still be used. | **Not available.** An independently provided peer may still be used. | **Available.** |
+| Unattended out-of-band recovery from unresponsive target firmware | **Not available.** Host-endpoint recovery or operator intervention is required. | **Not available.** Host-endpoint recovery or operator intervention is required. | **Available** through independent power, reset, boot and host-observation services. |
+
+`STANDALONE EXT` extends only the source of the Routing Logic and Test Block
+3.3 V rails. It does **not** enable the harness-switched external 5 V target
+supply, integrated target-power measurement, Rack Control Endpoint or other
+Supervisor-owned services.
 
 ## 3. Power Control Service
 
