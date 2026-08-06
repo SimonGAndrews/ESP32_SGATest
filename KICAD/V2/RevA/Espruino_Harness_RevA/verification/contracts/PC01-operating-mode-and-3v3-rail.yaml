@@ -1,0 +1,95 @@
+schema_version: 1
+kind: block_contract
+block_id: PC01
+
+# Independent connectivity intent derived from the PC01 mode truth table and
+# selected circuit. This contract must be revised when the blocking TPS22917
+# CT/inrush decision is implemented.
+assertions:
+  pin_net:
+    - {ref: U1001, pin: "1", net: TI_GND}
+    - {ref: U1001, pin: "2", net: ROUTING_LOGIC_3V3}
+    - {ref: U1001, pin: "3", net: TI_TARGET_3V3}
+    - {ref: U1001, pin: "4", net: MUX_PR1}
+    - {ref: U1001, pin: "5", net: MUX_MODE}
+    - {ref: U1001, pin: "6", net: EXT_3V3}
+    - {ref: U1001, pin: "7", net: ROUTING_LOGIC_3V3}
+
+    - {ref: U1002, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: U1002, pin: "2", net: TI_GND}
+    - {ref: U1002, pin: "3", net: TEST_BLOCK_SWITCH_EN}
+    - {ref: U1002, pin: "5", net: TEST_BLOCK_3V3}
+    - {ref: U1002, pin: "6", net: TEST_BLOCK_3V3}
+
+    - {ref: D1001, pin: "1", net: MODE_STANDALONE_EXT}
+    - {ref: D1001, pin: "2", net: MODE_SUPERVISOR}
+    - {ref: D1001, pin: "3", net: MODE_EXT_SELECTED}
+    - {ref: D1002, pin: "1", net: MODE_EXT_SELECTED}
+    - {ref: D1002, pin: "2", net: MODE_STANDALONE}
+    - {ref: D1002, pin: "3", net: MUX_MODE}
+    - {ref: D1003, pin: "1", net: TI_TARGET_3V3}
+    - {ref: D1003, pin: "2", net: EXT_3V3}
+    - {ref: D1003, pin: "3", net: MODE_BIAS_3V3}
+    - {ref: D1004, pin: "1", net: MODE_STANDALONE}
+    - {ref: D1004, pin: "2", net: MODE_STANDALONE_EXT}
+    - {ref: D1004, pin: "3", net: TEST_BLOCK_AUTO_EN}
+    - {ref: D1005, pin: "1", net: TEST_BLOCK_AUTO_EN}
+    - {ref: D1005, pin: "2", net: TEST_BLOCK_POWER_EN}
+    - {ref: D1005, pin: "3", net: TEST_BLOCK_SWITCH_EN}
+
+    - {ref: Q1, pin: "1", net: MODE_EXT_SELECTED}
+    - {ref: Q1, pin: "2", net: TI_GND}
+    - {ref: Q1, pin: "3", net: MUX_PR1}
+
+    - {ref: R1001, pin: "1", net: MUX_MODE}
+    - {ref: R1001, pin: "2", net: TI_GND}
+    - {ref: R1002, pin: "1", net: MODE_BIAS_3V3}
+    - {ref: R1002, pin: "2", net: MUX_PR1}
+    - {ref: R1003, pin: "1", net: MODE_EXT_SELECTED}
+    - {ref: R1003, pin: "2", net: TI_GND}
+    - {ref: R1004, pin: "1", net: TEST_BLOCK_SWITCH_EN}
+    - {ref: R1004, pin: "2", net: TI_GND}
+    - {ref: R1009, pin: "1", net: MODE_SUPERVISOR}
+    - {ref: R1009, pin: "2", net: TI_GND}
+
+    - {ref: C1001, pin: "1", net: TI_GND}
+    - {ref: C1001, pin: "2", net: TI_TARGET_3V3}
+    - {ref: C1002, pin: "1", net: TI_GND}
+    - {ref: C1002, pin: "2", net: EXT_3V3}
+    - {ref: C1003, pin: "1", net: TI_GND}
+    - {ref: C1003, pin: "2", net: ROUTING_LOGIC_3V3}
+    - {ref: C1004, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: C1004, pin: "2", net: TI_GND}
+
+  component_value:
+    - {ref: U1001, value: TPS2116DRL}
+    - {ref: U1002, value: TPS22917DBV}
+    - {ref: D1001, value: BAT54C}
+    - {ref: D1002, value: BAT54C}
+    - {ref: D1003, value: BAT54C}
+    - {ref: D1004, value: BAT54C}
+    - {ref: D1005, value: BAT54C}
+    - {ref: Q1, value: 2N7002}
+    - {ref: R1001, value: 100k}
+    - {ref: R1002, value: 10k}
+    - {ref: R1003, value: 100k}
+    - {ref: R1004, value: 100k}
+    - {ref: R1009, value: 100k}
+    - {ref: C1001, value: 1uF}
+    - {ref: C1002, value: 1uF}
+    - {ref: C1003, value: 1uF}
+    - {ref: C1004, value: 1uF}
+
+  forbidden_same_net:
+    - id: PC01-F01
+      endpoints: [U1001.3, U1001.6]
+      reason: Target and external 3.3 V sources must not be directly joined.
+    - id: PC01-F02
+      endpoints: [U1001.3, U1001.2]
+      reason: The target source must reach the routing rail only through U1001.
+    - id: PC01-F03
+      endpoints: [U1001.6, U1001.2]
+      reason: The external source must reach the routing rail only through U1001.
+    - id: PC01-F04
+      endpoints: [U1002.1, U1002.6]
+      reason: Test Block power must remain controlled by U1002.

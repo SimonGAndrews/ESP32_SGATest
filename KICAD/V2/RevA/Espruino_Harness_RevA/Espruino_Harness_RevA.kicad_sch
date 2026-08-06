@@ -2859,6 +2859,16 @@
 	)
 	(wire
 		(pts
+			(xy 325.12 91.44) (xy 337.82 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88d581cb-ba38-4225-b09e-0125e9028c59")
+	)
+	(wire
+		(pts
 			(xy 520.7 160.02) (xy 535.94 160.02)
 		)
 		(stroke
@@ -3496,6 +3506,16 @@
 			(type default)
 		)
 		(uuid "e3a11e8f-011e-5a26-a42e-debd0b858e92")
+	)
+	(wire
+		(pts
+			(xy 135.89 92.71) (xy 147.32 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e67e31a9-0504-4b16-a92a-afce3d4960fe")
 	)
 	(wire
 		(pts
@@ -5802,6 +5822,16 @@
 		)
 		(uuid "7fba6dc2-3bad-4965-a2f2-36ad2e607d75")
 	)
+	(label "LOW_RANGE_OK_N"
+		(at 147.32 92.71 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7ff71fd1-573f-4b39-b93d-a271ab8ec768")
+	)
 	(label "TI_GND"
 		(at 340.36 187.96 0)
 		(effects
@@ -6401,6 +6431,16 @@
 			(justify left bottom)
 		)
 		(uuid "d563bb59-3cf9-446f-bb2f-ca0b22010fa4")
+	)
+	(label "LOW_RANGE_OK_N"
+		(at 337.82 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d645b361-671f-41f9-b02e-6331c9e9a62a")
 	)
 	(label "TI_GPIO_LOOP_A_IN"
 		(at 535.94 58.42 0)
@@ -7696,6 +7736,16 @@
 				(justify right)
 			)
 		)
+		(pin "LOW_RANGE_OK_N" output
+			(at 135.89 92.71 0)
+			(uuid "5189fecd-08c1-4e02-a4ce-44b73ac9c0a3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
 		(instances
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954"
@@ -7903,6 +7953,16 @@
 		(pin "TARGET_POWER_FAULT_N" input
 			(at 325.12 86.36 0)
 			(uuid "9b19f3ea-0c73-465a-88e6-138973d668d5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "LOW_RANGE_OK_N" input
+			(at 325.12 91.44 0)
+			(uuid "fad37236-27bb-4929-85e2-3a44d3093a30")
 			(effects
 				(font
 					(size 1.27 1.27)

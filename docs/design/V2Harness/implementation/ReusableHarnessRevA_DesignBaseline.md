@@ -143,7 +143,147 @@ This section records the analysis and verification state of each implemented
 circuit block. Each block has its own subsection and follows the template in
 Appendix A.
 
-### 4.1 PC02 — Target 5 V switch and two-range power monitor
+### 4.1 PC01 — Operating mode and 3.3 V rails
+
+**Purpose and requirements:** Select the permitted Routing Logic 3.3 V source,
+hold the harness inactive in `OFF`, and provide either automatic or
+Supervisor-controlled Test Block 3.3 V without joining the target and external
+supplies. See Standard Control Services Sections 3.1–3.3 and Appendix C.2.
+**Source schematic:** `power_control.kicad_sch`, references `U1001`, `U1002`,
+`D1001`–`D1005`, `Q1`, `R1001`–`R1004`, `R1009` and `C1001`–`C1004`.
+**Visual review:** Pending
+[`PC01-operating-mode-and-3v3-rail.png`](review-images/PC01-operating-mode-and-3v3-rail.png).
+**Risk:** High
+**Status:** Draft; functional topology and exported connectivity reviewed,
+but Test Block inrush and exact-part/package evidence block acceptance.
+
+#### Interfaces and domains
+
+| Type | Signals or rails | Function |
+|---|---|---|
+| Source inputs | `TI_TARGET_3V3`, `EXT_3V3` | Alternative Routing Logic supplies; they must never be directly joined |
+| Mode inputs | `MODE_STANDALONE`, `MODE_STANDALONE_EXT`, `MODE_SUPERVISOR` | One-of-three outputs from the grouped Operating Mode header |
+| Supervisor input | `TEST_BLOCK_POWER_EN` | Enables Test Block power only in Supervisor mode |
+| Power outputs | `ROUTING_LOGIC_3V3`, `TEST_BLOCK_3V3` | Supplies routing-control circuits and Standard Test Blocks |
+| Ground | `TI_GND` | Common 0 V reference |
+
+#### Key design issue — Test Block turn-on current is not yet bounded
+
+**Severity:** Major; blocks PC01 acceptance and manufacturing release.
+**Affected requirement:** Each valid mode must power its selected source and
+the Test Blocks without collapsing the target or rack 3.3 V rail.
+**Evidence:** `U1002` is a TPS22917 with its adjustable-rise-time `CT` pin open.
+The current full-hierarchy netlist places at least 23.3 µF of fixed capacitance
+on `TEST_BLOCK_3V3`: `C1004` 1 µF, `C401`, `C402` and `C901` 100 nF each, and
+`C403` 22 µF. Removable Test Block modules can add more. TI's
+[Managing Inrush Current](https://www.ti.com/lit/an/slva670a/slva670a.pdf)
+shows that charging current is `C × dV/dt`, can collapse a shared source rail,
+and must be designed from total load capacitance and an acceptable peak.
+**Required resolution:** Establish the maximum fitted Test Block capacitance
+and the lower of the permitted target/external-source transient budgets, then
+select and fit `C_T` so the TPS22917 rise time meets that limit. Confirm the
+calculation across data-sheet timing tolerance and verify rail rise, peak
+current and source disturbance on Rev A. The present open `CT` pin is not an
+accepted production value.
+
+#### Selected implementation
+
+- `U1001`, TPS2116DRL, is used in manual mode as a break-before-make 2:1 power
+  multiplexer. `VIN1` receives `TI_TARGET_3V3`, `VIN2` receives `EXT_3V3`, and
+  `VOUT` drives `ROUTING_LOGIC_3V3`.
+- `D1001`, `D1002`, `Q1` and their bias resistors decode the three fitted
+  Operating Mode rows into TPS2116 `MODE` and `PR1` without software.
+- `U1002`, TPS22917DBV, switches `ROUTING_LOGIC_3V3` to `TEST_BLOCK_3V3`.
+  `D1004` enables it automatically in either Standalone mode; `D1005` ORs that
+  result with `TEST_BLOCK_POWER_EN` for Supervisor control.
+- `D1003` Schottky-ORs the available 3.3 V inputs only to create the low-current
+  `MODE_BIAS_3V3` control bias. It does not join the power rails.
+- `C1001`–`C1004` provide the local source, mux-output and Test Block output
+  bypassing shown by the schematic. The unresolved TPS22917 `CT` capacitor is
+  separate from this bypass capacitance.
+
+#### Operating logic and safe states
+
+| Operating Mode | TPS2116 `MODE` | TPS2116 `PR1` | Routing source | Test Block switch |
+|---|---:|---:|---|---|
+| `OFF` | 0 | 1 when a source exists | High impedance | Off |
+| `STANDALONE` | 1 | 1 | `TI_TARGET_3V3` | On automatically |
+| `STANDALONE EXT` | 1 | 0 | `EXT_3V3` | On automatically |
+| `SUPERVISOR` | 1 | 0 | `EXT_3V3` | Controlled by `TEST_BLOCK_POWER_EN`, default off |
+
+The grouped header is a power-configuration device and shall be changed only
+with the associated sources off. The design therefore does not rely on live
+source transfer. `R1001`, `R1003`, `R1004` and `R1009` hold the decoded control
+nodes inactive when their inputs are absent. If either 3.3 V source remains
+present in `OFF`, `D1003` and `R1002` hold `PR1` high while `MODE` remains low,
+which is the TPS2116 shutdown state. TPS2116 reverse-current blocking and
+break-before-make behaviour prevent the unselected source from being powered
+through the mux. TPS22917 `QOD` is intentionally tied to its output to discharge
+`TEST_BLOCK_3V3` when disabled; no alternative source may drive that rail.
+
+#### Key calculations and limits
+
+| Subject | Calculation or limit | Initial result |
+|---|---|---|
+| Maximum specified steady load | Routing allocation 50 mA + selected Test Blocks 250 mA | 300 mA, well below the TPS2116 2.5 A and TPS22917 2 A ratings |
+| TPS2116 typical path drop | 300 mA × 40 mΩ | 12 mV typical; maximum and temperature-aware value still required |
+| Fixed switched capacitance | 1 µF + 22 µF + three × 100 nF | At least 23.3 µF before removable modules |
+| Required inrush relation | `I_INRUSH = C_LOAD × dV/dt` | Select `C_T` only after the permitted peak and maximum capacitance are fixed |
+| TPS22917 protection | Product data: no current limit | Source and wiring protection must not be inferred from this load switch |
+
+#### Manufacturer source and application review
+
+The source screen below covers every principal PC01 component. Product pages
+are retained because they are the current index of manufacturer-linked data
+sheets and application material; the data sheets remain the authority for
+guaranteed limits.
+
+| Device | Manufacturer sources screened | Consequence for PC01 |
+|---|---|---|
+| TPS2116 | [Product page and all four linked documents](https://www.ti.com/product/TPS2116), [data sheet](https://www.ti.com/lit/ds/symlink/tps2116.pdf), [Basics of Power MUX](https://www.ti.com/lit/pdf/SLVAE51), eMeter and building-automation application briefs, and the linked 24 VAC reference-design guide | Manual `MODE`/`PR1` truth table, output capacitance, break-before-make, reverse blocking and thermal behaviour apply. Automatic-priority switchover, battery-life and 24 VAC conversion examples do not apply because the header is changed with supplies off. The device has no per-position current limit. |
+| TPS22917 | [Product page and all eleven linked documents](https://www.ti.com/product/TPS22917), [data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf), [Managing Inrush Current](https://www.ti.com/lit/an/slva670a/slva670a.pdf), [Timing of Load Switches](https://www.ti.com/lit/an/slva883/slva883.pdf), [On-Resistance](https://www.ti.com/lit/an/slva771/slva771.pdf), [Load Switch Thermal Considerations](https://www.ti.com/lit/pdf/SLVUA74), and [Selecting a Load Switch](https://www.ti.com/lit/pdf/SLVA887) | `CT` must be designed from maximum switched capacitance and allowed inrush; timing varies with voltage, load, capacitance and temperature. QOD is a deliberate discharge path. On-resistance, dissipation and lack of current limiting remain explicit release checks. The integrated-vs-discrete, basics, power-consumption and overview documents add no conflicting requirement. |
+| BAT54C (`D1001`–`D1005`) | [Nexperia BAT54C data sheet](https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf); no product-specific application note relevant to this static low-current decode was identified | Common-cathode pin mapping and forward drop are compatible with diode-OR decoding. Logic-high margins must use worst-case forward voltage, not an ideal diode assumption. |
+| 2N7002 (`Q1`) | [Nexperia 2N7002 data sheet](https://assets.nexperia.com/documents/data-sheet/2N7002.pdf); no product-specific application note relevant to this low-current pull-down was identified | The device only sinks the TPS2116 `PR1` bias current. Exact orderable suffix, pin mapping and guaranteed low-voltage gate operation remain part-selection checks. |
+
+#### Components and packaging
+
+| References | Manufacturer | Exact orderable part | Package | KiCad footprint | Datasheet/revision | Pin/pad mapping | AISLER assignment |
+|---|---|---|---|---|---|---|---|
+| `U1001` | Texas Instruments | TPS2116DRL | SOT-583, 8 pin | `Package_TO_SOT_SMD:SOT-583-8` | [TPS2116](https://www.ti.com/lit/ds/symlink/tps2116.pdf), Rev A | Symbol pins reviewed; footprint pads pending | Assign exact MPN; pending |
+| `U1002` | Texas Instruments | TPS22917DBV | SOT-23-6 | `Package_TO_SOT_SMD:SOT-23-6` | [TPS22917](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Rev B | Symbol pins reviewed; footprint pads pending | Assign exact MPN; pending |
+| `D1001`–`D1005` | Nexperia or approved equivalent | BAT54C; suffix pending | SOT-23 | `Package_TO_SOT_SMD:SOT-23` | [BAT54C](https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf) | Common-cathode mapping reviewed; footprint pads pending | Group only pin-compatible approved parts |
+| `Q1` | Nexperia or approved equivalent | 2N7002; suffix pending | SOT-23 | `Package_TO_SOT_SMD:SOT-23` | [2N7002](https://assets.nexperia.com/documents/data-sheet/2N7002.pdf) | Symbol pins reviewed; footprint pads pending | Confirm exact pin-compatible MPN |
+| `R1001`, `R1003`, `R1004`, `R1009` | TBD | 100 kΩ, standard passive policy | 0603 | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Connectivity reviewed | Grouped assignment pending |
+| `R1002` | TBD | 10 kΩ, standard passive policy | 0603 | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Connectivity reviewed | Assignment pending |
+| `C1001`–`C1004` | TBD | 1 µF, voltage rating and dielectric pending | 0603 | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Connectivity reviewed | Grouped assignment pending |
+
+#### Verification
+
+| Check | Evidence | Result |
+|---|---|---|
+| Requirements inspection | Standard Control Services 3.1–3.3 and Appendix C.2 | Mode truth table and source ownership agree |
+| Behaviour and safe-state analysis | Truth table and unpowered-state review above | Functional topology accepted; inrush unresolved |
+| Manufacturer source screen | Product-linked documents summarized above | Complete for current principal-device choices |
+| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml` and root netlist | Contract drafted from the reviewed topology; automated checker pending |
+| Full-hierarchy ERC | Accepted root export dated 2026-08-05 | Zero errors and zero warnings at the first-pass milestone; release rerun pending |
+| Symbol-to-footprint mapping | Current symbols and footprints | Pending independent pad-number inspection |
+| Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Pending capture after inrush resolution |
+
+#### Open issues and accepted exceptions
+
+- Resolve the blocking Test Block capacitance, inrush and TPS22917 `CT` design
+  issue, then update both schematic and connectivity contract.
+- Complete maximum/temperature voltage-drop and thermal checks for U1001 and
+  U1002, including the exact orderable parts.
+- Confirm BAT54C diode-high margins and the selected 2N7002 gate-drive margin
+  across source tolerance and temperature.
+- Independently verify all symbol-to-footprint pad mappings and complete the
+  AISLER assignments.
+- Capture the PC01 visual review image after the circuit is electrically fixed.
+
+No exceptions are accepted at this stage.
+
+### 4.2 PC02 — Target 5 V switch and two-range power monitor
 
 **Purpose and requirements:** Provide Supervisor-controlled target power,
 observe the delivered voltage, current and power, cover both 100 µA sleep
@@ -180,6 +320,69 @@ tolerance, exposed-PowerPAD layout, voltage-drop and thermal budgets,
 supported target capacitance, valid boot/radio transients, fault response and
 disabled-state Standalone reverse isolation before PC02 is accepted.
 
+#### Resolved design issue — Partial-power-safe range driver
+
+**Status:** Accepted; schematic implementation complete and release
+verification pending.
+**Affected requirement:** The monitor and range-control circuit shall remain
+safe when rack control is powered but external 5 V is absent, including
+Standalone operation and arbitrary supply sequencing.
+**Decision:** `U1102` is a TXU0101 fixed-direction dual-supply translator.
+`VCCA` and its constant-high `A` input use `RACK_CONTROL_3V3`; `VCCB` uses
+`EXT_5V`; `OE` receives `LOW_RANGE_GATE_3V3`; and output `B` drives
+`LOW_SHUNT_BYPASS_GATE`. `R1106` and `R1107` hold `OE` and the MOSFET gate
+low when the corresponding driver is unavailable.
+**Evidence:** The
+[TXU0101 data sheet](https://www.ti.com/lit/ds/symlink/txu0101.pdf) specifies
+`Ioff` partial-power-down protection and disables the outputs to high
+impedance if either supply is below 100 mV or disconnected. It also permits
+either supply power-up order. The external pull-down on
+`LOW_SHUNT_BYPASS_GATE` therefore restores the high-current bypass whenever
+the translator cannot drive it.
+**Verification impact:** The project-local symbol, SOT-23-6 pad mapping,
+dual-supply decoupling, partial-power states and connectivity contract remain
+release checks; the earlier SN74AHCT1G125 blocker is closed.
+
+#### Resolved design issue — Low-range alert is latched and observable
+
+**Status:** Accepted schematic implementation; firmware and release
+verification remain pending.
+**Affected requirement:** An unsafe low-range current shall restore the
+high-current bypass and remain observable without oscillating or depending on
+polling latency.
+**Evidence:** `U1104` asserts `LOW_RANGE_OK_N` when its shunt-overvoltage
+threshold is exceeded. That low state immediately disables `U1102` through
+`U1105` and restores the `Q1101` bypass. Restoring the bypass also removes the
+1 Ω shunt voltage that caused the alert. In the INA228 default transparent
+mode, the alert can therefore clear while `TARGET_LOW_RANGE_EN` remains high
+and reinsert the shunt. The INA228 data sheet states that `ALATCH = 1` holds
+the alert and its flag active until `DIAG_ALRT` is read.
+**Resolution:** `LOW_RANGE_OK_N` connects the `U1104` alert to the existing
+`U1105` hardware interlock and to `GPB3` of Rack Control MCP23017 `U1201`.
+`GPB3` contributes to the active-low open-drain `RACK_INT_N` interrupt. The
+accepted firmware contract configures `U1104` for its ±40.96 mV range,
+active-low latched shunt-overvoltage alert and accepted threshold. Firmware
+clears `TARGET_LOW_RANGE_EN` before reading INA228 `DIAG_ALRT`, then clears the
+MCP23017 capture. The refreshed root netlist contains the complete path and
+the full hierarchy passes ERC with zero errors and zero warnings.
+
+#### Key design issue — Low-range leakage and accuracy are not yet proved
+
+**Severity:** Major; blocks acceptance of the 100 µA measurement claim.
+**Affected requirement:** Sleep-current measurements shall achieve the agreed
+5%–10% practical accuracy at 100 µA.
+**Evidence:** The required signal is only 100 µV across `R1102`. INA228 offset
+is small enough in the ±40.96 mV range, but `Q1101` remains connected across
+the 1 Ω shunt while off. The AO3401A data sheet specifies off leakage at much
+higher drain-source voltage, not the low-voltage leakage needed to bound this
+measurement. Shunt tolerance, thermal EMF, PCB leakage, input bias, noise and
+layout also contribute.
+**Required resolution:** Select the exact bypass MOSFET and shunt, produce a
+worst-case low-current error budget, and verify zero-offset and known-current
+points on Rev A over the intended temperature range. If guaranteed data cannot
+bound the bypass leakage, measured characterization is mandatory before the
+100 µA claim is accepted.
+
 #### Interfaces and domains
 
 | Type | Signals or rails | Function |
@@ -189,7 +392,7 @@ disabled-state Standalone reverse isolation before PC02 is accepted.
 | Control inputs | `MODE_SUPERVISOR`, `TARGET_POWER_EN`, `TARGET_LOW_RANGE_EN` | Qualify target power and low-range selection |
 | Rack Control bus | `RACK_CONTROL_SDA`, `RACK_CONTROL_SCL` | Reads the two power monitors |
 | Power output | `TI_SWITCHED_TARGET_5V` | Measured and switched 5 V delivered to the Target Interface |
-| Status outputs | `TARGET_POWER_ALERT_N`, `TARGET_POWER_FAULT_N` | Normal-range monitor alert and hardware switch overload/thermal fault indication to Rack Control |
+| Status outputs | `TARGET_POWER_ALERT_N`, `TARGET_POWER_FAULT_N`, `LOW_RANGE_OK_N` | Normal-range alert, hardware switch fault and latched low-range qualification event observed by Rack Control |
 | Ground | `TI_GND` | Common reference for the circuit and Target Interface |
 
 #### Selected implementation
@@ -203,13 +406,21 @@ disabled-state Standalone reverse isolation before PC02 is accepted.
 - `R1102` is the 1 Ω low-range shunt. `Q1101` normally bypasses it so boot and
   active target current do not pass through 1 Ω.
 - `U1104` is the low-offset INA228 low-range monitor at I2C address `0x41`.
-  Its alert output qualifies `TARGET_LOW_RANGE_EN` through the second `U1105`
-  gate.
-- `U1102`, powered from `EXT_5V`, translates the 3.3 V range-selection result
-  into the 5 V gate drive required to turn the P-channel bypass MOSFET off.
+  Its latched active-low alert output `LOW_RANGE_OK_N` qualifies
+  `TARGET_LOW_RANGE_EN` through the second `U1105` gate and is observed by the
+  Rack Control Endpoint.
+- `U1102` is a TXU0101 powered from `RACK_CONTROL_3V3` on its A side and
+  `EXT_5V` on its B side. It translates the qualified 3.3 V selection into
+  the 5 V gate drive required to turn the P-channel bypass MOSFET off. Its
+  `Ioff` and supply-disconnect behaviour make the output high impedance if
+  either domain is unavailable.
 - Both monitors are powered from always-on `RACK_CONTROL_3V3` and share
   `RACK_CONTROL_SDA` and `RACK_CONTROL_SCL`. Their bus-voltage inputs observe
   `TI_SWITCHED_TARGET_5V`.
+- `U1103` senses `R1101` through `HIGH_SHUNT_P` and `HIGH_SHUNT_N`; `U1104`
+  senses `R1102` through `HIGH_SHUNT_N` and `TI_SWITCHED_TARGET_5V`. The PCB
+  shall route a separate Kelvin pair directly from each shunt's pads to its
+  corresponding monitor inputs.
 - `TARGET_POWER_ALERT_N` exposes the normal-range monitor alert to Rack
   Control. `TI_SWITCHED_TARGET_5V` feeds the Target Interface after both
   measurement elements.
@@ -227,8 +438,10 @@ the two Rack Control requests low. `R1106` holds the range-driver input low and
 - `LOW_RANGE_GATE_3V3 = TARGET_LOW_RANGE_EN AND LOW_RANGE_OK_N`
 
 `U1102` drives the P-channel bypass gate. A low
-`LOW_RANGE_GATE_3V3` keeps `Q1101` on and bypasses the 1 Ω shunt. A high value
-turns `Q1101` off and inserts `R1102`.
+`LOW_RANGE_GATE_3V3`, loss of either translator supply or a low
+`LOW_RANGE_OK_N` makes the output high impedance; `R1107` then keeps `Q1101`
+on and bypasses the 1 Ω shunt. A valid high value drives the gate towards
+`EXT_5V`, turns `Q1101` off and inserts `R1102`.
 
 | Supervisor mode | Target-power request | Low-range request | `LOW_RANGE_OK_N` | Expected hardware state |
 |---:|---:|---:|---:|---|
@@ -240,9 +453,11 @@ turns `Q1101` off and inserts `R1102`.
 
 `X` means that the input does not change the expected state for that row.
 Firmware shall request low range only after the normal-range monitor indicates
-that target current is within the permitted transition threshold. The
-`U1104` alert then provides the hardware qualification represented by
-`LOW_RANGE_OK_N`.
+that target current is within the permitted transition threshold. `U1104`
+shall use its active-low latched shunt-overvoltage alert for
+`LOW_RANGE_OK_N`. If it asserts, hardware restores the bypass. Firmware shall
+then clear `TARGET_LOW_RANGE_EN` before reading `DIAG_ALRT` to clear the
+latched alert and shall not retry until normal-range current is verified.
 
 The intended uncommanded state is target power off with `R1102` bypassed:
 
@@ -250,7 +465,8 @@ The intended uncommanded state is target power off with `R1102` bypassed:
   pull-downs.
 - `LOW_RANGE_GATE_3V3` and `LOW_SHUNT_BYPASS_GATE` have pull-downs, so the
   1 Ω shunt is bypassed when range control is unavailable.
-- Loss of `EXT_5V` removes the target supply regardless of the logic state.
+- Loss of `EXT_5V` removes the target supply regardless of the logic state;
+  the TXU0101 becomes high impedance and cannot back-power either domain.
 
 The [SN74LVC2G08 data sheet](https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf)
 specifies partial-power-down protection: `U1105` outputs become high impedance
@@ -296,12 +512,35 @@ The INA226 maximum 10 µV shunt offset is 2% of the 500 µV signal produced by
 the complete calibrated error budget still needs shunt tolerance, temperature,
 layout, noise and zero-offset compensation.
 
+The INA226 ±81.92 mV shunt range corresponds to 1.6384 A through the 50 mΩ
+normal-range shunt. This covers the 1.5 A permitted load but can saturate
+before the provisional TPS2559-Q1 upper current-limit tolerance. That is
+acceptable only if firmware treats INA226 as the normal operating monitor and
+uses `TARGET_POWER_FAULT_N`, rather than an INA226 current reading, as the
+authoritative overload indication. INA228 shall use its ±40.96 mV range for
+the 1 Ω low-current path, giving a 40.96 mA measurement ceiling.
+
+#### Manufacturer source and application review
+
+| Device | Manufacturer sources screened | Consequence for PC02 |
+|---|---|---|
+| TPS2559-Q1 | [Product page and both linked technical documents](https://www.ti.com/product/TPS2559-Q1), [data sheet](https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf), [MFi overcurrent-test application note](https://www.ti.com/lit/an/slvaeq2/slvaeq2.pdf), and [TPS2559-Q1 EVM guide](https://www.ti.com/lit/pdf/SLUUB15) | Adjustable current limit, soft start, fast short response, thermal retry, disabled reverse blocking, FAULT pull-up and PowerPAD layout apply. The MFi compliance procedure itself does not apply, but its overload/fault test method supports Rev-A protection tests. |
+| INA226 | [Product page and linked technical documents](https://www.ti.com/product/INA226), [data sheet](https://www.ti.com/lit/ds/symlink/ina226.pdf), [Getting Started with Digital Power Monitors](https://www.ti.com/lit/an/sboa511a/sboa511a.pdf), and [Digital Interfaces for Current-Sense Devices](https://www.ti.com/lit/an/sboa203a/sboa203a.pdf) | Shunt range, calibration, averaging, conversion timing, alert programming, I2C pull-ups and Kelvin connections apply. Copper-trace shunts, high-voltage, power-amplifier, heater, solar and ESD/EOS application examples do not change this precision 5 V external-shunt design. |
+| INA228 | [Product page and linked technical documents](https://www.ti.com/product/INA228), [data sheet](https://www.ti.com/lit/ds/symlink/ina228.pdf), and the same digital-monitor and interface guides | ±40.96 mV range, averaging, conversion timing, calibration and Kelvin layout support the low range. Energy/charge accumulation is useful but not required. High-voltage, E3/solenoid, robot and heater examples do not alter this application. |
+| SN74LVC2G08 | [Product page](https://www.ti.com/product/SN74LVC2G08), [data sheet](https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf), and [Implications of Slow or Floating CMOS Inputs](https://www.ti.com/lit/an/scba004e/scba004e.pdf) | `Ioff` explicitly protects inputs/outputs when its 3.3 V supply is absent. External pull-downs keep all CMOS inputs defined; the product-linked solid-state-relay application brief is unrelated. |
+| TXU0101 | [Product page and linked technical documents](https://www.ti.com/product/TXU0101) and [data sheet](https://www.ti.com/lit/ds/symlink/txu0101.pdf) | Fixed A-to-B translation, Schmitt-trigger input, output enable, `Ioff` protection, supply-disconnect isolation and arbitrary power sequencing implement the partial-power-safe 3.3 V-to-5 V range driver. The device becomes high impedance if either supply is absent; external pull-downs establish the bypass state. |
+| AO3401A | [Alpha & Omega AO3401A data sheet](https://www.aosmd.com/res/data_sheets/AO3401A.pdf); no product-specific application note identified | On-resistance supports the bypass path, but off leakage is not guaranteed at the low `VDS` relevant to a 100 µA measurement. Exact part and characterization remain required. |
+
+The product-page screen also covered documents linked to these devices that
+address unrelated end equipment or sensing topologies. They are excluded above
+by application rather than silently omitted.
+
 #### Components and packaging
 
 | References | Manufacturer | Exact orderable part | Package | KiCad symbol | KiCad footprint | Datasheet/revision | Pin/pad mapping | AISLER assignment |
 |---|---|---|---|---|---|---|---|---|
 | `U1101` | Texas Instruments | TPS2559-Q1; exact tape-and-reel suffix pending | DRC, 10-pin 3 mm × 3 mm VSON/SON with exposed PowerPAD | Project-local `TPS2559Q1_TARGET_POWER_SWITCH` | Project-local footprint pending | [TPS2559-Q1](https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf), SLVSD03 | Symbol pin mapping reviewed; exposed-pad footprint mapping pending | Confirm AISLER availability and assign; pending |
-| `U1102` | Texas Instruments | TBD; SN74AHCT1G125 DBV candidate | SOT-23-5 | Project-local `74AHCT1G125_RANGE_DRIVER` | `Package_TO_SOT_SMD:SOT-23-5` | [SN74AHCT1G125](https://www.ti.com/lit/ds/symlink/sn74ahct1g125.pdf), Rev P | Symbol pins reviewed; footprint pads pending | Assign; pending |
+| `U1102` | Texas Instruments | TXU0101DBVR | DBV, SOT-23-6 | Project-local `TXU0101_RANGE_DRIVER` | `Package_TO_SOT_SMD:SOT-23-6` | [TXU0101](https://www.ti.com/lit/ds/symlink/txu0101.pdf), SCES940A, Rev A | Symbol pins reviewed; footprint pads pending | Assign and confirm AISLER availability; pending |
 | `U1103` | Texas Instruments | TBD; INA226 | DGS, VSSOP-10 | Project-local `INA226_HIGH_RANGE` | `Package_SO:VSSOP-10_3x3mm_P0.5mm` | [INA226](https://www.ti.com/lit/ds/symlink/ina226.pdf), SBOS547B, Rev B | Symbol pins reviewed; footprint pads pending | Assign; pending |
 | `U1104` | Texas Instruments | TBD; INA228 | DGS, VSSOP-10 | Project-local `INA228_LOW_RANGE` | `Package_SO:VSSOP-10_3x3mm_P0.5mm` | [INA228](https://www.ti.com/lit/ds/symlink/ina228.pdf), SLYS021A, Rev A | Symbol pins reviewed; footprint pads pending | Assign; pending |
 | `U1105` | Texas Instruments | TBD; SN74LVC2G08 DCU candidate | DCU, VSSOP-8 | Project-local `74LVC2G08_POWER_INTERLOCK` | `Package_SO:VSSOP-8_2.3x2mm_P0.5mm` | [SN74LVC2G08](https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf), Rev N | Symbol pins reviewed; footprint pads pending | Assign; pending |
@@ -313,7 +552,7 @@ layout, noise and zero-offset compensation.
 | `R1110` | TBD | 100 kΩ `TARGET_SWITCH_EN` safe-state pull-down | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Connectivity reviewed | Assign in the grouped 100 kΩ AISLER part selection; pending |
 | `R1111` | TBD | 66.5 kΩ 1% `U1101` current-limit programming resistor | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | TPS2559-Q1 current-limit programming | Pending | Assign exact approved part; pending |
 | `C1101` | TBD | 1 µF; standard passive policy | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Pending | Assign; pending |
-| `C1102`–`C1106` | TBD | 100 nF; standard passive policy | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Pending | Assign as one grouped 100 nF part; pending |
+| `C1102`–`C1107` | TBD | 100 nF; standard passive policy | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Pending | Assign as one grouped 100 nF part; pending |
 
 #### Verification
 
@@ -321,9 +560,9 @@ layout, noise and zero-offset compensation.
 |---|---|---|
 | Requirements inspection | Standard Control Services 3.5, 3.5.1 and Appendix C.3 | Topology covers the required switching and two measurement ranges |
 | Behaviour and safe-state analysis | Operating table, unpowered-state review and current schematic | Logic recorded and required `TARGET_SWITCH_EN` pull-down implemented as `R1110` |
-| Datasheet and pin functions | Manufacturer data sheets linked from the project symbols | Functional pin connections and I2C addresses reviewed; exact MPNs pending |
-| Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml` and root netlist | All PC02 pin-to-net assertions pass by manual comparison; automated checker pending |
-| Full-hierarchy ERC | `Rack_Control_ERC.rpt`, root export dated 2026-08-05 | First-pass hierarchy passes with zero errors and zero warnings; final release export remains pending |
+| Manufacturer source screen and pin functions | Product pages, data sheets and applicable application documents summarized above | Pin functions and I2C addresses reviewed; TXU0101 closes the range-driver partial-power blocker and the low-range alert integration is implemented; low-range accuracy remains unresolved |
+| Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml` and root netlist | PC02 assertions are refreshed; manual netlist review confirms `U1104.Alert` and `U1105.2B` share `LOW_RANGE_OK_N` with `U1201.GPB3`; add the system-level assertion before release |
+| Full-hierarchy ERC | `ERC.rpt`, root export dated 2026-08-06 | Complete hierarchy passes with zero errors and zero warnings; final release rerun remains pending |
 | Symbol-to-footprint pin mapping | Current project-local symbols and assigned footprints | Pending independent pad-number inspection |
 | Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Existing image must be refreshed after the completed TPS2559-Q1 implementation |
 | Electrical limits | Calculations above | Protection topology accepted; complete voltage-drop, thermal, inrush, transient and accuracy budgets remain pending |
@@ -349,8 +588,20 @@ layout, noise and zero-offset compensation.
 - Exercise valid target boot, radio and peripheral transients at the minimum
   current-limit tolerance, then verify overload, short-circuit, thermal-retry
   and `TARGET_POWER_FAULT_N` behaviour at the maximum tolerance.
-- Define and verify the `U1104` alert threshold, polarity and software sequence
-  that permits low-range selection.
+- Implement and verify the firmware configuration for the `U1104` ±40.96 mV
+  range, active-low latched shunt-overvoltage alert and accepted threshold.
+  Enable the `U1201.GPB3` interrupt and verify the specified request-clear /
+  `DIAG_ALRT`-read / MCP23017-capture-clear order.
+- Add the system-level connectivity assertion for the implemented
+  `LOW_RANGE_OK_N` path before release.
+- Independently verify the TXU0101 SOT-23-6 pad mapping, both local decoupling
+  capacitors and all partial-power states. The PC02 connectivity assertions
+  are refreshed; rerun them against the post-interrupt root netlist.
+- Complete the low-range error budget and characterize bypass leakage and
+  zero-offset at 100 µA before accepting the stated minimum measurement.
+- Configure INA228 for its ±40.96 mV shunt range and define conversion time,
+  averaging and calibration. Treat INA226 saturation above 1.6384 A as an
+  overload-region limitation and use `TARGET_POWER_FAULT_N` for protection.
 - Confirm Rack Control I2C pull-ups and the total always-on
   `RACK_CONTROL_3V3` load in the Rack Control/backplane design.
 
@@ -383,11 +634,14 @@ block review.
 
 | ID | Decision | Implementation contract | Status |
 |---|---|---|---|
-| `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N` and `SUP_EVENT_IN`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation complete and first-pass hierarchy ERC clean; block verification pending |
+| `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N`, `SUP_EVENT_IN` and the latched `LOW_RANGE_OK_N`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation complete and full-hierarchy ERC clean; firmware and release verification pending |
 
 ### 5.2 Open integration gaps
 
-No cross-block integration gap is currently recorded. Block-local issues and
+No cross-block schematic integration gap is currently recorded.
+`LOW_RANGE_OK_N` is connected from PC02 to Rack Control `U1201.GPB3`, and the
+refreshed full hierarchy passes ERC. The system-level connectivity assertion
+and firmware verification remain release checks. Other block-local issues and
 release checks remain in their owning analyses.
 
 The clean first-pass ERC is an integration checkpoint, not the final accepted
@@ -463,6 +717,15 @@ switching and sequencing blocks require a concise truth or state table.
 Analogue and power blocks require the applicable threshold, polarity,
 startup, shutdown, partial-power, back-power, voltage-drop, dissipation,
 accuracy and datasheet-support checks.
+
+For every principal device, review the current manufacturer product page,
+data sheet and every product-linked application note, application brief or
+design guide before accepting the circuit approach. Record the documents that
+affect this use and their implementation consequences. Group documents that
+do not apply and state why they were excluded; a long bibliography without an
+engineering conclusion is not evidence. Application material guides the
+design, while guaranteed limits and pin behaviour come from the current data
+sheet. Repeat this source screen when a principal device changes.
 
 Any finding that conflicts with a required operating mode, safety property or
 interface contract shall be recorded prominently in the block's **Key design

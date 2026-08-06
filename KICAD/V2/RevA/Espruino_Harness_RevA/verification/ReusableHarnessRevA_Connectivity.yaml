@@ -12,5 +12,7 @@ project:
 # independently reviewed connectivity intent. The block register and status
 # remain in the human-readable design baseline.
 contracts:
+  - id: PC01
+    file: contracts/PC01-operating-mode-and-3v3-rail.yaml
   - id: PC02
     file: contracts/PC02-target-5v-switch-and-two-range-monitor.yaml

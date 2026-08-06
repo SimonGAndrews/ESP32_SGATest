@@ -27,11 +27,12 @@ assertions:
     - {ref: Q1101, pin: "2", net: HIGH_SHUNT_N}
     - {ref: Q1101, pin: "3", net: TI_SWITCHED_TARGET_5V}
 
-    - {ref: U1102, pin: "1", net: TI_GND}
-    - {ref: U1102, pin: "2", net: LOW_RANGE_GATE_3V3}
-    - {ref: U1102, pin: "3", net: TI_GND}
+    - {ref: U1102, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: U1102, pin: "2", net: TI_GND}
+    - {ref: U1102, pin: "3", net: RACK_CONTROL_3V3}
     - {ref: U1102, pin: "4", net: LOW_SHUNT_BYPASS_GATE}
-    - {ref: U1102, pin: "5", net: EXT_5V}
+    - {ref: U1102, pin: "5", net: LOW_RANGE_GATE_3V3}
+    - {ref: U1102, pin: "6", net: EXT_5V}
 
     - {ref: U1103, pin: "1", net: TI_GND}
     - {ref: U1103, pin: "2", net: TI_GND}
@@ -95,9 +96,12 @@ assertions:
     - {ref: C1105, pin: "2", net: TI_GND}
     - {ref: C1106, pin: "1", net: EXT_5V}
     - {ref: C1106, pin: "2", net: TI_GND}
+    - {ref: C1107, pin: "1", net: RACK_CONTROL_3V3}
+    - {ref: C1107, pin: "2", net: TI_GND}
 
   component_value:
     - {ref: U1101, value: TPS2559-Q1}
+    - {ref: U1102, value: TXU0101DBVR}
     - {ref: R1101, value: "0.050R 0.1%"}
     - {ref: R1102, value: "1.00R 0.1%"}
     - {ref: R1103, value: 100k}
@@ -115,6 +119,7 @@ assertions:
     - {ref: C1104, value: 100nF}
     - {ref: C1105, value: 100nF}
     - {ref: C1106, value: 100nF}
+    - {ref: C1107, value: 100nF}
 
   forbidden_same_net:
     - id: PC02-F01

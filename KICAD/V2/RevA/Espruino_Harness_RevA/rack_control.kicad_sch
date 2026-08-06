@@ -1207,7 +1207,7 @@
 	)
 	(text "GPB1 = TARGET_POWER_ALERT_N"
 		(exclude_from_sim no)
-		(at 158.75 46.99 0)
+		(at 185.3484 98.6501 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1229,7 +1229,7 @@
 	)
 	(text "GPB2 = SUP_EVENT_IN"
 		(exclude_from_sim no)
-		(at 158.75 49.53 0)
+		(at 185.3484 101.1901 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1318,9 +1318,19 @@
 		)
 		(uuid "750cf3f0-f86e-40bc-9e65-91e0def8cab7")
 	)
+	(text "GPB3 = LOW_RANGE_OK_N"
+		(exclude_from_sim no)
+		(at 198.12 102.87 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "7c4d93b5-6f72-40da-9f29-9d24400b3659")
+	)
 	(text "INTB: active-low open-drain; no local pull-up"
 		(exclude_from_sim no)
-		(at 158.75 52.07 0)
+		(at 185.3484 106.2701 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1342,7 +1352,7 @@
 	)
 	(text "GPB0 = TARGET_POWER_FAULT_N"
 		(exclude_from_sim no)
-		(at 158.75 44.45 0)
+		(at 185.3484 96.1101 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1397,7 +1407,7 @@
 	)
 	(text "INTERRUPT CONTRACT"
 		(exclude_from_sim no)
-		(at 158.75 41.45 0)
+		(at 185.3484 93.1101 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1446,10 +1456,6 @@
 	(no_connect
 		(at 80.01 86.36)
 		(uuid "12a98a2e-8e9e-49da-bb11-e616a890a92b")
-	)
-	(no_connect
-		(at 120.65 104.14)
-		(uuid "3ae3daa3-c3e4-481f-80fa-864fce5b9f7e")
 	)
 	(no_connect
 		(at 120.65 106.68)
@@ -1754,6 +1760,16 @@
 			(type default)
 		)
 		(uuid "af5f3ae3-1526-4723-aa55-83970ab5e5bc")
+	)
+	(wire
+		(pts
+			(xy 120.65 104.14) (xy 123.19 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b03bc920-999f-40e5-b662-17c4987bce22")
 	)
 	(wire
 		(pts
@@ -2177,6 +2193,17 @@
 			(justify right)
 		)
 		(uuid "e6f692f8-f49e-483a-8304-f58792ad2b76")
+	)
+	(hierarchical_label "LOW_RANGE_OK_N"
+		(shape input)
+		(at 123.19 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f4250303-a45b-43ef-8e1d-0641b0dc012e")
 	)
 	(symbol
 		(lib_id "Espruino_Harness_RevA:TI_GND")

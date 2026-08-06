@@ -7849,6 +7849,17 @@
 		)
 		(uuid "bd84edfc-695e-4144-93f4-f8b70930ccfb")
 	)
+	(text "LOW-RANGE SAFETY INTERLOCK\n\nLOW_RANGE_OK_N is the INA228 active-low, latched over-current alert.\nIt qualifies TARGET_LOW_RANGE_EN through U1105.\n\nLOW_RANGE_OK_N high: low-range selection may remain enabled.\nLOW_RANGE_OK_N low: U1105 disables the low-range drive, restoring\nQ1101’s hardware-safe normal-range bypass.\n\nThe signal also feeds U1201 GPB3, allowing RACK_INT_N to notify\nthe supervisor. Firmware clears TARGET_LOW_RANGE_EN before reading\nINA228 DIAG_ALRT to release the latched alert."
+		(exclude_from_sim no)
+		(at 312.42 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bf5e1c27-5b3e-439f-ac3d-e57dd7bea81e")
+	)
 	(text "One shunt selects one row; change only with associated supplies off"
 		(exclude_from_sim no)
 		(at 48.26 26.67 0)
@@ -8068,6 +8079,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "761a1e5b-7386-46ba-b7e0-a020d373aa4e")
+	)
+	(junction
+		(at 350.52 214.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7686548f-9109-4cfa-a536-3c175856c042")
 	)
 	(junction
 		(at 168.91 160.02)
@@ -8404,6 +8421,16 @@
 			(type dash)
 		)
 		(uuid "172adc1e-57bb-4518-b124-4f9a16174c1b")
+	)
+	(wire
+		(pts
+			(xy 355.6 214.63) (xy 350.52 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17326bbb-dfe0-44dd-bd19-1f31c1aaa8e4")
 	)
 	(wire
 		(pts
@@ -10398,16 +10425,6 @@
 		(uuid "62813433-f665-4541-aa6a-af1a1020c781")
 	)
 	(label "LOW_RANGE_OK_N"
-		(at 317.5 214.63 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "81750720-8d30-4d9f-9bd9-c210e2bdfb53")
-	)
-	(label "LOW_RANGE_OK_N"
 		(at 92.71 254 0)
 		(effects
 			(font
@@ -10681,6 +10698,17 @@
 			(justify right)
 		)
 		(uuid "7a14e56d-30ff-494d-8319-18092bd4ce25")
+	)
+	(hierarchical_label "LOW_RANGE_OK_N"
+		(shape output)
+		(at 355.6 214.63 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7edfe478-6c33-4b70-ba52-598ab2a21749")
 	)
 	(hierarchical_label "ROUTING_LOGIC_3V3"
 		(shape output)
@@ -14589,7 +14617,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "TPS2116 VIN1 local input capacitor"
+		(property "Description" "TXU0101 VCCA 3.3 V decoupling"
 			(at 168.91 237.49 0)
 			(effects
 				(font
@@ -15336,7 +15364,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "TPS2116 VIN1 local input capacitor"
+		(property "Description" "TXU0101 VCCB 5 V decoupling"
 			(at 208.28 237.49 0)
 			(effects
 				(font

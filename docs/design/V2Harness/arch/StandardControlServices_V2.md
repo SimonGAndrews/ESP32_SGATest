@@ -349,6 +349,43 @@ normal target load. Loss of range control shall select the high-current
 range. Range selection shall not interrupt target power or disturb the sleep
 state being measured.
 
+Rev A shall use the INA228 low-range monitor as a hardware qualification and
+observation path, not merely as a measurement device. Its active-low
+open-drain `ALERT` output is `LOW_RANGE_OK_N`: an asserted low state shall
+override `TARGET_LOW_RANGE_EN` and restore the high-current bypass without
+waiting for firmware. The INA228 shall use the ±40.96 mV shunt range and a
+shunt-overvoltage threshold no higher than the accepted low-range current
+ceiling after component tolerances are included. Conversion-ready signalling
+shall not share this `ALERT` function.
+
+The INA228 alert shall be configured active low and latched (`APOL = 0`,
+`ALATCH = 1`). Latching is mandatory because restoring the bypass removes the
+1 Ω shunt voltage that caused the alert; a transparent alert could otherwise
+clear while `TARGET_LOW_RANGE_EN` remained asserted and repeatedly reinsert
+the shunt. `LOW_RANGE_OK_N` shall therefore feed both the local range
+interlock and `GPB3` of the Rack Control MCP23017. Its asserted state shall
+contribute to `RACK_INT_N` like the other Supervisor-owned endpoint events.
+This behaviour follows the
+[INA228 data sheet](https://www.ti.com/lit/ds/symlink/ina228.pdf), which
+defines `ALATCH = 1` as holding `ALERT` and its flag active until
+`DIAG_ALRT` is read.
+
+The Supervisor low-range sequence shall be:
+
+1. Configure the INA228 range, calibration, conversion timing,
+   shunt-overvoltage threshold and latched alert before low range is enabled.
+2. Confirm from the normal-range monitor that current is below the permitted
+   transition threshold, then assert `TARGET_LOW_RANGE_EN`.
+3. Wait for the defined INA228 conversion interval and accept low range only
+   if no latched alert is present and the INA228 reading is within the
+   accepted low-current range.
+4. On a captured `LOW_RANGE_OK_N` event, first clear
+   `TARGET_LOW_RANGE_EN`, then read `DIAG_ALRT` to identify and clear the
+   latched INA228 alert. A retry shall be a deliberate new request after the
+   normal-range current has again been verified.
+5. Clear `TARGET_LOW_RANGE_EN` and confirm the high-current range before any
+   reset, wake-up or other operation that can increase target current.
+
 The measurement and complete-path voltage-drop limits are:
 
 | Condition | Maximum drop |
@@ -873,6 +910,7 @@ The minimum action and observation contract is:
 |---|---|---|---|
 | Select rack position | Makes the previous position inactive and selects one TCA9548A channel | Previous-position safe state, multiplexer selection readback and response from the selected Rack Control Endpoint | Host verifies the configured rack-position mapping |
 | Set target power | Controls the selected target 5 V switch | Target Power Monitor voltage confirms the requested on or off state; current, power and `TARGET_POWER_FAULT_N` are also returned | Host verifies target-endpoint appearance or removal where applicable |
+| Measure low target current | Verifies normal-range current, requests `TARGET_LOW_RANGE_EN` and observes the INA228 qualification interval | INA228 measurement plus the latched `LOW_RANGE_OK_N` state captured through the Rack Control Endpoint | Host accepts the low-range result or restores the high-current bypass before recovery |
 | Set Test Block power | Controls the selected Test Block Supply Rail switch | MCP23017 control-state readback | Target verifies the required Test Block devices before testing |
 | Reset or boot | Operates the direct reset and optional boot stages using Target Profile timing | Control-state readback and transition timestamps | Host verifies endpoint return and the resulting runtime or boot mode |
 | Hardware Clear | Invokes the direct route-safe action | Control-state readback and completion timestamp | Target subsequently establishes and verifies the required routes |
@@ -1172,14 +1210,21 @@ Rev A shall use the following MCP23017 allocation:
 | `GPB0` | Input | `TARGET_POWER_FAULT_N` |
 | `GPB1` | Input | `TARGET_POWER_ALERT_N` |
 | `GPB2` | Input | `SUP_EVENT_IN` |
-| `GPB3` to `GPB7` | Spare | Reserved Rev-A expansion provision |
+| `GPB3` | Input | `LOW_RANGE_OK_N` |
+| `GPB4` to `GPB7` | Spare | Reserved Rev-A expansion provision |
 
 `INTB` shall be configured as the active-low open-drain source for
 `RACK_INT_N`. Interrupt-on-change is enabled only for the required Port B
-inputs. A `RACK_INT_N` notification is therefore followed by one MCP23017
-`INTFB`/`INTCAPB` read to identify and clear the captured endpoint event. The
-INA226 is read only when `TARGET_POWER_ALERT_N` was captured; it is not a
-second source on the shared interrupt conductor.
+inputs. `GPB3` shall compare against a default high state so the low assertion
+of `LOW_RANGE_OK_N`, rather than its later release, is the event. A
+`RACK_INT_N` notification is therefore followed by an `INTFB` read
+to identify the source, source-specific servicing, and an `INTCAPB` or
+`GPIOB` read to clear the MCP23017 capture after the source is inactive. The
+INA226 is read when `TARGET_POWER_ALERT_N` was captured. A captured
+`LOW_RANGE_OK_N` event shall follow the ordering in Section 3.5.1: clear the
+low-range request before reading INA228 `DIAG_ALRT`, then clear the MCP23017
+capture. Neither power monitor is a second source on the shared rack
+interrupt conductor.
 
 Target-power fault and alert events remain Supervisor-owned host observations
 because the affected target may be unavailable. They are not forwarded
@@ -1196,10 +1241,12 @@ action. The implementation shall follow the
 and the interrupt guidance in Microchip application note
 [AN1043](https://ww1.microchip.com/downloads/en/Appnotes/01043a.pdf).
 
-Target Power Monitor selection, shunt and range arrangement, pull-ups,
-protection and remaining observation signals remain schematic decisions. The
-upstream bus and every downstream branch shall have deliberate pull-up
-provision; uncontrolled accumulation of module pull-ups is not permitted.
+Target Power Monitor shunt-part selection, pull-ups and protection details
+remain schematic decisions. The two-range arrangement, the latched INA228
+qualification and the Rack Control observation signals are fixed by Section
+3.5.1. The upstream bus and every downstream branch shall have deliberate
+pull-up provision; uncontrolled accumulation of module pull-ups is not
+permitted.
 
 Rack Control Endpoint power controls and Target Power Monitor telemetry shall
 be effective only with the harness Operating Mode set to `SUPERVISOR`. In
