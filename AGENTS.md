@@ -105,6 +105,29 @@ target symbols and footprints. Preserve interactive KiCad edits. Do not
 mechanically regenerate curated footprints over the authoritative working
 copies.
 
+#### KiCad command-line validation
+
+Use the installed KiCad CLI to validate the complete Rev-A hierarchy after
+interactive schematic changes. On Windows, invoke
+`C:\Program Files\KiCad\9.0\bin\kicad-cli.exe` with approved access to the
+normal KiCad user profile. Restricted sandbox execution can deny access to
+KiCad's configuration directories and cause `kicad-cli.exe` application-error
+pop-ups; request approval for this exact executable instead of redirecting the
+user configuration. Close KiCad first, or ensure every edited sheet is saved.
+
+The verified Windows PowerShell ERC command is:
+
+```powershell
+& 'C:\Program Files\KiCad\9.0\bin\kicad-cli.exe' sch erc `
+  --severity-all --exit-code-violations `
+  --output 'KICAD\V2\RevA\Espruino_Harness_RevA\ERC.rpt' `
+  'KICAD\V2\RevA\Espruino_Harness_RevA\Espruino_Harness_RevA.kicad_sch'
+```
+
+Run it from the repository root. Keep repository paths relative and use an
+explicit output path. Do not overwrite accepted review evidence unless the
+validation step intentionally refreshes that evidence.
+
 ## Workstream Relationship
 
 ```text
