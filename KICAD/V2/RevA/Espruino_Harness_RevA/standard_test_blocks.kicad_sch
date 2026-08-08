@@ -2813,26 +2813,24 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "Q"
-				(at 5.08 1.905 0)
+			(property "Reference" "Q1202"
+				(at 7.62 6.35 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
 			(property "Value" "2N7002"
-				(at 5.08 0 0)
+				(at 8.89 3.81 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
 			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-				(at 5.08 -1.905 0)
+				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2849,7 +2847,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
+			(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3989,26 +3987,24 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "Q"
-				(at 5.08 1.905 0)
+			(property "Reference" "Q1202"
+				(at 7.62 6.35 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
 			(property "Value" "2N7002"
-				(at 5.08 0 0)
+				(at 8.89 3.81 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left)
 				)
 			)
 			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-				(at 5.08 -1.905 0)
+				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -4025,7 +4021,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
+			(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
 				(at 0 0 0)
 				(effects
 					(font
@@ -10219,7 +10215,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
+		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
 			(at 411.48 215.9 0)
 			(effects
 				(font
@@ -11637,7 +11633,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2N7002 60 V N-channel enhancement MOSFET, pin 1 gate, pin 2 source, pin 3 drain, SOT-23"
+		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
 			(at 511.81 212.09 0)
 			(effects
 				(font
