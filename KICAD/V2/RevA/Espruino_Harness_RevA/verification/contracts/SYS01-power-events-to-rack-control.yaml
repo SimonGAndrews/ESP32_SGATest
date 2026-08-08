@@ -1,0 +1,11 @@
+schema_version: 1
+kind: system_contract
+block_id: SYS01
+
+# Cross-block event path from the PC02 low-range monitor and interlock to the
+# Rack Control Endpoint. Firmware relies on all three endpoints sharing this net.
+assertions:
+  pin_net:
+    - {ref: U1104, pin: "3", net: LOW_RANGE_OK_N}
+    - {ref: U1105, pin: "6", net: LOW_RANGE_OK_N}
+    - {ref: U1201, pin: "4", net: LOW_RANGE_OK_N}

@@ -968,7 +968,9 @@ Section 7.6:
 * the local chip-select pull-up values
 * confirmation of the preferred underside module orientation, long-tail
   connector, support and card-edge clearance during prototype construction
-* the final removable-module bulk-capacitance value after prototype measurement
+* the final removable-module bulk-capacitance value after prototype
+  measurement, within the complete `TEST_BLOCK_3V3` switched-capacitance limit
+  defined by `StandardControlServices_V2.md`
 * any additional analogue-input protection required at the CH0-to-CH7 breakout
 * the manufactured MCP3008 package and equivalent compact isolation arrangement
 

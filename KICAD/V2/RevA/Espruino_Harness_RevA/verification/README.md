@@ -61,13 +61,15 @@ ReusableHarnessRevA_Connectivity.yaml
 contracts/
   PC01-operating-mode-and-3v3-rail.yaml
   PC02-target-5v-switch-and-two-range-monitor.yaml
+  SYS01-power-events-to-rack-control.yaml
 ```
 
 The manifest and every referenced file together form the independent
 connectivity contract. They are reviewed design input, not generated from the
 schematic. Planned blocks remain in the design-baseline register until their
-analysis produces a substantive contract. A system contract is added only
-when a reviewed rule genuinely crosses block ownership.
+analysis produces a substantive contract. `SYS01` records the first reviewed
+cross-block rule: the PC02 low-range alert/interlock path into the Rack Control
+Endpoint.
 
 ## Acceptance rule
 

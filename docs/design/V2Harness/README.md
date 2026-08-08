@@ -102,6 +102,10 @@ review images live under:
 - `implementation/ReusableHarnessRevA_DesignBaseline.md`
 - `implementation/review-images/`
 
+PCB-layout work starts with the **PCB implementation action register** in
+Section 6 of the design baseline. It is the single handover list for physical
+layout, mechanical, DFM and release actions accumulated by the block reviews.
+
 Generated KiCad evidence and the machine-readable connectivity contract live
 under `../../../KICAD/V2/RevA/Espruino_Harness_RevA/verification/`.
 

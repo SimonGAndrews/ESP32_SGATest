@@ -4,7 +4,7 @@
 
 **Version:** 1.0
 
-**Last Updated:** 27 July 2026
+**Last Updated:** 7 August 2026
 
 ## 1. Conclusion
 
@@ -109,10 +109,16 @@ direct and routed versions of the same function must never be enabled together.
 
 | Pin function | Direction | What it does | Wiring rule |
 |---|---|---|---|
-| `TI_TARGET_3V3` | Target to harness | Powers the routing and Test Block logic in `STANDALONE` and provides the target's 3.3 V I/O reference | Must never power the target or be connected to the external harness 3.3 V supply |
+| `TI_TARGET_3V3` | Target to harness | Powers the routing and Test Block logic in `STANDALONE` and provides the target's 3.3 V I/O reference | Shall remain between 3.00 V and 3.60 V at the Target Interface under the accepted harness load; must never power the target or be connected to the external harness 3.3 V supply |
 | `TI_SWITCHED_TARGET_5V` | Harness to daughter board | Supplies switched 5 V to the target in Supervisor operation | The daughter board must not connect it to another live supply |
 | `TI_TARGET_RESET_N` | Harness to target | Pulls the target reset input low | Must normally be released and must not depend on I2C or the Routing Fabric |
 | `TI_BOOT_REQUEST` | Harness to target | Optionally pulls a target boot or recovery input low | A daughter board may leave it unconnected when the target has no safe equivalent |
+
+A target profile that cannot maintain `TI_TARGET_3V3` at or above 3.00 V under
+the accepted harness load shall not use `STANDALONE`; it shall use
+`STANDALONE EXT` with the external regulated 3.3 V source. The 3.60 V maximum
+also applies when `TI_TARGET_3V3` is used only as the target I/O-domain
+reference.
 
 The two power pins work in opposite directions: 3.3 V comes from the target,
 while switched 5 V comes from the harness. Do not use either pin to send power

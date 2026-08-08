@@ -102,8 +102,12 @@ assertions:
   component_value:
     - {ref: U1101, value: TPS2559-Q1}
     - {ref: U1102, value: TXU0101DBVR}
-    - {ref: R1101, value: "0.050R 0.1%"}
-    - {ref: R1102, value: "1.00R 0.1%"}
+    - {ref: U1103, value: INA226}
+    - {ref: U1104, value: INA228}
+    - {ref: U1105, value: 74LVC2G08}
+    - {ref: Q1101, value: AO3401A}
+    - {ref: R1101, value: "0.050R 1.0%"}
+    - {ref: R1102, value: "1.00R 1.0%"}
     - {ref: R1103, value: 100k}
     - {ref: R1104, value: 100k}
     - {ref: R1105, value: 10k}
@@ -111,7 +115,7 @@ assertions:
     - {ref: R1107, value: 100k}
     - {ref: R1108, value: 10k}
     - {ref: R1110, value: 100k}
-    - {ref: R1111, value: 66.5k}
+    - {ref: R1111, value: "66.5k 1%"}
     - {ref: R1112, value: 10k}
     - {ref: C1101, value: 1uF}
     - {ref: C1102, value: 100nF}

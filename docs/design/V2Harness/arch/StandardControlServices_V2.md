@@ -4,7 +4,7 @@
 
 **Version:** 0.1
 
-**Last Updated:** 6 August 2026
+**Last Updated:** 7 August 2026
 
 ## 1. Purpose
 
@@ -131,6 +131,12 @@ serve only approved loads such as target-side I2C pull-ups and target-domain
 power-valid qualification. It shall not be connected to the external 3.3 V
 source.
 
+`TI_TARGET_3V3` shall remain between 3.00 V and 3.60 V at the Target Interface
+under the accepted harness load. A Target Profile that cannot maintain the
+3.00 V minimum shall require `STANDALONE EXT`. This range is defined by the
+[Target Interface contract](TargetInterfaceContract_V2.md); it also provides
+the minimum source used by the Rev-A mode-decoding margin calculation.
+
 In `STANDALONE`, the target 3.3 V rail is expected to be established before
 test code executes. Routing devices shall nevertheless enter their safe state
 in hardware while the target starts. A Target Profile shall require
@@ -142,6 +148,19 @@ Block Supply Rail is derived from it through a controlled power switch. It is
 on in both Standalone modes so active Test Blocks remain available without a
 software power-enable step. In `SUPERVISOR` it defaults off and is enabled only
 when required. Passive Test Block connections do not require this rail.
+
+The complete switched load on `TEST_BLOCK_3V3`, including fixed harness
+capacitance and every fitted removable Test Block module, shall not exceed
+50 µF. Rev A shall fit 2.2 nF from the TPS22917 `CT` pin to its
+`ROUTING_LOGIC_3V3` input. Using TI's typical 3.6 V slew-rate constant, this
+gives approximately 3.5 ms 10%–90% output rise time and 43 mA charging current
+at the 50 µF limit; the present 23.3 µF fixed load gives approximately 20 mA.
+The calculated values select the component but are not guaranteed limits,
+because the data sheet specifies the relevant timing constants as typical.
+Rev-A testing shall therefore confirm no more than 100 mA peak charging
+current, acceptable source-rail disturbance and valid Test Block startup from
+both `TI_TARGET_3V3` and `EXT_3V3`. Any later increase beyond 50 µF requires a
+new inrush calculation and validation before it is accepted.
 
 The Operating Mode is a test precondition and shall not be changed while any
 associated source is powered.
@@ -411,6 +430,11 @@ The required calibrated accuracy is:
 | 1 mA to 20 mA | ±5% |
 | Above 20 mA to 1.5 A | ±5% |
 
+The low-current accuracy requirement applies with the local power-monitor
+circuit, including the bypass MOSFET, at no more than 55°C. If necessary,
+the rack shall use cooling to remain within that limit. Measurements made
+above it are outside the accepted Rev-A accuracy range.
+
 Settled sleep-current measurements shall additionally have repeatability
 better than ±2% under the same recorded test conditions. Before a low-current
 measurement, the Supervisor shall obtain a target-power-off zero reading and
@@ -419,9 +443,12 @@ defined observation interval and report its averaging configuration. Short
 wake, radio or other load pulses shall be preserved as separate observations
 rather than hidden in the settled sleep average.
 
-The shunts shall use Kelvin sensing and nominal 0.1% tolerance,
-low-temperature-coefficient parts. The selected monitor, switching method,
-PCB layout and compensation together shall meet the complete error budget;
+The shunts shall use Kelvin sensing, nominal 1% tolerance and no more than
+100 ppm/°C temperature coefficient. Rev A shall use the accepted 50 mΩ,
+2 W Yageo `PE2512FKF7W0R05L` for the normal range and the 1 Ω, 3 W Bourns
+`CHP2512-FX-1R00ELF` for the low range, subject to final AISLER assignment.
+The selected monitor, switching method, PCB layout, zero measurement,
+averaging and calibration together shall meet the complete error budget;
 converter resolution alone is not evidence of measurement accuracy. At
 100 µA, a nominal 1 Ω low-range shunt produces only 100 µV, so the ±10%
 requirement permits approximately 10 µV of total error. An INA226-class
@@ -1539,28 +1566,45 @@ Section 3 remains the behavioural authority.
 | Device | Function in this design | Specification |
 |---|---|---|
 | `J1001` | A 2x4 header accepting one shunt. Its four rows select `SUPERVISOR`, `STANDALONE EXT`, `STANDALONE` or `OFF`; the `OFF` row asserts no mode signal. | Section 3.1 |
-| `D1001`, `D1002` | Dual common-cathode Schottky diodes that decode the three active header rows into `MODE_EXT_SELECTED` and the TPS2116 `MUX_MODE` input without joining the mode signals. | Section 3.2; [BAT54C data sheet](https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf) |
-| `D1003` | Diode-ORs `TI_TARGET_3V3` and external 3.3 V into the low-current `MODE_BIAS_3V3` bias rail without connecting the two supplies together. It does not carry Routing Logic or Test Block load current. | Section 3.2; BAT54C data sheet |
-| `Q1001` | A logic-level N-channel MOSFET that pulls `MUX_PR1` low when `MODE_EXT_SELECTED` is active. Otherwise `R1002` pulls `MUX_PR1` high from `MODE_BIAS_3V3`. | Section 3.2; [2N7002 data sheet](https://assets.nexperia.com/documents/data-sheet/2N7002.pdf) |
+| `D1001`, `D1002` | Vishay BAT54C-E3-08 dual common-cathode Schottky diodes that decode the three active header rows into `MODE_EXT_SELECTED` and the TPS2116 `MUX_MODE` input without joining the mode signals. | Section 3.2; [BAT54C-E3-08 data sheet](https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf) |
+| `D1003` | Diode-ORs `TI_TARGET_3V3` and external 3.3 V into the low-current `MODE_BIAS_3V3` bias rail without connecting the two supplies together. It does not carry Routing Logic or Test Block load current. | Section 3.2; BAT54C-E3-08 data sheet |
+| `Q1001` | A DMN2024UQ-7 logic-level N-channel MOSFET that pulls `MUX_PR1` low when `MODE_EXT_SELECTED` is active. Otherwise `R1002` pulls `MUX_PR1` high from `MODE_BIAS_3V3`. | Section 3.2; [DMN2024UQ data sheet](../implementation/DataSheets/3168380-DMN2024UQ.pdf) |
 | `U1001` | A TPS2116 power multiplexer. `VIN1` receives `TI_TARGET_3V3`, `VIN2` receives external 3.3 V and `VOUT` supplies `ROUTING_LOGIC_3V3`. `MUX_MODE` and `MUX_PR1` produce the Section 3.2 truth table, including the high-impedance `OFF` state. | [TPS2116 data sheet](https://www.ti.com/lit/ds/symlink/tps2116.pdf), Sections 7.3.1 and 7.6.1 |
 
-The BAT54C forward-voltage drop in the decoded `MUX_MODE` path shall retain
-the TPS2116 manual-mode high-level margin under worst-case prototype
-conditions. The Operating Mode header shall be changed only while the
-associated supplies are off, as required by Section 3.2.
+The selected BAT54C-E3-08 has a maximum 0.24 V forward drop at 0.1 mA. The
+100 kOhm decode loads keep the D1001, D1002, D1004 and D1005 paths below that
+test current. At the 3.00 V minimum `TI_TARGET_3V3`, a two-diode path therefore
+remains at or above 2.52 V. This gives at least 1.52 V margin over the 1.0 V
+high threshold of the TPS2116 `MODE` and TPS22917 `ON` inputs. At the 3.23 V
+minimum external supply, the corresponding two-diode level is at least
+2.75 V.
+
+In an external-source mode, the D1001-derived gate voltage is at least
+3.23 V - 0.24 V = 2.99 V. The selected DMN2024UQ-7 guarantees no more than
+29 mOhm on-resistance at 2.5 V gate drive. `R1002` limits its drain current to
+less than 0.34 mA, so the calculated `MUX_PR1` low level is below 0.01 mV,
+far below the TPS2116 0.92 V minimum selection reference. When `Q1001` is off,
+the worst-case target-derived `MUX_PR1` high level is at least
+3.00 V - 0.24 V = 2.76 V, at least 1.68 V above the TPS2116 1.08 V maximum
+selection reference. These calculations close the static Rev-A decode margin;
+the Operating Mode header shall still be changed only while the associated
+supplies are off.
 
 ### C.2 Test Block Supply
 
 | Device | Function in this design | Specification |
 |---|---|---|
-| `D1004` | Diode-ORs the two Standalone mode signals into `TEST_BLOCK_AUTO_EN`, making Test Block power automatic in both Standalone modes. | Sections 3.1 and 3.2; BAT54C data sheet |
-| `D1005` | Diode-ORs `TEST_BLOCK_AUTO_EN` with the Supervisor-owned `TEST_BLOCK_POWER_EN` command to form `TEST_BLOCK_SWITCH_EN` without back-feeding either control source. | Sections 3.2, 3.5 and 8.3; BAT54C data sheet |
-| `U1002` | A TPS22917 active-high load switch. `VIN` receives `ROUTING_LOGIC_3V3`; `VOUT` supplies `TEST_BLOCK_3V3`; `ON` receives `TEST_BLOCK_SWITCH_EN`. `QOD` is tied to `VOUT` for controlled output discharge and `CT` is open for the fastest standard turn-on. | [TPS22917 data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Sections 9.3.1 to 9.3.3 |
+| `D1004` | Diode-ORs the two Standalone mode signals into `TEST_BLOCK_AUTO_EN`, making Test Block power automatic in both Standalone modes. | Sections 3.1 and 3.2; BAT54C-E3-08 data sheet |
+| `D1005` | Diode-ORs `TEST_BLOCK_AUTO_EN` with the Supervisor-owned `TEST_BLOCK_POWER_EN` command to form `TEST_BLOCK_SWITCH_EN` without back-feeding either control source. | Sections 3.2, 3.5 and 8.3; BAT54C-E3-08 data sheet |
+| `U1002` | A TPS22917 active-high load switch. `VIN` receives `ROUTING_LOGIC_3V3`; `VOUT` supplies `TEST_BLOCK_3V3`; `ON` receives `TEST_BLOCK_SWITCH_EN`. `QOD` is tied to `VOUT` for controlled output discharge. `C1005`, 2.2 nF, connects from `CT` to `VIN` to control inrush into the accepted 50 µF maximum load. | [TPS22917 data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Sections 9.3.1 to 9.3.3 |
 
 `R1001`, `R1003` and `R1004` hold the decoded controls low when their sources
 are absent. `R1002` gives `MUX_PR1` its defined high default. `C1001` to
 `C1004` provide local input and output supply bypassing; their final values and
 placement shall satisfy the two TI data sheets and the Rev-A layout review.
+`C1005` shall be 2.2 nF C0G/NP0, ±10% or better, rated for at least 10 V and
+implemented in the standard 0603 package. It is a timing capacitor and is not
+part of the switched-load capacitance.
 
 The source-selection implementation is consistent with TI's
 [Power Multiplexing Using Load Switches and eFuses](https://www.ti.com/lit/an/slva811a/slva811a.pdf)

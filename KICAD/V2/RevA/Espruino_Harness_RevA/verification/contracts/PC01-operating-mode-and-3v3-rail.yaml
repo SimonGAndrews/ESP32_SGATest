@@ -3,8 +3,7 @@ kind: block_contract
 block_id: PC01
 
 # Independent connectivity intent derived from the PC01 mode truth table and
-# selected circuit. This contract must be revised when the blocking TPS22917
-# CT/inrush decision is implemented.
+# selected circuit, including the accepted TPS22917 CT/inrush design.
 assertions:
   pin_net:
     - {ref: U1001, pin: "1", net: TI_GND}
@@ -18,6 +17,7 @@ assertions:
     - {ref: U1002, pin: "1", net: ROUTING_LOGIC_3V3}
     - {ref: U1002, pin: "2", net: TI_GND}
     - {ref: U1002, pin: "3", net: TEST_BLOCK_SWITCH_EN}
+    - {ref: U1002, pin: "4", net: Net-(U1002-CT)}
     - {ref: U1002, pin: "5", net: TEST_BLOCK_3V3}
     - {ref: U1002, pin: "6", net: TEST_BLOCK_3V3}
 
@@ -37,9 +37,9 @@ assertions:
     - {ref: D1005, pin: "2", net: TEST_BLOCK_POWER_EN}
     - {ref: D1005, pin: "3", net: TEST_BLOCK_SWITCH_EN}
 
-    - {ref: Q1, pin: "1", net: MODE_EXT_SELECTED}
-    - {ref: Q1, pin: "2", net: TI_GND}
-    - {ref: Q1, pin: "3", net: MUX_PR1}
+    - {ref: Q1001, pin: "1", net: MODE_EXT_SELECTED}
+    - {ref: Q1001, pin: "2", net: TI_GND}
+    - {ref: Q1001, pin: "3", net: MUX_PR1}
 
     - {ref: R1001, pin: "1", net: MUX_MODE}
     - {ref: R1001, pin: "2", net: TI_GND}
@@ -60,16 +60,18 @@ assertions:
     - {ref: C1003, pin: "2", net: ROUTING_LOGIC_3V3}
     - {ref: C1004, pin: "1", net: TEST_BLOCK_3V3}
     - {ref: C1004, pin: "2", net: TI_GND}
+    - {ref: C1005, pin: "1", net: Net-(U1002-CT)}
+    - {ref: C1005, pin: "2", net: ROUTING_LOGIC_3V3}
 
   component_value:
     - {ref: U1001, value: TPS2116DRL}
     - {ref: U1002, value: TPS22917DBV}
-    - {ref: D1001, value: BAT54C}
-    - {ref: D1002, value: BAT54C}
-    - {ref: D1003, value: BAT54C}
-    - {ref: D1004, value: BAT54C}
-    - {ref: D1005, value: BAT54C}
-    - {ref: Q1, value: 2N7002}
+    - {ref: D1001, value: BAT54C-E3-08}
+    - {ref: D1002, value: BAT54C-E3-08}
+    - {ref: D1003, value: BAT54C-E3-08}
+    - {ref: D1004, value: BAT54C-E3-08}
+    - {ref: D1005, value: BAT54C-E3-08}
+    - {ref: Q1001, value: DMN2024UQ-7}
     - {ref: R1001, value: 100k}
     - {ref: R1002, value: 10k}
     - {ref: R1003, value: 100k}
@@ -79,6 +81,7 @@ assertions:
     - {ref: C1002, value: 1uF}
     - {ref: C1003, value: 1uF}
     - {ref: C1004, value: 1uF}
+    - {ref: C1005, value: 2.2 nF}
 
   forbidden_same_net:
     - id: PC01-F01
