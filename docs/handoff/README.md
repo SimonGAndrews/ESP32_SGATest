@@ -42,7 +42,7 @@ specifications rather than relying on conversation history.
 | V1 bench testing and functional runners | `2026-06-25-esp32-family-tests.md` | Generic family-test model and preserved target constraints; its July 12 overlay points to the root README and `tests/repl/` for newer progress |
 | Firmware repository selection | `2026-07-05-espruino-repo-structure.md` | Select the correct local Espruino checkout and workflow |
 | ESP32 firmware lineage and evidence interpretation | `2026-07-20-esp32-firmware-lineage-and-test-interpretation.md` | Cross-build confidence, comparison matrix and anomaly-attribution rules for bench and firmware threads |
-| V2 architecture, Services and routing | `2026-07-17-v2-services-and-routing.md` | Accepted conceptual model, Test Blocks, routing envelope and Control Services; next routing-fabric work |
+| V2 architecture and Rev-A implementation | `2026-07-17-v2-services-and-routing.md` | Accepted architecture and Target Interface, first-pass Rev-A hierarchy, verified power baseline and next RC01/RC02 reviews |
 
 V2 KiCad implementation currently uses the V2 entry point and Rev-A design
 baseline under `../design/V2Harness/`, together with the relevant architecture

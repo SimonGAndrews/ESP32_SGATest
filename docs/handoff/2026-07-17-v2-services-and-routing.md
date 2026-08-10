@@ -1,17 +1,21 @@
 # V2 Services And Routing Design Handover
 
 **Date:** 17 July 2026
-**Status:** Current V2 architecture handover
-**Updated:** 27 July 2026
-**Scope:** Carry the accepted V2 capabilities, combined connection matrix and
-controlled-routing specification into the physical Target Interface contract
+**Status:** Current V2 architecture and Rev-A implementation handover
+**Updated:** 10 August 2026
+**Scope:** Carry the accepted V2 architecture and Target Interface contract
+through Rev-A circuit-block verification and PCB implementation
 
 ## 1. Purpose
 
-This handover provides the starting context for the next focused V2 design
-thread. The logical-resource, target-envelope, Control Service, combined
-connection and controlled-routing reviews are complete. The next work should
-define the physical Target Interface electrical and connector contract.
+This handover provides continuity from the accepted V2 architecture into the
+Rev-A implementation baseline. The conceptual model, Test Blocks, Control
+Services, routing envelope, combined connection matrix, controlled-routing
+design and 48-contact Target Interface contract are accepted. The first-pass
+Rev-A schematic hierarchy is implemented. `PC01` and `PC02` are verified at
+schematic-baseline level; their physical and manufacturing actions remain in
+the PCB implementation register. The next review area is `RC01` Routing
+Fabric, followed by `RC02` routing controllers and fixed I2C isolation.
 
 The detailed target assessments should be consumed as accepted design input,
 not repeated in the new thread.
@@ -147,7 +151,7 @@ The accepted `I2CControlledRouting_V2.md` fixes:
 * direct-I2C power-domain isolation and separate pull-up domains
 * electrical, diagnostic and prototype-acceptance requirements
 
-### 5.3 Subsequent integration
+### 5.3 Target Interface and Rev-A implementation progress
 
 `CombinedCapabilityConnectionMatrix_V2.md` is accepted. It resolves the
 current 19 route-selection paths, four UART block-local paths, fixed direct
@@ -155,15 +159,29 @@ and I2C-isolation paths, two fixed Supervisor event-handshake paths,
 simultaneous configurations and direct/routed conflicts without increasing
 the seven-`TMUX1511` baseline.
 
-The subsequent integration order is:
+The Target Interface pin allocation is accepted as two 24-pin banks and is
+implemented provisionally in the Rev-A hierarchy. Exact connector sourcing,
+plating, footprint and mechanical verification remain downstream release
+work.
 
-1. complete the Rev-A connector implementation for the accepted two-connector
-   48-pin allocation in `TargetInterfaceContract_V2.md` by selecting the exact
-   male and female parts, plating and verified KiCad footprints
-2. implement accepted requirements in the V2 KiCad project
+The Rev-A project now contains the first-pass hierarchy for the Target
+Interface, Standard Test Blocks, Routing Control, Power Control and Rack
+Control Endpoint. The complete hierarchy passes ERC, and the deterministic
+connectivity checker records accepted evidence for `PC01`, `PC02` and the
+cross-sheet `SYS01` power-event contract.
 
-The Target Interface pin allocation is accepted. Exact connector sourcing and
-footprint/mechanical verification remain downstream work.
+Continue implementation review in this order:
+
+1. verify `RC01` Routing Fabric against the accepted 19-path matrix
+2. verify `RC02` routing controllers and fixed I2C isolation
+3. continue block-by-block through the Standard Test Blocks and remaining
+   interfaces
+4. carry every physical-layout consequence into the baseline PCB
+   implementation action register
+
+The Generic Daughter Board is a separate KiCad project and workstream. Its
+project-local libraries and exploratory layout are not part of the reusable
+harness baseline review.
 
 ## 6. Deliberate Boundaries
 
@@ -178,22 +196,35 @@ Maintainer and wider design feedback should be prepared through a separate,
 high-level architecture presentation. The detailed target-routing assessment
 is an engineering authority, not the preferred feedback document.
 
-KiCad work remains a parallel implementation workstream. Preserve interactive
-library and footprint edits and do not treat exploratory schematic content as
-an accepted architecture requirement.
+KiCad implementation consumes the accepted architecture but does not redefine
+it silently. Record any material requirement change in the owning architecture
+document before accepting the corresponding circuit. Preserve interactive
+library, schematic and footprint edits, and follow the Rev-A design-baseline
+process for circuit signoff.
 
 ## 7. Relevant Commits
 
 * `58cb90e` — accepted V2 Target Routing Envelope
 * `a9d7003` — V2 routing, debug and Control Service working assumptions
 
+Additional implementation milestones:
+
+* `f52c8d4` — accepted routing and Target Interface contracts
+* `cdf6e10` — completed the first-pass Standard Test Block schematic
+* `726792a` — implemented the routing fabric and controllers
+* `10b6998` — recorded the first-pass Rev-A schematic milestone
+* `e1d2ed9` — added the deterministic connectivity checker
+* `bc7aeb5` — verified the PC01/PC02 power-control baseline
+* `65768cf` — updated the permanent Rev-A review context
+
 ## 8. Suggested New-Thread Prompt
 
-> Workstream: V2 architecture and Target Interface contract
-> Current objective: use the accepted combined connection matrix and
-> controlled-routing specification to define the physical Target Interface
-> electrical contract and connector banks. Read `AGENTS.md`,
-> `docs/design/V2Harness/README.md` and
-> `docs/handoff/2026-07-17-v2-services-and-routing.md`. Treat
-> `CombinedCapabilityConnectionMatrix_V2.md` and
-> `I2CControlledRouting_V2.md` as accepted inputs.
+> Workstream: V2 KiCad implementation
+> Current objective: complete `RC01` Routing Fabric baseline verification and
+> signoff, followed by `RC02` routing controllers and fixed I2C isolation.
+> Read `AGENTS.md`, `docs/design/V2Harness/README.md`, the Rev-A Design
+> Baseline and Connectivity Checker specification, then the controlled-routing
+> and combined-matrix specifications. Follow the accepted baseline process:
+> requirements and manufacturer-source review, circuit analysis, exact-part
+> and package evidence, visual review, deterministic connectivity contracts,
+> full-hierarchy ERC and recorded PCB-stage actions.
