@@ -7515,8 +7515,8 @@
 		)
 	)
 	(rectangle
-		(start 41.91 16.51)
-		(end 386.08 120.65)
+		(start 44.45 16.51)
+		(end 383.54 120.65)
 		(stroke
 			(width 0.254)
 			(type default)
@@ -7527,8 +7527,8 @@
 		(uuid 7cbe73de-f6f3-4cc3-9760-55d1d74db73d)
 	)
 	(rectangle
-		(start 43.18 123.19)
-		(end 387.35 284.48)
+		(start 44.45 123.19)
+		(end 383.54 284.48)
 		(stroke
 			(width 0.254)
 			(type solid)
@@ -7560,7 +7560,7 @@
 		)
 		(uuid "079957fc-319f-4df0-b176-93b3000734bd")
 	)
-	(text "TPS2116\n Power Mux with Manual and Priority Switchover"
+	(text "U1001 - TPS2116\n Power Mux with Manual and Priority Switchover"
 		(exclude_from_sim no)
 		(at 300.99 95.25 0)
 		(effects
@@ -7714,7 +7714,7 @@
 	)
 	(text "TARGET_POWER_FAULT_N asserts low on overcurrent or overtemperature."
 		(exclude_from_sim no)
-		(at 81.28 140.97 0)
+		(at 83.82 142.24 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7733,9 +7733,9 @@
 		)
 		(uuid "55b1da4f-8958-439d-ba9f-b861a00c0d7c")
 	)
-	(text "TPS22917DBV\nActive-high Test Block 3.3 V load switch.\nC1005 controls turn-on slew and inrush current.\nQOD discharges TEST_BLOCK_3V3 when disabled.\nNo current limiting or overload protection."
+	(text "U1002 - TPS22917DBV\n	Active-high Test Block 3.3 V load switch.\n	C1005 controls turn-on slew and inrush current.\n	QOD discharges TEST_BLOCK_3V3 when disabled.\n	No current limiting or overload protection."
 		(exclude_from_sim no)
-		(at 327.66 64.77 0)
+		(at 318.77 64.77 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7743,17 +7743,6 @@
 			(justify left)
 		)
 		(uuid "7f19bcaa-8396-4bc1-b580-9f4e6743ff3d")
-	)
-	(text "** Circuit Logic Sequence for operating mode and 3.3 V rails:\n\nD1001\nMODE_EXT_SELECTED =\n    MODE_STANDALONE_EXT OR MODE_SUPERVISOR\n\nD1002\nMUX_MODE =\n    MODE_STANDALONE OR MODE_EXT_SELECTED\n\nD1003\nMODE_BIAS_3V3 =\n    TI_TARGET_3V3 OR EXT_3V3\nDiode-isolated logic bias only; it does not combine the load-power rails.\n\nQ1001 / R1002\nMODE_EXT_SELECTED low  -> MUX_PR1 high\nMODE_EXT_SELECTED high -> MUX_PR1 low\n\nU1001 selects the ROUTING_LOGIC_3V3 source:\nOFF               -> output disabled\nSTANDALONE        -> TI_TARGET_3V3\nSTANDALONE EXT    -> EXT_3V3\nSUPERVISOR        -> EXT_3V3\n\nD1004\nTEST_BLOCK_AUTO_EN =\n    MODE_STANDALONE OR MODE_STANDALONE_EXT\n\nD1005\nTEST_BLOCK_SWITCH_EN =\n    TEST_BLOCK_AUTO_EN OR TEST_BLOCK_POWER_EN\n\nU1002\nTEST_BLOCK_SWITCH_EN high\n    -> ROUTING_LOGIC_3V3 is passed to TEST_BLOCK_3V3\n\nTEST_BLOCK_SWITCH_EN low\n    -> TEST_BLOCK_3V3 is switched off and discharged"
-		(exclude_from_sim no)
-		(at -60.96 48.26 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "7f677383-88ce-493c-a1a9-4f16de066833")
 	)
 	(text "OFF"
 		(exclude_from_sim no)
@@ -7833,18 +7822,6 @@
 		)
 		(uuid "a101dfe4-9039-445a-96aa-c38f89579ec8")
 	)
-	(text "| Device| OR inputs                                   |       Output           |                                                                                   |                             \n|-------|---------------------------------------------|------------------------|-----------------------------------------------------------------------------------|\n| D1001 | `MODE_STANDALONE_EXT`, `MODE_SUPERVISOR`    | `MODE_EXT_SELECTED`    | Indicates that U1001 must use the external 3.3 V supply.                          |\n| D1002 | `MODE_STANDALONE`, `MODE_EXT_SELECTED`      | `MUX_MODE`             | Enables U1001 in every active operating mode; remains low in OFF                  |\n| D1003 | `TI_TARGET_3V3`, `EXT_3V3`                  | `MODE_BIAS_3V3`        | Supplies the low-current bias used to establish U1001's source-selection state.   |\n| D1004 | `MODE_STANDALONE`, `MODE_STANDALONE_EXT`    | `TEST_BLOCK_AUTO_EN`   | Automatically requests Test Block power in either standalone mode.                |\n| D1005 | `TEST_BLOCK_AUTO_EN`, `TEST_BLOCK_POWER_EN` | `TEST_BLOCK_SWITCH_EN` | Enables U1002 from either the standalone automatic request or Supervisor command. |"
-		(exclude_from_sim no)
-		(at -331.47 153.67 0)
-		(effects
-			(font
-				(face "Consolas")
-				(size 1.524 1.524)
-			)
-			(justify left)
-		)
-		(uuid "a2ae22d8-8b39-41e6-8685-0a1f4d6ad564")
-	)
 	(text "SUPERVISOR"
 		(exclude_from_sim no)
 		(at 80.85 47.17 0)
@@ -7858,7 +7835,7 @@
 	)
 	(text "TARGET 5 V SWITCH AND TWO-RANGE POWER MONITOR"
 		(exclude_from_sim no)
-		(at 44.45 128.27 0)
+		(at 46.99 128.27 0)
 		(effects
 			(font
 				(size 2.032 2.032)
@@ -7893,9 +7870,20 @@
 		)
 		(uuid "bf5e1c27-5b3e-439f-ac3d-e57dd7bea81e")
 	)
-	(text "TPS22917\nUltra-Low Leakage Load Switch"
+	(text "TEST_BLOCK_SWITCH_EN high\n    -> ROUTING_LOGIC_3V3 is passed to TEST_BLOCK_3V3\n\nTEST_BLOCK_SWITCH_EN low\n    -> TEST_BLOCK_3V3 is switched off and discharged"
 		(exclude_from_sim no)
-		(at 354.33 95.25 0)
+		(at 323.85 77.47 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c340e908-8006-4e82-a459-4c71c5425990")
+	)
+	(text "U1001 - TPS22917\nUltra-Low Leakage Load Switch"
+		(exclude_from_sim no)
+		(at 351.79 95.25 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8000,7 +7988,7 @@
 	)
 	(text "In Supervisor mode, this block switches EXT_5V to the target with controlled turn-on,\nresistor-programmed current limiting, fault reporting, and normal or sleep-current measurement.\n\nThe normal/high-current measurement range is the hardware-safe default.\nReverse-current blocking while disabled permits independent Standalone target power."
 		(exclude_from_sim no)
-		(at 45.72 134.62 0)
+		(at 48.26 134.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8008,6 +7996,17 @@
 			(justify left)
 		)
 		(uuid "f7c2311f-9119-4f34-a3fc-d0ba31505526")
+	)
+	(text "U1001 \nselects the ROUTING_LOGIC_3V3 source:\n	OFF               -> output disabled\n	STANDALONE        -> TI_TARGET_3V3\n	STANDALONE EXT    -> EXT_3V3\n	SUPERVISOR        -> EXT_3V3\n"
+		(exclude_from_sim no)
+		(at 247.65 105.41 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f86bcf65-1b77-4908-82d1-8ec4a5778d02")
 	)
 	(text "U1102 drives LOW_SHUNT_BYPASS_GATE high\n        ↓\nQ1101 turns off\n        ↓\nR1102 (1 Ω) is inserted for low-current measurement"
 		(exclude_from_sim no)
@@ -8851,7 +8850,7 @@
 	)
 	(wire
 		(pts
-			(xy 354.33 38.1) (xy 365.76 38.1)
+			(xy 354.33 38.1) (xy 363.22 38.1)
 		)
 		(stroke
 			(width 0)
@@ -12372,7 +12371,7 @@
 		)
 	)
 	(image
-		(at 369.57 107.95)
+		(at 367.03 107.95)
 		(scale 0.643104)
 		(uuid "f4eb2475-be0b-4a0b-8939-bd6ca5432a62")
 		(data "iVBORw0KGgoAAAANSUhEUgAAAgEAAAGMCAYAAABDIHH6AAAABHNCSVQICAgIfAhkiAAAIABJREFU"
@@ -12965,7 +12964,7 @@
 	)
 	(hierarchical_label "TEST_BLOCK_3V3"
 		(shape output)
-		(at 365.76 38.1 0)
+		(at 363.22 38.1 0)
 		(effects
 			(font
 				(size 1.27 1.27)

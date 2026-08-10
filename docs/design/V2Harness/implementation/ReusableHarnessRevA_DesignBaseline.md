@@ -78,7 +78,6 @@ sheet-only evidence.
 The first-pass netlist contains 225 components. The following symbols do not
 yet have footprints and therefore remain manufacturing-release gaps:
 
-- `U1101` — TPS2559-Q1 exposed-PowerPAD package
 - `J900`, `J901` — Target Interface connector banks
 - `J2`, `J301` — Grove I2C connectors
 - `JBP2` — second provisional backplane connector
@@ -127,8 +126,8 @@ is a board-level decision. A material change returns the affected block to
 
 | ID | Circuit block | Risk | Owning sheet | Requirements | Visual review | Status |
 |---|---|---|---|---|---|---|
-| PC01 | Operating mode and 3.3 V rail | High | `power_control.kicad_sch` | Standard Control Services | TBD | Draft |
-| PC02 | Target 5 V switch and two-range monitor | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC02-target-5v-switch-and-two-range-monitor.png) | Draft |
+| PC01 | Operating mode and 3.3 V rail | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC01-operating-mode-and-3v3-rail.png) | Verified |
+| PC02 | Target 5 V switch and two-range monitor | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC02-target-5v-switch-and-two-range-monitor.png) | Verified |
 | RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | TBD | Draft |
 | RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch` | Controlled routing | TBD | Draft |
 | TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -156,14 +155,15 @@ Supervisor-controlled Test Block 3.3 V without joining the target and external
 supplies. See Standard Control Services Sections 3.1–3.3 and Appendix C.2.
 **Source schematic:** `power_control.kicad_sch`, references `U1001`, `U1002`,
 `D1001`–`D1005`, `Q1001`, `R1001`–`R1004`, `R1009` and `C1001`–`C1005`.
-**Visual review:** Pending
+**Visual review:** Accepted
 [`PC01-operating-mode-and-3v3-rail.png`](review-images/PC01-operating-mode-and-3v3-rail.png).
 **Risk:** High
-**Status:** Draft; functional topology, exported connectivity, Test Block
-inrush implementation, discrete control margins, exact principal devices and
-engineering package evidence are synchronized and reviewed. The visual-review
-capture, AISLER commercial assignments and physical Rev-A measurement still
-block PC01 verification.
+**Status:** Verified; functional topology, exported connectivity, Test Block
+inrush implementation, discrete control margins, exact principal devices,
+engineering package evidence, visual review, ERC and deterministic
+connectivity checks are accepted. PCB implementation, AISLER commercial
+assignments and physical Rev-A measurements remain manufacturing-release
+actions.
 
 #### Interfaces and domains
 
@@ -324,10 +324,10 @@ AISLER stock and MPN assignment remains a separate commercial selection step.
 | Requirements inspection | Standard Control Services 3.1–3.3 and Appendix C.2 | Mode truth table and source ownership agree |
 | Behaviour and safe-state analysis | Truth table, unpowered-state review, control-margin, maximum-drop/thermal and inrush calculations above | Functional topology and principal-device implementation supported; physical measurement pending |
 | Manufacturer source screen | Product-linked documents summarized above | Complete for current principal-device choices |
-| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml` and root netlist | All pin/net, component-value and forbidden-connection assertions pass against the refreshed full-hierarchy netlist dated 2026-08-07 |
-| Full-hierarchy ERC | KiCad 9 report dated 2026-08-07 after exact-part metadata synchronization | Zero errors and zero warnings; release rerun pending |
+| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted 2026-08-10: PC01 passes all 73 assertions; complete PC01/PC02/SYS01 set passes 186 checks |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-10 | Accepted: zero errors and zero warnings |
 | Symbol-to-footprint mapping | Manufacturer pin tables, package drawings, full-hierarchy netlist, installed KiCad footprints and current PCB pad nets | Principal IC, diode, MOSFET and passive mappings agree; package land patterns and intrinsic pin-1 orientation accepted |
-| Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Pending capture of the current reviewed circuit |
+| Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Accepted current reviewed circuit capture |
 
 #### Open issues and accepted exceptions
 
@@ -342,9 +342,6 @@ AISLER stock and MPN assignment remains a separate commercial selection step.
 - Complete AISLER assignments and the release-stage PCB placement, rotation
   and assembly-rendering review. The engineering package and footprint review
   is complete.
-- Capture the PC01 visual review image after the accepted exact parts are
-  synchronized into the schematic.
-
 No exceptions are accepted at this stage.
 
 ### 4.2 PC02 — Target 5 V switch and two-range power monitor
@@ -358,11 +355,12 @@ See Standard Control Services Sections 3.1, 3.5 and 3.5.1.
 and associated `Q1101`, `R11xx` and `C11xx` components.
 **Visual review:**
 [`PC02-target-5v-switch-and-two-range-monitor.png`](review-images/PC02-target-5v-switch-and-two-range-monitor.png).
-**Status:** Draft; topology, exported connectivity, principal-device sources,
-control behaviour, exact shunt selection, analytical electrical budgets and
-engineering package evidence are reviewed. PCB implementation, AISLER
-commercial assignments, the refreshed visual review and physical Rev-A
-verification remain pending.
+**Status:** Verified; topology, exported connectivity, principal-device
+sources, control behaviour, exact shunt selection, analytical electrical
+budgets, engineering package evidence, visual review, ERC and deterministic
+connectivity checks are accepted. PCB implementation, AISLER commercial
+assignments and physical Rev-A measurements remain manufacturing-release
+actions.
 
 #### Key design issue — Integrated per-position target-power protection
 
@@ -690,10 +688,10 @@ assignment remains a separate commercial selection step.
 | Requirements inspection | Standard Control Services 3.5, 3.5.1 and Appendix C.3 | Topology covers the required switching and two measurement ranges |
 | Behaviour and safe-state analysis | Operating table, unpowered-state review and current schematic | Logic recorded and required `TARGET_SWITCH_EN` pull-down implemented as `R1110` |
 | Manufacturer source screen and pin functions | Product pages, data sheets and applicable application documents summarized above | Pin functions and I2C addresses reviewed; TXU0101 closes the range-driver partial-power blocker, low-range alert integration is implemented, and exact shunt candidates support the analytical accuracy budget |
-| Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml`, `verification/contracts/SYS01-power-events-to-rack-control.yaml` and root netlist | PC02 shunt values and block assertions are synchronized to the current full-hierarchy netlist. `SYS01` asserts that `U1104.Alert`, `U1105.2B` and `U1201.GPB3` share `LOW_RANGE_OK_N`; the complete checker/release run remains pending. |
-| Full-hierarchy ERC | `ERC.rpt`, root export dated 2026-08-08 | Complete hierarchy passes with zero errors and zero warnings; final release rerun remains pending |
+| Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml`, `verification/contracts/SYS01-power-events-to-rack-control.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted 2026-08-10: PC02 passes all 110 assertions and SYS01 passes all 3; complete PC01/PC02/SYS01 set passes 186 checks. `SYS01` confirms that `U1104.Alert`, `U1105.2B` and `U1201.GPB3` share `LOW_RANGE_OK_N`. |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-10 | Accepted: zero errors and zero warnings |
 | Symbol-to-footprint pin mapping | Manufacturer pin tables and package drawings, full-hierarchy netlist, project-local and installed KiCad footprints, and current PCB pad nets | U1101–U1105 and Q1101 pin functions, package pads and intrinsic pin-1 orientation agree. The project-local U1101 footprint implements the TI perimeter pads, exposed pad 11 and segmented paste opening. The manufacturer-derived R1101 and R1102 footprints implement their accepted two-terminal land patterns. Engineering package review complete; release-stage placement, Kelvin, copper and assembly checks remain. |
-| Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Existing image must be refreshed after the completed TPS2559-Q1 implementation |
+| Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Accepted current reviewed circuit capture |
 | Electrical limits | Calculations above | Protection topology and analytical component-path voltage-drop, dissipation and accuracy budgets are supported; PCB/contact resistance, inrush and physical accuracy remain release measurements |
 
 #### Open issues and accepted exceptions
@@ -703,12 +701,10 @@ assignment remains a separate commercial selection step.
   vias. The project-local DRC0010K footprint and its top-view orientation,
   symbol mapping, 66.5 kΩ `ILIM` resistor, `TARGET_SWITCH_EN` pull-down,
   `TARGET_POWER_FAULT_N` and PC02 connectivity contract are implemented.
-  Refresh the review image after the completed schematic changes; retain a
-  final release ERC run after all remaining edits.
-- Synchronize the selected exact IC MPNs into the KiCad BOM metadata and
-  complete their AISLER assignments. TPS2559-Q1 and SN74LVC2G08 availability
-  in AISLER remains to be confirmed; the selected INA226 and INA228 variants
-  were visible in the AISLER matching results.
+- Synchronize exact MPN metadata and complete component assignments together
+  during the later board-wide AISLER BOM Assign stage. TPS2559-Q1 and
+  SN74LVC2G08 availability remains to be confirmed; the selected INA226 and
+  INA228 variants were visible in the AISLER matching results.
 - Complete AISLER assignments and the release-stage PCB placement, rotation
   and assembly-rendering review. The PC02 engineering package and footprint
   review is complete. Pad-level Kelvin routing and the Bourns full-load copper
@@ -833,8 +829,8 @@ No exclusion is accepted without a specific explanation.
 - [ ] Every high-risk block has an accepted logic/state or electrical-limit analysis.
 - [ ] Every key design issue has a recorded disposition and verification result.
 - [ ] No unresolved major design issue remains.
-- [ ] Full-hierarchy ERC is accepted.
-- [ ] Connectivity contract passes.
+- [x] Full-hierarchy ERC is accepted.
+- [x] Connectivity contract passes.
 - [ ] All IC and connector package/pin mappings are checked.
 - [ ] BOM matches the intended fitted and DNP configuration.
 - [ ] PCB DRC is accepted.
