@@ -1600,8 +1600,10 @@ supplies are off.
 
 `R1001`, `R1003` and `R1004` hold the decoded controls low when their sources
 are absent. `R1002` gives `MUX_PR1` its defined high default. `C1001` to
-`C1004` provide local input and output supply bypassing; their final values and
-placement shall satisfy the two TI data sheets and the Rev-A layout review.
+`C1004` shall be 1 µF, X7R, ±20% or better, rated for at least 10 V and
+implemented in the standard 0603 package. They provide local input and output
+supply bypassing; placement shall satisfy the two TI data sheets and the Rev-A
+layout review.
 `C1005` shall be 2.2 nF C0G/NP0, ±10% or better, rated for at least 10 V and
 implemented in the standard 0603 package. It is a timing capacitor and is not
 part of the switched-load capacitance.
@@ -1654,6 +1656,15 @@ SLVSD03, with these design consequences:
   exposed PowerPAD. Pad mapping, the thermal-via pattern and AISLER assembly
   availability shall be confirmed during the Rev-A footprint and BOM Assign
   reviews.
+
+The PC02 control resistors `R1103`, `R1104`, `R1106`, `R1107` and `R1110`
+shall be 100 kΩ; `R1105`, `R1108` and `R1112` shall be 10 kΩ; and `R1111`
+shall be 66.5 kΩ, 1%. These resistors shall use the standard 0603 package.
+`C1101` shall be 1 µF, X7R, ±20% or better, rated for at least 10 V and shall
+retain adequate effective capacitance at 5 V bias. `C1102` to `C1107` shall
+be 100 nF, X7R, ±20% or better and rated for at least 10 V. All seven
+capacitors shall use the standard 0603 package and be placed at their owning
+devices as required by the manufacturer data sheets.
 
 At the 1.5 A design maximum, the data-sheet 21 mΩ worst-case on-resistance
 corresponds to 31.5 mV drop and 47.25 mW switch dissipation. Final thermal

@@ -14,6 +14,10 @@ records how Rev A implements that behaviour. The KiCad project is the
 authoritative implementation, while generated ERC, connectivity, BOM and DRC
 outputs provide verification evidence.
 
+The deterministic connectivity evidence required by this baseline is produced
+by the tool defined in the
+[Rev-A Connectivity Checker specification](ReusableHarnessRevA_ConnectivityChecker.md).
+
 Rev A is ready for manufacture only when every applicable requirement maps to
 an implemented and reviewed circuit, all release checks pass, and the accepted
 baseline is identified by a Git commit.
@@ -106,6 +110,7 @@ rack backplane are separate hardware designs outside this board baseline.
 | This baseline | Defines the selected Rev-A implementation and its acceptance state |
 | `KICAD/V2/RevA/Espruino_Harness_RevA/` | Authoritative schematic, symbols, footprints and PCB implementation |
 | Connectivity contract | Machine-readable required and forbidden connectivity |
+| [Connectivity checker specification](ReusableHarnessRevA_ConnectivityChecker.md) | Defines the tool that compares the complete root netlist with the connectivity contract and produces deterministic evidence |
 | Generated ERC, connectivity, BOM and DRC reports | Repeatable verification evidence |
 | Review images | Visual record of the circuit that was reviewed; not connectivity authority |
 | AISLER BOM Assign and final quote | Confirms the manufacturer part selections, exclusions, availability and assembly cost used for release |
@@ -155,10 +160,10 @@ supplies. See Standard Control Services Sections 3.1–3.3 and Appendix C.2.
 [`PC01-operating-mode-and-3v3-rail.png`](review-images/PC01-operating-mode-and-3v3-rail.png).
 **Risk:** High
 **Status:** Draft; functional topology, exported connectivity, Test Block
-inrush implementation, discrete control margins and selected BAT54C/MOSFET
-metadata are synchronized and reviewed. Exact orderable principal ICs are
-selected. Passive selection, package evidence, the visual-review capture and
-physical Rev-A measurement still block PC01 verification.
+inrush implementation, discrete control margins, exact principal devices and
+engineering package evidence are synchronized and reviewed. The visual-review
+capture, AISLER commercial assignments and physical Rev-A measurement still
+block PC01 verification.
 
 #### Interfaces and domains
 
@@ -298,14 +303,19 @@ remain authoritative for current revisions.
 
 | References | Manufacturer | Exact orderable part | Package | KiCad footprint | Datasheet/revision | Pin/pad mapping | AISLER assignment |
 |---|---|---|---|---|---|---|---|
-| `U1001` | Texas Instruments | [TPS2116DRLR](https://www.ti.com/product/TPS2116/part-details/TPS2116DRLR) | SOT-5X3 (DRL), 8 pin | `Package_TO_SOT_SMD:SOT-583-8` | [TPS2116](https://www.ti.com/lit/ds/symlink/tps2116.pdf), Rev A | Data-sheet pins 1–8 and KiCad pads 1–8 reviewed; final land-pattern/orientation check pending | Exact active-production MPN selected; assign and confirm AISLER availability |
-| `U1002` | Texas Instruments | [TPS22917DBVR](https://www.ti.com/product/TPS22917/part-details/TPS22917DBVR) | SOT-23 (DBV), 6 pin | `Package_TO_SOT_SMD:SOT-23-6` | [TPS22917](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Rev B | Data-sheet pins 1–6 and KiCad pads 1–6 reviewed; final land-pattern/orientation check pending | Exact active-production MPN selected; assign and confirm AISLER availability |
-| `D1001`–`D1005` | Vishay | BAT54C-E3-08 | SOT-23 | `Package_TO_SOT_SMD:SOT-23` | [BAT54C-E3-08](https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf) | Common-cathode pin mapping reviewed; footprint pad inspection pending | Accepted exact MPN and KiCad instance metadata synchronized; assign in AISLER |
-| `Q1001` | Diodes Incorporated | DMN2024UQ-7 | SOT-23 | `Package_TO_SOT_SMD:SOT-23` | [DMN2024UQ](DataSheets/3168380-DMN2024UQ.pdf) | Pin 1 gate, pin 2 source, pin 3 drain; footprint pad inspection pending | Accepted exact MPN and KiCad value synchronized; assign in AISLER |
-| `R1001`, `R1003`, `R1004`, `R1009` | TBD | 100 kΩ, standard passive policy | 0603 | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Connectivity reviewed | Grouped assignment pending |
-| `R1002` | TBD | 10 kΩ, standard passive policy | 0603 | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Connectivity reviewed | Assignment pending |
-| `C1001`–`C1004` | TBD | 1 µF, voltage rating and dielectric pending | 0603 | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Connectivity reviewed | Grouped assignment pending |
+| `U1001` | Texas Instruments | [TPS2116DRLR](https://www.ti.com/product/TPS2116/part-details/TPS2116DRLR) | SOT-5X3 (DRL), 8 pin | `Package_TO_SOT_SMD:SOT-583-8` | [TPS2116](https://www.ti.com/lit/ds/symlink/tps2116.pdf), Rev A | Pins 1–8 agree. Hidden duplicate VOUT pin 7 is stacked with pin 2 in the symbol; PCB pads 2 and 7 both use `ROUTING_LOGIC_3V3`. The KiCad pad sizes, 0.50 mm pitch, row spacing and pin-1 marker agree with TI DRL0008A. Accepted. | Exact active-production MPN selected; assign and confirm AISLER availability |
+| `U1002` | Texas Instruments | [TPS22917DBVR](https://www.ti.com/product/TPS22917/part-details/TPS22917DBVR) | SOT-23 (DBV), 6 pin | `Package_TO_SOT_SMD:SOT-23-6` | [TPS22917](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Rev B | Pins 1–6, including CT pin 4 and QOD pin 5, agree. The KiCad IPC-7351 DBV footprint is a compatible alternate to TI DBV0006A and has the correct pitch, pad order and pin-1 marker. Accepted. | Exact active-production MPN selected; assign and confirm AISLER availability |
+| `D1001`–`D1005` | Vishay | BAT54C-E3-08 | SOT-23 | `Package_TO_SOT_SMD:SOT-23` | [BAT54C-E3-08](https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf) | Exact common-cathode mapping is pin 1 A1, pin 2 A2 and pin 3 K. The KiCad IPC-7351 TO-236/SOT-23 pad order, dimensions and pin-1 marker are compatible with the Vishay package. Accepted. | Accepted exact MPN and KiCad instance metadata synchronized; assign in AISLER |
+| `Q1001` | Diodes Incorporated | DMN2024UQ-7 | SOT-23 | `Package_TO_SOT_SMD:SOT-23` | [DMN2024UQ](DataSheets/3168380-DMN2024UQ.pdf) | Exact mapping is pin 1 gate, pin 2 source and pin 3 drain. The KiCad IPC-7351 TO-236/SOT-23 pad order, dimensions and pin-1 marker are compatible with the Diodes package. Accepted. | Accepted exact MPN and KiCad value synchronized; assign in AISLER |
+| `R1001`, `R1003`, `R1004`, `R1009` | TBD | 100 kΩ, standard passive policy | 0603 | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Grouped assignment pending |
+| `R1002` | TBD | 10 kΩ, standard passive policy | 0603 | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assignment pending |
+| `C1001`–`C1004` | TBD | 1 µF, X7R, ±20% or better, at least 10 V | 0603 | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Grouped assignment pending; preserve adequate effective capacitance at 3.3 V bias |
 | `C1005` | TBD | 2.2 nF, C0G/NP0, ±10% or better, at least 10 V | 0603 | `Capacitor_SMD:C_0603_1608Metric` | [TPS22917](https://www.ti.com/lit/ds/symlink/tps22917.pdf) | `U1002.CT` to `U1002.VIN`; connectivity reviewed | Assign exact approved part; pending |
+
+The engineering package review is complete for PC01. It accepts the listed
+symbol pins, package families, footprint pad order and land patterns. Final PCB
+placement, rotation and assembly-rendering checks remain release-stage controls;
+AISLER stock and MPN assignment remains a separate commercial selection step.
 
 #### Verification
 
@@ -316,7 +326,7 @@ remain authoritative for current revisions.
 | Manufacturer source screen | Product-linked documents summarized above | Complete for current principal-device choices |
 | Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml` and root netlist | All pin/net, component-value and forbidden-connection assertions pass against the refreshed full-hierarchy netlist dated 2026-08-07 |
 | Full-hierarchy ERC | KiCad 9 report dated 2026-08-07 after exact-part metadata synchronization | Zero errors and zero warnings; release rerun pending |
-| Symbol-to-footprint mapping | Manufacturer pin tables, full-hierarchy netlist and installed KiCad footprints | Principal IC pin functions and footprint pad numbering agree; final land-pattern dimensions and PCB orientation review pending |
+| Symbol-to-footprint mapping | Manufacturer pin tables, package drawings, full-hierarchy netlist, installed KiCad footprints and current PCB pad nets | Principal IC, diode, MOSFET and passive mappings agree; package land patterns and intrinsic pin-1 orientation accepted |
 | Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Pending capture of the current reviewed circuit |
 
 #### Open issues and accepted exceptions
@@ -329,9 +339,9 @@ remain authoritative for current revisions.
 - Confirm accessible Rev-A measurement points for `TI_TARGET_3V3`, `EXT_3V3`,
   `ROUTING_LOGIC_3V3`, `TEST_BLOCK_3V3`, `MUX_MODE` and `MUX_PR1`. The unused
   TPS2116 `ST` output may remain unconnected because it is not a requirement.
-- Complete the final land-pattern dimension/orientation review and AISLER
-  assignments. Principal IC pin functions and footprint pad numbering have
-  been checked against the manufacturer pin tables.
+- Complete AISLER assignments and the release-stage PCB placement, rotation
+  and assembly-rendering review. The engineering package and footprint review
+  is complete.
 - Capture the PC01 visual review image after the accepted exact parts are
   synchronized into the schematic.
 
@@ -349,8 +359,9 @@ and associated `Q1101`, `R11xx` and `C11xx` components.
 **Visual review:**
 [`PC02-target-5v-switch-and-two-range-monitor.png`](review-images/PC02-target-5v-switch-and-two-range-monitor.png).
 **Status:** Draft; topology, exported connectivity, principal-device sources,
-control behaviour, exact shunt selection and the analytical electrical
-budgets are reviewed. PCB implementation, sourcing and physical Rev-A
+control behaviour, exact shunt selection, analytical electrical budgets and
+engineering package evidence are reviewed. PCB implementation, AISLER
+commercial assignments, the refreshed visual review and physical Rev-A
 verification remain pending.
 
 #### Key design issue — Integrated per-position target-power protection
@@ -545,7 +556,7 @@ directly from `TARGET_SWITCH_EN` to `TI_GND` on the switch side of `U1105`.
 | Subject | Calculation | Initial result |
 |---|---|---|
 | Normal-range shunt drop | 1.5 A × 50 mΩ | 75 mV; exactly the specified shunt limit |
-| Normal-range shunt dissipation | 1.5 A² × 50 mΩ | 112.5 mW; exact shunt package and thermal margin remain open |
+| Normal-range shunt dissipation | 1.5 A² × 50 mΩ | 112.5 mW; accepted 2 W PE2512 part has ample component margin, subject to final PCB thermal review |
 | Low-range upper-limit drop | 20 mA × 1 Ω | 20 mV; meets the specified limit |
 | Low-range upper-limit dissipation | 20 mA² × 1 Ω | 0.4 mW |
 | Low-range minimum signal | 100 µA × 1 Ω | 100 µV |
@@ -593,9 +604,10 @@ for `R1102`. Both are 2512, 1%, 100 ppm/°C parts. The Yageo `R1101` is rated
 is rated 3 W at 70°C and for high-power surge operation, so it covers the
 2.25 W worst-case dissipation that would occur if 1.5 A persisted while the
 low range was inserted. Its PCB land and copper area must keep the board
-surface within the manufacturer's 105°C full-load limit. Both parts still
-require a project-local Kelvin footprint and AISLER availability
-confirmation.
+surface within the manufacturer's 105°C full-load limit. Both parts have
+accepted project-local, manufacturer-derived two-terminal footprints.
+Separate Kelvin traces must leave directly from their pads during PCB routing,
+and AISLER availability still requires confirmation.
 
 The conservative uncalibrated low-range budget at 100 µA and 55°C is:
 
@@ -650,19 +662,26 @@ by application rather than silently omitted.
 | References | Manufacturer | Exact orderable part | Package | KiCad symbol | KiCad footprint | Datasheet/revision | Pin/pad mapping | AISLER assignment |
 |---|---|---|---|---|---|---|---|---|
 | `U1101` | Texas Instruments | [TPS2559QWDRCRQ1](https://www.ti.com/product/TPS2559-Q1/part-details/TPS2559QWDRCRQ1) | DRC0010K, 10-pin 3 mm × 3 mm VSON with exposed PowerPAD and wettable flanks | Project-local `TPS2559Q1_TARGET_POWER_SWITCH` | Project-local `TPS2559Q1_DRC0010K_VSON10_EP` | [TPS2559-Q1](https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf), SLVSD03 | Pins 1–10 map directly; symbol PowerPAD pin 11 maps to the 1.65 mm × 2.40 mm exposed pad. TI land dimensions and 81% paste coverage are implemented. PCB-editor inspection confirmed pin 1 at upper left, pins 1–5 down the left side, pins 6–10 up the right side and pad 11 on `TI_GND`. | Exact active-production MPN selected; confirm AISLER availability and assign |
-| `U1102` | Texas Instruments | TXU0101DBVR | DBV, SOT-23-6 | Project-local `TXU0101_RANGE_DRIVER` | `Package_TO_SOT_SMD:SOT-23-6` | [TXU0101](https://www.ti.com/lit/ds/symlink/txu0101.pdf), SCES940A, Rev A | Data-sheet pins 1–6 and KiCad pads 1–6 reviewed; final land-pattern/orientation check pending | Assign and confirm AISLER availability; pending |
-| `U1103` | Texas Instruments | [INA226AIDGSR](https://www.ti.com/product/INA226/part-details/INA226AIDGSR) | DGS, VSSOP-10 | Project-local `INA226_HIGH_RANGE` | `Package_SO:VSSOP-10_3x3mm_P0.5mm` | [INA226](https://www.ti.com/lit/ds/symlink/ina226.pdf), SBOS547B, Rev B | Data-sheet pins 1–10 and KiCad pads 1–10 reviewed; final land-pattern/orientation check pending | Exact active-production MPN selected and visible in AISLER matching; final assignment pending |
-| `U1104` | Texas Instruments | [INA228AIDGSR](https://www.ti.com/product/INA228/part-details/INA228AIDGSR) | DGS, VSSOP-10 | Project-local `INA228_LOW_RANGE` | `Package_SO:VSSOP-10_3x3mm_P0.5mm` | [INA228](https://www.ti.com/lit/ds/symlink/ina228.pdf), SLYS021A, Rev A | Data-sheet pins 1–10 and KiCad pads 1–10 reviewed; final land-pattern/orientation check pending | Exact active-production MPN selected and visible in AISLER matching; final assignment pending |
-| `U1105` | Texas Instruments | [SN74LVC2G08DCUR](https://www.ti.com/product/SN74LVC2G08/part-details/SN74LVC2G08DCUR) | DCU, VSSOP-8 | Project-local `74LVC2G08_POWER_INTERLOCK` | `Package_SO:VSSOP-8_2.3x2mm_P0.5mm` | [SN74LVC2G08](https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf), Rev N | Data-sheet pins 1–8 and KiCad pads 1–8 reviewed; final land-pattern/orientation check pending | Exact active-production MPN selected; confirm AISLER availability and assign |
-| `Q1101` | Alpha & Omega Semiconductor | AO3401A | SOT-23 | Project-local `AO3401A_LOW_RANGE_BYPASS` | `Package_TO_SOT_SMD:SOT-23` | [AO3401A](https://www.aosmd.com/res/data_sheets/AO3401A.pdf), Rev 3.1 | Symbol pins reviewed; footprint pads pending | Assign and confirm AISLER availability; pending |
-| `R1101` | Yageo | PE2512FKF7W0R05L; 50 mΩ, 1%, 100 ppm/°C, 2 W | 2512 | Standard resistor | Project-local `R_Shunt_Yageo_PE2512_CurrentSense` | [Yageo part specification](https://www.yageogroup.com/component-documentation/download/specsheet/PE2512FKF7W0R05L) | Two-terminal symbol maps to pads 1 and 2. The current root netlist confirms pad 1 on `HIGH_SHUNT_P` and pad 2 on `HIGH_SHUNT_N`; the assigned footprint was inspected in the PCB editor. Final packaging review remains pending. | Accepted exact candidate; AISLER assignment pending |
-| `R1102` | Bourns | CHP2512-FX-1R00ELF; 1 Ω, 1%, 100 ppm/°C, 3 W, RoHS | 2512 | Standard resistor | Project-local `R_Shunt_Bourns_CHP2512_CurrentSense` | [Bourns CHP data sheet](https://www.bourns.com/docs/product-datasheets/chp.pdf) | Two-terminal symbol maps to pads 1 and 2. The current root netlist confirms pad 1 on `HIGH_SHUNT_N` and pad 2 on `TI_SWITCHED_TARGET_5V`; the assigned footprint was inspected in the PCB editor. Final packaging and full-load copper-area reviews remain pending. | Accepted exact candidate; AISLER assignment pending |
-| `R1103`, `R1104`, `R1106`, `R1107` | TBD | 100 kΩ; standard passive policy | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Pending | Assign as one grouped 100 kΩ part; pending |
-| `R1105`, `R1108` | TBD | 10 kΩ; standard passive policy | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Pending | Assign as one grouped 10 kΩ part; pending |
-| `R1110` | TBD | 100 kΩ `TARGET_SWITCH_EN` safe-state pull-down | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Connectivity reviewed | Assign in the grouped 100 kΩ AISLER part selection; pending |
-| `R1111` | TBD | 66.5 kΩ 1% `U1101` current-limit programming resistor | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | TPS2559-Q1 current-limit programming | Pending | Assign exact approved part; pending |
-| `C1101` | TBD | 1 µF; standard passive policy | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Pending | Assign; pending |
-| `C1102`–`C1107` | TBD | 100 nF; standard passive policy | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Pending | Assign as one grouped 100 nF part; pending |
+| `U1102` | Texas Instruments | TXU0101DBVR | DBV, SOT-23-6 | Project-local `TXU0101_RANGE_DRIVER` | `Package_TO_SOT_SMD:SOT-23-6` | [TXU0101](https://www.ti.com/lit/ds/symlink/txu0101.pdf), SCES940A, Rev A | Exact mapping is pin 1 VCCA, pin 2 GND, pin 3 A, pin 4 B, pin 5 OE and pin 6 VCCB. The standard KiCad IPC-7351 DBV footprint is a compatible alternate to TI DBV0006A and has the correct 0.95 mm pitch, pad order and pin-1 marker. Accepted. | Exact active-production MPN selected; assign and confirm AISLER availability |
+| `U1103` | Texas Instruments | [INA226AIDGSR](https://www.ti.com/product/INA226/part-details/INA226AIDGSR) | DGS, VSSOP-10 | Project-local `INA226_HIGH_RANGE` | `Package_SO:VSSOP-10_3x3mm_P0.5mm` | [INA226](https://www.ti.com/lit/ds/symlink/ina226.pdf), SBOS547B, Rev B | Pins 1–10 and their functions agree. The standard KiCad DGS/VSSOP footprint has the correct 3 mm × 3 mm body, 0.50 mm pitch, pad order and intrinsic pin-1 marker. Accepted. | Exact active-production MPN selected and visible in AISLER matching; final assignment pending |
+| `U1104` | Texas Instruments | [INA228AIDGSR](https://www.ti.com/product/INA228/part-details/INA228AIDGSR) | DGS, VSSOP-10 | Project-local `INA228_LOW_RANGE` | `Package_SO:VSSOP-10_3x3mm_P0.5mm` | [INA228](https://www.ti.com/lit/ds/symlink/ina228.pdf), SLYS021A, Rev A | Pins 1–10 and their functions agree. The standard KiCad DGS/VSSOP footprint has the correct 3 mm × 3 mm body, 0.50 mm pitch, pad order and intrinsic pin-1 marker. Accepted. | Exact active-production MPN selected and visible in AISLER matching; final assignment pending |
+| `U1105` | Texas Instruments | [SN74LVC2G08DCUR](https://www.ti.com/product/SN74LVC2G08/part-details/SN74LVC2G08DCUR) | DCU, VSSOP-8 | Project-local `74LVC2G08_POWER_CONTROL` | `Package_SO:VSSOP-8_2.3x2mm_P0.5mm` | [SN74LVC2G08](https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf), Rev N | Exact mapping is pins 1/2 to gate 1 inputs, pin 7 gate 1 output, pins 5/6 to gate 2 inputs, pin 3 gate 2 output, pin 4 GND and pin 8 VCC. The standard KiCad DCU/VSSOP footprint has the correct 2.3 mm × 2 mm body, 0.50 mm pitch, pad order and intrinsic pin-1 marker. Accepted. | Exact active-production MPN selected; confirm AISLER availability and assign |
+| `Q1101` | Alpha & Omega Semiconductor | AO3401A | SOT-23 | Project-local `AO3401A_LOW_RANGE_BYPASS` | `Package_TO_SOT_SMD:SOT-23` | [AO3401A](https://www.aosmd.com/res/data_sheets/AO3401A.pdf), Rev 3.1 | Exact mapping is pin 1 gate, pin 2 source and pin 3 drain. The standard KiCad IPC-7351 TO-236/SOT-23 footprint pad order, dimensions and pin-1 marker are compatible with the AOS package. Accepted. | Assign and confirm AISLER availability; pending |
+| `R1101` | Yageo | PE2512FKF7W0R05L; 50 mΩ, 1%, 100 ppm/°C, 2 W | 2512 | Standard resistor | Project-local `R_Shunt_Yageo_PE2512_CurrentSense` | [Yageo part specification](https://www.yageogroup.com/component-documentation/download/specsheet/PE2512FKF7W0R05L) | Two-terminal symbol maps to pads 1 and 2. The manufacturer-derived footprint implements the PE2512 7 mΩ–910 mΩ land dimensions: 7.36 mm overall span, 4.06 mm inner gap and 1.65 mm × 3.68 mm pads. The root netlist and PCB agree on pad 1 `HIGH_SHUNT_P` and pad 2 `HIGH_SHUNT_N`. Accepted. | Accepted exact candidate; AISLER assignment pending |
+| `R1102` | Bourns | CHP2512-FX-1R00ELF; 1 Ω, 1%, 100 ppm/°C, 3 W, RoHS | 2512 | Standard resistor | Project-local `R_Shunt_Bourns_CHP2512_CurrentSense` | [Bourns CHP data sheet](https://www.bourns.com/docs/product-datasheets/chp.pdf) | Two-terminal symbol maps to pads 1 and 2. The manufacturer-derived footprint implements the CHP2512 recommended 2.45 mm × 3.70 mm pads and 7.60 mm overall land span. The root netlist and PCB agree on pad 1 `HIGH_SHUNT_N` and pad 2 `TI_SWITCHED_TARGET_5V`. Accepted; the data-sheet copper-area requirement remains a PCB-layout control. | Accepted exact candidate; AISLER assignment pending |
+| `R1103`, `R1104`, `R1106`, `R1107` | TBD | 100 kΩ; standard passive policy | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assign as one grouped 100 kΩ part; pending |
+| `R1105`, `R1108`, `R1112` | TBD | 10 kΩ; standard passive policy | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assign as one grouped 10 kΩ part; pending |
+| `R1110` | TBD | 100 kΩ `TARGET_SWITCH_EN` safe-state pull-down | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assign in the grouped 100 kΩ AISLER part selection; pending |
+| `R1111` | TBD | 66.5 kΩ, 1%, `U1101` current-limit programming resistor | 0603 | Standard resistor | `Resistor_SMD:R_0603_1608Metric` | TPS2559-Q1 current-limit programming | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assign exact approved part; pending |
+| `C1101` | TBD | 1 µF, X7R, ±20% or better, at least 10 V | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | TPS2559-Q1 input bypass | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assign exact approved part; preserve adequate effective capacitance at 5 V bias |
+| `C1102`–`C1107` | TBD | 100 nF, X7R, ±20% or better, at least 10 V | 0603 | Standard capacitor | `Capacitor_SMD:C_0603_1608Metric` | Principal-device local bypass | Two-terminal mapping and standard KiCad footprint inspected; accepted | Assign as one grouped 100 nF part; pending |
+
+The engineering package review is complete for PC02. It accepts the listed
+symbol pins, package families, footprint pad order and land patterns,
+including the project-local PowerPAD and shunt footprints. Final PCB
+placement, rotation, Kelvin routing, power/thermal copper and assembly-
+rendering checks remain release-stage controls; AISLER stock and MPN
+assignment remains a separate commercial selection step.
 
 #### Verification
 
@@ -673,7 +692,7 @@ by application rather than silently omitted.
 | Manufacturer source screen and pin functions | Product pages, data sheets and applicable application documents summarized above | Pin functions and I2C addresses reviewed; TXU0101 closes the range-driver partial-power blocker, low-range alert integration is implemented, and exact shunt candidates support the analytical accuracy budget |
 | Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml`, `verification/contracts/SYS01-power-events-to-rack-control.yaml` and root netlist | PC02 shunt values and block assertions are synchronized to the current full-hierarchy netlist. `SYS01` asserts that `U1104.Alert`, `U1105.2B` and `U1201.GPB3` share `LOW_RANGE_OK_N`; the complete checker/release run remains pending. |
 | Full-hierarchy ERC | `ERC.rpt`, root export dated 2026-08-08 | Complete hierarchy passes with zero errors and zero warnings; final release rerun remains pending |
-| Symbol-to-footprint pin mapping | Manufacturer pin tables, full-hierarchy netlist, project-local and installed KiCad footprints | U1101–U1105 pin functions and footprint pad numbering agree. KiCad parses and renders the U1101 project-local footprint; PCB-editor inspection confirmed its top-view orientation, perimeter pad order and exposed pad 11 on `TI_GND`. R1101 and R1102 values, metadata and project-local footprints are assigned and visible in the current netlist; their final packaging review remains pending. |
+| Symbol-to-footprint pin mapping | Manufacturer pin tables and package drawings, full-hierarchy netlist, project-local and installed KiCad footprints, and current PCB pad nets | U1101–U1105 and Q1101 pin functions, package pads and intrinsic pin-1 orientation agree. The project-local U1101 footprint implements the TI perimeter pads, exposed pad 11 and segmented paste opening. The manufacturer-derived R1101 and R1102 footprints implement their accepted two-terminal land patterns. Engineering package review complete; release-stage placement, Kelvin, copper and assembly checks remain. |
 | Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Existing image must be refreshed after the completed TPS2559-Q1 implementation |
 | Electrical limits | Calculations above | Protection topology and analytical component-path voltage-drop, dissipation and accuracy budgets are supported; PCB/contact resistance, inrush and physical accuracy remain release measurements |
 
@@ -690,11 +709,10 @@ by application rather than silently omitted.
   complete their AISLER assignments. TPS2559-Q1 and SN74LVC2G08 availability
   in AISLER remains to be confirmed; the selected INA226 and INA228 variants
   were visible in the AISLER matching results.
-- Complete the deliberately deferred packaging review and AISLER availability
-  check for the accepted R1101 and R1102 shunts. Their 1% schematic values,
-  exact-part metadata and project-local 2512 footprints are synchronized and
-  visible in the current root netlist. Pad-level Kelvin routing remains a PCB
-  implementation action.
+- Complete AISLER assignments and the release-stage PCB placement, rotation
+  and assembly-rendering review. The PC02 engineering package and footprint
+  review is complete. Pad-level Kelvin routing and the Bourns full-load copper
+  area remain PCB implementation actions.
 - Keep the combined PCB, connector and backplane resistance below the
   provisional 26 mΩ allocation, verify it from the completed PCB layout, and
   measure at least 4.75 V at `TI_SWITCHED_TARGET_5V` with a 5.00 V source and
@@ -943,8 +961,9 @@ Explanations, status, evidence and open issues remain in this baseline.
 #### A.2.6 Verify the KiCad implementation
 
 Run ERC and export the netlist from the root production schematic. Run the
-connectivity checker against the complete contract set and resolve every
-mismatch. A material circuit or contract change returns the block to `Draft`.
+[specified connectivity checker](ReusableHarnessRevA_ConnectivityChecker.md)
+against the complete contract set and resolve every mismatch. A material
+circuit or contract change returns the block to `Draft`.
 
 Use these block states:
 
@@ -974,6 +993,11 @@ After all blocks are verified:
    baseline.
 
 ### A.4 Connectivity checker behaviour
+
+The detailed requirements, design, invocation, outputs and scope limits of the
+tool required by this baseline are defined in the
+[Rev-A Connectivity Checker specification](ReusableHarnessRevA_ConnectivityChecker.md).
+The summary below records the acceptance intent within the Rev-A process.
 
 The checker shall:
 

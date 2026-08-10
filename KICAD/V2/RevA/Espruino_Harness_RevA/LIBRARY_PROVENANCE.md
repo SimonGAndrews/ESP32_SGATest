@@ -42,11 +42,12 @@ footprints and explicit diagnostic test-point footprints.
   box and adding the internal two-diode graphic.
 - Pin convention: pin 1 `A1`, pin 2 `A2`, pin 3 shared `K`.
 - Package: `Package_TO_SOT_SMD:SOT-23`.
+- Accepted part: Vishay `BAT54C-E3-08`.
 - Datasheet:
-  <https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf>.
-- Validation: pin numbering and common-cathode topology checked against the
-  Nexperia data sheet; schematic instances retain their existing pin
-  locations and connectivity.
+  <https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf>.
+- Validation: pin 1 `A1`, pin 2 `A2`, pin 3 shared `K`, common-cathode
+  topology and SOT-23 package checked against the Vishay data sheet. The
+  standard KiCad TO-236/SOT-23 footprint pad order and pin-1 marker agree.
 
 ### `NMOS_2N7002_GSD`
 
@@ -61,6 +62,19 @@ footprints and explicit diagnostic test-point footprints.
   the Nexperia data sheet; the graphic retains Q1001's existing connection
   points.
 
+### `DMN2024UQ-7`
+
+- Purpose: exact logic-level N-channel MOSFET fitted as `Q1001` to pull down
+  the TPS2116 `PR1` input when an external operating mode is selected.
+- Source: project-local adaptation of the standard KiCad NMOS graphic.
+- Pin convention: pin 1 gate, pin 2 source, pin 3 drain.
+- Package: `Package_TO_SOT_SMD:SOT-23`.
+- Datasheet:
+  [`3168380-DMN2024UQ.pdf`](../../../../docs/design/V2Harness/implementation/DataSheets/3168380-DMN2024UQ.pdf).
+- Validation: exact pin mapping and SOT-23 package checked against the Diodes
+  Incorporated data sheet. The standard KiCad TO-236/SOT-23 footprint pad
+  order and pin-1 marker agree.
+
 ### `TPS2116DRL_POWER_MUX`
 
 - Purpose: selects either target-provided or external 3.3 V for the Rev-A
@@ -70,9 +84,10 @@ footprints and explicit diagnostic test-point footprints.
 - Package: `Package_TO_SOT_SMD:SOT-583-8`.
 - Datasheet:
   <https://www.ti.com/lit/ds/symlink/tps2116.pdf>.
-- Validation: pin numbers, duplicated VOUT pins, control-pin functions and DRL
-  package checked when the Power Control Service draft was reviewed. The
-  standard KiCad footprint exists in the KiCad 9 installation.
+- Validation: pins 1–8 and control functions checked against the TI data
+  sheet. Hidden duplicate VOUT pin 7 is stacked with pin 2, and both PCB pads
+  use `ROUTING_LOGIC_3V3`. The standard KiCad footprint pad dimensions,
+  0.50 mm pitch, row spacing and pin-1 marker agree with TI DRL0008A.
 
 ### `TPS22917DBV_LOAD_SWITCH`
 
@@ -82,9 +97,11 @@ footprints and explicit diagnostic test-point footprints.
 - Package: `Package_TO_SOT_SMD:SOT-23-6`.
 - Datasheet:
   <https://www.ti.com/lit/ds/symlink/tps22917.pdf>.
-- Validation: pin numbers and DBV package checked against the Texas Instruments
-  data sheet. QOD is typed passive because the accepted circuit deliberately
-  connects it to VOUT to enable output discharge.
+- Validation: pins 1–6, pad order, pin-1 marker and DBV package checked against
+  the Texas Instruments data sheet. The standard KiCad IPC-7351 footprint is
+  accepted as a compatible alternate to TI DBV0006A. QOD is typed passive
+  because the accepted circuit deliberately connects it to VOUT to enable
+  output discharge.
 
 ### `C_0603` and `R_0603`
 
@@ -98,37 +115,61 @@ footprints and explicit diagnostic test-point footprints.
 - Validation: both standard KiCad 9 footprint files were confirmed present.
   Component values remain instance properties on the schematic.
 
-### Target 5 V switching and measurement symbols
+### Target 5 V switching and measurement symbols and footprints
 
-- `TPS2559Q1_TARGET_POWER_SWITCH` (pending): adjustable current-limited target
-  power switch with soft start, short-circuit response, thermal protection,
+- `TPS2559Q1_TARGET_POWER_SWITCH`: adjustable current-limited target-power
+  switch with soft start, short-circuit response, thermal protection,
   disabled-state reverse-current blocking and active-low fault indication.
-  Package: 10-pin 3 mm by 3 mm DRC VSON/SON with exposed PowerPAD; the
-  project-local footprint and pad mapping remain to be created and checked.
-  Datasheet: <https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf>.
+  Accepted part: TI `TPS2559QWDRCRQ1`. Package: DRC0010K, 10-pin 3 mm by
+  3 mm VSON with exposed PowerPAD. The project-local
+  `TPS2559Q1_DRC0010K_VSON10_EP` footprint implements the manufacturer land
+  dimensions, pad 11, an 81% segmented paste opening and the intrinsic pin-1
+  orientation. Datasheet:
+  <https://www.ti.com/lit/ds/symlink/tps2559-q1.pdf>.
+- `TXU0101_RANGE_DRIVER`: partial-power-safe 3.3 V-to-5 V range driver.
+  Accepted part: TI `TXU0101DBVR`. Package:
+  `Package_TO_SOT_SMD:SOT-23-6`. Pins 1–6, pad order, 0.95 mm pitch and
+  pin-1 orientation agree with TI DBV0006A. Datasheet:
+  <https://www.ti.com/lit/ds/symlink/txu0101.pdf>.
 - `INA226_HIGH_RANGE`: normal-range current, voltage and power monitor at
-  address `0x40`. Package: `Package_SO:VSSOP-10_3x3mm_P0.5mm`. Datasheet:
+  address `0x40`. Accepted part: TI `INA226AIDGSR`. Package:
+  `Package_SO:VSSOP-10_3x3mm_P0.5mm`. Pins 1–10, pad order, 0.50 mm pitch,
+  body dimensions and pin-1 orientation agree with TI DGS. Datasheet:
   <https://www.ti.com/lit/ds/symlink/ina226.pdf>.
 - `INA228_LOW_RANGE`: lower-offset low-current monitor at address `0x41`.
-  Package: `Package_SO:VSSOP-10_3x3mm_P0.5mm`. Datasheet:
+  Accepted part: TI `INA228AIDGSR`. Package:
+  `Package_SO:VSSOP-10_3x3mm_P0.5mm`. Pins 1–10 use the same accepted TI DGS
+  package mapping. Datasheet:
   <https://www.ti.com/lit/ds/symlink/ina228.pdf>.
 - `AO3401A_LOW_RANGE_BYPASS`: P-channel MOSFET that normally bypasses the
-  1 ohm low-range shunt. Package: `Package_TO_SOT_SMD:SOT-23`. Datasheet:
+  1 ohm low-range shunt. Accepted part: AOS `AO3401A`. Package:
+  `Package_TO_SOT_SMD:SOT-23`. Pin 1 gate, pin 2 source and pin 3 drain agree
+  with the standard KiCad TO-236/SOT-23 pad order and pin-1 marker. Datasheet:
   <https://www.aosmd.com/res/data_sheets/AO3401A.pdf>.
 - `74LVC2G08_POWER_CONTROL`: dual AND gate qualifying the Supervisor target
-  switch command and low-range request. Package:
-  `Package_SO:VSSOP-8_2.3x2mm_P0.5mm`. Datasheet:
-  <https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf>.
-- `74AHCT1G125_RANGE_DRIVER`: 5 V gate driver for the P-channel bypass.
-  Package: `Package_TO_SOT_SMD:SOT-23-5`. Datasheet:
-  <https://www.ti.com/lit/ds/symlink/sn74ahct1g125.pdf>.
+  switch command and low-range request. Accepted part: TI `SN74LVC2G08DCUR`.
+  Package: `Package_SO:VSSOP-8_2.3x2mm_P0.5mm`. Pins 1–8, pad order,
+  0.50 mm pitch, body dimensions and pin-1 orientation agree with TI DCU.
+  Datasheet: <https://www.ti.com/lit/ds/symlink/sn74lvc2g08.pdf>.
+- `R_Shunt_Yageo_PE2512_CurrentSense`: two-terminal manufacturer-derived land
+  pattern for `PE2512FKF7W0R05L`. Pads are 1.65 mm by 3.68 mm with the
+  documented 4.06 mm inner gap. Separate Kelvin traces shall leave directly
+  from the inner pad edges. Datasheet:
+  <https://yageogroup.com/content/Resource%20Library/Datasheet/PYU-PE_521_ROHS_L.pdf>.
+- `R_Shunt_Bourns_CHP2512_CurrentSense`: two-terminal manufacturer-derived
+  land pattern for `CHP2512-FX-1R00ELF`. Pads are 2.45 mm by 3.70 mm with a
+  7.60 mm overall land span. Separate Kelvin traces and the specified
+  full-load copper area remain PCB-layout requirements. Datasheet:
+  <https://www.bourns.com/docs/product-datasheets/chp.pdf>.
 - Source: the INA226 geometry was adapted from the KiCad 9 standard symbol;
   the remaining symbols were created in the project-local library from the
-  cited manufacturers' pin tables.
-- Validation: pin numbers, supply pins, monitor address straps and exported
-  Rev-A net connectivity were checked when the two-range target-power block
-  was added. Exact AISLER availability and the complete-path voltage-drop
-  budget remain implementation checks before manufacture.
+  cited manufacturers' pin tables. Standard KiCad IPC/JEDEC footprints are
+  used where listed; the PowerPAD and shunt footprints are project-local.
+- Validation: manufacturer pin tables and package drawings, local symbol pin
+  numbers, footprint pad numbers, the root netlist and current PCB pad nets
+  agree. The PC02 engineering package review is complete. AISLER assignments,
+  PCB placement/rotation, Kelvin routing, power/thermal copper and final
+  assembly rendering remain release controls.
 
 ### `Operating_Mode_2x04`
 
