@@ -44,9 +44,13 @@ specifications rather than relying on conversation history.
 | ESP32 firmware lineage and evidence interpretation | `2026-07-20-esp32-firmware-lineage-and-test-interpretation.md` | Cross-build confidence, comparison matrix and anomaly-attribution rules for bench and firmware threads |
 | V2 architecture, Services and routing | `2026-07-17-v2-services-and-routing.md` | Accepted conceptual model, Test Blocks, routing envelope and Control Services; next routing-fabric work |
 
-V2 KiCad implementation currently uses the V2 architecture documents and
-`../../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`; it does not
-need a separate handover while its state is captured there and in Git history.
+V2 KiCad implementation currently uses the V2 entry point and Rev-A design
+baseline under `../design/V2Harness/`, together with the relevant architecture
+specification for the circuit under review. It does not need a separate
+handover while current progress, evidence and open PCB actions are captured in
+those documents and Git history. Read
+`../../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+only when modifying target symbols or footprints.
 
 ## Focused Historical Handovers
 

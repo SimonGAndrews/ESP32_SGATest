@@ -96,14 +96,19 @@ under `KICAD/V2/Exploration/Espruino_Harness_V2/`.
 Read:
 
 - `docs/design/V2Harness/README.md`
-- `docs/design/V2Harness/arch/HybridHarnessArchitecture_V2.md`
+- `docs/design/V2Harness/implementation/ReusableHarnessRevA_DesignBaseline.md`
+- `docs/design/V2Harness/implementation/ReusableHarnessRevA_ConnectivityChecker.md`
+- the architecture specification governing the circuit block under review
 - `KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
-- the accepted Target Interface contract when one is published
+  when modifying target symbols or footprints
 
-The current project contains an exploratory hierarchy plus manually reviewed
-target symbols and footprints. Preserve interactive KiCad edits. Do not
-mechanically regenerate curated footprints over the authoritative working
-copies.
+The Rev-A project contains the implemented schematic hierarchy, project-local
+libraries and the evolving PCB. Circuit blocks are accepted through the design
+baseline process: requirements and manufacturer-source review, visual
+schematic review, full-hierarchy ERC, deterministic connectivity contracts and
+recorded PCB-stage actions. Preserve interactive KiCad edits. Do not
+mechanically regenerate curated symbols or footprints over the authoritative
+working copies.
 
 #### KiCad command-line validation
 
