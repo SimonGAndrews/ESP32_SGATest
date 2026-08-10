@@ -9,6 +9,12 @@ The governing human-readable baseline is:
 docs/design/V2Harness/implementation/ReusableHarnessRevA_DesignBaseline.md
 ```
 
+The checker's requirements, design and operating model are specified in:
+
+```text
+docs/design/V2Harness/implementation/ReusableHarnessRevA_ConnectivityChecker.md
+```
+
 ## Production exports
 
 Always run production ERC and netlist export from the root schematic:
@@ -70,6 +76,30 @@ schematic. Planned blocks remain in the design-baseline register until their
 analysis produces a substantive contract. `SYS01` records the first reviewed
 cross-block rule: the PC02 low-range alert/interlock path into the Rack Control
 Endpoint.
+
+## Connectivity checker
+
+Run the dependency-free Node.js checker from the repository root after
+exporting the complete production netlist:
+
+```powershell
+node KICAD/V2/RevA/Espruino_Harness_RevA/verification/check-connectivity.mjs
+```
+
+The default invocation loads `ReusableHarnessRevA_Connectivity.yaml`, checks
+every contract listed by it against the full-hierarchy netlist under
+`generated/`, and writes the deterministic accepted result to:
+
+```text
+baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json
+```
+
+The checker evaluates the current contract schema's `pin_net`,
+`component_value` and `forbidden_same_net` assertions. It returns exit code
+zero only when every assertion passes. A failed run prints every mismatch,
+returns a non-zero exit code and does not overwrite an existing accepted
+baseline. Use `node .../check-connectivity.mjs --help` for explicit input and
+output overrides.
 
 ## Acceptance rule
 

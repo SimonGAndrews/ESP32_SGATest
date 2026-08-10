@@ -100,7 +100,12 @@ The draft manufacturing baseline, circuit-block review records and visual
 review images live under:
 
 - `implementation/ReusableHarnessRevA_DesignBaseline.md`
+- `implementation/ReusableHarnessRevA_ConnectivityChecker.md`
 - `implementation/review-images/`
+
+The design baseline requires the deterministic connectivity check and decides
+whether its evidence is accepted for Rev-A release. The connectivity-checker
+specification defines the tool that performs that check.
 
 PCB-layout work starts with the **PCB implementation action register** in
 Section 6 of the design baseline. It is the single handover list for physical
@@ -141,6 +146,9 @@ under `../../../KICAD/V2/RevA/Espruino_Harness_RevA/verification/`.
   harness, wire-wrap daughter-board and pre-manufacture validation approach.
 - `implementation/ReusableHarnessRevA_DesignBaseline.md` records the selected
   Rev-A implementation and the evidence required before manufacturing release.
+- `implementation/ReusableHarnessRevA_ConnectivityChecker.md` specifies the
+  deterministic checker used by that baseline to verify the complete root
+  KiCad netlist against the independently reviewed connectivity contracts.
 - `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
   provisional target study, not an implemented wiring specification.
 - `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the accepted
