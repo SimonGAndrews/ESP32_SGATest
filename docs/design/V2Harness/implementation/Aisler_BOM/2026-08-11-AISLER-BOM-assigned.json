@@ -1,0 +1,4014 @@
+{
+    "parts": [
+        {
+            "id": 28740746,
+            "name": "C201",
+            "comment": "1uF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "1.0µF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740770,
+            "name": "J201",
+            "comment": "EXTERNAL_ANALOG_STIMULUS_0_TO_3V3",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740771,
+            "name": "J302",
+            "comment": "MCP23017_GPIO",
+            "edaMpn": null,
+            "footprint": "PinHeader_2x08_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740772,
+            "name": "J401",
+            "comment": "MCP3008_ANALOGUE_BREAKOUT",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x08_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740773,
+            "name": "J402",
+            "comment": "PIHUT_MICROSD_BREAKOUT_106696",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x09_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740774,
+            "name": "J501",
+            "comment": "DS18B20_SENSOR_A",
+            "edaMpn": null,
+            "footprint": "TerminalBlock_Phoenix_MPT-0,5-3-2.54_1x03_P2.54mm_Horizontal",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740775,
+            "name": "J502",
+            "comment": "DS18B20_SENSOR_B",
+            "edaMpn": null,
+            "footprint": "TerminalBlock_Phoenix_MPT-0,5-3-2.54_1x03_P2.54mm_Horizontal",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740776,
+            "name": "J504",
+            "comment": "DS2413_MODULE",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x04_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740777,
+            "name": "J701",
+            "comment": "UART_PEER_DIAGNOSTIC",
+            "edaMpn": null,
+            "footprint": "PinHeader_2x03_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740778,
+            "name": "J902",
+            "comment": "PIXEL_SHIFTER_6066",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x04_P2.54mm_Horizontal",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740779,
+            "name": "JP101",
+            "comment": "LOOP_A_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740780,
+            "name": "JP102",
+            "comment": "LOOP_B_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740781,
+            "name": "JP201",
+            "comment": "PWM_SOURCE_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740782,
+            "name": "JP202",
+            "comment": "TARGET_ADC_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740783,
+            "name": "JP203",
+            "comment": "MCP3008_CH0_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740784,
+            "name": "JP301",
+            "comment": "VDD_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740785,
+            "name": "JP302",
+            "comment": "SDA_DEVICE_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740786,
+            "name": "JP303",
+            "comment": "SCL_DEVICE_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740787,
+            "name": "JP304",
+            "comment": "EVENT_INPUT_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740788,
+            "name": "JP306",
+            "comment": "FB_DEVICE_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740789,
+            "name": "JP307",
+            "comment": "INT_DEVICE_ISOLATION",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740790,
+            "name": "JP308",
+            "comment": "SDA_PULLUP_ENABLE",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740791,
+            "name": "JP309",
+            "comment": "SCL_PULLUP_ENABLE",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x02_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740793,
+            "name": "Q301",
+            "comment": "2N7002",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "d28fc416-20f8-4171-ae5c-c5f9a6114802",
+                "mpn": "2N7002",
+                "manufacturer": "Onsemi",
+                "description": "MOSFET SOT23 N 60V 5OHM 150C",
+                "datasheet": "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740794,
+            "name": "Q302",
+            "comment": "2N7002",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "d28fc416-20f8-4171-ae5c-c5f9a6114802",
+                "mpn": "2N7002",
+                "manufacturer": "Onsemi",
+                "description": "MOSFET SOT23 N 60V 5OHM 150C",
+                "datasheet": "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740819,
+            "name": "R303",
+            "comment": "4.7k DNP",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740820,
+            "name": "R304",
+            "comment": "4.7k DNP",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740864,
+            "name": "TP101",
+            "comment": "LOOP_A_OUT",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740865,
+            "name": "TP102",
+            "comment": "LOOP_A_IN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740866,
+            "name": "TP103",
+            "comment": "LOOP_B_OUT",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740867,
+            "name": "TP104",
+            "comment": "LOOP_B_IN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740868,
+            "name": "TP201",
+            "comment": "PWM_OUT",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740869,
+            "name": "TP202",
+            "comment": "ANALOG_FB",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740870,
+            "name": "TP203",
+            "comment": "TARGET_ADC_IN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740871,
+            "name": "TP204",
+            "comment": "MCP3008_CH0",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740872,
+            "name": "TP205",
+            "comment": "GND",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740873,
+            "name": "TP301",
+            "comment": "SDA",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740874,
+            "name": "TP302",
+            "comment": "SCL",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740875,
+            "name": "TP303",
+            "comment": "TI_I2C_FB",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740876,
+            "name": "TP304",
+            "comment": "TI_I2C_INT",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740877,
+            "name": "TP305",
+            "comment": "3V3",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740878,
+            "name": "TP306",
+            "comment": "GND",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740879,
+            "name": "TP401",
+            "comment": "TI_SPI_CS_ADC",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740880,
+            "name": "TP402",
+            "comment": "GND",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740881,
+            "name": "TP501",
+            "comment": "ONEWIRE_DQ",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740882,
+            "name": "TP502",
+            "comment": "ONEWIRE_PIOA",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740883,
+            "name": "TP503",
+            "comment": "ONEWIRE_PIOB",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740884,
+            "name": "TP504",
+            "comment": "3V3",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740885,
+            "name": "TP505",
+            "comment": "GND",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740886,
+            "name": "TP601",
+            "comment": "ROUTING_LOGIC_3V3",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740887,
+            "name": "TP602",
+            "comment": "TI_GND",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740888,
+            "name": "TP603",
+            "comment": "ROUTE_CLEAR_N",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740889,
+            "name": "TP604",
+            "comment": "ROUTE_I2C_SDA",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740890,
+            "name": "TP605",
+            "comment": "ROUTE_I2C_SCL",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740891,
+            "name": "TP606",
+            "comment": "TARGET_I2C_ISO_EN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740892,
+            "name": "TP607",
+            "comment": "TEST_I2C_ISO_EN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740893,
+            "name": "TP608",
+            "comment": "RCTRL0_INTA",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740894,
+            "name": "TP609",
+            "comment": "RCTRL0_INTB",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740895,
+            "name": "TP610",
+            "comment": "RCTRL1_INTA",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740896,
+            "name": "TP611",
+            "comment": "RCTRL1_INTB",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740897,
+            "name": "TP612",
+            "comment": "R0",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740898,
+            "name": "TP613",
+            "comment": "TI_ANALOG_ADC_IN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740899,
+            "name": "TP614",
+            "comment": "RP01_EN",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740900,
+            "name": "TP901",
+            "comment": "RGB_DATA_PROTECTED",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740901,
+            "name": "TP902",
+            "comment": "RGB_GND",
+            "edaMpn": null,
+            "footprint": "PinHeader_1x01_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740902,
+            "name": "U1001",
+            "comment": "TPS2116DRL",
+            "edaMpn": null,
+            "footprint": "SOT-583-8",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740905,
+            "name": "U401",
+            "comment": "MCP3008",
+            "edaMpn": null,
+            "footprint": "DIP-16_W7.62mm_LongPads",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740915,
+            "name": "U610",
+            "comment": "MCP23017-E/SO RCTRL0",
+            "edaMpn": null,
+            "footprint": "SOIC-28W_7.5x17.9mm_P1.27mm",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740916,
+            "name": "U611",
+            "comment": "MCP23017-E/SO RCTRL1",
+            "edaMpn": null,
+            "footprint": "SOIC-28W_7.5x17.9mm_P1.27mm",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28740904,
+            "name": "U301",
+            "comment": "MCP23017-E/SO",
+            "edaMpn": null,
+            "footprint": "SOIC-28W_7.5x17.9mm_P1.27mm",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "3565dbe5-5184-496f-92eb-49bc22f83c56",
+                "mpn": "MCP23017-E/SO",
+                "manufacturer": "Microchip",
+                "description": "IC XPNDR 1.7MHZ I2C 28SOIC",
+                "datasheet": "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
+                "assignedFootprint": "SOIC-28",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740912,
+            "name": "U607",
+            "comment": "TPS3808G30DBVR",
+            "edaMpn": null,
+            "footprint": "SOT-23-6",
+            "normalizedFootprint": "SOT23-6",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "16b99ab5-1d00-41c8-8579-a3695ac0309d",
+                "mpn": "TPS3808G30DBVR",
+                "manufacturer": "Texas Instruments",
+                "description": "Low-quiescent current supervisor with programmable delay \u0026 manual reset",
+                "datasheet": "https://www.ti.com/lit/gpn/TPS3808",
+                "assignedFootprint": "SOT23",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740903,
+            "name": "U1002",
+            "comment": "TPS22917DBV",
+            "edaMpn": null,
+            "footprint": "SOT-23-6",
+            "normalizedFootprint": "SOT23-6",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "a00ae8ec-6c82-47ac-bbb7-2e573d81e339",
+                "mpn": "TPS22917DBVT",
+                "manufacturer": "Texas Instruments",
+                "description": "5.5-V, 2-A, 80-mΩ , 10-nA leakage load switch adj. rise time and adj output discharge",
+                "datasheet": "https://www.ti.com/lit/gpn/TPS22917",
+                "assignedFootprint": "SOT23",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740821,
+            "name": "R305",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740742,
+            "name": "C1001",
+            "comment": "1uF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "1.0µF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740743,
+            "name": "C1002",
+            "comment": "1uF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "1.0µF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740744,
+            "name": "C1003",
+            "comment": "1uF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "1.0µF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740745,
+            "name": "C1004",
+            "comment": "1uF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "1.0µF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740750,
+            "name": "C403",
+            "comment": "22uF",
+            "edaMpn": null,
+            "footprint": "C_0805_2012Metric",
+            "normalizedFootprint": "0805",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000022,
+                    "package": "0805"
+                },
+                "componentType": "Capacitor",
+                "description": "22.0µF, 0805 SMD",
+                "assignedFootprint": "0805",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740801,
+            "name": "R11",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740802,
+            "name": "R12",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740804,
+            "name": "R14",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740805,
+            "name": "R15",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740806,
+            "name": "R16",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740807,
+            "name": "R17",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740809,
+            "name": "R19",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740811,
+            "name": "R20",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740812,
+            "name": "R21",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740813,
+            "name": "R22",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740815,
+            "name": "R24",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740824,
+            "name": "R308",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740827,
+            "name": "R311",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740836,
+            "name": "R601",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740837,
+            "name": "R602",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740839,
+            "name": "R604",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740840,
+            "name": "R605",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740841,
+            "name": "R606",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740842,
+            "name": "R607",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740844,
+            "name": "R609",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740845,
+            "name": "R610",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740851,
+            "name": "R631",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740853,
+            "name": "R633",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740859,
+            "name": "R705",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740860,
+            "name": "R706",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740861,
+            "name": "R707",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740862,
+            "name": "R708",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740795,
+            "name": "R1001",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740797,
+            "name": "R1003",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740798,
+            "name": "R1004",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740799,
+            "name": "R101",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740800,
+            "name": "R102",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740834,
+            "name": "R505",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740835,
+            "name": "R506",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740855,
+            "name": "R701",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740856,
+            "name": "R702",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740857,
+            "name": "R703",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740858,
+            "name": "R704",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740863,
+            "name": "R901",
+            "comment": "470R",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 470.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "470.0Ω, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740810,
+            "name": "R201",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740822,
+            "name": "R306",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740823,
+            "name": "R307",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740825,
+            "name": "R309",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740826,
+            "name": "R310",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740828,
+            "name": "R401",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740829,
+            "name": "R402",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740850,
+            "name": "R630",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740852,
+            "name": "R632",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740854,
+            "name": "R634",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740796,
+            "name": "R1002",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740817,
+            "name": "R301",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740818,
+            "name": "R302",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740831,
+            "name": "R502",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740832,
+            "name": "R503",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740833,
+            "name": "R504",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740846,
+            "name": "R620",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740847,
+            "name": "R621",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740848,
+            "name": "R622",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740849,
+            "name": "R623",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740830,
+            "name": "R501",
+            "comment": "2.2k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 2200.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "2.2kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740913,
+            "name": "U608",
+            "comment": "TPS3808G30DBVR",
+            "edaMpn": null,
+            "footprint": "SOT-23-6",
+            "normalizedFootprint": "SOT23-6",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "16b99ab5-1d00-41c8-8579-a3695ac0309d",
+                "mpn": "TPS3808G30DBVR",
+                "manufacturer": "Texas Instruments",
+                "description": "Low-quiescent current supervisor with programmable delay \u0026 manual reset",
+                "datasheet": "https://www.ti.com/lit/gpn/TPS3808",
+                "assignedFootprint": "SOT23",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28740914,
+            "name": "U609",
+            "comment": "TPS3808G30DBVR",
+            "edaMpn": null,
+            "footprint": "SOT-23-6",
+            "normalizedFootprint": "SOT23-6",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "16b99ab5-1d00-41c8-8579-a3695ac0309d",
+                "mpn": "TPS3808G30DBVR",
+                "manufacturer": "Texas Instruments",
+                "description": "Low-quiescent current supervisor with programmable delay \u0026 manual reset",
+                "datasheet": "https://www.ti.com/lit/gpn/TPS3808",
+                "assignedFootprint": "SOT23",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28855499,
+            "name": "C1005",
+            "comment": "2.2 nF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000000022,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "2.2nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855500,
+            "name": "C1101",
+            "comment": "1uF",
+            "edaMpn": null,
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "1.0µF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855509,
+            "name": "JBP1",
+            "comment": "RACK_POWER_BACKPLANE",
+            "edaMpn": null,
+            "footprint": "PinHeader_2x06_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28855511,
+            "name": "Q1101",
+            "comment": "AO3401A",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28855512,
+            "name": "Q1201",
+            "comment": "2N7002",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28855513,
+            "name": "Q1202",
+            "comment": "2N7002",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28855514,
+            "name": "R1009",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855517,
+            "name": "R1103",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855518,
+            "name": "R1104",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855519,
+            "name": "R1105",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855520,
+            "name": "R1106",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855521,
+            "name": "R1107",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855522,
+            "name": "R1108",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855523,
+            "name": "R1110",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855524,
+            "name": "R1111",
+            "comment": "66.5k 1%",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 66500.0,
+                    "tolerance": 1.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "66.5kΩ, 0603 SMD, 1.0%",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855525,
+            "name": "R1112",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855526,
+            "name": "R1201",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855527,
+            "name": "R1202",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855528,
+            "name": "R1203",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855529,
+            "name": "R1204",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855530,
+            "name": "R1205",
+            "comment": "10k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 10000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "10.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855531,
+            "name": "R1206",
+            "comment": "100k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 100000.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "100.0kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855532,
+            "name": "R1207",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855533,
+            "name": "R1208",
+            "comment": "4.7k",
+            "edaMpn": null,
+            "footprint": "R_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "resistor",
+                    "resistance": 4700.0,
+                    "package": "0603"
+                },
+                "componentType": "Resistor",
+                "description": "4.7kΩ, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855537,
+            "name": "U1105",
+            "comment": "74LVC2G08",
+            "edaMpn": null,
+            "footprint": "VSSOP-8_2.3x2mm_P0.5mm",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28855510,
+            "name": "Q1001",
+            "comment": "DMN2024UQ-7",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "6c22c01d-f7fb-4dce-a851-e74b72e06cfc",
+                "mpn": "DMN2024UQ-7",
+                "manufacturer": "Diodes Inc.",
+                "description": "MOSFET BVDSS: 8V~24V SOT23 T\u0026R 3",
+                "datasheet": "https://www.diodes.com/assets/Datasheets/DMN2024UQ.pdf",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855534,
+            "name": "U1102",
+            "comment": "TXU0101DBVR",
+            "edaMpn": null,
+            "footprint": "SOT-23-6",
+            "normalizedFootprint": "SOT23-6",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "705a1e52-b576-4928-bab8-de5b9e515808",
+                "mpn": "TXU0101DBVR",
+                "manufacturer": "Texas Instruments",
+                "description": "Single channel fixed-direction level shifter",
+                "datasheet": "https://www.ti.com/lit/gpn/TXU0101",
+                "assignedFootprint": "SOT23",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855538,
+            "name": "U1201",
+            "comment": "MCP23017-E/SO",
+            "edaMpn": null,
+            "footprint": "SOIC-28W_7.5x17.9mm_P1.27mm",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "3565dbe5-5184-496f-92eb-49bc22f83c56",
+                "mpn": "MCP23017-E/SO",
+                "manufacturer": "Microchip",
+                "description": "IC XPNDR 1.7MHZ I2C 28SOIC",
+                "datasheet": "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
+                "assignedFootprint": "SOIC-28",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28855535,
+            "name": "U1103",
+            "comment": "INA226",
+            "edaMpn": null,
+            "footprint": "VSSOP-10_3x3mm_P0.5mm",
+            "normalizedFootprint": "SSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "a351f61b-f009-44ef-a104-2436ac32a824",
+                "mpn": "INA226AIDGST",
+                "manufacturer": "Texas Instruments",
+                "description": "36V, 16-bit, ultra-precise i2c output current/voltage/power monitor w/alert",
+                "datasheet": "https://www.ti.com/lit/gpn/INA226",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28855508,
+            "name": "J1001",
+            "comment": "OPERATING_MODE Selection",
+            "edaMpn": null,
+            "footprint": "PinHeader_2x04_P2.54mm_Vertical",
+            "normalizedFootprint": null,
+            "excluded": true,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28855536,
+            "name": "U1104",
+            "comment": "INA228",
+            "edaMpn": null,
+            "footprint": "VSSOP-10_3x3mm_P0.5mm",
+            "normalizedFootprint": "SSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "8d849b0a-b4db-4eb8-afa1-03411093b6df",
+                "mpn": "INA228EVM",
+                "manufacturer": "Texas Instruments",
+                "description": "EVAL BOARD FOR INA228",
+                "datasheet": "https://www.ti.com/lit/ug/sbou241d/sbou241d.pdf",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28911000,
+            "name": "R1101",
+            "comment": "0.050R 1.0%",
+            "edaMpn": null,
+            "footprint": "R_Shunt_Yageo_PE2512_CurrentSense",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28911001,
+            "name": "R1102",
+            "comment": "1.00R 1.0%",
+            "edaMpn": null,
+            "footprint": "R_Shunt_Bourns_CHP2512_CurrentSense",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28911002,
+            "name": "U1101",
+            "comment": "TPS2559-Q1",
+            "edaMpn": null,
+            "footprint": "TPS2559Q1_DRC0010K_VSON10_EP",
+            "normalizedFootprint": null,
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": null
+        },
+        {
+            "id": 28910995,
+            "name": "D1001",
+            "comment": "BAT54C-E3-08",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "acfd91e6-3e88-48cf-a27e-3be891597621",
+                "mpn": "BAT54C-E3-08",
+                "manufacturer": "Vishay",
+                "description": "DIODE ARR SCHOTT 30V 200MA SOT23",
+                "datasheet": "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28910996,
+            "name": "D1002",
+            "comment": "BAT54C-E3-08",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "acfd91e6-3e88-48cf-a27e-3be891597621",
+                "mpn": "BAT54C-E3-08",
+                "manufacturer": "Vishay",
+                "description": "DIODE ARR SCHOTT 30V 200MA SOT23",
+                "datasheet": "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28910997,
+            "name": "D1003",
+            "comment": "BAT54C-E3-08",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "acfd91e6-3e88-48cf-a27e-3be891597621",
+                "mpn": "BAT54C-E3-08",
+                "manufacturer": "Vishay",
+                "description": "DIODE ARR SCHOTT 30V 200MA SOT23",
+                "datasheet": "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28910998,
+            "name": "D1004",
+            "comment": "BAT54C-E3-08",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "acfd91e6-3e88-48cf-a27e-3be891597621",
+                "mpn": "BAT54C-E3-08",
+                "manufacturer": "Vishay",
+                "description": "DIODE ARR SCHOTT 30V 200MA SOT23",
+                "datasheet": "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28910999,
+            "name": "D1005",
+            "comment": "BAT54C-E3-08",
+            "edaMpn": null,
+            "footprint": "SOT-23",
+            "normalizedFootprint": "SOT23",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "acfd91e6-3e88-48cf-a27e-3be891597621",
+                "mpn": "BAT54C-E3-08",
+                "manufacturer": "Vishay",
+                "description": "DIODE ARR SCHOTT 30V 200MA SOT23",
+                "datasheet": "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf",
+                "assignedFootprint": "SOT23-3",
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914157,
+            "name": "C1102",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914158,
+            "name": "C1103",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914164,
+            "name": "C301",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914165,
+            "name": "C401",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914166,
+            "name": "C402",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914167,
+            "name": "C601",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914173,
+            "name": "C607",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914180,
+            "name": "U601",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914181,
+            "name": "U602",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914182,
+            "name": "U603",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914183,
+            "name": "U604",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914184,
+            "name": "U605",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914185,
+            "name": "U606",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914186,
+            "name": "U701",
+            "comment": "TMUX1511",
+            "edaMpn": "TMUX1511PWR",
+            "footprint": "TSSOP-14_4.4x5mm_P0.65mm",
+            "normalizedFootprint": "TSSOP",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "physical_part",
+                "sku": "5185143b-c534-4963-85d5-3b1daad383a8",
+                "mpn": "TMUX1511PWR",
+                "manufacturer": "Texas Instruments",
+                "description": "5-V, 1:1 (SPST), 4-channel analog switch with powered-off protection \u0026 1.8-V input logic",
+                "datasheet": "https://www.ti.com/lit/gpn/TMUX1511",
+                "assignedFootprint": null,
+                "mismatchedFootprint": false,
+                "assignSource": "auto"
+            }
+        },
+        {
+            "id": 28914168,
+            "name": "C602",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914169,
+            "name": "C603",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914170,
+            "name": "C604",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914171,
+            "name": "C605",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914172,
+            "name": "C606",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914178,
+            "name": "C701",
+            "comment": "100nF",
+            "edaMpn": "",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914174,
+            "name": "C608",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914175,
+            "name": "C609",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914176,
+            "name": "C610",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914177,
+            "name": "C611",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914179,
+            "name": "C901",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914159,
+            "name": "C1104",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914160,
+            "name": "C1105",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914161,
+            "name": "C1106",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914162,
+            "name": "C1107",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        },
+        {
+            "id": 28914163,
+            "name": "C1201",
+            "comment": "100nF",
+            "edaMpn": "100nF 10% 16V X7R 0603",
+            "footprint": "C_0603_1608Metric",
+            "normalizedFootprint": "0603",
+            "excluded": false,
+            "customerSupplied": false,
+            "assignment": {
+                "type": "smart_match",
+                "parameters": {
+                    "type": "capacitor",
+                    "capacitance": 0.0000001,
+                    "tolerance": 10.0,
+                    "voltage": 16.0,
+                    "dielectric": "X7R",
+                    "package": "0603"
+                },
+                "componentType": "Capacitor",
+                "description": "100.0nF, 0603 SMD, 10.0%, 16.0V, Dielectric X7R",
+                "assignedFootprint": "0603",
+                "mismatchedFootprint": false,
+                "assignSource": null
+            }
+        }
+    ],
+    "price": {
+        "calculated": false,
+        "quantity": 1,
+        "createdAt": "2026-08-11T14:47:45+01:00",
+        "totalPrice": "€0.00",
+        "unitPrice": "€0.00",
+        "availability": "unavailable",
+        "parts": []
+    },
+    "status": {
+        "runningOrder": null,
+        "pricesOutdated": true,
+        "availablePrices": [],
+        "previewPrices": [
+            {
+                "calculated": false,
+                "quantity": 5,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            },
+            {
+                "calculated": false,
+                "quantity": 10,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            },
+            {
+                "calculated": false,
+                "quantity": 50,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            },
+            {
+                "calculated": false,
+                "quantity": 100,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            },
+            {
+                "calculated": false,
+                "quantity": 200,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            },
+            {
+                "calculated": false,
+                "quantity": 500,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            },
+            {
+                "calculated": false,
+                "quantity": 1000,
+                "createdAt": "2026-08-11T14:47:45+01:00",
+                "totalPrice": "€0.00",
+                "unitPrice": "€0.00",
+                "availability": "unavailable"
+            }
+        ],
+        "jobStatus": [
+            {
+                "name": "bom_updating",
+                "at": 0,
+                "isProcessing": false,
+                "message": "",
+                "pctComplete": 0
+            },
+            {
+                "name": "auto_assigning",
+                "at": 0,
+                "isProcessing": false,
+                "message": "",
+                "pctComplete": 0
+            },
+            {
+                "name": "board_processing",
+                "at": 0,
+                "isProcessing": false,
+                "message": "",
+                "pctComplete": 0
+            },
+            {
+                "name": "optimizing_process",
+                "at": 0,
+                "isProcessing": false,
+                "message": "",
+                "pctComplete": 0
+            }
+        ]
+    }
+}

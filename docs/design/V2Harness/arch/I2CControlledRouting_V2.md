@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 1.0
+**Version:** 1.1
 
-**Last Updated:** 27 July 2026
+**Last Updated:** 11 August 2026
 
 ## 1. Conclusion And Purpose
 
@@ -120,6 +120,95 @@ path and a routed source cannot drive the same Test Block endpoint
 simultaneously. A direct path used by a target shall itself be safe throughout
 target reset; a strapping pin or otherwise unsafe startup signal shall use a
 disconnectable routed path instead.
+
+### 3.4 Functional Control, Signal And Safety Flow
+
+This subsection summarizes how the accepted control plane, signal paths and
+out-of-band safety actions interact. It introduces no additional routing path
+or behavioural requirement; the detailed requirements remain in the following
+sections.
+
+The target owns routing configuration in every powered Operating Mode. The
+Target Support Module resolves a requested capability into a complete legal
+route state, writes that state through the target-owned direct I2C bus and
+reads the routing-controller state back before enabling any target or Test
+Block driver.
+
+```text
+Target firmware and Target Support Module
+        |
+        | commands and controller-state readback
+        v
+Target-owned TI_I2C_SDA / TI_I2C_SCL
+        |
+        | IP01 / IP02:
+        | conductive only while the target I/O domain and
+        | Routing Logic Supply Rail are valid
+        v
+ROUTE_I2C_SDA / ROUTE_I2C_SCL
+        |
+        +----> RCTRL0 / RCTRL1
+        |          |
+        |          +----> RP01-RP19 route-selection controls
+        |          |          |
+        |          |          v
+        |          |     R0-R6 route-selection switches
+        |          |          |
+        |          |          v
+        |          |     named Test Block endpoints
+        |          |
+        |          +----> UP01-UP04 Block 7 local controls
+        |
+        | IP03 / IP04:
+        | conductive only while the Routing Logic and
+        | Test Block Supply Rails are valid
+        v
+Standard Test Block I2C segment
+```
+
+The I2C control path is bidirectional: commands travel from the target to the
+routing controllers, while direction, latch and GPIO state are read back to
+the target. Readback proves the commanded controller state but does not prove
+analogue-switch continuity or isolation.
+
+The routed signal path is separately bidirectional:
+
+```text
+Target GPIO
+    |
+Target Interface route entry R0-R6
+    |
+one enabled RPxx route-selection switch
+    |
+named Test Block endpoint
+```
+
+At most one `RPxx` destination may be enabled for one R0-R6 entry. Block-local
+`UPxx` switching is controlled by the same service but remains a distinct
+logical function.
+
+Hardware Clear and rail qualification operate independently of target
+firmware:
+
+```text
+Invalid Routing Logic Supply Rail or Hardware Clear request
+        |
+        v
+ROUTE_CLEAR_N asserted
+        |
+        v
+routing-controller GPIO returned to inputs
+        |
+        v
+external switch-control pull-downs
+        |
+        v
+all RPxx and UPxx paths open
+```
+
+Powered-off protection in the signal switches and the fixed IP01-IP04
+boundaries prevents this controller safe state from depending on the power or
+firmware state of the target or Standard Test Blocks.
 
 ## 4. Accepted Common Route Inventory
 

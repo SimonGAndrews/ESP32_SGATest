@@ -328,11 +328,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5c7d995f-81ed-4c5a-b35f-47723d12e10d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/489a08f0-57f7-43aa-b7f5-1c764014f8c1")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -978,11 +991,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8a483e9b-b24d-452d-b26a-d629e1d80bfd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/cc45614b-3a61-40c0-b614-4fd3430dbbcb")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -1187,6 +1213,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6ca38a8a-311d-4700-8cbe-258f6efa234e")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -1620,11 +1659,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bb501635-7f11-40a0-a2ab-f9e9dedfa0ec")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/02c45813-0385-4299-a635-c3c840477404")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -2680,6 +2732,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9edcef35-85fe-4331-94ac-e465e8b905c7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/bd4d6ed3-d117-503e-982b-d8015718b066")
 		(sheetname "/Routing_Control/")
@@ -3181,6 +3246,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2594f91-7522-414b-a4da-a6842690d0ef")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -3750,6 +3828,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0e38b94f-a6d2-4982-9d69-fb5b89320543")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/919eaf75-822d-4b81-8309-bfec20c85308")
 		(sheetname "/Power_Control/")
@@ -3891,11 +3982,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "89b27b0b-e099-4849-bbbb-1e425011c094")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/93822b21-9a7f-5627-abc6-478599e01f39")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -4100,6 +4204,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "97b16027-dc8f-4fff-b852-6f7c5c8931c3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d8fb62cf-8419-4bdd-ab91-30b850d8113f")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -4491,11 +4621,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "72c77c79-ebd5-4dce-a7ef-a5d4d40baeb2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/9c06f167-5cfc-5577-a20a-8e18b0093c2b")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -4704,6 +4847,32 @@
 				)
 			)
 		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "99b0a42e-ea54-4c59-867c-e08161b6531e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cbe638dd-a932-4768-9878-76255151cd1a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/56859d58-39d7-4058-96df-30d2102316b8")
 		(sheetname "/Routing_Control/")
@@ -4841,6 +5010,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "24a7d24e-bf27-46e2-84ad-e3445f73ae58")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -4986,11 +5168,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "66b26211-e4b8-4315-b91c-7805874fbdf5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/9fc6cdd2-05f4-4127-b106-ab20833df7fa")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -5563,11 +5758,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fc74f23b-87a0-4efb-abba-496825bf5241")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/d9000000-0000-4000-8000-000000000504")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -5776,11 +5984,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5ae5613b-c225-4501-9295-5c9e4eb6dcbf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/484cd659-6c9a-4375-951c-f7acf803476c")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -6442,6 +6663,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fcd7bc01-1e55-429c-bee1-de818d253f41")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/cdb5fa24-8a99-5d8c-bf33-76965badac13")
 		(sheetname "/Routing_Control/")
@@ -6579,6 +6813,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d4f93636-c4c8-4a8e-b842-39a887635b96")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -7403,6 +7650,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bc3e9c69-43f5-4a0c-976c-d077aae40685")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000131")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -7539,6 +7799,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d71c4cb3-5cbc-4a89-ba9c-0053e09bbbfa")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -7684,6 +7957,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0df0bffb-c9c4-4110-a8f9-358c3f98ddc4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/ae0d8978-772f-4031-b657-38550c2c8e65")
 		(sheetname "/Routing_Control/")
@@ -7825,11 +8111,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1fb3ac43-2b58-498a-9365-7934b5e29ed2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/352ab17b-5ab7-4502-ac9d-41fe2f8a488e")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -8034,6 +8333,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a42903b5-1140-4914-8838-3066402b1010")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -8460,11 +8772,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "004e6e51-b172-4240-9457-b0a83f1dd59e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/e04caeb3-ec3a-55ff-9231-356655227f3e")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -9327,6 +9652,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "549cb7e9-b4d4-4438-bdd6-ab320679b502")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000111")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -9917,6 +10255,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c447538c-0bd3-47bf-b019-3798a8415b20")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -10671,11 +11022,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2d68c1ab-0e45-4781-b1dd-48dc6b725a6d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/72fd4843-2aa8-5eea-bd92-c2b85eaa4ebe")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -11197,6 +11561,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5cc3a4e3-3f52-438c-8f94-5d9263000c08")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/f3af451c-b63c-45ac-beac-6535b15b745e")
 		(sheetname "/Power_Control/")
@@ -11334,6 +11711,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "77270bf8-b509-4825-980e-8c66cd46fe67")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -12449,6 +12839,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e693ec5a-b890-4eea-9b71-67ec84ec31a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/8a9c28bc-84a4-49a9-bd13-cec43115cef9")
 		(sheetname "/Routing_Control/")
@@ -12731,11 +13134,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c4212ceb-7c99-4865-aef5-b3bbb9ab4d58")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/b22280b8-0278-5333-91e6-b51253f730dd")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -12940,6 +13356,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "118e748c-b133-4eea-aaee-29e7eb68d099")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -14238,6 +14667,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d8ca1665-e381-4830-aa76-462b8296df7d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/749b48d9-a00b-4671-9b1e-1053752929b9")
 		(sheetname "/Routing_Control/")
@@ -14313,147 +14755,6 @@
 			(net 1 "TI_GND")
 			(pintype "passive")
 			(uuid "f2704a97-2830-45ee-bd66-9bb0435e28c9")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
-	(footprint "Resistor_SMD:R_0603_1608Metric"
-		(layer "F.Cu")
-		(uuid "4dce507f-1c86-4159-a708-077d1cd0f53a")
-		(at 160.74 62.725)
-		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
-		(tags "resistor")
-		(property "Reference" "R13"
-			(at 0 -1.43 0)
-			(layer "F.SilkS")
-			(uuid "7f51155f-4a93-4b6d-81fa-60d546b72c86")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 0 1.43 0)
-			(layer "F.Fab")
-			(uuid "065a1b42-4065-48eb-852d-f6fb7940c122")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "a4bd0ad8-7417-436f-8858-ea922f27dae2")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "RP08 external safe-state pull-down"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "dbecdd40-43be-4acc-a880-6b4c11b8b654")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "R_*")
-		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/aab55f4b-105c-4496-91a9-d4353bb30c1c")
-		(sheetname "/Routing_Control/")
-		(sheetfile "routing_control.kicad_sch")
-		(attr smd)
-		(fp_line
-			(start -0.237258 -0.5225)
-			(end 0.237258 -0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "21c5f2cc-c5bf-4490-88b2-52674ed7d78c")
-		)
-		(fp_line
-			(start -0.237258 0.5225)
-			(end 0.237258 0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "0d833e17-c1a0-4fed-8f62-ba7dd6b12fff")
-		)
-		(fp_rect
-			(start -1.48 -0.73)
-			(end 1.48 0.73)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "731a73bf-07dd-4264-b5dd-83ac71065e3f")
-		)
-		(fp_rect
-			(start -0.8 -0.4125)
-			(end 0.8 0.4125)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "3ed2c6f7-494f-45ad-bd2f-ed8f5471c904")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "1d56ff6e-944f-448a-842d-2b9128f155ac")
-			(effects
-				(font
-					(size 0.4 0.4)
-					(thickness 0.06)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "d2aca3fd-8c1b-47be-a3e0-fb5f5253edcb")
-		)
-		(pad "2" smd roundrect
-			(at 0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "82f0577a-ebda-4a12-b473-5d1f993c09bd")
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
@@ -14661,6 +14962,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "073270ba-8327-4c12-a5a5-2e412e286f6d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/8a00ea58-c437-4d6d-9f3e-faa2dcf76dc1")
 		(sheetname "/Power_Control/")
@@ -14798,6 +15112,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cccbf098-75ac-4f58-8ebd-63d523a95593")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -15525,11 +15852,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d90140e1-99c1-4081-ab3e-10dcf6a7c3cc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/5e5fdeb2-6c32-4469-b054-c2d502a7c3c2")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -15734,6 +16074,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4e43b400-1468-43bf-abbf-b774dc358649")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -16020,11 +16373,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "766a6e34-28cd-46e6-b7c0-0594334ef4b0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000441")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -16901,6 +17267,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1256377-72b5-47f9-bfc5-447fa9d22e99")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000506")
 		(sheetname "/Standard_Test_Blocks/")
@@ -17042,11 +17421,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4d447906-c744-4803-ba8a-e2adfeddadd5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/d75b09f0-43f5-42a9-a3c3-a2d6ffd051d7")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -17255,11 +17647,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6743c7c0-3c92-476d-bdb5-b20f6c3833a6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/43ce3423-31f6-5903-9638-dc6fd7777d4d")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -17891,6 +18296,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "18b8600d-a7f1-43bc-9d9f-93939b489c99")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c7b102a7-8013-5777-8ffd-529f8a68ef57")
 		(sheetname "/Routing_Control/")
@@ -18172,11 +18590,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "df26c23d-23ff-4b15-b578-2e80fbffa727")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/d9000000-0000-4000-8000-000000000505")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -18526,11 +18957,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ba87096f-fc1b-4c71-809a-a78a93ff7792")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/25420987-875b-4fbb-91e1-7d8de584a40d")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -19103,6 +19547,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e42284ec-790f-41c6-aa64-5fad35ef62f7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/0480087c-b859-4c29-a93c-053512e276b9")
 		(sheetname "/Routing_Control/")
@@ -19244,11 +19701,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "98959cf4-e24e-4cae-8a87-2b007bdb0fff")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/7fe64782-84a5-5c76-bd0c-a337bbb1f771")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -20864,6 +21334,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6bbcbe29-4329-426f-869a-b856e65f8162")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/80909186-9ba6-4ac8-a7a8-90eb2d00e751")
 		(sheetname "/Routing_Control/")
@@ -21146,11 +21629,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1d08e5fe-0484-49eb-8691-d49be6f7350d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/500cd22c-b1c1-48d0-9acc-944ac32697ff")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -22016,6 +22512,32 @@
 				)
 			)
 		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "15394bf4-37b6-4954-9a8c-994aa46211e5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "337f684b-2874-4595-87d8-46b3e8b3001a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/62f6c43b-c770-4f9c-bb63-25b472f728e2")
 		(sheetname "/Routing_Control/")
@@ -22298,6 +22820,32 @@
 				)
 			)
 		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fe071ae2-29b2-4f6f-bade-f3044a736b4a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "532f49fe-e874-42fb-9bcf-93ad72ce59f3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000509")
 		(sheetname "/Standard_Test_Blocks/")
@@ -22439,6 +22987,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "10b779b1-3d1f-469c-8c85-fd26caeb43e9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c753030f-6657-58f4-8f93-a242d3cb751e")
 		(sheetname "/Routing_Control/")
@@ -22528,147 +23089,6 @@
 			)
 		)
 	)
-	(footprint "Resistor_SMD:R_0603_1608Metric"
-		(layer "F.Cu")
-		(uuid "748446bb-748d-4521-a069-8d17d4637231")
-		(at 164.75 62.725)
-		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
-		(tags "resistor")
-		(property "Reference" "R23"
-			(at 0 -1.43 0)
-			(layer "F.SilkS")
-			(uuid "1aabb1c3-cc03-45fc-a20f-a46a9bf90974")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 0 1.43 0)
-			(layer "F.Fab")
-			(uuid "87122397-e4ac-4291-ab22-7c5abaef36db")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "20c978ef-04f1-413b-a1a7-93ae61b2f7f8")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "RP08 external safe-state pull-down"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "ccabf2eb-96c6-49d6-b32d-7a9d8fc2b67d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "R_*")
-		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/ff251b9b-a849-44b2-bf03-eaed71309c09")
-		(sheetname "/Routing_Control/")
-		(sheetfile "routing_control.kicad_sch")
-		(attr smd)
-		(fp_line
-			(start -0.237258 -0.5225)
-			(end 0.237258 -0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "f506b52e-54c0-4f69-9386-9de641991993")
-		)
-		(fp_line
-			(start -0.237258 0.5225)
-			(end 0.237258 0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "f3248b4d-ff85-403e-8eb7-5a6ea9d167c0")
-		)
-		(fp_rect
-			(start -1.48 -0.73)
-			(end 1.48 0.73)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "06b191e0-5fe4-45ff-90e3-648b23c7349d")
-		)
-		(fp_rect
-			(start -0.8 -0.4125)
-			(end 0.8 0.4125)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "716f0718-fb52-4423-9bdb-9157dc2e9b1f")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "bfde17d0-9de7-429d-b5d7-9e174fc1f4fb")
-			(effects
-				(font
-					(size 0.4 0.4)
-					(thickness 0.06)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "18b43fd1-a108-43de-9dd1-c8f5066d20fc")
-		)
-		(pad "2" smd roundrect
-			(at 0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "1db1995a-8c16-42f1-8069-1689f1559d57")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "74ccea49-6dec-41d8-9e48-10e2dbc1297c")
@@ -22721,11 +23141,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b60b05fd-63e9-4140-b08e-7efc6457a7a7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/b5592972-e020-5c62-8909-e9e5996fea61")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -24108,6 +24541,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3c7cf8ce-a76d-4fb6-aa89-538cae2377a1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000507")
 		(sheetname "/Standard_Test_Blocks/")
@@ -24245,6 +24691,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b083a1e8-4a0a-42b2-b162-030504b65608")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -24531,6 +24990,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2e5c8360-508d-4aac-aee5-93b67820864b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/dd8e559e-b144-4d22-88ae-0c2f6cae2697")
 		(sheetname "/Routing_Control/")
@@ -24672,11 +25144,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "878cf0db-5e20-44b7-bb1f-43d0435bb329")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/64fd8492-7b66-5439-83fe-40190112b6ae")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -24885,6 +25370,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ac81355e-b2e0-4127-b8a1-4d66fe5b5c57")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/548c607a-4981-4344-ada4-cc7104c47855")
 		(sheetname "/Routing_Control/")
@@ -25026,6 +25524,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c4327e8c-6c82-440f-acf0-812288ba705b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/679e1ea9-d419-4acc-80dc-36b7ca1feb5a")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -25162,6 +25673,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "357dcc75-c5c1-4afd-b628-3f8fdf0a193e")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -25933,6 +26457,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "56e8a2d4-c762-4678-80ed-18f6199ba539")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000505")
 		(sheetname "/Standard_Test_Blocks/")
@@ -26070,6 +26607,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "27e8597b-f26b-4a7c-8978-fb0c68ce9a5a")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -26498,6 +27048,19 @@
 				)
 			)
 		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3f3b0a1d-a9c1-4202-ab1f-4c3524a64b5b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000401")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
@@ -26918,6 +27481,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6d4a15c4-2b05-4446-9842-6fcd7f226fdd")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -27860,6 +28436,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ffc5ac81-bd56-4b56-a0c0-a2afd7c3208f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/80c6e907-8dcf-45f4-a774-f9d6af9e628f")
 		(sheetname "/Power_Control/")
@@ -28138,6 +28727,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2f267148-8f84-4972-9329-b54d72ea0108")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -28566,6 +29168,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2bd1c248-5bcf-4f1d-a45a-e8d3772718ea")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/d9000000-0000-4000-8000-000000000502")
 		(sheetname "/Standard_Test_Blocks/")
@@ -28703,6 +29318,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3cfa9340-320a-4adf-a0ed-22d2649068ee")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -28848,11 +29476,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0ef94de0-d91a-48a5-a63d-1afed1fc7260")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/70b911ab-a8bf-5eee-bf98-135bd92d63aa")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -29061,6 +29702,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1fb67032-7781-4630-b223-d3728724db8c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/77125fb6-e4c3-41fc-a96f-9f7479a4f8b7")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -29201,11 +29855,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "74e10198-dd08-4713-99cd-3db7d6c6a29e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000443")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -29778,11 +30445,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "809f28e3-d794-490d-8a9f-cc4f7ba2e8c7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/dab1d4b0-b20d-5a11-91b2-6f0f44d9ed21")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -29991,11 +30671,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bd8dd535-3a13-4314-8d77-180cbc56afb9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/f43ceb59-ab74-4303-bff8-7c28e7e96dfe")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -31214,6 +31907,32 @@
 				)
 			)
 		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f854d6ce-466b-40a7-bd3b-bfd246df583c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b64519f7-0c10-403e-a163-645e6508bca7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/24c33598-60c4-537e-abd7-75e801a8cf93")
 		(sheetname "/Routing_Control/")
@@ -32081,6 +32800,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3107a176-2e32-4092-bd9f-68067aaf905f")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -33057,6 +33789,19 @@
 				)
 			)
 		)
+		(property "MPN" "TMUX1511PWR"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2accd1a3-f50d-407b-a2c9-017435e3172b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/142ebf79-a265-561b-a878-9fbfb44c7494")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
@@ -33481,6 +34226,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fd27c78d-3ff0-4f3b-bcf6-eb858b784965")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/741df1ac-57ed-4046-ab6e-20cea69b522a")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -33617,6 +34375,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "38c88d53-7dd6-4d9d-866b-2a99db4edf00")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -33902,6 +34673,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "97b5a64e-f074-4ebd-974c-20bb47b21954")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/4c0a85fd-056a-4bae-b884-6a30568725a8")
 		(sheetname "/Power_Control/")
@@ -34039,6 +34823,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7ceea563-6c3e-42ce-9253-715758b211f2")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -35114,6 +35911,32 @@
 				)
 			)
 		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0c80422a-37a1-4be2-ad2f-37b24c103132")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7c2ed3e6-c1dc-4f94-97ac-a2e85ec94a08")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/32d20e25-4bde-420a-af82-e3070b216ac5")
 		(sheetname "/Routing_Control/")
@@ -35255,11 +36078,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4d34b33e-0e16-478c-8f14-74e6d2014f27")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000437")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -36257,6 +37093,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "79c73a52-5792-44fd-8d0c-acd516c364dd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/5e63c6de-66cb-5b95-9e4f-ac8b2b60d253")
 		(sheetname "/Routing_Control/")
@@ -36394,6 +37243,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a9aea0cd-6047-4959-bc69-62ab6f2e7a3d")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -36539,11 +37401,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dfd070f6-a3d8-4769-85fd-749c02448cfa")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/5ab0927e-8f61-5bc7-a545-2de2e18d2a14")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -36752,6 +37627,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b3acb2b1-f6af-4ae3-943a-8456bb7d5a17")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/1fe01ba7-31ae-4f5e-a8ae-f1d231cdd803")
 		(sheetname "/Standard_Test_Blocks/")
@@ -36889,6 +37777,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "af2ecfa7-05fd-4ce1-8016-e094460f81fb")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -37397,6 +38298,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "aa1bc778-26cb-4679-a16e-7fa065fe68ac")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c5b3c094-36af-4ba6-b561-25763de0eb79")
 		(sheetname "/Routing_Control/")
@@ -37534,6 +38448,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cddbd180-c190-420f-95e0-72500545e2f8")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -38425,147 +39352,6 @@
 			)
 		)
 	)
-	(footprint "Resistor_SMD:R_0603_1608Metric"
-		(layer "F.Cu")
-		(uuid "d58f1260-bf3c-40b3-9f71-ea090230d8a4")
-		(at 160.74 75.275)
-		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
-		(tags "resistor")
-		(property "Reference" "R18"
-			(at 0 -1.43 0)
-			(layer "F.SilkS")
-			(uuid "356d8f2a-7b1e-4e7c-a0aa-ddb678e3e3ba")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 0 1.43 0)
-			(layer "F.Fab")
-			(uuid "d866a60c-42b4-4e1a-985e-421550548be0")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "d07220d8-0484-4a4f-8d36-ea6b1b7085b7")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "RP08 external safe-state pull-down"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "8b9948c1-a336-4124-a3a0-a97841c18062")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "R_*")
-		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/7982ce71-bab4-4edf-9264-0a95c65b376c")
-		(sheetname "/Routing_Control/")
-		(sheetfile "routing_control.kicad_sch")
-		(attr smd)
-		(fp_line
-			(start -0.237258 -0.5225)
-			(end 0.237258 -0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "9e133e88-c669-4d49-b27f-d3497a9fd90b")
-		)
-		(fp_line
-			(start -0.237258 0.5225)
-			(end 0.237258 0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "54cbcd14-ee77-4790-8501-7c8ba8334f76")
-		)
-		(fp_rect
-			(start -1.48 -0.73)
-			(end 1.48 0.73)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "9e589aed-50f9-465b-9a2d-141933e14b65")
-		)
-		(fp_rect
-			(start -0.8 -0.4125)
-			(end 0.8 0.4125)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "3ccf89fa-ed0d-4a3f-8d4a-939981ac4cf0")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "8ac948b6-a976-4e2d-8847-9d0dcc1a88df")
-			(effects
-				(font
-					(size 0.4 0.4)
-					(thickness 0.06)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "5d265f99-d49b-44fc-bbee-a3341025f8c6")
-		)
-		(pad "2" smd roundrect
-			(at 0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "f9883ae4-33ef-4825-9346-1785cc0799ee")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "d5bda081-4bf5-40da-9a5b-affb2a7c7604")
@@ -38614,6 +39400,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fc7e0b2a-5ea0-4ccc-94de-d27b6c8413c6")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -39361,6 +40160,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d7363f2c-fda3-4551-8233-d02694abd306")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c16dbe36-86a6-4ebe-b6a4-c1026b357f71")
 		(sheetname "/Routing_Control/")
@@ -39818,11 +40630,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "61aacde4-2cc4-4b4f-8709-5064490a197b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/bb389ac7-a7eb-5a22-a0db-ebb336c3ef87")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -40192,147 +41017,6 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
-	(footprint "Resistor_SMD:R_0603_1608Metric"
-		(layer "F.Cu")
-		(uuid "dcefc286-3e1b-4ed5-b20c-1c7624d671d8")
-		(at 168.76 62.725)
-		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
-		(tags "resistor")
-		(property "Reference" "R608"
-			(at 0 -1.43 0)
-			(layer "F.SilkS")
-			(uuid "cadf7629-a3c3-44a3-a827-bc487e2fcd43")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 0 1.43 0)
-			(layer "F.Fab")
-			(uuid "87bf793d-b095-4e82-b0e8-c5c355250468")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "233b1208-5ebf-49d8-8d8c-8a7c1b5df8b2")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "RP08 external safe-state pull-down"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1e4a69c0-a742-43ea-b3b9-aedb85fc8903")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "R_*")
-		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/b0864b9a-97e9-5368-8ee8-2dd71f83a558")
-		(sheetname "/Routing_Control/")
-		(sheetfile "routing_control.kicad_sch")
-		(attr smd)
-		(fp_line
-			(start -0.237258 -0.5225)
-			(end 0.237258 -0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "35b6b234-ba7d-45f5-ac62-355645cc2b3e")
-		)
-		(fp_line
-			(start -0.237258 0.5225)
-			(end 0.237258 0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "5d1d4525-ef0d-419a-81c0-93ff84e07d53")
-		)
-		(fp_rect
-			(start -1.48 -0.73)
-			(end 1.48 0.73)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "ccfd4f4e-90aa-4dc5-afc0-f9517a9292ee")
-		)
-		(fp_rect
-			(start -0.8 -0.4125)
-			(end 0.8 0.4125)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "7f9b9e9b-85c9-4467-bd8b-ebf465b81bcd")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "cdc7c088-8744-4cfd-ac03-aefe23db3297")
-			(effects
-				(font
-					(size 0.4 0.4)
-					(thickness 0.06)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "549ec8c4-913f-4d57-a786-037a4422abee")
-		)
-		(pad "2" smd roundrect
-			(at 0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "cc94adb6-f6dd-4320-a5bd-d8112fabd9d8")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -40891,11 +41575,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e2ff2dc4-4f29-40eb-84f6-0589b7ed7a67")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/3d70ad97-3426-4276-ba75-aac55d9b0b6c")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -41052,147 +41749,6 @@
 			)
 		)
 	)
-	(footprint "Resistor_SMD:R_0603_1608Metric"
-		(layer "F.Cu")
-		(uuid "e08e366e-1835-4c32-a0b3-6f37ad8dc00d")
-		(at 164.75 67.745)
-		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
-		(tags "resistor")
-		(property "Reference" "R25"
-			(at 0 -1.43 0)
-			(layer "F.SilkS")
-			(uuid "9d07b108-874d-49d0-96e3-68e476ebdfdd")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 0 1.43 0)
-			(layer "F.Fab")
-			(uuid "10464d08-8998-4168-9424-a150cd31d678")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "9b92c84b-2c20-4a10-ac5c-3289df669bb8")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "RP10 external safe-state pull-down"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "30eaf72f-c4d4-48bd-8581-0f57b986adce")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "R_*")
-		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/830cde20-754f-4c1e-b84e-c466b99aa4d0")
-		(sheetname "/Routing_Control/")
-		(sheetfile "routing_control.kicad_sch")
-		(attr smd)
-		(fp_line
-			(start -0.237258 -0.5225)
-			(end 0.237258 -0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "5cbe7723-57d7-40fb-ab36-d4a15459592a")
-		)
-		(fp_line
-			(start -0.237258 0.5225)
-			(end 0.237258 0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "72b0ef0c-aa7c-4983-9dd6-58aa0048669a")
-		)
-		(fp_rect
-			(start -1.48 -0.73)
-			(end 1.48 0.73)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "62adaeea-4478-4148-90eb-f7a3feda4da6")
-		)
-		(fp_rect
-			(start -0.8 -0.4125)
-			(end 0.8 0.4125)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "f4e8f71c-3bdf-4618-a155-0f654ee1d6c5")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "275f172f-d8f8-4922-929b-b91182f35be6")
-			(effects
-				(font
-					(size 0.4 0.4)
-					(thickness 0.06)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "c0d02bc6-e0c1-4b32-80fd-096cebb19159")
-		)
-		(pad "2" smd roundrect
-			(at 0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "f48f7ed8-46de-4709-9d68-3ffda11bec51")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "e19365c7-a5b5-485a-b680-3f1874ecaff9")
@@ -41245,11 +41801,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "19de8258-dfb1-4449-b77a-bd234aa767f5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c9bfc86e-36cb-4b20-af91-fcd6d4fbfd39")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -41458,11 +42027,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "abb54e02-c16b-4cb4-a70e-9852ddcb2c66")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/ce0c0402-2376-4dd5-b037-39bfce8fd3c3")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -41812,11 +42394,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b4da01e1-7a64-4b31-95d1-eac8226fa8b6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/38584ec8-fa5a-51c2-a860-0337be4d89e0")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -42025,6 +42620,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "064865e7-8c19-4637-9c2a-5419e1a28f9e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/ccdfc547-90a4-425e-8f1c-92060a69ac50")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -42165,11 +42773,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "62b9ba46-ea5d-4330-b36c-f856d52ea834")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000439")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -42378,11 +42999,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "72557ab2-4fbf-48df-b788-6eac36e3a62f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/0fe1fa32-bbe5-4f45-a0e8-b3fcb22c9c11")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -42955,11 +43589,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "714c71f0-87fb-4e7c-a2ed-ae1a77dbce7d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/fb53e772-b7c2-4d0a-b1f6-3519f8837215")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -43621,6 +44268,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9dbb91f4-3475-43ed-a20c-2de4767fe191")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/174dbc55-8ad5-4b92-85dc-e4f443b29143")
 		(sheetname "/Routing_Control/")
@@ -43758,6 +44418,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "87f896bd-feda-4706-8b17-6083be114751")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6e4a155f-9ffc-4d46-ab95-9174a85d1809")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -44267,6 +44953,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "25519705-41c7-455b-b8c2-2a413da683d5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/20bc3c85-c17c-4231-9a0f-677f06efc266")
 		(sheetname "/Standard_Test_Blocks/")
@@ -44404,6 +45103,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0c3b77a0-0932-45a3-861f-2a6ca7f78463")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -44549,11 +45261,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a27291df-5a94-4a62-b0ce-570d3d7ba7c5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000435")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -45044,6 +45769,19 @@
 				)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3db4974a-8911-4302-968f-4877428f80da")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/825f0ed3-6e2c-5b6d-838f-804d50269661")
 		(sheetname "/Routing_Control/")
@@ -45181,6 +45919,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ecf48493-ed4a-4ef4-93c4-ce7e28bc4030")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -45326,11 +46077,24 @@
 				)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e481d7d7-cd77-4598-9ebe-3033d12fde30")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/cb390064-d683-447a-9e07-d2e326dfd598")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -46935,147 +47699,6 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-6.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
-	(footprint "Resistor_SMD:R_0603_1608Metric"
-		(layer "F.Cu")
-		(uuid "ff1e37d4-e133-4997-98e6-bccdac5513c6")
-		(at 164.75 75.275)
-		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
-		(tags "resistor")
-		(property "Reference" "R603"
-			(at 0 -1.43 0)
-			(layer "F.SilkS")
-			(uuid "aca0ceec-9b1a-4edd-8700-f7079ad04248")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 0 1.43 0)
-			(layer "F.Fab")
-			(uuid "617d7ce1-dcbf-4b97-9a44-ba9607e0010a")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "71a8da13-f25f-4e78-befa-4689b10d13e2")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "RP03 external safe-state pull-down"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "25e2ff64-d33f-41d8-acb2-5b1b2832c75d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "R_*")
-		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/11801b2b-c80e-50dd-a402-eb8c2bc4dd2f")
-		(sheetname "/Routing_Control/")
-		(sheetfile "routing_control.kicad_sch")
-		(attr smd)
-		(fp_line
-			(start -0.237258 -0.5225)
-			(end 0.237258 -0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "2da1e879-9b74-4972-8ede-49a7853d4e84")
-		)
-		(fp_line
-			(start -0.237258 0.5225)
-			(end 0.237258 0.5225)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "c5b1aeed-f8d9-4e0d-a18f-3e31fca05a18")
-		)
-		(fp_rect
-			(start -1.48 -0.73)
-			(end 1.48 0.73)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "8d592558-feb1-48ab-8f24-5cc3ae265dcd")
-		)
-		(fp_rect
-			(start -0.8 -0.4125)
-			(end 0.8 0.4125)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "e9805c44-634d-4dc7-a4af-5cc3b9be5e75")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "ae2d764f-5bd8-40d0-94a3-73f070b2aedb")
-			(effects
-				(font
-					(size 0.4 0.4)
-					(thickness 0.06)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "0306fa4b-80bd-4779-823b-3165488f7117")
-		)
-		(pad "2" smd roundrect
-			(at 0.825 0)
-			(size 0.8 0.95)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net 1 "TI_GND")
-			(pintype "passive")
-			(uuid "d52ced2d-41cf-46b9-87c6-05649c4e2f99")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
 			(offset
 				(xyz 0 0 0)
 			)

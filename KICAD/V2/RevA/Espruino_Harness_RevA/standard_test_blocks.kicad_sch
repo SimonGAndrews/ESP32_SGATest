@@ -8991,7 +8991,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "02c45813-0385-4299-a635-c3c840477404")
 		(property "Reference" "TP401"
 			(at 360.68 139.7 0)
@@ -9035,6 +9035,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 365.76 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -9348,7 +9356,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "0fe1fa32-bbe5-4f45-a0e8-b3fcb22c9c11")
 		(property "Reference" "TP204"
 			(at 520.7 17.78 0)
@@ -9391,6 +9399,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 520.7 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -9687,6 +9703,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 394.97 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "9346cbcc-0550-4daf-a381-7723c7a45f7b")
 		)
@@ -9752,6 +9776,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 396.24 222.25 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -9821,6 +9853,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 496.57 218.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "11bd5c05-5ba5-4b7d-b924-bad2cc331b13")
 		)
@@ -9843,7 +9883,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "25420987-875b-4fbb-91e1-7d8de584a40d")
 		(property "Reference" "TP202"
 			(at 464.82 35.56 0)
@@ -9886,6 +9926,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 464.82 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10045,7 +10093,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "352ab17b-5ab7-4502-ac9d-41fe2f8a488e")
 		(property "Reference" "TP402"
 			(at 445.77 154.94 0)
@@ -10088,6 +10136,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 450.85 157.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10317,7 +10373,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "3d70ad97-3426-4276-ba75-aac55d9b0b6c")
 		(property "Reference" "TP201"
 			(at 373.38 35.56 0)
@@ -10360,6 +10416,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 373.38 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10448,7 +10512,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "484cd659-6c9a-4375-951c-f7acf803476c")
 		(property "Reference" "TP306"
 			(at 223.52 120.65 0)
@@ -10494,6 +10558,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 223.52 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "e066e122-3c66-45a7-9d1b-e44b586dc704")
 		)
@@ -10513,7 +10585,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "489a08f0-57f7-43aa-b7f5-1c764014f8c1")
 		(property "Reference" "TP205"
 			(at 557.53 66.04 0)
@@ -10556,6 +10628,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 557.53 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10644,7 +10724,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "500cd22c-b1c1-48d0-9acc-944ac32697ff")
 		(property "Reference" "TP303"
 			(at 220.98 102.87 0)
@@ -10688,6 +10768,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 220.98 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10752,6 +10840,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 62.23 335.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10923,7 +11019,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "5e5fdeb2-6c32-4469-b054-c2d502a7c3c2")
 		(property "Reference" "TP102"
 			(at 158.75 27.94 0)
@@ -10966,6 +11062,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 158.75 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -11032,6 +11136,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 494.03 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -11235,6 +11347,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 134.62 127 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -11776,7 +11896,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "9fc6cdd2-05f4-4127-b106-ab20833df7fa")
 		(property "Reference" "TP101"
 			(at 78.74 27.94 0)
@@ -11819,6 +11939,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 78.74 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -12929,7 +13057,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000435")
 		(property "Reference" "TP501"
 			(at 494.03 267.97 0)
@@ -12975,6 +13103,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 494.03 273.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b5000000-0000-4000-8002-000000000436")
 		)
@@ -12994,7 +13130,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000437")
 		(property "Reference" "TP502"
 			(at 515.62 267.97 0)
@@ -13040,6 +13176,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 515.62 273.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b5000000-0000-4000-8002-000000000438")
 		)
@@ -13059,7 +13203,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000439")
 		(property "Reference" "TP503"
 			(at 537.21 267.97 0)
@@ -13105,6 +13249,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 537.21 273.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b5000000-0000-4000-8002-000000000440")
 		)
@@ -13124,7 +13276,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000441")
 		(property "Reference" "TP504"
 			(at 494.03 279.4 0)
@@ -13170,6 +13322,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 494.03 284.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b5000000-0000-4000-8002-000000000442")
 		)
@@ -13189,7 +13349,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000443")
 		(property "Reference" "TP505"
 			(at 516.89 279.4 0)
@@ -13233,6 +13393,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 516.89 284.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -13633,6 +13801,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "TMUX1511PWR"
+			(at 107.95 254 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -14086,6 +14262,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 62.23 320.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c7000000-0000-4000-8000-000000000551")
 		)
@@ -14151,6 +14335,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 62.23 325.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -14220,6 +14412,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 62.23 330.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c7000000-0000-4000-8000-000000000571")
 		)
@@ -14287,6 +14487,22 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" ""
+			(at 58.42 245.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 58.42 245.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c7000000-0000-4000-8000-000000000591")
 		)
@@ -14309,7 +14525,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "c9bfc86e-36cb-4b20-af91-fcd6d4fbfd39")
 		(property "Reference" "TP304"
 			(at 175.26 119.38 0)
@@ -14353,6 +14569,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 175.26 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -14442,7 +14666,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "cb390064-d683-447a-9e07-d2e326dfd598")
 		(property "Reference" "TP302"
 			(at 195.58 102.87 0)
@@ -14488,6 +14712,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 195.58 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "ecfbcb80-0fb0-43a8-b442-3b333a21f8c7")
 		)
@@ -14507,7 +14739,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "cc45614b-3a61-40c0-b614-4fd3430dbbcb")
 		(property "Reference" "TP203"
 			(at 520.7 35.56 0)
@@ -14552,6 +14784,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 520.7 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "91f80dc2-bfcf-4f41-b603-d85558fb5a05")
 		)
@@ -14571,7 +14811,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "ce0c0402-2376-4dd5-b037-39bfce8fd3c3")
 		(property "Reference" "TP104"
 			(at 156.21 45.72 0)
@@ -14614,6 +14854,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 156.21 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -14745,7 +14993,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d75b09f0-43f5-42a9-a3c3-a2d6ffd051d7")
 		(property "Reference" "TP305"
 			(at 198.12 120.65 0)
@@ -14789,6 +15037,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 198.12 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -14922,6 +15178,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 326.39 273.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "d9000000-0000-4000-8000-000000000521")
 		)
@@ -15017,7 +15281,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d9000000-0000-4000-8000-000000000504")
 		(property "Reference" "TP901"
 			(at 273.05 295.91 0)
@@ -15063,6 +15327,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 273.05 290.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "d9000000-0000-4000-8000-000000000541")
 		)
@@ -15082,7 +15354,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d9000000-0000-4000-8000-000000000505")
 		(property "Reference" "TP902"
 			(at 326.39 290.83 0)
@@ -15126,6 +15398,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 326.39 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -15214,7 +15494,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "f43ceb59-ab74-4303-bff8-7c28e7e96dfe")
 		(property "Reference" "TP103"
 			(at 76.2 45.72 0)
@@ -15259,6 +15539,14 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "61300111121"
+			(at 76.2 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "4e8d883a-f126-4aef-9ba7-7a2a3ecfdb9e")
 		)
@@ -15278,7 +15566,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "fb53e772-b7c2-4d0a-b1f6-3519f8837215")
 		(property "Reference" "TP301"
 			(at 172.72 101.6 0)
@@ -15322,6 +15610,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 172.72 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"

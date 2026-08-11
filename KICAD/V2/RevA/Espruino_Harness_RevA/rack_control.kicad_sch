@@ -3006,6 +3006,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 127 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000035")
 		)
@@ -3344,6 +3352,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 57.15 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000112")
 		)
@@ -3547,6 +3563,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 144.78 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"

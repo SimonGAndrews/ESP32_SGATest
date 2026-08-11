@@ -14368,6 +14368,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 167.64 256.54 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "5ab0c268-773e-4d37-a94d-d40fcd849f81")
 		)
@@ -14872,6 +14880,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 151.13 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "e4bc3ea4-3e6c-4ce4-8748-cfa9e1e58eb5")
 		)
@@ -15165,6 +15181,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 74.93 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c54e6f9d-24ba-44b9-8fc8-a9110f26959b")
 		)
@@ -15233,6 +15257,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 110.49 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "37b3a1ea-735b-4234-9856-57de53a25413")
 		)
@@ -15299,6 +15331,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 189.23 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -15674,6 +15714,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 224.79 54.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "28e79385-b78c-452b-ad75-97a8972fe1e9")
 		)
@@ -15740,6 +15788,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 208.28 254 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -15948,6 +16004,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 82.55 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "7d212d13-4131-4b7f-bdac-34270cd7dbaf")
 		)
@@ -16016,6 +16080,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 86.36 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "86eb541a-570b-444f-83d7-d75cc8f119af")
 		)
@@ -16082,6 +16154,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 292.1 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -16887,6 +16967,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 177.8 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "eeb650e5-c371-4517-9fbc-f5c5927a3021")
 		)
@@ -17025,6 +17113,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 168.91 237.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "f0560740-2902-42a9-a8b6-afd0b6a1b427")
 		)
@@ -17091,6 +17187,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 90.17 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -17634,6 +17738,14 @@
 				(hide yes)
 			)
 		)
+		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 313.69 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "aa274d5e-a550-48fd-bc76-302a9835c58f")
 		)
@@ -17771,6 +17883,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
+			(at 208.28 237.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
