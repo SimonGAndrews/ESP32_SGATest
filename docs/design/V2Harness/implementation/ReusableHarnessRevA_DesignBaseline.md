@@ -128,7 +128,7 @@ is a board-level decision. A material change returns the affected block to
 |---|---|---|---|---|---|---|
 | PC01 | Operating mode and 3.3 V rail | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC01-operating-mode-and-3v3-rail.png) | Verified |
 | PC02 | Target 5 V switch and two-range monitor | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC02-target-5v-switch-and-two-range-monitor.png) | Verified |
-| RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | TBD | Draft |
+| RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | [PNG](review-images/RC01-routing-fabric.png) | Verified |
 | RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch` | Controlled routing | TBD | Draft |
 | TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -324,8 +324,8 @@ AISLER stock and MPN assignment remains a separate commercial selection step.
 | Requirements inspection | Standard Control Services 3.1–3.3 and Appendix C.2 | Mode truth table and source ownership agree |
 | Behaviour and safe-state analysis | Truth table, unpowered-state review, control-margin, maximum-drop/thermal and inrush calculations above | Functional topology and principal-device implementation supported; physical measurement pending |
 | Manufacturer source screen | Product-linked documents summarized above | Complete for current principal-device choices |
-| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted 2026-08-10: PC01 passes all 73 assertions; complete PC01/PC02/SYS01 set passes 186 checks |
-| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-10 | Accepted: zero errors and zero warnings |
+| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Refreshed 2026-08-11: PC01 passes all 73 assertions; complete PC01/PC02/SYS01 set passes 186 checks |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-11 | Accepted: zero errors and zero warnings |
 | Symbol-to-footprint mapping | Manufacturer pin tables, package drawings, full-hierarchy netlist, installed KiCad footprints and current PCB pad nets | Principal IC, diode, MOSFET and passive mappings agree; package land patterns and intrinsic pin-1 orientation accepted |
 | Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Accepted current reviewed circuit capture |
 
@@ -688,8 +688,8 @@ assignment remains a separate commercial selection step.
 | Requirements inspection | Standard Control Services 3.5, 3.5.1 and Appendix C.3 | Topology covers the required switching and two measurement ranges |
 | Behaviour and safe-state analysis | Operating table, unpowered-state review and current schematic | Logic recorded and required `TARGET_SWITCH_EN` pull-down implemented as `R1110` |
 | Manufacturer source screen and pin functions | Product pages, data sheets and applicable application documents summarized above | Pin functions and I2C addresses reviewed; TXU0101 closes the range-driver partial-power blocker, low-range alert integration is implemented, and exact shunt candidates support the analytical accuracy budget |
-| Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml`, `verification/contracts/SYS01-power-events-to-rack-control.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted 2026-08-10: PC02 passes all 110 assertions and SYS01 passes all 3; complete PC01/PC02/SYS01 set passes 186 checks. `SYS01` confirms that `U1104.Alert`, `U1105.2B` and `U1201.GPB3` share `LOW_RANGE_OK_N`. |
-| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-10 | Accepted: zero errors and zero warnings |
+| Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml`, `verification/contracts/SYS01-power-events-to-rack-control.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Refreshed 2026-08-11: PC02 passes all 110 assertions and SYS01 passes all 3; complete PC01/PC02/SYS01 set passes 186 checks. `SYS01` confirms that `U1104.Alert`, `U1105.2B` and `U1201.GPB3` share `LOW_RANGE_OK_N`. |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-11 | Accepted: zero errors and zero warnings |
 | Symbol-to-footprint pin mapping | Manufacturer pin tables and package drawings, full-hierarchy netlist, project-local and installed KiCad footprints, and current PCB pad nets | U1101–U1105 and Q1101 pin functions, package pads and intrinsic pin-1 orientation agree. The project-local U1101 footprint implements the TI perimeter pads, exposed pad 11 and segmented paste opening. The manufacturer-derived R1101 and R1102 footprints implement their accepted two-terminal land patterns. Engineering package review complete; release-stage placement, Kelvin, copper and assembly checks remain. |
 | Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Accepted current reviewed circuit capture |
 | Electrical limits | Calculations above | Protection topology and analytical component-path voltage-drop, dissipation and accuracy budgets are supported; PCB/contact resistance, inrush and physical accuracy remain release measurements |
@@ -743,6 +743,209 @@ assignment remains a separate commercial selection step.
 
 No exceptions are accepted at this stage.
 
+### 4.3 RC01 — Routing Fabric
+
+**Purpose and requirements:** Implement the accepted 19 independently
+controlled route-selection paths `RP01`–`RP19` between Target Interface route
+entries R0–R6 and their legal Test Block endpoints. Every path shall default
+open, pass bidirectional analogue and digital signals over the complete 0 V to
+3.3 V harness range, remain isolated with the Routing Logic Supply Rail absent,
+and preserve the required simultaneous configurations. See Controlled Routing
+Sections 4, 5, 7, 9, 11 and 13 and the Combined Capability Connection Matrix
+Sections 4, 7 and 9.
+**Source schematic:** `routing_control.kicad_sch`, references `U601`–`U605`,
+`C601`–`C605`, the 19 functional 100 kΩ `RPxx_EN` pull-downs and representative
+test points `TP612`–`TP614`.
+**Visual review:** Accepted after the redundant-resistor cleanup:
+[`RC01-routing-fabric.png`](review-images/RC01-routing-fabric.png).
+**Risk:** High
+**Status:** Verified; the TMUX1511 circuit approach, current manufacturer
+application material, exact `TMUX1511PWR` selection, PW package implementation,
+100 nF decoupling-capacitor policy, 100 kΩ route-enable pull-down policy, visual
+schematic and current full-hierarchy ERC have been reviewed and are suitable.
+The board-wide 2.54 mm through-hole test-point policy and exact part are
+accepted, and the DNP state is verified on all 38 test points in the saved
+schematic hierarchy and current PCB. The independent RC01 connectivity contract
+passes against a fresh root netlist. AISLER's interpretation of the test-point
+DNP state remains a release-stage BOM-reconciliation issue and does not block
+the schematic baseline.
+
+#### Interfaces and domains
+
+| Type | Signals or rails | Function |
+|---|---|---|
+| Route entries | `R0`–`R6` | Seven target-facing common route-entry nodes |
+| Route destinations | `TI_ANALOG_ADC_IN`, `TI_ONEWIRE_DQ`, `TI_GPIO_LOOP_A_OUT`, `TI_SPI_MISO`, `TI_GPIO_LOOP_A_IN`, `TI_I2C_FB`, `TI_SPI_CS_ADC`, `TI_ONEWIRE_GPIO_A_FB`, `TI_GPIO_LOOP_B_OUT`, `TI_SPI_MOSI`, `TI_UART_A_TX`, `TI_SPI_SCK`, `TI_UART_A_RX`, `TI_ANALOG_PWM_OUT`, `TI_RGB_DATA`, `TI_GPIO_LOOP_B_IN`, `TI_I2C_INT`, `TI_SPI_CS_EXT`, `TI_ONEWIRE_GPIO_B_FB` | Accepted `RP01`–`RP19` Test Block endpoints |
+| Control inputs | `RP01_EN`–`RP19_EN` | Active-high independent TMUX1511 channel controls from the routing controllers |
+| Supply | `ROUTING_LOGIC_3V3` | Powers all five RC01 switch packages |
+| Ground | `TI_GND` | Signal, control-bias and decoupling reference |
+
+#### Key design issues
+
+**Shared route-entry capacitance — accepted for the circuit approach; complete
+path validation remains required.** Each R0–R6 entry is connected to every
+TMUX1511 source pin assigned to that entry. An active route therefore sees the
+active channel's maximum 6 pF on-capacitance plus the maximum 4 pF off-
+capacitance of every alternative channel. The switch-only maximum contribution
+is approximately 10 pF for the two-destination R0, R1, R4 and R5 entries,
+14 pF for the three-destination R3 entry, and 18 pF for the four-destination R2
+and R6 entries. These values exclude PCB, connector, daughter-board, protection
+and Test Block capacitance. They do not challenge the selected device, but the
+complete analogue, SPI, 1-Wire, UART, RGB and GPIO path budgets and prototype
+tests shall use the fan-out totals rather than one channel's nominal
+capacitance.
+
+**Powered-off leakage and 3.6 V boundary — bounded and subject to physical
+acceptance.** TMUX1511 powered-off protection maintains the signal path high
+impedance and prevents ordinary ESD-diode back-power when `VDD = 0 V`. The
+guaranteed powered-off signal range ends at 3.6 V, which equals the accepted
+maximum `TI_TARGET_3V3` domain voltage. The data sheet permits up to 2 µA
+powered-off I/O leakage per pin at that boundary. A deliberately conservative
+19-channel RC01 aggregate is therefore 38 µA if every target-facing switch pin
+simultaneously has worst-case leakage in the same direction. Rev A shall verify
+that the supported partial-power sequences produce no functional or damaging
+back-power, record the actual leakage and resulting unpowered-rail voltage, and
+keep switching overshoot within the powered-off operating limit.
+
+**Route-change charge injection and settling — implementation action.** The
+data sheet gives 2 pC typical charge injection. The accepted reconfiguration
+sequence establishes routes while target and peer drivers are inactive, which
+prevents a route-change transient from becoming contention. Analogue tests
+shall additionally allow the routed node to settle after `RP01` or `RP14`
+changes and shall determine whether the first ADC conversion must be discarded.
+
+**Simultaneous analogue and SPI operation — PCB and prototype action.** The
+accepted analogue-plus-SPI configuration operates multiple switch channels at
+the same time, including `RP01` and `RP04` in `U601`. TMUX1511 has substantial
+typical bandwidth, off-isolation and crosstalk margin, but those figures do not
+replace complete-board validation. Placement and routing shall separate the
+analogue path from SPI clock and control edges, and Rev A shall compare analogue
+results with SPI idle and active.
+
+No application-note finding requires an architecture change. Netlist review
+identified six copied 100 kΩ positions whose two pads were already on
+`TI_GND`: `R603`, `R608`, `R13`, `R18`, `R23` and `R25`. They provided no
+pull-down or isolation function and were removed on 2026-08-11. Their former
+positions now directly connect `U601`–`U605.GND` and the deliberately disabled
+`U605.SEL4` to `TI_GND`. Exact passive MPN selection remains a later RC01
+implementation-review item.
+
+#### Selected implementation
+
+- `U601` implements `RP01`–`RP04`, `U602` implements `RP05`–`RP08`, `U603`
+  implements `RP09`–`RP12`, `U604` implements `RP13`–`RP16`, and `U605`
+  implements `RP17`–`RP19`. `U605` channel 4 is unused, its select input is
+  grounded, and its signal pins are marked unconnected.
+- Every selected channel is an independently controlled bidirectional 1:1
+  switch. No shared address or select line couples route entries.
+- Each switch has a local schematic 100 nF `ROUTING_LOGIC_3V3` decoupling
+  capacitor. The data sheet accepts 0.1 µF to 10 µF from VDD to GND.
+- Each implemented `RPxx_EN` input has a 100 kΩ external pull-down in addition
+  to the TMUX1511 nominal 6 MΩ internal pull-down. With the switch's maximum
+  ±2 µA control-input leakage considered alone, 100 kΩ develops no more than
+  0.2 V, below the 0.45 V maximum input-low threshold. Routing-controller
+  reset-state leakage and combined margin remain part of RC02 review.
+- The accepted exact orderable device is `TMUX1511PWR`, the PW TSSOP-14 tape-
+  and-reel variant. AISLER BOM Assign groups and assigns this part to all seven
+  current PW-package instances: RC01 `U601`–`U605`, RC02 `U606` and TB07
+  `U701`. This assignment accepts the RC01 devices commercially; RC02 and TB07
+  retain their independent circuit-block reviews. The schematic value remains
+  the functional base name `TMUX1511` while this baseline records the exact
+  orderable MPN.
+
+#### Operating logic and safe states
+
+| Condition | Required and reviewed state |
+|---|---|
+| `ROUTING_LOGIC_3V3` absent or below the TMUX1511 operating range | Every RC01 signal path remains high impedance through powered-off protection for signal pins held within 0 V to 3.6 V |
+| Routing controller reset, unpowered or configured as inputs | External 100 kΩ and internal nominal 6 MΩ pull-downs hold every implemented select input low; all paths remain open |
+| Valid route state | At most one destination is enabled for each R0–R6 entry; other destinations remain open |
+| Route change | Target and peer drivers inactive; old paths cleared and verified before a new path is enabled |
+| Test complete or failed configuration | Drivers inactive before the selected paths are cleared and verified |
+| Unused `U605` channel 4 | Select held low; S4 and D4 remain unconnected |
+
+The TMUX1511 fixed logic thresholds accept the 3.3 V routing-controller
+outputs with substantial high-level margin. Fail-safe control inputs prevent a
+controller output from back-powering an unpowered switch, although RC01 and its
+controllers normally share `ROUTING_LOGIC_3V3`.
+
+#### Key calculations and limits
+
+| Subject | Data-sheet or application-note basis | RC01 conclusion |
+|---|---|---|
+| Signal and supply range | VDD 1.5 V to 5.5 V; powered signal range 0 V to `VDD × 2` subject to 5.5 V maximum; powered-off range 0 V to 3.6 V | Suitable for the 3.3 V harness domain; 3.6 V is a no-margin powered-off boundary to be protected and measured |
+| On-resistance | 2 Ω typical, 4.5 Ω maximum at 8 mA | Suitable for the high-impedance and protected Test Block loads; include 4.5 Ω in complete path budgets |
+| Continuous signal current | ±25 mA maximum | Above normal routed signal currents; contention remains prohibited rather than treated as a valid load case |
+| On/off capacitance | 6 pF maximum on and 4 pF maximum off | Fan-out contribution is 10 pF, 14 pF or 18 pF depending on route entry |
+| Powered-off leakage | Up to ±2 µA per I/O pin over 0 V to 3.6 V | Conservative 19-target-pin aggregate 38 µA; physical partial-power verification required |
+| On/off leakage while powered | 50 nA maximum on; 100 nA maximum off | Suitable at device level; complete analogue-node leakage remains a board-level check |
+| Logic thresholds | `VIH` 1.2 V minimum; `VIL` 0.45 V maximum | Compatible with 3.3 V MCP23017 outputs; external pull-down margin accepted provisionally |
+| Bandwidth and propagation | 3 GHz typical bandwidth and 67 ps typical propagation delay | Substantial device-level margin for the accepted SPI, UART, RGB and GPIO rates; PCB and attached loading determine the validated limits |
+| Charge injection | 2 pC typical | Route before enabling drivers; allow analogue settling and assess first-sample discard |
+| Crosstalk and off-isolation | Typical −90 dB channel crosstalk at 100 kHz and −75 dB off-isolation at 1 MHz | Supporting evidence only; verify the simultaneous analogue/SPI configuration on the completed board |
+
+#### Manufacturer source and application review
+
+The current [TMUX1511 product page](https://www.ti.com/product/TMUX1511) and
+[Rev. B data sheet](https://www.ti.com/lit/ds/symlink/tmux1511.pdf) were
+reviewed on 2026-08-10. The product page lists TMUX1511 as active and provides
+the PW TSSOP-14 option. The data sheet is the authority for pin functions,
+guaranteed electrical limits and powered-off behaviour.
+
+| Manufacturer material | RC01 consequence |
+|---|---|
+| TMUX1511 data sheet, Rev. B | Confirms independent bidirectional channels, PW pinout, 0.1 µF to 10 µF decoupling, fixed logic thresholds, fail-safe control inputs, powered-off range and leakage, resistance, capacitance, current and timing limits. Its protocol-isolation example matches the RC01 use. |
+| [Selecting the Correct Texas Instruments Signal Switch, Rev. E](https://www.ti.com/lit/an/szza030e/szza030e.pdf) | Confirms that configuration, signal/supply range, resistance, capacitance, leakage, bandwidth, charge injection, crosstalk, off-isolation and powered-off behaviour are the applicable selection criteria. RC01 satisfies the device-level screen; complete-board loading remains to be checked. |
+| [Eliminate Power Sequencing with Powered-off Protection Signal Switches, Rev. C](https://www.ti.com/lit/ab/scda015c/scda015c.pdf) | Confirms that a switch without powered-off protection can back-power its supply and unintentionally pass signals. TMUX1511 is appropriate for the V2 target/routing partial-power boundary; data-sheet leakage and prototype evidence still bound acceptance. |
+| [1.8-V Logic for Multiplexers and Signal Switches, Rev. C](https://www.ti.com/lit/pdf/SCAA126) | Confirms direct logic control without a translator when output-high and output-low margins satisfy the fixed thresholds. RC01 uses 3.3 V control and needs no translation. |
+| [Enabling SPI-Based Flash Memory Expansion by Using Multiplexers, Rev. B](https://www.ti.com/lit/ab/scda016b/scda016b.pdf) | Identifies TMUX1511 as a suitable 1:1 SPI isolation switch based on low resistance and capacitance, high bandwidth, powered-off protection and logic compatibility. RC01 shall still validate its complete fan-out and PCB loading at the accepted SPI rate. |
+| [Multiplexers and Signal Switches Glossary, Rev. B](https://www.ti.com/lit/an/slla471b/slla471b.pdf) | Supports the interpretation of bidirectionality, fail-safe logic, integrated pull-downs, leakage, charge injection and isolation terms; it adds no separate circuit requirement. |
+| Selecting the Right Multiplexer for a Discrete PGA and Improve Stability Issues with Low-CON Multiplexers | The op-amp feedback applications do not apply directly. Their low-resistance and low-capacitance guidance supports the selected device and the requirement to include all shared-node capacitance. |
+| Product-linked powered-off-protection and servo-drive technical articles | Supporting explanations only; they reinforce the authoritative powered-off application brief and add no new RC01 implementation requirement. |
+
+#### Components and packaging
+
+| References | Manufacturer | Exact orderable part | Package | KiCad symbol | KiCad footprint | Datasheet/revision | Pin/pad mapping | AISLER assignment |
+|---|---|---|---|---|---|---|---|---|
+| `U601`–`U605` | Texas Instruments | [`TMUX1511PWR`](https://www.ti.com/product/TMUX1511/part-details/TMUX1511PWR) | PW0014A, 14-pin TSSOP, 4.4 mm × 5.0 mm nominal body, 0.65 mm pitch | `Espruino_Harness_RevA:TMUX1511_PW` | `Package_SO:TSSOP-14_4.4x5mm_P0.65mm` | [TMUX1511 Rev. B, SCDS390B, March 2025](https://www.ti.com/lit/ds/symlink/tmux1511.pdf) | Accepted. Symbol pins agree exactly with the PW top-view table: `SEL1/S1/D1/SEL2/S2/D2/GND/D3/S3/SEL3/D4/S4/SEL4/VDD` on pins 1–14. The footprint has 14 sequential pads, the required 0.65 mm pitch, compatible 4.4 mm × 5.0 mm body outline and intrinsic pin-1 indication. Its IPC pads are 1.475 mm × 0.40 mm versus TI's 1.50 mm × 0.45 mm example; TI explicitly permits IPC-7351 alternate designs. | Assigned in AISLER on 2026-08-11 as one seven-component group covering `U601`–`U606` and `U701`; RC01 allocation is `U601`–`U605` |
+| `C601`–`C605` | AISLER-selected commodity MLCC | Manufacturer intentionally open; controlled by `AISLER_MPN = 100nF 10% 16V X7R 0603` | 0603 (1608 metric) | `Device:C` | `Capacitor_SMD:C_0603_1608Metric` | TMUX1511 Rev. B requires 0.1 µF to 10 µF local VDD bypass; final supplied-part data applies at release | Accepted. Non-polarized two-terminal mapping agrees with the standard footprint. The 100 nF nominal value meets the TMUX1511 recommendation; 16 V provides nearly 5× rating margin over `ROUTING_LOGIC_3V3`, and X7R/10% controls dielectric and initial tolerance. Local placement and short VDD/GND connections remain PCB action `PCB-RC01-01`. | KiCad Smart Match requirement accepted. The current AISLER capture retains an earlier generic assignment for `C601`–`C605`; reject/reassign it and verify all parameters during final BOM reconciliation. |
+| Nineteen functional `RPxx_EN` pull-downs: `R601`, `R602`, `R604`–`R607`, `R609`, `R610`, `R11`, `R12`, `R14`–`R17`, `R19`–`R22`, `R24` | AISLER-selected commodity resistor | Manufacturer intentionally open; controlled by `AISLER_MPN = 100k 0603 1% 0.1W` | 0603 (1608 metric), 0.1 W | `Device:R` | `Resistor_SMD:R_0603_1608Metric` | TMUX1511 Rev. B control-input limits and [AISLER Smart Match resistor parameters](https://community.aisler.net/t/documenting-parts/56) | Accepted. The refreshed hierarchy confirms exactly one 100 kΩ pull-down from each `RP01_EN`–`RP19_EN` to `TI_GND` and the standard two-terminal mapping. At the 1% high limit, 2 µA leakage develops 0.202 V, below the 0.45 V maximum input-low threshold without relying on the internal pull-down. Dissipation at 3.3 V is approximately 0.109 mW, more than 900 times below 0.1 W. | KiCad Smart Match requirement accepted on exactly the nineteen listed references. Reassign the current generic AISLER 100 kΩ entries and verify tolerance, power and package during final BOM reconciliation. |
+| `TP612`–`TP614` | Würth Elektronik | [`61300111121`](https://www.we-online.com/components/products/datasheet/61300111121.pdf) | One-position, single-row, vertical 2.54 mm THT pin header; 0.64 mm square pin, 3.0 mm PCB tail and 6.0 mm exposed post | `Connector:TestPoint` | `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical` | Würth `61300111121`, drawing revision 003.001, 2023-08-15 | Accepted under board-wide decision `INT02`. The KiCad footprint uses a 1.0 mm drill and 1.7 mm pad; the drill lies within the manufacturer's recommended 1.10 ±0.15 mm hole range and gives a 0.35 mm nominal annular ring. The single electrical pin maps directly to pad 1. | Exact `MPN = 61300111121` and DNP state are verified on all 38 board test points, including RC01 `TP612`–`TP614`. Retain them in the overall KiCad BOM and hand-fit after manufacture. AISLER exclusion interpretation remains a final BOM-reconciliation check. |
+
+#### Verification
+
+| Check | Evidence | Result |
+|---|---|---|
+| Requirements inspection | Controlled Routing and Combined Capability Connection Matrix | Accepted: the selected five-switch approach implements the complete 19-path inventory and preserves the required route-entry grouping |
+| Behaviour and safe-state analysis | Operating table, partial-power review and current full-hierarchy normalized connectivity | Circuit approach accepted; powered-off leakage, 3.6 V boundary and complete controller-reset margin remain physical/RC02 checks |
+| Manufacturer source screen | Sources and conclusions above | Accepted for circuit approach; no architecture or topology change required |
+| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete four-contract set passes 350 checks |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-11 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
+| Symbol-to-footprint pin mapping | TMUX1511 Rev. B PW pin table, PW0014A package drawing, project-local symbol, installed KiCad footprint and current PCB pads | Accepted: pins 1–14, package family, body size, pitch, pad order and pin-1 orientation agree; the footprint's IPC land pattern is a permitted alternate to TI's example pattern |
+| Visual schematic review | `review-images/RC01-routing-fabric.png` | Accepted current reviewed circuit capture after removal of the six redundant resistors |
+| Electrical limits | Calculations above | Device-level margins supported; complete path and prototype evidence pending |
+
+#### Open issues and accepted exceptions
+
+- The accepted DNP state is present on all 38 `INT02` test points in the saved
+  hierarchy and PCB, but the latest AISLER upload did not exclude them as
+  expected. Resolve the importer or assignment-state behaviour and verify the
+  exclusion during final BOM reconciliation; retain the exact test-point MPNs
+  in the overall KiCad BOM for hand fitting. Also reassign the current generic AISLER entries
+  for `C601`–`C605` and the nineteen route-enable pull-downs to their accepted
+  Smart Match requirements. The six redundant ground-to-ground positions have
+  been removed and do not belong in the BOM or PCB.
+- Include the maximum fan-out capacitance and 4.5 Ω switch resistance in every
+  affected complete Test Block path budget.
+- Define the analogue route-settling and first-sample policy from prototype
+  evidence.
+- Measure powered-off leakage and unpowered-rail voltage across the supported
+  target/routing power sequences, including the 3.6 V boundary.
+- Validate analogue performance with the required concurrent SPI activity and
+  retain the maximum proven SPI, UART, 1-Wire, RGB and GPIO rates.
+
+No exception is accepted at this stage.
+
 ## 5. System integration review
 
 Use this section for checks that cross circuit-block ownership. Do not repeat
@@ -771,6 +974,7 @@ block review.
 | ID | Decision | Implementation contract | Status |
 |---|---|---|---|
 | `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N`, `SUP_EVENT_IN` and the latched `LOW_RANGE_OK_N`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation complete and full-hierarchy ERC clean; firmware and release verification pending |
+| `INT02` | Use one consistent fitted diagnostic test-point part across Rev A | All 38 `TP` references use Würth Elektronik `61300111121`, a one-position vertical 2.54 mm through-hole header pin, with `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical`. Scope is Routing Control `TP601`–`TP614` and Standard Test Blocks `TP101`–`TP104`, `TP201`–`TP205`, `TP301`–`TP306`, `TP401`–`TP402`, `TP501`–`TP505` and `TP901`–`TP902`. Keep each part in the overall KiCad BOM with exact `MPN = 61300111121`. Mark each DNP so AISLER excludes it from its assembly stage, then hand-fit it after manufacture. For `INT02` only, DNP records an assembly-stage boundary rather than absence from the completed Rev-A board. This retains the accepted individual 2.54 mm header-pin architecture and common compatibility with probes, hooks, clips and female jumper leads. | Accepted policy, package mapping and MPN metadata; hierarchy-wide DNP application, PCB metadata and final accessibility review pending |
 
 ### 5.2 Open integration gaps
 
@@ -805,6 +1009,11 @@ and close it only with the evidence named below.
 | `PCB-PC02-02` | PC02 measurement design | Use the accepted project-local footprints for `R1101` and `R1102`; take separate Kelvin sense traces directly from the corresponding shunt pads to each monitor IN+/IN− pair, away from load-current copper and noisy switching routes. | Pad-level net inspection, routed Kelvin-pair review and PCB DRC | Open |
 | `PCB-PC02-03` | PC02 voltage-drop budget | Size and review the complete 1.5 A path so PCB, Target Interface, backplane and connector resistance remains within the provisional combined 26 mΩ allocation. | KiCad conductor calculation, connector/contact calculation and completed-layout path review | Open |
 | `PCB-PC02-04` | PC02 transient and accuracy budgets | Keep power-monitor decoupling local, minimize low-current leakage and thermal-gradient error around the 1 Ω path, and determine the required local `EXT_5V` bulk capacitance from the completed target-load estimate. | Placement review, leakage/thermal review and recorded transient calculation | Open |
+| `PCB-RC01-01` | RC01 TMUX1511 data sheet and application review | Place each `C601`–`C605` 100 nF capacitor at its owning switch VDD/GND pins with short, low-inductance connections. | Placement inspection and routed power/ground review | Open |
+| `PCB-RC01-02` | RC01 shared-node capacitance and simultaneous-use review | Keep route-entry and switch-to-endpoint paths short over a materially continuous ground reference. Separate the analogue route from SPI clock and control edges, and review the complete PCB, connector and daughter-board capacitance against the recorded 10 pF, 14 pF and 18 pF switch contributions. | Routed-layout inspection, complete path-capacitance record and signal-integrity review | Open |
+| `PCB-RC01-03` | RC01 powered-off protection review | Control ringing and overshoot so target-facing switch pins remain within the 3.6 V powered-off limit, then measure leakage and resulting unpowered-rail voltage for every supported target/routing power sequence. | Oscilloscope captures, leakage measurements and partial-power acceptance record | Open |
+| `PCB-RC01-04` | RC01 analogue and SPI concurrency review | Provide practical access to the representative route, endpoint and enable observation points and compare analogue accuracy/noise with SPI idle and active. Establish route-settling and first-ADC-sample handling from the measurements. | Probe-access inspection and retained analogue/SPI prototype results | Open |
+| `PCB-RC01-05` | RC01 redundant-resistor cleanup | Update the PCB from the accepted root schematic so obsolete footprints `R603`, `R608`, `R13`, `R18`, `R23` and `R25` are removed without disturbing the 19 functional pull-downs or direct TMUX ground connections. | PCB component inspection, refreshed BOM and PCB DRC | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |
@@ -837,6 +1046,8 @@ No exclusion is accepted without a specific explanation.
 - [ ] Mechanical dimensions and connector placements are checked.
 - [ ] AISLER BOM groups match the intended references, values and footprints.
 - [ ] AISLER assignments/exclusions match the approved component tables.
+- [ ] Deterministic KiCad-to-AISLER BOM reconciliation passes with no
+      unassigned, unreviewed, mismatched or unexpected references.
 - [ ] Final AISLER part availability and quoted assembly cost are accepted.
 - [ ] Rev-A first-power and bring-up procedure is prepared.
 - [ ] Open issues and accepted exceptions are recorded.
@@ -923,6 +1134,25 @@ For every IC, connector and critical passive:
 
 Ordinary passives may follow an agreed package policy. Shunts, precision,
 high-current and unusual parts require individual checks.
+
+Use the following KiCad symbol-field policy:
+
+- `Value` records the functional component identity or nominal value. It is not
+  the definitive purchasing field.
+- `MPN` records an approved exact, orderable manufacturer part number.
+- `AISLER_MPN` records an approved AISLER Smart Match specification when the
+  manufacturer part is intentionally left open but its required
+  characteristics are controlled.
+- A fitted assembly component shall normally use either `MPN` or `AISLER_MPN`,
+  not both. Explain any deliberate exception in its block component table.
+- A required fitted component may not reach release with both fields blank.
+  Record DNP, excluded and hand-fitted dispositions explicitly instead.
+
+By default, DNP means that a component is absent from the completed board. A
+recorded staged-assembly decision may define a narrower meaning. `INT02` is the
+Rev-A exception: its test points are DNP for the AISLER assembly stage but are
+mandatory hand-fitted parts on the completed board. They retain their exact MPN
+and remain in the overall KiCad BOM.
 
 Use the block component table as the engineering reference during AISLER BOM
 Assign. For each presented group:
@@ -1134,3 +1364,63 @@ tracked because they contain volatile timestamps and checkout-specific paths.
 The normalized, path-free connectivity report and other accepted release
 evidence are tracked under `verification/baseline/`. This document records the
 manufacturing decision; no second manually maintained summary is required.
+
+### A.8 BOM and assembly-assignment reconciliation
+
+Final manufacturing release shall include a per-reference comparison between
+the BOM defined by the KiCad hierarchy and the component assignments presented
+by AISLER. This is a release-stage check and does not block acceptance of an
+individual circuit block while the remaining schematic is still under
+development.
+
+The KiCad BOM is the authoritative statement of design intent. Generate it
+deterministically from the root schematic with, at minimum, reference,
+quantity, value, footprint, DNP state, exact `MPN` and `AISLER_MPN` Smart Match
+requirements. The overall BOM shall include DNP rows; do not use an export mode
+that removes them. `Value` and footprint provide supporting identity checks but
+do not override either sourcing field.
+
+Capture the corresponding AISLER assignment data from the live BOM page:
+
+1. open the browser developer tools and select **Network** and **Fetch/XHR**
+2. reload the BOM page and locate the `bom.json` request
+3. use **Copy response**, not **Copy as cURL**
+4. save the response as dated JSON
+5. after all assignments are confirmed, print the complete grouped BOM page to
+   PDF as human-readable evidence
+
+Use these release-evidence names:
+
+```text
+YYYY-MM-DD-AISLER-BOM-confirmed.json
+YYYY-MM-DD-AISLER-BOM-confirmed.pdf
+```
+
+A working capture taken before final confirmation may instead use
+`YYYY-MM-DD-AISLER-BOM-assigned.json`. Do not retain a saved AISLER HTML page:
+it contains no embedded BOM rows and may contain session-related metadata.
+
+Normalize the JSON to a naturally sorted, one-row-per-reference representation
+before comparison. Omit volatile AISLER identifiers, prices and timestamps from
+the comparison keys. Retain the dated raw JSON and PDF as source evidence.
+
+The reconciliation shall verify:
+
+1. every assembly reference occurs exactly once in both sources
+2. each exact KiCad `MPN` directly matches the AISLER-assigned physical-part
+   manufacturer part number
+3. each KiCad `AISLER_MPN` requirement is represented by AISLER's parsed Smart
+   Match value, tolerance, voltage, dielectric, power rating and package
+   parameters, as applicable
+4. KiCad DNP and BOM-exclusion states agree with the AISLER state, including
+   every staged hand-assembly exception recorded by this baseline
+5. every hand-fitted test point under `INT02` retains exact
+   `MPN = 61300111121` in the overall KiCad BOM, is DNP and excluded from AISLER
+   assembly, and is classified `HAND_FIT` rather than absent
+6. no required assembler-fitted component is unassigned or awaiting assignment
+   review
+7. no footprint mismatch or unexpected component assignment remains
+
+The structured comparison provides deterministic coverage. The PDF records
+what the AISLER interface displayed at the release point. Neither artifact
+replaces the KiCad schematic as the source of component requirements.

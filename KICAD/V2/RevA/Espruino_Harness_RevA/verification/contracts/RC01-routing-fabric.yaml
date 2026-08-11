@@ -1,0 +1,229 @@
+schema_version: 1
+kind: block_contract
+block_id: RC01
+
+# Independent machine-checkable intent derived from the accepted RP01-RP19
+# matrix, the TMUX1511 PW pin table and the RC01 safe-state analysis. Physical
+# loading, powered-off leakage and fitted/DNP disposition remain baseline and
+# PCB/release checks rather than netlist-connectivity assertions.
+assertions:
+  pin_net:
+    # U601: RP01-RP04 on route entries R0 and R1.
+    - {ref: U601, pin: "1", net: RP01_EN}
+    - {ref: U601, pin: "2", net: R0}
+    - {ref: U601, pin: "3", net: TI_ANALOG_ADC_IN}
+    - {ref: U601, pin: "4", net: RP02_EN}
+    - {ref: U601, pin: "5", net: R0}
+    - {ref: U601, pin: "6", net: TI_ONEWIRE_DQ}
+    - {ref: U601, pin: "7", net: TI_GND}
+    - {ref: U601, pin: "8", net: TI_GPIO_LOOP_A_OUT}
+    - {ref: U601, pin: "9", net: R1}
+    - {ref: U601, pin: "10", net: RP03_EN}
+    - {ref: U601, pin: "11", net: TI_SPI_MISO}
+    - {ref: U601, pin: "12", net: R1}
+    - {ref: U601, pin: "13", net: RP04_EN}
+    - {ref: U601, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # U602: RP05-RP08 on route entry R2.
+    - {ref: U602, pin: "1", net: RP05_EN}
+    - {ref: U602, pin: "2", net: R2}
+    - {ref: U602, pin: "3", net: TI_GPIO_LOOP_A_IN}
+    - {ref: U602, pin: "4", net: RP06_EN}
+    - {ref: U602, pin: "5", net: R2}
+    - {ref: U602, pin: "6", net: TI_I2C_FB}
+    - {ref: U602, pin: "7", net: TI_GND}
+    - {ref: U602, pin: "8", net: TI_SPI_CS_ADC}
+    - {ref: U602, pin: "9", net: R2}
+    - {ref: U602, pin: "10", net: RP07_EN}
+    - {ref: U602, pin: "11", net: TI_ONEWIRE_GPIO_A_FB}
+    - {ref: U602, pin: "12", net: R2}
+    - {ref: U602, pin: "13", net: RP08_EN}
+    - {ref: U602, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # U603: RP09-RP11 on R3 and RP12 on R4.
+    - {ref: U603, pin: "1", net: RP09_EN}
+    - {ref: U603, pin: "2", net: R3}
+    - {ref: U603, pin: "3", net: TI_GPIO_LOOP_B_OUT}
+    - {ref: U603, pin: "4", net: RP10_EN}
+    - {ref: U603, pin: "5", net: R3}
+    - {ref: U603, pin: "6", net: TI_SPI_MOSI}
+    - {ref: U603, pin: "7", net: TI_GND}
+    - {ref: U603, pin: "8", net: TI_UART_A_TX}
+    - {ref: U603, pin: "9", net: R3}
+    - {ref: U603, pin: "10", net: RP11_EN}
+    - {ref: U603, pin: "11", net: TI_SPI_SCK}
+    - {ref: U603, pin: "12", net: R4}
+    - {ref: U603, pin: "13", net: RP12_EN}
+    - {ref: U603, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # U604: RP13 on R4, RP14-RP15 on R5 and RP16 on R6.
+    - {ref: U604, pin: "1", net: RP13_EN}
+    - {ref: U604, pin: "2", net: R4}
+    - {ref: U604, pin: "3", net: TI_UART_A_RX}
+    - {ref: U604, pin: "4", net: RP14_EN}
+    - {ref: U604, pin: "5", net: R5}
+    - {ref: U604, pin: "6", net: TI_ANALOG_PWM_OUT}
+    - {ref: U604, pin: "7", net: TI_GND}
+    - {ref: U604, pin: "8", net: TI_RGB_DATA}
+    - {ref: U604, pin: "9", net: R5}
+    - {ref: U604, pin: "10", net: RP15_EN}
+    - {ref: U604, pin: "11", net: TI_GPIO_LOOP_B_IN}
+    - {ref: U604, pin: "12", net: R6}
+    - {ref: U604, pin: "13", net: RP16_EN}
+    - {ref: U604, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # U605: RP17-RP19 on R6; channel 4 is hard disabled.
+    - {ref: U605, pin: "1", net: RP17_EN}
+    - {ref: U605, pin: "2", net: R6}
+    - {ref: U605, pin: "3", net: TI_I2C_INT}
+    - {ref: U605, pin: "4", net: RP18_EN}
+    - {ref: U605, pin: "5", net: R6}
+    - {ref: U605, pin: "6", net: TI_SPI_CS_EXT}
+    - {ref: U605, pin: "7", net: TI_GND}
+    - {ref: U605, pin: "8", net: TI_ONEWIRE_GPIO_B_FB}
+    - {ref: U605, pin: "9", net: R6}
+    - {ref: U605, pin: "10", net: RP19_EN}
+    - {ref: U605, pin: "13", net: TI_GND}
+    - {ref: U605, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # One external safe-state pull-down for every implemented route enable.
+    - {ref: R601, pin: "1", net: RP01_EN}
+    - {ref: R601, pin: "2", net: TI_GND}
+    - {ref: R602, pin: "1", net: RP02_EN}
+    - {ref: R602, pin: "2", net: TI_GND}
+    - {ref: R604, pin: "1", net: RP03_EN}
+    - {ref: R604, pin: "2", net: TI_GND}
+    - {ref: R605, pin: "1", net: RP04_EN}
+    - {ref: R605, pin: "2", net: TI_GND}
+    - {ref: R606, pin: "1", net: RP05_EN}
+    - {ref: R606, pin: "2", net: TI_GND}
+    - {ref: R607, pin: "1", net: RP06_EN}
+    - {ref: R607, pin: "2", net: TI_GND}
+    - {ref: R609, pin: "1", net: RP07_EN}
+    - {ref: R609, pin: "2", net: TI_GND}
+    - {ref: R610, pin: "1", net: RP08_EN}
+    - {ref: R610, pin: "2", net: TI_GND}
+    - {ref: R11, pin: "1", net: RP09_EN}
+    - {ref: R11, pin: "2", net: TI_GND}
+    - {ref: R12, pin: "1", net: RP10_EN}
+    - {ref: R12, pin: "2", net: TI_GND}
+    - {ref: R14, pin: "1", net: RP11_EN}
+    - {ref: R14, pin: "2", net: TI_GND}
+    - {ref: R15, pin: "1", net: RP12_EN}
+    - {ref: R15, pin: "2", net: TI_GND}
+    - {ref: R16, pin: "1", net: RP13_EN}
+    - {ref: R16, pin: "2", net: TI_GND}
+    - {ref: R17, pin: "1", net: RP14_EN}
+    - {ref: R17, pin: "2", net: TI_GND}
+    - {ref: R19, pin: "1", net: RP15_EN}
+    - {ref: R19, pin: "2", net: TI_GND}
+    - {ref: R20, pin: "1", net: RP16_EN}
+    - {ref: R20, pin: "2", net: TI_GND}
+    - {ref: R21, pin: "1", net: RP17_EN}
+    - {ref: R21, pin: "2", net: TI_GND}
+    - {ref: R22, pin: "1", net: RP18_EN}
+    - {ref: R22, pin: "2", net: TI_GND}
+    - {ref: R24, pin: "1", net: RP19_EN}
+    - {ref: R24, pin: "2", net: TI_GND}
+
+    # Local bypassing for every RC01 switch package.
+    - {ref: C601, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C601, pin: "2", net: TI_GND}
+    - {ref: C602, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C602, pin: "2", net: TI_GND}
+    - {ref: C603, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C603, pin: "2", net: TI_GND}
+    - {ref: C604, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C604, pin: "2", net: TI_GND}
+    - {ref: C605, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C605, pin: "2", net: TI_GND}
+
+  component_value:
+    - {ref: U601, value: TMUX1511}
+    - {ref: U602, value: TMUX1511}
+    - {ref: U603, value: TMUX1511}
+    - {ref: U604, value: TMUX1511}
+    - {ref: U605, value: TMUX1511}
+    - {ref: C601, value: 100nF}
+    - {ref: C602, value: 100nF}
+    - {ref: C603, value: 100nF}
+    - {ref: C604, value: 100nF}
+    - {ref: C605, value: 100nF}
+    - {ref: R601, value: 100k}
+    - {ref: R602, value: 100k}
+    - {ref: R604, value: 100k}
+    - {ref: R605, value: 100k}
+    - {ref: R606, value: 100k}
+    - {ref: R607, value: 100k}
+    - {ref: R609, value: 100k}
+    - {ref: R610, value: 100k}
+    - {ref: R11, value: 100k}
+    - {ref: R12, value: 100k}
+    - {ref: R14, value: 100k}
+    - {ref: R15, value: 100k}
+    - {ref: R16, value: 100k}
+    - {ref: R17, value: 100k}
+    - {ref: R19, value: 100k}
+    - {ref: R20, value: 100k}
+    - {ref: R21, value: 100k}
+    - {ref: R22, value: 100k}
+    - {ref: R24, value: 100k}
+
+  forbidden_same_net:
+    - id: RC01-F01
+      endpoints: [U601.2, U601.3]
+      reason: RP01 must remain an explicit controlled path.
+    - id: RC01-F02
+      endpoints: [U601.5, U601.6]
+      reason: RP02 must remain an explicit controlled path.
+    - id: RC01-F03
+      endpoints: [U601.9, U601.8]
+      reason: RP03 must remain an explicit controlled path.
+    - id: RC01-F04
+      endpoints: [U601.12, U601.11]
+      reason: RP04 must remain an explicit controlled path.
+    - id: RC01-F05
+      endpoints: [U602.2, U602.3]
+      reason: RP05 must remain an explicit controlled path.
+    - id: RC01-F06
+      endpoints: [U602.5, U602.6]
+      reason: RP06 must remain an explicit controlled path.
+    - id: RC01-F07
+      endpoints: [U602.9, U602.8]
+      reason: RP07 must remain an explicit controlled path.
+    - id: RC01-F08
+      endpoints: [U602.12, U602.11]
+      reason: RP08 must remain an explicit controlled path.
+    - id: RC01-F09
+      endpoints: [U603.2, U603.3]
+      reason: RP09 must remain an explicit controlled path.
+    - id: RC01-F10
+      endpoints: [U603.5, U603.6]
+      reason: RP10 must remain an explicit controlled path.
+    - id: RC01-F11
+      endpoints: [U603.9, U603.8]
+      reason: RP11 must remain an explicit controlled path.
+    - id: RC01-F12
+      endpoints: [U603.12, U603.11]
+      reason: RP12 must remain an explicit controlled path.
+    - id: RC01-F13
+      endpoints: [U604.2, U604.3]
+      reason: RP13 must remain an explicit controlled path.
+    - id: RC01-F14
+      endpoints: [U604.5, U604.6]
+      reason: RP14 must remain an explicit controlled path.
+    - id: RC01-F15
+      endpoints: [U604.9, U604.8]
+      reason: RP15 must remain an explicit controlled path.
+    - id: RC01-F16
+      endpoints: [U604.12, U604.11]
+      reason: RP16 must remain an explicit controlled path.
+    - id: RC01-F17
+      endpoints: [U605.2, U605.3]
+      reason: RP17 must remain an explicit controlled path.
+    - id: RC01-F18
+      endpoints: [U605.5, U605.6]
+      reason: RP18 must remain an explicit controlled path.
+    - id: RC01-F19
+      endpoints: [U605.9, U605.8]
+      reason: RP19 must remain an explicit controlled path.

@@ -67,6 +67,7 @@ ReusableHarnessRevA_Connectivity.yaml
 contracts/
   PC01-operating-mode-and-3v3-rail.yaml
   PC02-target-5v-switch-and-two-range-monitor.yaml
+  RC01-routing-fabric.yaml
   SYS01-power-events-to-rack-control.yaml
 ```
 

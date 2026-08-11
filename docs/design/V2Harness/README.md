@@ -107,11 +107,11 @@ The design baseline requires the deterministic connectivity check and decides
 whether its evidence is accepted for Rev-A release. The connectivity-checker
 specification defines the tool that performs that check.
 
-`PC01` Operating mode and 3.3 V rails and `PC02` Target 5 V switch and
-two-range monitor are verified at schematic-baseline level. Their PCB,
-physical-test and AISLER actions remain in the implementation register. The
-next baseline-review area is `RC01` Routing Fabric, followed by `RC02` routing
-controllers and fixed I2C isolation on `routing_control.kicad_sch`.
+`PC01` Operating mode and 3.3 V rails, `PC02` Target 5 V switch and two-range
+monitor, and `RC01` Routing Fabric are verified at schematic-baseline level.
+Their PCB, physical-test and AISLER actions remain in the implementation
+register. The next baseline-review area is `RC02` routing controllers and fixed
+I2C isolation on `routing_control.kicad_sch`.
 
 PCB-layout work starts with the **PCB implementation action register** in
 Section 6 of the design baseline. It is the single handover list for physical

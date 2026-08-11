@@ -16,5 +16,7 @@ contracts:
     file: contracts/PC01-operating-mode-and-3v3-rail.yaml
   - id: PC02
     file: contracts/PC02-target-5v-switch-and-two-range-monitor.yaml
+  - id: RC01
+    file: contracts/RC01-routing-fabric.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

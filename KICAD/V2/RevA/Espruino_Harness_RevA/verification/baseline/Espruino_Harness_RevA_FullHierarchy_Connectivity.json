@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "4d152e39dae8698c2d7bb0f3e9217bf2452a0d23a938f6bc161d06278e5b788a"
+      "sha256": "3bb1e6ecfd159fe1156f8d48092d37ea44c87e8f3e243cbc8a050a35694e2455"
     },
     {
       "id": "PC01",
@@ -27,6 +27,11 @@
       "id": "PC02",
       "file": "contracts/PC02-target-5v-switch-and-two-range-monitor.yaml",
       "sha256": "e1e9d9c8af767d71657f57f3f4907a2c0b35f59d4e64608ee22fbde21a57fb1b"
+    },
+    {
+      "id": "RC01",
+      "file": "contracts/RC01-routing-fabric.yaml",
+      "sha256": "fd6cda0aa2e2378484d29e336da456fc7ec09e96e8d0afe82341e1c8e630a76c"
     },
     {
       "id": "SYS01",
@@ -58,6 +63,17 @@
       }
     },
     {
+      "id": "RC01",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 164,
+      "assertions": {
+        "pin_net": 116,
+        "component_value": 29,
+        "forbidden_same_net": 19
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -69,7 +85,7 @@
       }
     }
   ],
-  "connectivity_sha256": "733324765641d86b5f8cfbaed9175999cdf492369767de8fcfb0d9951581cc33",
+  "connectivity_sha256": "4d944147d4a66fbe541f0de78e2a7ff3ef2ec5333ae7f99b76b65e029de9a64a",
   "components": [
     {
       "ref": "C201",
@@ -472,11 +488,6 @@
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
-      "ref": "R13",
-      "value": "100k",
-      "footprint": "Resistor_SMD:R_0603_1608Metric"
-    },
-    {
       "ref": "R14",
       "value": "100k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
@@ -493,11 +504,6 @@
     },
     {
       "ref": "R17",
-      "value": "100k",
-      "footprint": "Resistor_SMD:R_0603_1608Metric"
-    },
-    {
-      "ref": "R18",
       "value": "100k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
@@ -522,17 +528,7 @@
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
-      "ref": "R23",
-      "value": "100k",
-      "footprint": "Resistor_SMD:R_0603_1608Metric"
-    },
-    {
       "ref": "R24",
-      "value": "100k",
-      "footprint": "Resistor_SMD:R_0603_1608Metric"
-    },
-    {
-      "ref": "R25",
       "value": "100k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
@@ -657,11 +653,6 @@
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
-      "ref": "R603",
-      "value": "100k",
-      "footprint": "Resistor_SMD:R_0603_1608Metric"
-    },
-    {
       "ref": "R604",
       "value": "100k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
@@ -678,11 +669,6 @@
     },
     {
       "ref": "R607",
-      "value": "100k",
-      "footprint": "Resistor_SMD:R_0603_1608Metric"
-    },
-    {
-      "ref": "R608",
       "value": "100k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
@@ -4704,14 +4690,6 @@
           "pin": "2"
         },
         {
-          "ref": "R13",
-          "pin": "1"
-        },
-        {
-          "ref": "R13",
-          "pin": "2"
-        },
-        {
           "ref": "R14",
           "pin": "2"
         },
@@ -4725,14 +4703,6 @@
         },
         {
           "ref": "R17",
-          "pin": "2"
-        },
-        {
-          "ref": "R18",
-          "pin": "1"
-        },
-        {
-          "ref": "R18",
           "pin": "2"
         },
         {
@@ -4752,23 +4722,7 @@
           "pin": "2"
         },
         {
-          "ref": "R23",
-          "pin": "1"
-        },
-        {
-          "ref": "R23",
-          "pin": "2"
-        },
-        {
           "ref": "R24",
-          "pin": "2"
-        },
-        {
-          "ref": "R25",
-          "pin": "1"
-        },
-        {
-          "ref": "R25",
           "pin": "2"
         },
         {
@@ -4788,14 +4742,6 @@
           "pin": "2"
         },
         {
-          "ref": "R603",
-          "pin": "1"
-        },
-        {
-          "ref": "R603",
-          "pin": "2"
-        },
-        {
           "ref": "R604",
           "pin": "2"
         },
@@ -4809,14 +4755,6 @@
         },
         {
           "ref": "R607",
-          "pin": "2"
-        },
-        {
-          "ref": "R608",
-          "pin": "1"
-        },
-        {
-          "ref": "R608",
           "pin": "2"
         },
         {
