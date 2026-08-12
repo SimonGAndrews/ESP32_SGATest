@@ -1,0 +1,67 @@
+schema_version: 1
+kind: block_contract
+block_id: TB01
+
+# Independent machine-checkable intent derived from Standard Test Blocks
+# Section 6.1 and the accepted V1 functional pattern. V1 proves the circuit
+# function, not the Rev-A SMD package, header, shunt or PCB implementation.
+# Fitted-shunt state and physical accessibility remain human-reviewed
+# assembly and PCB-stage checks rather than schema-version 1 assertions.
+assertions:
+  pin_net:
+    # Pair A: output-side test point, 470 ohm protection, hard-isolation
+    # header and input-side test point.
+    - {ref: R101, pin: "1", net: TI_GPIO_LOOP_A_OUT}
+    - {ref: R101, pin: "2", net: Net-(JP101-A)}
+    - {ref: JP101, pin: "1", net: Net-(JP101-A)}
+    - {ref: JP101, pin: "2", net: TI_GPIO_LOOP_A_IN}
+    - {ref: TP101, pin: "1", net: TI_GPIO_LOOP_A_OUT}
+    - {ref: TP102, pin: "1", net: TI_GPIO_LOOP_A_IN}
+
+    # Pair B has the same protected and independently isolated structure.
+    - {ref: R102, pin: "1", net: TI_GPIO_LOOP_B_OUT}
+    - {ref: R102, pin: "2", net: Net-(JP102-A)}
+    - {ref: JP102, pin: "1", net: Net-(JP102-A)}
+    - {ref: JP102, pin: "2", net: TI_GPIO_LOOP_B_IN}
+    - {ref: TP103, pin: "1", net: TI_GPIO_LOOP_B_OUT}
+    - {ref: TP104, pin: "1", net: TI_GPIO_LOOP_B_IN}
+
+  component_value:
+    - {ref: R101, value: 470R}
+    - {ref: R102, value: 470R}
+    - {ref: JP101, value: LOOP_A_ISOLATION}
+    - {ref: JP102, value: LOOP_B_ISOLATION}
+    - {ref: TP101, value: LOOP_A_OUT}
+    - {ref: TP102, value: LOOP_A_IN}
+    - {ref: TP103, value: LOOP_B_OUT}
+    - {ref: TP104, value: LOOP_B_IN}
+
+  forbidden_same_net:
+    # The resistor and removable shunt must remain real series elements; a
+    # direct copper bypass would defeat protection or hard isolation.
+    - id: TB01-F01
+      endpoints: [R101.1, R101.2]
+      reason: Pair A must retain its 470 ohm series resistor.
+    - id: TB01-F02
+      endpoints: [JP101.1, JP101.2]
+      reason: Pair A must retain a removable hard-isolation point.
+    - id: TB01-F03
+      endpoints: [R102.1, R102.2]
+      reason: Pair B must retain its 470 ohm series resistor.
+    - id: TB01-F04
+      endpoints: [JP102.1, JP102.2]
+      reason: Pair B must retain a removable hard-isolation point.
+
+    # The two loopback pairs must remain electrically independent.
+    - id: TB01-F05
+      endpoints: [R101.1, R102.1]
+      reason: Loopback A and B outputs must not be joined.
+    - id: TB01-F06
+      endpoints: [R101.1, JP102.2]
+      reason: Loopback A output must not join loopback B input.
+    - id: TB01-F07
+      endpoints: [JP101.2, R102.1]
+      reason: Loopback A input must not join loopback B output.
+    - id: TB01-F08
+      endpoints: [JP101.2, JP102.2]
+      reason: Loopback A and B inputs must not be joined.

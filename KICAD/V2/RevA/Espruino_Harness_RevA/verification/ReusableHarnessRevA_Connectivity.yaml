@@ -20,5 +20,7 @@ contracts:
     file: contracts/RC01-routing-fabric.yaml
   - id: RC02
     file: contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml
+  - id: TB01
+    file: contracts/TB01-digital-gpio-loopback.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

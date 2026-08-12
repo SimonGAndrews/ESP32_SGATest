@@ -130,7 +130,7 @@ is a board-level decision. A material change returns the affected block to
 | PC02 | Target 5 V switch and two-range monitor | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC02-target-5v-switch-and-two-range-monitor.png) | Verified |
 | RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | [PNG](review-images/RC01-routing-fabric.png) | Verified |
 | RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch`; Hardware Clear request stage on `rack_control.kicad_sch` | Controlled routing and Standard Control Services | [Full sheet](review-images/RC02-routing-controllers-and-fixed-i2c-isolation.png); [Hardware Clear](review-images/RC02-hardware-clear-request.png) | Verified |
-| TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
+| TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB01-digital-gpio-loopback.png) | Verified |
 | TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB04 | SPI device and removable storage | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -1152,12 +1152,116 @@ schematic; final manufacturer assignment remains part of BOM reconciliation.
 |---|---|
 | Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
-| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete five-contract set passes all 560 checks. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete six-contract set passes all 588 checks. |
 | Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
 | Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
 | Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
 
 No RC02 exception is accepted at this stage.
+
+### 4.5 TB01 — Digital GPIO loopback
+
+**Purpose and requirements:** Provide two independent, concurrently usable
+target-output-to-target-input loopback paths for digital output, input, pulse,
+shift and event testing. Each path shall retain 470 Ω series protection, a
+removable 2.54 mm hard-isolation shunt and diagnostic access on both external
+sides. See Standard Test Blocks Section 6.1 and the Combined Capability
+Connection Matrix GPIO-loopback configuration.
+**Source schematic:** `standard_test_blocks.kicad_sch`, references `R101`,
+`R102`, `JP101`, `JP102` and `TP101`–`TP104`.
+**Visual review:** Accepted focused
+[`TB01-digital-gpio-loopback.png`](review-images/TB01-digital-gpio-loopback.png).
+**Risk:** Standard
+**Status:** Verified at schematic-baseline level. Requirements, V1 functional
+evidence, circuit operation, exact parts, package mappings, visual review,
+full-hierarchy ERC and the deterministic connectivity contract are accepted.
+The draft PCB is synchronized with the accepted components and nets; layout
+and completed-board measurements remain open in Section 6.
+
+#### V1 evidence and Rev-A boundary
+
+Both completed V1 harnesses proved the two-pair 470 Ω loopback pattern through
+the shared `gpio_block1` tests. Retained results cover static high/low reads,
+edge watches, `digitalPulse` and `shiftOut`. The deliberate removal of the V1
+loopback links caused the expected high-state failures, and restoring the links
+restored passing results. This is useful positive and negative physical
+evidence for the circuit function and hard-isolation concept.
+
+The V1 passive components were through-hole. That construction is not package
+evidence for Rev A: `R101` and `R102` are deliberately SMD 0603 parts. The
+two-pin isolation headers, removable shunts and individual diagnostic pins
+remain through-hole because they are user-operated mechanical interfaces.
+
+Primary retained V1 evidence:
+
+- `tests/Results/gpio_block1/Initial_runs.md`
+- `docs/handoff/2026-06-25-esp32-family-tests.md`
+- `tests/repl/gpio_block1/`
+
+#### Implemented functional flow
+
+```text
+TI_GPIO_LOOP_A_OUT -- TP101 -- R101 470 Ω -- JP101 + fitted shunt -- TP102 -- TI_GPIO_LOOP_A_IN
+TI_GPIO_LOOP_B_OUT -- TP103 -- R102 470 Ω -- JP102 + fitted shunt -- TP104 -- TI_GPIO_LOOP_B_IN
+```
+
+The saved hierarchy implements those two paths exactly. `R101.2/JP101.1` and
+`R102.2/JP102.1` are private intermediate nets. Removing either shunt opens
+only its own loopback. The block adds no supply connection, pull-up or
+pull-down, and the two pairs are not joined.
+
+The complete Target Interface configuration still depends on the accepted
+routing one-hot rules: `RP03`, `RP05`, `RP09` and `RP16` select the four TB01
+endpoints. Firmware shall configure the intended input directions and verified
+route state before driving either loopback output.
+
+#### Electrical and fault review
+
+At nominal 3.3 V, an accidental opposite-level output configuration is limited
+by 470 Ω to approximately 7.0 mA before including output-driver and switch
+resistance. At 3.6 V and the proposed resistor's 1% minimum value, the
+conservative resistor-only current is approximately 7.7 mA and its dissipation
+approximately 28 mW. This is below the selected 0.1 W resistor rating with more
+than 3.5:1 power margin. It limits rather than makes output contention safe;
+the required direction and route sequencing remains mandatory.
+
+The additional 470 Ω is negligible for static CMOS input sensing. The V1
+edge, pulse and shift results support the functional pattern, while maximum
+Rev-A pulse and shift rates remain a completed-board measurement because the
+TMUX1511, Target Interface, daughter-board and PCB capacitances are new.
+
+#### Exact components and package mapping
+
+| References | Selected part | Package and KiCad footprint | Review result |
+|---|---|---|---|
+| `R101`, `R102` | Yageo [`RC0603FR-07470RL`](https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07470RL), 470 Ω, 1%, 100 ppm/°C, 0.1 W | 0603/1608; `Resistor_SMD:R_0603_1608Metric` | Accepted Rev-A SMD part. Manufacturer dimensions are 1.6 mm × 0.8 mm; the standard KiCad 0603 footprint is compatible. Exact MPN and data-sheet metadata are present in the saved schematic. |
+| `JP101`, `JP102` | Würth Elektronik [`61300211121`](https://www.we-online.com/components/products/datasheet/61300211121.pdf), two-position straight 2.54 mm header | Project-local `LOOPBACK_ISOLATION_HEADER`; THT, 0.64 mm square pins; `Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical` | Accepted header. The 1.0 mm KiCad drills lie within the manufacturer's 1.10 ±0.15 mm recommendation; pad pitch and numbering agree. Exact MPN metadata is present. The project-local symbol preserves pins 1/2 and removes dependence on modified global-library copies. |
+| One fitted shunt per `JP101`/`JP102` | Würth Elektronik [`60900213421`](https://www.we-online.com/components/products/datasheet/60900213421.pdf), black 2.54 mm jumper with test point | Removable accessory fitted over the two header contacts | Accepted proposed normal-state shunt. Record as `SHUNT_MPN` on each owning header so the deterministic KiCad BOM can account for one accessory per header. Hand fit after manufacture. |
+| `TP101`–`TP104` | Würth Elektronik `61300111121` | THT single pin; `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical` | Already accepted by board-wide decision `INT02`; DNP records hand fitting rather than absence from the completed board. |
+
+No active-device application note applies to TB01. The authoritative sources
+are the governing functional specification, retained V1 evidence and the
+manufacturer component drawings/specifications above.
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted circuit approach; no architecture change required. |
+| V1 prototype evidence | Accepted as proof of the two-pair 470 Ω functional pattern, including link-removal negative control; not used as Rev-A package proof. |
+| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted six-contract baseline passes all 588 checks. |
+| Package review | Accepted SMD resistors, THT headers, shunts and existing test pins are compatible with their intended roles and footprints. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings after migrating `JP101/JP102` to the project-local symbol. |
+| Visual schematic review | Accepted focused image linked above; both paths, values, endpoints, assembly-stage DNP test points and operating notes are legible. |
+| PCB synchronization | Accepted: the current PCB contains exactly one each of `R101`, `R102`, `JP101` and `JP102`, with the accepted values, footprints, MPN/accessory metadata and pad nets. The board remains an unrouted provisional placement, so final physical placement is still open. |
+| Remaining work | Complete the layout and physical checks in Section 6. |
+
+#### Open issues and accepted exceptions
+
+- Measure the complete Rev-A loopback waveform at the required pulse and shift
+  rates after routing, including the routing fabric and target daughter board.
+
+No TB01 exception is accepted at this stage.
 
 ## 5. System integration review
 
@@ -1230,6 +1334,8 @@ and close it only with the evidence named below.
 | `PCB-RC02-01` | RC02 TPS3808 data-sheet review | After the schematic correction, place each 4.7 nF SENSE bypass directly between its owning `U607`–`U609.SENSE` pin and `TI_GND`. Keep `C607`–`C609` as separate 100 nF VDD bypasses placed at the corresponding VDD/GND pins; place `C606`, `C610` and `C611` locally at their owning TMUX1511 and MCP23017 supplies. | Placement inspection and routed power, SENSE and ground review | Open |
 | `PCB-RC02-02` | RC02 I2C pull-up and TMUX1511 application review | Keep the fixed-I2C paths short over a materially continuous ground reference and record total PCB, connector, endpoint and enabled-switch capacitance. Verify the 2.35 kΩ and approximately 1.57 kΩ effective pull-up cases against the selected bus rate. | Completed capacitance/rise-time calculation, routed-layout inspection and oscilloscope captures for every permitted isolation state | Open |
 | `PCB-RC02-03` | RC02 supervisor output-margin and indeterminate-state review | Keep each TPS3808 RESET connection short and referenced to the same local ground as the controlled device. Measure RESET/enable, `ROUTE_CLEAR_N`, monitored rail and `ROUTING_LOGIC_3V3` during cold start, slow ramp, brownout and power-down; confirm no false TMUX1511 enable or premature MCP23017 reset release and retain the asserted-low margin evidence. | Layout inspection and retained multi-channel rail/reset oscilloscope captures including the worst measured `VOL` | Open |
+| `PCB-TB01-01` | TB01 isolation and diagnostic review | PCB metadata synchronization is complete. During real placement, keep `JP101/JP102` and `TP101`–`TP104` where both shunts can be changed and every test pin can be probed with the target fitted. Mark pair A/B, OUT/IN and the normal fitted-shunt state clearly on silkscreen. | Placement, 3D and printed 1:1 access review | Open |
+| `PCB-TB01-02` | TB01 signal and fault review | Keep each output-resistor-header-input path short and keep pairs A and B visually and electrically distinct. Review the complete routed and daughter-board loading, then measure representative static, edge, pulse and shift behaviour through the selected routes. | Routed-path inspection, PCB DRC and retained prototype waveforms/results | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |
@@ -1359,6 +1465,9 @@ Use the following KiCad symbol-field policy:
 - `AISLER_MPN` records an approved AISLER Smart Match specification when the
   manufacturer part is intentionally left open but its required
   characteristics are controlled.
+- `SHUNT_MPN` records one required removable shunt fitted to the owning header.
+  It is an accessory field rather than a substitute for that header's `MPN`;
+  the deterministic BOM shall expand one shunt for each populated field.
 - A fitted assembly component shall normally use either `MPN` or `AISLER_MPN`,
   not both. Explain any deliberate exception in its block component table.
 - A required fitted component may not reach release with both fields blank.

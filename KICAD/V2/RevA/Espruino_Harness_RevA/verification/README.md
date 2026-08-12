@@ -71,6 +71,7 @@ contracts/
   PC02-target-5v-switch-and-two-range-monitor.yaml
   RC01-routing-fabric.yaml
   RC02-routing-controllers-and-fixed-i2c-isolation.yaml
+  TB01-digital-gpio-loopback.yaml
   SYS01-power-events-to-rack-control.yaml
 ```
 

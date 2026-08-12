@@ -2,7 +2,7 @@
 
 **Date:** 17 July 2026
 **Status:** Current V2 architecture and Rev-A implementation handover
-**Updated:** 11 August 2026
+**Updated:** 12 August 2026
 **Scope:** Carry the accepted V2 architecture and Target Interface contract
 through Rev-A circuit-block verification and PCB implementation
 
@@ -12,10 +12,10 @@ This handover provides continuity from the accepted V2 architecture into the
 Rev-A implementation baseline. The conceptual model, Test Blocks, Control
 Services, routing envelope, combined connection matrix, controlled-routing
 design and 48-contact Target Interface contract are accepted. The first-pass
-Rev-A schematic hierarchy is implemented. `PC01`, `PC02` and `RC01` are
-verified at schematic-baseline level; their physical and manufacturing actions
-remain in the PCB implementation register. The next review area is `RC02`
-routing controllers and fixed I2C isolation.
+Rev-A schematic hierarchy is implemented. `PC01`, `PC02`, `RC01`, `RC02` and
+`TB01` are verified at schematic-baseline level; their physical and
+manufacturing actions remain in the PCB implementation register. The next
+review area is `TB02` analogue/PWM feedback.
 
 The detailed target assessments should be consumed as accepted design input,
 not repeated in the new thread.
@@ -167,12 +167,14 @@ work.
 The Rev-A project now contains the first-pass hierarchy for the Target
 Interface, Standard Test Blocks, Routing Control, Power Control and Rack
 Control Endpoint. The complete hierarchy passes ERC, and the deterministic
-connectivity checker records accepted evidence for `PC01`, `PC02`, `RC01` and
-the cross-sheet `SYS01` power-event contract.
+connectivity checker records accepted evidence for `PC01`, `PC02`, `RC01`,
+`RC02`, `TB01` and the cross-sheet `SYS01` power-event contract.
 
 Continue implementation review in this order:
 
-1. verify `RC02` routing controllers and fixed I2C isolation
+1. verify `TB02` analogue/PWM feedback, using the retained V1 prototype results
+   as functional evidence while independently checking the Rev-A SMD passives,
+   connectors, connectivity and PCB actions
 2. continue block-by-block through the Standard Test Blocks and remaining
    interfaces
 3. carry every physical-layout consequence into the baseline PCB
@@ -219,11 +221,11 @@ Additional implementation milestones:
 ## 8. Suggested New-Thread Prompt
 
 > Workstream: V2 KiCad implementation
-> Current objective: complete `RC02` routing controllers and fixed I2C
-> isolation baseline verification and signoff.
+> Current objective: complete `TB02` analogue/PWM feedback baseline
+> verification and signoff.
 > Read `AGENTS.md`, `docs/design/V2Harness/README.md`, the Rev-A Design
-> Baseline and Connectivity Checker specification, then the controlled-routing
-> and combined-matrix specifications. Follow the accepted baseline process:
+> Baseline and Connectivity Checker specification, then Standard Test Blocks
+> and the combined-matrix specification. Follow the accepted baseline process:
 > requirements and manufacturer-source review, circuit analysis, exact-part
 > and package evidence, visual review, deterministic connectivity contracts,
 > full-hierarchy ERC and recorded PCB-stage actions.

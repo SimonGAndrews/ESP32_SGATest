@@ -109,11 +109,11 @@ whether its evidence is accepted for Rev-A release. The connectivity-checker
 specification defines the tool that performs that check.
 
 `PC01` Operating mode and 3.3 V rails, `PC02` Target 5 V switch and two-range
-monitor, `RC01` Routing Fabric, and `RC02` routing controllers and fixed I2C
-isolation are verified at schematic-baseline level. Their PCB, physical-test
-and AISLER actions remain in the implementation register. The next planned
-baseline-review area is `TB01` digital GPIO loopback on
-`standard_test_blocks.kicad_sch`.
+monitor, `RC01` Routing Fabric, `RC02` routing controllers and fixed I2C
+isolation, and `TB01` digital GPIO loopback are verified at schematic-baseline
+level. Their PCB, physical-test and AISLER actions remain in the implementation
+register. The next planned baseline-review area is `TB02` analogue/PWM
+feedback on `standard_test_blocks.kicad_sch`.
 
 PCB-layout work starts with the **PCB implementation action register** in
 Section 6 of the design baseline. It is the single handover list for physical

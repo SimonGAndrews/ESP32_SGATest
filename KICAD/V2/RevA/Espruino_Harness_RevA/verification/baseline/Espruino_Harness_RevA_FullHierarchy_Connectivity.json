@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "89ce8b451e1ce2dcb81a5b4c757b2ec4275a02b7f13f6584a4dc79b7f04cd998"
+      "sha256": "7de4af877a7d7277100e70db155544e6e1eb4d80f20436d3509cc6e085cbde09"
     },
     {
       "id": "PC01",
@@ -37,6 +37,11 @@
       "id": "RC02",
       "file": "contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml",
       "sha256": "3ac87b9e4d620ae29b6aa79db666e25897f5f36da1bb1c3e64a127b476d92534"
+    },
+    {
+      "id": "TB01",
+      "file": "contracts/TB01-digital-gpio-loopback.yaml",
+      "sha256": "3a7bb4bc33764463c94e6ee2734a0df0423cc6f7fd858777f3f08513fce03934"
     },
     {
       "id": "SYS01",
@@ -87,6 +92,17 @@
         "pin_net": 160,
         "component_value": 39,
         "forbidden_same_net": 11
+      }
+    },
+    {
+      "id": "TB01",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 28,
+      "assertions": {
+        "pin_net": 12,
+        "component_value": 8,
+        "forbidden_same_net": 8
       }
     },
     {

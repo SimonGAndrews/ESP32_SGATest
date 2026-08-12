@@ -1291,6 +1291,182 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Espruino_Harness_RevA:LOOPBACK_ISOLATION_HEADER"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "JP"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LOOPBACK_ISOLATION_HEADER"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "2.54 mm two-pin THT loopback isolation header; shunt 60900213421 fitted for normal operation"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "AISLER_MPN" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "61300211121"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "SHUNT_MPN" "60900213421"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Jumper SPST isolation header shunt"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*PinHeader*1x02*P2.54mm*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LOOPBACK_ISOLATION_HEADER_0_0"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LOOPBACK_ISOLATION_HEADER_0_1"
+				(arc
+					(start -1.524 1.27)
+					(mid 0 1.778)
+					(end 1.524 1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LOOPBACK_ISOLATION_HEADER_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Espruino_Harness_RevA:MCP23017_Breakout_2x08"
 			(pin_names
 				(offset 1.016)
@@ -4633,6 +4809,17 @@
 		)
 		(uuid "782de4cc-ad0a-4a72-80c8-d6961c62e2db")
 	)
+	(text "NORMAL STATE: JP101 and JP102 shunts fitted.\nRemove either shunt to hard-isolate that loopback pair.\nConfigure the input and verify routing before driving the output."
+		(exclude_from_sim no)
+		(at 25.4 69.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9218fc11-07a2-48d8-97f5-20addfb2f4fc")
+	)
 	(text "Socketed DIP-16; CH0 = Block 2 ANALOG_FB"
 		(exclude_from_sim no)
 		(at 388.62 101.6 0)
@@ -5002,6 +5189,16 @@
 			(justify left bottom)
 		)
 		(uuid "d9000000-0000-4000-8000-000000000006")
+	)
+	(text "PAIR A: TI_GPIO_LOOP_A_OUT → TP101 → R101 → JP101 → TP102 → TI_GPIO_LOOP_A_IN\nPAIR B: TI_GPIO_LOOP_B_OUT → TP103 → R102 → JP102 → TP104 → TI_GPIO_LOOP_B_IN"
+		(exclude_from_sim no)
+		(at 151.13 69.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "eb3e3679-c469-4dd3-bee3-545812139c0a")
 	)
 	(text "External stimulus: 0 to 3.3 V; remove JP201"
 		(exclude_from_sim no)
@@ -10448,7 +10645,7 @@
 		(dnp no)
 		(uuid "3e70349c-bc45-4f2d-b0ef-7208fc10b6fc")
 		(property "Reference" "R101"
-			(at 107.95 30.48 90)
+			(at 107.95 33.02 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10456,7 +10653,7 @@
 			)
 		)
 		(property "Value" "470R"
-			(at 107.95 33.02 90)
+			(at 107.95 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10472,7 +10669,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07470RL"
 			(at 107.95 35.56 0)
 			(effects
 				(font
@@ -10481,13 +10678,30 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "470 ohm loopback series protection resistor; package not yet selected"
+		(property "Description" "470 ohm, 1%, 0.1 W SMD loopback series-protection resistor"
 			(at 107.95 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "RC0603FR-07470RL"
+			(at 107.95 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 107.95 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -11070,6 +11284,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11162,7 +11377,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:Jumper_2_Open")
+		(lib_id "Espruino_Harness_RevA:LOOPBACK_ISOLATION_HEADER")
 		(at 129.54 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11195,7 +11410,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -11204,7 +11419,33 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2.54 mm two-pin isolation header; shunt fitted for normal operation"
+		(property "Description" "2.54 mm two-pin THT loopback isolation header; shunt 60900213421 fitted for normal operation"
+			(at 129.54 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 129.54 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 129.54 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
 			(at 129.54 35.56 0)
 			(effects
 				(font
@@ -11290,6 +11531,99 @@
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "JP303")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:LOOPBACK_ISOLATION_HEADER")
+		(at 127 53.34 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "73c5e6dd-624a-44e0-add4-ee785e47a5cf")
+		(property "Reference" "JP102"
+			(at 127 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LOOP_B_ISOLATION"
+			(at 127 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 127 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
+			(at 127 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "2.54 mm two-pin THT loopback isolation header; shunt 60900213421 fitted for normal operation"
+			(at 127 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 127 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 127 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 127 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a4127393-db33-45ea-a313-e48ff268ee7a")
+		)
+		(pin "2"
+			(uuid "9a32732a-10c8-47c3-9006-2934bb155c5f")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "JP102")
 					(unit 1)
 				)
 			)
@@ -11947,6 +12281,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12158,73 +12493,6 @@
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "R310")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 105.41 53.34 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "adc7c551-6b94-4ae6-8242-e0c19d66ae1c")
-		(property "Reference" "R102"
-			(at 105.41 48.26 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "470R"
-			(at 105.41 50.8 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 105.41 55.118 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 105.41 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "470 ohm loopback series protection resistor; package not yet selected"
-			(at 105.41 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d679e31a-be9a-40cd-8c5a-50c4a63b53f4")
-		)
-		(pin "2"
-			(uuid "683deffa-bead-4e6a-aee7-3d2a28f8a576")
-		)
-		(instances
-			(project "Espruino_Harness_RevA"
-				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
-					(reference "R102")
 					(unit 1)
 				)
 			)
@@ -13685,73 +13953,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:Jumper_2_Open")
-		(at 127 53.34 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "bd427309-22c2-43ff-8ec0-fec3d2780fab")
-		(property "Reference" "JP102"
-			(at 127 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "LOOP_B_ISOLATION"
-			(at 127 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 127 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 127 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "2.54 mm two-pin isolation header; shunt fitted for normal operation"
-			(at 127 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "43d6f2e3-409e-4caf-9c43-a9a0fdef72ed")
-		)
-		(pin "2"
-			(uuid "5fc1abe2-3a87-4d97-8023-782ddb927ed5")
-		)
-		(instances
-			(project "Espruino_Harness_RevA"
-				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
-					(reference "JP102")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Espruino_Harness_RevA:TMUX1511_PW")
 		(at 107.95 254 0)
 		(unit 1)
@@ -14862,6 +15063,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15421,6 +15623,90 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 105.41 53.34 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e1616d08-53ea-4ee4-8cf4-d624274ad8f6")
+		(property "Reference" "R102"
+			(at 105.41 50.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "470R"
+			(at 105.41 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 105.41 55.118 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07470RL"
+			(at 105.41 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "470 ohm, 1%, 0.1 W SMD loopback series-protection resistor"
+			(at 105.41 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RC0603FR-07470RL"
+			(at 105.41 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 105.41 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "827d77ba-d2ca-4041-9eea-facac186c476")
+		)
+		(pin "2"
+			(uuid "56a1747e-d9d2-4811-97f0-e330ed2b0862")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "R102")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Jumper:Jumper_2_Open")
 		(at 485.14 25.4 0)
 		(unit 1)
@@ -15545,6 +15831,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"

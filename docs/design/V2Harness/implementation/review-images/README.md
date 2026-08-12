@@ -11,6 +11,7 @@ PC02-target-5v-switch-and-two-range-monitor.png
 RC01-routing-fabric.png
 RC02-routing-controllers-and-fixed-i2c-isolation.png
 RC02-hardware-clear-request.png
+TB01-digital-gpio-loopback.png
 TB03-i2c-functional-device.png
 ```
 
