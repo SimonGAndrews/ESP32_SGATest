@@ -101,6 +101,7 @@ review images live under:
 
 - `implementation/ReusableHarnessRevA_DesignBaseline.md`
 - `implementation/ReusableHarnessRevA_ConnectivityChecker.md`
+- `implementation/ReusableHarnessRevA_PCBImplementationAndVerification.md`
 - `implementation/review-images/`
 
 The design baseline requires the deterministic connectivity check and decides
@@ -108,10 +109,11 @@ whether its evidence is accepted for Rev-A release. The connectivity-checker
 specification defines the tool that performs that check.
 
 `PC01` Operating mode and 3.3 V rails, `PC02` Target 5 V switch and two-range
-monitor, and `RC01` Routing Fabric are verified at schematic-baseline level.
-Their PCB, physical-test and AISLER actions remain in the implementation
-register. The next baseline-review area is `RC02` routing controllers and fixed
-I2C isolation on `routing_control.kicad_sch`.
+monitor, `RC01` Routing Fabric, and `RC02` routing controllers and fixed I2C
+isolation are verified at schematic-baseline level. Their PCB, physical-test
+and AISLER actions remain in the implementation register. The next planned
+baseline-review area is `TB01` digital GPIO loopback on
+`standard_test_blocks.kicad_sch`.
 
 PCB-layout work starts with the **PCB implementation action register** in
 Section 6 of the design baseline. It is the single handover list for physical
@@ -155,6 +157,10 @@ under `../../../KICAD/V2/RevA/Espruino_Harness_RevA/verification/`.
 - `implementation/ReusableHarnessRevA_ConnectivityChecker.md` specifies the
   deterministic checker used by that baseline to verify the complete root
   KiCad netlist against the independently reviewed connectivity contracts.
+- `implementation/ReusableHarnessRevA_PCBImplementationAndVerification.md`
+  will guide and record board placement, routing and PCB verification without
+  duplicating the authoritative KiCad PCB database or the baseline action
+  register.
 - `targets/esp32-c3-devkitc-02/gpio-allocation-and-routing-design.md` is a
   provisional target study, not an implemented wiring specification.
 - `../../handoff/2026-07-17-v2-services-and-routing.md` transfers the accepted

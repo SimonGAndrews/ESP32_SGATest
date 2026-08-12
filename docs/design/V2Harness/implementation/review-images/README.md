@@ -1,7 +1,7 @@
 # Rev-A Circuit Review Images
 
-This directory contains one current, accepted schematic screenshot for each
-reviewed Rev-A circuit block.
+This directory contains the current accepted schematic screenshot or focused
+set of screenshots for each reviewed Rev-A circuit block.
 
 Use the block ID followed by a short lower-case description:
 
@@ -9,6 +9,8 @@ Use the block ID followed by a short lower-case description:
 PC01-operating-mode-and-3v3-rail.png
 PC02-target-5v-switch-and-two-range-monitor.png
 RC01-routing-fabric.png
+RC02-routing-controllers-and-fixed-i2c-isolation.png
+RC02-hardware-clear-request.png
 TB03-i2c-functional-device.png
 ```
 

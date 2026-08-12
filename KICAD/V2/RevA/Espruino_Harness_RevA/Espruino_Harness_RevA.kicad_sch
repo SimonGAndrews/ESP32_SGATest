@@ -3589,6 +3589,16 @@
 	)
 	(wire
 		(pts
+			(xy 325.12 97.79) (xy 337.82 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f013b21e-1d18-411b-b28d-61335d449738")
+	)
+	(wire
+		(pts
 			(xy 36.83 85.09) (xy 43.18 85.09)
 		)
 		(stroke
@@ -5581,6 +5591,16 @@
 			(justify right)
 		)
 		(uuid "4bc8ee20-0cd4-52ed-8718-b81713a92e7d")
+	)
+	(label "ROUTE_CLEAR_N"
+		(at 337.82 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4e58ebeb-fab5-4323-9a8c-503db57d5ae7")
 	)
 	(label "TI_TARGET_3V3"
 		(at 214.63 153.67 0)
@@ -7963,6 +7983,16 @@
 		(pin "LOW_RANGE_OK_N" input
 			(at 325.12 91.44 0)
 			(uuid "fad37236-27bb-4929-85e2-3a44d3093a30")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "ROUTE_CLEAR_N" bidirectional
+			(at 325.12 97.79 0)
+			(uuid "285047e0-c4d4-4e52-bf09-f10590e654d7")
 			(effects
 				(font
 					(size 1.27 1.27)

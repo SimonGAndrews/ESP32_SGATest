@@ -129,7 +129,7 @@ is a board-level decision. A material change returns the affected block to
 | PC01 | Operating mode and 3.3 V rail | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC01-operating-mode-and-3v3-rail.png) | Verified |
 | PC02 | Target 5 V switch and two-range monitor | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC02-target-5v-switch-and-two-range-monitor.png) | Verified |
 | RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | [PNG](review-images/RC01-routing-fabric.png) | Verified |
-| RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch` | Controlled routing | TBD | Draft |
+| RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch`; Hardware Clear request stage on `rack_control.kicad_sch` | Controlled routing and Standard Control Services | [Full sheet](review-images/RC02-routing-controllers-and-fixed-i2c-isolation.png); [Hardware Clear](review-images/RC02-hardware-clear-request.png) | Verified |
 | TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -325,7 +325,7 @@ AISLER stock and MPN assignment remains a separate commercial selection step.
 | Behaviour and safe-state analysis | Truth table, unpowered-state review, control-margin, maximum-drop/thermal and inrush calculations above | Functional topology and principal-device implementation supported; physical measurement pending |
 | Manufacturer source screen | Product-linked documents summarized above | Complete for current principal-device choices |
 | Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Refreshed 2026-08-11: PC01 passes all 73 assertions; complete PC01/PC02/SYS01 set passes 186 checks |
-| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-11 | Accepted: zero errors and zero warnings |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings |
 | Symbol-to-footprint mapping | Manufacturer pin tables, package drawings, full-hierarchy netlist, installed KiCad footprints and current PCB pad nets | Principal IC, diode, MOSFET and passive mappings agree; package land patterns and intrinsic pin-1 orientation accepted |
 | Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Accepted current reviewed circuit capture |
 
@@ -689,7 +689,7 @@ assignment remains a separate commercial selection step.
 | Behaviour and safe-state analysis | Operating table, unpowered-state review and current schematic | Logic recorded and required `TARGET_SWITCH_EN` pull-down implemented as `R1110` |
 | Manufacturer source screen and pin functions | Product pages, data sheets and applicable application documents summarized above | Pin functions and I2C addresses reviewed; TXU0101 closes the range-driver partial-power blocker, low-range alert integration is implemented, and exact shunt candidates support the analytical accuracy budget |
 | Connectivity contract | `verification/contracts/PC02-target-5v-switch-and-two-range-monitor.yaml`, `verification/contracts/SYS01-power-events-to-rack-control.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Refreshed 2026-08-11: PC02 passes all 110 assertions and SYS01 passes all 3; complete PC01/PC02/SYS01 set passes 186 checks. `SYS01` confirms that `U1104.Alert`, `U1105.2B` and `U1201.GPB3` share `LOW_RANGE_OK_N`. |
-| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-11 | Accepted: zero errors and zero warnings |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings |
 | Symbol-to-footprint pin mapping | Manufacturer pin tables and package drawings, full-hierarchy netlist, project-local and installed KiCad footprints, and current PCB pad nets | U1101–U1105 and Q1101 pin functions, package pads and intrinsic pin-1 orientation agree. The project-local U1101 footprint implements the TI perimeter pads, exposed pad 11 and segmented paste opening. The manufacturer-derived R1101 and R1102 footprints implement their accepted two-terminal land patterns. Engineering package review complete; release-stage placement, Kelvin, copper and assembly checks remain. |
 | Visual schematic review | `review-images/PC02-target-5v-switch-and-two-range-monitor.png` | Accepted current reviewed circuit capture |
 | Electrical limits | Calculations above | Protection topology and analytical component-path voltage-drop, dissipation and accuracy budgets are supported; PCB/contact resistance, inrush and physical accuracy remain release measurements |
@@ -920,7 +920,7 @@ guaranteed electrical limits and powered-off behaviour.
 | Behaviour and safe-state analysis | Operating table, partial-power review and current full-hierarchy normalized connectivity | Circuit approach accepted; powered-off leakage, 3.6 V boundary and complete controller-reset margin remain physical/RC02 checks |
 | Manufacturer source screen | Sources and conclusions above | Accepted for circuit approach; no architecture or topology change required |
 | Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete four-contract set passes 350 checks |
-| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, generated from the root schematic on 2026-08-11 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
+| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
 | Symbol-to-footprint pin mapping | TMUX1511 Rev. B PW pin table, PW0014A package drawing, project-local symbol, installed KiCad footprint and current PCB pads | Accepted: pins 1–14, package family, body size, pitch, pad order and pin-1 orientation agree; the footprint's IPC land pattern is a permitted alternate to TI's example pattern |
 | Visual schematic review | `review-images/RC01-routing-fabric.png` | Accepted current reviewed circuit capture after removal of the six redundant resistors |
 | Electrical limits | Calculations above | Device-level margins supported; complete path and prototype evidence pending |
@@ -946,6 +946,219 @@ guaranteed electrical limits and powered-off behaviour.
 
 No exception is accepted at this stage.
 
+### 4.4 RC02 — Routing controllers and fixed I2C isolation
+
+**Purpose and requirements:** Provide the target-owned direct I2C control
+plane at `RCTRL0 = 0x21` and `RCTRL1 = 0x22`, qualify the target, Test Block
+and Routing Logic 3.3 V rails before connecting the fixed I2C branches, and
+hold both routing controllers in hardware reset until the Routing Logic Supply
+Rail is valid. Hardware Clear shall return every route-control output to its
+safe inactive state independently of responsive target firmware. See
+Controlled Routing Sections 3, 8, 9, 10 and 13 and Standard Control Services
+Sections 5 and 8.
+**Source schematic:** `routing_control.kicad_sch`, references `U606`–`U611`,
+`C606`–`C611`, `C621`–`C623`, `R620`–`R623`, `R630`–`R634`, `JP610`–`JP615`
+and diagnostic points `TP601`–`TP611`; the cross-sheet Hardware Clear request
+stage is `Q1203`, `R1209` and `R1210` on `rack_control.kicad_sch`.
+**Visual review:** Accepted full-sheet
+[`RC02-routing-controllers-and-fixed-i2c-isolation.png`](review-images/RC02-routing-controllers-and-fixed-i2c-isolation.png)
+and cross-sheet
+[`RC02-hardware-clear-request.png`](review-images/RC02-hardware-clear-request.png).
+**Risk:** High
+**Status:** Verified at schematic-baseline level. Manufacturer-source review,
+the corrected TPS3808 SENSE bypassing and address notes, the independent
+Hardware Clear implementation, visual review, full-hierarchy ERC and the RC02
+connectivity contract are accepted. PCB-layout and physical waveform/loading
+actions remain open in Section 6.
+
+#### Functional control, signal and safety flow
+
+This subsection maps the accepted functional flow onto the implemented RC02
+references. It introduces no additional route or behaviour; the owning
+Controlled Routing and Standard Control Services specifications remain
+authoritative.
+
+Target firmware owns route configuration. Commands and controller-state
+readback use the permanently assigned direct I2C path rather than any `RPxx`
+route-selection path:
+
+```text
+Target firmware / Target Support Module
+        |
+        | bidirectional TI_I2C_SDA / TI_I2C_SCL
+        v
+R620 / R621 target-domain pull-ups
+        |
+        | U606 channels 1 and 2 (IP01 / IP02)
+        | enabled by U607 only while TI_TARGET_3V3 is valid
+        v
+ROUTE_I2C_SDA / ROUTE_I2C_SCL
+        |
+        +----> U610 / RCTRL0 / 0x21
+        |          +----> RP01_EN-RP16_EN
+        |
+        +----> U611 / RCTRL1 / 0x22
+        |          +----> RP17_EN-RP19_EN
+        |          +----> UP01_EN-UP04_EN
+        |
+        | U606 channels 3 and 4 (IP03 / IP04)
+        | enabled by U608 only while TEST_BLOCK_3V3 is valid
+        v
+Standard Test Block I2C segment
+```
+
+`R622` and `R623` pull the routing-controller segment up to
+`ROUTING_LOGIC_3V3`. Pull-ups on an enabled target or Test Block segment act
+in parallel and are therefore part of the complete bus-current and rise-time
+calculation. `U606` is itself powered from `ROUTING_LOGIC_3V3`; if that rail is
+absent, its powered-off protection holds all four fixed I2C paths high
+impedance even if an endpoint rail remains present.
+
+The routing controllers convert the requested state into individual
+active-high switch controls:
+
+```text
+verified U610 / U611 GPIO state
+        |
+        +----> RP01_EN-RP19_EN ----> U601-U605 routing-fabric channels
+        |                                  |
+        |                                  v
+        |                         one legal R0-R6 destination
+        |
+        +----> UP01_EN-UP04_EN ----> U701 Block 7 local switching
+```
+
+`JP610`–`JP612` establish the `U610` default address `0x21`; `JP613`–`JP615`
+establish the `U611` default address `0x22`. Firmware preloads the relevant
+`OLAT` registers low before changing `IODIR` from inputs to outputs, reads the
+actual `GPIO` state back, and enables target or Test Block drivers only after
+the complete route state is verified. Controller readback proves the control
+pin state; it does not prove TMUX1511 continuity or isolation.
+
+Rail qualification and Hardware Clear form an out-of-band safety path:
+
+```text
+TI_TARGET_3V3 invalid                TEST_BLOCK_3V3 invalid
+        |                                      |
+        v                                      v
+U607 RESET asserted                    U608 RESET asserted
+        |                                      |
+TARGET_I2C_ISO_EN low                  TEST_I2C_ISO_EN low
+        |                                      |
+U606 IP01 / IP02 open                  U606 IP03 / IP04 open
+
+ROUTING_LOGIC_3V3 invalid       Supervisor Hardware Clear request
+        |                       U1201.GPA6 -> R1209 -> Q1203
+        v                                      |
+U609 RESET asserted                            |
+        +------------------+-------------------+
+                           v
+                    ROUTE_CLEAR_N low
+                           |
+                           v
+                  U610 and U611 in reset
+                           |
+                           v
+                controller GPIO high impedance
+                           |
+                           v
+        external 100 kΩ RPxx_EN / UPxx_EN pull-downs
+                           |
+                           v
+                 all controlled switches open
+```
+
+`R630/R631` and `R632/R633` provide the pull-up and disabled-state bias for
+the two fixed-I2C enable groups. `R634` pulls `ROUTE_CLEAR_N` high only after
+`U609` releases it. `C606`–`C611` are the local active-device supply bypasses;
+`C621`–`C623` separately filter `U607`–`U609.SENSE` with 4.7 nF to `TI_GND`.
+`TP601`–`TP611` expose representative rails, I2C, clear, interrupt and enable
+states for bring-up without participating in normal control flow.
+
+| References | Functional role |
+|---|---|
+| `U606` | Four-channel powered-off-protected fixed I2C boundary: IP01/IP02 connect target I2C to routing I2C and IP03/IP04 connect routing I2C to the Standard Test Block segment. |
+| `U607` | Qualifies `TI_TARGET_3V3` and releases `TARGET_I2C_ISO_EN` after the rail-valid delay. |
+| `U608` | Qualifies `TEST_BLOCK_3V3` and releases `TEST_I2C_ISO_EN` after the rail-valid delay. |
+| `U609` | Qualifies `ROUTING_LOGIC_3V3` and releases the common active-low `ROUTE_CLEAR_N` reset after the rail-valid delay. |
+| `U610`, `U611` | Target-owned MCP23017 routing controllers. `U610` owns `RP01`–`RP16`; `U611` owns `RP17`–`RP19` and `UP01`–`UP04`. |
+| `R620`–`R623` | Target-side and routing-side direct-I2C pull-ups; their enabled parallel combinations set bus sink current and rise time. |
+| `R630`–`R634` | TPS3808 output pull-ups and disabled-state bias: paired pull-up/pull-down networks for the two U606 enable groups and the pull-up for `ROUTE_CLEAR_N`. |
+| `Q1203`, `R1209`, `R1210` | Rack Control-domain open-drain Hardware Clear stage. `U1201.GPA6` drives the `DMG2302UKQ-7` gate through 10 kΩ; 100 kΩ holds the gate inactive and the NMOS drain asserts `ROUTE_CLEAR_N`. |
+| `JP610`–`JP615` | Reworkable hardware address straps establishing controller defaults `0x21` and `0x22`. |
+| `C606`–`C611` | Local 100 nF active-device supply bypasses. |
+| `C621`–`C623` | Separate 4.7 nF TPS3808 SENSE-to-`TI_GND` bypass capacitors for `U607`–`U609`. |
+| `TP601`–`TP611` | DNP/hand-fit diagnostic access to the principal rail, I2C, clear, interrupt and enable signals. |
+| RC01 and TB07 switch-control pull-downs | The nineteen `RPxx_EN` 100 kΩ pull-downs and `R705`–`R708` on `UP01_EN`–`UP04_EN` hold all controlled switch inputs inactive while `U610/U611` are reset or configured as inputs. |
+
+#### Manufacturer source and application review
+
+The current manufacturer product pages, data sheets, associated application
+material and published MCP23017 errata were reviewed on 2026-08-11, with the
+Q1203 exact-part review completed on 2026-08-12. Third-party data-sheet mirrors
+were used only to discover source material; the evidence below cites the
+original manufacturer documents.
+
+| Manufacturer material | RC02 consequence |
+|---|---|
+| [MCP23017/MCP23S17 data sheet, DS20001952D](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf) | Confirms the `MCP23017-E/SO` wide-SOIC package, address pins, reset timing, I2C modes and reset defaults. `IODIRA` and `IODIRB` reset to inputs and the output latches reset low, so the external 100 kΩ `RPxx_EN` pull-downs retain the hardware-safe open state while either controller is reset or unconfigured. |
+| [AN1043 — Unique Features of the MCP23X08/17 GPIO Expanders](https://ww1.microchip.com/downloads/en/AppNotes/01043a.pdf) | Confirms that `IODIR = 1` disables the output driver, `IODIR = 0` drives the corresponding `OLAT` value, and a `GPIO` read observes the actual pad state. Firmware shall leave the pins as inputs, write zero to both relevant output latches, then configure the allocated pins as outputs and read `GPIO` back before enabling any route. Reading only `OLAT` is not sufficient operational verification. Firmware shall also set and verify the intended `IOCON.BANK` and `IOCON.SEQOP` conventions rather than assuming a library default. |
+| [AN1081 — Interfacing a 4x4 Matrix Keypad with an 8-Bit GPIO Expander](https://ww1.microchip.com/downloads/en/AppNotes/01081a.pdf) | Screened because Microchip associates it with the MCP23X17 family. Its keypad scanning and interrupt-on-change sequence does not apply to the routing controllers. It reinforces that writes to `GPIO` update the output latch and reads of `GPIO` return the pin state; it adds no RC02 circuit requirement. |
+| [MCP23017 Rev. A Silicon Errata, DS80252A](https://www.microchip.com/content/dam/mchp/documents/OTH/ProductDocuments/MISC/80252A.pdf) | Revision A0 could falsely acknowledge non-address data on a shared I2C bus. Microchip states that date code `0542` and earlier is affected and `0543` and later is corrected. Current production parts require no workaround, but obsolete, reclaimed or otherwise untraceable date-code `0542` or earlier devices shall not be fitted. |
+| [TPS3808 data sheet, Rev. M](https://www.ti.com/lit/ds/symlink/tps3808.pdf) | Confirms the `TPS3808G30DBVR` DBV SOT-23-6 pinout, nominal 2.79 V falling threshold, open-drain active-low output, 10 kΩ to 1 MΩ permitted RESET pull-up, open-`CT` nominal 20 ms release delay, 100 nF local VDD bypass and 1 nF to 10 nF SENSE bypass recommendation. `U607`–`U609` therefore each require a dedicated SENSE-to-`TI_GND` bypass capacitor in addition to `C607`–`C609`. A nominal 4.7 nF 0603 capacitor is the proposed value. |
+| [Voltage Supervisors (Reset ICs): Frequently Asked Questions, SLVAE47A](https://www.ti.com/lit/pdf/slvae47) | Supports using the supervisor output to hold an enable or reset inactive until the monitored rail is valid, and requires output pull-up current, supervisor leakage, load-input leakage, `VOL`/`VIL`, `VOH`/`VIH`, threshold accuracy, hysteresis and indeterminate output below the power-on-reset voltage to be considered explicitly. |
+| [Mitigating the Indeterminate Output of a Voltage Supervisor During Power Up/Down, SNVA845](https://www.ti.com/lit/pdf/snva845) | An active-low supervisor output is undefined below its power-on-reset voltage because its internal pull-down device cannot yet operate. No extra JFET stage is required here: each TPS3808, its output pull-up and the controlled TMUX1511 or MCP23017 share `ROUTING_LOGIC_3V3`. Below the approximately 0.8 V TPS3808 power-on-reset boundary, the divided output remains below the TMUX1511 1.2 V input-high threshold and the controlled devices are themselves below their operating range. Validate this conclusion on the actual rail ramp and power-down waveform. |
+| [Setting the SVS Voltage Monitor Threshold, SLVA521](https://www.ti.com/lit/pdf/slva521) | Confirms that threshold selection must include rail tolerance, supervisor accuracy and the minimum operating voltage of the protected circuitry. The fixed 2.79 V nominal threshold provides substantial separation from a valid nominal 3.3 V rail and asserts while the routing devices still have supply headroom. It qualifies rail presence; it does not replace endpoint-specific power-good or functional checks. |
+| [Choosing an Appropriate Pull-up/Pull-down Resistor for Open Drain Outputs, SLVA485](https://www.ti.com/lit/pdf/slva485) | Requires the asserted output to satisfy `VOL < VIL` at a bounded sink current and the released output to satisfy `VOH > VIH` after leakage and load currents. The current 10 kΩ pull-up and 100 kΩ disabled-state pull-down produce approximately 3.0 V released, well above the TMUX1511 1.2 V `VIH`. TPS3808 guarantees at most 0.4 V at 1 mA versus the TMUX1511 0.45 V `VIL`; the approximately 0.33 mA circuit current should produce a lower voltage, but the 50 mV guaranteed-limit separation is small and remains a layout and prototype measurement action. |
+| [TMUX1511 product page](https://www.ti.com/product/TMUX1511), [Rev. B data sheet](https://www.ti.com/lit/ds/symlink/tmux1511.pdf), [1.8-V Logic for Multiplexers and Signal Switches, SCAA126C](https://www.ti.com/lit/pdf/SCAA126), [Selecting the Correct Texas Instruments Signal Switch, SZZA030E](https://www.ti.com/lit/pdf/SZZA030) and [Powered-off Protection Signal Switches, SCDA015C](https://www.ti.com/lit/ab/scda015c/scda015c.pdf) | Confirm that TMUX1511 supports I2C, independent bidirectional channels, fixed 1.2 V/0.45 V logic thresholds, fail-safe controls, powered-off high-impedance isolation to 3.6 V, 4.5 Ω maximum on-resistance and approximately 3.3 pF typical on-capacitance. The fixed-isolation topology is suitable; include switch resistance and capacitance in the complete I2C calculation and keep every partial-power signal within 3.6 V. The remaining product-linked PGA, SPI-flash, op-amp-stability and general glossary material adds no separate RC02 requirement. |
+| [I2C Bus Pull-up Resistor Calculation, SLVA689](https://www.ti.com/lit/an/slva689/slva689.pdf) | Requires pull-ups to be strong enough to meet rise time but weak enough for every participant to sink the bus low. Two enabled 4.7 kΩ branches give 2.35 kΩ; three give approximately 1.57 kΩ. At 3.3 V and a 0.4 V low level these draw approximately 1.23 mA and 1.85 mA respectively, below the 3 mA standard/fast-mode basis. At 400 kHz, the 300 ns rise-time limit permits approximately 151 pF at 2.35 kΩ or 225 pF at 1.57 kΩ. At 100 kHz the calculated resistance limits exceed the I2C 400 pF bus limit, so 400 pF remains the governing maximum. Measure the completed configurations rather than accepting the resistor value alone. |
+| [DMG2302UKQ product page](https://www.diodes.com/part/view/DMG2302UKQ) and [data sheet, DS40354](https://www.diodes.com/datasheet/download/DMG2302UKQ.pdf) | Select exact orderable `DMG2302UKQ-7` for `Q1203`. Its SOT-23 gate/source/drain mapping is 1/2/3 and matches the implemented symbol and footprint. The 10 kΩ/100 kΩ network gives approximately 3.0 V gate drive; the device specifies 120 mΩ maximum `RDS(on)` at 2.5 V gate drive and 25 °C, at a test current vastly above the approximately 0.33 mA Hardware Clear sink current. This removes the generic 2N7002's unsupported low-gate-drive assumption while retaining the prototype `ROUTE_CLEAR_N` low-level measurement. |
+
+#### Exact active components and package mapping
+
+| References | Exact MPN | Package and KiCad footprint | Review result |
+|---|---|---|---|
+| `U606` | `TMUX1511PWR` | PW, 14-pin TSSOP; `Package_SO:TSSOP-14_4.4x5mm_P0.65mm` | Pin mapping and grouped AISLER selection accepted with RC01. |
+| `U607`–`U609` | `TPS3808G30DBVR` | DBV, SOT-23-6; `Package_TO_SOT_SMD:SOT-23-6` | Data-sheet top-view pin table and footprint pad numbering agree. Exact schematic MPN metadata present. |
+| `U610`, `U611` | `MCP23017-E/SO` | SO, 28-pin wide SOIC; `Package_SO:SOIC-28W_7.5x17.9mm_P1.27mm` | Data-sheet pin table and footprint pad numbering agree. Exact schematic MPN metadata present. |
+| `Q1203` | `DMG2302UKQ-7` | SOT-23; `Package_TO_SOT_SMD:SOT-23` | Gate/source/drain pins 1/2/3 agree with the data sheet and implemented netlist. Exact value and MPN metadata present. |
+
+The 100 nF and 4.7 nF capacitors and the pull-up, pull-down and series
+resistors use standard 0603 footprints. Their values are controlled by the
+schematic; final manufacturer assignment remains part of BOM reconciliation.
+
+#### Application-review outputs and retained physical checks
+
+- The three required TPS3808 SENSE bypass capacitors are implemented as
+  `C621`–`C623`, 4.7 nF 0603, while `C607`–`C609` remain separate 100 nF VDD
+  bypass capacitors.
+- The displayed `RCTRL1` address-jumper defaults now read `JP613 A0 default 0`,
+  `JP614 A1 default 1` and `JP615 A2 default 0`, preserving address `0x22`.
+- The independent Hardware Clear path is implemented from `U1201.GPA6`
+  through `R1209`, `Q1203` and `R1210`, with exact
+  `Q1203 = DMG2302UKQ-7` metadata.
+- Exact schematic MPN metadata is present for `U606`–`U611` and `Q1203`.
+- Treat MCP23017 initialization and route-state readback as part of the
+  controlled-routing firmware contract: preload zero, establish output
+  direction, read actual GPIO state, then enable only an accepted route set.
+- Validate TPS3808 assert and release waveforms, SENSE transient filtering,
+  output-low margin and route-clear timing across cold start, brownout and
+  power-down. Validate direct-I2C rise time, low level and current with every
+  permitted combination of target, routing and Test Block pull-ups.
+
+#### Verification and acceptance
+
+| Evidence | Result |
+|---|---|
+| Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete five-contract set passes all 560 checks. |
+| Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
+| Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
+| Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
+
+No RC02 exception is accepted at this stage.
+
 ## 5. System integration review
 
 Use this section for checks that cross circuit-block ownership. Do not repeat
@@ -958,7 +1171,7 @@ calculations or verification already recorded in the owning block.
 | Supervisor | Standard Control Services | `PC01`, `PC02` | Draft |
 | Standalone | Standard Control Services | `PC01`, `PC02` | Draft |
 | Standalone external | Standard Control Services | `PC01`, `PC02` | Draft |
-| Off/safe state | Standard Control Services | `PC01`, `PC02`, `RC01` | Draft |
+| Off/safe state | Standard Control Services | `PC01`, `PC02`, `RC01`, `RC02` | Draft |
 
 The final integration review shall trace every power source, ground, connector,
 control signal and operating mode across the complete hierarchy. It shall
@@ -1014,6 +1227,9 @@ and close it only with the evidence named below.
 | `PCB-RC01-03` | RC01 powered-off protection review | Control ringing and overshoot so target-facing switch pins remain within the 3.6 V powered-off limit, then measure leakage and resulting unpowered-rail voltage for every supported target/routing power sequence. | Oscilloscope captures, leakage measurements and partial-power acceptance record | Open |
 | `PCB-RC01-04` | RC01 analogue and SPI concurrency review | Provide practical access to the representative route, endpoint and enable observation points and compare analogue accuracy/noise with SPI idle and active. Establish route-settling and first-ADC-sample handling from the measurements. | Probe-access inspection and retained analogue/SPI prototype results | Open |
 | `PCB-RC01-05` | RC01 redundant-resistor cleanup | Update the PCB from the accepted root schematic so obsolete footprints `R603`, `R608`, `R13`, `R18`, `R23` and `R25` are removed without disturbing the 19 functional pull-downs or direct TMUX ground connections. | PCB component inspection, refreshed BOM and PCB DRC | Open |
+| `PCB-RC02-01` | RC02 TPS3808 data-sheet review | After the schematic correction, place each 4.7 nF SENSE bypass directly between its owning `U607`–`U609.SENSE` pin and `TI_GND`. Keep `C607`–`C609` as separate 100 nF VDD bypasses placed at the corresponding VDD/GND pins; place `C606`, `C610` and `C611` locally at their owning TMUX1511 and MCP23017 supplies. | Placement inspection and routed power, SENSE and ground review | Open |
+| `PCB-RC02-02` | RC02 I2C pull-up and TMUX1511 application review | Keep the fixed-I2C paths short over a materially continuous ground reference and record total PCB, connector, endpoint and enabled-switch capacitance. Verify the 2.35 kΩ and approximately 1.57 kΩ effective pull-up cases against the selected bus rate. | Completed capacitance/rise-time calculation, routed-layout inspection and oscilloscope captures for every permitted isolation state | Open |
+| `PCB-RC02-03` | RC02 supervisor output-margin and indeterminate-state review | Keep each TPS3808 RESET connection short and referenced to the same local ground as the controlled device. Measure RESET/enable, `ROUTE_CLEAR_N`, monitored rail and `ROUTING_LOGIC_3V3` during cold start, slow ramp, brownout and power-down; confirm no false TMUX1511 enable or premature MCP23017 reset release and retain the asserted-low margin evidence. | Layout inspection and retained multi-channel rail/reset oscilloscope captures including the worst measured `VOL` | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |

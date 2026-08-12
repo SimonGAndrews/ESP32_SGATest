@@ -18,5 +18,7 @@ contracts:
     file: contracts/PC02-target-5v-switch-and-two-range-monitor.yaml
   - id: RC01
     file: contracts/RC01-routing-fabric.yaml
+  - id: RC02
+    file: contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

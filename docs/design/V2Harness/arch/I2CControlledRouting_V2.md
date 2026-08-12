@@ -448,6 +448,40 @@ A local manual clear control may be fitted for prototype diagnosis. It is not
 a routine test configuration control and does not add a Target Interface
 signal.
 
+Rev A shall implement the Supervisor request as a separate Rack Control-domain
+open-drain stage. `U1201.GPA6` supplies the active-high
+`ROUTE_CLEAR_REQUEST` command through a 10 kΩ series resistor to the gate of a
+Diodes Incorporated `DMG2302UKQ-7` NMOS. A 100 kΩ resistor from gate to
+`TI_GND` holds the stage inactive while `U1201` is unpowered, in reset or
+configured as an input. The NMOS source connects to `TI_GND` and its drain
+connects to `ROUTE_CLEAR_N`. The allocated Rev-A implementation references
+shall be `Q1203`, `R1209` and `R1210` respectively. `Q1203` shall use the
+SOT-23 pin mapping gate = 1, source = 2 and drain = 3.
+
+The Supervisor stage and the `U609` Routing Logic Supply Rail supervisor form
+two low-dominant open-drain sources on `ROUTE_CLEAR_N`. The existing `R634`
+10 kΩ pull-up to `ROUTING_LOGIC_3V3` shall remain the only functional pull-up;
+the net shall not be pulled up to `RACK_CONTROL_3V3`. At 3.3 V its nominal
+asserted sink current is approximately 0.33 mA. The stage shall meet the
+MCP23017 reset-input low level at that current and shall not back-power either
+domain for any combination of Rack Control and Routing Logic power.
+
+The 10 kΩ/100 kΩ gate network produces approximately 3.0 V at the gate from a
+3.3 V command. The `DMG2302UKQ-7` is specified for a maximum 120 mΩ
+drain-source on-resistance with 2.5 V gate drive at 25 °C and a test current
+many orders of magnitude above the nominal 0.33 mA Hardware Clear sink
+current. This provides a characterized low-voltage gate-drive basis that the
+generic 2N7002 selection did not provide. Prototype validation shall still
+measure the asserted `ROUTE_CLEAR_N` low level over the applicable supply and
+temperature range.
+
+The request shall be asserted for at least 1 ms. A request that remains
+asserted holds both routing controllers in reset indefinitely, which is a safe
+routing failure. After release, the controllers remain in their reset-default
+input state and the external switch-control pull-downs keep every controlled
+path open until target firmware establishes and verifies a new configuration.
+`TP603` is the Rev-A electrical observation point for `ROUTE_CLEAR_N`.
+
 Every signal-switch control shall have a hardware pull-down sufficient to hold
 the switch off while its controller is unpowered, in reset or configured as an
 input. Internal switch pull-downs may supplement but shall not replace the

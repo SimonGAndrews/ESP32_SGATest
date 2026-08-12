@@ -23,16 +23,18 @@ Always run production ERC and netlist export from the root schematic:
 Espruino_Harness_RevA.kicad_sch
 ```
 
-Use these exact working-output names:
+For interactive iterative checks, save these working outputs in the KiCad
+project directory using the exact names:
 
 ```text
-generated/Espruino_Harness_RevA_FullHierarchy.net
-generated/Espruino_Harness_RevA_FullHierarchy_ERC.rpt
+Espruino_Harness_RevA.net
+ERC.rpt
 ```
 
-The `generated/` directory is ignored. Raw KiCad netlists contain timestamps
-and checkout-specific paths, so they are unsuitable as deterministic,
-cross-platform baselines.
+These files are replaceable working outputs and are not accepted evidence.
+Raw KiCad netlists contain timestamps and checkout-specific paths, so they are
+unsuitable as deterministic, cross-platform baselines. The ignored
+`verification/generated/` directory may hold temporary checker output.
 
 Workbench-only diagnostics use:
 
@@ -68,6 +70,7 @@ contracts/
   PC01-operating-mode-and-3v3-rail.yaml
   PC02-target-5v-switch-and-two-range-monitor.yaml
   RC01-routing-fabric.yaml
+  RC02-routing-controllers-and-fixed-i2c-isolation.yaml
   SYS01-power-events-to-rack-control.yaml
 ```
 
@@ -84,12 +87,13 @@ Run the dependency-free Node.js checker from the repository root after
 exporting the complete production netlist:
 
 ```powershell
-node KICAD/V2/RevA/Espruino_Harness_RevA/verification/check-connectivity.mjs
+node KICAD/V2/RevA/Espruino_Harness_RevA/verification/check-connectivity.mjs `
+  --netlist KICAD/V2/RevA/Espruino_Harness_RevA/Espruino_Harness_RevA.net
 ```
 
-The default invocation loads `ReusableHarnessRevA_Connectivity.yaml`, checks
-every contract listed by it against the full-hierarchy netlist under
-`generated/`, and writes the deterministic accepted result to:
+This invocation loads `ReusableHarnessRevA_Connectivity.yaml`, checks every
+contract listed by it against the explicit working full-hierarchy netlist, and
+writes the deterministic accepted result to:
 
 ```text
 baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json

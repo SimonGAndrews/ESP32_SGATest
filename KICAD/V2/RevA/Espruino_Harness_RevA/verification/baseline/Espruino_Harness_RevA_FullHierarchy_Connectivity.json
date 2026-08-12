@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "3bb1e6ecfd159fe1156f8d48092d37ea44c87e8f3e243cbc8a050a35694e2455"
+      "sha256": "89ce8b451e1ce2dcb81a5b4c757b2ec4275a02b7f13f6584a4dc79b7f04cd998"
     },
     {
       "id": "PC01",
@@ -32,6 +32,11 @@
       "id": "RC01",
       "file": "contracts/RC01-routing-fabric.yaml",
       "sha256": "fd6cda0aa2e2378484d29e336da456fc7ec09e96e8d0afe82341e1c8e630a76c"
+    },
+    {
+      "id": "RC02",
+      "file": "contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml",
+      "sha256": "3ac87b9e4d620ae29b6aa79db666e25897f5f36da1bb1c3e64a127b476d92534"
     },
     {
       "id": "SYS01",
@@ -74,6 +79,17 @@
       }
     },
     {
+      "id": "RC02",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 210,
+      "assertions": {
+        "pin_net": 160,
+        "component_value": 39,
+        "forbidden_same_net": 11
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -85,7 +101,7 @@
       }
     }
   ],
-  "connectivity_sha256": "4d944147d4a66fbe541f0de78e2a7ff3ef2ec5333ae7f99b76b65e029de9a64a",
+  "connectivity_sha256": "6458bf734d7a0136b0fb110250221e0012ae64246a5186cd127510ceef6da7dc",
   "components": [
     {
       "ref": "C201",
@@ -165,6 +181,21 @@
     {
       "ref": "C611",
       "value": "100nF",
+      "footprint": "Capacitor_SMD:C_0603_1608Metric"
+    },
+    {
+      "ref": "C621",
+      "value": "4.7nF",
+      "footprint": "Capacitor_SMD:C_0603_1608Metric"
+    },
+    {
+      "ref": "C622",
+      "value": "4.7nF",
+      "footprint": "Capacitor_SMD:C_0603_1608Metric"
+    },
+    {
+      "ref": "C623",
+      "value": "4.7nF",
       "footprint": "Capacitor_SMD:C_0603_1608Metric"
     },
     {
@@ -434,12 +465,12 @@
     },
     {
       "ref": "JP613",
-      "value": "A0 default 1",
+      "value": "A0 default 0",
       "footprint": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels"
     },
     {
       "ref": "JP614",
-      "value": "A1 default 0",
+      "value": "A1 default 1",
       "footprint": "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels"
     },
     {
@@ -475,6 +506,11 @@
     {
       "ref": "Q1202",
       "value": "2N7002",
+      "footprint": "Package_TO_SOT_SMD:SOT-23"
+    },
+    {
+      "ref": "Q1203",
+      "value": "DMG2302UKQ-7",
       "footprint": "Package_TO_SOT_SMD:SOT-23"
     },
     {
@@ -890,6 +926,16 @@
     {
       "ref": "R1208",
       "value": "4.7k",
+      "footprint": "Resistor_SMD:R_0603_1608Metric"
+    },
+    {
+      "ref": "R1209",
+      "value": "10k",
+      "footprint": "Resistor_SMD:R_0603_1608Metric"
+    },
+    {
+      "ref": "R1210",
+      "value": "100k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
@@ -1885,6 +1931,10 @@
       "name": "/ROUTE_CLEAR_N",
       "nodes": [
         {
+          "ref": "Q1203",
+          "pin": "3"
+        },
+        {
           "ref": "R634",
           "pin": "2"
         },
@@ -1951,6 +2001,10 @@
         },
         {
           "ref": "C611",
+          "pin": "1"
+        },
+        {
+          "ref": "C623",
           "pin": "1"
         },
         {
@@ -3142,6 +3196,10 @@
           "pin": "1"
         },
         {
+          "ref": "C622",
+          "pin": "1"
+        },
+        {
           "ref": "C901",
           "pin": "1"
         },
@@ -3701,6 +3759,10 @@
       "name": "/TI_TARGET_3V3",
       "nodes": [
         {
+          "ref": "C621",
+          "pin": "1"
+        },
+        {
           "ref": "C1001",
           "pin": "2"
         },
@@ -3939,6 +4001,19 @@
         {
           "ref": "R1204",
           "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "/V2 Rev-A Rack Control Endpoint/ROUTE_CLEAR_REQUEST",
+      "nodes": [
+        {
+          "ref": "R1209",
+          "pin": "1"
+        },
+        {
+          "ref": "U1201",
+          "pin": "27"
         }
       ]
     },
@@ -4301,6 +4376,23 @@
       ]
     },
     {
+      "name": "Net-(Q1203-G)",
+      "nodes": [
+        {
+          "ref": "Q1203",
+          "pin": "1"
+        },
+        {
+          "ref": "R1209",
+          "pin": "2"
+        },
+        {
+          "ref": "R1210",
+          "pin": "2"
+        }
+      ]
+    },
+    {
       "name": "Net-(U701-D1)",
       "nodes": [
         {
@@ -4443,6 +4535,18 @@
         },
         {
           "ref": "C611",
+          "pin": "2"
+        },
+        {
+          "ref": "C621",
+          "pin": "2"
+        },
+        {
+          "ref": "C622",
+          "pin": "2"
+        },
+        {
+          "ref": "C623",
           "pin": "2"
         },
         {
@@ -4682,6 +4786,10 @@
           "pin": "2"
         },
         {
+          "ref": "Q1203",
+          "pin": "2"
+        },
+        {
           "ref": "R11",
           "pin": "2"
         },
@@ -4836,6 +4944,10 @@
         {
           "ref": "R1206",
           "pin": "2"
+        },
+        {
+          "ref": "R1210",
+          "pin": "1"
         },
         {
           "ref": "TP205",
@@ -5293,15 +5405,6 @@
         {
           "ref": "U1001",
           "pin": "8"
-        }
-      ]
-    },
-    {
-      "name": "unconnected-(U1201-GPA6-Pad27)",
-      "nodes": [
-        {
-          "ref": "U1201",
-          "pin": "27"
         }
       ]
     },

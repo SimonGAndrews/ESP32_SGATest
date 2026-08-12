@@ -1,0 +1,271 @@
+schema_version: 1
+kind: block_contract
+block_id: RC02
+
+# Independent machine-checkable intent derived from the accepted routing-
+# controller allocation, fixed-I2C isolation, TPS3808 rail qualification and
+# Hardware Clear analysis. RC01 separately proves the nineteen RP switch paths
+# and their external pull-downs. MPN, package, timing and analogue limits remain
+# human-reviewed baseline and PCB-stage evidence rather than schema-version 1
+# connectivity assertions.
+assertions:
+  pin_net:
+    # U606 fixed, power-qualified target and Test Block I2C boundaries.
+    - {ref: U606, pin: "1", net: TARGET_I2C_ISO_EN}
+    - {ref: U606, pin: "2", net: TI_I2C_SDA}
+    - {ref: U606, pin: "3", net: ROUTE_I2C_SDA}
+    - {ref: U606, pin: "4", net: TARGET_I2C_ISO_EN}
+    - {ref: U606, pin: "5", net: TI_I2C_SCL}
+    - {ref: U606, pin: "6", net: ROUTE_I2C_SCL}
+    - {ref: U606, pin: "7", net: TI_GND}
+    - {ref: U606, pin: "8", net: IP03_TEST_BLOCK_SDA}
+    - {ref: U606, pin: "9", net: ROUTE_I2C_SDA}
+    - {ref: U606, pin: "10", net: TEST_I2C_ISO_EN}
+    - {ref: U606, pin: "11", net: IP04_TEST_BLOCK_SCL}
+    - {ref: U606, pin: "12", net: ROUTE_I2C_SCL}
+    - {ref: U606, pin: "13", net: TEST_I2C_ISO_EN}
+    - {ref: U606, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # Deliberate pull-ups on the target and routing-controller bus segments.
+    - {ref: R620, pin: "1", net: TI_I2C_SDA}
+    - {ref: R620, pin: "2", net: TI_TARGET_3V3}
+    - {ref: R621, pin: "1", net: TI_TARGET_3V3}
+    - {ref: R621, pin: "2", net: TI_I2C_SCL}
+    - {ref: R622, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: R622, pin: "2", net: ROUTE_I2C_SDA}
+    - {ref: R623, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: R623, pin: "2", net: ROUTE_I2C_SCL}
+
+    # Rail-valid supervisors and separate supply/SENSE bypassing.
+    - {ref: U607, pin: "1", net: TARGET_I2C_ISO_EN}
+    - {ref: U607, pin: "2", net: TI_GND}
+    - {ref: U607, pin: "3", net: ROUTING_LOGIC_3V3}
+    - {ref: U607, pin: "4", net: unconnected-(U607-CT-Pad4)}
+    - {ref: U607, pin: "5", net: TI_TARGET_3V3}
+    - {ref: U607, pin: "6", net: ROUTING_LOGIC_3V3}
+    - {ref: U608, pin: "1", net: TEST_I2C_ISO_EN}
+    - {ref: U608, pin: "2", net: TI_GND}
+    - {ref: U608, pin: "3", net: ROUTING_LOGIC_3V3}
+    - {ref: U608, pin: "4", net: unconnected-(U608-CT-Pad4)}
+    - {ref: U608, pin: "5", net: TEST_BLOCK_3V3}
+    - {ref: U608, pin: "6", net: ROUTING_LOGIC_3V3}
+    - {ref: U609, pin: "1", net: ROUTE_CLEAR_N}
+    - {ref: U609, pin: "2", net: TI_GND}
+    - {ref: U609, pin: "3", net: ROUTING_LOGIC_3V3}
+    - {ref: U609, pin: "4", net: unconnected-(U609-CT-Pad4)}
+    - {ref: U609, pin: "5", net: ROUTING_LOGIC_3V3}
+    - {ref: U609, pin: "6", net: ROUTING_LOGIC_3V3}
+
+    - {ref: C607, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C607, pin: "2", net: TI_GND}
+    - {ref: C608, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C608, pin: "2", net: TI_GND}
+    - {ref: C609, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C609, pin: "2", net: TI_GND}
+    - {ref: C621, pin: "1", net: TI_TARGET_3V3}
+    - {ref: C621, pin: "2", net: TI_GND}
+    - {ref: C622, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: C622, pin: "2", net: TI_GND}
+    - {ref: C623, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C623, pin: "2", net: TI_GND}
+
+    # Supervisor output pull-ups and disabled-state bias.
+    - {ref: R630, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: R630, pin: "2", net: TARGET_I2C_ISO_EN}
+    - {ref: R631, pin: "1", net: TARGET_I2C_ISO_EN}
+    - {ref: R631, pin: "2", net: TI_GND}
+    - {ref: R632, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: R632, pin: "2", net: TEST_I2C_ISO_EN}
+    - {ref: R633, pin: "1", net: TEST_I2C_ISO_EN}
+    - {ref: R633, pin: "2", net: TI_GND}
+    - {ref: R634, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: R634, pin: "2", net: ROUTE_CLEAR_N}
+
+    # RCTRL0: address 0x21 and RP01-RP16 ownership.
+    - {ref: U610, pin: "1", net: RP09_EN}
+    - {ref: U610, pin: "2", net: RP10_EN}
+    - {ref: U610, pin: "3", net: RP11_EN}
+    - {ref: U610, pin: "4", net: RP12_EN}
+    - {ref: U610, pin: "5", net: RP13_EN}
+    - {ref: U610, pin: "6", net: RP14_EN}
+    - {ref: U610, pin: "7", net: RP15_EN}
+    - {ref: U610, pin: "8", net: RP16_EN}
+    - {ref: U610, pin: "9", net: ROUTING_LOGIC_3V3}
+    - {ref: U610, pin: "10", net: TI_GND}
+    - {ref: U610, pin: "12", net: ROUTE_I2C_SCL}
+    - {ref: U610, pin: "13", net: ROUTE_I2C_SDA}
+    - {ref: U610, pin: "15", net: Net-(JP610-C)}
+    - {ref: U610, pin: "16", net: Net-(JP611-C)}
+    - {ref: U610, pin: "17", net: Net-(JP612-C)}
+    - {ref: U610, pin: "18", net: ROUTE_CLEAR_N}
+    - {ref: U610, pin: "19", net: RCTRL0_INTB}
+    - {ref: U610, pin: "20", net: RCTRL0_INTA}
+    - {ref: U610, pin: "21", net: RP01_EN}
+    - {ref: U610, pin: "22", net: RP02_EN}
+    - {ref: U610, pin: "23", net: RP03_EN}
+    - {ref: U610, pin: "24", net: RP04_EN}
+    - {ref: U610, pin: "25", net: RP05_EN}
+    - {ref: U610, pin: "26", net: RP06_EN}
+    - {ref: U610, pin: "27", net: RP07_EN}
+    - {ref: U610, pin: "28", net: RP08_EN}
+
+    # RCTRL1: address 0x22, RP17-RP19 and UP01-UP04 ownership.
+    - {ref: U611, pin: "9", net: ROUTING_LOGIC_3V3}
+    - {ref: U611, pin: "10", net: TI_GND}
+    - {ref: U611, pin: "12", net: ROUTE_I2C_SCL}
+    - {ref: U611, pin: "13", net: ROUTE_I2C_SDA}
+    - {ref: U611, pin: "15", net: Net-(JP613-C)}
+    - {ref: U611, pin: "16", net: Net-(JP614-C)}
+    - {ref: U611, pin: "17", net: Net-(JP615-C)}
+    - {ref: U611, pin: "18", net: ROUTE_CLEAR_N}
+    - {ref: U611, pin: "19", net: RCTRL1_INTB}
+    - {ref: U611, pin: "20", net: RCTRL1_INTA}
+    - {ref: U611, pin: "21", net: RP17_EN}
+    - {ref: U611, pin: "22", net: RP18_EN}
+    - {ref: U611, pin: "23", net: RP19_EN}
+    - {ref: U611, pin: "24", net: UP01_EN}
+    - {ref: U611, pin: "25", net: UP02_EN}
+    - {ref: U611, pin: "26", net: UP03_EN}
+    - {ref: U611, pin: "27", net: UP04_EN}
+
+    # Address straps: the common pads reach the controller address pins and
+    # bridged pads 1-2 establish 0x21 / 0x22 without shorting either rail.
+    - {ref: JP610, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: JP610, pin: "2", net: Net-(JP610-C)}
+    - {ref: JP610, pin: "3", net: TI_GND}
+    - {ref: JP611, pin: "1", net: TI_GND}
+    - {ref: JP611, pin: "2", net: Net-(JP611-C)}
+    - {ref: JP611, pin: "3", net: ROUTING_LOGIC_3V3}
+    - {ref: JP612, pin: "1", net: TI_GND}
+    - {ref: JP612, pin: "2", net: Net-(JP612-C)}
+    - {ref: JP612, pin: "3", net: ROUTING_LOGIC_3V3}
+    - {ref: JP613, pin: "1", net: TI_GND}
+    - {ref: JP613, pin: "2", net: Net-(JP613-C)}
+    - {ref: JP613, pin: "3", net: ROUTING_LOGIC_3V3}
+    - {ref: JP614, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: JP614, pin: "2", net: Net-(JP614-C)}
+    - {ref: JP614, pin: "3", net: TI_GND}
+    - {ref: JP615, pin: "1", net: TI_GND}
+    - {ref: JP615, pin: "2", net: Net-(JP615-C)}
+    - {ref: JP615, pin: "3", net: ROUTING_LOGIC_3V3}
+
+    # Controller and fixed-isolation local bypasses.
+    - {ref: C606, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C606, pin: "2", net: TI_GND}
+    - {ref: C610, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C610, pin: "2", net: TI_GND}
+    - {ref: C611, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C611, pin: "2", net: TI_GND}
+
+    # Block 7 local controls and their external safe-state pull-downs.
+    - {ref: U701, pin: "1", net: UP01_EN}
+    - {ref: U701, pin: "4", net: UP02_EN}
+    - {ref: U701, pin: "10", net: UP03_EN}
+    - {ref: U701, pin: "13", net: UP04_EN}
+    - {ref: R705, pin: "1", net: UP01_EN}
+    - {ref: R705, pin: "2", net: TI_GND}
+    - {ref: R706, pin: "1", net: UP02_EN}
+    - {ref: R706, pin: "2", net: TI_GND}
+    - {ref: R707, pin: "1", net: UP03_EN}
+    - {ref: R707, pin: "2", net: TI_GND}
+    - {ref: R708, pin: "1", net: UP04_EN}
+    - {ref: R708, pin: "2", net: TI_GND}
+
+    # Cross-sheet Supervisor Hardware Clear request and low-dominant output.
+    - {ref: U1201, pin: "27", net: ROUTE_CLEAR_REQUEST}
+    - {ref: R1209, pin: "1", net: ROUTE_CLEAR_REQUEST}
+    - {ref: R1209, pin: "2", net: Net-(Q1203-G)}
+    - {ref: R1210, pin: "1", net: TI_GND}
+    - {ref: R1210, pin: "2", net: Net-(Q1203-G)}
+    - {ref: Q1203, pin: "1", net: Net-(Q1203-G)}
+    - {ref: Q1203, pin: "2", net: TI_GND}
+    - {ref: Q1203, pin: "3", net: ROUTE_CLEAR_N}
+
+    # Diagnostic observation points for the reviewed RC02 signals.
+    - {ref: TP601, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: TP602, pin: "1", net: TI_GND}
+    - {ref: TP603, pin: "1", net: ROUTE_CLEAR_N}
+    - {ref: TP604, pin: "1", net: ROUTE_I2C_SDA}
+    - {ref: TP605, pin: "1", net: ROUTE_I2C_SCL}
+    - {ref: TP606, pin: "1", net: TARGET_I2C_ISO_EN}
+    - {ref: TP607, pin: "1", net: TEST_I2C_ISO_EN}
+    - {ref: TP608, pin: "1", net: RCTRL0_INTA}
+    - {ref: TP609, pin: "1", net: RCTRL0_INTB}
+    - {ref: TP610, pin: "1", net: RCTRL1_INTA}
+    - {ref: TP611, pin: "1", net: RCTRL1_INTB}
+
+  component_value:
+    - {ref: U606, value: TMUX1511}
+    - {ref: U607, value: TPS3808G30DBVR}
+    - {ref: U608, value: TPS3808G30DBVR}
+    - {ref: U609, value: TPS3808G30DBVR}
+    - {ref: U610, value: "MCP23017-E/SO RCTRL0"}
+    - {ref: U611, value: "MCP23017-E/SO RCTRL1"}
+    - {ref: U1201, value: MCP23017-E/SO}
+    - {ref: U701, value: TMUX1511}
+    - {ref: Q1203, value: DMG2302UKQ-7}
+    - {ref: R620, value: 4.7k}
+    - {ref: R621, value: 4.7k}
+    - {ref: R622, value: 4.7k}
+    - {ref: R623, value: 4.7k}
+    - {ref: R630, value: 10k}
+    - {ref: R631, value: 100k}
+    - {ref: R632, value: 10k}
+    - {ref: R633, value: 100k}
+    - {ref: R634, value: 10k}
+    - {ref: R705, value: 100k}
+    - {ref: R706, value: 100k}
+    - {ref: R707, value: 100k}
+    - {ref: R708, value: 100k}
+    - {ref: R1209, value: 10k}
+    - {ref: R1210, value: 100k}
+    - {ref: C606, value: 100nF}
+    - {ref: C607, value: 100nF}
+    - {ref: C608, value: 100nF}
+    - {ref: C609, value: 100nF}
+    - {ref: C610, value: 100nF}
+    - {ref: C611, value: 100nF}
+    - {ref: C621, value: 4.7nF}
+    - {ref: C622, value: 4.7nF}
+    - {ref: C623, value: 4.7nF}
+    - {ref: JP610, value: "A0 default 1"}
+    - {ref: JP611, value: "A1 default 0"}
+    - {ref: JP612, value: "A2 default 0"}
+    - {ref: JP613, value: "A0 default 0"}
+    - {ref: JP614, value: "A1 default 1"}
+    - {ref: JP615, value: "A2 default 0"}
+
+  forbidden_same_net:
+    - id: RC02-F01
+      endpoints: [U606.2, U606.3]
+      reason: The target SDA branch must cross the power-qualified U606 channel rather than bypass it.
+    - id: RC02-F02
+      endpoints: [U606.5, U606.6]
+      reason: The target SCL branch must cross the power-qualified U606 channel rather than bypass it.
+    - id: RC02-F03
+      endpoints: [U606.9, U606.8]
+      reason: The Test Block SDA branch must cross the power-qualified U606 channel rather than bypass it.
+    - id: RC02-F04
+      endpoints: [U606.12, U606.11]
+      reason: The Test Block SCL branch must cross the power-qualified U606 channel rather than bypass it.
+    - id: RC02-F05
+      endpoints: [U607.5, U607.6]
+      reason: Target-rail sensing must remain distinct from the Routing Logic supply domain.
+    - id: RC02-F06
+      endpoints: [U608.5, U608.6]
+      reason: Test Block rail sensing must remain distinct from the Routing Logic supply domain.
+    - id: RC02-F07
+      endpoints: [R630.1, R630.2]
+      reason: The target-I2C enable pull-up must remain explicit and not bypass the U607 output.
+    - id: RC02-F08
+      endpoints: [R632.1, R632.2]
+      reason: The Test Block-I2C enable pull-up must remain explicit and not bypass the U608 output.
+    - id: RC02-F09
+      endpoints: [R634.1, R634.2]
+      reason: ROUTE_CLEAR_N must remain an open-drain reset net with an explicit Routing Logic pull-up.
+    - id: RC02-F10
+      endpoints: [U1201.27, Q1203.3]
+      reason: The Rack Control GPIO must reach ROUTE_CLEAR_N only through the open-drain stage.
+    - id: RC02-F11
+      endpoints: [R1209.1, R1209.2]
+      reason: The Hardware Clear gate-series resistor must remain explicit.

@@ -98,6 +98,7 @@ Read:
 - `docs/design/V2Harness/README.md`
 - `docs/design/V2Harness/implementation/ReusableHarnessRevA_DesignBaseline.md`
 - `docs/design/V2Harness/implementation/ReusableHarnessRevA_ConnectivityChecker.md`
+- `docs/design/V2Harness/implementation/ReusableHarnessRevA_PCBImplementationAndVerification.md`
 - the architecture specification governing the circuit block under review
 - `KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
   when modifying target symbols or footprints

@@ -5,8 +5,13 @@
 **/*.lck
 **/fp-info-cache
 **/*.bak
+**/*.kicad_sch-bak
 **/__pycache__/
 *.code-workspace
+
+# Local KiCad/AISLER and autorouter working artifacts.
+**/.kicad-push
+**/temp-freerouting.dsn
 
 # Local upstream source checkouts used to derive curated V2 KiCad assets.
 # Revisions and licences are recorded in the V2 target-library provenance.

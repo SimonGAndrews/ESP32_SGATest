@@ -1142,6 +1142,8 @@ minimum functions needed for:
   power telemetry
 * Test Block Supply Rail control
 * direct reset and optional boot control
+* direct Hardware Clear without access to target firmware or target-controlled
+  I2C
 * `SUP_EVENT_OUT` and `SUP_EVENT_IN`
 
 The backplane shall also provide one shared active-low interrupt,
@@ -1233,12 +1235,31 @@ Rev A shall use the following MCP23017 allocation:
 | `GPA3` | Output | Target-reset open-drain-stage drive |
 | `GPA4` | Output | Boot-request open-drain-stage drive |
 | `GPA5` | Output | `SUP_EVENT_OUT` |
-| `GPA6`, `GPA7` | Spare | Reserved Rev-A expansion provision |
+| `GPA6` | Output | `ROUTE_CLEAR_REQUEST`; active-high drive to the Hardware Clear open-drain stage |
+| `GPA7` | Spare | Reserved Rev-A expansion provision |
 | `GPB0` | Input | `TARGET_POWER_FAULT_N` |
 | `GPB1` | Input | `TARGET_POWER_ALERT_N` |
 | `GPB2` | Input | `SUP_EVENT_IN` |
 | `GPB3` | Input | `LOW_RANGE_OK_N` |
 | `GPB4` to `GPB7` | Spare | Reserved Rev-A expansion provision |
+
+`ROUTE_CLEAR_REQUEST` is a Rack Control-domain command and shall not connect
+`U1201.GPA6` directly to `ROUTE_CLEAR_N`. The output shall drive the separate
+open-drain stage defined by `I2CControlledRouting_V2.md`. On endpoint startup
+or reset, firmware shall write the `GPA6` output latch low before changing the
+pin from its reset-default input state to an output. A deliberate Hardware
+Clear sets `GPA6` high for at least 1 ms, reads the actual GPIO state back,
+then returns it low. If communication is interrupted while the request is
+asserted, leaving the routing controllers held in reset is the safe failure.
+GPIO readback proves the local request state; it does not prove the electrical
+state of `ROUTE_CLEAR_N` or switch isolation.
+
+In `SUPERVISOR` operation, Hardware Clear shall be completed before target or
+Test Block power is enabled after Supervisor startup, Rack Control Endpoint
+recovery or activation of a rack position. Releasing Hardware Clear does not
+establish a functional route: the target must subsequently initialize the
+routing controllers, apply an accepted configuration and verify its GPIO
+state through the target-owned routing-control I2C bus.
 
 `INTB` shall be configured as the active-low open-drain source for
 `RACK_INT_N`. Interrupt-on-change is enabled only for the required Port B
