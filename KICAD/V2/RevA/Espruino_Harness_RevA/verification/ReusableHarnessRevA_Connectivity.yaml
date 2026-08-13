@@ -24,5 +24,7 @@ contracts:
     file: contracts/TB01-digital-gpio-loopback.yaml
   - id: TB02
     file: contracts/TB02-analogue-pwm-feedback.yaml
+  - id: TB03
+    file: contracts/TB03-i2c-functional-device.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

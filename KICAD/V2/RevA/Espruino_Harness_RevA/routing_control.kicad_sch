@@ -1654,599 +1654,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "MCP23017_SO_1"
-			(pin_names
-				(offset 1.016)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at -13.97 25.4 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "MCP23017_SO"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_SO:SOIC-28W_7.5x17.9mm_P1.27mm"
-				(at 5.08 -25.4 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf"
-				(at 5.08 -27.94 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Description" "MCP23017-E/SO 16-bit I2C I/O expander, SOIC-28"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "I2C GPIO expander MCP23017 SOIC"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "SOIC*28W*7.5x17.9mm*P1.27mm*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "MCP23017_SO_1_0_1"
-				(rectangle
-					(start -15.24 24.13)
-					(end 15.24 -24.13)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "MCP23017_SO_1_1_1"
-				(pin bidirectional line
-					(at -20.32 20.32 0)
-					(length 5.08)
-					(name "SDA"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -20.32 17.78 0)
-					(length 5.08)
-					(name "SCL"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin open_collector line
-					(at -20.32 7.62 0)
-					(length 5.08)
-					(name "INTA"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "20"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin open_collector line
-					(at -20.32 5.08 0)
-					(length 5.08)
-					(name "INTB"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "19"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input inverted
-					(at -20.32 0 0)
-					(length 5.08)
-					(name "~{RESET}"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "18"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -20.32 -15.24 0)
-					(length 5.08)
-					(name "A0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -20.32 -17.78 0)
-					(length 5.08)
-					(name "A1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -20.32 -20.32 0)
-					(length 5.08)
-					(name "A2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "17"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at -15.24 12.7 0)
-					(length 5.08)
-					(hide yes)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at -15.24 10.16 0)
-					(length 5.08)
-					(hide yes)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 29.21 270)
-					(length 5.08)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -29.21 90)
-					(length 5.08)
-					(name "VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 20.32 180)
-					(length 5.08)
-					(name "GPA0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "21"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 17.78 180)
-					(length 5.08)
-					(name "GPA1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "22"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 15.24 180)
-					(length 5.08)
-					(name "GPA2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "23"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 12.7 180)
-					(length 5.08)
-					(name "GPA3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "24"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 10.16 180)
-					(length 5.08)
-					(name "GPA4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "25"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 7.62 180)
-					(length 5.08)
-					(name "GPA5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "26"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 5.08 180)
-					(length 5.08)
-					(name "GPA6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "27"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 2.54 180)
-					(length 5.08)
-					(name "GPA7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "28"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -2.54 180)
-					(length 5.08)
-					(name "GPB0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -5.08 180)
-					(length 5.08)
-					(name "GPB1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -7.62 180)
-					(length 5.08)
-					(name "GPB2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -10.16 180)
-					(length 5.08)
-					(name "GPB3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -12.7 180)
-					(length 5.08)
-					(name "GPB4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -15.24 180)
-					(length 5.08)
-					(name "GPB5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -17.78 180)
-					(length 5.08)
-					(name "GPB6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -20.32 180)
-					(length 5.08)
-					(name "GPB7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Power_Supervisor:TPS3808DBV"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -2429,1702 +1836,6 @@
 						)
 					)
 					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "TI_GND_1"
-			(power)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "TI_GND"
-				(at 0 -3.556 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Espruino Test Harness - Target Interface GND"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TI_GND_1_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "TI_GND_1_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "TMUX1511_PW_1"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 0 19.05 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TMUX1511"
-				(at 0 1.778 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tmux1511.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "TMUX1511 four-channel independently controlled bidirectional SPST switch, PW TSSOP-14 package"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TMUX1511_PW_1_0_1"
-				(rectangle
-					(start -10.16 13.97)
-					(end 15.24 -13.97)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "TMUX1511_PW_1_1_1"
-				(pin bidirectional line
-					(at -15.24 8.89 0)
-					(length 5.08)
-					(name "S1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 3.81 0)
-					(length 5.08)
-					(name "S2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -2.54 0)
-					(length 5.08)
-					(name "S3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -7.62 0)
-					(length 5.08)
-					(name "S4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -2.54 -16.51 90)
-					(length 2.54)
-					(name "SEL2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 16.51 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 2.54 -16.51 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 12.7 -16.51 90)
-					(length 2.54)
-					(name "SEL4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 8.89 180)
-					(length 5.08)
-					(name "D1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 3.81 180)
-					(length 5.08)
-					(name "D2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -2.54 180)
-					(length 5.08)
-					(name "D3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -7.62 180)
-					(length 5.08)
-					(name "D4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "TMUX1511_PW_2"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 0 19.05 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TMUX1511"
-				(at 0 1.778 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tmux1511.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "TMUX1511 four-channel independently controlled bidirectional SPST switch, PW TSSOP-14 package"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TMUX1511_PW_2_0_1"
-				(rectangle
-					(start -10.16 13.97)
-					(end 15.24 -13.97)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "TMUX1511_PW_2_1_1"
-				(pin bidirectional line
-					(at -15.24 8.89 0)
-					(length 5.08)
-					(name "S1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 3.81 0)
-					(length 5.08)
-					(name "S2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -2.54 0)
-					(length 5.08)
-					(name "S3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -7.62 0)
-					(length 5.08)
-					(name "S4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -2.54 -16.51 90)
-					(length 2.54)
-					(name "SEL2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 16.51 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 2.54 -16.51 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 12.7 -16.51 90)
-					(length 2.54)
-					(name "SEL4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 8.89 180)
-					(length 5.08)
-					(name "D1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 3.81 180)
-					(length 5.08)
-					(name "D2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -2.54 180)
-					(length 5.08)
-					(name "D3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -7.62 180)
-					(length 5.08)
-					(name "D4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "TMUX1511_PW_3"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 0 19.05 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TMUX1511"
-				(at 0 1.778 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tmux1511.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "TMUX1511 four-channel independently controlled bidirectional SPST switch, PW TSSOP-14 package"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TMUX1511_PW_3_0_1"
-				(rectangle
-					(start -10.16 13.97)
-					(end 15.24 -13.97)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "TMUX1511_PW_3_1_1"
-				(pin bidirectional line
-					(at -15.24 8.89 0)
-					(length 5.08)
-					(name "S1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 3.81 0)
-					(length 5.08)
-					(name "S2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -2.54 0)
-					(length 5.08)
-					(name "S3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -7.62 0)
-					(length 5.08)
-					(name "S4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -2.54 -16.51 90)
-					(length 2.54)
-					(name "SEL2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 16.51 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 2.54 -16.51 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 12.7 -16.51 90)
-					(length 2.54)
-					(name "SEL4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 8.89 180)
-					(length 5.08)
-					(name "D1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 3.81 180)
-					(length 5.08)
-					(name "D2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -2.54 180)
-					(length 5.08)
-					(name "D3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -7.62 180)
-					(length 5.08)
-					(name "D4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "TMUX1511_PW_4"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 0 19.05 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TMUX1511"
-				(at 0 1.778 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tmux1511.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "TMUX1511 four-channel independently controlled bidirectional SPST switch, PW TSSOP-14 package"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TMUX1511_PW_4_0_1"
-				(rectangle
-					(start -10.16 13.97)
-					(end 15.24 -13.97)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "TMUX1511_PW_4_1_1"
-				(pin bidirectional line
-					(at -15.24 8.89 0)
-					(length 5.08)
-					(name "S1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 3.81 0)
-					(length 5.08)
-					(name "S2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -2.54 0)
-					(length 5.08)
-					(name "S3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -7.62 0)
-					(length 5.08)
-					(name "S4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -2.54 -16.51 90)
-					(length 2.54)
-					(name "SEL2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 16.51 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 2.54 -16.51 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 12.7 -16.51 90)
-					(length 2.54)
-					(name "SEL4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 8.89 180)
-					(length 5.08)
-					(name "D1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 3.81 180)
-					(length 5.08)
-					(name "D2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -2.54 180)
-					(length 5.08)
-					(name "D3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -7.62 180)
-					(length 5.08)
-					(name "D4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "TMUX1511_PW_5"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 0 19.05 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TMUX1511"
-				(at 0 1.778 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tmux1511.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "TMUX1511 four-channel independently controlled bidirectional SPST switch, PW TSSOP-14 package"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TMUX1511_PW_5_0_1"
-				(rectangle
-					(start -10.16 13.97)
-					(end 15.24 -13.97)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "TMUX1511_PW_5_1_1"
-				(pin bidirectional line
-					(at -15.24 8.89 0)
-					(length 5.08)
-					(name "S1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 3.81 0)
-					(length 5.08)
-					(name "S2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -2.54 0)
-					(length 5.08)
-					(name "S3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -15.24 -7.62 0)
-					(length 5.08)
-					(name "S4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -2.54 -16.51 90)
-					(length 2.54)
-					(name "SEL2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 16.51 270)
-					(length 2.54)
-					(name "VDD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 2.54 -16.51 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 7.62 -16.51 90)
-					(length 2.54)
-					(name "SEL3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 12.7 -16.51 90)
-					(length 2.54)
-					(name "SEL4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 8.89 180)
-					(length 5.08)
-					(name "D1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 3.81 180)
-					(length 5.08)
-					(name "D2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -2.54 180)
-					(length 5.08)
-					(name "D3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 20.32 -7.62 180)
-					(length 5.08)
-					(name "D4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -10739,7 +8450,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 262.89 92.71 0)
 			(effects
 				(font
@@ -10912,7 +8623,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TMUX1511_PW_3")
 		(lib_id "Espruino_Harness_RevA:TMUX1511_PW")
 		(at 204.47 208.28 0)
 		(unit 1)
@@ -11025,7 +8735,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TMUX1511_PW_5")
 		(lib_id "Espruino_Harness_RevA:TMUX1511_PW")
 		(at 356.87 208.28 0)
 		(unit 1)
@@ -11180,7 +8889,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 52.07 106.68 0)
 			(effects
 				(font
@@ -11250,7 +8959,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 199.39 241.3 0)
 			(effects
 				(font
@@ -11284,7 +8993,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TMUX1511_PW_1")
 		(lib_id "Espruino_Harness_RevA:TMUX1511_PW")
 		(at 52.07 208.28 0)
 		(unit 1)
@@ -11439,7 +9147,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP05 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 62.23 241.3 0)
 			(effects
 				(font
@@ -11506,7 +9214,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps3808.pdf"
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps3808.pdf"
 			(at 307.34 135.89 0)
 			(effects
 				(font
@@ -11515,7 +9223,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2.79 V rail-valid supervisor for TEST_BLOCK_3V3; CT open gives 20 ms nominal release delay"
+		(property "Description" "Low-Quiescent-Current, Programmable-Delay Supervisory Circuit, SOT-23-6"
 			(at 307.34 135.89 0)
 			(effects
 				(font
@@ -11611,7 +9319,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 295.91 106.68 0)
 			(effects
 				(font
@@ -11686,7 +9394,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 274.32 241.3 0)
 			(effects
 				(font
@@ -11762,7 +9470,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-segment SDA pull-up"
+		(property "Description" "Resistor"
 			(at 275.59 52.07 0)
 			(effects
 				(font
@@ -11829,7 +9537,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U606 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 323.85 43.18 0)
 			(effects
 				(font
@@ -11913,7 +9621,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-segment SCL pull-up"
+		(property "Description" "Resistor"
 			(at 275.59 57.15 0)
 			(effects
 				(font
@@ -11980,7 +9688,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 41.91 99.06 0)
 			(effects
 				(font
@@ -12050,7 +9758,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 364.49 189.23 0)
 			(effects
 				(font
@@ -12135,7 +9843,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 358.14 96.52 0)
 			(effects
 				(font
@@ -12211,7 +9919,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Routing-segment SDA pull-up"
+		(property "Description" "Resistor"
 			(at 275.59 68.58 0)
 			(effects
 				(font
@@ -12301,7 +10009,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TMUX1511_PW_2")
 		(lib_id "Espruino_Harness_RevA:TMUX1511_PW")
 		(at 128.27 208.28 0)
 		(unit 1)
@@ -12457,7 +10164,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RCTRL0 INTB"
+		(property "Description" "test point"
 			(at 196.85 129.54 0)
 			(effects
 				(font
@@ -12488,7 +10195,6 @@
 		)
 	)
 	(symbol
-		(lib_name "MCP23017_SO_1")
 		(lib_id "Espruino_Harness_RevA:MCP23017_SO")
 		(at 86.36 71.12 0)
 		(unit 1)
@@ -12650,7 +10356,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TI_GND_1")
 		(lib_id "Espruino_Harness_RevA:TI_GND")
 		(at 146.05 190.5 0)
 		(unit 1)
@@ -12758,7 +10463,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 59.69 189.23 0)
 			(effects
 				(font
@@ -12842,7 +10547,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 165.1 110.49 0)
 			(effects
 				(font
@@ -12913,7 +10618,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Routing Logic Supply Rail"
+		(property "Description" "test point"
 			(at 80.01 129.54 0)
 			(effects
 				(font
@@ -12986,7 +10691,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 295.91 99.06 0)
 			(effects
 				(font
@@ -13119,7 +10824,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 318.77 132.08 0)
 			(effects
 				(font
@@ -13186,7 +10891,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 361.95 241.3 0)
 			(effects
 				(font
@@ -13262,7 +10967,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 135.89 189.23 0)
 			(effects
 				(font
@@ -13347,7 +11052,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Representative route enable"
+		(property "Description" "test point"
 			(at 170.18 152.4 0)
 			(effects
 				(font
@@ -13411,7 +11116,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps3808.pdf"
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps3808.pdf"
 			(at 281.94 102.87 0)
 			(effects
 				(font
@@ -13420,7 +11125,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2.79 V rail-valid supervisor for TI_TARGET_3V3; CT open gives 20 ms nominal release delay"
+		(property "Description" "Low-Quiescent-Current, Programmable-Delay Supervisory Circuit, SOT-23-6"
 			(at 281.94 102.87 0)
 			(effects
 				(font
@@ -13516,7 +11221,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP01 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 39.37 241.3 0)
 			(effects
 				(font
@@ -13592,7 +11297,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 288.29 189.23 0)
 			(effects
 				(font
@@ -13677,7 +11382,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Representative route-entry signal"
+		(property "Description" "test point"
 			(at 111.76 153.67 0)
 			(effects
 				(font
@@ -13741,7 +11446,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps3808.pdf"
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps3808.pdf"
 			(at 372.11 107.95 0)
 			(effects
 				(font
@@ -13750,7 +11455,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2.79 V rail-valid supervisor for ROUTING_LOGIC_3V3; CT open gives 20 ms nominal release delay"
+		(property "Description" "Low-Quiescent-Current, Programmable-Delay Supervisory Circuit, SOT-23-6"
 			(at 372.11 107.95 0)
 			(effects
 				(font
@@ -13847,7 +11552,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Representative route destination"
+		(property "Description" "test point"
 			(at 139.7 153.67 0)
 			(effects
 				(font
@@ -13921,7 +11626,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Test-block-side I2C isolation enable"
+		(property "Description" "test point"
 			(at 140.97 140.97 0)
 			(effects
 				(font
@@ -13994,7 +11699,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP10 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 214.63 241.3 0)
 			(effects
 				(font
@@ -14072,7 +11777,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U608 TEST_BLOCK_3V3 SENSE filter"
+		(property "Description" "Unpolarized capacitor"
 			(at 270.51 138.43 0)
 			(effects
 				(font
@@ -14231,7 +11936,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 212.09 189.23 0)
 			(effects
 				(font
@@ -14316,7 +12021,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 283.21 125.73 0)
 			(effects
 				(font
@@ -14401,7 +12106,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RCTRL1 INTA"
+		(property "Description" "test point"
 			(at 195.58 140.97 0)
 			(effects
 				(font
@@ -14586,7 +12291,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 318.77 139.7 0)
 			(effects
 				(font
@@ -14661,7 +12366,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 118.11 242.57 0)
 			(effects
 				(font
@@ -14737,7 +12442,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP02 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 45.72 241.3 0)
 			(effects
 				(font
@@ -14813,7 +12518,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 151.13 93.98 0)
 			(effects
 				(font
@@ -14883,7 +12588,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 269.24 241.3 0)
 			(effects
 				(font
@@ -14959,7 +12664,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP10 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 289.56 241.3 0)
 			(effects
 				(font
@@ -15036,7 +12741,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Hardware Clear"
+		(property "Description" "test point"
 			(at 140.97 129.54 0)
 			(effects
 				(font
@@ -15249,7 +12954,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Routing-control SDA"
+		(property "Description" "test point"
 			(at 171.45 129.54 0)
 			(effects
 				(font
@@ -15280,7 +12985,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TI_GND_1")
 		(lib_id "Espruino_Harness_RevA:TI_GND")
 		(at 222.25 190.5 0)
 		(unit 1)
@@ -15453,7 +13157,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 346.71 241.3 0)
 			(effects
 				(font
@@ -15530,7 +13234,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-side I2C isolation enable"
+		(property "Description" "test point"
 			(at 113.03 140.97 0)
 			(effects
 				(font
@@ -15736,7 +13440,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Routing-control SCL"
+		(property "Description" "test point"
 			(at 80.01 140.97 0)
 			(effects
 				(font
@@ -15810,7 +13514,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Routing ground"
+		(property "Description" "test point"
 			(at 111.76 129.54 0)
 			(effects
 				(font
@@ -15883,7 +13587,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 123.19 242.57 0)
 			(effects
 				(font
@@ -16025,7 +13729,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Routing-segment SCL pull-up"
+		(property "Description" "Resistor"
 			(at 275.59 73.66 0)
 			(effects
 				(font
@@ -16094,7 +13798,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U609 ROUTING_LOGIC_3V3 SENSE filter"
+		(property "Description" "Unpolarized capacitor"
 			(at 342.9 110.49 0)
 			(effects
 				(font
@@ -16349,7 +14053,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 383.54 104.14 0)
 			(effects
 				(font
@@ -16416,7 +14120,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 284.48 241.3 0)
 			(effects
 				(font
@@ -16492,7 +14196,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 194.31 241.3 0)
 			(effects
 				(font
@@ -16568,7 +14272,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP10 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 138.43 242.57 0)
 			(effects
 				(font
@@ -16644,7 +14348,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 133.35 242.57 0)
 			(effects
 				(font
@@ -16678,7 +14382,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TI_GND_1")
 		(lib_id "Espruino_Harness_RevA:TI_GND")
 		(at 374.65 190.5 0)
 		(unit 1)
@@ -16786,7 +14489,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP04 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 57.15 241.3 0)
 			(effects
 				(font
@@ -16862,7 +14565,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 154.94 102.87 0)
 			(effects
 				(font
@@ -16956,7 +14659,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TI_GND_1")
 		(lib_id "Espruino_Harness_RevA:TI_GND")
 		(at 298.45 190.5 0)
 		(unit 1)
@@ -17022,7 +14724,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TI_GND_1")
 		(lib_id "Espruino_Harness_RevA:TI_GND")
 		(at 69.85 190.5 0)
 		(unit 1)
@@ -17131,7 +14832,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RCTRL1 INTB"
+		(property "Description" "test point"
 			(at 80.01 152.4 0)
 			(effects
 				(font
@@ -17204,7 +14905,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U606 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 204.47 43.18 0)
 			(effects
 				(font
@@ -17289,7 +14990,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RCTRL0 INTA"
+		(property "Description" "test point"
 			(at 171.45 140.97 0)
 			(effects
 				(font
@@ -17320,7 +15021,6 @@
 		)
 	)
 	(symbol
-		(lib_name "TMUX1511_PW_4")
 		(lib_id "Espruino_Harness_RevA:TMUX1511_PW")
 		(at 280.67 208.28 0)
 		(unit 1)
@@ -17477,7 +15177,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U607 TI_TARGET_3V3 SENSE filter"
+		(property "Description" "Unpolarized capacitor"
 			(at 251.46 106.68 0)
 			(effects
 				(font
@@ -17570,7 +15270,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U606 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 90.17 39.37 0)
 			(effects
 				(font
@@ -17654,7 +15354,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 351.79 241.3 0)
 			(effects
 				(font
@@ -17730,7 +15430,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 209.55 241.3 0)
 			(effects
 				(font
@@ -17806,7 +15506,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 38.1 90.17 0)
 			(effects
 				(font

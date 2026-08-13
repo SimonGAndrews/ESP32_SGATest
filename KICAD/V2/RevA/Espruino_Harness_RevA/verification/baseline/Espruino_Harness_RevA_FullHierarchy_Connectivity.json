@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "4baaa7eb64c00866d29a891484e3e4730899eda8875dad5e54738c8dd9c4c312"
+      "sha256": "f0b8fc31839135fd8ab9ee53721f693ed40f6d68ac1bea147734b0fb8fba1822"
     },
     {
       "id": "PC01",
@@ -47,6 +47,11 @@
       "id": "TB02",
       "file": "contracts/TB02-analogue-pwm-feedback.yaml",
       "sha256": "710ab78ab1d1b21cc8abe4c855bcffac72352d4a096fa5380d9399d255bae594"
+    },
+    {
+      "id": "TB03",
+      "file": "contracts/TB03-i2c-functional-device.yaml",
+      "sha256": "46a727c7a5fbe1fb1e3f54feaf55bdf6fb5dc68ea6960deb205f9551cae5ca19"
     },
     {
       "id": "SYS01",
@@ -122,6 +127,17 @@
       }
     },
     {
+      "id": "TB03",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 150,
+      "assertions": {
+        "pin_net": 99,
+        "component_value": 32,
+        "forbidden_same_net": 19
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -133,7 +149,7 @@
       }
     }
   ],
-  "connectivity_sha256": "94a2cc9d44d12c0ee1f6538ca34d00db8b4ccd7e7bd8869d4eaf2651de2267af",
+  "connectivity_sha256": "ba5d142824e0c37d8b422317236f90caaa47650733c945e7db35be2018719b24",
   "components": [
     {
       "ref": "C201",
@@ -343,7 +359,7 @@
     {
       "ref": "J301",
       "value": "GROVE_I2C",
-      "footprint": ""
+      "footprint": "Espruino_Harness_RevA:Grove_1x04_P2mm_RightAngle_Seeed_320110034"
     },
     {
       "ref": "J302",
@@ -671,6 +687,11 @@
       "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
+      "ref": "R312",
+      "value": "10k",
+      "footprint": "Resistor_SMD:R_0603_1608Metric"
+    },
+    {
       "ref": "R401",
       "value": "10k",
       "footprint": "Resistor_SMD:R_0603_1608Metric"
@@ -868,12 +889,12 @@
     {
       "ref": "R1101",
       "value": "0.050R 1.0%",
-      "footprint": "Espruino_Harness_RevA:R_Shunt_Yageo_PE2512_CurrentSense"
+      "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
       "ref": "R1102",
       "value": "1.00R 1.0%",
-      "footprint": "Espruino_Harness_RevA:R_Shunt_Bourns_CHP2512_CurrentSense"
+      "footprint": "Resistor_SMD:R_0603_1608Metric"
     },
     {
       "ref": "R1103",
@@ -1354,7 +1375,23 @@
       "name": "/IP03_TEST_BLOCK_SDA",
       "nodes": [
         {
+          "ref": "J301",
+          "pin": "2"
+        },
+        {
           "ref": "JP302",
+          "pin": "2"
+        },
+        {
+          "ref": "R301",
+          "pin": "2"
+        },
+        {
+          "ref": "R303",
+          "pin": "2"
+        },
+        {
+          "ref": "TP301",
           "pin": "1"
         },
         {
@@ -1367,7 +1404,23 @@
       "name": "/IP04_TEST_BLOCK_SCL",
       "nodes": [
         {
+          "ref": "J301",
+          "pin": "1"
+        },
+        {
           "ref": "JP303",
+          "pin": "2"
+        },
+        {
+          "ref": "R302",
+          "pin": "2"
+        },
+        {
+          "ref": "R304",
+          "pin": "2"
+        },
+        {
+          "ref": "TP302",
           "pin": "1"
         },
         {
@@ -2732,64 +2785,6 @@
       ]
     },
     {
-      "name": "/Standard_Test_Blocks/I2C_SCL_BUS",
-      "nodes": [
-        {
-          "ref": "J301",
-          "pin": "1"
-        },
-        {
-          "ref": "JP303",
-          "pin": "2"
-        },
-        {
-          "ref": "R302",
-          "pin": "2"
-        },
-        {
-          "ref": "R304",
-          "pin": "2"
-        },
-        {
-          "ref": "TP302",
-          "pin": "1"
-        },
-        {
-          "ref": "U301",
-          "pin": "12"
-        }
-      ]
-    },
-    {
-      "name": "/Standard_Test_Blocks/I2C_SDA_BUS",
-      "nodes": [
-        {
-          "ref": "J301",
-          "pin": "2"
-        },
-        {
-          "ref": "JP302",
-          "pin": "2"
-        },
-        {
-          "ref": "R301",
-          "pin": "2"
-        },
-        {
-          "ref": "R303",
-          "pin": "2"
-        },
-        {
-          "ref": "TP301",
-          "pin": "1"
-        },
-        {
-          "ref": "U301",
-          "pin": "13"
-        }
-      ]
-    },
-    {
       "name": "/Standard_Test_Blocks/MCP3008_CH0",
       "nodes": [
         {
@@ -2811,15 +2806,58 @@
       ]
     },
     {
+      "name": "/Standard_Test_Blocks/MCP23017_INTA",
+      "nodes": [
+        {
+          "ref": "JP307",
+          "pin": "2"
+        },
+        {
+          "ref": "R312",
+          "pin": "1"
+        },
+        {
+          "ref": "U301",
+          "pin": "20"
+        }
+      ]
+    },
+    {
       "name": "/Standard_Test_Blocks/MCP23017_RESET_N",
       "nodes": [
         {
           "ref": "R306",
-          "pin": "2"
+          "pin": "1"
         },
         {
           "ref": "U301",
           "pin": "18"
+        }
+      ]
+    },
+    {
+      "name": "/Standard_Test_Blocks/MCP23017_SCL",
+      "nodes": [
+        {
+          "ref": "JP303",
+          "pin": "1"
+        },
+        {
+          "ref": "U301",
+          "pin": "12"
+        }
+      ]
+    },
+    {
+      "name": "/Standard_Test_Blocks/MCP23017_SDA",
+      "nodes": [
+        {
+          "ref": "JP302",
+          "pin": "1"
+        },
+        {
+          "ref": "U301",
+          "pin": "13"
         }
       ]
     },
@@ -2835,8 +2873,16 @@
           "pin": "1"
         },
         {
+          "ref": "R306",
+          "pin": "2"
+        },
+        {
           "ref": "R309",
           "pin": "1"
+        },
+        {
+          "ref": "R312",
+          "pin": "2"
         },
         {
           "ref": "U301",
@@ -3119,6 +3165,40 @@
       ]
     },
     {
+      "name": "/Standard_Test_Blocks/SCL_PULLUP_SUPPLY",
+      "nodes": [
+        {
+          "ref": "JP309",
+          "pin": "1"
+        },
+        {
+          "ref": "R302",
+          "pin": "1"
+        },
+        {
+          "ref": "R304",
+          "pin": "1"
+        }
+      ]
+    },
+    {
+      "name": "/Standard_Test_Blocks/SDA_PULLUP_SUPPLY",
+      "nodes": [
+        {
+          "ref": "JP308",
+          "pin": "1"
+        },
+        {
+          "ref": "R301",
+          "pin": "1"
+        },
+        {
+          "ref": "R303",
+          "pin": "1"
+        }
+      ]
+    },
+    {
       "name": "/Standard_Test_Blocks/UART_PEER_RX",
       "nodes": [
         {
@@ -3270,10 +3350,6 @@
         {
           "ref": "JP309",
           "pin": "2"
-        },
-        {
-          "ref": "R306",
-          "pin": "1"
         },
         {
           "ref": "R401",
@@ -4245,53 +4321,6 @@
         {
           "ref": "R305",
           "pin": "2"
-        }
-      ]
-    },
-    {
-      "name": "Net-(JP307-B)",
-      "nodes": [
-        {
-          "ref": "JP307",
-          "pin": "2"
-        },
-        {
-          "ref": "U301",
-          "pin": "20"
-        }
-      ]
-    },
-    {
-      "name": "Net-(JP308-A)",
-      "nodes": [
-        {
-          "ref": "JP308",
-          "pin": "1"
-        },
-        {
-          "ref": "R301",
-          "pin": "1"
-        },
-        {
-          "ref": "R303",
-          "pin": "1"
-        }
-      ]
-    },
-    {
-      "name": "Net-(JP309-A)",
-      "nodes": [
-        {
-          "ref": "JP309",
-          "pin": "1"
-        },
-        {
-          "ref": "R302",
-          "pin": "1"
-        },
-        {
-          "ref": "R304",
-          "pin": "1"
         }
       ]
     },

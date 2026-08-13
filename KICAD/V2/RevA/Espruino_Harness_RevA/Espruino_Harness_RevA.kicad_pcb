@@ -150,16 +150,16 @@
 	(net 67 "/TI_TARGET_RESET_N")
 	(net 68 "/Standard_Test_Blocks/MCP3008_CH0")
 	(net 69 "/IP03_TEST_BLOCK_SDA")
-	(net 70 "/Standard_Test_Blocks/I2C_SDA_BUS")
-	(net 71 "/Standard_Test_Blocks/I2C_SCL_BUS")
+	(net 70 "/Standard_Test_Blocks/MCP23017_SDA")
+	(net 71 "/Standard_Test_Blocks/MCP23017_SCL")
 	(net 72 "/IP04_TEST_BLOCK_SCL")
 	(net 73 "Net-(JP304-A)")
 	(net 74 "/TI_I2C_FB")
 	(net 75 "Net-(JP306-A)")
-	(net 76 "Net-(JP307-B)")
+	(net 76 "/Standard_Test_Blocks/MCP23017_INTA")
 	(net 77 "/TI_I2C_INT")
-	(net 78 "Net-(JP308-A)")
-	(net 79 "Net-(JP309-A)")
+	(net 78 "/Standard_Test_Blocks/SDA_PULLUP_SUPPLY")
+	(net 79 "/Standard_Test_Blocks/SCL_PULLUP_SUPPLY")
 	(net 80 "Net-(JP610-C)")
 	(net 81 "Net-(JP611-C)")
 	(net 82 "Net-(JP612-C)")
@@ -320,7 +320,7 @@
 				)
 			)
 		)
-		(property "Description" "Nearby ground 2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -842,7 +842,7 @@
 				)
 			)
 		)
-		(property "Description" "10 kΩ 1% 0.1 W 0603 analogue feedback filter resistor"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1009,7 +1009,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-side ADC input 2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1235,7 +1235,7 @@
 				)
 			)
 		)
-		(property "Description" "U606 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1402,7 +1402,7 @@
 				)
 			)
 		)
-		(property "Description" "Block 7 2x3 external peer and UART diagnostic header; no power output"
+		(property "Description" "Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1690,7 +1690,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP3008 chip-select observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1904,7 +1904,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.diodes.com/datasheet/download/DMG2302UKQ.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1916,7 +1916,7 @@
 				)
 			)
 		)
-		(property "Description" "Rack Control open-drain Hardware Clear stage; G=1 S=2 D=3"
+		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2306,7 +2306,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP23017 GPB0 inactive-state pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3038,7 +3038,7 @@
 				)
 			)
 		)
-		(property "Description" "UP03 UART A TX to external peer RX series protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3179,7 +3179,7 @@
 				)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4134,7 +4134,7 @@
 				)
 			)
 		)
-		(property "Description" "UP04 external peer TX to UART A RX series protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4429,7 +4429,7 @@
 				)
 			)
 		)
-		(property "Description" "Hardware Clear"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4668,7 +4668,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4835,7 +4835,7 @@
 				)
 			)
 		)
-		(property "Description" "DS2413 breakout: 1 PIOB, 2 PIOA, 3 DQ, 4 GND"
+		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5081,7 +5081,7 @@
 				)
 			)
 		)
-		(property "Description" "Routing-control SDA"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5307,7 +5307,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5474,7 +5474,7 @@
 				)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5628,7 +5628,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5854,7 +5854,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5994,7 +5994,7 @@
 				)
 			)
 		)
-		(property "Description" "Protected module-side RGB data observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -6220,7 +6220,7 @@
 				)
 			)
 		)
-		(property "Description" "Block 3 ground observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -6587,7 +6587,7 @@
 				)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6899,7 +6899,7 @@
 				)
 			)
 		)
-		(property "Description" "RP04 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -7207,7 +7207,7 @@
 				)
 			)
 		)
-		(property "Description" "Routing-segment SCL pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -7886,7 +7886,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8039,7 +8039,7 @@
 				)
 			)
 		)
-		(property "Description" "MicroSD local decoupling capacitor"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8193,7 +8193,7 @@
 				)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8347,7 +8347,7 @@
 				)
 			)
 		)
-		(property "Description" "Ground observation point adjacent to MCP3008 analogue breakout"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8573,7 +8573,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 ceramic capacitor"
+		(property "Description" "Unpolarized capacitor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8726,7 +8726,7 @@
 				)
 			)
 		)
-		(property "Description" "Default SDA pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8801,7 +8801,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 78 "Net-(JP308-A)")
+			(net 78 "/Standard_Test_Blocks/SDA_PULLUP_SUPPLY")
 			(pintype "passive")
 			(uuid "c2583932-ab94-45cf-b0ec-946e3b89b8d2")
 		)
@@ -8810,7 +8810,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 70 "/Standard_Test_Blocks/I2C_SDA_BUS")
+			(net 69 "/IP03_TEST_BLOCK_SDA")
 			(pintype "passive")
 			(uuid "1280df8d-1c92-4dbd-bd39-eb5b8bb59a69")
 		)
@@ -8867,7 +8867,7 @@
 				)
 			)
 		)
-		(property "Description" "I2C feedback series protection; package not yet selected"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9008,7 +9008,7 @@
 				)
 			)
 		)
-		(property "Description" "RCTRL0 INTA"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9234,7 +9234,7 @@
 				)
 			)
 		)
-		(property "Description" "DS2413 PIOA pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9699,14 +9699,14 @@
 			)
 		)
 	)
-	(footprint "Espruino_Harness_RevA:R_Shunt_Bourns_CHP2512_CurrentSense"
+	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "31f9af27-ede0-42cf-9f17-c4e55ce7e7be")
 		(at 48.26 2.54)
-		(descr "Bourns CHP2512 two-terminal resistor; manufacturer recommended solder-pad layout A=3.70 mm, B=2.45 mm, L=7.60 mm. Route Kelvin sense traces separately from the inner edges of pads 1 and 2. Datasheet: https://www.bourns.com/docs/product-datasheets/chp.pdf")
-		(tags "SMD 2512 current sense shunt Kelvin Bourns CHP2512")
+		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
+		(tags "resistor")
 		(property "Reference" "R1102"
-			(at 0 -2.65 0)
+			(at 0 -1.43 0)
 			(layer "F.SilkS")
 			(uuid "90e0b75b-b255-4cb1-a3cf-94c859b6be18")
 			(effects
@@ -9717,7 +9717,7 @@
 			)
 		)
 		(property "Value" "1.00R 1.0%"
-			(at 0 2.65 0)
+			(at 0 1.43 0)
 			(layer "F.Fab")
 			(uuid "de95d5ee-1c83-4e53-955a-8f5741c1468b")
 			(effects
@@ -9727,7 +9727,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.bourns.com/docs/product-datasheets/chp.pdf"
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9739,7 +9739,7 @@
 				)
 			)
 		)
-		(property "Description" "Bourns CHP2512-FX-1R00ELF, 1 Ω, 1%, 100 ppm/°C, 3 W."
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9757,56 +9757,46 @@
 		(sheetfile "power_control.kicad_sch")
 		(attr smd)
 		(fp_line
-			(start -1.2 -1.68)
-			(end -1.2 -1.43)
+			(start -0.237258 -0.5225)
+			(end 0.237258 -0.5225)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "4e631f5f-3e06-4285-81cc-5ff9358c66ce")
+			(uuid "71a09858-59ce-4627-ba77-04dfa0d3d328")
 		)
 		(fp_line
-			(start -1.2 -1.68)
-			(end 1.2 -1.68)
+			(start -0.237258 0.5225)
+			(end 0.237258 0.5225)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "05cfa628-2f40-4b4f-a315-9a0bf16a7bcc")
-		)
-		(fp_line
-			(start -1.2 1.68)
-			(end 1.2 1.68)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "ba580579-52c1-44f1-83bd-a7d71b9c5d05")
+			(uuid "69468945-40eb-462e-9cbb-dfedfbd03fae")
 		)
 		(fp_rect
-			(start -4.05 -2.1)
-			(end 4.05 2.1)
+			(start -1.48 -0.73)
+			(end 1.48 0.73)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(fill no)
 			(layer "F.CrtYd")
-			(uuid "dfcd470c-68d2-4767-b3d4-88e6b1840462")
+			(uuid "b1fe83f7-1d0d-4945-b67c-16782318d9bb")
 		)
 		(fp_rect
-			(start -3.2 -1.55)
-			(end 3.2 1.55)
+			(start -0.8 -0.4125)
+			(end 0.8 0.4125)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(fill no)
 			(layer "F.Fab")
-			(uuid "3a57a48f-b6bf-4831-ab8c-61baea2f386d")
+			(uuid "b9ad49d0-6317-412f-b1d5-1575a05067d6")
 		)
 		(fp_text user "${REFERENCE}"
 			(at 0 0 0)
@@ -9814,29 +9804,31 @@
 			(uuid "42a131f3-6844-47ff-9259-005738152630")
 			(effects
 				(font
-					(size 1 1)
-					(thickness 0.15)
+					(size 0.4 0.4)
+					(thickness 0.06)
 				)
 			)
 		)
-		(pad "1" smd rect
-			(at -2.575 0)
-			(size 2.45 3.7)
+		(pad "1" smd roundrect
+			(at -0.825 0)
+			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
 			(net 61 "/Power_Control/HIGH_SHUNT_N")
 			(pintype "passive")
 			(uuid "17ec0c11-39fd-468a-a00b-9c1f4308032c")
 		)
-		(pad "2" smd rect
-			(at 2.575 0)
-			(size 2.45 3.7)
+		(pad "2" smd roundrect
+			(at 0.825 0)
+			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
 			(net 66 "/TI_SWITCHED_TARGET_5V")
 			(pintype "passive")
 			(uuid "59fda1e3-755d-43a2-8180-07fe1870c22b")
 		)
 		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_2512_6332Metric.step"
+		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9888,7 +9880,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -10041,7 +10033,7 @@
 				)
 			)
 		)
-		(property "Description" "Optional parallel SCL pull-up position"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -10116,7 +10108,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 79 "Net-(JP309-A)")
+			(net 79 "/Standard_Test_Blocks/SCL_PULLUP_SUPPLY")
 			(pintype "passive")
 			(uuid "1299b105-d671-49ab-bbff-a49b2e34f16c")
 		)
@@ -10125,7 +10117,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 71 "/Standard_Test_Blocks/I2C_SCL_BUS")
+			(net 72 "/IP04_TEST_BLOCK_SCL")
 			(pintype "passive")
 			(uuid "351a271a-4b67-4163-84ff-4f7f725f163c")
 		)
@@ -10183,7 +10175,7 @@
 				)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10495,7 +10487,7 @@
 				)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -10649,7 +10641,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally fitted protected SUP_EVENT_OUT isolation shunt into GPB0"
+		(property "Description" "Jumper, 2-pole, open"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -11258,7 +11250,7 @@
 				)
 			)
 		)
-		(property "Description" "Test-block-side I2C isolation enable"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -11485,7 +11477,7 @@
 				)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -11951,7 +11943,7 @@
 				)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12105,7 +12097,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-segment SCL pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12246,7 +12238,7 @@
 				)
 			)
 		)
-		(property "Description" "TPS22917 CT timing capacitor for Test Block inrush control"
+		(property "Description" "TPS2116 VIN1 local input capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12718,7 +12710,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps3808.pdf"
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps3808.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -12730,7 +12722,7 @@
 				)
 			)
 		)
-		(property "Description" "2.79 V rail-valid supervisor for TI_TARGET_3V3; CT open gives 20 ms nominal release delay"
+		(property "Description" "Low-Quiescent-Current, Programmable-Delay Supervisory Circuit, SOT-23-6"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13101,7 +13093,7 @@
 				)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13255,7 +13247,7 @@
 				)
 			)
 		)
-		(property "Description" "1 µF 10% 16 V X7R 0603 analogue feedback filter capacitor"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13422,7 +13414,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-side I2C isolation enable"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13648,7 +13640,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP23017 local decoupling; 0603 SMD"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13790,7 +13782,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13802,7 +13794,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally fitted SCL pull-up enable shunt"
+		(property "Description" "2.54 mm two-pin THT SCL pull-up enable header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -13810,6 +13802,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8e1d0b8d-496a-4520-a44b-858c3a00028e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "883c8546-328e-4033-b662-ea2aa4e12379")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4b20b5cd-acda-45af-8dfb-5b1ad450213b")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -13957,7 +13988,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 79 "Net-(JP309-A)")
+			(net 79 "/Standard_Test_Blocks/SCL_PULLUP_SUPPLY")
 			(pinfunction "A")
 			(pintype "passive")
 			(uuid "72252cd6-5ae6-433c-9ae6-faae1591fd25")
@@ -14026,7 +14057,7 @@
 				)
 			)
 		)
-		(property "Description" "Rack Control Endpoint: address 0x20, Port B interrupt capture"
+		(property "Description" "MCP23017-E/SO 16-bit I2C I/O expander, SOIC-28"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14579,7 +14610,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14591,7 +14622,7 @@
 				)
 			)
 		)
-		(property "Description" "Vishay BAT54C-E3-08 dual Schottky diode, common cathode pin 3, SOT-23"
+		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14955,7 +14986,7 @@
 				)
 			)
 		)
-		(property "Description" "RP10 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15109,7 +15140,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP23017 reset pull-up; 0603 SMD"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15184,7 +15215,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 4 "/TEST_BLOCK_3V3")
+			(net 103 "/Standard_Test_Blocks/MCP23017_RESET_N")
 			(pintype "passive")
 			(uuid "1d6ba1e3-0e3a-4343-9718-0cb181f53494")
 		)
@@ -15193,7 +15224,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 103 "/Standard_Test_Blocks/MCP23017_RESET_N")
+			(net 3 "/Standard_Test_Blocks/MCP23017_VDD")
 			(pintype "passive")
 			(uuid "8457b3cd-48c0-4a62-af4f-1375299f56de")
 		)
@@ -15558,7 +15589,7 @@
 				)
 			)
 		)
-		(property "Description" "U609 ROUTING_LOGIC_3V3 SENSE filter"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15738,7 +15769,7 @@
 				)
 			)
 		)
-		(property "Description" "Rack Control downstream I2C branch pull-up"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -15878,7 +15909,7 @@
 				)
 			)
 		)
-		(property "Description" "Powered DS18B20 terminal: 1 GND, 2 DQ, 3 3V3"
+		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16320,7 +16351,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16841,7 +16872,7 @@
 				)
 			)
 		)
-		(property "Description" "Supply observation"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -17055,7 +17086,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://learn.adafruit.com/adafruit-pixel-shifter/pinouts"
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -17067,7 +17098,7 @@
 				)
 			)
 		)
-		(property "Description" "Adafruit Pixel Shifter 6066 input: 1 V, 2 GND, 3 DAT, 4 CLK mechanically present but NC"
+		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -17735,7 +17766,7 @@
 				)
 			)
 		)
-		(property "Description" "U607 TI_TARGET_3V3 SENSE filter"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -17915,7 +17946,7 @@
 				)
 			)
 		)
-		(property "Description" "UP02 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18069,7 +18100,7 @@
 				)
 			)
 		)
-		(property "Description" "Block 3 3.3 V observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18295,7 +18326,7 @@
 				)
 			)
 		)
-		(property "Description" "Routing Logic Supply Rail"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18521,7 +18552,7 @@
 				)
 			)
 		)
-		(property "Description" "Normal DQ pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18662,7 +18693,7 @@
 				)
 			)
 		)
-		(property "Description" "DS2413 PIOB pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18803,7 +18834,7 @@
 				)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19097,7 +19128,7 @@
 				)
 			)
 		)
-		(property "Description" "Nearby RGB waveform measurement ground"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19323,7 +19354,7 @@
 				)
 			)
 		)
-		(property "Description" "PIOA feedback protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19464,7 +19495,7 @@
 				)
 			)
 		)
-		(property "Description" "Filtered analogue-feedback 2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19678,7 +19709,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19690,7 +19721,7 @@
 				)
 			)
 		)
-		(property "Description" "Vishay BAT54C-E3-08 dual Schottky diode, common cathode pin 3, SOT-23"
+		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20054,7 +20085,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm two-pin THT PWM-source isolation header; shunt 60900213421 fitted for normal operation"
+		(property "Description" "2.54 mm two-pin THT loopback isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20317,7 +20348,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20484,7 +20515,7 @@
 				)
 			)
 		)
-		(property "Description" "RCTRL1 INTA"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21089,7 +21120,7 @@
 				)
 			)
 		)
-		(property "Description" "U608 TEST_BLOCK_3V3 SENSE filter"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21257,7 +21288,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -21269,7 +21300,7 @@
 				)
 			)
 		)
-		(property "Description" "Vishay BAT54C-E3-08 dual Schottky diode, common cathode pin 3, SOT-23"
+		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22061,7 +22092,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22073,7 +22104,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally closed Block 3 device-supply isolation link"
+		(property "Description" "2.54 mm two-pin THT MCP23017 VDD isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22081,6 +22112,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e1bd6d67-8029-4bd7-bf26-f39ea9e5dbec")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "156f722f-99fb-49c3-b445-a1ffabad6874")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "76cd252d-bbda-4731-a569-cf41acb21431")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -22297,7 +22367,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22451,7 +22521,7 @@
 				)
 			)
 		)
-		(property "Description" "MicroSD active-low chip-select inactive-state pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22592,7 +22662,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP23017 GPA0 target-feedback observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22818,7 +22888,7 @@
 				)
 			)
 		)
-		(property "Description" "UP01 UART A TX to UART B RX series protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -22959,7 +23029,7 @@
 				)
 			)
 		)
-		(property "Description" "Addressable RGB target-data series protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23475,7 +23545,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23642,7 +23712,7 @@
 				)
 			)
 		)
-		(property "Description" "UP02 UART B TX to UART A RX series protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23783,7 +23853,7 @@
 				)
 			)
 		)
-		(property "Description" "TMUX1511 local decoupling capacitor"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23950,7 +24020,7 @@
 				)
 			)
 		)
-		(property "Description" "RP10 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24104,7 +24174,7 @@
 				)
 			)
 		)
-		(property "Description" "Routing-control SCL"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24330,7 +24400,7 @@
 				)
 			)
 		)
-		(property "Description" "Powered DS18B20 terminal: 1 GND, 2 DQ, 3 3V3"
+		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24913,7 +24983,7 @@
 				)
 			)
 		)
-		(property "Description" "Rack Control downstream I2C branch pull-up"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25363,7 +25433,7 @@
 				)
 			)
 		)
-		(property "Description" "PIOB feedback protection"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25504,7 +25574,7 @@
 				)
 			)
 		)
-		(property "Description" "UP03 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25658,7 +25728,7 @@
 				)
 			)
 		)
-		(property "Description" "RP07 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25812,7 +25882,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP23017 GPB1 gate series resistor"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25953,7 +26023,7 @@
 				)
 			)
 		)
-		(property "Description" "U606 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26120,7 +26190,7 @@
 				)
 			)
 		)
-		(property "Description" "Representative route-entry signal"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26346,7 +26416,7 @@
 				)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26653,7 +26723,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm two-pin THT MCP3008 CH0 isolation header; shunt 60900213421 fitted for normal operation"
+		(property "Description" "2.54 mm two-pin THT loopback isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26916,7 +26986,7 @@
 				)
 			)
 		)
-		(property "Description" "UP04 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27058,7 +27128,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07470RL"
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27070,7 +27140,7 @@
 				)
 			)
 		)
-		(property "Description" "470 ohm, 1%, 0.1 W SMD loopback series-protection resistor"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27722,7 +27792,7 @@
 				)
 			)
 		)
-		(property "Description" "UP01 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -29316,7 +29386,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -29328,7 +29398,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally closed Block 3 device-isolation link"
+		(property "Description" "2.54 mm two-pin THT MCP23017 INTA isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -29336,6 +29406,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "85099846-59bc-4d67-90e8-a7430ff304e0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7d88859d-660e-4051-87ff-abaeb8f3a01c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2efcb5c6-af65-47cb-9e9e-44626d7fbe00")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -29494,7 +29603,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 76 "Net-(JP307-B)")
+			(net 76 "/Standard_Test_Blocks/MCP23017_INTA")
 			(pinfunction "B")
 			(pintype "passive")
 			(uuid "83127e42-e13f-4d23-9e4e-03c8e73dedec")
@@ -29552,7 +29661,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm two-pin THT target-ADC isolation header; shunt 60900213421 fitted for normal operation"
+		(property "Description" "2.54 mm two-pin THT loopback isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -29775,14 +29884,14 @@
 			)
 		)
 	)
-	(footprint "Espruino_Harness_RevA:R_Shunt_Yageo_PE2512_CurrentSense"
+	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "949cceaa-5686-4059-b5b8-1034d4c429cb")
 		(at 47.435 10.795)
-		(descr "Yageo PE2512 two-terminal current-sense resistor; manufacturer footprint A=7.36 mm, B=4.06 mm, C=1.65 mm, D=3.68 mm for 7 mOhm to 910 mOhm. Route Kelvin sense traces separately from the inner edges of pads 1 and 2. Datasheet: https://yageogroup.com/content/Resource%20Library/Datasheet/PYU-PE_521_ROHS_L.pdf")
-		(tags "SMD 2512 current sense shunt Kelvin Yageo PE2512")
+		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
+		(tags "resistor")
 		(property "Reference" "R1101"
-			(at 0 -2.65 0)
+			(at 0 -1.43 0)
 			(layer "F.SilkS")
 			(uuid "df086b38-5330-4da6-afbc-81c7b6fe7290")
 			(effects
@@ -29793,7 +29902,7 @@
 			)
 		)
 		(property "Value" "0.050R 1.0%"
-			(at 0 2.65 0)
+			(at 0 1.43 0)
 			(layer "F.Fab")
 			(uuid "34851de8-e796-4aa3-bbb4-80e09eb6d1e6")
 			(effects
@@ -29803,7 +29912,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://yageogroup.com/content/Resource%20Library/Datasheet/PYU-PE_521_ROHS_L.pdf"
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -29815,7 +29924,7 @@
 				)
 			)
 		)
-		(property "Description" "Yageo PE2512FKF7W0R05L, 50 mΩ, 1%, 100 ppm/°C, 2 W."
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -29833,56 +29942,46 @@
 		(sheetfile "power_control.kicad_sch")
 		(attr smd)
 		(fp_line
-			(start -1.9 -1.72)
-			(end -1.9 -1.47)
+			(start -0.237258 -0.5225)
+			(end 0.237258 -0.5225)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "896dac4f-851c-419d-b24e-934dbbdfb269")
+			(uuid "f95f6ea7-1efc-4cf2-96ce-b3043f9b255e")
 		)
 		(fp_line
-			(start -1.9 -1.72)
-			(end 1.9 -1.72)
+			(start -0.237258 0.5225)
+			(end 0.237258 0.5225)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "ed1bc38f-dada-45ae-a4c6-921da6be55d3")
-		)
-		(fp_line
-			(start -1.9 1.72)
-			(end 1.9 1.72)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "4a100fde-d802-4980-b177-2d6b12d53de3")
+			(uuid "0f895e7b-5b4d-4ddb-9959-a43b376378cc")
 		)
 		(fp_rect
-			(start -3.93 -2.09)
-			(end 3.93 2.09)
+			(start -1.48 -0.73)
+			(end 1.48 0.73)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(fill no)
 			(layer "F.CrtYd")
-			(uuid "ae583aa1-9342-4a29-9a5d-6e3a006b8a1c")
+			(uuid "0b13b0f7-ade0-4d4a-8abf-10437e2cb865")
 		)
 		(fp_rect
-			(start -3.175 -1.59)
-			(end 3.175 1.59)
+			(start -0.8 -0.4125)
+			(end 0.8 0.4125)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(fill no)
 			(layer "F.Fab")
-			(uuid "b84558e8-fb07-43d7-8721-06d5477be9ea")
+			(uuid "ea8aa039-3410-4828-b01e-0c6463ed23b7")
 		)
 		(fp_text user "${REFERENCE}"
 			(at 0 0 0)
@@ -29890,29 +29989,31 @@
 			(uuid "df3e6ead-154b-4f5a-a11e-2174a2b3e34d")
 			(effects
 				(font
-					(size 1 1)
-					(thickness 0.15)
+					(size 0.4 0.4)
+					(thickness 0.06)
 				)
 			)
 		)
-		(pad "1" smd rect
-			(at -2.855 0)
-			(size 1.65 3.68)
+		(pad "1" smd roundrect
+			(at -0.825 0)
+			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
 			(net 9 "/Power_Control/HIGH_SHUNT_P")
 			(pintype "passive")
 			(uuid "74a4c032-e0b1-47c9-b2aa-807d38cbe2ce")
 		)
-		(pad "2" smd rect
-			(at 2.855 0)
-			(size 1.65 3.68)
+		(pad "2" smd roundrect
+			(at 0.825 0)
+			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
 			(net 61 "/Power_Control/HIGH_SHUNT_N")
 			(pintype "passive")
 			(uuid "76b71ab1-f50e-48e3-adef-dd0a5a574ebd")
 		)
 		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_2512_6332Metric.step"
+		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -30118,7 +30219,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -30696,7 +30797,7 @@
 				)
 			)
 		)
-		(property "Description" "Pixel Shifter harness-side local decoupling capacitor"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -30850,7 +30951,7 @@
 				)
 			)
 		)
-		(property "Description" "Hardware Clear stage gate pull-down"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -30962,6 +31063,173 @@
 			(net 191 "Net-(Q1203-G)")
 			(pintype "passive")
 			(uuid "78e8d19c-c7a0-48f9-9730-92dc83c20c2a")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
+	(footprint "Resistor_SMD:R_0603_1608Metric"
+		(layer "F.Cu")
+		(uuid "9aa4d835-e284-4bcf-bf16-bd79d34eab09")
+		(at 166.815 106.68)
+		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
+		(tags "resistor")
+		(property "Reference" "R312"
+			(at 0 -1.43 0)
+			(layer "F.SilkS")
+			(uuid "b12e4a93-94be-402d-a168-e265942ebbb5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "10k"
+			(at 0 1.43 0)
+			(layer "F.Fab")
+			(uuid "41c5b8dd-2a3a-47d8-a721-1588709ef129")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5703c23b-a6d7-4b2b-aa9c-37961487eb6c")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "MCP23017 INTA open-drain pull-up; 0603 SMD"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9844cf03-0b9f-4e67-a362-0d4662d82140")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "279d5e5a-a3b1-48d8-a1c0-3d19b373035e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "10k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e1f5de5c-548b-4e98-a679-6f6b268c960f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "R_*")
+		(path "/de8f4588-cd43-45f8-a502-51219f80935f/32a02ce1-cda7-4490-93a8-61a77d75e8cc")
+		(sheetname "/Standard_Test_Blocks/")
+		(sheetfile "standard_test_blocks.kicad_sch")
+		(attr smd)
+		(fp_line
+			(start -0.237258 -0.5225)
+			(end 0.237258 -0.5225)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "0028a45c-a1be-4b6c-972c-15aee13fb075")
+		)
+		(fp_line
+			(start -0.237258 0.5225)
+			(end 0.237258 0.5225)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "226c97f9-4991-4627-be33-1e65bc39003e")
+		)
+		(fp_rect
+			(start -1.48 -0.73)
+			(end 1.48 0.73)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "033c4910-122e-4b7a-9d18-8dee02081b3c")
+		)
+		(fp_rect
+			(start -0.8 -0.4125)
+			(end 0.8 0.4125)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "97ff6af2-fd8f-4f78-901d-6d180b756b0e")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "edb6558a-7fd9-43bc-aa01-21464b1dad7d")
+			(effects
+				(font
+					(size 0.4 0.4)
+					(thickness 0.06)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -0.825 0)
+			(size 0.8 0.95)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net 76 "/Standard_Test_Blocks/MCP23017_INTA")
+			(pintype "passive")
+			(uuid "ac28a26e-8317-4677-96b4-256e8e32172b")
+		)
+		(pad "2" smd roundrect
+			(at 0.825 0)
+			(size 0.8 0.95)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net 3 "/Standard_Test_Blocks/MCP23017_VDD")
+			(pintype "passive")
+			(uuid "b3fa9859-57a6-44d9-87d9-d9db5a0dbc79")
 		)
 		(embedded_fonts no)
 		(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
@@ -31170,7 +31438,7 @@
 				)
 			)
 		)
-		(property "Description" "Representative route destination"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -31549,7 +31817,7 @@
 				)
 			)
 		)
-		(property "Description" "Ground observation"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -31763,7 +32031,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -31775,7 +32043,7 @@
 				)
 			)
 		)
-		(property "Description" "Vishay BAT54C-E3-08 dual Schottky diode, common cathode pin 3, SOT-23"
+		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -32139,7 +32407,7 @@
 				)
 			)
 		)
-		(property "Description" "RCTRL1 INTB"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -32365,7 +32633,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -32591,7 +32859,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33083,7 +33351,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33095,7 +33363,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally closed Block 3 device-isolation link"
+		(property "Description" "2.54 mm two-pin THT MCP23017 SDA isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33103,6 +33371,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5de9a8d3-1767-4ebd-8b07-7a29fc7b0b05")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "66992325-4f35-49a5-b932-8a79a6874fd3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "64a8e105-cc97-45af-b06a-e85bd94ed1fb")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -33250,7 +33557,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 69 "/IP03_TEST_BLOCK_SDA")
+			(net 70 "/Standard_Test_Blocks/MCP23017_SDA")
 			(pinfunction "A")
 			(pintype "passive")
 			(uuid "73f32d36-45fb-4ad4-8a7c-fa6cb9382192")
@@ -33261,7 +33568,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 70 "/Standard_Test_Blocks/I2C_SDA_BUS")
+			(net 69 "/IP03_TEST_BLOCK_SDA")
 			(pinfunction "B")
 			(pintype "passive")
 			(uuid "e986a9b5-8368-46d2-a519-3082af7b0e6e")
@@ -33319,7 +33626,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33460,7 +33767,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33601,7 +33908,7 @@
 				)
 			)
 		)
-		(property "Description" "U606 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33768,7 +34075,7 @@
 				)
 			)
 		)
-		(property "Description" "External analogue stimulus connector: pin 1 ANALOG_FB, pin 2 GND; 0 to 3.3 V only"
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -34018,7 +34325,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP3008 active-low chip-select inactive-state pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -34159,7 +34466,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-segment SDA pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -35049,7 +35356,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -35061,7 +35368,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally closed Block 3 device-isolation link"
+		(property "Description" "2.54 mm two-pin THT MCP23017 SCL isolation header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -35069,6 +35376,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c043a1b4-5d2f-4daf-bf60-200238e73969")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "65d8f5c0-5944-4b0d-93d5-5890f9cd37eb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "600580cc-9fe0-48e0-bafa-67bbe8c37570")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -35216,7 +35562,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 72 "/IP04_TEST_BLOCK_SCL")
+			(net 71 "/Standard_Test_Blocks/MCP23017_SCL")
 			(pinfunction "A")
 			(pintype "passive")
 			(uuid "6d60904d-db2a-45b6-b40d-69ae91c88a37")
@@ -35227,7 +35573,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 71 "/Standard_Test_Blocks/I2C_SCL_BUS")
+			(net 72 "/IP04_TEST_BLOCK_SCL")
 			(pinfunction "B")
 			(pintype "passive")
 			(uuid "4a334a74-732b-4290-88ed-3d914c0a1e94")
@@ -35875,7 +36221,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP3008 local supply decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -36029,7 +36375,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -36323,7 +36669,7 @@
 				)
 			)
 		)
-		(property "Description" "RP05 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -36477,7 +36823,7 @@
 				)
 			)
 		)
-		(property "Description" "Alternative DQ pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -36965,7 +37311,7 @@
 			(size 2.05 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 71 "/Standard_Test_Blocks/I2C_SCL_BUS")
+			(net 71 "/Standard_Test_Blocks/MCP23017_SCL")
 			(pinfunction "SCL")
 			(pintype "input")
 			(uuid "8079d789-7a5f-48cb-89be-ab62607431ea")
@@ -36975,7 +37321,7 @@
 			(size 2.05 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 70 "/Standard_Test_Blocks/I2C_SDA_BUS")
+			(net 70 "/Standard_Test_Blocks/MCP23017_SDA")
 			(pinfunction "SDA")
 			(pintype "bidirectional")
 			(uuid "bf411dfb-6e5a-4bd1-bcf9-f229541b68ec")
@@ -37045,7 +37391,7 @@
 			(size 2.05 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 76 "Net-(JP307-B)")
+			(net 76 "/Standard_Test_Blocks/MCP23017_INTA")
 			(pinfunction "INTA")
 			(pintype "open_collector")
 			(uuid "81a8c002-6f7b-4dfc-82d7-2384da3190b8")
@@ -37709,7 +38055,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -37876,7 +38222,7 @@
 				)
 			)
 		)
-		(property "Description" "PIOA observation"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -38681,7 +39027,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -38693,7 +39039,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally fitted SDA pull-up enable shunt"
+		(property "Description" "2.54 mm two-pin THT SDA pull-up enable header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -38701,6 +39047,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "83805518-93d8-4d7d-b99b-d7d8f36c9ddd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4a634e6e-a5ba-452b-a3b4-3bab8eecf5d7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "558d57e2-5336-4b10-b55f-6117e134255a")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -38848,7 +39233,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 78 "Net-(JP308-A)")
+			(net 78 "/Standard_Test_Blocks/SDA_PULLUP_SUPPLY")
 			(pinfunction "A")
 			(pintype "passive")
 			(uuid "312bf2dc-0407-467b-94da-f20e9d6749f7")
@@ -38917,7 +39302,7 @@
 				)
 			)
 		)
-		(property "Description" "RP01 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39071,7 +39456,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39225,7 +39610,7 @@
 				)
 			)
 		)
-		(property "Description" "Representative route enable"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39451,7 +39836,7 @@
 				)
 			)
 		)
-		(property "Description" "SUP_EVENT_OUT gate pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39746,7 +40131,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39758,7 +40143,7 @@
 				)
 			)
 		)
-		(property "Description" "Vishay BAT54C-E3-08 dual Schottky diode, common cathode pin 3, SOT-23"
+		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40122,7 +40507,7 @@
 				)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40276,7 +40661,7 @@
 				)
 			)
 		)
-		(property "Description" "TXU0101 VCCB 5 V decoupling"
+		(property "Description" "TPS2116 VIN1 local input capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40430,7 +40815,7 @@
 				)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -40742,7 +41127,7 @@
 				)
 			)
 		)
-		(property "Description" "Routing-segment SDA pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40871,7 +41256,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps3808.pdf"
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps3808.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40883,7 +41268,7 @@
 				)
 			)
 		)
-		(property "Description" "2.79 V rail-valid supervisor for TEST_BLOCK_3V3; CT open gives 20 ms nominal release delay"
+		(property "Description" "Low-Quiescent-Current, Programmable-Delay Supervisory Circuit, SOT-23-6"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -41254,7 +41639,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -41421,7 +41806,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP3008 CH0 through CH7 analogue breakout; pin 1 is CH0"
+		(property "Description" "MCP3008 CH0 through CH7 vertical 2.54 mm analogue breakout"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -41711,7 +42096,7 @@
 				)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -42023,7 +42408,7 @@
 				)
 			)
 		)
-		(property "Description" "RP09 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -42493,7 +42878,7 @@
 				)
 			)
 		)
-		(property "Description" "Routing ground"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -42707,7 +43092,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -42719,7 +43104,7 @@
 				)
 			)
 		)
-		(property "Description" "Normally closed Block 3 device-isolation link"
+		(property "Description" "2.54 mm two-pin THT SCL pull-up enable header; shunt 60900213421 fitted for normal operation"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -42727,6 +43112,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "71b47b94-34fa-46b7-89da-697e7f2a88f9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fc8ad5b4-2559-4e9b-8702-f3db4a2ba211")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8238e236-37c9-4279-a69f-e766803cdded")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -42931,7 +43355,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-07470RL"
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -42943,7 +43367,7 @@
 				)
 			)
 		)
-		(property "Description" "470 ohm, 1%, 0.1 W SMD loopback series-protection resistor"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43464,7 +43888,7 @@
 				)
 			)
 		)
-		(property "Description" "Optional parallel SDA pull-up position"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43539,7 +43963,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 78 "Net-(JP308-A)")
+			(net 78 "/Standard_Test_Blocks/SDA_PULLUP_SUPPLY")
 			(pintype "passive")
 			(uuid "613259c0-81fc-462c-b99e-a0fbebf85ac9")
 		)
@@ -43548,7 +43972,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 70 "/Standard_Test_Blocks/I2C_SDA_BUS")
+			(net 69 "/IP03_TEST_BLOCK_SDA")
 			(pintype "passive")
 			(uuid "e8758575-7cd0-416d-922d-4550d2161a8c")
 		)
@@ -43605,7 +44029,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-side PWM source 2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43831,7 +44255,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP23017 interrupt observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -44057,7 +44481,7 @@
 				)
 			)
 		)
-		(property "Description" "2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -44424,7 +44848,7 @@
 				)
 			)
 		)
-		(property "Description" "RCTRL0 INTB"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -44650,7 +45074,7 @@
 				)
 			)
 		)
-		(property "Description" "TXU0101 VCCA 3.3 V decoupling"
+		(property "Description" "TPS2116 VIN1 local input capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -44803,7 +45227,7 @@
 				)
 			)
 		)
-		(property "Description" "PIOB observation"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -45029,7 +45453,7 @@
 				)
 			)
 		)
-		(property "Description" "MCP3008 CH0-side 2.54 mm header-pin test point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -45619,7 +46043,7 @@
 				)
 			)
 		)
-		(property "Description" "Shared I2C SDA observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -45787,7 +46211,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 70 "/Standard_Test_Blocks/I2C_SDA_BUS")
+			(net 69 "/IP03_TEST_BLOCK_SDA")
 			(pinfunction "1")
 			(pintype "passive")
 			(uuid "39b888aa-01fa-4e69-9d8e-56002a94bd59")
@@ -45845,7 +46269,7 @@
 				)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -45986,7 +46410,7 @@
 				)
 			)
 		)
-		(property "Description" "Three-pad MCP23017 address selector; pads 1-2 default"
+		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -46298,7 +46722,7 @@
 				)
 			)
 		)
-		(property "Description" "Target-valid open-drain output pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -46452,7 +46876,7 @@
 				)
 			)
 		)
-		(property "Description" "U601 local decoupling"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -46983,7 +47407,7 @@
 				)
 			)
 		)
-		(property "Description" "SUP_EVENT_IN gate pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -47137,7 +47561,7 @@
 				)
 			)
 		)
-		(property "Description" "RP10 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -47291,7 +47715,7 @@
 				)
 			)
 		)
-		(property "Description" "DQ observation"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -47517,7 +47941,7 @@
 				)
 			)
 		)
-		(property "Description" "SUP_EVENT_OUT gate series resistor"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -47658,7 +48082,7 @@
 				)
 			)
 		)
-		(property "Description" "Provisional MicroSD local bulk capacitor; validate on Rev A"
+		(property "Description" "Unpolarized capacitor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -47799,7 +48223,7 @@
 				)
 			)
 		)
-		(property "Description" "RP06 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -47913,6 +48337,295 @@
 			)
 		)
 	)
+	(footprint "Espruino_Harness_RevA:Grove_1x04_P2mm_RightAngle_Seeed_320110034"
+		(layer "F.Cu")
+		(uuid "f59936ae-3651-4758-bec9-08a4d0534ffc")
+		(at 95.52 135.28 180)
+		(descr "Seeed Studio 320110034 / 1125R-4P right-angle Grove connector, 1x4, 2.00 mm pitch, through-hole. Geometry curated from Seeed OPL GROVE-HW4-2.0-90D and checked against the manufacturer drawing. Mating face is at footprint Y=-4.9 mm; place that face toward the board edge. Datasheet: https://statics3.seeedstudio.com/fusion/opl/datasheet/320110034.pdf")
+		(tags "Grove Seeed 320110034 1125R-4P 1x4 2.00mm right-angle THT")
+		(property "Reference" "J301"
+			(at 0 -5.95 0)
+			(layer "F.SilkS")
+			(uuid "988d7209-7866-43f9-a87f-43c38ed158eb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "GROVE_I2C"
+			(at 0 6.45 0)
+			(layer "F.Fab")
+			(uuid "561aa208-08ff-4f00-a494-581bd31a3a5f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://statics3.seeedstudio.com/fusion/opl/datasheet/320110034.pdf"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e5151de7-e05e-4e6d-a152-6976af3ef242")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "Seeed 1125R-4P right-angle 1x4 2.00 mm THT Grove connector; Seeed SKU 320110034"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b93750a-3c0e-43c1-810e-2d5f3a3292a9")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "1125R-4P"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "563a6511-a301-42a0-a2d7-9294d9c531e3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "32d4ac11-df7b-46fe-a3bf-6107a98d8696")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" "true"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "06248d97-1de7-4943-a101-c97b860c5d36")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(path "/de8f4588-cd43-45f8-a502-51219f80935f/1034c26a-412d-4181-8956-077d0472605a")
+		(sheetname "/Standard_Test_Blocks/")
+		(sheetfile "standard_test_blocks.kicad_sch")
+		(attr through_hole)
+		(fp_line
+			(start 5.12 5.02)
+			(end -5.12 5.02)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "006354a6-fcdc-487b-9976-beb97febc967")
+		)
+		(fp_line
+			(start 5.12 -5.02)
+			(end 5.12 5.02)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "b2684b3e-180e-49cf-a431-66fc956bb545")
+		)
+		(fp_line
+			(start 2.8 -3.9)
+			(end 2.8 -5.02)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "0e232adc-c838-4905-9962-cca241cfa111")
+		)
+		(fp_line
+			(start -2.8 -3.9)
+			(end 2.8 -3.9)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "4836a521-9da7-4b48-a84a-0b68186cdab3")
+		)
+		(fp_line
+			(start -2.8 -5.02)
+			(end -2.8 -3.9)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "1a3d4111-ff8d-4eaa-b8e4-989e60eb8e9e")
+		)
+		(fp_line
+			(start -5.12 5.02)
+			(end -5.12 -5.02)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "463d9c11-84f9-4373-bf73-b736b686c234")
+		)
+		(fp_line
+			(start -5.12 -5.02)
+			(end 5.12 -5.02)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "4c940264-4852-45e9-a415-bb6fc4ffae2e")
+		)
+		(fp_poly
+			(pts
+				(xy -5.7 2.6) (xy -5.2 3.2) (xy -5.7 3.8)
+			)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.SilkS")
+			(uuid "aa09c79f-9f8a-46e2-9b16-4cc732d7c017")
+		)
+		(fp_rect
+			(start -5.25 -5.15)
+			(end 5.25 5.15)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "c376ccec-7578-43b5-9945-87dc11b773e0")
+		)
+		(fp_line
+			(start -5 1.6)
+			(end 5 1.6)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "458cbab9-d9e2-4fe2-8bf2-1b673a59b62b")
+		)
+		(fp_rect
+			(start -5 -4.9)
+			(end 5 4.9)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "175a4d38-eda2-41e0-aa12-df2dd5a51d1e")
+		)
+		(fp_poly
+			(pts
+				(xy -2.8 -4.9) (xy -2.8 -3.9) (xy 2.8 -3.9) (xy 2.8 -4.9)
+			)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "b276a0ea-f5db-4b2a-946e-2dd6610d5ebf")
+		)
+		(fp_text user "MATING FACE"
+			(at 0 -4.35 0)
+			(layer "F.Fab")
+			(uuid "0059d633-c908-4393-8390-4cd8a31d5db7")
+			(effects
+				(font
+					(size 0.7 0.7)
+					(thickness 0.1)
+				)
+			)
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "ac140ce1-101c-43ac-9579-a1d1871d1846")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole rect
+			(at -3 3.2 180)
+			(size 1.4 1.4)
+			(drill 0.8)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 72 "/IP04_TEST_BLOCK_SCL")
+			(pinfunction "SCL")
+			(pintype "passive")
+			(uuid "53687445-503d-40ad-b22c-84220e81e026")
+		)
+		(pad "2" thru_hole circle
+			(at -1 3.2 180)
+			(size 1.4 1.4)
+			(drill 0.8)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 69 "/IP03_TEST_BLOCK_SDA")
+			(pinfunction "SDA")
+			(pintype "passive")
+			(uuid "acefd0d2-06f6-4a63-8953-e2c3f7d74916")
+		)
+		(pad "3" thru_hole circle
+			(at 1 3.2 180)
+			(size 1.4 1.4)
+			(drill 0.8)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 4 "/TEST_BLOCK_3V3")
+			(pinfunction "3V3")
+			(pintype "power_in")
+			(uuid "5dda4032-c55e-4567-85a3-8e99bd35471e")
+		)
+		(pad "4" thru_hole circle
+			(at 3 3.2 180)
+			(size 1.4 1.4)
+			(drill 0.8)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 1 "TI_GND")
+			(pinfunction "GND")
+			(pintype "power_in")
+			(uuid "0d6cdaf8-c54a-45b8-9337-86e73fcc916d")
+		)
+		(embedded_fonts no)
+	)
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "f897a75c-7c2a-43d0-9cb8-e9e9b4d18018")
@@ -47953,7 +48666,7 @@
 				)
 			)
 		)
-		(property "Description" "RP02 external safe-state pull-down"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -48107,7 +48820,7 @@
 				)
 			)
 		)
-		(property "Description" "Shared I2C SCL observation point"
+		(property "Description" "test point"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -48125,6 +48838,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e481d7d7-cd77-4598-9ebe-3033d12fde30")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "843138dd-acdd-425d-8254-1f6178f16e7a")
 			(effects
 				(font
 					(size 1 1)
@@ -48275,7 +49001,7 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 71 "/Standard_Test_Blocks/I2C_SCL_BUS")
+			(net 72 "/IP04_TEST_BLOCK_SCL")
 			(pinfunction "1")
 			(pintype "passive")
 			(uuid "f71446f8-3899-41ae-adba-5e74c4617f1e")
@@ -49082,7 +49808,7 @@
 				)
 			)
 		)
-		(property "Description" "Default SCL pull-up"
+		(property "Description" "Resistor"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -49157,7 +49883,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 79 "Net-(JP309-A)")
+			(net 79 "/Standard_Test_Blocks/SCL_PULLUP_SUPPLY")
 			(pintype "passive")
 			(uuid "5d7f3b3a-de83-4a33-9ff8-128b1c435a5d")
 		)
@@ -49166,7 +49892,7 @@
 			(size 0.8 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net 71 "/Standard_Test_Blocks/I2C_SCL_BUS")
+			(net 72 "/IP04_TEST_BLOCK_SCL")
 			(pintype "passive")
 			(uuid "01bce3bd-bd10-40c4-b5d9-7b13ec38701b")
 		)
@@ -49211,7 +49937,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps3808.pdf"
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps3808.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -49223,7 +49949,7 @@
 				)
 			)
 		)
-		(property "Description" "2.79 V rail-valid supervisor for ROUTING_LOGIC_3V3; CT open gives 20 ms nominal release delay"
+		(property "Description" "Low-Quiescent-Current, Programmable-Delay Supervisory Circuit, SOT-23-6"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -49594,7 +50320,7 @@
 				)
 			)
 		)
-		(property "Description" "U1201 ROUTE_CLEAR_REQUEST gate series resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)

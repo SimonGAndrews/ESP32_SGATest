@@ -1,0 +1,222 @@
+schema_version: 1
+kind: block_contract
+block_id: TB03
+
+# Independent machine-checkable intent derived from Standard Test Blocks
+# Section 6.3. Shunt fit state, Grove orientation, physical accessibility,
+# bus timing and completed-board event behaviour remain human-reviewed PCB,
+# assembly and functional-test checks.
+assertions:
+  pin_net:
+    # Shared target/routing/Grove bus and central adjustable pull-ups. The
+    # MCP23017 branch begins only on the other side of JP302 and JP303.
+    - {ref: J301, pin: "2", net: IP03_TEST_BLOCK_SDA}
+    - {ref: TP301, pin: "1", net: IP03_TEST_BLOCK_SDA}
+    - {ref: R301, pin: "2", net: IP03_TEST_BLOCK_SDA}
+    - {ref: R303, pin: "2", net: IP03_TEST_BLOCK_SDA}
+    - {ref: JP302, pin: "2", net: IP03_TEST_BLOCK_SDA}
+    - {ref: JP302, pin: "1", net: MCP23017_SDA}
+    - {ref: U301, pin: "13", net: MCP23017_SDA}
+
+    - {ref: J301, pin: "1", net: IP04_TEST_BLOCK_SCL}
+    - {ref: TP302, pin: "1", net: IP04_TEST_BLOCK_SCL}
+    - {ref: R302, pin: "2", net: IP04_TEST_BLOCK_SCL}
+    - {ref: R304, pin: "2", net: IP04_TEST_BLOCK_SCL}
+    - {ref: JP303, pin: "2", net: IP04_TEST_BLOCK_SCL}
+    - {ref: JP303, pin: "1", net: MCP23017_SCL}
+    - {ref: U301, pin: "12", net: MCP23017_SCL}
+
+    - {ref: JP308, pin: "2", net: TEST_BLOCK_3V3}
+    - {ref: JP308, pin: "1", net: SDA_PULLUP_SUPPLY}
+    - {ref: R301, pin: "1", net: SDA_PULLUP_SUPPLY}
+    - {ref: R303, pin: "1", net: SDA_PULLUP_SUPPLY}
+    - {ref: JP309, pin: "2", net: TEST_BLOCK_3V3}
+    - {ref: JP309, pin: "1", net: SCL_PULLUP_SUPPLY}
+    - {ref: R302, pin: "1", net: SCL_PULLUP_SUPPLY}
+    - {ref: R304, pin: "1", net: SCL_PULLUP_SUPPLY}
+
+    # Official Grove numbering and diagnostic supply/ground contacts.
+    - {ref: J301, pin: "3", net: TEST_BLOCK_3V3}
+    - {ref: J301, pin: "4", net: TI_GND}
+    - {ref: TP305, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: TP306, pin: "1", net: TI_GND}
+
+    # Isolated MCP23017 supply domain. RESET, INTA pull-up and local event
+    # bias must lose power with the device rather than remain upstream.
+    - {ref: JP301, pin: "2", net: TEST_BLOCK_3V3}
+    - {ref: JP301, pin: "1", net: MCP23017_VDD}
+    - {ref: U301, pin: "9", net: MCP23017_VDD}
+    - {ref: C301, pin: "1", net: MCP23017_VDD}
+    - {ref: C301, pin: "2", net: TI_GND}
+    - {ref: R306, pin: "2", net: MCP23017_VDD}
+    - {ref: R306, pin: "1", net: MCP23017_RESET_N}
+    - {ref: U301, pin: "18", net: MCP23017_RESET_N}
+    - {ref: R312, pin: "2", net: MCP23017_VDD}
+    - {ref: R312, pin: "1", net: MCP23017_INTA}
+    - {ref: U301, pin: "20", net: MCP23017_INTA}
+    - {ref: R309, pin: "1", net: MCP23017_VDD}
+    - {ref: U301, pin: "10", net: TI_GND}
+    - {ref: U301, pin: "15", net: TI_GND}
+    - {ref: U301, pin: "16", net: TI_GND}
+    - {ref: U301, pin: "17", net: TI_GND}
+
+    # Target feedback and mirrored open-drain interrupt isolation.
+    - {ref: U301, pin: "21", net: MCP_GPA0}
+    - {ref: R305, pin: "1", net: MCP_GPA0}
+    - {ref: R305, pin: "2", net: Net-(JP306-A)}
+    - {ref: JP306, pin: "1", net: Net-(JP306-A)}
+    - {ref: JP306, pin: "2", net: TI_I2C_FB}
+    - {ref: TP303, pin: "1", net: TI_I2C_FB}
+    - {ref: JP307, pin: "2", net: MCP23017_INTA}
+    - {ref: JP307, pin: "1", net: TI_I2C_INT}
+    - {ref: TP304, pin: "1", net: TI_I2C_INT}
+
+    # Proven GPA1-to-GPA2 internal loop and complete two-bank breakout.
+    - {ref: J302, pin: "1", net: MCP_GPA0}
+    - {ref: U301, pin: "22", net: MCP_GPA1_GPA2_LOOP}
+    - {ref: U301, pin: "23", net: MCP_GPA1_GPA2_LOOP}
+    - {ref: J302, pin: "3", net: MCP_GPA1_GPA2_LOOP}
+    - {ref: J302, pin: "5", net: MCP_GPA1_GPA2_LOOP}
+    - {ref: U301, pin: "24", net: MCP_GPA3}
+    - {ref: J302, pin: "7", net: MCP_GPA3}
+    - {ref: U301, pin: "25", net: MCP_GPA4}
+    - {ref: J302, pin: "9", net: MCP_GPA4}
+    - {ref: U301, pin: "26", net: MCP_GPA5}
+    - {ref: J302, pin: "11", net: MCP_GPA5}
+    - {ref: U301, pin: "27", net: MCP_GPA6}
+    - {ref: J302, pin: "13", net: MCP_GPA6}
+    - {ref: U301, pin: "28", net: MCP_GPA7}
+    - {ref: J302, pin: "15", net: MCP_GPA7}
+
+    - {ref: U301, pin: "1", net: MCP_GPB0}
+    - {ref: J302, pin: "2", net: MCP_GPB0}
+    - {ref: JP304, pin: "2", net: MCP_GPB0}
+    - {ref: U301, pin: "2", net: MCP_GPB1}
+    - {ref: J302, pin: "4", net: MCP_GPB1}
+    - {ref: R310, pin: "1", net: MCP_GPB1}
+    - {ref: U301, pin: "3", net: MCP_GPB2}
+    - {ref: J302, pin: "6", net: MCP_GPB2}
+    - {ref: U301, pin: "4", net: MCP_GPB3}
+    - {ref: J302, pin: "8", net: MCP_GPB3}
+    - {ref: U301, pin: "5", net: MCP_GPB4}
+    - {ref: J302, pin: "10", net: MCP_GPB4}
+    - {ref: U301, pin: "6", net: MCP_GPB5}
+    - {ref: J302, pin: "12", net: MCP_GPB5}
+    - {ref: U301, pin: "7", net: MCP_GPB6}
+    - {ref: J302, pin: "14", net: MCP_GPB6}
+    - {ref: U301, pin: "8", net: MCP_GPB7}
+    - {ref: J302, pin: "16", net: MCP_GPB7}
+
+    # Protected active-low Supervisor event input and output stages.
+    - {ref: R307, pin: "1", net: SUP_EVENT_OUT}
+    - {ref: R307, pin: "2", net: Net-(Q301-G)}
+    - {ref: R308, pin: "1", net: Net-(Q301-G)}
+    - {ref: R308, pin: "2", net: TI_GND}
+    - {ref: Q301, pin: "1", net: Net-(Q301-G)}
+    - {ref: Q301, pin: "2", net: TI_GND}
+    - {ref: Q301, pin: "3", net: Net-(JP304-A)}
+    - {ref: R309, pin: "2", net: Net-(JP304-A)}
+    - {ref: JP304, pin: "1", net: Net-(JP304-A)}
+
+    - {ref: R310, pin: "2", net: Net-(Q302-G)}
+    - {ref: R311, pin: "1", net: Net-(Q302-G)}
+    - {ref: R311, pin: "2", net: TI_GND}
+    - {ref: Q302, pin: "1", net: Net-(Q302-G)}
+    - {ref: Q302, pin: "2", net: TI_GND}
+    - {ref: Q302, pin: "3", net: SUP_EVENT_IN}
+
+  component_value:
+    - {ref: U301, value: MCP23017-E/SO}
+    - {ref: C301, value: 100nF}
+    - {ref: J301, value: GROVE_I2C}
+    - {ref: J302, value: MCP23017_GPIO}
+    - {ref: JP301, value: VDD_ISOLATION}
+    - {ref: JP302, value: SDA_DEVICE_ISOLATION}
+    - {ref: JP303, value: SCL_DEVICE_ISOLATION}
+    - {ref: JP304, value: EVENT_INPUT_ISOLATION}
+    - {ref: JP306, value: FB_DEVICE_ISOLATION}
+    - {ref: JP307, value: INT_DEVICE_ISOLATION}
+    - {ref: JP308, value: SDA_PULLUP_ENABLE}
+    - {ref: JP309, value: SCL_PULLUP_ENABLE}
+    - {ref: R301, value: 4.7k}
+    - {ref: R302, value: 4.7k}
+    - {ref: R303, value: 4.7k DNP}
+    - {ref: R304, value: 4.7k DNP}
+    - {ref: R305, value: 470R}
+    - {ref: R306, value: 10k}
+    - {ref: R307, value: 10k}
+    - {ref: R308, value: 100k}
+    - {ref: R309, value: 10k}
+    - {ref: R310, value: 10k}
+    - {ref: R311, value: 100k}
+    - {ref: R312, value: 10k}
+    - {ref: Q301, value: 2N7002}
+    - {ref: Q302, value: 2N7002}
+    - {ref: TP301, value: SDA}
+    - {ref: TP302, value: SCL}
+    - {ref: TP303, value: TI_I2C_FB}
+    - {ref: TP304, value: TI_I2C_INT}
+    - {ref: TP305, value: 3V3}
+    - {ref: TP306, value: GND}
+
+  forbidden_same_net:
+    # Every removable boundary and series protection element must remain real.
+    - id: TB03-F01
+      endpoints: [JP301.1, JP301.2]
+      reason: MCP23017 VDD and every local bias must remain supply-isolatable.
+    - id: TB03-F02
+      endpoints: [JP302.1, JP302.2]
+      reason: MCP23017 SDA must remain isolated without disconnecting the shared bus.
+    - id: TB03-F03
+      endpoints: [JP303.1, JP303.2]
+      reason: MCP23017 SCL must remain isolated without disconnecting the shared bus.
+    - id: TB03-F04
+      endpoints: [JP304.1, JP304.2]
+      reason: The Supervisor event input must remain independently isolatable.
+    - id: TB03-F05
+      endpoints: [JP306.1, JP306.2]
+      reason: GPA0 target feedback must remain independently isolatable.
+    - id: TB03-F06
+      endpoints: [JP307.1, JP307.2]
+      reason: The target-facing interrupt path must remain independently isolatable.
+    - id: TB03-F07
+      endpoints: [JP308.1, JP308.2]
+      reason: The central SDA pull-up must remain independently removable.
+    - id: TB03-F08
+      endpoints: [JP309.1, JP309.2]
+      reason: The central SCL pull-up must remain independently removable.
+    - id: TB03-F09
+      endpoints: [R305.1, R305.2]
+      reason: GPA0 feedback must retain its 470 ohm series protection.
+    - id: TB03-F10
+      endpoints: [R306.1, R306.2]
+      reason: RESET must retain its local pull-up rather than be tied directly to VDD.
+    - id: TB03-F11
+      endpoints: [R312.1, R312.2]
+      reason: Open-drain INTA must retain its local 10 kohm pull-up.
+
+    # Protect the key functional-domain separations.
+    - id: TB03-F12
+      endpoints: [JP302.2, U301.13]
+      reason: The shared SDA bus must not bypass the MCP23017 isolation link.
+    - id: TB03-F13
+      endpoints: [JP303.2, U301.12]
+      reason: The shared SCL bus must not bypass the MCP23017 isolation link.
+    - id: TB03-F14
+      endpoints: [JP301.2, U301.9]
+      reason: The MCP23017 isolated supply must not collapse into TEST_BLOCK_3V3.
+    - id: TB03-F15
+      endpoints: [U301.21, JP306.2]
+      reason: Target feedback must not bypass its resistor and isolation header.
+    - id: TB03-F16
+      endpoints: [U301.20, JP307.1]
+      reason: Target interrupt must not bypass its isolation header.
+    - id: TB03-F17
+      endpoints: [R307.1, JP304.2]
+      reason: SUP_EVENT_OUT must reach GPB0 only through the protected inverter and isolation link.
+    - id: TB03-F18
+      endpoints: [R310.1, Q302.3]
+      reason: MCP23017 GPB1 and SUP_EVENT_IN must remain separated by the protected output stage.
+    - id: TB03-F19
+      endpoints: [JP302.2, JP303.2]
+      reason: SDA and SCL must remain distinct shared-bus conductors.

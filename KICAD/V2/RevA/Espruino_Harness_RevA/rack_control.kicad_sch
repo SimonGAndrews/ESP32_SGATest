@@ -1202,282 +1202,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "NMOS_2N7002_GSD_1"
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "Q1202"
-				(at 7.62 6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "2N7002"
-				(at 8.89 3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "NMOS_2N7002_GSD_1_0_1"
-				(polyline
-					(pts
-						(xy 0.254 1.905) (xy 0.254 -1.905)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.254 0) (xy -2.54 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.762 2.286) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.762 0.508) (xy 0.762 -0.508)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.762 -1.27) (xy 0.762 -2.286)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.762 -1.778) (xy 3.302 -1.778) (xy 3.302 1.778) (xy 0.762 1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.016 0) (xy 2.032 0.381) (xy 2.032 -0.381) (xy 1.016 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center 1.651 0)
-					(radius 2.794)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 2.54) (xy 2.54 1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 2.54 1.778)
-					(radius 0.254)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center 2.54 -1.778)
-					(radius 0.254)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 -2.54) (xy 2.54 0) (xy 0.762 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.921 0.381) (xy 3.683 0.381)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.302 0.381) (xy 2.921 -0.254) (xy 3.683 -0.254) (xy 3.302 0.381)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "NMOS_2N7002_GSD_1_1_1"
-				(pin input line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "G"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 5.08 270)
-					(length 2.54)
-					(name "D"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 -5.08 90)
-					(length 2.54)
-					(name "S"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 	)
 	(text "GPB1 = TARGET_POWER_ALERT_N"
 		(exclude_from_sim no)
@@ -2683,7 +2407,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "U1201 ROUTE_CLEAR_REQUEST gate series resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 190.5 88.9 0)
 			(effects
 				(font
@@ -2965,7 +2689,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Hardware Clear stage gate pull-down"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 196.85 93.98 0)
 			(effects
 				(font
@@ -3007,7 +2731,6 @@
 		)
 	)
 	(symbol
-		(lib_name "NMOS_2N7002_GSD_1")
 		(lib_id "Espruino_Harness_RevA:NMOS_2N7002_GSD")
 		(at 208.28 88.9 0)
 		(unit 1)
@@ -3041,7 +2764,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.diodes.com/datasheet/download/DMG2302UKQ.pdf"
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf"
 			(at 208.28 88.9 0)
 			(effects
 				(font
@@ -3050,7 +2773,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rack Control open-drain Hardware Clear stage; G=1 S=2 D=3"
+		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
 			(at 208.28 88.9 0)
 			(effects
 				(font
@@ -3137,7 +2860,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rack Control Endpoint: address 0x20, Port B interrupt capture"
+		(property "Description" "MCP23017-E/SO 16-bit I2C I/O expander, SOIC-28"
 			(at 100.33 93.98 0)
 			(effects
 				(font
@@ -3282,7 +3005,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 ceramic capacitor"
+		(property "Description" "Unpolarized capacitor with Rev-A default 0603 metric footprint"
 			(at 127 59.69 0)
 			(effects
 				(font
@@ -3358,7 +3081,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 48.26 87.63 0)
 			(effects
 				(font
@@ -3425,7 +3148,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 175.26 64.77 0)
 			(effects
 				(font
@@ -3562,7 +3285,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 228.6 31.75 0)
 			(effects
 				(font
@@ -3629,7 +3352,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 234.95 38.1 0)
 			(effects
 				(font
@@ -3663,7 +3386,6 @@
 		)
 	)
 	(symbol
-		(lib_name "NMOS_2N7002_GSD_1")
 		(lib_id "Espruino_Harness_RevA:NMOS_2N7002_GSD")
 		(at 238.76 59.69 0)
 		(unit 1)
@@ -3776,7 +3498,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 210.82 59.69 0)
 			(effects
 				(font
@@ -3843,7 +3565,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rev-A 0603 resistor"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 219.71 64.77 0)
 			(effects
 				(font
@@ -3919,7 +3641,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rack Control downstream I2C branch pull-up"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 71.12 64.77 0)
 			(effects
 				(font
@@ -3986,7 +3708,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Rack Control downstream I2C branch pull-up"
+		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 49.53 64.77 0)
 			(effects
 				(font

@@ -132,7 +132,7 @@ is a board-level decision. A material change returns the affected block to
 | RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch`; Hardware Clear request stage on `rack_control.kicad_sch` | Controlled routing and Standard Control Services | [Full sheet](review-images/RC02-routing-controllers-and-fixed-i2c-isolation.png); [Hardware Clear](review-images/RC02-hardware-clear-request.png) | Verified |
 | TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB01-digital-gpio-loopback.png) | Verified |
 | TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB02-analogue-pwm-feedback.png) | Verified |
-| TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
+| TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [Functional device](review-images/TB03-i2c-functional-device.png); [event handshake](review-images/TB03-supervisor-event-handshake.png) | Verified |
 | TB04 | SPI device and removable storage | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -1413,6 +1413,145 @@ isolation boundary.
 
 No TB02 exception is accepted at this stage.
 
+### 4.7 TB03 — I2C functional device
+
+**Purpose and requirements:** Provide the target with a known 16-bit I2C GPIO
+device at address `0x20`, a protected GPIO feedback path, a mirrored
+open-drain interrupt path, a protected Supervisor event handshake, one Grove
+I2C expansion connector, selectable central bus pull-ups, full GPIO breakout
+and diagnostic access. See Standard Test Blocks Section 6.3.
+**Source schematic:** `standard_test_blocks.kicad_sch`, references `U301`,
+`C301`, `J301`, `J302`, `JP301`–`JP304`, `JP306`–`JP309`, `Q301`, `Q302`,
+`R301`–`R312` and `TP301`–`TP306`.
+**Visual review:** [Functional-device image](review-images/TB03-i2c-functional-device.png)
+and [Supervisor-event image](review-images/TB03-supervisor-event-handshake.png).
+**Risk:** Standard
+**Status:** Verified schematic baseline. Requirements, corrected circuit
+operation, manufacturer guidance, exact component and package selections,
+full-hierarchy ERC, deterministic connectivity, PCB synchronization and the
+two focused visual records are accepted. Physical placement, routing and
+populated-board measurements remain PCB-stage actions.
+
+#### V1 evidence and Rev-A boundary
+
+Both completed V1 harnesses proved the MCP23008 register, GPIO-feedback,
+interrupt and external-Grove concepts. The retained I2C investigations show
+that the classic ESP32 failure occurred during controller setup rather than
+bus traffic and that the same hardware passed after the firmware correction.
+This supports the functional pattern but does not prove the Rev-A MCP23017,
+two-bank breakout, isolated device branches, selectable central pull-ups or
+Supervisor event stages.
+
+Primary retained evidence is identified in Standard Test Blocks Section 6.3,
+including the I2C bring-up and upstream-fix investigations. Rev-A board tests
+must therefore preserve the V1 MCP23008 suite and add an MCP23017-specific
+two-bank test.
+
+#### Implemented functional, isolation and safety flow
+
+```text
+TEST_BLOCK_3V3 -- JP308 -- R301 4.7k --------+
+                         R303 4.7k DNP ------+-- shared SDA -- J301.2 / TP301
+                                                           |
+                                                           +-- JP302 -- U301.13
+
+TEST_BLOCK_3V3 -- JP309 -- R302 4.7k --------+
+                         R304 4.7k DNP ------+-- shared SCL -- J301.1 / TP302
+                                                           |
+                                                           +-- JP303 -- U301.12
+
+TEST_BLOCK_3V3 -- JP301 -- MCP23017_VDD --+-- U301.9 / C301
+                                           +-- R306 -- RESET
+                                           +-- R312 -- INTA -- JP307 -- TI_I2C_INT
+                                           +-- R309 -- protected SUP_EVENT_OUT input
+
+U301.GPA0 -- R305 470R -- JP306 -- TI_I2C_FB
+U301.GPA1 ---------------- GPA2              internal feedback/interrupt stimulus
+U301.GPB0 <-- JP304 <-- Q301 <-- SUP_EVENT_OUT
+U301.GPB1 --> Q302 open drain --> SUP_EVENT_IN
+U301 GPA0–GPA7 / GPB0–GPB7 <--> J302 breakout
+```
+
+`JP302` and `JP303` isolate only the MCP23017 pins; the Grove connector,
+central pull-ups, test points and fixed routing-control bus remain connected.
+`JP301` defines the isolated device-supply node. The VDD pin, decoupling,
+RESET pull-up, INTA pull-up and event-input drain pull-up are all downstream,
+preventing a local signal from biasing an unpowered U301. `JP306`, `JP307` and
+`JP304` independently isolate feedback, target interrupt and Supervisor event
+input respectively. The Grove branch is isolated by unplugging `J301`.
+
+The default single 4.7 kOhm pull-up on each bus line draws approximately
+0.70 mA at 3.3 V when low. Populating the parallel 4.7 kOhm DNP position gives
+2.35 kOhm and approximately 1.40 mA. Neither option is accepted solely by
+calculation: the completed bus population and attached Grove device determine
+effective resistance, capacitance, rise time and low-level margin.
+
+#### Manufacturer source and application review
+
+- Microchip's current
+  [MCP23017/MCP23S17 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf)
+  supports the SOIC-28 pin mapping, address `0x20`, reset defaults, open-drain
+  interrupt configuration, local decoupling and I2C electrical checks. The
+  saved schematic ties A0–A2 low, leaves INTB unconnected for direct package
+  probing, and supplies INTA through the accepted local 10 kOhm pull-up.
+- Microchip
+  [AN1043 — Unique Features of the MCP23X08/17 GPIO Expanders](https://ww1.microchip.com/downloads/en/AppNotes/01043a.pdf)
+  supports explicit direction/latch setup and real-pad readback. Firmware must
+  set and verify the intended `IOCON.BANK`, `IOCON.SEQOP`, `IOCON.MIRROR` and
+  `IOCON.ODR` conventions; leave unused pins as inputs; establish safe output
+  latch values before enabling outputs; and use `GPIO` reads rather than only
+  `OLAT` when verifying the actual pin state.
+- The official Seeed Grove system definition and designer guidance govern
+  `J301`: pin 1 SCL, pin 2 SDA, pin 3 3.3 V and pin 4 ground. PCB review must
+  verify the footprint viewing direction, pin-1 marking and actual mating
+  connector because cable illustrations can otherwise be misread.
+- The onsemi
+  [2N7002L data sheet](https://www.onsemi.com/download/data-sheet/pdf/2n7002l-d.pdf)
+  supports the selected `2N7002LT1G` SOT-23 package and pin 1 gate, pin 2
+  source, pin 3 drain mapping for `Q301/Q302`. The event stages sink only
+  low-current logic pull-ups; final populated-board testing must nevertheless
+  confirm asserted-low voltage, released-state leakage and unpowered behaviour.
+
+#### Exact components and package state
+
+| References | Current implementation | Review result |
+|---|---|---|
+| `U301` | Microchip `MCP23017-E/SO`; `Package_SO:SOIC-28W_7.5x17.9mm_P1.27mm` | Exact MPN, wide SOIC-28 footprint, data sheet and AISLER assembly metadata accepted. |
+| `C301`, `R301`–`R312` | 0603 SMD footprints with reviewed electrical values and parametric `AISLER_MPN` Smart Match descriptions | Accepted for prototype assembly. `R303/R304` remain built-in DNP parallel pull-up adjustment positions; verify AISLER's final assigned parts against the deterministic KiCad BOM before manufacture. |
+| `JP301`–`JP304`, `JP306`–`JP309` | Wuerth `61300211121` 2.54 mm vertical headers with `60900213421` shunts | Exact header, footprint and normal-operation shunt metadata accepted. `JP304` now uses the common event-input-isolation metadata and `JP306` correctly describes feedback isolation. |
+| `J301` | Seeed `1125R-4P`, single-part SKU `320110034`; retail ten-pack `110990037` | Exact right-angle THT selection and project footprint `Espruino_Harness_RevA:Grove_1x04_P2mm_RightAngle_Seeed_320110034` accepted. KiCad built-in DNP retains its pads and plated holes while excluding AISLER placement; hand-fit after manufacture. |
+| `J302` | Wuerth `61301621121`; `Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical` | Exact vertical 2x8 THT selection accepted. Functional Value remains `MCP23017_GPIO`; KiCad built-in DNP retains the footprint for hand fitting while excluding AISLER placement. |
+| `Q301`, `Q302` | onsemi `2N7002LT1G`; `Package_TO_SOT_SMD:SOT-23` | Exact MPN, SOT-23 gate/source/drain mapping, data sheet and AISLER assembly metadata accepted for the low-current event stages. |
+| `TP301`–`TP306` | Wuerth `61300111121`; single-pin 2.54 mm THT | Accepted under board-wide decision `INT02`; DNP records hand fitting rather than absence from the completed board. |
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted against Standard Test Blocks Section 6.3, including the corrected device-only SDA/SCL isolation and downstream RESET/INTA biasing. |
+| V1 prototype evidence | Accepted for the functional I2C device, GPIO feedback, interrupt and Grove-extension concepts; not used as Rev-A package, isolation or event-stage proof. |
+| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The expanded eight-contract set passes all 776 checks. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
+| Visual schematic review | Accepted in the two focused images linked above. Together they show the shared bus, pull-ups, all device-isolation boundaries, isolated supply and biases, full GPIO breakout, feedback/interrupt paths and both Supervisor event stages. |
+| PCB synchronization | Accepted for schematic-baseline scope. Every contracted TB03 reference occurs exactly once on the current PCB, including the project-local `J301` footprint. The PCB carries the final `MCP23017_GPIO` value for `J302` and exact U301/Q301/Q302 metadata. Final placement, pad-level physical review and routing remain PCB-stage work. |
+
+#### Closure actions and accepted exceptions
+
+- At PCB layout, place `J301` near the upper outer edge with its mating face
+  outward and body mechanically supported; verify pin 1, cable approach and
+  clearance. Place and label `J302` for unambiguous GPA/GPB bank and bit order.
+- Keep the pull-up enable shunts, optional `R303/R304` positions, isolation
+  shunts and SDA/SCL/GND probing points accessible. Keep `C301` close to U301
+  with a short ground return and keep the shared I2C bus compact.
+- Measure effective SDA/SCL pull-up resistance unpowered and capture rise time
+  and valid-low voltage with the populated routing devices and each supported
+  Grove configuration at 100 kHz. Treat 400 kHz as optional until measured.
+- Verify cold-start, supply-isolated and independently isolated feedback,
+  interrupt and event states. Exercise the two-bank register map, mirrored
+  open-drain interrupt, GPA1/GPA2 loop, GPA0 feedback and both event directions.
+
+No TB03 exception is accepted at this stage.
+
 ## 5. System integration review
 
 Use this section for checks that cross circuit-block ownership. Do not repeat
@@ -1486,6 +1625,9 @@ and close it only with the evidence named below.
 | `PCB-RC02-03` | RC02 supervisor output-margin and indeterminate-state review | Keep each TPS3808 RESET connection short and referenced to the same local ground as the controlled device. Measure RESET/enable, `ROUTE_CLEAR_N`, monitored rail and `ROUTING_LOGIC_3V3` during cold start, slow ramp, brownout and power-down; confirm no false TMUX1511 enable or premature MCP23017 reset release and retain the asserted-low margin evidence. | Layout inspection and retained multi-channel rail/reset oscilloscope captures including the worst measured `VOL` | Open |
 | `PCB-TB01-01` | TB01 isolation and diagnostic review | PCB metadata synchronization is complete. During real placement, keep `JP101/JP102` and `TP101`–`TP104` where both shunts can be changed and every test pin can be probed with the target fitted. Mark pair A/B, OUT/IN and the normal fitted-shunt state clearly on silkscreen. | Placement, 3D and printed 1:1 access review | Open |
 | `PCB-TB01-02` | TB01 signal and fault review | Keep each output-resistor-header-input path short and keep pairs A and B visually and electrically distinct. Review the complete routed and daughter-board loading, then measure representative static, edge, pulse and shift behaviour through the selected routes. | Routed-path inspection, PCB DRC and retained prototype waveforms/results | Open |
+| `PCB-TB03-01` | TB03 component and access review | Exact component metadata and PCB synchronization are complete. Place `J301` near the upper outer edge with its mating face outward and body supported within the outline. Place `J302`, `JP301`–`JP304`, `JP306`–`JP309` and `TP301`–`TP306` so pin 1, normal shunt state and every diagnostic contact remain clear and accessible with the target fitted. | 3D mating-part review, printed 1:1 access check and final BOM comparison | Open |
+| `PCB-TB03-02` | TB03 shared-I2C and pull-up review | Keep SDA/SCL together over a materially continuous ground reference, keep `C301` local to U301, and avoid branch stubs or fast aggressors. Measure total effective pull-up resistance, bus capacitance, rise time and valid-low level for the populated board and each supported Grove configuration at the accepted bus rates. | Routed-layout inspection, PCB DRC, unpowered resistance measurements and retained oscilloscope captures | Open |
+| `PCB-TB03-03` | TB03 isolation and event review | Keep the isolated VDD/RESET/INTA domain compact and preserve the protected event-stage gate pull-downs and ground returns. Verify all shunt boundaries and capture cold start, power-down, supply-isolated, feedback, mirrored interrupt and both Supervisor event behaviours. | Pad-net inspection, isolation continuity matrix and retained functional/oscilloscope evidence | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |

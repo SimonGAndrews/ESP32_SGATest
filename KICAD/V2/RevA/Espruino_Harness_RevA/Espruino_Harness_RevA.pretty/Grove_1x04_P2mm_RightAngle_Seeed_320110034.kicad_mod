@@ -1,0 +1,215 @@
+(footprint "Grove_1x04_P2mm_RightAngle_Seeed_320110034"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Seeed Studio 320110034 / 1125R-4P right-angle Grove connector, 1x4, 2.00 mm pitch, through-hole. Geometry curated from Seeed OPL GROVE-HW4-2.0-90D and checked against the manufacturer drawing. Mating face is at footprint Y=-4.9 mm; place that face toward the board edge. Datasheet: https://statics3.seeedstudio.com/fusion/opl/datasheet/320110034.pdf")
+	(tags "Grove Seeed 320110034 1125R-4P 1x4 2.00mm right-angle THT")
+	(property "Reference" "REF**"
+		(at 0 -5.95 0)
+		(layer "F.SilkS")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Grove_1x04_P2mm_RightAngle_Seeed_320110034"
+		(at 0 6.45 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://statics3.seeedstudio.com/fusion/opl/datasheet/320110034.pdf"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Seeed 1125R-4P right-angle 1x4 2.00 mm THT Grove connector; Seeed SKU 320110034"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -5.12 -5.02)
+		(end 5.12 -5.02)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -5.12 5.02)
+		(end -5.12 -5.02)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start 5.12 -5.02)
+		(end 5.12 5.02)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start 5.12 5.02)
+		(end -5.12 5.02)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -2.8 -5.02)
+		(end -2.8 -3.9)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -2.8 -3.9)
+		(end 2.8 -3.9)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start 2.8 -3.9)
+		(end 2.8 -5.02)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_poly
+		(pts
+			(xy -5.7 2.6)
+			(xy -5.2 3.2)
+			(xy -5.7 3.8)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.SilkS")
+	)
+	(fp_rect
+		(start -5.25 -5.15)
+		(end 5.25 5.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.CrtYd")
+	)
+	(fp_rect
+		(start -5 -4.9)
+		(end 5 4.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -5 1.6)
+		(end 5 1.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_poly
+		(pts
+			(xy -2.8 -4.9)
+			(xy -2.8 -3.9)
+			(xy 2.8 -3.9)
+			(xy 2.8 -4.9)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.Fab")
+	)
+	(fp_text user "MATING FACE"
+		(at 0 -4.35 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 0.7 0.7)
+				(thickness 0.1)
+			)
+		)
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole rect
+		(at -3 3.2)
+		(size 1.4 1.4)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+	)
+	(pad "2" thru_hole circle
+		(at -1 3.2)
+		(size 1.4 1.4)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+	)
+	(pad "3" thru_hole circle
+		(at 1 3.2)
+		(size 1.4 1.4)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+	)
+	(pad "4" thru_hole circle
+		(at 3 3.2)
+		(size 1.4 1.4)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+	)
+	(embedded_fonts no)
+)

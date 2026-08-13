@@ -560,17 +560,32 @@ accessible zero-ohm links or solder jumpers on its supply and external signal
 paths. The authoritative component reference is the
 [Microchip MCP23017/MCP23S17 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf).
 
-Provide one vertical through-hole 2.0 mm Grove connector as part of Block 3.
-The prototype component is the Seeed `1125S-4P`, SKU `110990030`, or a verified
-mechanically and electrically compatible part. A Grove hub is the standard
-means of external expansion; V2 does not require multiple onboard Grove
-connectors.
+Provide one right-angle through-hole 2.0 mm Grove connector as part of Block
+3. The selected component is the Seeed `1125R-4P`, Seeed single-part SKU
+`320110034`; Seeed retail ten-pack `110990037` is the prototype procurement
+source. Place it near the upper outer board edge with its mating face directed
+outwards so the cable approaches parallel to the PCB without crossing the
+board. Keep the connector body supported within the board outline unless the
+final mechanical review explicitly accepts an overhang. A mechanically and
+electrically verified compatible part may be substituted. A Grove hub is the
+standard means of external expansion; V2 does not require multiple onboard
+Grove connectors.
 
 Provide one vertical 2.54 mm 2x8 MCP23017 GPIO breakout connector. It shall
 expose GPA0 through GPA7 and GPB0 through GPB7 in two clearly identified banks
 and numerical order. This connector provides direct observation of all 16
 expander GPIO and supports additional low-speed GPIO experiments without
 creating new Target Interface signals.
+
+The Rev-A implementation uses Wuerth `61301621121` for this 2x8 breakout and
+the standard KiCad vertical 2.54 mm through-hole footprint. Both this connector
+and the Seeed Grove connector are retained on the fabricated PCB but marked
+Do Not Populate for AISLER assembly; they are hand-fitted after manufacture.
+The fitted MCP23017 ordering code is `MCP23017-E/SO`. The two protected
+Supervisor event stages use onsemi `2N7002LT1G` in SOT-23, whose pin 1 gate,
+pin 2 source and pin 3 drain mapping matches the accepted circuit. Rev-A uses
+0603 SMD passives with parametric AISLER Smart Match descriptions; `R303` and
+`R304` remain DNP parallel pull-up adjustment positions.
 
 GPA0, GPA1 and GPA2 retain the proven V1 GP0, GP1 and GP2 feedback and
 interrupt-stimulus roles. Two Port B GPIO provide the protected
@@ -684,8 +699,8 @@ assumption that 4.7 kΩ is correct for every external configuration.
 
 #### Isolation And Diagnostics
 
-The MCP23017 shall be isolated without removing the SOIC-28 device. Grouped,
-normally closed zero-ohm links or solder jumpers shall isolate:
+The MCP23017 shall be isolated without removing the SOIC-28 device. Accessible
+2.54 mm two-pin headers fitted with removable shunts shall isolate:
 
 * its 3.3 V supply
 * SDA and SCL
@@ -1912,7 +1927,7 @@ block sections.
 |---:|---|---:|---|
 | 2 | External analogue-stimulus connector | 1x2 | Inject `ANALOG_FB` with adjacent ground |
 | 3 | MCP23017 GPIO breakout | 2x8 | Expose GPA0 through GPB7 for observation, Supervisor event diagnosis and additional low-speed GPIO experiments |
-| 3 | Grove I2C connector | 1x4, 2.0 mm | Attach one standard external I2C device or Grove hub |
+| 3 | Grove I2C connector | 1x4, 2.0 mm, right-angle THT | Attach one standard external I2C device or Grove hub from the upper outer board edge |
 | 4 | MCP3008 analogue breakout | 1x8 | Expose CH0 through CH7 for observation and external analogue inputs |
 | 4 | MicroSD module connector | 1x9 | Mount the removable passive microSD breakout and expose its useful SPI pins on the top-side tails |
 | 5 | DS18B20 sensor connector A | 1x3 screw terminal | Connect or replace the first powered 1-Wire sensor |
