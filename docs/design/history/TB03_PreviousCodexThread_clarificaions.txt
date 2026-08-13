@@ -1,0 +1,120 @@
+For the TB03 implementation thread:
+1) In commit 300e9c8, were JP302 and JP303 deliberately intended to disconnect the entire Block 3 I2C bus—including Grove J301, the central pull-ups and test points—from IP03/IP04? The specification describes them as MCP23017 device-isolation links and says the Grove branch is isolated by unplugging it. Was the intended topology instead shared bus → JP302/JP303 → U301 only?
+
+
+Response from previous thread:
+
+No—the implemented topology appears to be a schematic error, not the intended design.
+In commit 300e9c8, JP302/JP303 actually created:
+IP03_TEST_BLOCK_SDA → JP302 → I2C_SDA_BUS
+IP04_TEST_BLOCK_SCL → JP303 → I2C_SCL_BUS
+Opening them therefore disconnects the complete Block 3 bus, including U301, Grove J301, pull-ups and test points. U301 remains connected to those local branches.
+That contradicts the specification, which says:
+JP302/JP303 are part of the MCP23017 isolation.
+The Grove branch is isolated by unplugging J301.
+The target, U301, Grove branch and routing devices share the direct bus. See [StandardTestBlocks_V2.md (line 679)](/C:/Users/simon/Documents/ESP32_SGATest/docs/design/V2Harness/arch/StandardTestBlocks_V2.md:679).
+The intended topology should be:
+IP03/IP04 ── shared I²C bus ──┬── Grove J301
+                              ├── pull-ups
+                              ├── test points
+                              └── JP302/JP303 ── U301 SDA/SCL
+Thus opening JP302/JP303 isolates only U301 pins 13/12. The shared bus remains operational.
+The error remains in the current schematic. It was not caught because TB03 is still Draft and has no connectivity contract yet. The correction and a TB03 contract should be made during the Block 3 baseline review.
+
+
+
+
+2) Was R306 deliberately connected to TEST_BLOCK_3V3 upstream of U301’s VDD isolation link JP301? With JP301 open, RESET can remain high while U301 VDD is absent. What diagnostic or power-sequencing assumption was intended to make that safe?
+
+
+Response from previous thread:
+
+
+No safe power-sequencing assumption was documented. This appears to be another Block 3 implementation error.
+
+Current connectivity is:
+
+- `TEST_BLOCK_3V3 → R306 → MCP23017_RESET_N → U301.18`
+- `TEST_BLOCK_3V3 → JP301 → MCP23017_VDD → U301.9`
+
+Therefore, opening JP301 removes VDD but leaves RESET driven to approximately 3.3 V.
+
+That is not a valid powered-off state. The MCP23017 specifies all non-VDD pins between −0.6 V and `VDD + 0.6 V`; with VDD absent, RESET should not exceed approximately 0.6 V. R306 limits clamp current, but relying on that clamp risks partial powering and is not a supported operating condition. [Microchip MCP23017 datasheet](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf)
+
+The intended arrangement should be:
+
+```text
+TEST_BLOCK_3V3 ── JP301 ── MCP23017_VDD ──┬── U301 VDD
+                                          ├── C301
+                                          └── R306 ── U301 RESET
+```
+
+Then opening JP301 removes both U301 VDD and its RESET pull-up. Together with the corrected device-side SDA/SCL isolation and the other isolation links, U301 becomes a genuinely unpowered, disconnected device island.
+
+An alternative operating procedure—changing JP301 only while all Test Block power is off and never energising the board with it open—could avoid the electrical stress, but it would defeat the specified diagnostic purpose. No such restriction appears in the specification.
+
+So R306 should move downstream of JP301 onto `MCP23017_VDD` during the TB03 correction and baseline review.
+
+
+3) The design specifies mirrored open-drain interrupts with IOCON.ODR=1, but I cannot find an external INTA/INTB pull-up or an architectural statement assigning pull-up ownership to the target. Was reliance on a target GPIO internal pull-up intentional, or was a local pull-up deferred or omitted?
+
+Response from previous thread:
+
+No—reliance on the target GPIO’s internal pull-up was not an accepted design decision. The evidence indicates that a local pull-up was intended but omitted from both the detailed Block 3 specification and schematic.
+
+The strongest evidence is [StandardControlServices_V2.md](C:/Users/simon/Documents/ESP32_SGATest/docs/design/V2Harness/arch/StandardControlServices_V2.md:982), which states that “the MCP23017 and its interrupt pull-up shall remain powered throughout the test.” However:
+
+- [StandardTestBlocks_V2.md](C:/Users/simon/Documents/ESP32_SGATest/docs/design/V2Harness/arch/StandardTestBlocks_V2.md:583) specifies `IOCON.MIRROR=1` and `IOCON.ODR=1`, but does not define pull-up ownership.
+- The current connectivity shows `U301.INTA → JP307 → TI_I2C_INT`, with no resistor on either side.
+- The Target Interface only defines `TI_I2C_INT` as an input. It does not require the target to provide a pull-up.
+- Internal pull-ups vary by target, pin and sleep state, so relying on one would undermine portable interrupt and wake testing.
+
+The appropriate correction is:
+
+```text
+MCP23017_VDD ── local pull-up ── U301 INTA
+                                      │
+                                    JP307
+                                      │
+                                 TI_I2C_INT
+```
+
+The pull-up should be:
+
+- On the U301 side of isolation link `JP307`.
+- Powered from `MCP23017_VDD`, downstream of supply isolation link `JP301`.
+- Provisionally 10 kΩ; its final value can be confirmed during TB03 review.
+
+This placement ensures that opening `JP301` removes both U301 power and its interrupt pull-up, avoiding another back-power path. Opening `JP307` isolates the target-facing interrupt while leaving the MCP23017-side signal available for diagnosis.
+
+A target internal pull-up may optionally be enabled by firmware, but it should not be required for correct hardware operation. This is therefore a third genuine TB03 implementation omission, alongside the JP302/JP303 placement and R306 supply-side issue.
+
+
+4) For the architecture/specification thread:
+In “INTB remains available for diagnostic observation,” was the intended access direct probing of U301 pin 19 on the wide SOIC package, or was a dedicated INTB test point intended? The mandatory six-test-point list does not include INTB.
+
+Response from previous thread:
+
+The most defensible reading is that INTB was intended for direct probing at U301 pin 19, not through a dedicated test point.
+
+Evidence:
+
+- Commit `300e9c8` used the relatively accessible `SOIC-28W`, 1.27 mm-pitch package.
+- U301 pin 19 was deliberately marked unconnected.
+- The six mandatory Block 3 test points explicitly exclude INTB.
+- No INTB test-point symbol, net, connector or pull-up was included.
+
+Therefore, “available for diagnostic observation” meant:
+
+> INTB is not consumed by the harness and remains physically accessible at the U301 lead/pad for occasional bench probing.
+
+With `IOCON.MIRROR=1`, INTA and INTB are internally mirrored. The proposed local pull-up on INTA therefore supports normal mirrored operation, while TP304 already provides convenient observation of the resulting `TI_I2C_INT` signal. INTB probing is only an additional device-level diagnostic.
+
+The specification should be clarified to say:
+
+> INTA supplies `TI_I2C_INT`. INTB remains electrically unconnected and may be probed directly at U301 pin 19 for device-level diagnosis; no dedicated INTB test point is required.
+
+A small bare PCB probe pad could be added at effectively no BOM cost, but it was not part of the original mandatory design.
+
+
+
