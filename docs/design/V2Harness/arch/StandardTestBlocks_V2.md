@@ -583,8 +583,16 @@ when assigning roles.
 The design shall provide one `TI_I2C_INT` path that can report both the
 standard Port A interrupt test and the Port B Supervisor event. Target setup
 shall configure interrupt mirroring and open-drain operation
-(`IOCON.MIRROR=1`, `IOCON.ODR=1`). INTA supplies `TI_I2C_INT`; INTB remains
-available for diagnostic observation.
+(`IOCON.MIRROR=1`, `IOCON.ODR=1`). INTA supplies `TI_I2C_INT` and shall have a
+local 10 kΩ pull-up to the isolated MCP23017 supply. The pull-up belongs on
+the device side of the `TI_I2C_INT` isolation link so that the interrupt
+remains observable while the target-facing path is open, but is unpowered when
+the MCP23017 supply is isolated. Target GPIO pull-ups may be enabled by
+firmware but are not required for correct hardware operation.
+
+INTB remains electrically unconnected and available for occasional direct
+probing at MCP23017 pin 19. The wide SOIC-28 package provides the intended
+device-level access; a dedicated INTB test point is not required.
 
 The Grove I2C pinout shall follow the official Seeed numbering:
 
@@ -684,6 +692,14 @@ normally closed zero-ohm links or solder jumpers shall isolate:
 * `TI_I2C_FB`
 * `TI_I2C_INT`
 * the `SUP_EVENT_OUT` path into its Port B input
+
+The SDA and SCL links shall be placed only in the MCP23017 device branches.
+Opening them shall disconnect the MCP23017 pins while leaving the shared bus,
+Grove connector, central pull-ups and SDA/SCL test points connected. The
+MCP23017 supply link shall define an isolated device-supply node downstream of
+the link. The MCP23017 VDD pin, local decoupling and RESET pull-up shall all be
+powered from that node so that opening the supply link removes every local
+device bias and does not drive RESET above an unpowered VDD.
 
 The protected `SUP_EVENT_IN` output stage shall not provide a back-power path
 into the MCP23017 and therefore does not require another series isolation
