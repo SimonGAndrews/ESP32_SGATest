@@ -131,7 +131,7 @@ is a board-level decision. A material change returns the affected block to
 | RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | [PNG](review-images/RC01-routing-fabric.png) | Verified |
 | RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch`; Hardware Clear request stage on `rack_control.kicad_sch` | Controlled routing and Standard Control Services | [Full sheet](review-images/RC02-routing-controllers-and-fixed-i2c-isolation.png); [Hardware Clear](review-images/RC02-hardware-clear-request.png) | Verified |
 | TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB01-digital-gpio-loopback.png) | Verified |
-| TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
+| TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB02-analogue-pwm-feedback.png) | Verified |
 | TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB04 | SPI device and removable storage | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -1152,7 +1152,7 @@ schematic; final manufacturer assignment remains part of BOM reconciliation.
 |---|---|
 | Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
-| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete six-contract set passes all 588 checks. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete seven-contract set passes all 626 checks. |
 | Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
 | Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
 | Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
@@ -1249,7 +1249,7 @@ manufacturer component drawings/specifications above.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; no architecture change required. |
 | V1 prototype evidence | Accepted as proof of the two-pair 470 Ω functional pattern, including link-removal negative control; not used as Rev-A package proof. |
-| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted six-contract baseline passes all 588 checks. |
+| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted seven-contract baseline passes all 626 checks. |
 | Package review | Accepted SMD resistors, THT headers, shunts and existing test pins are compatible with their intended roles and footprints. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings after migrating `JP101/JP102` to the project-local symbol. |
 | Visual schematic review | Accepted focused image linked above; both paths, values, endpoints, assembly-stage DNP test points and operating notes are legible. |
@@ -1262,6 +1262,156 @@ manufacturer component drawings/specifications above.
   rates after routing, including the routing fabric and target daughter board.
 
 No TB01 exception is accepted at this stage.
+
+### 4.6 TB02 — Analogue/PWM feedback
+
+**Purpose and requirements:** Convert a target-generated PWM signal into a
+stable `ANALOG_FB` voltage that can be measured concurrently by the selected
+target ADC and MCP3008 CH0. Provide independent hard isolation of the PWM
+source and both ADC branches, a 0 V to 3.3 V external-stimulus input, and
+diagnostic access to every functional node. See Standard Test Blocks Section
+6.2 and the Combined Capability Connection Matrix analogue-feedback
+configuration.
+**Source schematic:** `standard_test_blocks.kicad_sch`, references `R201`,
+`C201`, `J201`, `JP201`–`JP203` and `TP201`–`TP205`; cross-block endpoints
+`U401.1` and `J401.1` are owned by TB04.
+**Visual review:** [Focused accepted image](review-images/TB02-analogue-pwm-feedback.png).
+**Risk:** Standard
+**Status:** Verified. Requirements, V1 functional evidence, circuit operation,
+exact TB02 parts, package mappings, full-hierarchy ERC, deterministic
+connectivity, focused visual review and PCB synchronization are accepted.
+
+#### V1 evidence and Rev-A boundary
+
+Both completed V1 harnesses proved the basic 10 kOhm filtered-PWM feedback
+pattern. The shared `analog_block2` tests passed target ADC low/high/span checks
+and produced monotonic useful readings at 25%, 50% and 75% PWM duty. The shared
+`spi_block4` test additionally passed MCP3008 CH0 low, mid and high conversion,
+monotonicity and agreement with the target ADC. This is direct physical
+evidence for the functional concept and concurrent two-ADC comparison.
+
+V1 used a 100 nF through-hole filter capacitor and through-hole resistor. Rev A
+deliberately changes the filter to 10 kOhm and 1 uF in SMD 0603 packages to
+reduce PWM ripple. V1 therefore proves function but not the Rev-A time
+constant, package implementation, routing fabric, three isolation headers or
+PCB analogue performance.
+
+Primary retained V1 evidence:
+
+- `tests/Results/analog_block2/Initial_runs.md`
+- `tests/Results/spi_block4/Initial_runs.md`
+- `tests/repl/analog_block2/`
+- `tests/repl/spi_block4/`
+
+#### Implemented functional flow and isolation
+
+```text
+TI_ANALOG_PWM_OUT -- TP201 -- JP201 -- R201 10 kOhm --+-- ANALOG_FB -- TP202
+                                                       |
+                                                       +-- C201 1 uF -- TI_GND
+                                                       +-- J201.1 external stimulus
+                                                       +-- JP202 -- TP203 -- TI_ANALOG_ADC_IN
+                                                       +-- JP203 -- TP204 -- U401.1 MCP3008 CH0
+                                                                            +-- J401.1 breakout
+J201.2 --------------------------------------------------------------- TI_GND -- TP205
+```
+
+All three shunts are fitted for normal operation. Removing `JP201` disconnects
+the target PWM source before an external 0 V to 3.3 V stimulus is applied at
+`J201`. `JP202` and `JP203` independently disconnect the target ADC and
+MCP3008 CH0 branches. The saved corrected hierarchy places `U401.1`, `J401.1`
+and `TP204` together on the ADC side of `JP203`; removing that shunt therefore
+isolates the complete MCP3008 CH0 branch rather than only its diagnostic point.
+
+The Target Interface configuration remains subject to the accepted routing
+rules: `RP01` selects `TI_ANALOG_ADC_IN` and `RP14` selects
+`TI_ANALOG_PWM_OUT`. Firmware shall disable the source before route or shunt
+changes and shall not connect an external source until `JP201` is open.
+
+#### Electrical review and calculations
+
+The selected 10 kOhm and 1 uF values give a nominal time constant of 10 ms and
+a -3 dB corner of approximately 15.9 Hz. Five time constants are 50 ms; the
+standard 150 ms test delay is 15 nominal time constants. At the provisional
+5 kHz PWM frequency, the nominal worst ripple near 50% duty is approximately
+16.5 mV peak-to-peak. Component tolerance, MLCC DC bias, target output
+resistance, TMUX1511 resistance and PCB parasitics remain included in the
+completed-board measurements rather than being treated as guaranteed by this
+ideal calculation.
+
+Microchip's MCP3008 data sheet shows a 20 pF sample/hold capacitor and warns
+that a non-low-impedance source can cause conversion error. In this circuit,
+`C201` is the local charge reservoir on `ANALOG_FB`, while `R201` determines the
+slower duty-cycle settling. The 1 uF nominal reservoir is many orders of
+magnitude larger than the MCP3008 sampling capacitor, supporting the selected
+functional sample strategy. The data sheet also requires the SPI conversion
+to complete quickly enough to prevent stored charge decay and recommends
+analogue/digital separation and local bypass placement; those SPI timing and
+layout checks remain owned jointly by TB04 and the PCB stage.
+
+The external stimulus limit is 0 V to 3.3 V relative to `TI_GND`. It must not
+exceed the safe range of either selected target ADC or the 3.3 V-powered
+MCP3008. The external equipment and harness must share ground. This connector
+does not provide overvoltage protection, so its voltage limit and the required
+open `JP201` state must be clear on the silkscreen.
+
+#### Manufacturer source and application review
+
+- Microchip's current
+  [MCP3004/MCP3008 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP3004-MCP3008-Data-Sheet-DS20001295.pdf)
+  supports the CH0 sampling analysis, SPI timing requirement, input filtering,
+  local bypass and analogue-layout actions above.
+- Microchip
+  [AN688, Layout Tips for 12-Bit A/D Converter Application](https://www.microchip.com/en-us/application-notes/an688),
+  is conservative guidance for this 10-bit design. Keep the RC node and
+  analogue return compact, keep SPI clock and other fast digital traces away
+  from it, avoid routing digital signals underneath the ADC or its bypass, and
+  preserve a low-impedance common ground implementation.
+- Other product-linked MCP3008 application notes concern particular sensors or
+  higher-order signal-conditioning designs. They do not change this low-rate,
+  target-generated functional stimulus circuit. The device data sheet and
+  AN688 provide the applicable implementation consequences.
+
+#### Exact components and package mapping
+
+| References | Selected part | Package and KiCad footprint | Review result |
+|---|---|---|---|
+| `R201` | Yageo [`RC0603FR-0710KL`](https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-0710KL), 10 kOhm, 1%, 0.1 W, 100 ppm/degC | 0603/1608; `Resistor_SMD:R_0603_1608Metric` | Accepted Rev-A SMD filter resistor. Manufacturer dimensions are 1.6 mm x 0.8 mm and are compatible with the standard KiCad 0603 footprint. Exact MPN metadata is present. |
+| `C201` | TDK [`C1608X7R1C105K080AC`](https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C1608X7R1C105K080AC), 1 uF, 10%, 16 V, X7R | 0603/1608; `Capacitor_SMD:C_0603_1608Metric` | Accepted Rev-A SMD filter capacitor. The 16 V rating gives useful DC-bias headroom at 3.3 V; manufacturer dimensions and recommended reflow lands are compatible with the KiCad footprint. Exact MPN metadata is present. |
+| `JP201`–`JP203`, `J201` | Würth Elektronik [`61300211121`](https://www.we-online.com/components/products/datasheet/61300211121.pdf), two-position straight 2.54 mm header | THT; `Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical` | Accepted user-operated isolation and stimulus headers. The 1.0 mm KiCad drills lie within the 1.10 +/-0.15 mm recommendation; pitch and numbering agree. Exact MPN metadata is present. |
+| One fitted shunt per `JP201`–`JP203` | Würth Elektronik [`60900213421`](https://www.we-online.com/components/products/datasheet/60900213421.pdf), 2.54 mm jumper with test point | Removable accessory fitted over each isolation header | Accepted normal-state shunt, recorded as `SHUNT_MPN` on each owning header and hand fitted after manufacture. `J201` does not receive a shunt. |
+| `TP201`–`TP205` | Würth Elektronik `61300111121` | THT single pin; `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical` | Accepted by board-wide decision `INT02`; DNP records hand fitting rather than absence from the completed board. |
+
+`U401` and `J401` remain TB04 component selections. Their CH0 pin mappings
+are nevertheless checked here because they form the far side of the TB02
+isolation boundary.
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted circuit approach; the corrected MCP3008 isolation topology implements the existing architecture without changing it. |
+| V1 prototype evidence | Accepted for the 10 kOhm filtered-PWM function and concurrent target/MCP3008 ADC comparison; not used as Rev-A package or 1 uF performance proof. |
+| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete seven-contract baseline passes all 626 checks. |
+| Package review | Accepted `R201`, `C201`, three isolation headers, three shunts, stimulus header and existing board-wide test-pin selection. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
+| Visual schematic review | Accepted focused image linked above. It shows the complete Block 2 path, all three isolation boundaries, stimulus precautions, filter values and the MCP3008 CH0/`J401.1` cross-block endpoint. |
+| PCB synchronization | Accepted. The current PCB contains exactly one each of `R201`, `C201`, `J201`, `JP201`–`JP203` and `TP201`–`TP205`. `JP201` now carries the accepted PWM-source description, value, MPN and shunt metadata. The isolation pad nets are correct: `JP201` separates `TI_ANALOG_PWM_OUT` from `Net-(JP201-B)`, `JP202` separates `ANALOG_FB` from `TI_ANALOG_ADC_IN`, and `JP203` separates `ANALOG_FB` from `MCP3008_CH0`. Final physical placement and routing remain PCB-stage work. |
+
+#### Open issues and accepted exceptions
+
+- At PCB layout, place `C201` at the `ANALOG_FB` branch point with a short
+  ground return, keep the complete analogue node compact, and keep SPI clock
+  and other fast digital routing away from it.
+- Clearly mark `J201` as `0–3V3`, signal and ground, and mark all three shunts'
+  normal fitted state and isolation function on the silkscreen.
+- Measure settling time, PWM ripple, target/MCP3008 agreement and external
+  stimulus behaviour on the completed Rev-A board.
+- TB04 shall resolve the manufacturer recommendation for 1 uF local MCP3008
+  bypassing against the currently specified `C401` 100 nF before TB04
+  acceptance. This cross-block action does not alter the accepted TB02 filter.
+
+No TB02 exception is accepted at this stage.
 
 ## 5. System integration review
 

@@ -22,5 +22,7 @@ contracts:
     file: contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml
   - id: TB01
     file: contracts/TB01-digital-gpio-loopback.yaml
+  - id: TB02
+    file: contracts/TB02-analogue-pwm-feedback.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

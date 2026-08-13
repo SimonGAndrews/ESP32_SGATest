@@ -1,0 +1,75 @@
+schema_version: 1
+kind: block_contract
+block_id: TB02
+
+# Independent connectivity intent derived from Standard Test Blocks Section
+# 6.2. The fitted-shunt state, analogue performance and physical accessibility
+# remain human-reviewed assembly, PCB and completed-board checks.
+assertions:
+  pin_net:
+    # Target PWM source, removable isolation and 10k/1uF low-pass filter.
+    - {ref: JP201, pin: "1", net: TI_ANALOG_PWM_OUT}
+    - {ref: JP201, pin: "2", net: Net-(JP201-B)}
+    - {ref: R201, pin: "1", net: Net-(JP201-B)}
+    - {ref: R201, pin: "2", net: ANALOG_FB}
+    - {ref: C201, pin: "1", net: ANALOG_FB}
+    - {ref: C201, pin: "2", net: TI_GND}
+
+    # Independent target-ADC and MCP3008 CH0 isolation branches.
+    - {ref: JP202, pin: "1", net: ANALOG_FB}
+    - {ref: JP202, pin: "2", net: TI_ANALOG_ADC_IN}
+    - {ref: JP203, pin: "1", net: ANALOG_FB}
+    - {ref: JP203, pin: "2", net: MCP3008_CH0}
+    - {ref: U401, pin: "1", net: MCP3008_CH0}
+    - {ref: J401, pin: "1", net: MCP3008_CH0}
+
+    # External stimulus connector and required diagnostic contacts.
+    - {ref: J201, pin: "1", net: ANALOG_FB}
+    - {ref: J201, pin: "2", net: TI_GND}
+    - {ref: TP201, pin: "1", net: TI_ANALOG_PWM_OUT}
+    - {ref: TP202, pin: "1", net: ANALOG_FB}
+    - {ref: TP203, pin: "1", net: TI_ANALOG_ADC_IN}
+    - {ref: TP204, pin: "1", net: MCP3008_CH0}
+    - {ref: TP205, pin: "1", net: TI_GND}
+
+  component_value:
+    - {ref: R201, value: 10k}
+    - {ref: C201, value: 1uF}
+    - {ref: JP201, value: PWM_SOURCE_ISOLATION}
+    - {ref: JP202, value: TARGET_ADC_ISOLATION}
+    - {ref: JP203, value: MCP3008_CH0_ISOLATION}
+    - {ref: J201, value: EXTERNAL_ANALOG_STIMULUS_0_TO_3V3}
+    - {ref: TP201, value: PWM_OUT}
+    - {ref: TP202, value: ANALOG_FB}
+    - {ref: TP203, value: TARGET_ADC_IN}
+    - {ref: TP204, value: MCP3008_CH0}
+    - {ref: TP205, value: GND}
+
+  forbidden_same_net:
+    # Each series element and removable header must remain a real boundary.
+    - id: TB02-F01
+      endpoints: [JP201.1, JP201.2]
+      reason: The target PWM source must remain independently isolatable.
+    - id: TB02-F02
+      endpoints: [R201.1, R201.2]
+      reason: The PWM source must reach ANALOG_FB through the 10 kohm resistor.
+    - id: TB02-F03
+      endpoints: [JP202.1, JP202.2]
+      reason: The target ADC input must remain independently isolatable.
+    - id: TB02-F04
+      endpoints: [JP203.1, JP203.2]
+      reason: MCP3008 CH0 must remain independently isolatable.
+
+    # Prevent accidental collapse of the three functional domains.
+    - id: TB02-F05
+      endpoints: [JP201.1, JP202.2]
+      reason: The target PWM output and target ADC input must not be directly joined.
+    - id: TB02-F06
+      endpoints: [JP201.1, JP203.2]
+      reason: The target PWM output and MCP3008 CH0 must not bypass the filter.
+    - id: TB02-F07
+      endpoints: [JP202.2, JP203.2]
+      reason: The target ADC and MCP3008 branches must remain independently isolatable.
+    - id: TB02-F08
+      endpoints: [J201.1, J201.2]
+      reason: The external stimulus signal must not be shorted to ground.

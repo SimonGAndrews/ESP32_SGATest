@@ -4727,7 +4727,7 @@
 	)
 	(text "BLOCK 4A - SPI MCP3008 CORE"
 		(exclude_from_sim no)
-		(at 377.19 99.06 0)
+		(at 373.38 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4748,6 +4748,17 @@
 			(justify left bottom)
 		)
 		(uuid "497a4785-1536-431a-ba26-c0e1b2c38ba7")
+	)
+	(text "EXTERNAL STIMULUS AT J201: 0–3.3 V ONLY\nRemove JP201 before connecting the external source.\nJP202 and JP203 independently connect the target ADC and MCP3008 CH0."
+		(exclude_from_sim no)
+		(at 496.57 54.61 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5c7e225d-acbd-47f4-9fed-4406e76dc643")
 	)
 	(text "CONFIGURABLE I2C PULL-UPS"
 		(exclude_from_sim no)
@@ -4820,9 +4831,9 @@
 		)
 		(uuid "9218fc11-07a2-48d8-97f5-20addfb2f4fc")
 	)
-	(text "Socketed DIP-16; CH0 = Block 2 ANALOG_FB"
+	(text "Socketed DIP-16; CH0 connects to Block 2 ANALOG_FB through JP203"
 		(exclude_from_sim no)
-		(at 388.62 101.6 0)
+		(at 411.48 101.6 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4831,7 +4842,7 @@
 		)
 		(uuid "aa8a89a4-f8be-413a-82af-83047e46ffa6")
 	)
-	(text "Pin 1 = CH0 / ANALOG_FB observation only in normal operation"
+	(text "Pin 1 = CH0; connected to ANALOG_FB only while JP203 is fitted"
 		(exclude_from_sim no)
 		(at 482.6 101.6 0)
 		(effects
@@ -5200,17 +5211,6 @@
 		)
 		(uuid "eb3e3679-c469-4dd3-bee3-545812139c0a")
 	)
-	(text "External stimulus: 0 to 3.3 V; remove JP201"
-		(exclude_from_sim no)
-		(at 513.08 57.15 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ee7e5e6e-9a66-4b43-9548-ca7aa2ff7de6")
-	)
 	(text "BLOCK 1 - DIGITAL GPIO LOOPBACK"
 		(exclude_from_sim no)
 		(at 30.48 22.86 0)
@@ -5424,6 +5424,12 @@
 		(uuid "cd683526-1ff2-4979-ac15-3dc87a2fdcf7")
 	)
 	(junction
+		(at 469.9 43.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d019da02-4f0a-48e5-97d8-87fbec93994f")
+	)
+	(junction
 		(at 414.02 210.82)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5434,12 +5440,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d9000000-0000-4000-8000-000000000101")
-	)
-	(junction
-		(at 464.82 43.18)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e79e0088-ac9c-4729-b1a9-62ae32afabe0")
 	)
 	(junction
 		(at 496.57 212.09)
@@ -5926,6 +5926,16 @@
 			(type default)
 		)
 		(uuid "37f61b14-004a-45dc-8049-740e57d918c8")
+	)
+	(wire
+		(pts
+			(xy 469.9 43.18) (xy 480.06 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3fbac3cb-8bc7-427d-bd23-8222bb78f820")
 	)
 	(wire
 		(pts
@@ -6499,7 +6509,7 @@
 	)
 	(wire
 		(pts
-			(xy 454.66 43.18) (xy 464.82 43.18)
+			(xy 454.66 43.18) (xy 469.9 43.18)
 		)
 		(stroke
 			(width 0)
@@ -7469,16 +7479,6 @@
 	)
 	(wire
 		(pts
-			(xy 464.82 43.18) (xy 480.06 43.18)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ee766dc0-d78f-4ae0-9a02-7b8a446f80a1")
-	)
-	(wire
-		(pts
 			(xy 514.35 217.17) (xy 514.35 227.33)
 		)
 		(stroke
@@ -8347,7 +8347,7 @@
 		)
 		(uuid "c3b6b831-c3a5-463d-860e-2e21bb4c473b")
 	)
-	(label "ANALOG_FB"
+	(label "MCP3008_CH0"
 		(at 426.72 125.73 0)
 		(effects
 			(font
@@ -9240,6 +9240,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9420,7 +9421,7 @@
 		(dnp no)
 		(uuid "0994f8df-1c28-4f93-b523-3717eb6186c4")
 		(property "Reference" "C201"
-			(at 457.2 59.69 0)
+			(at 455.93 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9429,7 +9430,7 @@
 			)
 		)
 		(property "Value" "1uF"
-			(at 457.2 64.77 0)
+			(at 455.93 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9455,13 +9456,30 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1 uF analogue feedback filter capacitor; package not yet selected"
+		(property "Description" "1 µF 10% 16 V X7R 0603 analogue feedback filter capacitor"
 			(at 454.66 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "C1608X7R1C105K080AC"
+			(at 454.66 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 454.66 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -9604,6 +9622,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9702,7 +9721,7 @@
 		(dnp no)
 		(uuid "1541dcb8-42f4-40f3-b67e-b1ef645d5a7a")
 		(property "Reference" "R201"
-			(at 434.34 38.1 90)
+			(at 434.34 40.64 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9710,7 +9729,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 434.34 40.64 90)
+			(at 434.34 43.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9735,13 +9754,30 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "10 kohm analogue feedback filter resistor; package not yet selected"
+		(property "Description" "10 kΩ 1% 0.1 W 0603 analogue feedback filter resistor"
 			(at 434.34 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "RC0603FR-0710KL"
+			(at 434.34 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 434.34 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -9906,6 +9942,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9981,6 +10018,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10056,6 +10094,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10075,7 +10114,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 464.82 43.18 0)
+		(at 469.9 43.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10083,7 +10122,7 @@
 		(dnp yes)
 		(uuid "25420987-875b-4fbb-91e1-7d8de584a40d")
 		(property "Reference" "TP202"
-			(at 464.82 35.56 0)
+			(at 469.9 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10091,7 +10130,7 @@
 			)
 		)
 		(property "Value" "ANALOG_FB"
-			(at 464.82 38.1 0)
+			(at 469.9 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10099,7 +10138,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 469.9 43.18 0)
+			(at 474.98 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10108,7 +10147,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 469.9 43.18 0)
+			(at 474.98 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10117,7 +10156,7 @@
 			)
 		)
 		(property "Description" "Filtered analogue-feedback 2.54 mm header-pin test point"
-			(at 464.82 43.18 0)
+			(at 469.9 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10126,11 +10165,12 @@
 			)
 		)
 		(property "MPN" "61300111121"
-			(at 464.82 43.18 0)
+			(at 469.9 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10341,6 +10381,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10621,6 +10662,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10850,6 +10892,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11227,6 +11270,99 @@
 		)
 	)
 	(symbol
+		(lib_id "Espruino_Harness_RevA:LOOPBACK_ISOLATION_HEADER")
+		(at 485.14 43.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5cf2ddd1-badd-47ea-966c-5a80146c4570")
+		(property "Reference" "JP202"
+			(at 485.14 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TARGET_ADC_ISOLATION"
+			(at 485.14 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 485.14 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
+			(at 485.14 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "2.54 mm two-pin THT target-ADC isolation header; shunt 60900213421 fitted for normal operation"
+			(at 485.14 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 485.14 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 485.14 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 485.14 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aa610f82-0162-4619-b761-ffd243543f27")
+		)
+		(pin "2"
+			(uuid "23b74de9-3bac-41fd-8a6f-dc0487d8f0a9")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "JP202")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 158.75 35.56 0)
 		(unit 1)
@@ -11359,6 +11495,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12365,14 +12502,14 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:Jumper_2_Open")
+		(lib_id "Espruino_Harness_RevA:LOOPBACK_ISOLATION_HEADER")
 		(at 403.86 43.18 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a5893f51-b6b5-4d9f-b56c-fdae46ca11d4")
+		(uuid "a640b572-1362-49f9-b8b5-a81a4a0469fb")
 		(property "Reference" "JP201"
 			(at 403.86 39.37 0)
 			(effects
@@ -12398,7 +12535,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 403.86 43.18 0)
 			(effects
 				(font
@@ -12407,7 +12544,33 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "PWM-source isolation header; shunt fitted for normal operation"
+		(property "Description" "2.54 mm two-pin THT PWM-source isolation header; shunt 60900213421 fitted for normal operation"
+			(at 403.86 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 403.86 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 403.86 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
 			(at 403.86 43.18 0)
 			(effects
 				(font
@@ -12417,10 +12580,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "e0e627c8-b5b7-4111-a29c-b388945a3dc6")
+			(uuid "ce2f5a55-c023-49bc-bb75-2575dcd761e3")
 		)
 		(pin "2"
-			(uuid "013cf505-1e79-4a95-9764-c6d904031440")
+			(uuid "37afb9e9-55fb-41bb-96b4-06e7bd46566d")
 		)
 		(instances
 			(project "Espruino_Harness_RevA"
@@ -12575,7 +12738,7 @@
 		(dnp no)
 		(uuid "b201322a-5a17-43a1-a02c-18955fadf84d")
 		(property "Reference" "J201"
-			(at 530.86 58.42 0)
+			(at 530.86 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12616,6 +12779,23 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 530.86 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 530.86 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -13678,73 +13858,6 @@
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "TP505")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Jumper:Jumper_2_Open")
-		(at 485.14 43.18 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b8149f6e-47c5-4511-8026-580c13f1bac5")
-		(property "Reference" "JP202"
-			(at 485.14 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TARGET_ADC_ISOLATION"
-			(at 485.14 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 485.14 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 485.14 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Target-ADC isolation header; shunt fitted for normal operation"
-			(at 485.14 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "723005a6-96bf-4fd9-87b9-74d82bde828c")
-		)
-		(pin "2"
-			(uuid "1c42aef8-81a2-4b85-a91e-50a2b6c4be4b")
-		)
-		(instances
-			(project "Espruino_Harness_RevA"
-				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
-					(reference "JP202")
 					(unit 1)
 				)
 			)
@@ -14991,6 +15104,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15707,14 +15821,14 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:Jumper_2_Open")
+		(lib_id "Espruino_Harness_RevA:LOOPBACK_ISOLATION_HEADER")
 		(at 485.14 25.4 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e7323772-ceff-4f7f-82f1-0a49308a94e3")
+		(uuid "ec1cf899-d5a0-4a9a-8434-4293c3d7013b")
 		(property "Reference" "JP203"
 			(at 485.14 21.59 0)
 			(effects
@@ -15740,7 +15854,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300211121.pdf"
 			(at 485.14 25.4 0)
 			(effects
 				(font
@@ -15749,7 +15863,33 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MCP3008 CH0 isolation header; shunt fitted for normal operation"
+		(property "Description" "2.54 mm two-pin THT MCP3008 CH0 isolation header; shunt 60900213421 fitted for normal operation"
+			(at 485.14 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300211121"
+			(at 485.14 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 485.14 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
 			(at 485.14 25.4 0)
 			(effects
 				(font
@@ -15759,10 +15899,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "993d99be-91af-42f8-a0b3-8f607f1bc375")
+			(uuid "e1e34854-c77d-4bf7-bf81-a0c1ab058de3")
 		)
 		(pin "2"
-			(uuid "52360f3b-cb57-42a3-bc88-c050a86f3a55")
+			(uuid "c3b9f4ed-1fb1-42df-b378-3454c1dbddc2")
 		)
 		(instances
 			(project "Espruino_Harness_RevA"

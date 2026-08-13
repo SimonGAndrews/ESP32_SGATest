@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "7de4af877a7d7277100e70db155544e6e1eb4d80f20436d3509cc6e085cbde09"
+      "sha256": "4baaa7eb64c00866d29a891484e3e4730899eda8875dad5e54738c8dd9c4c312"
     },
     {
       "id": "PC01",
@@ -42,6 +42,11 @@
       "id": "TB01",
       "file": "contracts/TB01-digital-gpio-loopback.yaml",
       "sha256": "3a7bb4bc33764463c94e6ee2734a0df0423cc6f7fd858777f3f08513fce03934"
+    },
+    {
+      "id": "TB02",
+      "file": "contracts/TB02-analogue-pwm-feedback.yaml",
+      "sha256": "710ab78ab1d1b21cc8abe4c855bcffac72352d4a096fa5380d9399d255bae594"
     },
     {
       "id": "SYS01",
@@ -106,6 +111,17 @@
       }
     },
     {
+      "id": "TB02",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 38,
+      "assertions": {
+        "pin_net": 19,
+        "component_value": 11,
+        "forbidden_same_net": 8
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -117,7 +133,7 @@
       }
     }
   ],
-  "connectivity_sha256": "6458bf734d7a0136b0fb110250221e0012ae64246a5186cd127510ceef6da7dc",
+  "connectivity_sha256": "94a2cc9d44d12c0ee1f6538ca34d00db8b4ccd7e7bd8869d4eaf2651de2267af",
   "components": [
     {
       "ref": "C201",
@@ -2698,10 +2714,6 @@
           "pin": "1"
         },
         {
-          "ref": "J401",
-          "pin": "1"
-        },
-        {
           "ref": "JP202",
           "pin": "1"
         },
@@ -2715,10 +2727,6 @@
         },
         {
           "ref": "TP202",
-          "pin": "1"
-        },
-        {
-          "ref": "U401",
           "pin": "1"
         }
       ]
@@ -2785,11 +2793,19 @@
       "name": "/Standard_Test_Blocks/MCP3008_CH0",
       "nodes": [
         {
+          "ref": "J401",
+          "pin": "1"
+        },
+        {
           "ref": "JP203",
           "pin": "2"
         },
         {
           "ref": "TP204",
+          "pin": "1"
+        },
+        {
+          "ref": "U401",
           "pin": "1"
         }
       ]
