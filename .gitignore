@@ -42,3 +42,10 @@ docs/design/V2Harness/implementation/TempNotes.md
 
 # ignore BOM experiments
 KICAD/V2/MinimalBom/
+docs/design/Rack/QCAD/test01.dxf
+
+# Local KiCad import workspace used to derive the production ADA5683 library.
+KICAD/V2/RevA/Espruino_Harness_RevA/adafruitAdafruit-microSD/
+
+# Local component-development and CAD-import workspaces.
+KICAD/V2/ComponentDevelopment/
