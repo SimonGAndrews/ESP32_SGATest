@@ -182,6 +182,36 @@ footprints and explicit diagnostic test-point footprints.
 - Validation: odd/even pin numbering and the assigned standard KiCad 9
   footprint were checked against the accepted Power Control Service draft.
 
+### Adafruit microSD Card BFF 5683
+
+- Purpose: fixed, flat, underside-mounted microSD storage extension for Test
+  Block 4. The module is hand-fitted after PCB assembly and is excluded from
+  AISLER placement; the removable item is the microSD card, not the module.
+- Accepted product: Adafruit `5683`; UK supplier reference `ADA5683`.
+- Symbol: project-local `Adafruit_MicroSD_BFF_5683`. Its six electrical pins
+  are SCK, MISO, MOSI, 3V3, GND and CS_TX. CS_TX represents the module's
+  factory-closed TX-to-CS solder-jumper selection. The RX, A0 and A1
+  alternatives remain open, and +5V is not connected.
+- Footprint: project-local `Adafruit_MicroSD_BFF_5683_Underside`. The
+  17.78 mm by 20.701 mm outline, two seven-position 2.54 mm castellated rows,
+  row coordinates and signal identities were derived from Adafruit's
+  published revision-B Eagle board file. Six lands are numbered electrical
+  pads and the other eight are unnumbered mechanical solder lands. The
+  2.5 mm by 1.8 mm host-land dimensions are a project implementation choice,
+  not a manufacturer land-pattern recommendation.
+- Assembly treatment: the footprint deliberately has copper and mask openings
+  but no paste apertures. All 14 lands are intended for distributed manual
+  soldering after AISLER assembly. Place the footprint on the PCB back with
+  its `CARD ACCESS` edge at the harness-card top edge.
+- Sources: Adafruit technical guide
+  <https://learn.adafruit.com/adafruit-microsd-card-bff> and official design
+  repository <https://github.com/adafruit/Adafruit-microSD-Card-BFF-PCB>.
+  The published Adafruit design files identify the source as CC BY-SA 2.5.
+- Validation still required: compare a physical ADA5683 module against a
+  1:1 footprint print before PCB release, then verify underside orientation,
+  card insertion/removal clearance, soldering access and neighbouring top-edge
+  connector clearance in the assembled PCB model.
+
 ### `Target_Interface_2x12_Odd_Even`
 
 - Purpose: logical schematic representation of one 24-contact Target Interface

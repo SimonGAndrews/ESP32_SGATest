@@ -26,5 +26,7 @@ contracts:
     file: contracts/TB02-analogue-pwm-feedback.yaml
   - id: TB03
     file: contracts/TB03-i2c-functional-device.yaml
+  - id: TB04
+    file: contracts/TB04-spi-functional-device-and-storage.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

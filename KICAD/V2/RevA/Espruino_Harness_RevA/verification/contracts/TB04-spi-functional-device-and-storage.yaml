@@ -1,0 +1,121 @@
+schema_version: 1
+kind: block_contract
+block_id: TB04
+
+# Independent machine-checkable intent derived from Standard Test Blocks
+# Section 6.4. DNP/hand-fit disposition, socket and module mechanics, card
+# access, physical test-point accessibility, SPI timing and populated-board
+# operation remain human-reviewed PCB, assembly and functional-test checks.
+assertions:
+  pin_net:
+    # Shared SPI bus and accessible observation points.
+    - {ref: U401, pin: "13", net: TI_SPI_SCK}
+    - {ref: J402, pin: "1", net: TI_SPI_SCK}
+    - {ref: TP403, pin: "1", net: TI_SPI_SCK}
+    - {ref: U401, pin: "11", net: TI_SPI_MOSI}
+    - {ref: J402, pin: "3", net: TI_SPI_MOSI}
+    - {ref: TP404, pin: "1", net: TI_SPI_MOSI}
+    - {ref: U401, pin: "12", net: TI_SPI_MISO}
+    - {ref: J402, pin: "2", net: TI_SPI_MISO}
+    - {ref: TP405, pin: "1", net: TI_SPI_MISO}
+
+    # Independent active-low chip selects, each biased inactive from the
+    # switched Test Block supply.
+    - {ref: U401, pin: "10", net: TI_SPI_CS_ADC}
+    - {ref: R401, pin: "1", net: TI_SPI_CS_ADC}
+    - {ref: TP401, pin: "1", net: TI_SPI_CS_ADC}
+    - {ref: R401, pin: "2", net: TEST_BLOCK_3V3}
+    - {ref: J402, pin: "6", net: TI_SPI_CS_EXT}
+    - {ref: R402, pin: "2", net: TI_SPI_CS_EXT}
+    - {ref: TP406, pin: "1", net: TI_SPI_CS_EXT}
+    - {ref: R402, pin: "1", net: TEST_BLOCK_3V3}
+
+    # MCP3008 and fixed BFF supplies, local bypass/bulk capacitance and
+    # accessible module-side power references.
+    - {ref: U401, pin: "15", net: TEST_BLOCK_3V3}
+    - {ref: U401, pin: "16", net: TEST_BLOCK_3V3}
+    - {ref: J402, pin: "4", net: TEST_BLOCK_3V3}
+    - {ref: C401, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: C402, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: C403, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: TP407, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: U401, pin: "9", net: TI_GND}
+    - {ref: U401, pin: "14", net: TI_GND}
+    - {ref: J402, pin: "5", net: TI_GND}
+    - {ref: C401, pin: "2", net: TI_GND}
+    - {ref: C402, pin: "2", net: TI_GND}
+    - {ref: C403, pin: "2", net: TI_GND}
+    - {ref: TP402, pin: "1", net: TI_GND}
+
+    # CH0 retains the separately contracted Block 2 isolation boundary;
+    # CH1-CH7 map one-to-one to the analogue breakout.
+    - {ref: U401, pin: "1", net: MCP3008_CH0}
+    - {ref: J401, pin: "1", net: MCP3008_CH0}
+    - {ref: JP203, pin: "2", net: MCP3008_CH0}
+    - {ref: TP204, pin: "1", net: MCP3008_CH0}
+    - {ref: U401, pin: "2", net: Net-(J401-CH1)}
+    - {ref: J401, pin: "2", net: Net-(J401-CH1)}
+    - {ref: U401, pin: "3", net: Net-(J401-CH2)}
+    - {ref: J401, pin: "3", net: Net-(J401-CH2)}
+    - {ref: U401, pin: "4", net: Net-(J401-CH3)}
+    - {ref: J401, pin: "4", net: Net-(J401-CH3)}
+    - {ref: U401, pin: "5", net: Net-(J401-CH4)}
+    - {ref: J401, pin: "5", net: Net-(J401-CH4)}
+    - {ref: U401, pin: "6", net: Net-(J401-CH5)}
+    - {ref: J401, pin: "6", net: Net-(J401-CH5)}
+    - {ref: U401, pin: "7", net: Net-(J401-CH6)}
+    - {ref: J401, pin: "7", net: Net-(J401-CH6)}
+    - {ref: U401, pin: "8", net: Net-(J401-CH7)}
+    - {ref: J401, pin: "8", net: Net-(J401-CH7)}
+
+  component_value:
+    - {ref: U401, value: MCP3008}
+    - {ref: J401, value: MCP3008_ANALOGUE_BREAKOUT}
+    - {ref: J402, value: ADAFRUIT_MICROSD_BFF_5683}
+    - {ref: C401, value: 1uF}
+    - {ref: C402, value: 100nF}
+    - {ref: C403, value: 22uF}
+    - {ref: R401, value: 10k}
+    - {ref: R402, value: 10k}
+    - {ref: TP401, value: TI_SPI_CS_ADC}
+    - {ref: TP402, value: GND}
+    - {ref: TP403, value: TI_SPI_SCK}
+    - {ref: TP404, value: TI_SPI_MOSI}
+    - {ref: TP405, value: TI_SPI_MISO}
+    - {ref: TP406, value: TI_SPI_CS_EXT}
+    - {ref: TP407, value: TEST_BLOCK_3V3}
+
+  forbidden_same_net:
+    - id: TB04-F01
+      endpoints: [JP203.1, JP203.2]
+      reason: MCP3008 CH0 must remain isolatable from the Block 2 analogue-feedback source.
+    - id: TB04-F02
+      endpoints: [R401.1, R401.2]
+      reason: The MCP3008 chip select must retain its inactive-state pull-up rather than be tied directly high.
+    - id: TB04-F03
+      endpoints: [R402.1, R402.2]
+      reason: The microSD chip select must retain its inactive-state pull-up rather than be tied directly high.
+    - id: TB04-F04
+      endpoints: [U401.10, J402.6]
+      reason: MCP3008 and microSD chip selects must remain independent.
+    - id: TB04-F05
+      endpoints: [U401.13, U401.11]
+      reason: SPI clock and MOSI must remain distinct conductors.
+    - id: TB04-F06
+      endpoints: [U401.13, U401.12]
+      reason: SPI clock and MISO must remain distinct conductors.
+    - id: TB04-F07
+      endpoints: [U401.11, U401.12]
+      reason: MOSI and MISO must remain distinct conductors.
+    - id: TB04-F08
+      endpoints: [J402.4, J402.5]
+      reason: The fixed microSD module supply must remain isolated from ground.
+    - id: TB04-F09
+      endpoints: [J402.1, J402.6]
+      reason: The microSD clock must not be shorted to its chip select.
+    - id: TB04-F10
+      endpoints: [J402.2, J402.6]
+      reason: The microSD MISO path must not be shorted to its chip select.
+    - id: TB04-F11
+      endpoints: [J402.3, J402.6]
+      reason: The microSD MOSI path must not be shorted to its chip select.

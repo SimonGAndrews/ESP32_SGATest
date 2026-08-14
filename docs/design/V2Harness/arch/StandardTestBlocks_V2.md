@@ -200,7 +200,7 @@ is unambiguous.
 | 1 | Digital GPIO loopback | Accepted and complete |
 | 2 | Analogue/PWM feedback | Accepted and complete |
 | 3 | I2C functional device and external extension | Accepted and complete |
-| 4 | SPI functional device and removable storage extension | Accepted and complete |
+| 4 | SPI functional device and fixed microSD storage extension | Accepted and complete |
 | 5 | 1-Wire functional devices | Accepted and complete; includes V1 Blocks 5 and 6 |
 | 6 | 1-Wire GPIO device | Absorbed into the V2 1-Wire Functional Device Block |
 | 7 | UART functional crosslink and external peer | Accepted and complete |
@@ -776,18 +776,18 @@ Section 7.6:
 * the diagnostic or manual fallback if target I2C cannot configure the routing
   Control Service
 
-### 6.4 Block 4 — SPI Functional Device And Removable Storage Extension
+### 6.4 Block 4 — SPI Functional Device And Fixed MicroSD Storage Extension
 
-**Status:** Accepted and complete; retained from V1 with removable microSD
-storage, analogue breakout and diagnostic enhancements
+**Status:** Accepted and complete; retained from V1 with a fixed hand-fitted
+microSD module, removable card, analogue breakout and diagnostic enhancements
 
 #### Purpose
 
-The SPI Functional Device And Removable Storage Extension Block provides a
-known SPI ADC for transfer and conversion testing plus a removable microSD
-device for validating independent chip selects, shared-bus operation and the
-Espruino SD-card and filesystem APIs. It also makes the MCP3008 analogue input
-channels available for additional analogue experiments.
+The SPI Functional Device And Fixed MicroSD Storage Extension Block provides a
+known SPI ADC for transfer and conversion testing plus a fixed microSD module
+with a removable card for validating independent chip selects, shared-bus
+operation and the Espruino SD-card and filesystem APIs. It also makes the
+MCP3008 analogue input channels available for additional analogue experiments.
 
 #### V1 Evidence
 
@@ -824,8 +824,10 @@ replacement, orientation and diagnostic provisions.
 
 #### V2 Decision
 
-Retain a socketed through-hole MCP3008 as the prototype's standard SPI
-functional device. Preserve MCP3008 channel 0 as the Block 2 measurement input.
+Retain Microchip `MCP3008-I/P` in a hand-fitted Harwin `D2816-42` 16-pin,
+7.62 mm through-hole socket as the prototype's standard SPI functional device.
+Both are excluded from automated assembly. Preserve MCP3008 channel 0 as the
+Block 2 measurement input.
 
 Provide one vertical 2.54 mm eight-pin analogue breakout connector exposing
 MCP3008 CH0 through CH7 in numerical order, with pin 1 corresponding to CH0.
@@ -835,25 +837,32 @@ than an independent stimulus input. CH1 through CH7 have no standard fixed load
 and are available for external analogue stimulus and additional conversion
 tests.
 
-Use a removable passive 3.3 V microSD breakout as the second SPI device. The
-prototype implementation shall use The Pi Hut MicroSD Breakout, SKU 106696,
-which exposes the card signals on one 2.54 mm 1x9 header and provides cuttable
-links for its power LED and onboard pull-ups. The prototype shall normally
-disconnect the module power LED and onboard pull-ups so that fixed loading and
-pull-up ownership remain controlled by the harness.
+Use an
+[Adafruit microSD Card BFF Add-On for QT Py and Xiao](https://www.adafruit.com/product/5683),
+Adafruit Product ID 5683 and UK supplier reference
+[`ADA5683`](https://thepihut.com/products/adafruit-microsd-card-bff-add-on-for-qt-py-and-xiao),
+as the second SPI device. This is an assembled passive 3.3 V module with a
+Molex `104031-0811` push-pull microSD socket and no regulator or level shifter.
+The module is a required hand-fitted part on the completed harness but shall
+be excluded from automated assembly.
 
 The module connection shall provide 3.3 V, GND, SCK, MOSI, MISO and one
-active-low extension chip select. SDIO-only contacts need not consume Target
-Interface or routing signals.
+active-low extension chip select. Connect `TI_SPI_CS_EXT` to the BFF `TX` pad
+and retain the factory-default closed TX-to-CS jumper. Leave the alternative
+RX, A0 and A1 CS-selection jumpers open. The remaining QT Py/Xiao pads shall
+have no harness electrical connection and shall not consume Target Interface
+or routing signals.
 
-The preferred initial arrangement uses a suitable double-ended or long-tail
-through-hole pin header. The removable microSD breakout mounts horizontally
-on the underside of the harness PCB with the card accessible at the PCB edge,
-while the same connector pins remain exposed on the top side as SPI test
-points. The prototype mechanical evaluation may instead select vertical or
-top-side horizontal mounting if clearance, support or card access is better.
-The module shall remain removable and its card slot usable without dismantling
-the target or daughter board.
+Mount the module horizontally and directly to castellated-pad lands on the
+underside of the harness PCB, adjacent to the top edge and the Grove I2C
+extension. Orient its socket so that the microSD card is inserted and removed
+at that harness-board edge without dismantling the target or daughter board.
+The project-local footprint shall reproduce the two seven-position, 2.54 mm
+perimeter-pad rows from Adafruit's published design. Provide all fourteen
+solder lands to distribute mechanical attachment around the module: connect
+only the six required power and SPI positions, and leave every other harness
+land without an electrical net. The module is fixed after hand soldering; the
+microSD card remains removable.
 
 The microSD module is the normal fitted extension device because it adds
 `E.connectSDCard`, mount, unmount and filesystem coverage while retaining the
@@ -862,7 +871,7 @@ W25xxx module. A W25xxx-compatible flash module may still be connected through
 a small adapter or the diagnostic connection for device-specific experiments;
 it is not a second permanently allocated SPI extension.
 
-The MCP3008 and one removable extension device provide sufficient SPI API,
+The MCP3008 and one storage extension device provide sufficient SPI API,
 full-duplex transfer, chip-select and shared-bus coverage. V2 shall not allocate
 a third standard SPI chip select or an additional full-bus connector without
 new evidence of a coverage requirement.
@@ -877,13 +886,13 @@ The block requires five logical Target Interface signals:
 * `TI_SPI_CS_ADC`
 * `TI_SPI_CS_EXT`
 
-MCP3008 CH0 through CH7 and the removable-storage module connection are
+MCP3008 CH0 through CH7 and the fixed storage-module connection are
 internal or external harness connections rather than additional Target
 Interface signals.
 
 #### Connection Behaviour
 
-The MCP3008 and removable extension device share SCK, MOSI and MISO. Each has a
+The MCP3008 and microSD extension share SCK, MOSI and MISO. Each has a
 separate active-low chip select. The selected configuration shall support both
 devices concurrently without changing the three shared-bus assignments.
 
@@ -902,15 +911,18 @@ connection and hard-isolation shunt are defined by that block.
 
 #### Electrical And Safe-State Rules
 
-* The SPI bus, MCP3008, analogue breakout and removable extension operate in
+* The SPI bus, MCP3008, analogue breakout and microSD extension operate in
   the 3.3 V harness domain.
 * MCP3008 VDD and VREF connect to 3.3 V; AGND and DGND connect to the harness
   ground according to the final analogue layout and power rules.
-* Provide local 100 nF decoupling at the MCP3008 to reduce supply and reference
-  noise during conversion and SPI activity.
-* Provide local 100 nF decoupling and a provisional 10 uF to 47 uF bulk
-  capacitor at the removable-module supply connection to limit connector- and
-  card-access-related supply disturbance.
+* Provide one local 1 uF X7R bypass capacitor from the joined MCP3008 VDD/VREF
+  supply node to the joined AGND/DGND return. Place it as close as practical to
+  the device supply pins. This implements the value explicitly recommended in
+  Section 6.4 of the MCP3004/MCP3008 data sheet.
+* Provide local 100 nF decoupling and 22 uF bulk capacitance at the BFF supply
+  connection to limit card-access-related supply disturbance. Adafruit's
+  published module schematic provides neither capacitor, so both remain
+  harness-board components.
 * `TI_SPI_CS_ADC` and `TI_SPI_CS_EXT` shall each have a local pull-up so both
   devices remain unselected while the target is reset, absent or unconfigured.
 * No analogue breakout input may be driven outside the permitted MCP3008 input
@@ -921,32 +933,33 @@ connection and hard-isolation shunt are defined by that block.
   deliberate independent CH0 stimulus shall use the Block 2 external-injection
   and isolation procedure as a diagnostic configuration, not a routine Block 4
   test transition.
-* The removable microSD breakout shall be inserted or removed only while power
-  is off. A card may be removed while the module remains powered only after the
-  test has completed all writes and called `E.unmountSD()`.
+* The fixed microSD BFF shall be fitted or reworked only while power is off. A
+  card may be removed while the module remains powered only after the test has
+  completed all writes and called `E.unmountSD()`.
 * The selected SPI clock must remain within the limits of the MCP3008, the
   fitted extension device and the routing path.
 
-The module connection shall have a prominent pin-1 marker, signal labels and a
-module-body outline on the silkscreen. The selected mounting orientation and
-card insertion direction shall be unambiguous and must not rely on cable-style
-viewing conventions.
+The footprint shall include the exact module outline, castellated-pad
+positions, card insertion and withdrawal envelope, underside courtyard and a
+prominent orientation marker derived from Adafruit's published Eagle PCB. The
+selected mounting orientation and card insertion direction shall be
+unambiguous on the harness silkscreen and must not rely on cable-style viewing
+conventions. The
+[Adafruit technical guide](https://learn.adafruit.com/adafruit-microsd-card-bff)
+and
+[published PCB design files](https://github.com/adafruit/Adafruit-microSD-Card-BFF-PCB)
+are the authoritative module-interface and footprint sources.
 
 #### Isolation And Diagnostics
 
 The prototype MCP3008 socket provides complete removal and isolation of the
-standard SPI device. Removing the microSD card from the fitted breakout removes
-the active SPI storage device and provides the normal routine isolation method.
-With the module power LED and unnecessary onboard pull-ups disconnected, the
-empty socket leaves only its passive contacts, PCB traces and small parasitic
-loading on the bus.
-
-The screw-supported microSD breakout shall also remain unplug-replaceable from
-its module connection. Removing it provides complete physical isolation if the
-socket, breakout PCB or connector is suspected. Card removal and breakout
-removal therefore provide routine device isolation and full diagnostic
-isolation respectively, without adding signal or power shunts to every module
-connection.
+standard SPI device. Removing the microSD card from the fixed BFF removes the
+active SPI storage device and provides the normal routine isolation method.
+The empty Molex socket and BFF then leave only their passive contacts, jumpers,
+PCB traces and small parasitic loading on the bus. Complete removal of a
+suspect BFF is a powered-off solder-rework operation rather than a routine
+diagnostic transition; no separate signal or power shunts are required for
+the module.
 
 Power-only isolation shall not be treated as complete MCP3008 isolation while
 SPI signals remain connected, because signal pins may load or partially power
@@ -954,22 +967,23 @@ an unpowered device. Compact 0 Ω links or solder-jumper provisions may be
 considered during the final diagnostic-provision and SMD review; large grouped
 shunt headers are not a Block 4 requirement at this stage.
 
-The top-side tails of the through-hole removable-module connector shall serve
-as the SCK, MOSI, MISO, `TI_SPI_CS_EXT`, 3.3 V and GND observation points. They
-shall remain accessible while the underside microSD module is fitted. Provide
-one additional compact header-pin test point for `TI_SPI_CS_ADC` so the shared
-bus and both chip selects can be observed concurrently. This combined
-arrangement replaces a separate duplicate 2x3 SPI diagnostic header.
+The BFF mounting lands shall not be treated as accessible top-side test points.
+Provide accessible observation points for SCK, MOSI, MISO,
+`TI_SPI_CS_EXT`, 3.3 V and GND near the module, together with one compact
+header-pin test point for `TI_SPI_CS_ADC`, so the shared bus, power and both
+chip selects can be observed concurrently. This arrangement replaces a
+separate duplicate 2x3 SPI diagnostic header.
 
 The MCP3008 eight-pin analogue breakout serves as the observation and external
 connection point for CH0 through CH7. It shall be placed near a ground test pin
 and labelled `CH0` through `CH7`.
 
-The removable-storage module connection exposes the complete SPI extension
-bus, chip select and power connections. Its module outline and signal labels
-shall remain visible when the module is removed. Any later MCP3008 SMD
-transition must meet Section 3.9 and provide an equivalent means of isolating
-the standard SPI device.
+The fixed storage-module footprint carries the complete SPI extension bus,
+chip select and power connections. Its identity, orientation, card direction
+and functional pad labels shall remain documented on the PCB and in the
+schematic even though its underside lands are covered after fitting. Any later
+MCP3008 SMD transition must meet Section 3.9 and provide an equivalent means
+of isolating the standard SPI device.
 
 #### Functional Coverage
 
@@ -997,13 +1011,16 @@ Section 7.6:
 
 * the baseline and maximum required SPI clock after routing-path validation
 * the local chip-select pull-up values
-* confirmation of the preferred underside module orientation, long-tail
-  connector, support and card-edge clearance during prototype construction
-* the final removable-module bulk-capacitance value after prototype
-  measurement, within the complete `TEST_BLOCK_3V3` switched-capacitance limit
-  defined by `StandardControlServices_V2.md`
+* verification of the fixed underside ADA5683 orientation, castellated-land
+  geometry, solder access, support, adjacent Grove-connector clearance and
+  card insertion/withdrawal envelope against the manufactured module
+* verification of the accepted 22 uF module bulk capacitance within the
+  complete `TEST_BLOCK_3V3` switched-capacitance limit defined by
+  `StandardControlServices_V2.md`
 * any additional analogue-input protection required at the CH0-to-CH7 breakout
-* the manufactured MCP3008 package and equivalent compact isolation arrangement
+* final PCB verification of the `MCP3008-I/P` PDIP-16 footprint, Harwin
+  `D2816-42` socket fit, insertion clearance, pin-1 marking and hand-assembly
+  access
 
 ### 6.5 V2 1-Wire Functional Device Block — V1 Blocks 5 And 6
 
@@ -1775,7 +1792,7 @@ other Control Service hardware are not included.
 | 1 | Two 1x2 loopback-isolation headers and two shunts | 4 | None beyond the isolation headers | Loopback paths opened by shunt removal |
 | 2 | Three 1x2 path-isolation headers and three shunts | 5 | One 1x2 analogue-stimulus connector | Individual source, target-ADC and MCP3008 paths opened by shunt removal |
 | 3 | Two 1x2 I2C pull-up-enable headers and two shunts | 6 | One 2x8 GPIO breakout and one 1x4 2.0 mm Grove connector | Socketed MCP23017; removable Grove branch |
-| 4 | No routine shunt header | 1 additional `CS_ADC` pin | One 1x8 analogue breakout and one 1x9 microSD-module connector | Socketed MCP3008; removable card and breakout |
+| 4 | No routine shunt header | 7: SCK, MOSI, MISO, `CS_ADC`, `CS_EXT`, 3.3 V and GND | One 1x8 analogue breakout and one 2x7 castellated module-land array | Socketed MCP3008; removable microSD card; BFF removable by powered-off rework |
 | 5 | One 1x3 resistor-limited pull-up selector and one shunt | 5 | Two three-position sensor screw terminals and one 1x4 DS2413 header | Both sensors and the DS2413 are removable |
 | 7 | No manual isolation header | 0 additional pins | One shared 2x3 UART peer/diagnostic header | Route isolation; external peer removable |
 | 9 | No routine shunt header | 2 | One 1x4 right-angle Pixel Shifter connection | Complete module removal |
@@ -1787,12 +1804,12 @@ The resulting Test Block baseline is:
 | Two-pin shunt headers | 7 | 14 |
 | Three-pin pull-up selector | 1 | 3 |
 | Fitted shunts | 8 | — |
-| Individual observation pins | 23 | 23 |
-| Functional, breakout and module connectors | 10 | 59 |
+| Individual observation pins | 29 | 29 |
+| Functional, breakout and module connectors | 10 | 64 |
 | Socketed integrated circuits | 2 | excluded from the connector-contact total |
-| **Header and connector baseline** |  | **99** |
+| **Header and connector baseline** |  | **110** |
 
-The 99-contact baseline excludes IC-socket contacts, ordinary component leads,
+The 110-contact baseline excludes IC-socket contacts, ordinary component leads,
 mounting holes, Target Interface banks and all routing or Control Service
 hardware. It is therefore a Test Block comparison figure rather than a final
 PCB-size estimate.
@@ -1803,9 +1820,9 @@ The cross-block review accepts the following consolidation and priority rules:
   diagnosis independent of routing state
 * retain the three pull-up-selection shunts because populated I2C and 1-Wire
   buses require measured, reversible pull-up choices
-* use the Block 4 microSD connector's top-side tails as the SPI bus,
-  `CS_EXT`, power and ground observation points; do not add a duplicate SPI
-  diagnostic header
+* provide individual accessible Block 4 observation points for SCK, MOSI,
+  MISO, `CS_EXT`, 3.3 V and GND because the fixed underside microSD lands are
+  covered after fitting; do not add a duplicate SPI diagnostic header
 * use the Block 4 analogue breakout as the CH0-to-CH7 observation and extension
   connection; add only the separate `CS_ADC` observation pin
 * retain the five live 1-Wire observation pins because the occupied DS2413
@@ -1813,8 +1830,9 @@ The cross-block review accepts the following consolidation and priority rules:
 * use the Block 7 2x3 peer connector for routine UART observation; do not add
   separate UART test points unless prototype use proves the shared header
   inaccessible with a peer attached
-* use device or module removal for Grove, microSD, DS18B20, DS2413 and RGB
-  isolation rather than adding signal shunts to every branch
+* use device, card or module removal for Grove, microSD, DS18B20, DS2413 and
+  RGB isolation rather than adding signal shunts to every branch; complete BFF
+  removal is powered-off solder rework
 * do not add a separate spare target-I/O connector until the connection matrix
   and Supervisor event-handshake allocation show unused protected capacity
 * allow adjacent blocks to share accessible 3.3 V or ground observation pins
@@ -1929,14 +1947,14 @@ block sections.
 | 3 | MCP23017 GPIO breakout | 2x8 | Expose GPA0 through GPB7 for observation, Supervisor event diagnosis and additional low-speed GPIO experiments |
 | 3 | Grove I2C connector | 1x4, 2.0 mm, right-angle THT | Attach one standard external I2C device or Grove hub from the upper outer board edge |
 | 4 | MCP3008 analogue breakout | 1x8 | Expose CH0 through CH7 for observation and external analogue inputs |
-| 4 | MicroSD module connector | 1x9 | Mount the removable passive microSD breakout and expose its useful SPI pins on the top-side tails |
+| 4 | Adafruit 5683 module-land array | 2x7 castellated positions | Fix the microSD BFF flat to the PCB underside using six electrical and eight mechanical-only solder lands |
 | 5 | DS18B20 sensor connector A | 1x3 screw terminal | Connect or replace the first powered 1-Wire sensor |
 | 5 | DS18B20 sensor connector B | 1x3 screw terminal | Connect or replace the second powered 1-Wire sensor |
 | 5 | DS2413 module header | 1x4 | Mount and completely remove the 1-Wire GPIO breakout |
 | 7 | UART peer and diagnostic header | 2x3 | Expose both UART endpoint pairs and two ground contacts |
 | 9 | Pixel Shifter connection | 1x4 right-angle | Mount the removable edge-overhanging RGB module; the `CLK` position is mechanically present but not connected |
 
-The register contains 59 PCB contact positions. It excludes isolation and
+The register contains 64 PCB contact positions. It excludes isolation and
 pull-up-selector headers, individual observation pins, IC sockets, Target
 Interface banks, routing hardware and Control Service connectors.
 
@@ -1963,6 +1981,12 @@ This appendix expands the 23 individual observation pins counted in Section
 | 3 | 3.3 V | Measure the local I2C device and pull-up supply |
 | 3 | GND | Provide a nearby I2C measurement reference |
 | 4 | `TI_SPI_CS_ADC` | Observe the MCP3008 chip select concurrently with the shared SPI bus and extension chip select |
+| 4 | `TI_SPI_SCK` | Observe the shared SPI clock near the fixed microSD module |
+| 4 | `TI_SPI_MOSI` | Observe target-to-device SPI data near the fixed microSD module |
+| 4 | `TI_SPI_MISO` | Observe device-to-target SPI data near the fixed microSD module |
+| 4 | `TI_SPI_CS_EXT` | Observe the microSD-module chip select independently of `CS_ADC` |
+| 4 | 3.3 V | Measure the fixed microSD module supply near its mounting lands |
+| 4 | GND | Provide a nearby SPI and module-supply measurement reference |
 | 5 | `ONEWIRE_DQ` | Observe reset, presence, read and write slots on the complete populated bus |
 | 5 | `ONEWIRE_PIOA` | Observe the DS2413 PIOA source while the module is fitted |
 | 5 | `ONEWIRE_PIOB` | Observe the DS2413 PIOB source while the module is fitted |
@@ -1971,8 +1995,7 @@ This appendix expands the 23 individual observation pins counted in Section
 | 9 | Protected module-side RGB data | Capture the target-generated 3.3 V waveform before Pixel Shifter level translation |
 | 9 | GND | Provide a nearby RGB waveform measurement reference |
 
-Block 4 also obtains SCK, MOSI, MISO, `TI_SPI_CS_EXT`, 3.3 V and GND
-observation through the top-side tails of the microSD connector, and CH0
-through CH7 through the analogue breakout. Block 7 obtains UART observation
-through its shared 2x3 peer header. Those connector-provided points are listed
-in Appendix A and are not counted again as individual observation pins.
+Block 4 obtains CH0 through CH7 observation through the analogue breakout.
+Block 7 obtains UART observation through its shared 2x3 peer header. Those
+connector-provided points are listed in Appendix A and are not counted again
+as individual observation pins.

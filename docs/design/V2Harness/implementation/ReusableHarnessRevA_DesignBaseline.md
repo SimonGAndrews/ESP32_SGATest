@@ -133,7 +133,7 @@ is a board-level decision. A material change returns the affected block to
 | TB01 | Digital GPIO loopback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB01-digital-gpio-loopback.png) | Verified |
 | TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB02-analogue-pwm-feedback.png) | Verified |
 | TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [Functional device](review-images/TB03-i2c-functional-device.png); [event handshake](review-images/TB03-supervisor-event-handshake.png) | Verified |
-| TB04 | SPI device and removable storage | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
+| TB04 | SPI functional device and fixed microSD storage extension | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB04-spi-functional-device-and-storage.png) | Verified |
 | TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB09 | Addressable RGB output | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
@@ -764,7 +764,7 @@ application material, exact `TMUX1511PWR` selection, PW package implementation,
 100 nF decoupling-capacitor policy, 100 kΩ route-enable pull-down policy, visual
 schematic and current full-hierarchy ERC have been reviewed and are suitable.
 The board-wide 2.54 mm through-hole test-point policy and exact part are
-accepted, and the DNP state is verified on all 38 test points in the saved
+accepted, and the DNP state is verified on all 43 test points in the saved
 schematic hierarchy and current PCB. The independent RC01 connectivity contract
 passes against a fresh root netlist. AISLER's interpretation of the test-point
 DNP state remains a release-stage BOM-reconciliation issue and does not block
@@ -910,7 +910,7 @@ guaranteed electrical limits and powered-off behaviour.
 | `U601`–`U605` | Texas Instruments | [`TMUX1511PWR`](https://www.ti.com/product/TMUX1511/part-details/TMUX1511PWR) | PW0014A, 14-pin TSSOP, 4.4 mm × 5.0 mm nominal body, 0.65 mm pitch | `Espruino_Harness_RevA:TMUX1511_PW` | `Package_SO:TSSOP-14_4.4x5mm_P0.65mm` | [TMUX1511 Rev. B, SCDS390B, March 2025](https://www.ti.com/lit/ds/symlink/tmux1511.pdf) | Accepted. Symbol pins agree exactly with the PW top-view table: `SEL1/S1/D1/SEL2/S2/D2/GND/D3/S3/SEL3/D4/S4/SEL4/VDD` on pins 1–14. The footprint has 14 sequential pads, the required 0.65 mm pitch, compatible 4.4 mm × 5.0 mm body outline and intrinsic pin-1 indication. Its IPC pads are 1.475 mm × 0.40 mm versus TI's 1.50 mm × 0.45 mm example; TI explicitly permits IPC-7351 alternate designs. | Assigned in AISLER on 2026-08-11 as one seven-component group covering `U601`–`U606` and `U701`; RC01 allocation is `U601`–`U605` |
 | `C601`–`C605` | AISLER-selected commodity MLCC | Manufacturer intentionally open; controlled by `AISLER_MPN = 100nF 10% 16V X7R 0603` | 0603 (1608 metric) | `Device:C` | `Capacitor_SMD:C_0603_1608Metric` | TMUX1511 Rev. B requires 0.1 µF to 10 µF local VDD bypass; final supplied-part data applies at release | Accepted. Non-polarized two-terminal mapping agrees with the standard footprint. The 100 nF nominal value meets the TMUX1511 recommendation; 16 V provides nearly 5× rating margin over `ROUTING_LOGIC_3V3`, and X7R/10% controls dielectric and initial tolerance. Local placement and short VDD/GND connections remain PCB action `PCB-RC01-01`. | KiCad Smart Match requirement accepted. The current AISLER capture retains an earlier generic assignment for `C601`–`C605`; reject/reassign it and verify all parameters during final BOM reconciliation. |
 | Nineteen functional `RPxx_EN` pull-downs: `R601`, `R602`, `R604`–`R607`, `R609`, `R610`, `R11`, `R12`, `R14`–`R17`, `R19`–`R22`, `R24` | AISLER-selected commodity resistor | Manufacturer intentionally open; controlled by `AISLER_MPN = 100k 0603 1% 0.1W` | 0603 (1608 metric), 0.1 W | `Device:R` | `Resistor_SMD:R_0603_1608Metric` | TMUX1511 Rev. B control-input limits and [AISLER Smart Match resistor parameters](https://community.aisler.net/t/documenting-parts/56) | Accepted. The refreshed hierarchy confirms exactly one 100 kΩ pull-down from each `RP01_EN`–`RP19_EN` to `TI_GND` and the standard two-terminal mapping. At the 1% high limit, 2 µA leakage develops 0.202 V, below the 0.45 V maximum input-low threshold without relying on the internal pull-down. Dissipation at 3.3 V is approximately 0.109 mW, more than 900 times below 0.1 W. | KiCad Smart Match requirement accepted on exactly the nineteen listed references. Reassign the current generic AISLER 100 kΩ entries and verify tolerance, power and package during final BOM reconciliation. |
-| `TP612`–`TP614` | Würth Elektronik | [`61300111121`](https://www.we-online.com/components/products/datasheet/61300111121.pdf) | One-position, single-row, vertical 2.54 mm THT pin header; 0.64 mm square pin, 3.0 mm PCB tail and 6.0 mm exposed post | `Connector:TestPoint` | `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical` | Würth `61300111121`, drawing revision 003.001, 2023-08-15 | Accepted under board-wide decision `INT02`. The KiCad footprint uses a 1.0 mm drill and 1.7 mm pad; the drill lies within the manufacturer's recommended 1.10 ±0.15 mm hole range and gives a 0.35 mm nominal annular ring. The single electrical pin maps directly to pad 1. | Exact `MPN = 61300111121` and DNP state are verified on all 38 board test points, including RC01 `TP612`–`TP614`. Retain them in the overall KiCad BOM and hand-fit after manufacture. AISLER exclusion interpretation remains a final BOM-reconciliation check. |
+| `TP612`–`TP614` | Würth Elektronik | [`61300111121`](https://www.we-online.com/components/products/datasheet/61300111121.pdf) | One-position, single-row, vertical 2.54 mm THT pin header; 0.64 mm square pin, 3.0 mm PCB tail and 6.0 mm exposed post | `Connector:TestPoint` | `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical` | Würth `61300111121`, drawing revision 003.001, 2023-08-15 | Accepted under board-wide decision `INT02`. The KiCad footprint uses a 1.0 mm drill and 1.7 mm pad; the drill lies within the manufacturer's recommended 1.10 ±0.15 mm hole range and gives a 0.35 mm nominal annular ring. The single electrical pin maps directly to pad 1. | Exact `MPN = 61300111121` and DNP state are verified on all 43 board test points, including RC01 `TP612`–`TP614`. Retain them in the overall KiCad BOM and hand-fit after manufacture. AISLER exclusion interpretation remains a final BOM-reconciliation check. |
 
 #### Verification
 
@@ -919,7 +919,7 @@ guaranteed electrical limits and powered-off behaviour.
 | Requirements inspection | Controlled Routing and Combined Capability Connection Matrix | Accepted: the selected five-switch approach implements the complete 19-path inventory and preserves the required route-entry grouping |
 | Behaviour and safe-state analysis | Operating table, partial-power review and current full-hierarchy normalized connectivity | Circuit approach accepted; powered-off leakage, 3.6 V boundary and complete controller-reset margin remain physical/RC02 checks |
 | Manufacturer source screen | Sources and conclusions above | Accepted for circuit approach; no architecture or topology change required |
-| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete four-contract set passes 350 checks |
+| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete nine-contract set passes 851 checks |
 | Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
 | Symbol-to-footprint pin mapping | TMUX1511 Rev. B PW pin table, PW0014A package drawing, project-local symbol, installed KiCad footprint and current PCB pads | Accepted: pins 1–14, package family, body size, pitch, pad order and pin-1 orientation agree; the footprint's IPC land pattern is a permitted alternate to TI's example pattern |
 | Visual schematic review | `review-images/RC01-routing-fabric.png` | Accepted current reviewed circuit capture after removal of the six redundant resistors |
@@ -927,7 +927,7 @@ guaranteed electrical limits and powered-off behaviour.
 
 #### Open issues and accepted exceptions
 
-- The accepted DNP state is present on all 38 `INT02` test points in the saved
+- The accepted DNP state is present on all 43 `INT02` test points in the saved
   hierarchy and PCB, but the latest AISLER upload did not exclude them as
   expected. Resolve the importer or assignment-state behaviour and verify the
   exclusion during final BOM reconciliation; retain the exact test-point MPNs
@@ -1152,7 +1152,7 @@ schematic; final manufacturer assignment remains part of BOM reconciliation.
 |---|---|
 | Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
-| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete seven-contract set passes all 626 checks. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete nine-contract set passes all 851 checks. |
 | Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
 | Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
 | Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
@@ -1249,7 +1249,7 @@ manufacturer component drawings/specifications above.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; no architecture change required. |
 | V1 prototype evidence | Accepted as proof of the two-pair 470 Ω functional pattern, including link-removal negative control; not used as Rev-A package proof. |
-| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted seven-contract baseline passes all 626 checks. |
+| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted nine-contract baseline passes all 851 checks. |
 | Package review | Accepted SMD resistors, THT headers, shunts and existing test pins are compatible with their intended roles and footprints. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings after migrating `JP101/JP102` to the project-local symbol. |
 | Visual schematic review | Accepted focused image linked above; both paths, values, endpoints, assembly-stage DNP test points and operating notes are legible. |
@@ -1392,7 +1392,7 @@ isolation boundary.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; the corrected MCP3008 isolation topology implements the existing architecture without changing it. |
 | V1 prototype evidence | Accepted for the 10 kOhm filtered-PWM function and concurrent target/MCP3008 ADC comparison; not used as Rev-A package or 1 uF performance proof. |
-| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete seven-contract baseline passes all 626 checks. |
+| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete nine-contract baseline passes all 851 checks. |
 | Package review | Accepted `R201`, `C201`, three isolation headers, three shunts, stimulus header and existing board-wide test-pin selection. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the complete Block 2 path, all three isolation boundaries, stimulus precautions, filter values and the MCP3008 CH0/`J401.1` cross-block endpoint. |
@@ -1407,9 +1407,9 @@ isolation boundary.
   normal fitted state and isolation function on the silkscreen.
 - Measure settling time, PWM ripple, target/MCP3008 agreement and external
   stimulus behaviour on the completed Rev-A board.
-- TB04 shall resolve the manufacturer recommendation for 1 uF local MCP3008
-  bypassing against the currently specified `C401` 100 nF before TB04
-  acceptance. This cross-block action does not alter the accepted TB02 filter.
+- TB04 resolved the manufacturer recommendation for local MCP3008 bypassing:
+  `C401` is now 1 uF X7R from the joined VDD/VREF supply to the joined analogue
+  and digital ground return. This does not alter the accepted TB02 filter.
 
 No TB02 exception is accepted at this stage.
 
@@ -1530,7 +1530,7 @@ effective resistance, capacitance, rise time and low-level margin.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.3, including the corrected device-only SDA/SCL isolation and downstream RESET/INTA biasing. |
 | V1 prototype evidence | Accepted for the functional I2C device, GPIO feedback, interrupt and Grove-extension concepts; not used as Rev-A package, isolation or event-stage proof. |
-| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The expanded eight-contract set passes all 776 checks. |
+| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete nine-contract set passes all 851 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted in the two focused images linked above. Together they show the shared bus, pull-ups, all device-isolation boundaries, isolated supply and biases, full GPIO breakout, feedback/interrupt paths and both Supervisor event stages. |
 | PCB synchronization | Accepted for schematic-baseline scope. Every contracted TB03 reference occurs exactly once on the current PCB, including the project-local `J301` footprint. The PCB carries the final `MCP23017_GPIO` value for `J302` and exact U301/Q301/Q302 metadata. Final placement, pad-level physical review and routing remain PCB-stage work. |
@@ -1551,6 +1551,127 @@ effective resistance, capacitance, rise time and low-level margin.
   open-drain interrupt, GPA1/GPA2 loop, GPA0 feedback and both event directions.
 
 No TB03 exception is accepted at this stage.
+
+### 4.8 TB04 — SPI functional device and fixed microSD storage extension
+
+**Purpose and requirements:** Provide a known SPI ADC, independent active-low
+chip selects, a shared three-wire SPI bus, MCP3008 analogue-channel access and
+a fixed underside microSD module with a removable card. See Standard Test
+Blocks Section 6.4.
+**Source schematic:** `standard_test_blocks.kicad_sch`, references `U401`,
+`J401`, `J402`, `C401`–`C403`, `R401`, `R402` and `TP401`–`TP407`, with the
+Block 2 `JP203`/`TP204` MCP3008-CH0 isolation boundary.
+**Visual review:** [SPI functional-device and storage image](review-images/TB04-spi-functional-device-and-storage.png).
+**Risk:** Standard
+**Status:** Verified schematic baseline. Requirements, circuit operation,
+manufacturer guidance, exact active-device and connector selections,
+full-hierarchy ERC, deterministic connectivity, PCB synchronization and the
+focused visual record are accepted. Physical placement, routing, module fit
+and populated-board measurements remain PCB-stage actions.
+
+#### V1 evidence and Rev-A boundary
+
+Both completed V1 harnesses proved the socketed MCP3008 SPI-transfer,
+low/mid/high conversion, monotonic-response and Block 2 comparison pattern.
+The earlier W25xxx extension also demonstrated the intended second-chip-select
+and shared-bus test concept, although later inconsistent module identification
+showed why the replaceable extension itself required improvement.
+
+That evidence supports the shared-bus architecture and MCP3008 reference
+device. It does not prove the new Adafruit 5683 microSD module, its underside
+castellated mounting, card-access envelope, local capacitance or final Rev-A
+routed timing. Those remain explicit PCB and populated-board checks.
+
+#### Implemented functional, signal and safety flow
+
+```text
+TEST_BLOCK_3V3 --+-- U401.15 VREF / U401.16 VDD -- C401 1uF -- TI_GND
+                 +-- R401 10k -- TI_SPI_CS_ADC -- U401.10 / TP401
+                 +-- J402.4 -- C402 100nF / C403 22uF -- TI_GND
+                 +-- R402 10k -- TI_SPI_CS_EXT -- J402.6 / TP406
+                 +-- TP407
+
+TI_SPI_SCK  -- U401.13 / J402.1 / TP403
+TI_SPI_MOSI -- U401.11 / J402.3 / TP404
+TI_SPI_MISO -- U401.12 / J402.2 / TP405
+TI_GND      -- U401.9 AGND / U401.14 DGND / J402.5 / TP402
+
+ANALOG_FB -- JP203 -- MCP3008_CH0 -- U401.1 / J401.1 / TP204
+U401 CH1–CH7 ---------------------- J401.2–J401.8
+```
+
+`R401` and `R402` hold both chip selects high and inactive while the target is
+absent, resetting or unconfigured. The MCP3008 and microSD module share SCK,
+MOSI and MISO but retain independent chip selects. The MCP3008 remains fully
+removable through its socket; the BFF's normal storage-device isolation is an
+unmounted and removed card, while complete module removal is powered-off
+solder rework.
+
+#### Manufacturer source and application review
+
+- Microchip's current
+  [MCP3004/MCP3008 data sheet](https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP3004-MCP3008-Data-Sheet-DS20001295.pdf)
+  supports the saved PDIP-16 pin mapping, 2.7–5.5 V supply range, SPI framing,
+  input range and the selected `MCP3008-I/P` order code. Section 6.4 recommends
+  a 1 uF local bypass; `C401` now implements that recommendation at the joined
+  VDD/VREF node.
+- Adafruit's
+  [microSD BFF technical guide](https://learn.adafruit.com/adafruit-microsd-card-bff)
+  and [published PCB design](https://github.com/adafruit/Adafruit-microSD-Card-BFF-PCB)
+  define the accepted Product 5683 module, 3.3 V-only operation, SPI signals,
+  factory TX-to-CS selection and castellated-pad geometry. The harness uses
+  TX as `TI_SPI_CS_EXT`; RX, A0 and A1 alternatives remain open.
+- The published module design identifies the fitted Molex `104031-0811`
+  push-pull socket and provides no regulator, level shifter or local supply
+  bypass. The harness therefore supplies 3.3 V directly and provides `C402`
+  100 nF plus `C403` 22 uF locally at J402.
+- Würth's `61300811121` data sheet confirms the selected J401 eight-position,
+  single-row, vertical 2.54 mm through-hole header and its recommended hole
+  pattern. Harwin `D2816-42` is the selected hand-fitted 16-pin, 7.62 mm
+  dual-row socket accessory for the removable MCP3008.
+
+#### Exact components and package state
+
+| References | Current implementation | Review result |
+|---|---|---|
+| `U401` | Microchip `MCP3008-I/P`; `Package_DIP:DIP-16_W7.62mm_LongPads` | Exact PDIP-16 MPN, data sheet and footprint accepted. Built-in DNP excludes AISLER placement; hand-fit Harwin `D2816-42` socket and insert U401 after manufacture. |
+| `J401` | Würth `61300811121`; `Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical` | Exact 1x8 THT header, data sheet and footprint accepted. Built-in DNP records hand fitting. Pin 1 is CH0 and pins 2–8 are CH1–CH7. |
+| `J402` | Adafruit Product `5683`, supplier reference `ADA5683`; project footprint `Espruino_Harness_RevA:Adafruit_MicroSD_BFF_5683_Underside` | Exact assembled module and underside footprint accepted. Built-in DNP retains all fourteen copper/mask lands without paste while excluding AISLER placement; six lands are electrically connected and eight mechanical lands remain unnumbered. |
+| `C401` | 1 uF, 10%, 16 V X7R, 0603 | Accepted MCP3008 VDD/VREF bypass value and package. |
+| `C402`, `C403` | 100 nF 0603 and 22 uF 0805 X7R | Accepted BFF high-frequency and bulk bypass values. Final effective capacitance and switched-rail budget remain PCB checks. |
+| `R401`, `R402` | 10 kOhm, 1%, 0.1 W, 0603 | Accepted inactive-state pull-ups for `TI_SPI_CS_ADC` and `TI_SPI_CS_EXT`. |
+| `TP401`–`TP407` | Würth `61300111121`; single-pin 2.54 mm THT | Accepted under board-wide decision `INT02`; DNP records hand fitting rather than absence from the completed board. |
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted against Standard Test Blocks Section 6.4, including the fixed underside microSD decision, shared SPI bus, independent chip selects, CH0 cross-block isolation and required observation points. |
+| V1 prototype evidence | Accepted for the socketed MCP3008 and shared-bus/second-chip-select concepts; not used as ADA5683, local-capacitance, footprint or routed-timing proof. |
+| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete nine-contract baseline passes all 851 checks. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
+| Visual schematic review | Accepted focused image linked above. It shows the MCP3008 core and breakout, both inactive-state chip-select pull-ups, fixed BFF interface, local capacitance, hand-fit state and seven observation points. |
+| PCB synchronization | Accepted for schematic-baseline scope. U401 and J401 carry their exact MPNs and DNP state; J402 occurs once on `B.Cu` with the accepted project footprint, DNP state, six correct electrical pad nets, eight unnumbered mechanical lands and no paste apertures. Final placement and routing remain PCB-stage work. |
+
+#### Closure actions and accepted exceptions
+
+- Place J402 on the underside at the upper board edge with `CARD ACCESS`
+  outward. Verify orientation, castellated-land registration, solder access,
+  support, Grove-connector clearance and card insertion/withdrawal using the
+  actual module and a printed 1:1 board review.
+- Place `C402` closest to J402's 3.3 V/GND lands and `C403` immediately nearby.
+  Place `C401` at U401 VDD/VREF with a short joined ground return. Confirm the
+  effective 22 uF capacitance and total `TEST_BLOCK_3V3` switched-capacitance
+  budget after voltage derating and the complete board population are known.
+- Route SCK, MOSI and MISO compactly over a continuous ground reference, keep
+  both chip-select pull-ups local, avoid long MISO branches and preserve probe
+  access to TP401–TP407 and clear CH0–CH7 labelling at J401.
+- Verify socket orientation and pin 1 before inserting U401. Test MCP3008
+  conversion and Block 2 agreement, both inactive chip selects, shared-bus
+  switching, microSD connect/mount/file/unmount operation and clean card
+  removal on the populated board.
+
+No TB04 exception is accepted at this stage.
 
 ## 5. System integration review
 
@@ -1580,7 +1701,7 @@ block review.
 | ID | Decision | Implementation contract | Status |
 |---|---|---|---|
 | `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N`, `SUP_EVENT_IN` and the latched `LOW_RANGE_OK_N`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation complete and full-hierarchy ERC clean; firmware and release verification pending |
-| `INT02` | Use one consistent fitted diagnostic test-point part across Rev A | All 38 `TP` references use Würth Elektronik `61300111121`, a one-position vertical 2.54 mm through-hole header pin, with `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical`. Scope is Routing Control `TP601`–`TP614` and Standard Test Blocks `TP101`–`TP104`, `TP201`–`TP205`, `TP301`–`TP306`, `TP401`–`TP402`, `TP501`–`TP505` and `TP901`–`TP902`. Keep each part in the overall KiCad BOM with exact `MPN = 61300111121`. Mark each DNP so AISLER excludes it from its assembly stage, then hand-fit it after manufacture. For `INT02` only, DNP records an assembly-stage boundary rather than absence from the completed Rev-A board. This retains the accepted individual 2.54 mm header-pin architecture and common compatibility with probes, hooks, clips and female jumper leads. | Accepted policy, package mapping and MPN metadata; hierarchy-wide DNP application, PCB metadata and final accessibility review pending |
+| `INT02` | Use one consistent fitted diagnostic test-point part across Rev A | All 43 `TP` references use Würth Elektronik `61300111121`, a one-position vertical 2.54 mm through-hole header pin, with `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical`. Scope is Routing Control `TP601`–`TP614` and Standard Test Blocks `TP101`–`TP104`, `TP201`–`TP205`, `TP301`–`TP306`, `TP401`–`TP407`, `TP501`–`TP505` and `TP901`–`TP902`. Keep each part in the overall KiCad BOM with exact `MPN = 61300111121`. Mark each DNP so AISLER excludes it from its assembly stage, then hand-fit it after manufacture. For `INT02` only, DNP records an assembly-stage boundary rather than absence from the completed Rev-A board. This retains the accepted individual 2.54 mm header-pin architecture and common compatibility with probes, hooks, clips and female jumper leads. | Accepted policy, package mapping and MPN metadata; hierarchy-wide DNP application, PCB metadata and final accessibility review pending |
 
 ### 5.2 Open integration gaps
 
@@ -1628,6 +1749,9 @@ and close it only with the evidence named below.
 | `PCB-TB03-01` | TB03 component and access review | Exact component metadata and PCB synchronization are complete. Place `J301` near the upper outer edge with its mating face outward and body supported within the outline. Place `J302`, `JP301`–`JP304`, `JP306`–`JP309` and `TP301`–`TP306` so pin 1, normal shunt state and every diagnostic contact remain clear and accessible with the target fitted. | 3D mating-part review, printed 1:1 access check and final BOM comparison | Open |
 | `PCB-TB03-02` | TB03 shared-I2C and pull-up review | Keep SDA/SCL together over a materially continuous ground reference, keep `C301` local to U301, and avoid branch stubs or fast aggressors. Measure total effective pull-up resistance, bus capacitance, rise time and valid-low level for the populated board and each supported Grove configuration at the accepted bus rates. | Routed-layout inspection, PCB DRC, unpowered resistance measurements and retained oscilloscope captures | Open |
 | `PCB-TB03-03` | TB03 isolation and event review | Keep the isolated VDD/RESET/INTA domain compact and preserve the protected event-stage gate pull-downs and ground returns. Verify all shunt boundaries and capture cold start, power-down, supply-isolated, feedback, mirrored interrupt and both Supervisor event behaviours. | Pad-net inspection, isolation continuity matrix and retained functional/oscilloscope evidence | Open |
+| `PCB-TB04-01` | TB04 module mechanics and assembly | Place the DNP/hand-fitted J402 footprint on the underside at the upper edge with card access outward. Verify the actual ADA5683 outline, castellated-land registration, solder access, mechanical support, adjacent Grove clearance and complete insertion/withdrawal envelope. Confirm all six electrical and eight unnumbered mechanical lands remain copper/mask only with no paste. | Actual-module inspection, 3D review, printed 1:1 fit/access check and final hand-assembly record | Open |
+| `PCB-TB04-02` | TB04 SPI layout and local capacitance | Keep U401/J402 shared SCK, MOSI and MISO paths compact over continuous ground; avoid long MISO branches; keep R401/R402 local to their chip-select branches. Place C401 at U401 VDD/VREF, C402 closest to J402 and C403 immediately nearby. Confirm C403 effective capacitance and the complete `TEST_BLOCK_3V3` switched-capacitance budget. | Placement/routing inspection, capacitance record, PCB DRC and signal captures at the selected maximum SPI clock | Open |
+| `PCB-TB04-03` | TB04 diagnostics and populated operation | Hand-fit Harwin `D2816-42`, U401, J401, J402 and TP401–TP407 with power removed. Preserve socket/header pin-1, CH0–CH7 and card-access markings and probe access. Verify both inactive chip selects, MCP3008 conversions and Block 2 agreement, alternating shared-bus transactions, microSD connect/mount/file/unmount behaviour and safe card removal. | BOM/assembly reconciliation, continuity checks and retained functional-test results | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |
@@ -1766,10 +1890,11 @@ Use the following KiCad symbol-field policy:
   Record DNP, excluded and hand-fitted dispositions explicitly instead.
 
 By default, DNP means that a component is absent from the completed board. A
-recorded staged-assembly decision may define a narrower meaning. `INT02` is the
-Rev-A exception: its test points are DNP for the AISLER assembly stage but are
-mandatory hand-fitted parts on the completed board. They retain their exact MPN
-and remain in the overall KiCad BOM.
+recorded staged-assembly decision may define a narrower meaning. `INT02` test
+points and the Block 4 Adafruit 5683 module `J402` are Rev-A exceptions: they
+are DNP for the AISLER assembly stage but are mandatory hand-fitted parts on
+the completed board. They retain their exact MPNs and remain in the overall
+KiCad BOM.
 
 Use the block component table as the engineering reference during AISLER BOM
 Assign. For each presented group:

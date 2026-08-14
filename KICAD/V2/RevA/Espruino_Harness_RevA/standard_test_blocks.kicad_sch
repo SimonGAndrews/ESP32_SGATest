@@ -1152,6 +1152,190 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Espruino_Harness_RevA:Adafruit_MicroSD_BFF_5683"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "ADAFRUIT_MICROSD_BFF_5683"
+				(at 0 -12.7 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Espruino_Harness_RevA:Adafruit_MicroSD_BFF_5683_Underside"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://learn.adafruit.com/adafruit-microsd-card-bff"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Adafruit Product 5683 microSD Card BFF; fixed underside hand-fit 3.3 V SPI module using the factory-default TX-to-CS jumper"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MPN" "5683"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Adafruit_MicroSD_BFF_5683_0_1"
+				(rectangle
+					(start -7.62 10.16)
+					(end 7.62 -10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "Adafruit_MicroSD_BFF_5683_1_1"
+				(pin input clock
+					(at -12.7 5.08 0)
+					(length 5.08)
+					(name "SCK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 2.54 0)
+					(length 5.08)
+					(name "MOSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input inverted
+					(at -12.7 0 0)
+					(length 5.08)
+					(name "CS_TX"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 15.24 270)
+					(length 5.08)
+					(name "3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -15.24 90)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin tri_state line
+					(at 12.7 5.08 180)
+					(length 5.08)
+					(name "MISO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Espruino_Harness_RevA:Grove_I2C_1x04"
 			(pin_names
 				(offset 1.016)
@@ -3422,235 +3606,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Espruino_Harness_RevA:PiHut_MicroSD_Breakout_1x09"
-			(pin_names
-				(offset 1.016)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "J"
-				(at 0 15.24 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "PIHUT_MICROSD_BREAKOUT_106696"
-				(at 0 -15.24 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://thepihut.com/products/microsd-breakout"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "The Pi Hut MicroSD Breakout SKU 106696; physical 1x9 header order"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "PiHut_MicroSD_Breakout_1x09_0_1"
-				(rectangle
-					(start -8.89 12.7)
-					(end 8.89 -12.7)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "PiHut_MicroSD_Breakout_1x09_1_1"
-				(pin passive line
-					(at -13.97 10.16 0)
-					(length 5.08)
-					(name "DT2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input inverted
-					(at -13.97 7.62 0)
-					(length 5.08)
-					(name "CS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -13.97 5.08 0)
-					(length 5.08)
-					(name "DI"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -13.97 2.54 0)
-					(length 5.08)
-					(name "3V"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -13.97 0 0)
-					(length 5.08)
-					(name "G"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input clock
-					(at -13.97 -2.54 0)
-					(length 5.08)
-					(name "CLK"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin tri_state line
-					(at -13.97 -5.08 0)
-					(length 5.08)
-					(name "DO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -13.97 -7.62 0)
-					(length 5.08)
-					(name "DT1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -13.97 -10.16 0)
-					(length 5.08)
-					(name "CD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Espruino_Harness_RevA:TMUX1511_PW"
 			(pin_names
 				(offset 0.254)
@@ -5550,6 +5505,18 @@
 		(uuid 1d369574-6e82-48f8-885b-e4815dda7b3b)
 	)
 	(rectangle
+		(start 421.64 152.4)
+		(end 487.68 187.96)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 201eb5ad-fc21-4100-ac0a-cb1cee1c921c)
+	)
+	(rectangle
 		(start 339.09 88.9)
 		(end 574.04 240.03)
 		(stroke
@@ -5624,28 +5591,6 @@
 		)
 		(uuid da9a8549-d107-4872-9ae7-700301148f3b)
 	)
-	(text "Pi Hut SKU 106696; physical header order shown"
-		(exclude_from_sim no)
-		(at 502.92 101.6 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "00afc8e9-c895-436d-9076-efa8c3eb36c8")
-	)
-	(text "Power LED and module pull-ups disabled"
-		(exclude_from_sim no)
-		(at 502.92 104.14 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "0398c083-1937-45eb-8f4a-cc71f5ccc34e")
-	)
 	(text "BLOCK 3 OBSERVATION POINTS"
 		(exclude_from_sim no)
 		(at 240.03 151.13 0)
@@ -5681,6 +5626,17 @@
 		)
 		(uuid "1c37aba0-4232-474d-bc4e-cdd74dd1581a")
 	)
+	(text "BLOCK 4C - FIXED UNDERSIDE MICROSD STORAGE EXTENSION\n\nJ402: Adafruit microSD BFF, Product 5683 / supplier reference ADA5683\n3.3 V SPI; factory TX-to-CS jumper closed; RX/A0/A1 alternatives open\nRequired hand-fitted part: DNP for AISLER assembly\nOrient CARD ACCESS toward the harness-card top edge"
+		(exclude_from_sim no)
+		(at 497.84 102.87 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2041185f-2bbc-40f5-8669-232a001c5cc5")
+	)
 	(text "MCP23017 DEVICE ISOLATION\nJP301: VDD   JP302: SDA   JP303: SCL\nJP304: SUP_EVENT_OUT   JP306: FB   JP307: INTA\nAll six shunts are fitted for normal operation."
 		(exclude_from_sim no)
 		(at 162.56 190.5 0)
@@ -5714,7 +5670,7 @@
 		)
 		(uuid "39ae49f7-7704-49c9-ba0c-c3a61a67b46a")
 	)
-	(text "BLOCK 4 -  SPI Functional Device And Removable Storage Extension"
+	(text "BLOCK 4 - SPI FUNCTIONAL DEVICE AND FIXED MICROSD STORAGE EXTENSION"
 		(exclude_from_sim no)
 		(at 341.63 93.98 0)
 		(effects
@@ -5800,7 +5756,7 @@
 	)
 	(text "BLOCK 4B - MCP3008 ANALOGUE BREAKOUT"
 		(exclude_from_sim no)
-		(at 462.28 99.06 0)
+		(at 468.63 100.33 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5812,7 +5768,7 @@
 	)
 	(text "SUP_EVENT_OUT high → Q301 on → MCP_GPB0 low.\nJP304 isolates the MCP23017 input."
 		(exclude_from_sim no)
-		(at 401.32 191.77 0)
+		(at 349.25 210.82 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5855,6 +5811,18 @@
 		)
 		(uuid "8653afb2-62e4-4c43-adcd-c7c68902dfde")
 	)
+	(text "BLOCK 4 OBSERVATION POINTS"
+		(exclude_from_sim no)
+		(at 424.18 156.21 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "8ba5349f-b3ce-4217-b746-3771e9f3d59f")
+	)
 	(text "NORMAL STATE: JP101 and JP102 shunts fitted.\nRemove either shunt to hard-isolate that loopback pair.\nConfigure the input and verify routing before driving the output."
 		(exclude_from_sim no)
 		(at 25.4 69.85 0)
@@ -5865,6 +5833,17 @@
 			(justify left)
 		)
 		(uuid "9218fc11-07a2-48d8-97f5-20addfb2f4fc")
+	)
+	(text "J402 footprint deliberately has copper and mask openings\nbut no paste apertures, because all fourteen castellated\nlands are manually soldered."
+		(exclude_from_sim no)
+		(at 497.84 165.1 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9c435344-730a-4d78-a77e-5c6aa1c9d876")
 	)
 	(text "Socketed DIP-16; CH0 connects to Block 2 ANALOG_FB through JP203"
 		(exclude_from_sim no)
@@ -5879,7 +5858,7 @@
 	)
 	(text "Pin 1 = CH0; connected to ANALOG_FB only while JP203 is fitted"
 		(exclude_from_sim no)
-		(at 482.6 101.6 0)
+		(at 488.95 102.87 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5899,6 +5878,17 @@
 			(justify right bottom)
 		)
 		(uuid "ae012341-1334-49b3-9f9d-6241101b4356")
+	)
+	(text "R401/R402 keep the MCP3008 and microSD BFF chip selects\nhigh/inactive while the target is absent, resetting or unconfigured."
+		(exclude_from_sim no)
+		(at 340.36 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "afd71ad2-3e15-4e8b-8ad2-4346ef580ee9")
 	)
 	(text "BLOCK 5 - 1-WIRE FUNCTIONAL DEVICES AND GPIO"
 		(exclude_from_sim no)
@@ -6140,21 +6130,9 @@
 		)
 		(uuid "c7000000-0000-4000-8000-00000000000a")
 	)
-	(text "BLOCK 4C - REMOVABLE MICROSD EXTENSION"
-		(exclude_from_sim no)
-		(at 502.92 99.06 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "cc056956-8054-465b-8af1-7b37476eed3b")
-	)
 	(text "MCP_GPB1 high → Q302 on → SUP_EVENT_IN low.\nThe Supervisor side provides the pull-up."
 		(exclude_from_sim no)
-		(at 474.98 189.23 0)
+		(at 466.09 203.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6280,9 +6258,9 @@
 		)
 		(uuid "f3970026-08cb-4c5f-8d9d-859d02cd8426")
 	)
-	(text "PROTECTED SUPERVISOR EVENT INTERFACE"
+	(text "PROTECTED SUPERVISOR EVENT INTERFACES"
 		(exclude_from_sim no)
-		(at 347.98 185.42 0)
+		(at 349.25 196.85 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6314,6 +6292,17 @@
 			)
 		)
 		(uuid "f9f65704-e25e-45ab-ae84-cd1faadbd258")
+	)
+	(text "For PCB placement, put C402 closest to J402’s 3V3/GND lands,\n with C403 immediately nearby. \n"
+		(exclude_from_sim no)
+		(at 497.84 157.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "faf1e0c7-dc4d-4b33-baed-cdd9f1943e4c")
 	)
 	(junction
 		(at 97.79 196.85)
@@ -6358,6 +6347,12 @@
 		(uuid "289ccc0f-e7d9-4021-a053-a7b5ed9cd0ce")
 	)
 	(junction
+		(at 506.73 227.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3d72af38-61da-4994-b7a2-cd6bcfd5f064")
+	)
+	(junction
 		(at 436.88 274.32)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6394,10 +6389,22 @@
 		(uuid "59544580-5415-4af3-8a93-7eb17dd6d4c4")
 	)
 	(junction
+		(at 554.99 146.05)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "59987b5e-9a97-46b8-bb7c-de15b7b95df3")
+	)
+	(junction
 		(at 454.66 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5fca8ee6-f4c6-460c-98a3-23a66c5f461a")
+	)
+	(junction
+		(at 497.84 130.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6363ef73-d474-4231-9740-9d94175037d8")
 	)
 	(junction
 		(at 158.75 35.56)
@@ -6410,12 +6417,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6b7b1cd1-686f-4322-a3ad-ac08d349e405")
-	)
-	(junction
-		(at 514.35 127)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6c08617c-b7e6-4756-b113-3094cfa26086")
 	)
 	(junction
 		(at 407.67 153.67)
@@ -6452,6 +6453,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9aa3bc34-905e-46c3-b60e-1a65be425845")
+	)
+	(junction
+		(at 554.99 115.57)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9d63610d-0377-4ad2-b344-b0d34a34560e")
 	)
 	(junction
 		(at 402.59 106.68)
@@ -6496,6 +6503,12 @@
 		(uuid "c595964b-9e5e-4808-a35d-e7484a457ef2")
 	)
 	(junction
+		(at 528.32 115.57)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c61dc198-bb0e-4a10-8fb5-814ab5d566a5")
+	)
+	(junction
 		(at 73.66 124.46)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6532,10 +6545,22 @@
 		(uuid "d48bd2dc-a8a0-4016-b077-7506ce4ce4b5")
 	)
 	(junction
+		(at 528.32 146.05)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d8073aaf-0cd0-413e-9003-18dfc3b894ac")
+	)
+	(junction
 		(at 273.05 280.67)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d9000000-0000-4000-8000-000000000101")
+	)
+	(junction
+		(at 405.13 229.87)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e819081d-5d79-42cd-963a-fc33deea5baf")
 	)
 	(junction
 		(at 496.57 212.09)
@@ -6558,18 +6583,6 @@
 	(no_connect
 		(at 101.6 162.56)
 		(uuid "12d7c806-232f-412f-a26c-0b741d7f267e")
-	)
-	(no_connect
-		(at 530.86 124.46)
-		(uuid "3471d5a1-d347-499c-b51a-8568cffab947")
-	)
-	(no_connect
-		(at 530.86 144.78)
-		(uuid "5e59d8bf-6633-430e-9eab-013b70356b90")
-	)
-	(no_connect
-		(at 530.86 142.24)
-		(uuid "6f589d00-0243-4a5e-b144-7bcf91e07df8")
 	)
 	(no_connect
 		(at 299.72 283.21)
@@ -6597,7 +6610,17 @@
 	)
 	(wire
 		(pts
-			(xy 407.67 196.85) (xy 414.02 196.85)
+			(xy 554.99 115.57) (xy 561.34 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "06b79ea9-e25e-46bf-ad63-52ffed4e8773")
+	)
+	(wire
+		(pts
+			(xy 407.67 199.39) (xy 414.02 199.39)
 		)
 		(stroke
 			(width 0)
@@ -6877,16 +6900,6 @@
 	)
 	(wire
 		(pts
-			(xy 514.35 114.3) (xy 514.35 113.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "251ea787-b0bb-4773-b56a-7dfebeed7200")
-	)
-	(wire
-		(pts
 			(xy 520.7 25.4) (xy 551.18 25.4)
 		)
 		(stroke
@@ -6907,7 +6920,7 @@
 	)
 	(wire
 		(pts
-			(xy 407.67 157.48) (xy 407.67 153.67)
+			(xy 407.67 153.67) (xy 407.67 161.29)
 		)
 		(stroke
 			(width 0)
@@ -6977,17 +6990,7 @@
 	)
 	(wire
 		(pts
-			(xy 494.03 162.56) (xy 494.03 163.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "314c912e-f5a9-49b1-9a60-16c91ef9fe89")
-	)
-	(wire
-		(pts
-			(xy 402.59 106.68) (xy 394.97 106.68)
+			(xy 402.59 106.68) (xy 384.81 106.68)
 		)
 		(stroke
 			(width 0)
@@ -7127,16 +7130,6 @@
 	)
 	(wire
 		(pts
-			(xy 394.97 114.3) (xy 394.97 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "431a9721-5005-49e3-abfe-e5f0a50590d4")
-	)
-	(wire
-		(pts
 			(xy 114.3 120.65) (xy 121.92 120.65)
 		)
 		(stroke
@@ -7144,16 +7137,6 @@
 			(type default)
 		)
 		(uuid "43c3be23-1b80-4be5-8490-544a3ddc00ce")
-	)
-	(wire
-		(pts
-			(xy 504.19 134.62) (xy 530.86 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "44bd51ce-d2ea-4e26-9d59-db1c3e9297aa")
 	)
 	(wire
 		(pts
@@ -7194,6 +7177,16 @@
 			(type default)
 		)
 		(uuid "45855420-cc89-4dc7-9bb6-4850db1f1ff0")
+	)
+	(wire
+		(pts
+			(xy 469.9 170.18) (xy 469.9 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4608f0cf-8415-4660-833c-045d5e8a3587")
 	)
 	(wire
 		(pts
@@ -7247,7 +7240,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.35 154.94) (xy 514.35 153.67)
+			(xy 561.34 115.57) (xy 561.34 132.08)
 		)
 		(stroke
 			(width 0)
@@ -7274,6 +7267,16 @@
 			(type default)
 		)
 		(uuid "5326de8f-b76c-4e8c-b2d7-efcf145e4204")
+	)
+	(wire
+		(pts
+			(xy 445.77 181.61) (xy 445.77 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "547bd029-4742-4930-a1f4-ef12c004a0f2")
 	)
 	(wire
 		(pts
@@ -7337,16 +7340,6 @@
 	)
 	(wire
 		(pts
-			(xy 494.03 154.94) (xy 494.03 153.67)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5c53f115-69f1-4d91-9c5a-9fc79eda5058")
-	)
-	(wire
-		(pts
 			(xy 88.9 245.11) (xy 92.71 245.11)
 		)
 		(stroke
@@ -7364,16 +7357,6 @@
 			(type default)
 		)
 		(uuid "624d8edb-5688-41f6-893e-6fc30407f95b")
-	)
-	(wire
-		(pts
-			(xy 450.85 157.48) (xy 450.85 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "64541f94-74c1-427e-8afe-98b0d5fcf66d")
 	)
 	(wire
 		(pts
@@ -7407,7 +7390,17 @@
 	)
 	(wire
 		(pts
-			(xy 514.35 121.92) (xy 514.35 127)
+			(xy 444.5 170.18) (xy 444.5 166.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b376cf6-4169-440a-8408-b7cbbdb2d545")
+	)
+	(wire
+		(pts
+			(xy 497.84 124.46) (xy 497.84 130.81)
 		)
 		(stroke
 			(width 0)
@@ -7417,7 +7410,7 @@
 	)
 	(wire
 		(pts
-			(xy 504.19 137.16) (xy 530.86 137.16)
+			(xy 511.81 125.73) (xy 515.62 125.73)
 		)
 		(stroke
 			(width 0)
@@ -7447,17 +7440,7 @@
 	)
 	(wire
 		(pts
-			(xy 504.19 132.08) (xy 530.86 132.08)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6f278a6e-e2b2-4e38-b1cf-327d1273d853")
-	)
-	(wire
-		(pts
-			(xy 396.24 229.87) (xy 414.02 229.87)
+			(xy 396.24 229.87) (xy 405.13 229.87)
 		)
 		(stroke
 			(width 0)
@@ -7544,6 +7527,16 @@
 			(type default)
 		)
 		(uuid "74cb466d-58a6-47b9-b5ac-8280f5923a6c")
+	)
+	(wire
+		(pts
+			(xy 554.99 146.05) (xy 561.34 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75fc06a7-1d56-4f90-bc58-30240ea473fd")
 	)
 	(wire
 		(pts
@@ -7647,7 +7640,7 @@
 	)
 	(wire
 		(pts
-			(xy 414.02 196.85) (xy 414.02 198.12)
+			(xy 414.02 199.39) (xy 414.02 200.66)
 		)
 		(stroke
 			(width 0)
@@ -7697,6 +7690,16 @@
 	)
 	(wire
 		(pts
+			(xy 554.99 139.7) (xy 554.99 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "878aa6c9-c9f1-4c3c-8d02-8ee2410a5792")
+	)
+	(wire
+		(pts
 			(xy 429.26 73.66) (xy 454.66 73.66)
 		)
 		(stroke
@@ -7714,6 +7717,16 @@
 			(type default)
 		)
 		(uuid "89b420d3-2cdf-4440-a495-6cacebeb7a52")
+	)
+	(wire
+		(pts
+			(xy 497.84 115.57) (xy 497.84 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8d7427d4-a265-496d-a93b-d5d50290953b")
 	)
 	(wire
 		(pts
@@ -7777,6 +7790,16 @@
 	)
 	(wire
 		(pts
+			(xy 561.34 139.7) (xy 561.34 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "937e24f4-0a97-4f80-962a-404015fd9fd6")
+	)
+	(wire
+		(pts
 			(xy 87.63 256.54) (xy 92.71 256.54)
 		)
 		(stroke
@@ -7787,7 +7810,7 @@
 	)
 	(wire
 		(pts
-			(xy 496.57 227.33) (xy 514.35 227.33)
+			(xy 496.57 227.33) (xy 506.73 227.33)
 		)
 		(stroke
 			(width 0)
@@ -7814,6 +7837,16 @@
 			(type default)
 		)
 		(uuid "97a3f7ea-e88b-4855-b01a-6ee1777ad249")
+	)
+	(wire
+		(pts
+			(xy 497.84 115.57) (xy 528.32 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97d2339d-e591-4f06-80e6-b6e9e9d47c53")
 	)
 	(wire
 		(pts
@@ -7867,7 +7900,7 @@
 	)
 	(wire
 		(pts
-			(xy 504.19 127) (xy 514.35 127)
+			(xy 491.49 130.81) (xy 497.84 130.81)
 		)
 		(stroke
 			(width 0)
@@ -7884,6 +7917,26 @@
 			(type default)
 		)
 		(uuid "a2ae57e4-9e7d-45c2-ac34-a530bea1ecdf")
+	)
+	(wire
+		(pts
+			(xy 405.13 229.87) (xy 414.02 229.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a40e1847-fb91-4c4b-832d-8642da651f5b")
+	)
+	(wire
+		(pts
+			(xy 554.99 115.57) (xy 554.99 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a41da2a8-df72-4eb2-8ca4-c95af79dbe8f")
 	)
 	(wire
 		(pts
@@ -7914,6 +7967,16 @@
 			(type default)
 		)
 		(uuid "aa729ba0-1989-4171-877d-d27af2fab317")
+	)
+	(wire
+		(pts
+			(xy 497.84 130.81) (xy 515.62 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ab7da9c7-f6fb-4a93-af82-5bf793033ef0")
 	)
 	(wire
 		(pts
@@ -7964,6 +8027,16 @@
 			(type default)
 		)
 		(uuid "af82b634-3f5c-4286-a720-09728f021c9e")
+	)
+	(polyline
+		(pts
+			(xy 345.44 191.77) (xy 565.15 191.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b00d9ccf-5f66-4805-992c-db0457a01b25")
 	)
 	(wire
 		(pts
@@ -8117,6 +8190,16 @@
 	)
 	(wire
 		(pts
+			(xy 528.32 146.05) (xy 554.99 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b65bf5f2-c389-4421-9943-84ea621abe20")
+	)
+	(wire
+		(pts
 			(xy 142.24 147.32) (xy 158.75 147.32)
 		)
 		(stroke
@@ -8124,6 +8207,16 @@
 			(type default)
 		)
 		(uuid "b6ec463c-f6a9-4666-aa70-bef6af4c9a67")
+	)
+	(wire
+		(pts
+			(xy 506.73 227.33) (xy 514.35 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b75e88a4-31b9-4af0-b2cd-9a49f20a4c94")
 	)
 	(wire
 		(pts
@@ -8164,6 +8257,16 @@
 			(type default)
 		)
 		(uuid "be13ef72-0a99-4a9c-8265-13fefb24914a")
+	)
+	(wire
+		(pts
+			(xy 427.99 185.42) (xy 427.99 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be93fe82-9cf4-4fe6-a5fe-645b7be88cef")
 	)
 	(wire
 		(pts
@@ -8477,13 +8580,13 @@
 	)
 	(wire
 		(pts
-			(xy 514.35 127) (xy 530.86 127)
+			(xy 528.32 115.57) (xy 554.99 115.57)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cbf768dd-3ccd-4be7-be1d-e102661e0b79")
+		(uuid "cc7a01cd-5053-460c-b183-1b973ec9d905")
 	)
 	(wire
 		(pts
@@ -8554,6 +8657,16 @@
 			(type default)
 		)
 		(uuid "d610be76-9a33-4e45-a972-bad5d0a05230")
+	)
+	(wire
+		(pts
+			(xy 469.9 185.42) (xy 469.9 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d77109fc-f1a2-481f-8f41-d7d76fc7b8b0")
 	)
 	(wire
 		(pts
@@ -8697,13 +8810,13 @@
 	)
 	(wire
 		(pts
-			(xy 514.35 162.56) (xy 514.35 163.83)
+			(xy 384.81 111.76) (xy 384.81 114.3)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e2797f0b-c2f4-460a-8846-3a3c723bfb98")
+		(uuid "e3c46b3f-2a99-4597-8b45-ec0d0ab624e0")
 	)
 	(wire
 		(pts
@@ -8747,7 +8860,7 @@
 	)
 	(wire
 		(pts
-			(xy 504.19 129.54) (xy 530.86 129.54)
+			(xy 513.08 128.27) (xy 515.62 128.27)
 		)
 		(stroke
 			(width 0)
@@ -8767,7 +8880,7 @@
 	)
 	(wire
 		(pts
-			(xy 504.19 139.7) (xy 530.86 139.7)
+			(xy 542.29 125.73) (xy 541.02 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8817,7 +8930,7 @@
 	)
 	(wire
 		(pts
-			(xy 414.02 205.74) (xy 414.02 210.82)
+			(xy 414.02 208.28) (xy 414.02 210.82)
 		)
 		(stroke
 			(width 0)
@@ -8915,16 +9028,6 @@
 		)
 		(uuid "ff4870fb-0321-4f94-9992-f206e49e54b6")
 	)
-	(label "TI_GND"
-		(at 504.19 134.62 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "04ad959e-188f-4fcc-83f8-07865fb14018")
-	)
 	(label "MCP_GPA4"
 		(at 142.24 157.48 0)
 		(effects
@@ -8974,16 +9077,6 @@
 			(justify left bottom)
 		)
 		(uuid "1118b9f5-d232-466d-a59d-da5bd894369b")
-	)
-	(label "TEST_BLOCK_3V3"
-		(at 504.19 132.08 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "11ba8040-e93b-4aef-8528-91f23eb08dd8")
 	)
 	(label "MCP_GPA1_GPA2_LOOP"
 		(at 264.16 115.57 180)
@@ -9085,6 +9178,16 @@
 		)
 		(uuid "385c8551-b262-4e47-9ee4-fb63b345b5af")
 	)
+	(label "TI_SPI_CS_EXT"
+		(at 445.77 185.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3bc32827-3c17-44a2-9102-bb1ad20d9b38")
+	)
 	(label "MCP_GPB4"
 		(at 294.64 123.19 0)
 		(effects
@@ -9094,16 +9197,6 @@
 			(justify left bottom)
 		)
 		(uuid "3cc04074-4819-47c5-8268-d54b8f597b51")
-	)
-	(label "TI_GND"
-		(at 407.67 157.48 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "3d60971b-4a94-4126-8fcc-33842478b7c4")
 	)
 	(label "SCL_PULLUP_SUPPLY"
 		(at 73.66 116.84 180)
@@ -9165,16 +9258,6 @@
 		)
 		(uuid "558fdc14-5ae5-4c5b-8a87-941a5b88fde9")
 	)
-	(label "TI_GND"
-		(at 450.85 162.56 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "576a5805-bfb6-48a7-9762-1e74fb38b617")
-	)
 	(label "MCP_GPA4"
 		(at 264.16 123.19 180)
 		(effects
@@ -9196,7 +9279,7 @@
 		(uuid "5d90d198-cca2-46a5-bc38-9b0ba4b04292")
 	)
 	(label "TI_SPI_SCK"
-		(at 504.19 137.16 180)
+		(at 511.81 125.73 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9204,16 +9287,6 @@
 			(justify right bottom)
 		)
 		(uuid "5e021d02-e2d4-4ae3-b5eb-33ba562286f9")
-	)
-	(label "TI_GND"
-		(at 502.92 227.33 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "61fb9647-be25-45d7-a9de-739dd5795411")
 	)
 	(label "SDA_PULLUP_SUPPLY"
 		(at 83.82 116.84 0)
@@ -9255,15 +9328,15 @@
 		)
 		(uuid "6db61d95-a2a2-4bd8-aab4-2d05b4042fc9")
 	)
-	(label "TI_GND"
-		(at 494.03 163.83 0)
+	(label "TEST_BLOCK_3V3"
+		(at 469.9 185.42 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "72f1760c-fa0e-4ba6-851c-b437127c81dc")
+		(uuid "6eb4299b-20a8-4205-a0e1-5adb0a6388d8")
 	)
 	(label "MCP_GPA5"
 		(at 264.16 125.73 180)
@@ -9355,18 +9428,8 @@
 		)
 		(uuid "9e1523be-e3db-49b1-a7d9-968e22722ca4")
 	)
-	(label "TEST_BLOCK_3V3"
-		(at 514.35 153.67 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a1274854-cd6d-4828-aa43-349e3500e350")
-	)
 	(label "MCP23017_VDD"
-		(at 407.67 196.85 0)
+		(at 407.67 199.39 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9386,7 +9449,7 @@
 		(uuid "a4adf57d-cefa-4931-be17-d3f302f37e38")
 	)
 	(label "TI_SPI_MOSI"
-		(at 504.19 129.54 180)
+		(at 513.08 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9405,15 +9468,15 @@
 		)
 		(uuid "ac58e071-4ba6-4b8c-b686-2d25e3decb8c")
 	)
-	(label "TI_GND"
-		(at 514.35 163.83 0)
+	(label "TI_SPI_SCK"
+		(at 444.5 170.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "adec0306-d0dd-4d8e-bda8-60fccdd03491")
+		(uuid "ad154c6d-b6c6-431b-be03-36bb09203876")
 	)
 	(label "TI_I2C_INT"
 		(at 238.76 182.88 0)
@@ -9435,8 +9498,18 @@
 		)
 		(uuid "b05cee86-ba47-490d-bfc4-5b37e2cb6034")
 	)
+	(label "TI_SPI_MOSI"
+		(at 469.9 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b28c86e5-9a77-450a-82b7-4972bbcdd774")
+	)
 	(label "TEST_BLOCK_3V3"
-		(at 514.35 113.03 0)
+		(at 499.11 115.57 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9896,16 +9969,6 @@
 		(uuid "c7000000-0000-4000-8000-000000000215")
 	)
 	(label "TEST_BLOCK_3V3"
-		(at 494.03 153.67 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c9393157-915d-463b-9185-4766fba8f67b")
-	)
-	(label "TEST_BLOCK_3V3"
 		(at 375.92 152.4 0)
 		(effects
 			(font
@@ -9936,12 +9999,12 @@
 		(uuid "d0e5e0ec-663c-4f03-8f74-62bc974817f0")
 	)
 	(label "TI_SPI_MISO"
-		(at 504.19 139.7 180)
+		(at 542.29 125.73 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "d657aceb-751e-4bac-ada1-0fab677a8adb")
 	)
@@ -9964,16 +10027,6 @@
 			(justify left bottom)
 		)
 		(uuid "d7dd4ddd-b25c-4623-8ac2-fa3abdb1d8c1")
-	)
-	(label "TI_GND"
-		(at 394.97 116.84 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "d7f22dd8-1c69-40c7-a621-c8552121d0bf")
 	)
 	(label "TEST_BLOCK_3V3"
 		(at 281.94 275.59 180)
@@ -10034,16 +10087,6 @@
 			(justify left bottom)
 		)
 		(uuid "d9000000-0000-4000-8000-000000000306")
-	)
-	(label "TI_GND"
-		(at 402.59 229.87 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d916ff57-626b-4934-99d0-953f9e63b0d9")
 	)
 	(label "TI_I2C_FB"
 		(at 293.37 165.1 0)
@@ -10115,9 +10158,19 @@
 		)
 		(uuid "f7cbce89-b004-4e94-ae6d-8caa087d7b7f")
 	)
+	(label "TI_SPI_MISO"
+		(at 427.99 185.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fc10c01a-db7d-44c9-b2bf-a3fb257df75b")
+	)
 	(hierarchical_label "TI_SPI_CS_EXT"
 		(shape input)
-		(at 504.19 127 180)
+		(at 491.49 130.81 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10512,7 +10565,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
+		(property "Description" "test point TI_SPI_CS_ADC"
 			(at 365.76 142.24 0)
 			(effects
 				(font
@@ -10528,6 +10581,14 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 365.76 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -10600,6 +10661,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10612,95 +10674,6 @@
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "R307")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Espruino_Harness_RevA:PiHut_MicroSD_Breakout_1x09")
-		(at 544.83 134.62 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "07258a49-9ac0-4b15-a26b-46725a6a5f9a")
-		(property "Reference" "J402"
-			(at 544.83 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PIHUT_MICROSD_BREAKOUT_106696"
-			(at 544.83 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical"
-			(at 544.83 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://thepihut.com/products/microsd-breakout"
-			(at 544.83 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "The Pi Hut MicroSD Breakout SKU 106696; physical 1x9 header order"
-			(at 544.83 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "9e778fc2-5742-42bf-be8d-7827702f81a0")
-		)
-		(pin "2"
-			(uuid "bda61526-15c4-4a87-8987-9f77b5453cb6")
-		)
-		(pin "3"
-			(uuid "9b635f72-09fe-4a72-8586-749ed47f92af")
-		)
-		(pin "4"
-			(uuid "126bf991-7ac7-47d2-aaba-4b30b66dd0e7")
-		)
-		(pin "5"
-			(uuid "342335c1-3f41-4c61-895a-4cafa2777378")
-		)
-		(pin "6"
-			(uuid "a40b15e1-0225-4cde-aedd-4f7bc884dc51")
-		)
-		(pin "7"
-			(uuid "f7111123-5e77-42c5-81a2-59528fedc6ed")
-		)
-		(pin "8"
-			(uuid "983bb5e3-2132-4f0e-9d7f-b8f11d6647ff")
-		)
-		(pin "9"
-			(uuid "2be59ea1-013d-4457-9a23-e74702a1f4ee")
-		)
-		(instances
-			(project "Espruino_Harness_RevA"
-				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
-					(reference "J402")
 					(unit 1)
 				)
 			)
@@ -11121,7 +11094,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "1b9eda6e-1007-412a-8b3a-f8f21220d93d")
 		(property "Reference" "J401"
 			(at 453.39 119.38 0)
@@ -11149,7 +11122,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300811121.pdf"
 			(at 453.39 134.62 0)
 			(effects
 				(font
@@ -11159,6 +11132,24 @@
 			)
 		)
 		(property "Description" "MCP3008 CH0 through CH7 vertical 2.54 mm analogue breakout"
+			(at 453.39 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300811121"
+			(at 453.39 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "61300811121"
 			(at 453.39 134.62 0)
 			(effects
 				(font
@@ -11202,7 +11193,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 394.97 110.49 0)
+		(at 384.81 110.49 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11211,7 +11202,7 @@
 		(dnp no)
 		(uuid "1fafaba6-63a3-4fb0-88f1-9a660cfe2225")
 		(property "Reference" "C401"
-			(at 392.43 107.95 0)
+			(at 382.27 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11219,8 +11210,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100nF"
-			(at 392.43 110.49 0)
+		(property "Value" "1uF"
+			(at 382.27 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11229,7 +11220,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 394.0048 114.3 0)
+			(at 383.8448 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11238,7 +11229,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 394.97 110.49 0)
+			(at 384.81 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11246,8 +11237,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 394.97 110.49 0)
+		(property "Description" "U401 MCP3008 VDD/VREF local bypass"
+			(at 384.81 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11255,13 +11246,21 @@
 				(hide yes)
 			)
 		)
-		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
-			(at 394.97 110.49 0)
+		(property "AISLER_MPN" "1uF 10% 16V X7R 0603"
+			(at 384.81 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 384.81 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -11356,6 +11355,89 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 444.5 166.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "20a66349-787a-4ea1-a314-d31540d9ece1")
+		(property "Reference" "TP403"
+			(at 444.5 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TI_SPI_SCK"
+			(at 444.5 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 449.58 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 449.58 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point TI_SPI_SCK"
+			(at 444.5 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 444.5 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 444.5 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "28278b85-fd20-48e9-afa8-ccf76aba828e")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "TP403")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 496.57 218.44 0)
 		(unit 1)
@@ -11426,6 +11508,71 @@
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "R311")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 384.81 111.76 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "251397f1-2892-4ed1-8787-75b0be19e0a0")
+		(property "Reference" "#PWR045"
+			(at 384.81 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 384.81 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 384.81 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 384.81 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 384.81 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "af319fc4-6d3e-4dfc-85ba-761e39304571")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -11506,7 +11653,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 514.35 158.75 0)
+		(at 561.34 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11514,7 +11661,7 @@
 		(dnp no)
 		(uuid "2723ea8d-739b-4744-8c3e-e3e50eb13522")
 		(property "Reference" "C403"
-			(at 516.89 156.21 0)
+			(at 563.88 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11523,7 +11670,7 @@
 			)
 		)
 		(property "Value" "22uF"
-			(at 516.89 158.75 0)
+			(at 563.88 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11532,7 +11679,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 515.3152 162.56 0)
+			(at 562.3052 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11541,7 +11688,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 514.35 158.75 0)
+			(at 561.34 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11549,8 +11696,25 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 514.35 158.75 0)
+		(property "Description" "J402 microSD BFF local bulk capacitance"
+			(at 561.34 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 561.34 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "22uF 20% 10V X7R 0805"
+			(at 561.34 140.97 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11659,6 +11823,153 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 469.9 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "2aefbf64-9b13-4191-9311-2308cef4bc02")
+		(property "Reference" "TP407"
+			(at 469.9 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TEST_BLOCK_3V3"
+			(at 469.9 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 474.98 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 474.98 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point TEST_BLOCK_3V3"
+			(at 469.9 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 469.9 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 469.9 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c16f1c13-bb94-4313-9e12-2de8c34f3a3b")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "TP407")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 506.73 227.33 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2cfb4673-40ca-4100-b69c-cb5e4b1120d9")
+		(property "Reference" "#PWR054"
+			(at 506.73 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 506.73 231.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 506.73 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 506.73 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 506.73 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ce822367-c5ed-4f01-b8c8-1a3f245a5057")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#PWR054")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 110.49 120.65 90)
 		(unit 1)
@@ -11745,7 +12056,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 450.85 157.48 0)
+		(at 427.99 166.37 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11754,7 +12065,7 @@
 		(dnp yes)
 		(uuid "352ab17b-5ab7-4502-ac9d-41fe2f8a488e")
 		(property "Reference" "TP402"
-			(at 445.77 154.94 0)
+			(at 427.99 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11762,15 +12073,16 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 445.77 157.48 0)
+			(at 422.91 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 445.77 157.48 0)
+			(at 422.91 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11779,7 +12091,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 445.77 157.48 0)
+			(at 422.91 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11787,8 +12099,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
-			(at 450.85 157.48 0)
+		(property "Description" "test point GND"
+			(at 427.99 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11797,12 +12109,20 @@
 			)
 		)
 		(property "MPN" "61300111121"
-			(at 450.85 157.48 0)
+			(at 427.99 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 427.99 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -12937,7 +13257,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 494.03 158.75 0)
+		(at 554.99 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12945,7 +13265,7 @@
 		(dnp no)
 		(uuid "5f93e286-e909-43bf-8801-8e643b7d195d")
 		(property "Reference" "C402"
-			(at 496.57 156.21 0)
+			(at 548.64 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12954,7 +13274,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 496.57 158.75 0)
+			(at 546.1 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12963,7 +13283,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 494.9952 162.56 0)
+			(at 555.9552 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12972,7 +13292,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 494.03 158.75 0)
+			(at 554.99 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12980,8 +13300,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 494.03 158.75 0)
+		(property "Description" "J402 microSD BFF local high-frequency bypass"
+			(at 554.99 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12990,12 +13310,20 @@
 			)
 		)
 		(property "AISLER_MPN" "100nF 10% 16V X7R 0603"
-			(at 494.03 158.75 0)
+			(at 554.99 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 554.99 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -13295,6 +13623,88 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 427.99 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "75ef519a-1bde-44e3-a288-4b3c019963db")
+		(property "Reference" "TP405"
+			(at 427.99 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TI_SPI_MISO"
+			(at 427.99 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 433.07 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 433.07 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point TI_SPI_MISO"
+			(at 427.99 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 427.99 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 427.99 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "34581655-40f5-4297-aa4e-46fdae1b7a05")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "TP405")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 134.62 127 90)
 		(unit 1)
@@ -13373,6 +13783,89 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 445.77 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "79ae8792-cca2-4d9f-a614-7c389b925a3f")
+		(property "Reference" "TP406"
+			(at 445.77 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TI_SPI_CS_EXT"
+			(at 445.77 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 450.85 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 450.85 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point TI_SPI_CS_EXT"
+			(at 445.77 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 445.77 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 445.77 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c08691eb-3e0e-4e5e-9da7-edcd02a62edf")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "TP406")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 143.51 130.81 0)
 		(unit 1)
@@ -13439,7 +13932,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 514.35 118.11 0)
+		(at 497.84 120.65 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13447,7 +13940,7 @@
 		(dnp no)
 		(uuid "93998e84-655f-4348-a889-0a26310e01b1")
 		(property "Reference" "R402"
-			(at 516.89 118.11 90)
+			(at 495.3 120.65 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13455,7 +13948,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 514.35 118.11 90)
+			(at 497.84 120.65 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13463,7 +13956,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 511.81 118.11 90)
+			(at 495.3 120.65 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13472,7 +13965,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 514.35 118.11 0)
+			(at 497.84 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13480,8 +13973,25 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
-			(at 514.35 118.11 0)
+		(property "Description" "microSD BFF CS inactive-state pull-up."
+			(at 497.84 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 497.84 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "10k 0603 1% 0.1W"
+			(at 497.84 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13600,6 +14110,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 405.13 229.87 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9605c128-a59b-4673-9bfa-f61e53dff75b")
+		(property "Reference" "#PWR055"
+			(at 405.13 236.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 405.13 233.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 405.13 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 405.13 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 405.13 229.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aacb00fd-11da-4119-bb81-f4535c2809fa")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 115.57 134.62 0)
 		(unit 1)
@@ -13660,6 +14235,71 @@
 			(project ""
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "#FLG06")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 407.67 161.29 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "991821e2-0a40-4b01-8920-ec95167ea548")
+		(property "Reference" "#PWR050"
+			(at 407.67 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 407.67 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 407.67 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 407.67 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 407.67 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5ec2c805-55df-41bc-b4b1-406162618139")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -14348,6 +14988,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15595,6 +16236,153 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 469.9 167.64 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "b6a9dc18-0db0-4384-afa5-d3235fe5d8fb")
+		(property "Reference" "TP404"
+			(at 469.9 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TI_SPI_MOSI"
+			(at 469.9 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 474.98 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 474.98 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point TI_SPI_MOSI"
+			(at 469.9 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300111121"
+			(at 469.9 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 469.9 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2e58c97c-825b-45b6-820e-4af9758776ba")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "TP404")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 528.32 146.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b72e9e4b-5e9b-45f0-aab0-71dd4a7dca8d")
+		(property "Reference" "#PWR044"
+			(at 528.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 528.32 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 528.32 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 528.32 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 528.32 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8baf557c-3d6a-4991-b447-7a5d7a31343d")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#PWR044")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Espruino_Harness_RevA:Jumper_2_Open")
 		(at 180.34 147.32 0)
 		(unit 1)
@@ -15853,6 +16641,103 @@
 			(project "Espruino_Harness_RevA"
 				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
 					(reference "JP307")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Espruino_Harness_RevA:Adafruit_MicroSD_BFF_5683")
+		(at 528.32 130.81 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "beb31222-47cb-4de0-9fae-f4c9e35898bc")
+		(property "Reference" "J402"
+			(at 523.24 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "ADAFRUIT_MICROSD_BFF_5683"
+			(at 510.54 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Espruino_Harness_RevA:Adafruit_MicroSD_BFF_5683_Underside"
+			(at 528.32 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://learn.adafruit.com/adafruit-microsd-card-bff"
+			(at 528.32 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Adafruit Product 5683 microSD Card BFF; fixed underside hand-fit 3.3 V SPI module using the factory-default TX-to-CS jumper"
+			(at 528.32 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "5683"
+			(at 528.32 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 528.32 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "d99061c7-bb67-4927-8644-ce25176515ff")
+		)
+		(pin "6"
+			(uuid "e875f07f-f909-4330-8214-2b16535d23f4")
+		)
+		(pin "1"
+			(uuid "72355cd4-4583-4db4-af10-89768679bc7c")
+		)
+		(pin "4"
+			(uuid "dc5e3fba-5ec5-49de-92ff-ef8fcc782e1b")
+		)
+		(pin "2"
+			(uuid "ea2e736a-27a4-4e61-9839-c3585512b6df")
+		)
+		(pin "3"
+			(uuid "f17fdcc3-567e-4a0a-a9ef-04a9ccd30fc7")
+		)
+		(instances
+			(project ""
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "J402")
 					(unit 1)
 				)
 			)
@@ -16743,7 +17628,25 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "MCP3008 CS inactive-state pull-up"
+			(at 375.92 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 375.92 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" "10k 0603 1% 0.1W"
 			(at 375.92 142.24 0)
 			(effects
 				(font
@@ -17003,10 +17906,10 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d317b727-e8d7-4caa-a5be-d775aecb2a31")
 		(property "Reference" "U401"
-			(at 419.1 114.3 0)
+			(at 396.24 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17019,6 +17922,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm_LongPads"
@@ -17030,7 +17934,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/21295d.pdf"
+		(property "Datasheet" "https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP3004-MCP3008-Data-Sheet-DS20001295.pdf"
 			(at 405.13 134.62 0)
 			(effects
 				(font
@@ -17041,6 +17945,23 @@
 		)
 		(property "Description" "MCP3008 10-bit 8-channel SPI ADC in socketed DIP-16 package"
 			(at 405.13 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "MCP3008-I/P"
+			(at 402.59 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "MCP3008-I/P"
+			(at 402.59 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17783,6 +18704,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 427.99 166.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f324a460-1a71-4248-b6ec-8573cdf5ad81")
+		(property "Reference" "#PWR051"
+			(at 427.99 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "TI_GND"
+			(at 427.99 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 427.99 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 427.99 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 427.99 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2842c088-296f-4e60-83a0-89eabba32461")
+		)
+		(instances
+			(project "Espruino_Harness_RevA"
+				(path "/12444148-a051-4fb0-ae7b-e3d34eecc954/de8f4588-cd43-45f8-a502-51219f80935f"
+					(reference "#PWR051")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 76.2 53.34 0)
 		(unit 1)
@@ -17931,7 +18917,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 414.02 201.93 0)
+		(at 414.02 204.47 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17939,7 +18925,7 @@
 		(dnp no)
 		(uuid "ff98381b-4eba-4081-ad91-217ca18df4b0")
 		(property "Reference" "R309"
-			(at 416.56 201.93 90)
+			(at 416.56 204.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17947,7 +18933,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 414.02 201.93 90)
+			(at 414.02 204.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17955,7 +18941,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 411.48 201.93 90)
+			(at 411.48 204.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17964,7 +18950,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 414.02 201.93 0)
+			(at 414.02 204.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17973,7 +18959,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 414.02 201.93 0)
+			(at 414.02 204.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17982,11 +18968,12 @@
 			)
 		)
 		(property "AISLER_MPN" "10k 0603 1% 0.1W"
-			(at 414.02 201.93 90)
+			(at 414.02 204.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"

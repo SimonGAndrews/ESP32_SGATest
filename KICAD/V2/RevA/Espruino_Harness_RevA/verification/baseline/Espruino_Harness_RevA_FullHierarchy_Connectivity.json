@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "f0b8fc31839135fd8ab9ee53721f693ed40f6d68ac1bea147734b0fb8fba1822"
+      "sha256": "780769a37bfb854179306a5a2e6e4d0f239e21b92e5ea67743f18093e5dbaed9"
     },
     {
       "id": "PC01",
@@ -52,6 +52,11 @@
       "id": "TB03",
       "file": "contracts/TB03-i2c-functional-device.yaml",
       "sha256": "46a727c7a5fbe1fb1e3f54feaf55bdf6fb5dc68ea6960deb205f9551cae5ca19"
+    },
+    {
+      "id": "TB04",
+      "file": "contracts/TB04-spi-functional-device-and-storage.yaml",
+      "sha256": "9d4cd3ea11b31d3f6ddeae4c4830dfab4d274e8d2916c8d4acbf00f4105c5052"
     },
     {
       "id": "SYS01",
@@ -138,6 +143,17 @@
       }
     },
     {
+      "id": "TB04",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 75,
+      "assertions": {
+        "pin_net": 49,
+        "component_value": 15,
+        "forbidden_same_net": 11
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -149,7 +165,7 @@
       }
     }
   ],
-  "connectivity_sha256": "ba5d142824e0c37d8b422317236f90caaa47650733c945e7db35be2018719b24",
+  "connectivity_sha256": "a3644a6840d0067a1fe4aeefb660db7b7d8c66b40813915c87ad9b4591dead1e",
   "components": [
     {
       "ref": "C201",
@@ -163,7 +179,7 @@
     },
     {
       "ref": "C401",
-      "value": "100nF",
+      "value": "1uF",
       "footprint": "Capacitor_SMD:C_0603_1608Metric"
     },
     {
@@ -373,8 +389,8 @@
     },
     {
       "ref": "J402",
-      "value": "PIHUT_MICROSD_BREAKOUT_106696",
-      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical"
+      "value": "ADAFRUIT_MICROSD_BFF_5683",
+      "footprint": "Espruino_Harness_RevA:Adafruit_MicroSD_BFF_5683_Underside"
     },
     {
       "ref": "J501",
@@ -1074,6 +1090,31 @@
     {
       "ref": "TP402",
       "value": "GND",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+    },
+    {
+      "ref": "TP403",
+      "value": "TI_SPI_SCK",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+    },
+    {
+      "ref": "TP404",
+      "value": "TI_SPI_MOSI",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+    },
+    {
+      "ref": "TP405",
+      "value": "TI_SPI_MISO",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+    },
+    {
+      "ref": "TP406",
+      "value": "TI_SPI_CS_EXT",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+    },
+    {
+      "ref": "TP407",
+      "value": "TEST_BLOCK_3V3",
       "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
     },
     {
@@ -3380,6 +3421,10 @@
           "pin": "1"
         },
         {
+          "ref": "TP407",
+          "pin": "1"
+        },
+        {
           "ref": "TP504",
           "pin": "1"
         },
@@ -3751,7 +3796,7 @@
       "nodes": [
         {
           "ref": "J402",
-          "pin": "2"
+          "pin": "6"
         },
         {
           "ref": "J901",
@@ -3760,6 +3805,10 @@
         {
           "ref": "R402",
           "pin": "2"
+        },
+        {
+          "ref": "TP406",
+          "pin": "1"
         },
         {
           "ref": "U605",
@@ -3772,11 +3821,15 @@
       "nodes": [
         {
           "ref": "J402",
-          "pin": "7"
+          "pin": "2"
         },
         {
           "ref": "J901",
           "pin": "10"
+        },
+        {
+          "ref": "TP405",
+          "pin": "1"
         },
         {
           "ref": "U401",
@@ -3800,6 +3853,10 @@
           "pin": "9"
         },
         {
+          "ref": "TP404",
+          "pin": "1"
+        },
+        {
           "ref": "U401",
           "pin": "11"
         },
@@ -3814,11 +3871,15 @@
       "nodes": [
         {
           "ref": "J402",
-          "pin": "6"
+          "pin": "1"
         },
         {
           "ref": "J901",
           "pin": "7"
+        },
+        {
+          "ref": "TP403",
+          "pin": "1"
         },
         {
           "ref": "U401",
@@ -5169,33 +5230,6 @@
         {
           "ref": "U1201",
           "pin": "17"
-        }
-      ]
-    },
-    {
-      "name": "unconnected-(J402-CD-Pad9)",
-      "nodes": [
-        {
-          "ref": "J402",
-          "pin": "9"
-        }
-      ]
-    },
-    {
-      "name": "unconnected-(J402-DT1-Pad8)",
-      "nodes": [
-        {
-          "ref": "J402",
-          "pin": "8"
-        }
-      ]
-    },
-    {
-      "name": "unconnected-(J402-DT2-Pad1)",
-      "nodes": [
-        {
-          "ref": "J402",
-          "pin": "1"
         }
       ]
     },

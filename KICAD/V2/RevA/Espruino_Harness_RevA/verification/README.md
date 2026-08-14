@@ -72,6 +72,9 @@ contracts/
   RC01-routing-fabric.yaml
   RC02-routing-controllers-and-fixed-i2c-isolation.yaml
   TB01-digital-gpio-loopback.yaml
+  TB02-analogue-pwm-feedback.yaml
+  TB03-i2c-functional-device.yaml
+  TB04-spi-functional-device-and-storage.yaml
   SYS01-power-events-to-rack-control.yaml
 ```
 
