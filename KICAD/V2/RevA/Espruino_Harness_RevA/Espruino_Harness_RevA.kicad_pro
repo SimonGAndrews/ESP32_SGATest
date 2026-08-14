@@ -587,18 +587,12 @@
         },
         {
           "group_by": false,
-          "label": "DNP",
-          "name": "DNP",
-          "show": false
-        },
-        {
-          "group_by": false,
           "label": "SHUNT_MPN",
           "name": "SHUNT_MPN",
           "show": false
         }
       ],
-      "filter_string": "u401",
+      "filter_string": "j503",
       "group_symbols": true,
       "include_excluded_from_bom": true,
       "name": "",

@@ -118,6 +118,16 @@ When artifacts disagree, resolve the discrepancy explicitly. Do not silently
 change a requirement to match the schematic or treat a generated report as a
 replacement for design intent.
 
+### KiCad assembly attributes
+
+Set `DNP` through KiCad's native Symbol Fields Table control and then update
+the PCB from the schematic. Do not add a user-defined symbol property named
+`DNP`: it does not set the native schematic `(dnp yes)` state or propagate the
+PCB `dnp` attribute. Parts that are hand fitted after manufacture remain
+included in the KiCad BOM and on the board, with native DNP enabled; use
+`Exclude from BOM` only when the part must be absent from the complete design
+BOM rather than merely excluded from automated assembly.
+
 ## 3. Circuit-block register
 
 Use `Draft`, `Reviewed` or `Verified` for block status. Manufacturing release
@@ -134,7 +144,7 @@ is a board-level decision. A material change returns the affected block to
 | TB02 | Analogue/PWM feedback | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB02-analogue-pwm-feedback.png) | Verified |
 | TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [Functional device](review-images/TB03-i2c-functional-device.png); [event handshake](review-images/TB03-supervisor-event-handshake.png) | Verified |
 | TB04 | SPI functional device and fixed microSD storage extension | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB04-spi-functional-device-and-storage.png) | Verified |
-| TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
+| TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB05-onewire-functional-devices-and-gpio.png) | Verified |
 | TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TB09 | Addressable RGB output | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | TBD | Draft |
@@ -919,7 +929,7 @@ guaranteed electrical limits and powered-off behaviour.
 | Requirements inspection | Controlled Routing and Combined Capability Connection Matrix | Accepted: the selected five-switch approach implements the complete 19-path inventory and preserves the required route-entry grouping |
 | Behaviour and safe-state analysis | Operating table, partial-power review and current full-hierarchy normalized connectivity | Circuit approach accepted; powered-off leakage, 3.6 V boundary and complete controller-reset margin remain physical/RC02 checks |
 | Manufacturer source screen | Sources and conclusions above | Accepted for circuit approach; no architecture or topology change required |
-| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete nine-contract set passes 851 checks |
+| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete ten-contract set passes 916 checks |
 | Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
 | Symbol-to-footprint pin mapping | TMUX1511 Rev. B PW pin table, PW0014A package drawing, project-local symbol, installed KiCad footprint and current PCB pads | Accepted: pins 1–14, package family, body size, pitch, pad order and pin-1 orientation agree; the footprint's IPC land pattern is a permitted alternate to TI's example pattern |
 | Visual schematic review | `review-images/RC01-routing-fabric.png` | Accepted current reviewed circuit capture after removal of the six redundant resistors |
@@ -1152,7 +1162,7 @@ schematic; final manufacturer assignment remains part of BOM reconciliation.
 |---|---|
 | Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
-| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete nine-contract set passes all 851 checks. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete ten-contract set passes all 916 checks. |
 | Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
 | Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
 | Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
@@ -1249,7 +1259,7 @@ manufacturer component drawings/specifications above.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; no architecture change required. |
 | V1 prototype evidence | Accepted as proof of the two-pair 470 Ω functional pattern, including link-removal negative control; not used as Rev-A package proof. |
-| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted nine-contract baseline passes all 851 checks. |
+| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted ten-contract baseline passes all 916 checks. |
 | Package review | Accepted SMD resistors, THT headers, shunts and existing test pins are compatible with their intended roles and footprints. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings after migrating `JP101/JP102` to the project-local symbol. |
 | Visual schematic review | Accepted focused image linked above; both paths, values, endpoints, assembly-stage DNP test points and operating notes are legible. |
@@ -1392,7 +1402,7 @@ isolation boundary.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; the corrected MCP3008 isolation topology implements the existing architecture without changing it. |
 | V1 prototype evidence | Accepted for the 10 kOhm filtered-PWM function and concurrent target/MCP3008 ADC comparison; not used as Rev-A package or 1 uF performance proof. |
-| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete nine-contract baseline passes all 851 checks. |
+| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete ten-contract baseline passes all 916 checks. |
 | Package review | Accepted `R201`, `C201`, three isolation headers, three shunts, stimulus header and existing board-wide test-pin selection. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the complete Block 2 path, all three isolation boundaries, stimulus precautions, filter values and the MCP3008 CH0/`J401.1` cross-block endpoint. |
@@ -1530,7 +1540,7 @@ effective resistance, capacitance, rise time and low-level margin.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.3, including the corrected device-only SDA/SCL isolation and downstream RESET/INTA biasing. |
 | V1 prototype evidence | Accepted for the functional I2C device, GPIO feedback, interrupt and Grove-extension concepts; not used as Rev-A package, isolation or event-stage proof. |
-| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete nine-contract set passes all 851 checks. |
+| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete ten-contract set passes all 916 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted in the two focused images linked above. Together they show the shared bus, pull-ups, all device-isolation boundaries, isolated supply and biases, full GPIO breakout, feedback/interrupt paths and both Supervisor event stages. |
 | PCB synchronization | Accepted for schematic-baseline scope. Every contracted TB03 reference occurs exactly once on the current PCB, including the project-local `J301` footprint. The PCB carries the final `MCP23017_GPIO` value for `J302` and exact U301/Q301/Q302 metadata. Final placement, pad-level physical review and routing remain PCB-stage work. |
@@ -1648,7 +1658,7 @@ solder rework.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.4, including the fixed underside microSD decision, shared SPI bus, independent chip selects, CH0 cross-block isolation and required observation points. |
 | V1 prototype evidence | Accepted for the socketed MCP3008 and shared-bus/second-chip-select concepts; not used as ADA5683, local-capacitance, footprint or routed-timing proof. |
-| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete nine-contract baseline passes all 851 checks. |
+| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete ten-contract baseline passes all 916 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the MCP3008 core and breakout, both inactive-state chip-select pull-ups, fixed BFF interface, local capacitance, hand-fit state and seven observation points. |
 | PCB synchronization | Accepted for schematic-baseline scope. U401 and J401 carry their exact MPNs and DNP state; J402 occurs once on `B.Cu` with the accepted project footprint, DNP state, six correct electrical pad nets, eight unnumbered mechanical lands and no paste apertures. Final placement and routing remain PCB-stage work. |
@@ -1672,6 +1682,166 @@ solder rework.
   removal on the populated board.
 
 No TB04 exception is accepted at this stage.
+
+### 4.9 TB05 — 1-Wire functional devices and GPIO
+
+**Purpose and requirements:** Provide a known mixed-device 1-Wire bus with two
+removable, externally powered DS18B20 sensors, one removable parasite-powered
+DS2413 dual-GPIO device, protected simultaneous PIO feedback and a selectable
+resistor-limited bus pull-up. See Standard Test Blocks Section 6.5.
+**Source schematic:** `standard_test_blocks.kicad_sch`, references `J501`–
+`J504`, `R501`–`R506` and `TP501`–`TP505`, with routed endpoints implemented by
+RC01 `U601`, `U602` and `U605`.
+**Visual review:** [1-Wire functional-device and GPIO image](review-images/TB05-onewire-functional-devices-and-gpio.png).
+**Risk:** Standard
+**Status:** Verified schematic baseline. Requirements, V1 evidence, current
+manufacturer guidance, application notes, circuit operation, exact harness
+components, full-hierarchy ERC, deterministic connectivity, PCB
+synchronization and the focused visual record are accepted. Final routing,
+accessory fit, lead-length limits and populated-bus measurements remain
+PCB-stage actions.
+
+#### V1 evidence and Rev-A boundary
+
+The ESP32-C3 V1 harness proved two externally powered DS18B20 devices on a
+short multidrop bus with a fixed 4.7 kOhm pull-up. The classic ESP32 V1 harness
+proved the mixed population of two DS18B20 devices and one removable DS2413,
+using a nominal 2.2 kOhm pull-up with 2.0 kOhm fitted, independent 4.7 kOhm PIO
+pull-ups and protected target feedback. The restored mixed bus completed the
+focused six-scan functional test with the same three ROMs, valid DS18B20 CRCs
+and clean DS2413 command/status behaviour. A longer search soak returned the
+complete population in 47 of 50 scans, confirming that the topology operates
+but can be a firmware-timing and signal-integrity margin case.
+
+V2 preserves the device combination while changing the implementation. It
+adds switched Test Block power, two removable sensor terminals, a
+resistor-limited 2.2 kOhm/4.7 kOhm selector, one bidirectional TMUX1511 route
+in DQ and independently routed PIO feedback. It also reverses the terminal
+order used by the C3 V1 connectors: V2 is pin 1 GND, pin 2 DQ and pin 3 3.3 V.
+V1 therefore proves the functional circuit pattern and test method, not the
+new connector orientation, routed path, PCB topology or representative sensor
+leads.
+
+#### Implemented functional, signal and safety flow
+
+```text
+TEST_BLOCK_3V3 -- R501 2.2k -- J503.1 --[normal 1-2]--+
+TEST_BLOCK_3V3 -- R502 4.7k -- J503.3 --[diagnostic 2-3]--+-- TI_ONEWIRE_DQ
+                                                               |
+                  +-- J501.2; J501.1 GND / J501.3 3.3 V        |
+                  +-- J502.2; J502.1 GND / J502.3 3.3 V        |
+                  +-- J504.3 DS2413 DQ; J504.4 GND             |
+                  +-- TP501                                    |
+                  +-- U601.6 bidirectional route to target ----+
+
+TEST_BLOCK_3V3 -- R504 4.7k -- ONEWIRE_PIOA -- R505 470R
+                                              +-- TP502
+                                              `-- TI_ONEWIRE_GPIO_A_FB -- U602.11
+
+TEST_BLOCK_3V3 -- R503 4.7k -- ONEWIRE_PIOB -- R506 470R
+                                              +-- TP503
+                                              `-- TI_ONEWIRE_GPIO_B_FB -- U605.8
+```
+
+J503 pins 1–2 select the normal complete-population 2.2 kOhm pull-up. Pins
+2–3 select the diagnostic 4.7 kOhm comparison and an open selector removes the
+harness pull-up. Both valid positions remain resistor limited. Sensors and
+the DS2413 are changed only with power removed. Before connecting or changing
+routes, the target DQ pin is released as input/open drain, both DS2413 PIOs are
+released and the target feedback pins are inputs. The routing Control Service
+keeps reused Block 1 loopback drivers mutually exclusive with the two PIO
+feedback routes.
+
+#### Manufacturer source and application review
+
+- The current [DS18B20 data sheet](https://www.analog.com/media/en/technical-documentation/data-sheets/DS18B20.pdf)
+  supports 3.0–5.5 V external power, open-drain DQ, multidrop addressing and a
+  passive pull-up. External VDD removes the strong-pull-up requirement during
+  temperature conversion used by parasite-powered DS18B20 operation.
+- The current [DS2413 data sheet](https://www.analog.com/media/en/technical-documentation/data-sheets/ds2413.pdf)
+  supports 2.8–5.25 V standard-speed operation, parasite-powered DQ, open-drain
+  PIO outputs and the retained 2.2 kOhm maximum passive pull-up condition. Its
+  PIO state can persist for tens of seconds after DQ disconnection, so route
+  changes require explicit PIO release rather than assuming immediate decay.
+- Analog Devices application note 3829, [Determining the Recovery Time for
+  Multiple-Slave 1-Wire Networks](https://www.analog.com/en/resources/technical-articles/determining-the-recovery-time-for-multipleslave-1wirereg-networks.html),
+  treats externally powered devices as approximately one tenth of a parasite
+  load. One DS2413 plus two externally powered DS18B20 devices gives effective
+  `N = 1.2`; the conservative 2.8 V, -40 degrees C equation gives about 5.2 us.
+  Rev-A therefore uses 6 us as the provisional minimum recovery-time design
+  target pending waveform confirmation.
+- Application note 148, [Guidelines for Reliable Long Line 1-Wire
+  Networks](https://www.analog.com/en/resources/technical-articles/guidelines-for-reliable-long-line-1wire-networks.html),
+  makes topology, stubs, cable capacitance, reflections and measured waveform
+  quality part of acceptance. Passive pull-up operation is suitable for this
+  intended short local network, but representative sensor leads remain part
+  of populated-board validation.
+- The [TMUX1511 data sheet](https://www.ti.com/lit/ds/symlink/tmux1511.pdf)
+  specifies bidirectional operation, 2 Ohm typical/4.5 Ohm maximum
+  on-resistance, 3.3 pF typical/6 pF maximum on-capacitance and powered-off
+  isolation to 3.6 V. These additions are negligible relative to the passive
+  pull-up and complete bus loading, while preserving the required open-drain
+  path.
+
+#### Electrical review and calculations
+
+The normal 2.2 kOhm position draws approximately `3.3 V / 2.2 kOhm = 1.5 mA`
+when DQ is low. This is below the 4 mA low-level test condition supported by
+both device families. The TMUX1511 maximum 4.5 Ohm on-resistance adds only
+about 6.8 mV at that current. Its maximum 6 pF on-capacitance contributes only
+13.2 ns of pull-up RC time in isolation and is not the dominant bus load.
+
+The 4.7 kOhm position draws about 0.70 mA, giving easy low-level margin but
+less than half the normal recharge current. It is therefore correctly limited
+to diagnostic or measured reduced-population use. The final acceptable rise
+and recovery time cannot be calculated from the schematic alone because
+sensor leads, branches, connectors, PCB traces and substituted modules add
+capacitance. Any accessory-provided pull-up must also be included in the
+effective resistance measurement.
+
+The PIO pull-ups draw about 0.70 mA when asserted low. Each 470 Ohm series
+resistor limits accidental target-output contention, but does not make that
+state permissible. The DS2413's 20 mA PIO capability leaves substantial normal
+low-level margin.
+
+#### Exact components and package state
+
+| References | Current implementation | Review result |
+|---|---|---|
+| `J501`, `J502` | Phoenix Contact `1725669`; horizontal-entry 3-position, 2.54 mm THT terminal | Exact connector MPN and footprint accepted. Native DNP retains both footprints and excludes AISLER placement for hand fitting. Sensor assemblies remain removable accessories rather than PCB BOM components. |
+| `J503` | Würth `61300311121`; 1x3 vertical 2.54 mm THT header; Würth `60900213421` shunt | Exact header and shunt accepted. Native DNP records hand fitting. Value and description identify pins 1–2 as normal 2.2 kOhm and pins 2–3 as diagnostic 4.7 kOhm. |
+| `J504` | Würth `61300411121`; 1x4 vertical 2.54 mm THT male header | Exact harness connector accepted with pin order PIOB, PIOA, DQ, GND. Native DNP records hand fitting. The mating DS2413 breakout remains a removable accessory whose final envelope and female-header orientation require physical confirmation. |
+| `R501`–`R506` | 0603 SMD; 2.2 kOhm, three 4.7 kOhm and two 470 Ohm values as shown | Values, functions, footprints and AISLER parametric descriptions accepted. |
+| `TP501`–`TP505` | Würth `61300111121`; single-pin vertical 2.54 mm THT | Accepted under board-wide decision `INT02`; native DNP records post-manufacture hand fitting. |
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted against Standard Test Blocks Section 6.5, including normal and diagnostic selector states, removable devices, simultaneous protected PIO feedback and safe route sequencing. |
+| V1 prototype evidence | Accepted for the two-sensor and mixed DS18B20/DS2413 functional patterns; explicitly not used as proof of the V2 switch path, connectors, layout or leads. |
+| Connectivity contract | `verification/contracts/TB05-onewire-functional-devices-and-gpio.yaml` passes 65 checks: 36 pin/net, 15 component-value and 14 forbidden-direct-path assertions. The complete ten-contract baseline passes all 916 checks. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
+| Visual schematic review | Accepted focused image linked above. It clearly records DQ and feedback flow, selector states, removable devices, observation points, power-off reconfiguration and DS2413 retained-state behaviour. |
+| PCB synchronization | Accepted for schematic-baseline scope. `J501`–`J504`, `R501`–`R506` and `TP501`–`TP505` each occur once on the current PCB with the accepted footprints and pad nets. `J501`–`J504` carry native through-hole DNP attributes matching the saved schematic. Final placement, silkscreen, routing and accessory fit remain PCB-stage work. |
+
+#### Closure actions and accepted exceptions
+
+- Mark both sensor terminals `GND | DQ | 3V3` and distinguish them from the
+  reversed C3 V1 terminal order. Confirm entry direction and pin 1 using the
+  actual Phoenix part and do not reuse V1 sensor leads without rewiring.
+- Mark J504 pin 1 and `PIOB | PIOA | DQ | GND`; verify the selected DS2413
+  breakout, downward female header, body clearance and unkeyed orientation
+  with the physical module before manufacturing release.
+- Keep the DQ trunk and all three device branches short over continuous ground,
+  avoid long stubs and noisy aggressors, and preserve access to TP501–TP505.
+- On the populated board, measure DQ low level, rise and recovery time with the
+  normal full population and representative leads. Retain repeated three-ROM
+  search, DS18B20 scratchpad/CRC, DS2413 command/status and both PIO feedback
+  results. Compare the 2.2 kOhm and 4.7 kOhm positions and record every fitted
+  accessory pull-up.
+
+No TB05 schematic-baseline exception is accepted at this stage.
 
 ## 5. System integration review
 
@@ -1752,6 +1922,9 @@ and close it only with the evidence named below.
 | `PCB-TB04-01` | TB04 module mechanics and assembly | Place the DNP/hand-fitted J402 footprint on the underside at the upper edge with card access outward. Verify the actual ADA5683 outline, castellated-land registration, solder access, mechanical support, adjacent Grove clearance and complete insertion/withdrawal envelope. Confirm all six electrical and eight unnumbered mechanical lands remain copper/mask only with no paste. | Actual-module inspection, 3D review, printed 1:1 fit/access check and final hand-assembly record | Open |
 | `PCB-TB04-02` | TB04 SPI layout and local capacitance | Keep U401/J402 shared SCK, MOSI and MISO paths compact over continuous ground; avoid long MISO branches; keep R401/R402 local to their chip-select branches. Place C401 at U401 VDD/VREF, C402 closest to J402 and C403 immediately nearby. Confirm C403 effective capacitance and the complete `TEST_BLOCK_3V3` switched-capacitance budget. | Placement/routing inspection, capacitance record, PCB DRC and signal captures at the selected maximum SPI clock | Open |
 | `PCB-TB04-03` | TB04 diagnostics and populated operation | Hand-fit Harwin `D2816-42`, U401, J401, J402 and TP401–TP407 with power removed. Preserve socket/header pin-1, CH0–CH7 and card-access markings and probe access. Verify both inactive chip selects, MCP3008 conversions and Block 2 agreement, alternating shared-bus transactions, microSD connect/mount/file/unmount behaviour and safe card removal. | BOM/assembly reconciliation, continuity checks and retained functional-test results | Open |
+| `PCB-TB05-01` | TB05 connector and module mechanics | Place J501/J502 for practical sensor-lead entry and mark each terminal `GND | DQ | 3V3`, explicitly accounting for the reversed C3 V1 terminal order. Mark J504 pin 1 and `PIOB | PIOA | DQ | GND`; verify the selected DS2413 breakout, downward female header, body clearance and fitted orientation using the actual parts. Keep J503 accessible and mark `2K2 | DQ | 4K7` with pins 1–2 as normal. | Actual-part inspection, 3D review, printed 1:1 access/orientation check and final hand-assembly record | Open |
+| `PCB-TB05-02` | TB05 1-Wire topology and routing | Keep the DQ trunk and J501/J502/J504 branches short over a materially continuous ground reference, avoid unnecessary stubs and fast aggressors, and preserve access to TP501–TP505. Record PCB, connector, module and representative sensor-lead loading; include every accessory-provided pull-up when calculating effective resistance. | Routed-layout inspection, PCB DRC, topology/lead record and probe-access review | Open |
+| `PCB-TB05-03` | TB05 populated-bus operation | With the normal full population and representative leads, measure DQ low level, rise time and at least the provisional 6 us recovery-time target. Retain repeated three-ROM search, DS18B20 scratchpad/CRC, DS2413 command/status and both protected PIO-feedback results. Compare J503's normal 2.2 kOhm and diagnostic 4.7 kOhm positions and record the supported population/lead conditions for each. | Oscilloscope captures, resistance measurements and retained functional/soak-test evidence | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |

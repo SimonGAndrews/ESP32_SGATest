@@ -28,5 +28,7 @@ contracts:
     file: contracts/TB03-i2c-functional-device.yaml
   - id: TB04
     file: contracts/TB04-spi-functional-device-and-storage.yaml
+  - id: TB05
+    file: contracts/TB05-onewire-functional-devices-and-gpio.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

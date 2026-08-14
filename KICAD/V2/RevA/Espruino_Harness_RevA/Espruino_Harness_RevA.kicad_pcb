@@ -4872,7 +4872,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300411121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4884,7 +4884,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "2.54 mm four-pin vertical male THT header for removable parasite-powered DS2413 breakout; 1=PIOB, 2=PIOA, 3=DQ, 4=GND"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4896,11 +4896,50 @@
 				)
 			)
 		)
+		(property "MPN" "61300411121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "183cb638-975c-4cc1-8c96-d9dd888c22e3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "78c16456-5ab0-407e-976c-03894c0dfd81")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" "true"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7b238d5b-6d9b-4865-a179-bc80cfecb2ee")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000412")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -9839,7 +9878,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "DS2413 PIOA open-drain pull-up; 0603 SMD"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9847,6 +9886,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "136f0251-bd1e-4df5-b51e-3c6e79b99607")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "4.7k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cc6483de-6bee-478c-9325-638787cad62f")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -16554,7 +16619,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.phoenixcontact.com/en-gb/products/printed-circuit-board-terminal-mpt-05-3-254-1725669"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16566,7 +16631,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Phoenix Contact 3-position 2.54 mm THT screw terminal for removable powered DS18B20 sensor B; pin 1 GND, pin 2 DQ, pin 3 3.3 V"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16578,11 +16643,50 @@
 				)
 			)
 		)
+		(property "MPN" "1725669"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b64b90f9-295e-43dc-966e-e606c2533abc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "34cbcdc4-4983-40a9-90f0-df52d2c3f2ca")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" "true"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "438fa938-3cd6-49b5-9d13-87103942147d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000404")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.62 -3.22)
 			(end 6.7 -3.22)
@@ -19209,7 +19313,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Diagnostic 4.7 kOhm 1-Wire DQ pull-up selector resistor; 0603 SMD"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19217,6 +19321,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "23e0fbe6-f702-45af-8392-e340e05170ba")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "4.7k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1128c50d-f233-41f8-8112-391ae7d9da28")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -19350,7 +19480,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "DS2413 PIOB open-drain pull-up; 0603 SMD"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19358,6 +19488,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "46ea1b50-463b-4251-950b-92498cf044d8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "4.7k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5e1fdcbe-3d9c-4345-b57b-28dd9a8110c5")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -20011,7 +20167,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "DS2413 PIOA target-feedback series protection; 0603 SMD"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20019,6 +20175,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2d9bff99-7c3b-4f2c-9e95-5b9c86a5b3dc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b76c0592-1b0f-432c-a25d-e54bc3f8652c")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -23567,7 +23749,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300311121.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23579,7 +23761,7 @@
 				)
 			)
 		)
-		(property "Description" "Jumper, 3-pole, both open"
+		(property "Description" "2.54 mm three-pin THT resistor-limited 1-Wire pull-up selector; pins 1-2 normal 2.2 kOhm, pins 2-3 diagnostic 4.7 kOhm; shunt 60900213421 fitted"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23591,11 +23773,63 @@
 				)
 			)
 		)
+		(property "MPN" "61300311121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6c7bd4f2-3e30-4c50-a094-c318325e3ec6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "01b5bed1-d724-4eb0-89ce-4a16a8f9dd7c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d75b9c45-2dd8-4fe3-8780-9ced702c3665")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" "true"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "87db2841-9cfc-4a04-a22e-658c55366619")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*3Pads* TestPoint*Bridge*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000408")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole exclude_from_bom)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -24797,7 +25031,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.phoenixcontact.com/en-gb/products/printed-circuit-board-terminal-mpt-05-3-254-1725669"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24809,7 +25043,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Phoenix Contact 3-position 2.54 mm THT screw terminal for removable powered DS18B20 sensor A; pin 1 GND, pin 2 DQ, pin 3 3.3 V"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24821,11 +25055,50 @@
 				)
 			)
 		)
+		(property "MPN" "1725669"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6e0361c0-c2f2-41ab-a1a5-9e29b938544c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8947828d-bdaa-47ea-a824-7957876185a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" "true"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fab38583-84cd-45f4-aff4-0534e6da0274")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000400")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
+		(attr through_hole dnp)
 		(fp_line
 			(start -1.62 -3.22)
 			(end 6.7 -3.22)
@@ -25842,7 +26115,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "DS2413 PIOB target-feedback series protection; 0603 SMD"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25850,6 +26123,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "36be6d81-780f-426c-a4ef-0906fab54300")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cfcc2cf8-a9ca-4be9-b273-14a91a70bcbe")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -37523,7 +37822,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Normal 2.2 kOhm 1-Wire DQ pull-up selector resistor; 0603 SMD"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -37531,6 +37830,32 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bd7b1afc-2159-4e1b-a789-8324b111130d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "2.2k 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "054baf01-cf55-4d4b-92ba-3ddb2bbfe3bf")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)

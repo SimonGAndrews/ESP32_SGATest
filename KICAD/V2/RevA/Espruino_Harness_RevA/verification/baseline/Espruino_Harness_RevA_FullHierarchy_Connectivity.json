@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "780769a37bfb854179306a5a2e6e4d0f239e21b92e5ea67743f18093e5dbaed9"
+      "sha256": "ab85757efbeb8b6733a907d03183171262b8c4f3bb70c8537445ee86ccd3a79d"
     },
     {
       "id": "PC01",
@@ -57,6 +57,11 @@
       "id": "TB04",
       "file": "contracts/TB04-spi-functional-device-and-storage.yaml",
       "sha256": "9d4cd3ea11b31d3f6ddeae4c4830dfab4d274e8d2916c8d4acbf00f4105c5052"
+    },
+    {
+      "id": "TB05",
+      "file": "contracts/TB05-onewire-functional-devices-and-gpio.yaml",
+      "sha256": "45e3b7beddf14049375e0bee297d15947b3963e06e1fa2f828b511557a4e1fee"
     },
     {
       "id": "SYS01",
@@ -151,6 +156,17 @@
         "pin_net": 49,
         "component_value": 15,
         "forbidden_same_net": 11
+      }
+    },
+    {
+      "id": "TB05",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 65,
+      "assertions": {
+        "pin_net": 36,
+        "component_value": 15,
+        "forbidden_same_net": 14
       }
     },
     {

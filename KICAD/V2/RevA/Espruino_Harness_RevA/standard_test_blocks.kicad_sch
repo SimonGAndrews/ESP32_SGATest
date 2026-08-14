@@ -5542,7 +5542,7 @@
 	)
 	(rectangle
 		(start 372.11 250.19)
-		(end 574.04 345.44)
+		(end 574.04 368.3)
 		(stroke
 			(width 0)
 			(type default)
@@ -5602,6 +5602,17 @@
 			(justify left bottom)
 		)
 		(uuid "05354653-2111-4480-b7aa-e6c83aa6f18e")
+	)
+	(text "FUNCTIONAL FLOW\n\nTarget open-drain GPIO ↔ TI_ONEWIRE_DQ \n       ↔ J501/J502 DS18B20 sensors\n       ↔ J504 DS2413 module\n\nJ504 PIOA → R505 → TI_ONEWIRE_GPIO_A_FB\nJ504 PIOB → R506 → TI_ONEWIRE_GPIO_B_FB"
+		(exclude_from_sim no)
+		(at 375.92 325.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "062f684e-0fb5-4a76-9f22-75cf72bc812a")
 	)
 	(text "J302 exposes GPA0–GPA7 and GPB0–GPB7 for\nobservation and experiments.\nGPA7 and GPB7 are output-only on the selected MCP23017.\nDo not externally drive pins already assigned to Block 3 functions."
 		(exclude_from_sim no)
@@ -5706,6 +5717,17 @@
 			(justify left bottom)
 		)
 		(uuid "497a4785-1536-431a-ba26-c0e1b2c38ba7")
+	)
+	(text "* Target GPIO communicates through the routing fabric \nusing TI_ONEWIRE_DQ.\n\n* J501, J502 and J504 are all connected to that same bus.\n    - J501 and J502 connect the two DS18B20 temperature sensors.\n    - J504 connects the DS2413 GPIO module.\n\n* DS2413 provides two separate GPIO output paths.\n    R503 and R504 pull the two open-drain PIO signals high when\n    the DS2413 releases them. \n    R505 and R506 provide series protection if a target \n    feedback pin is accidentally configured as an output."
+		(exclude_from_sim no)
+		(at 375.92 350.52 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "565f055f-d218-45b2-ae94-187eb48007da")
 	)
 	(text "EXTERNAL STIMULUS AT J201: 0–3.3 V ONLY\nRemove JP201 before connecting the external source.\nJP202 and JP203 independently connect the target ADC and MCP3008 CH0."
 		(exclude_from_sim no)
@@ -5942,7 +5964,7 @@
 	)
 	(text "PULL-UP SELECTOR"
 		(exclude_from_sim no)
-		(at 379.73 312.42 0)
+		(at 441.96 314.96 0)
 		(effects
 			(font
 				(face "Arial")
@@ -5953,9 +5975,9 @@
 		)
 		(uuid "b5000000-0000-4000-8000-000000000006")
 	)
-	(text "2K2 | DQ | 4K7; pins 2-3 normal"
+	(text "2K2 | DQ | 4K7; pins 1-2 normal; pins 2-3 diagnostic"
 		(exclude_from_sim no)
-		(at 379.73 314.96 0)
+		(at 441.96 317.5 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5990,7 +6012,7 @@
 	)
 	(text "PROTECTED TARGET FEEDBACK"
 		(exclude_from_sim no)
-		(at 491.49 314.96 0)
+		(at 511.81 314.96 0)
 		(effects
 			(font
 				(face "Arial")
@@ -6234,6 +6256,17 @@
 			(justify left bottom)
 		)
 		(uuid "d9000000-0000-4000-8000-000000000006")
+	)
+	(text "NORMAL STATE: J503 pins 1-2 fitted for the 2.2 kOhm DQ pull-up.\nPins 2-3 select the 4.7 kOhm diagnostic comparison; fit one shunt only.\nPower off before changing sensors, the J503 shunt or the DS2413 module.\nDS2413 PIO states may persist for tens of seconds after DQ is disconnected."
+		(exclude_from_sim no)
+		(at 473.71 347.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "de3058da-f70c-4a9b-97ee-4aa74b32c6d8")
 	)
 	(text "PAIR A: TI_GPIO_LOOP_A_OUT → TP101 → R101 → JP101 → TP102 → TI_GPIO_LOOP_A_IN\nPAIR B: TI_GPIO_LOOP_B_OUT → TP103 → R102 → JP102 → TP104 → TI_GPIO_LOOP_B_IN"
 		(exclude_from_sim no)
@@ -7000,6 +7033,16 @@
 	)
 	(wire
 		(pts
+			(xy 515.62 275.59) (xy 515.62 273.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33dbd6f3-f9e0-4ad0-a180-4b7b30c4f47d")
+	)
+	(wire
+		(pts
 			(xy 440.69 135.89) (xy 420.37 135.89)
 		)
 		(stroke
@@ -7130,6 +7173,16 @@
 	)
 	(wire
 		(pts
+			(xy 494.03 275.59) (xy 494.03 273.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "433c9fe8-1eca-47e8-9e98-292baea8ddc8")
+	)
+	(wire
+		(pts
 			(xy 114.3 120.65) (xy 121.92 120.65)
 		)
 		(stroke
@@ -7227,6 +7280,16 @@
 			(type default)
 		)
 		(uuid "4bf04333-489d-4f2e-b2e3-a67d56ce2f61")
+	)
+	(wire
+		(pts
+			(xy 516.89 287.02) (xy 516.89 284.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d1bc694-6c66-4535-8344-ea897b494cfd")
 	)
 	(wire
 		(pts
@@ -7370,13 +7433,23 @@
 	)
 	(wire
 		(pts
-			(xy 506.73 321.31) (xy 513.08 321.31)
+			(xy 527.05 321.31) (xy 533.4 321.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "6509ff5f-6104-492d-b0bf-cc28bcb98997")
+	)
+	(wire
+		(pts
+			(xy 537.21 275.59) (xy 537.21 273.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6724bd37-bd56-46f7-92ed-37e3ce6d65dd")
 	)
 	(wire
 		(pts
@@ -7560,7 +7633,7 @@
 	)
 	(wire
 		(pts
-			(xy 407.67 332.74) (xy 420.37 332.74)
+			(xy 469.9 335.28) (xy 482.6 335.28)
 		)
 		(stroke
 			(width 0)
@@ -7660,7 +7733,7 @@
 	)
 	(wire
 		(pts
-			(xy 405.13 320.04) (xy 420.37 320.04)
+			(xy 469.9 322.58) (xy 482.6 322.58)
 		)
 		(stroke
 			(width 0)
@@ -8080,7 +8153,7 @@
 	)
 	(wire
 		(pts
-			(xy 394.97 320.04) (xy 397.51 320.04)
+			(xy 457.2 322.58) (xy 462.28 322.58)
 		)
 		(stroke
 			(width 0)
@@ -8090,7 +8163,7 @@
 	)
 	(wire
 		(pts
-			(xy 394.97 332.74) (xy 400.05 332.74)
+			(xy 457.2 335.28) (xy 462.28 335.28)
 		)
 		(stroke
 			(width 0)
@@ -8160,7 +8233,7 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 321.31) (xy 525.78 321.31)
+			(xy 541.02 321.31) (xy 546.1 321.31)
 		)
 		(stroke
 			(width 0)
@@ -8170,7 +8243,7 @@
 	)
 	(wire
 		(pts
-			(xy 506.73 331.47) (xy 513.08 331.47)
+			(xy 527.05 331.47) (xy 533.4 331.47)
 		)
 		(stroke
 			(width 0)
@@ -8180,7 +8253,7 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 331.47) (xy 525.78 331.47)
+			(xy 541.02 331.47) (xy 546.1 331.47)
 		)
 		(stroke
 			(width 0)
@@ -8560,7 +8633,7 @@
 	)
 	(wire
 		(pts
-			(xy 389.89 326.39) (xy 416.56 326.39)
+			(xy 452.12 328.93) (xy 478.79 328.93)
 		)
 		(stroke
 			(width 0)
@@ -8877,6 +8950,16 @@
 			(type default)
 		)
 		(uuid "ef457190-34bc-4c68-98e2-3ddfecb8ff46")
+	)
+	(wire
+		(pts
+			(xy 494.03 287.02) (xy 494.03 284.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efe9b601-d2ec-440c-89ea-749acdf3b71b")
 	)
 	(wire
 		(pts
@@ -9559,7 +9642,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000043")
 	)
 	(label "TEST_BLOCK_3V3"
-		(at 394.97 320.04 180)
+		(at 457.2 322.58 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9569,7 +9652,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000044")
 	)
 	(label "TEST_BLOCK_3V3"
-		(at 394.97 332.74 180)
+		(at 457.2 335.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9629,7 +9712,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000051")
 	)
 	(label "ONEWIRE_PIOA"
-		(at 506.73 321.31 180)
+		(at 527.05 321.31 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9639,7 +9722,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000053")
 	)
 	(label "ONEWIRE_PIOB"
-		(at 506.73 331.47 180)
+		(at 527.05 331.47 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9649,7 +9732,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000054")
 	)
 	(label "TI_ONEWIRE_DQ"
-		(at 494.03 273.05 0)
+		(at 494.03 275.59 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9659,7 +9742,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000056")
 	)
 	(label "ONEWIRE_PIOA"
-		(at 515.62 273.05 0)
+		(at 515.62 275.59 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9669,7 +9752,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000057")
 	)
 	(label "ONEWIRE_PIOB"
-		(at 537.21 273.05 0)
+		(at 537.21 275.59 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9679,7 +9762,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000058")
 	)
 	(label "TEST_BLOCK_3V3"
-		(at 494.03 284.48 0)
+		(at 494.03 287.02 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9689,7 +9772,7 @@
 		(uuid "b5000000-0000-4000-8000-000000000059")
 	)
 	(label "TI_GND"
-		(at 516.89 284.48 0)
+		(at 516.89 287.02 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10214,7 +10297,7 @@
 	)
 	(hierarchical_label "TI_ONEWIRE_DQ"
 		(shape bidirectional)
-		(at 389.89 326.39 180)
+		(at 452.12 328.93 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10346,7 +10429,7 @@
 	)
 	(hierarchical_label "TI_ONEWIRE_GPIO_A_FB"
 		(shape output)
-		(at 525.78 321.31 0)
+		(at 546.1 321.31 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10357,7 +10440,7 @@
 	)
 	(hierarchical_label "TI_ONEWIRE_GPIO_B_FB"
 		(shape output)
-		(at 525.78 331.47 0)
+		(at 546.1 331.47 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -15192,7 +15275,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000400")
 		(property "Reference" "J501"
 			(at 407.67 270.51 0)
@@ -15219,7 +15302,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.phoenixcontact.com/en-gb/products/printed-circuit-board-terminal-mpt-05-3-254-1725669"
 			(at 407.67 275.59 0)
 			(effects
 				(font
@@ -15228,13 +15311,30 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Phoenix Contact 3-position 2.54 mm THT screw terminal for removable powered DS18B20 sensor A; pin 1 GND, pin 2 DQ, pin 3 3.3 V"
 			(at 407.67 275.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "1725669"
+			(at 407.67 275.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 407.67 275.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -15262,7 +15362,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000404")
 		(property "Reference" "J502"
 			(at 407.67 290.83 0)
@@ -15289,7 +15389,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.phoenixcontact.com/en-gb/products/printed-circuit-board-terminal-mpt-05-3-254-1725669"
 			(at 407.67 295.91 0)
 			(effects
 				(font
@@ -15298,13 +15398,30 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Phoenix Contact 3-position 2.54 mm THT screw terminal for removable powered DS18B20 sensor B; pin 1 GND, pin 2 DQ, pin 3 3.3 V"
 			(at 407.67 295.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "1725669"
+			(at 407.67 295.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 407.67 295.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -15327,15 +15444,15 @@
 	)
 	(symbol
 		(lib_id "Jumper:Jumper_3_Open")
-		(at 420.37 326.39 270)
+		(at 482.6 328.93 270)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000408")
 		(property "Reference" "J503"
-			(at 426.72 323.85 90)
+			(at 488.95 326.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15343,7 +15460,7 @@
 			)
 		)
 		(property "Value" "2K2_DQ_4K7"
-			(at 430.53 326.39 90)
+			(at 492.76 328.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15351,7 +15468,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 420.37 326.39 0)
+			(at 482.6 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15359,8 +15476,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 420.37 326.39 0)
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300311121.pdf"
+			(at 482.6 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15368,8 +15485,34 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Jumper, 3-pole, both open"
-			(at 420.37 326.39 0)
+		(property "Description" "2.54 mm three-pin THT resistor-limited 1-Wire pull-up selector; pins 1-2 normal 2.2 kOhm, pins 2-3 diagnostic 4.7 kOhm; shunt 60900213421 fitted"
+			(at 482.6 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "61300311121"
+			(at 482.6 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 482.6 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "SHUNT_MPN" "60900213421"
+			(at 482.6 328.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15402,7 +15545,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "b5000000-0000-4000-8002-000000000412")
 		(property "Reference" "J504"
 			(at 471.17 285.75 0)
@@ -15429,7 +15572,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300411121.pdf"
 			(at 471.17 294.64 0)
 			(effects
 				(font
@@ -15438,13 +15581,30 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "2.54 mm four-pin vertical male THT header for removable parasite-powered DS2413 breakout; 1=PIOB, 2=PIOA, 3=DQ, 4=GND"
 			(at 471.17 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
+			)
+		)
+		(property "MPN" "61300411121"
+			(at 471.17 294.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 471.17 294.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -15470,7 +15630,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 401.32 320.04 90)
+		(at 466.09 322.58 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15478,7 +15638,7 @@
 		(dnp no)
 		(uuid "b5000000-0000-4000-8002-000000000417")
 		(property "Reference" "R501"
-			(at 401.32 317.5 90)
+			(at 466.09 320.04 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15486,7 +15646,7 @@
 			)
 		)
 		(property "Value" "2.2k"
-			(at 401.32 320.04 90)
+			(at 466.09 322.58 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15494,7 +15654,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 401.32 320.04 0)
+			(at 466.09 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15503,7 +15663,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 401.32 320.04 0)
+			(at 466.09 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15511,8 +15671,25 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
-			(at 401.32 320.04 0)
+		(property "Description" "Normal 2.2 kOhm 1-Wire DQ pull-up selector resistor; 0603 SMD"
+			(at 466.09 322.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 466.09 322.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "2.2k 0603 1% 0.1W"
+			(at 466.09 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15537,7 +15714,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 403.86 332.74 90)
+		(at 466.09 335.28 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15545,7 +15722,7 @@
 		(dnp no)
 		(uuid "b5000000-0000-4000-8002-000000000420")
 		(property "Reference" "R502"
-			(at 403.86 335.28 90)
+			(at 466.09 332.74 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15553,7 +15730,7 @@
 			)
 		)
 		(property "Value" "4.7k"
-			(at 403.86 332.74 90)
+			(at 466.09 335.28 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15561,7 +15738,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 403.86 332.74 0)
+			(at 466.09 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15570,7 +15747,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 403.86 332.74 0)
+			(at 466.09 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15578,8 +15755,25 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
-			(at 403.86 332.74 0)
+		(property "Description" "Diagnostic 4.7 kOhm 1-Wire DQ pull-up selector resistor; 0603 SMD"
+			(at 466.09 335.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 466.09 335.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "4.7k 0603 1% 0.1W"
+			(at 466.09 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15645,7 +15839,24 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "DS2413 PIOB open-drain pull-up; 0603 SMD"
+			(at 431.8 281.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 431.8 281.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "4.7k 0603 1% 0.1W"
 			(at 431.8 281.94 0)
 			(effects
 				(font
@@ -15712,7 +15923,24 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "DS2413 PIOA open-drain pull-up; 0603 SMD"
+			(at 440.69 281.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" ""
+			(at 440.69 281.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "4.7k 0603 1% 0.1W"
 			(at 440.69 281.94 0)
 			(effects
 				(font
@@ -15738,7 +15966,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 516.89 321.31 90)
+		(at 537.21 321.31 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15746,7 +15974,7 @@
 		(dnp no)
 		(uuid "b5000000-0000-4000-8002-000000000429")
 		(property "Reference" "R505"
-			(at 516.89 318.77 90)
+			(at 537.21 318.77 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15754,7 +15982,7 @@
 			)
 		)
 		(property "Value" "470R"
-			(at 516.89 321.31 90)
+			(at 537.21 321.31 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15762,7 +15990,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 516.89 321.31 0)
+			(at 537.21 321.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15771,7 +15999,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 516.89 321.31 0)
+			(at 537.21 321.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15779,8 +16007,24 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
-			(at 516.89 321.31 0)
+		(property "Description" "DS2413 PIOA target-feedback series protection; 0603 SMD"
+			(at 542.29 323.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 537.21 321.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 537.21 321.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15805,7 +16049,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 516.89 331.47 90)
+		(at 537.21 331.47 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15813,7 +16057,7 @@
 		(dnp no)
 		(uuid "b5000000-0000-4000-8002-000000000432")
 		(property "Reference" "R506"
-			(at 516.89 328.93 90)
+			(at 537.21 328.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15821,7 +16065,7 @@
 			)
 		)
 		(property "Value" "470R"
-			(at 516.89 331.47 90)
+			(at 537.21 331.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15829,7 +16073,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 516.89 331.47 0)
+			(at 537.21 331.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15838,7 +16082,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 516.89 331.47 0)
+			(at 537.21 331.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15846,8 +16090,24 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor"
-			(at 516.89 331.47 0)
+		(property "Description" "DS2413 PIOB target-feedback series protection; 0603 SMD"
+			(at 542.29 334.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 537.21 331.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 537.21 331.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15929,6 +16189,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16002,6 +16263,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16075,6 +16337,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16148,6 +16411,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16221,6 +16485,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"

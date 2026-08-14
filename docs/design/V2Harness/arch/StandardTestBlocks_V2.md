@@ -1066,9 +1066,10 @@ The practical hardware lessons were:
   during timing and signal-integrity investigation
 * the removable DS2413 breakout was practical for both dedicated GPIO tests
   and mixed DS18B20/DS2413 investigation
-* the ESP32-C3 4.7 kOhm pull-up and the stronger ESP32_V1 pull-up both worked
-  in their respective short-bus builds, so final pull-up selection should be
-  confirmed against the complete V2 population and waveform
+* the ESP32-C3 4.7 kOhm pull-up and the ESP32_V1 2.2 kOhm pull-up both worked
+  in their respective short-bus builds; the DS2413 manufacturer limit makes
+  2.2 kOhm the normal complete-population value, while waveform validation is
+  still required on the routed V2 bus
 * a DS2413 may legitimately share the bus, so DS18B20 tests must identify
   devices by family code rather than treating every discovered ROM as a
   temperature sensor
@@ -1101,12 +1102,16 @@ Provide the bus pull-up through a resistor-limited 2.54 mm three-pin selector:
 | 2 | `ONEWIRE_DQ` common |
 | 3 | 3.3 V through 4.7 kOhm |
 
-A shunt on pins 2–3 selects the normal 4.7 kOhm pull-up. A shunt on pins 1–2
-selects the stronger 2.2 kOhm pull-up proven on ESP32_V1. With no shunt fitted,
-the harness pull-up is disconnected for diagnosis. Every valid shunt position
-therefore includes a resistor and cannot connect `ONEWIRE_DQ` directly to
-3.3 V. Fit only one shunt. The silkscreen shall identify the three positions
-as `2K2 | DQ | 4K7` and mark pins 2–3 as the normal position.
+A shunt on pins 1–2 selects the normal 2.2 kOhm pull-up proven on ESP32_V1.
+This is the maximum passive pull-up resistance specified by the
+[DS2413 data sheet](https://www.analog.com/media/en/technical-documentation/data-sheets/ds2413.pdf)
+for a single-device standard-speed bus and is therefore the conservative
+baseline for the more heavily loaded V2 bus. A shunt on pins 2–3 selects the
+4.7 kOhm DS18B20 comparison value. With no shunt fitted, the harness pull-up
+is disconnected for diagnosis. Every valid shunt position therefore includes
+a resistor and cannot connect `ONEWIRE_DQ` directly to 3.3 V. Fit only one
+shunt. The silkscreen shall identify the three positions as
+`2K2 | DQ | 4K7` and mark pins 1–2 as the normal position.
 
 Other values may be evaluated by connecting an external resistor between the
 separated DQ and 3.3 V observation points while the selector is open. Separate
@@ -1131,7 +1136,7 @@ orientation is unambiguous.
 
 The normal complete population contains two family `0x28` DS18B20 devices and
 one family `0x3A` DS2413. Routine tests shall filter discovered ROMs by family
-and use the same normal 4.7 kOhm selector position without moving any device or
+and use the same normal 2.2 kOhm selector position without moving any device or
 shunt between the temperature-device and GPIO-device test scopes. Removability
 is provided for construction checks, replacement, fault diagnosis and
 reduced-population experiments.
@@ -1182,8 +1187,9 @@ driven for an incompatible purpose.
   Rail and common harness ground; source selection and switching follow
   `StandardControlServices_V2.md`.
 * Provide one bus pull-up to 3.3 V using the resistor-limited three-pin selector
-  defined above. Pins 2–3 and 4.7 kOhm are the normal prototype configuration;
-  pins 1–2 and 2.2 kOhm are the stronger alternative.
+  defined above. Pins 1–2 and 2.2 kOhm are the normal complete-population
+  configuration; pins 2–3 and 4.7 kOhm are the diagnostic DS18B20 comparison
+  configuration.
 * Fit no more than one pull-up-selector shunt. With no shunt, any external
   experimental pull-up value and its connection shall be recorded with the
   test evidence.
@@ -1206,7 +1212,31 @@ driven for an incompatible purpose.
 
 The normal pull-up position shall be confirmed from measured low-level margin,
 rise time and transaction reliability with both DS18B20 devices, the DS2413,
-the routing path and representative wired-sensor leads fitted.
+the routing path and representative wired-sensor leads fitted. For the normal
+population, use 6 us as the provisional minimum recovery-time design target
+until the populated routed bus is measured.
+
+Manufacturer application guidance adds two constraints to that requirement.
+Analog Devices application note 3829, [Determining the Recovery Time for
+Multiple-Slave 1-Wire Networks](https://www.analog.com/en/resources/technical-articles/determining-the-recovery-time-for-multipleslave-1wirereg-networks.html),
+states that the data-sheet recovery interval assumes one slave and a 2.2 kOhm
+pull-up. Multiple parasite-powered slaves require additional recovery time,
+while externally powered devices contribute much less bus-power loading. For
+the normal V2 population, treating the parasite-powered DS2413 as one load and
+each externally powered DS18B20 as one tenth of a load gives an effective
+`N = 1.2`. Its conservative 2.8 V, -40 degrees C equation gives approximately
+5.2 us. The 4.7 kOhm position has lower recharge current and remains a
+diagnostic or reduced-population comparison, not an alternative unqualified
+full-population baseline.
+
+Application note 148, [Guidelines for Reliable Long Line 1-Wire
+Networks](https://www.analog.com/en/resources/technical-articles/guidelines-for-reliable-long-line-1wire-networks.html),
+also makes the final PCB topology, stub length, cable capacitance and waveform
+quality part of acceptance. V1 proves the short-bus device combination and
+software test pattern; it does not prove the V2 TMUX1511 path, switched supply,
+connector orientation, PCB routing or representative sensor leads. Include
+any pull-up fitted inside a substituted sensor or module when assessing the
+effective bus resistance.
 
 #### Isolation And Diagnostics
 
@@ -1266,8 +1296,9 @@ The block enables functional validation of:
 The block concept and prototype arrangement are accepted. The following
 follow-up is assigned under Section 7.6:
 
-* whether 4.7 kOhm remains the normal pull-up after validation and when the
-  2.2 kOhm alternative is permitted
+* measured confirmation of the normal 2.2 kOhm pull-up margin, and the
+  reduced-population conditions under which the 4.7 kOhm comparison position
+  remains reliable
 * acceptable routed-path resistance and capacitance
 * representative maximum wired-sensor lead length for standard validation
 * whether additional connector-side transient or miswiring protection is

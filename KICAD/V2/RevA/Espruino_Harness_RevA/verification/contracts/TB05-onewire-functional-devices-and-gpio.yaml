@@ -1,0 +1,119 @@
+schema_version: 1
+kind: block_contract
+block_id: TB05
+
+# Independent machine-checkable intent derived from Standard Test Blocks
+# Section 6.5. Sensor-lead length, module orientation, native DNP/hand-fit
+# disposition, route sequencing, waveform quality and populated-bus operation
+# remain human-reviewed PCB, assembly and functional-test checks.
+assertions:
+  pin_net:
+    # Two removable, externally powered DS18B20 sensor connections.
+    - {ref: J501, pin: "1", net: TI_GND}
+    - {ref: J501, pin: "2", net: TI_ONEWIRE_DQ}
+    - {ref: J501, pin: "3", net: TEST_BLOCK_3V3}
+    - {ref: J502, pin: "1", net: TI_GND}
+    - {ref: J502, pin: "2", net: TI_ONEWIRE_DQ}
+    - {ref: J502, pin: "3", net: TEST_BLOCK_3V3}
+
+    # Removable parasite-powered DS2413 module interface.
+    - {ref: J504, pin: "1", net: ONEWIRE_PIOB}
+    - {ref: J504, pin: "2", net: ONEWIRE_PIOA}
+    - {ref: J504, pin: "3", net: TI_ONEWIRE_DQ}
+    - {ref: J504, pin: "4", net: TI_GND}
+
+    # Shared DQ bus, normal/diagnostic resistor-limited pull-up selector and
+    # route/observation endpoints.
+    - {ref: J503, pin: "1", net: Net-(J503-A)}
+    - {ref: R501, pin: "2", net: Net-(J503-A)}
+    - {ref: R501, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: J503, pin: "2", net: TI_ONEWIRE_DQ}
+    - {ref: J503, pin: "3", net: Net-(J503-B)}
+    - {ref: R502, pin: "2", net: Net-(J503-B)}
+    - {ref: R502, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: TP501, pin: "1", net: TI_ONEWIRE_DQ}
+    - {ref: J901, pin: "14", net: TI_ONEWIRE_DQ}
+    - {ref: U601, pin: "6", net: TI_ONEWIRE_DQ}
+
+    # DS2413 PIOA pull-up, protected feedback and observation path.
+    - {ref: R504, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: R504, pin: "2", net: ONEWIRE_PIOA}
+    - {ref: R505, pin: "1", net: ONEWIRE_PIOA}
+    - {ref: TP502, pin: "1", net: ONEWIRE_PIOA}
+    - {ref: R505, pin: "2", net: TI_ONEWIRE_GPIO_A_FB}
+    - {ref: J901, pin: "15", net: TI_ONEWIRE_GPIO_A_FB}
+    - {ref: U602, pin: "11", net: TI_ONEWIRE_GPIO_A_FB}
+
+    # DS2413 PIOB pull-up, protected feedback and observation path.
+    - {ref: R503, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: R503, pin: "2", net: ONEWIRE_PIOB}
+    - {ref: R506, pin: "1", net: ONEWIRE_PIOB}
+    - {ref: TP503, pin: "1", net: ONEWIRE_PIOB}
+    - {ref: R506, pin: "2", net: TI_ONEWIRE_GPIO_B_FB}
+    - {ref: J901, pin: "17", net: TI_ONEWIRE_GPIO_B_FB}
+    - {ref: U605, pin: "8", net: TI_ONEWIRE_GPIO_B_FB}
+
+    # Local supply and ground observation points.
+    - {ref: TP504, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: TP505, pin: "1", net: TI_GND}
+
+  component_value:
+    - {ref: J501, value: DS18B20_SENSOR_A}
+    - {ref: J502, value: DS18B20_SENSOR_B}
+    - {ref: J503, value: 2K2_DQ_4K7}
+    - {ref: J504, value: DS2413_MODULE}
+    - {ref: R501, value: 2.2k}
+    - {ref: R502, value: 4.7k}
+    - {ref: R503, value: 4.7k}
+    - {ref: R504, value: 4.7k}
+    - {ref: R505, value: 470R}
+    - {ref: R506, value: 470R}
+    - {ref: TP501, value: ONEWIRE_DQ}
+    - {ref: TP502, value: ONEWIRE_PIOA}
+    - {ref: TP503, value: ONEWIRE_PIOB}
+    - {ref: TP504, value: 3V3}
+    - {ref: TP505, value: GND}
+
+  forbidden_same_net:
+    - id: TB05-F01
+      endpoints: [J501.1, J501.3]
+      reason: Sensor A ground and switched 3.3 V must remain separate.
+    - id: TB05-F02
+      endpoints: [J502.1, J502.3]
+      reason: Sensor B ground and switched 3.3 V must remain separate.
+    - id: TB05-F03
+      endpoints: [J504.3, J504.4]
+      reason: The DS2413 DQ and ground pins must remain separate.
+    - id: TB05-F04
+      endpoints: [J503.1, J503.2]
+      reason: The normal pull-up selector position must retain R501 rather than tie DQ directly high.
+    - id: TB05-F05
+      endpoints: [J503.2, J503.3]
+      reason: The diagnostic pull-up selector position must retain R502 rather than tie DQ directly high.
+    - id: TB05-F06
+      endpoints: [R501.1, R501.2]
+      reason: The normal 2.2 kOhm pull-up resistor must not be bypassed.
+    - id: TB05-F07
+      endpoints: [R502.1, R502.2]
+      reason: The diagnostic 4.7 kOhm pull-up resistor must not be bypassed.
+    - id: TB05-F08
+      endpoints: [J504.1, J504.3]
+      reason: DS2413 PIOB must remain separate from the 1-Wire DQ bus.
+    - id: TB05-F09
+      endpoints: [J504.2, J504.3]
+      reason: DS2413 PIOA must remain separate from the 1-Wire DQ bus.
+    - id: TB05-F10
+      endpoints: [J504.1, J504.2]
+      reason: The two independently controlled DS2413 PIO channels must remain separate.
+    - id: TB05-F11
+      endpoints: [R505.1, R505.2]
+      reason: The PIOA target-feedback path must retain its 470 Ohm protection resistor.
+    - id: TB05-F12
+      endpoints: [R506.1, R506.2]
+      reason: The PIOB target-feedback path must retain its 470 Ohm protection resistor.
+    - id: TB05-F13
+      endpoints: [U601.6, U602.11]
+      reason: DQ and the routed PIOA feedback endpoint must remain independent.
+    - id: TB05-F14
+      endpoints: [U601.6, U605.8]
+      reason: DQ and the routed PIOB feedback endpoint must remain independent.

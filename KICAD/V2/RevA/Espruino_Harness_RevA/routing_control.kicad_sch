@@ -11803,15 +11803,6 @@
 				(hide yes)
 			)
 		)
-		(property "DNP" ""
-			(at 270.51 138.43 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "6eb4558d-fba8-471a-9e09-dd90db751cd1")
 		)
@@ -13824,15 +13815,6 @@
 				(hide yes)
 			)
 		)
-		(property "DNP" ""
-			(at 342.9 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "84d97896-c96c-4b14-8728-449d38abf5f6")
 		)
@@ -15196,15 +15178,6 @@
 		)
 		(property "AISLER_MPN" "4.7nF 10% 16V X7R 0603"
 			(at 264.16 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DNP" ""
-			(at 251.46 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
