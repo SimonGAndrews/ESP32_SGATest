@@ -1,0 +1,64 @@
+schema_version: 1
+kind: block_contract
+block_id: TB09
+
+# Independent machine-checkable intent derived from Standard Test Blocks
+# Section 6.9, the accepted Target Interface contact assignment and the
+# Adafruit Pixel Shifter product 6066 input pinout. Native DNP/hand-fit
+# disposition, header-to-module mechanical engagement, module orientation,
+# generated-5-V containment and encoded-waveform quality remain human-reviewed
+# PCB, assembly and functional-test checks.
+assertions:
+  pin_net:
+    # Target Interface and routing-fabric endpoint continuity to the protected
+    # module-side data path.
+    - {ref: J900, pin: "14", net: TI_RGB_DATA}
+    - {ref: U604, pin: "8", net: TI_RGB_DATA}
+    - {ref: R901, pin: "1", net: TI_RGB_DATA}
+    - {ref: R901, pin: "2", net: RGB_DATA_PROTECTED}
+    - {ref: TP901, pin: "1", net: RGB_DATA_PROTECTED}
+
+    # J902 follows the Adafruit input contact order: G, V, DAT, CLK. CLK is
+    # retained only for mechanical engagement and is explicitly unconnected.
+    - {ref: J902, pin: "1", net: TI_GND}
+    - {ref: J902, pin: "2", net: TEST_BLOCK_3V3}
+    - {ref: J902, pin: "3", net: RGB_DATA_PROTECTED}
+    - {ref: J902, pin: "4", net: unconnected-(J902-Pin_4-Pad4)}
+
+    # Harness-side local bypass and nearby measurement ground.
+    - {ref: C901, pin: "1", net: TEST_BLOCK_3V3}
+    - {ref: C901, pin: "2", net: TI_GND}
+    - {ref: TP902, pin: "1", net: TI_GND}
+
+  component_value:
+    - {ref: R901, value: 470R}
+    - {ref: C901, value: 100nF}
+    - {ref: J902, value: PIXEL_SHIFTER_6066}
+    - {ref: TP901, value: RGB_DATA_PROTECTED}
+    - {ref: TP902, value: RGB_GND}
+
+  forbidden_same_net:
+    - id: TB09-F01
+      endpoints: [R901.1, R901.2]
+      reason: The target-to-module data path must retain its 470 Ohm series protection.
+    - id: TB09-F02
+      endpoints: [C901.1, C901.2]
+      reason: The local bypass capacitor must remain between switched 3.3 V and ground rather than be bypassed.
+    - id: TB09-F03
+      endpoints: [J902.1, J902.2]
+      reason: Module ground and 3.3 V input must remain separate.
+    - id: TB09-F04
+      endpoints: [J902.1, J902.3]
+      reason: Module ground and protected data must remain separate.
+    - id: TB09-F05
+      endpoints: [J902.2, J902.3]
+      reason: Module 3.3 V input must not be tied to the target data path.
+    - id: TB09-F06
+      endpoints: [J902.4, J902.1]
+      reason: The mechanical CLK contact must remain isolated from ground.
+    - id: TB09-F07
+      endpoints: [J902.4, J902.2]
+      reason: The mechanical CLK contact must remain isolated from 3.3 V.
+    - id: TB09-F08
+      endpoints: [J902.4, J902.3]
+      reason: The mechanical CLK contact must remain isolated from protected data.

@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.4
+**Version:** 0.5
 
-**Last Updated:** 26 July 2026
+**Last Updated:** 15 August 2026
 
 ## 1. Purpose
 
@@ -1632,14 +1632,15 @@ and [pinout](https://learn.adafruit.com/adafruit-pixel-shifter/pinouts).
 The reusable harness PCB shall provide a right-angle four-position 2.54 mm male
 header at the board edge. Its horizontal pins engage the module's four-position
 input screw terminal so that the module is removable and overhangs the harness
-PCB edge. The positions follow the module input order:
+PCB edge. The positions follow the module input connector numbering and
+physical order defined by Adafruit's product pinout and source CAD:
 
-| Module input | Harness connection |
-|---|---|
-| `V` | 3.3 V |
-| `G` | GND |
-| `DAT` | addressable RGB data input |
-| `CLK` | no electrical connection |
+| Module input contact | Module marking | Harness connection |
+|---:|---|---|
+| 1 | `G` | GND |
+| 2 | `V` | 3.3 V |
+| 3 | `DAT` | addressable RGB data input |
+| 4 | `CLK` | no electrical connection |
 
 The `CLK` header position is retained only for mechanical alignment with the
 four-input module terminal and shall have no harness PCB copper connection.

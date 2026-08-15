@@ -75,6 +75,9 @@ contracts/
   TB02-analogue-pwm-feedback.yaml
   TB03-i2c-functional-device.yaml
   TB04-spi-functional-device-and-storage.yaml
+  TB05-onewire-functional-devices-and-gpio.yaml
+  TB07-uart-crosslink-and-external-peer.yaml
+  TB09-addressable-rgb-output.yaml
   SYS01-power-events-to-rack-control.yaml
 ```
 

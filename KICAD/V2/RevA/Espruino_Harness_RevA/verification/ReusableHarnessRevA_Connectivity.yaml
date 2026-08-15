@@ -32,5 +32,7 @@ contracts:
     file: contracts/TB05-onewire-functional-devices-and-gpio.yaml
   - id: TB07
     file: contracts/TB07-uart-crosslink-and-external-peer.yaml
+  - id: TB09
+    file: contracts/TB09-addressable-rgb-output.yaml
   - id: SYS01
     file: contracts/SYS01-power-events-to-rack-control.yaml

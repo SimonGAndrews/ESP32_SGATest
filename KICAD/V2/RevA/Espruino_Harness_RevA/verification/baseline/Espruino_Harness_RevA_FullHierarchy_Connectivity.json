@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "6a0280dc0bb46e6c39f9900e944e61d5375a47630e9df11ac0e5098cb744c7fd"
+      "sha256": "7ea89e92f5a678899c7f26f9189953186d8affbabd469ce27238a0e8f08cba5a"
     },
     {
       "id": "PC01",
@@ -67,6 +67,11 @@
       "id": "TB07",
       "file": "contracts/TB07-uart-crosslink-and-external-peer.yaml",
       "sha256": "11c82d6277815712e4cffa7d30fb3069697c439e133540251901675bbd72d5da"
+    },
+    {
+      "id": "TB09",
+      "file": "contracts/TB09-addressable-rgb-output.yaml",
+      "sha256": "8ee11255c60f4a5c27cd65f4062acb8fef328d0fee25ce5ddcbb141a386045a7"
     },
     {
       "id": "SYS01",
@@ -186,6 +191,17 @@
       }
     },
     {
+      "id": "TB09",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 25,
+      "assertions": {
+        "pin_net": 12,
+        "component_value": 5,
+        "forbidden_same_net": 8
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -197,7 +213,7 @@
       }
     }
   ],
-  "connectivity_sha256": "1cedb4291244f6dad59b885f5de0da2fc8ec6686c884e1b3509cb35783d07b76",
+  "connectivity_sha256": "a059db445a6ff45b63bce8ebfac92bfdd5dfac02489cbc3b580db6a37332518a",
   "components": [
     {
       "ref": "C201",
@@ -3415,7 +3431,7 @@
         },
         {
           "ref": "J902",
-          "pin": "1"
+          "pin": "2"
         },
         {
           "ref": "JP301",
@@ -4850,7 +4866,7 @@
         },
         {
           "ref": "J902",
-          "pin": "2"
+          "pin": "1"
         },
         {
           "ref": "JBP1",
