@@ -24,6 +24,14 @@ PCB work will start from Section 6, **PCB implementation action register**, of
 the [Rev-A Design Baseline](ReusableHarnessRevA_DesignBaseline.md). Detailed
 content will be added only as placement and routing require it.
 
+The selected
+[Critical Prototype Exercise](ReusableHarnessRevA_CriticalPrototypeExercise.md)
+defines a bounded, sub-GBP-75 soldered and wire-wrapped pre-manufacture workflow
+for the few circuits where targeted physical proof justifies its cost. Complete
+the schematic baseline before freezing its experiment designs or purchasing
+BOM. Successful experiments reduce risk but do not replace the board-level
+manufacturing-release checks in this document.
+
 ## Appendix A - Design Best-Practice References
 
 These references provide background guidance for PCB implementation and
