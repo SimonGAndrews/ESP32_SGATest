@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "ab85757efbeb8b6733a907d03183171262b8c4f3bb70c8537445ee86ccd3a79d"
+      "sha256": "6a0280dc0bb46e6c39f9900e944e61d5375a47630e9df11ac0e5098cb744c7fd"
     },
     {
       "id": "PC01",
@@ -62,6 +62,11 @@
       "id": "TB05",
       "file": "contracts/TB05-onewire-functional-devices-and-gpio.yaml",
       "sha256": "45e3b7beddf14049375e0bee297d15947b3963e06e1fa2f828b511557a4e1fee"
+    },
+    {
+      "id": "TB07",
+      "file": "contracts/TB07-uart-crosslink-and-external-peer.yaml",
+      "sha256": "11c82d6277815712e4cffa7d30fb3069697c439e133540251901675bbd72d5da"
     },
     {
       "id": "SYS01",
@@ -170,6 +175,17 @@
       }
     },
     {
+      "id": "TB07",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 76,
+      "assertions": {
+        "pin_net": 48,
+        "component_value": 12,
+        "forbidden_same_net": 16
+      }
+    },
+    {
       "id": "SYS01",
       "kind": "system_contract",
       "status": "pass",
@@ -181,7 +197,7 @@
       }
     }
   ],
-  "connectivity_sha256": "a3644a6840d0067a1fe4aeefb660db7b7d8c66b40813915c87ad9b4591dead1e",
+  "connectivity_sha256": "1cedb4291244f6dad59b885f5de0da2fc8ec6686c884e1b3509cb35783d07b76",
   "components": [
     {
       "ref": "C201",
@@ -430,8 +446,13 @@
     },
     {
       "ref": "J701",
-      "value": "UART_PEER_DIAGNOSTIC",
-      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical"
+      "value": "UART_PEER",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+    },
+    {
+      "ref": "J702",
+      "value": "UART_B_DIAGNOSTIC_NO_DRIVE",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
     },
     {
       "ref": "J900",
@@ -3273,7 +3294,7 @@
       "nodes": [
         {
           "ref": "J701",
-          "pin": "3"
+          "pin": "2"
         },
         {
           "ref": "U701",
@@ -4044,8 +4065,8 @@
       "name": "/TI_UART_B_RX",
       "nodes": [
         {
-          "ref": "J701",
-          "pin": "4"
+          "ref": "J702",
+          "pin": "2"
         },
         {
           "ref": "J901",
@@ -4061,8 +4082,8 @@
       "name": "/TI_UART_B_TX",
       "nodes": [
         {
-          "ref": "J701",
-          "pin": "2"
+          "ref": "J702",
+          "pin": "1"
         },
         {
           "ref": "J901",
@@ -4773,11 +4794,11 @@
         },
         {
           "ref": "J701",
-          "pin": "5"
+          "pin": "3"
         },
         {
-          "ref": "J701",
-          "pin": "6"
+          "ref": "J702",
+          "pin": "3"
         },
         {
           "ref": "J900",

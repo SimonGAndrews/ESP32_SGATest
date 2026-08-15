@@ -145,7 +145,7 @@ is a board-level decision. A material change returns the affected block to
 | TB03 | I2C functional device | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [Functional device](review-images/TB03-i2c-functional-device.png); [event handshake](review-images/TB03-supervisor-event-handshake.png) | Verified |
 | TB04 | SPI functional device and fixed microSD storage extension | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB04-spi-functional-device-and-storage.png) | Verified |
 | TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB05-onewire-functional-devices-and-gpio.png) | Verified |
-| TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
+| TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB07-uart-crosslink-and-external-peer.png) | Verified |
 | TB09 | Addressable RGB output | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | TBD | Draft |
 | TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | TBD | Draft |
 | BP01 | Rack Control and backplane interface | High | Root schematic | Standard Control Services | TBD | Draft |
@@ -929,7 +929,7 @@ guaranteed electrical limits and powered-off behaviour.
 | Requirements inspection | Controlled Routing and Combined Capability Connection Matrix | Accepted: the selected five-switch approach implements the complete 19-path inventory and preserves the required route-entry grouping |
 | Behaviour and safe-state analysis | Operating table, partial-power review and current full-hierarchy normalized connectivity | Circuit approach accepted; powered-off leakage, 3.6 V boundary and complete controller-reset margin remain physical/RC02 checks |
 | Manufacturer source screen | Sources and conclusions above | Accepted for circuit approach; no architecture or topology change required |
-| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete ten-contract set passes 916 checks |
+| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete eleven-contract set passes 992 checks |
 | Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
 | Symbol-to-footprint pin mapping | TMUX1511 Rev. B PW pin table, PW0014A package drawing, project-local symbol, installed KiCad footprint and current PCB pads | Accepted: pins 1–14, package family, body size, pitch, pad order and pin-1 orientation agree; the footprint's IPC land pattern is a permitted alternate to TI's example pattern |
 | Visual schematic review | `review-images/RC01-routing-fabric.png` | Accepted current reviewed circuit capture after removal of the six redundant resistors |
@@ -1162,7 +1162,7 @@ schematic; final manufacturer assignment remains part of BOM reconciliation.
 |---|---|
 | Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
-| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete ten-contract set passes all 916 checks. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete eleven-contract set passes all 992 checks. |
 | Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
 | Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
 | Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
@@ -1259,7 +1259,7 @@ manufacturer component drawings/specifications above.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; no architecture change required. |
 | V1 prototype evidence | Accepted as proof of the two-pair 470 Ω functional pattern, including link-removal negative control; not used as Rev-A package proof. |
-| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted ten-contract baseline passes all 916 checks. |
+| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted eleven-contract baseline passes all 992 checks. |
 | Package review | Accepted SMD resistors, THT headers, shunts and existing test pins are compatible with their intended roles and footprints. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings after migrating `JP101/JP102` to the project-local symbol. |
 | Visual schematic review | Accepted focused image linked above; both paths, values, endpoints, assembly-stage DNP test points and operating notes are legible. |
@@ -1402,7 +1402,7 @@ isolation boundary.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; the corrected MCP3008 isolation topology implements the existing architecture without changing it. |
 | V1 prototype evidence | Accepted for the 10 kOhm filtered-PWM function and concurrent target/MCP3008 ADC comparison; not used as Rev-A package or 1 uF performance proof. |
-| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete ten-contract baseline passes all 916 checks. |
+| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete eleven-contract baseline passes all 992 checks. |
 | Package review | Accepted `R201`, `C201`, three isolation headers, three shunts, stimulus header and existing board-wide test-pin selection. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the complete Block 2 path, all three isolation boundaries, stimulus precautions, filter values and the MCP3008 CH0/`J401.1` cross-block endpoint. |
@@ -1540,7 +1540,7 @@ effective resistance, capacitance, rise time and low-level margin.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.3, including the corrected device-only SDA/SCL isolation and downstream RESET/INTA biasing. |
 | V1 prototype evidence | Accepted for the functional I2C device, GPIO feedback, interrupt and Grove-extension concepts; not used as Rev-A package, isolation or event-stage proof. |
-| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete ten-contract set passes all 916 checks. |
+| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete eleven-contract set passes all 992 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted in the two focused images linked above. Together they show the shared bus, pull-ups, all device-isolation boundaries, isolated supply and biases, full GPIO breakout, feedback/interrupt paths and both Supervisor event stages. |
 | PCB synchronization | Accepted for schematic-baseline scope. Every contracted TB03 reference occurs exactly once on the current PCB, including the project-local `J301` footprint. The PCB carries the final `MCP23017_GPIO` value for `J302` and exact U301/Q301/Q302 metadata. Final placement, pad-level physical review and routing remain PCB-stage work. |
@@ -1658,7 +1658,7 @@ solder rework.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.4, including the fixed underside microSD decision, shared SPI bus, independent chip selects, CH0 cross-block isolation and required observation points. |
 | V1 prototype evidence | Accepted for the socketed MCP3008 and shared-bus/second-chip-select concepts; not used as ADA5683, local-capacitance, footprint or routed-timing proof. |
-| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete ten-contract baseline passes all 916 checks. |
+| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete eleven-contract baseline passes all 992 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the MCP3008 core and breakout, both inactive-state chip-select pull-ups, fixed BFF interface, local capacitance, hand-fit state and seven observation points. |
 | PCB synchronization | Accepted for schematic-baseline scope. U401 and J401 carry their exact MPNs and DNP state; J402 occurs once on `B.Cu` with the accepted project footprint, DNP state, six correct electrical pad nets, eight unnumbered mechanical lands and no paste apertures. Final placement and routing remain PCB-stage work. |
@@ -1820,7 +1820,7 @@ low-level margin.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.5, including normal and diagnostic selector states, removable devices, simultaneous protected PIO feedback and safe route sequencing. |
 | V1 prototype evidence | Accepted for the two-sensor and mixed DS18B20/DS2413 functional patterns; explicitly not used as proof of the V2 switch path, connectors, layout or leads. |
-| Connectivity contract | `verification/contracts/TB05-onewire-functional-devices-and-gpio.yaml` passes 65 checks: 36 pin/net, 15 component-value and 14 forbidden-direct-path assertions. The complete ten-contract baseline passes all 916 checks. |
+| Connectivity contract | `verification/contracts/TB05-onewire-functional-devices-and-gpio.yaml` passes 65 checks: 36 pin/net, 15 component-value and 14 forbidden-direct-path assertions. The complete eleven-contract baseline passes all 992 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It clearly records DQ and feedback flow, selector states, removable devices, observation points, power-off reconfiguration and DS2413 retained-state behaviour. |
 | PCB synchronization | Accepted for schematic-baseline scope. `J501`–`J504`, `R501`–`R506` and `TP501`–`TP505` each occur once on the current PCB with the accepted footprints and pad nets. `J501`–`J504` carry native through-hole DNP attributes matching the saved schematic. Final placement, silkscreen, routing and accessory fit remain PCB-stage work. |
@@ -1842,6 +1842,178 @@ low-level margin.
   accessory pull-up.
 
 No TB05 schematic-baseline exception is accepted at this stage.
+
+### 4.10 TB07 — UART crosslink and external peer
+
+**Purpose and requirements:** Provide an automated protected full-duplex
+crosslink between logical target UART endpoints A and B, plus a mutually
+exclusive switched endpoint-A connection to an independently controlled 3.3 V
+external peer. Preserve a safe open state during reset and partial power, and
+provide separate peer and high-impedance diagnostic connectors. See Standard
+Test Blocks Section 6.7 and the Combined Capability Connection Matrix Section
+5.
+**Source schematic:** `standard_test_blocks.kicad_sch`, references `U701`,
+`C701`, `R701`–`R708`, `J701` and `J702`; route endpoints are implemented by
+RC01 `U603`/`U604`, and RC02 `U611.GPA3`–`GPA6` owns `UP01_EN`–`UP04_EN`.
+**Visual review:** [UART crosslink and external-peer image](review-images/TB07-uart-crosslink-and-external-peer.png).
+**Risk:** Standard
+**Status:** Verified schematic baseline. Requirements, V1 evidence, current
+manufacturer guidance, application notes, circuit operation, exact components,
+full-hierarchy ERC, deterministic connectivity, PCB synchronization and the
+focused visual record are accepted. Final placement, routing, connector access,
+powered-off measurements and populated UART validation remain PCB-stage and
+prototype actions.
+
+#### V1 evidence and Rev-A boundary
+
+The classic ESP32 V1 harness proved a fixed full-duplex UART1/UART2 crosslink
+while UART0 remained the independent control connection. The same hardware
+helped reproduce and resolve Espruino issue 2718, then passed complete and
+hash-correct 32-, 64-, 65-, 96-, 128- and 200-byte transfers in both
+directions. It also passed simultaneous unequal full-duplex traffic, 9600,
+57600 and 115200 baud, 8N1, 7E1 and 8O2 framing, event and polling reception,
+listener changes, repeated setup, `unsetup` and mismatch recovery. This is
+strong evidence for the crossed-UART function, 470 Ohm protection and test
+method.
+
+Rev-A retains that capability but replaces V1's fixed/manual arrangement with
+four TMUX1511 channels under target-owned routing control. It also adds the
+endpoint-A external-peer mode, powered-off isolation, deterministic control
+pull-downs and separate peer/diagnostic connectors. V1 does not prove the new
+TMUX path, controller state transitions, partial-power behaviour, connector
+orientation or completed-PCB signal integrity. The critical-prototype workflow
+therefore includes representative bidirectional UART traffic in Experiment A.
+
+#### Implemented functional, signal and safety flow
+
+```text
+UP01: TI_UART_A_TX -- U701 S1/D1 -- R701 470R --> TI_UART_B_RX
+UP02: TI_UART_B_TX -- U701 S2/D2 -- R702 470R --> TI_UART_A_RX
+
+UP03: TI_UART_A_TX -- U701 S3/D3 -- R703 470R --> J701.1 UART_PEER_RX
+UP04: J701.2 UART_PEER_TX -- U701 S4/D4 -- R704 470R --> TI_UART_A_RX
+                                           J701.3 --> TI_GND
+
+J702.1 --> TI_UART_B_TX    high-impedance observation only
+J702.2 --> TI_UART_B_RX    high-impedance observation only
+J702.3 --> TI_GND          no external drive and no power output
+
+U611 GPA3..GPA6 --> UP01_EN..UP04_EN --> U701 SEL1..SEL4
+                         |
+                         +-- R705..R708 100k --> TI_GND
+```
+
+`UART_PEER_RX` and `UART_PEER_TX` use the peer perspective: peer RX receives
+endpoint-A TX, and peer TX drives endpoint-A RX. J701 is the only standard
+active-peer interface. J702 directly observes endpoint B and shall not be
+driven. Neither connector supplies power; a peer must be independently powered,
+use 3.3 V signalling and share `TI_GND`.
+
+| `UP01..UP04` | Permitted state | Required precondition |
+|---|---|---|
+| `0000` | Safe/open | Default, reset, failed configuration and state-change state |
+| `1100` | Target A/B full-duplex crosslink | External peer transmitter disabled; target transmitters enabled only after control readback |
+| `0011` | Endpoint-A external peer | Endpoint-B crosslink open; peer and target transmitters enabled only after control readback |
+| Any other combination | Prohibited | Reject before writing; return to `0000` on failure |
+
+Drivers shall be disabled before leaving an active state. Firmware clears and
+verifies the old state, writes the complete new state, reads it back, then
+enables transmitters. R705–R708 supplement the TMUX1511 internal pull-downs so
+all four paths remain open while U611 is reset or high impedance.
+
+#### Manufacturer source and application review
+
+The current [TMUX1511 product page](https://www.ti.com/product/TMUX1511) and
+[Rev. B data sheet](https://www.ti.com/lit/ds/symlink/tmux1511.pdf) remain the
+authority for U701. The RC01 manufacturer review applies directly to this
+identical device and package:
+
+- the data sheet confirms independent bidirectional SPST channels, active-high
+  controls, fail-safe logic inputs, nominal internal pull-downs, powered-off
+  isolation to 3.6 V, the PW pinout and the accepted 0.1 uF local bypass
+- [Selecting the Correct Texas Instruments Signal Switch, Rev. E](https://www.ti.com/lit/an/szza030e/szza030e.pdf)
+  confirms that signal range, resistance, capacitance, leakage, bandwidth,
+  powered-off behaviour and logic compatibility are the relevant selection
+  criteria; U701 passes the device-level screen
+- [Eliminate Power Sequencing with Powered-off Protection Signal Switches,
+  Rev. C](https://www.ti.com/lit/ab/scda015c/scda015c.pdf) confirms why the
+  powered-off feature is required when a target or peer can remain powered
+- [1.8-V Logic for Multiplexers and Signal Switches, Rev. C](https://www.ti.com/lit/pdf/SCAA126)
+  supports direct 3.3 V MCP23017 control without level translation
+- TI's SPI isolation application brief is a useful high-speed digital example,
+  but no UART-specific TMUX1511 implementation note was identified. UART adds
+  no device-level topology requirement beyond the reviewed generic switch,
+  powered-off and safe-state rules
+
+The [Würth 61300311121 data sheet](https://www.we-online.com/components/products/datasheet/61300311121.pdf)
+confirms the selected three-position straight 2.54 mm THT header. The standard
+KiCad 1x3 vertical footprint's 1.0 mm drill lies within Würth's recommended
+1.10 +/- 0.15 mm finished-hole range.
+
+#### Electrical review and calculations
+
+At 3.3 V, the 3.3 V MCP23017 control outputs have substantial margin against
+the TMUX1511 fixed `VIH = 1.2 V` minimum and `VIL = 0.45 V` maximum. With the
+maximum +/-2 uA control-input leakage considered alone, each 100 kOhm external
+pull-down develops no more than 0.2 V, below `VIL`; the internal nominal 6 MOhm
+pull-down adds further bias.
+
+Each active signal path contains one switch and one 470 Ohm resistor. Using the
+4.5 Ohm maximum switch resistance gives 474.5 Ohm maximum nominal series path
+resistance before PCB and connector contributions. A worst illustrative 3.6 V
+output disagreement would therefore be limited to about 7.6 mA, below the
+switch's 25 mA continuous-signal limit, but output contention remains a
+prohibited fault rather than an operating mode.
+
+The TMUX1511's 6 pF maximum on-capacitance contributes about 2.8 ns of simple
+`RC` time with 470 Ohm, negligible compared with the 8.68 us bit period at the
+V1-proven 115200 baud. Complete target, PCB, connector, peer and instrument
+capacitance determines the real edge and maximum usable baud; retain waveform
+evidence rather than treating this device-only calculation as completed-board
+proof.
+
+With `ROUTING_LOGIC_3V3` absent, U701 provides powered-off isolation only while
+all signal pins remain within 0 V to 3.6 V. Overshoot, leakage and any resulting
+unpowered-rail voltage remain physical prototype checks. J702 instruments must
+be high impedance so they do not alter the endpoint-B load or become an
+uncontrolled source.
+
+#### Exact components and package state
+
+| References | Current implementation | Review result |
+|---|---|---|
+| `U701` | Texas Instruments `TMUX1511PWR`; PW TSSOP-14; `Package_SO:TSSOP-14_4.4x5mm_P0.65mm` | Exact active orderable MPN, project-local symbol, PW pins 1–14, footprint pad order and AISLER seven-device assignment accepted under the RC01 package review. |
+| `C701` | 100 nF, 10%, 16 V, X7R 0603; `AISLER_MPN = 100nF 10% 16V X7R 0603` | Accepted local U701 bypass. Final supplied part and placement remain release checks. |
+| `R701`–`R704` | 470 Ohm, 1%, 0.1 W 0603; `AISLER_MPN = 470R 0603 1% 0.1W` | Values, standard footprints and four distinct protection functions accepted. |
+| `R705`–`R708` | 100 kOhm, 1%, 0.1 W 0603; `AISLER_MPN = 100k 0603 1% 0.1W` | Values, standard footprints and individual safe-state descriptions accepted; all four are required fitted components. |
+| `J701`, `J702` | Würth `61300311121`; 1x3 vertical 2.54 mm THT; `Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical` | Exact MPN, footprint and pin mappings accepted. Native DNP retains both PCB footprints while excluding automated through-hole fitting. J701 is the active endpoint-A peer interface; J702 is endpoint-B observation only. |
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted against Standard Test Blocks Section 6.7, the UP01–UP04 connection matrix and the updated separate-header architecture. |
+| V1 prototype evidence | Accepted for full-duplex crosslink function, 470 Ohm protection and at least 115200 baud; explicitly not used as proof of TMUX switching, external-peer mode or partial power. |
+| Connectivity contract | `verification/contracts/TB07-uart-crosslink-and-external-peer.yaml` passes 76 checks: 48 pin/net, 12 component-value and 16 forbidden-direct-path assertions. The complete eleven-contract baseline passes all 992 checks. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-15: zero errors and zero warnings. |
+| Visual schematic review | Accepted focused image linked above. It records the complete switch paths, permitted state vectors, safe-state pull-downs, peer-perspective names, connector restrictions and absence of connector power. |
+| PCB synchronization | Accepted for schematic-baseline scope. `U701`, `C701`, `R701`–`R708`, `J701` and `J702` each occur once on the current PCB with the accepted footprints and pad nets. J701/J702 carry native `through_hole dnp` attributes; their pads are respectively peer RX/peer TX/GND and endpoint-B TX/endpoint-B RX/GND. Final placement and routing remain PCB-stage work. |
+| Planned physical proof | Critical Prototype Experiment A includes a representative TMUX1511 path, safe-state control and bidirectional UART traffic before manufacturing release. |
+
+#### Closure actions and accepted exceptions
+
+- Keep U701, C701 and R701–R708 as one compact functional group over a
+  materially continuous ground reference. Avoid unnecessary UART stubs and
+  preserve clear separation from fast switching and power routes.
+- Place J701 and J702 as visibly separate connectors. Mark pin 1, `PEER`,
+  `DIAGNOSTIC - NO DRIVE`, signal direction, GND and the absence of connector
+  power. Confirm cable and probe access using the actual headers.
+- Exercise `0000`, `1100` and `0011` on the prototype and populated board,
+  including cold start, Hardware Clear, route readback, bidirectional traffic,
+  V1-proven framing/rates and external-peer operation. Reject every other
+  state and retain powered-off and signal-integrity captures.
+
+No TB07 schematic-baseline exception is accepted at this stage.
 
 ## 5. System integration review
 
@@ -1925,6 +2097,9 @@ and close it only with the evidence named below.
 | `PCB-TB05-01` | TB05 connector and module mechanics | Place J501/J502 for practical sensor-lead entry and mark each terminal `GND | DQ | 3V3`, explicitly accounting for the reversed C3 V1 terminal order. Mark J504 pin 1 and `PIOB | PIOA | DQ | GND`; verify the selected DS2413 breakout, downward female header, body clearance and fitted orientation using the actual parts. Keep J503 accessible and mark `2K2 | DQ | 4K7` with pins 1–2 as normal. | Actual-part inspection, 3D review, printed 1:1 access/orientation check and final hand-assembly record | Open |
 | `PCB-TB05-02` | TB05 1-Wire topology and routing | Keep the DQ trunk and J501/J502/J504 branches short over a materially continuous ground reference, avoid unnecessary stubs and fast aggressors, and preserve access to TP501–TP505. Record PCB, connector, module and representative sensor-lead loading; include every accessory-provided pull-up when calculating effective resistance. | Routed-layout inspection, PCB DRC, topology/lead record and probe-access review | Open |
 | `PCB-TB05-03` | TB05 populated-bus operation | With the normal full population and representative leads, measure DQ low level, rise time and at least the provisional 6 us recovery-time target. Retain repeated three-ROM search, DS18B20 scratchpad/CRC, DS2413 command/status and both protected PIO-feedback results. Compare J503's normal 2.2 kOhm and diagnostic 4.7 kOhm positions and record the supported population/lead conditions for each. | Oscilloscope captures, resistance measurements and retained functional/soak-test evidence | Open |
+| `PCB-TB07-01` | TB07 switch placement and routing | Keep U701, C701 and R701–R708 as one compact functional group over a materially continuous ground reference. Place C701 at U701 VDD/GND, retain each 470 Ohm resistor in its owning switched path, minimize UART stubs and separate the paths from fast power/control aggressors. | Placement and routed-path inspection, PCB DRC and ground-reference review | Open |
+| `PCB-TB07-02` | TB07 connector access and identification | Place DNP/hand-fitted J701 and J702 as physically and visually separate 1x3 headers that cannot be mistaken for a symmetric 2x3 interface. Mark pin 1, `PEER`, `DIAGNOSTIC - NO DRIVE`, peer-perspective TX/RX, GND and no-power status; confirm cable and high-impedance probe access using the actual parts. | Actual-header inspection, 3D review, printed 1:1 access check and silkscreen review | Open |
+| `PCB-TB07-03` | TB07 safe-state and populated operation | Verify `0000` safe/open, `1100` full-duplex crosslink and `0011` endpoint-A peer states with controller readback; reject every other state. Capture cold start, Hardware Clear, power-down and powered-off isolation, then retain bidirectional UART results at V1-proven rates/framing and characterize the completed-board maximum rate and edge quality. | Continuity/state matrix, oscilloscope captures, routing-control logs and retained UART/peer functional-test evidence | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |

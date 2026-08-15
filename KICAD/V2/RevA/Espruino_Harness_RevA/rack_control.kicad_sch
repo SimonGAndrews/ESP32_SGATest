@@ -2433,6 +2433,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 190.5 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "34a014da-6f2c-4412-a47b-fdbb8f480883")
 		)
@@ -2715,6 +2724,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 196.85 93.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3e88708f-7c30-41dc-b3b4-1d19d02132ef")
 		)
@@ -2799,6 +2817,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 208.28 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a45da0a2-0cbb-4300-bde0-8395e7ee04f6")
 		)
@@ -2861,6 +2888,15 @@
 			)
 		)
 		(property "Description" "MCP23017-E/SO 16-bit I2C I/O expander, SOIC-28"
+			(at 100.33 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 100.33 93.98 0)
 			(effects
 				(font
@@ -3023,6 +3059,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 127 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000035")
 		)
@@ -3082,6 +3127,15 @@
 			)
 		)
 		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
+			(at 48.26 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 48.26 87.63 0)
 			(effects
 				(font
@@ -3157,6 +3211,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 175.26 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000086")
 		)
@@ -3216,6 +3279,15 @@
 			)
 		)
 		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
+			(at 261.62 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 261.62 31.75 0)
 			(effects
 				(font
@@ -3287,6 +3359,15 @@
 		)
 		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 228.6 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 228.6 31.75 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3370,6 +3451,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 234.95 38.1 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000112")
 		)
@@ -3429,6 +3519,15 @@
 			)
 		)
 		(property "Description" "Open-drain reset or boot stage; G=1 S=2 D=3"
+			(at 238.76 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 238.76 59.69 0)
 			(effects
 				(font
@@ -3500,6 +3599,15 @@
 		)
 		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
 			(at 210.82 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 210.82 59.69 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3583,6 +3691,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 219.71 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000132")
 		)
@@ -3650,6 +3767,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 71.12 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b2000000-0000-4000-8000-000000000161")
 		)
@@ -3709,6 +3835,15 @@
 			)
 		)
 		(property "Description" "Resistor with Rev-A default 0603 metric footprint"
+			(at 49.53 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 49.53 64.77 0)
 			(effects
 				(font

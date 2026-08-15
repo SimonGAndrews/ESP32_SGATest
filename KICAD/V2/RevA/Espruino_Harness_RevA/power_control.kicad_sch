@@ -8964,6 +8964,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 107.95 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "836c5d0d-b5aa-4443-9302-a26d5f3c594e")
 		)
@@ -9043,6 +9052,15 @@
 			)
 		)
 		(property "Description" "TPS2116 VIN1 local input capacitor"
+			(at 276.86 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 276.86 46.99 0)
 			(effects
 				(font
@@ -9378,6 +9396,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 173.99 160.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d9ed0be1-5e94-4ff8-b359-e92447191200")
 		)
@@ -9640,6 +9667,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 113.03 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "038aa3cd-1577-450f-9e5d-ef29969523b5")
 		)
@@ -9701,6 +9737,15 @@
 			)
 		)
 		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
+			(at 156.21 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 156.21 49.53 0)
 			(effects
 				(font
@@ -9771,6 +9816,15 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 167.64 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 167.64 146.05 0)
 			(effects
 				(font
@@ -9977,6 +10031,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 132.08 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "ef7ce754-db13-44e1-bc1e-aa55e3ddd401")
 		)
@@ -10077,6 +10140,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 167.64 256.54 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10205,6 +10277,15 @@
 			)
 		)
 		(property "Description" "TPS2116 VIN1 local input capacitor"
+			(at 245.11 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 245.11 57.15 0)
 			(effects
 				(font
@@ -10352,6 +10433,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 200.66 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "f91b489a-e7ad-469a-bbb2-69da63abbe0a")
 		)
@@ -10443,6 +10533,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 215.9 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "845b6bc5-bcc5-4752-9159-1b85ed3c5ce9")
 		)
@@ -10502,6 +10601,15 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 243.84 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 243.84 200.66 0)
 			(effects
 				(font
@@ -10583,6 +10691,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 151.13 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10720,6 +10837,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 289.56 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "73f64d66-02c7-461c-8246-4ac7bad6bc7a")
 		)
@@ -10783,6 +10909,15 @@
 			)
 		)
 		(property "Description" "Dual 2-input AND gate qualifying target-power and low-current-range controls"
+			(at 120.65 246.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 120.65 246.38 0)
 			(effects
 				(font
@@ -10884,6 +11019,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 74.93 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "c54e6f9d-24ba-44b9-8fc8-a9110f26959b")
 		)
@@ -10957,6 +11101,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 110.49 227.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11034,6 +11187,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 189.23 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "f8293010-a012-410c-b091-4952bdbc56ad")
 		)
@@ -11095,6 +11257,15 @@
 			)
 		)
 		(property "Description" "BAT54C dual Schottky diode, common cathode pin 3, SOT-23"
+			(at 156.21 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 156.21 30.48 0)
 			(effects
 				(font
@@ -11176,6 +11347,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 196.85 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "af155b45-b7e2-47b2-ae73-fb65046feb72")
 		)
@@ -11239,6 +11419,15 @@
 			)
 		)
 		(property "Description" "INA228 low-offset low-range target current, voltage and power monitor; I2C address 0x41"
+			(at 303.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 303.53 207.01 0)
 			(effects
 				(font
@@ -11411,6 +11600,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 224.79 54.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "28e79385-b78c-452b-ad75-97a8972fe1e9")
 		)
@@ -11484,6 +11682,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 208.28 254 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11697,6 +11904,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 82.55 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "7d212d13-4131-4b7f-bdac-34270cd7dbaf")
 		)
@@ -11770,6 +11986,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 86.36 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11847,6 +12072,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 292.1 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "bd84e805-453a-4594-a3fe-b26e053219f0")
 		)
@@ -11908,6 +12142,15 @@
 			)
 		)
 		(property "Description" "TPS2116 VIN1 local input capacitor"
+			(at 238.76 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 238.76 30.48 0)
 			(effects
 				(font
@@ -12055,6 +12298,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 336.55 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "92f523f8-0a37-4eda-ae7f-e80ab1e7bf5a")
 		)
@@ -12130,6 +12382,15 @@
 		)
 		(property "Description" "TPS2116DRL two-input 3.3 V power multiplexer for Rev-A Routing Logic supply selection"
 			(at 257.81 45.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 257.81 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12426,6 +12687,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 243.84 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b2d8049e-906b-4a34-b21a-25672240ea17")
 		)
@@ -12489,6 +12759,15 @@
 			)
 		)
 		(property "Description" "TXU0101DBVR fixed-direction 3.3 V-to-5 V range driver with Ioff partial-power protection"
+			(at 193.04 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 193.04 248.92 0)
 			(effects
 				(font
@@ -12578,6 +12857,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 354.33 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "81bbb7ee-80e1-4a9f-9ec6-3e3a8a49f624")
 		)
@@ -12653,6 +12941,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 177.8 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "eeb650e5-c371-4517-9fbc-f5c5927a3021")
 		)
@@ -12714,6 +13011,15 @@
 			)
 		)
 		(property "Description" "TPS2116 VIN1 local input capacitor"
+			(at 289.56 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 289.56 45.72 0)
 			(effects
 				(font
@@ -12797,6 +13103,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 168.91 237.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "f0560740-2902-42a9-a8b6-afd0b6a1b427")
 		)
@@ -12872,6 +13187,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 90.17 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "23dabd69-7dcf-493e-9068-d6bdcd633774")
 		)
@@ -12939,6 +13263,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 350.52 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "eb5bbfc9-334a-4114-ae83-c75908d98f3d")
 		)
@@ -12998,6 +13331,15 @@
 			)
 		)
 		(property "Description" "TPS2116 VIN1 local input capacitor"
+			(at 95.25 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 95.25 148.59 0)
 			(effects
 				(font
@@ -13138,6 +13480,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 195.58 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5f854114-09be-4f80-bbe7-f47da8d04b10")
 		)
@@ -13200,6 +13551,15 @@
 			)
 		)
 		(property "Description" "DMN2024UQ N-CHANNEL ENHANCEMENT MODE MOSFET"
+			(at 193.04 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 193.04 49.53 0)
 			(effects
 				(font
@@ -13416,6 +13776,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 313.69 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "aa274d5e-a550-48fd-bc76-302a9835c58f")
 		)
@@ -13476,6 +13845,15 @@
 			)
 		)
 		(property "Description" "P-channel MOSFET normally bypassing the 1 ohm low-current shunt; 60 mOhm maximum at VGS=-4.5 V"
+			(at 217.17 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 217.17 160.02 0)
 			(effects
 				(font
@@ -13560,6 +13938,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 208.28 237.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"

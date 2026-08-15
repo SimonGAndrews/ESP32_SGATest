@@ -342,6 +342,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1041079e-581c-4432-a37a-e85533649307")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/489a08f0-57f7-43aa-b7f5-1c764014f8c1")
 		(sheetname "/Standard_Test_Blocks/")
@@ -555,6 +568,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f3f60ee4-bf4a-453e-b845-93c4eaeee643")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -877,6 +903,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b890ca48-594a-4f6e-8358-ad8a8653e152")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/1541dcb8-42f4-40f3-b67e-b1ef645d5a7a")
 		(sheetname "/Standard_Test_Blocks/")
@@ -1024,6 +1063,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8a483e9b-b24d-452d-b26a-d629e1d80bfd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5f2bc6dd-0073-47ba-bf6e-a086eddbe3bb")
 			(effects
 				(font
 					(size 1 1)
@@ -1270,6 +1322,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c032b847-fa02-4da6-95ae-5953faab2ab5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/eaa548e1-d258-480f-ad82-376027eb0e35")
 		(sheetname "/Routing_Control/")
@@ -1359,294 +1424,6 @@
 			)
 		)
 	)
-	(footprint "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical"
-		(layer "F.Cu")
-		(uuid "07d01309-b042-4613-bdfe-20877d438401")
-		(at 133.11 56.235)
-		(descr "Through hole straight pin header, 2x03, 2.54mm pitch, double rows")
-		(tags "Through hole pin header THT 2x03 2.54mm double row")
-		(property "Reference" "J701"
-			(at 1.27 -2.38 0)
-			(layer "F.SilkS")
-			(uuid "f0f06a00-9730-45c5-afa2-12414431c80a")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "UART_PEER_DIAGNOSTIC"
-			(at 1.27 7.46 0)
-			(layer "F.Fab")
-			(uuid "b2f67d9a-f876-4c6b-a801-7f40cc616b35")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "8a1c5bd2-d762-43d2-b676-c242d8a0d3e5")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7e6ed286-e7d6-4416-8a71-4f0d735b4246")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "Connector*:*_2x??_*")
-		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000402")
-		(sheetname "/Standard_Test_Blocks/")
-		(sheetfile "standard_test_blocks.kicad_sch")
-		(attr through_hole)
-		(fp_line
-			(start -1.38 -1.38)
-			(end 0 -1.38)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "f1f478ea-0b11-4a81-be28-711beff00d09")
-		)
-		(fp_line
-			(start -1.38 0)
-			(end -1.38 -1.38)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "e77cb81e-1a81-4a54-a645-65df0e14614e")
-		)
-		(fp_line
-			(start -1.38 1.27)
-			(end -1.38 6.46)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "9a6bbd3a-9129-4d45-9da7-29c2218debed")
-		)
-		(fp_line
-			(start -1.38 1.27)
-			(end 1.27 1.27)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "7ca05de3-fb60-4ddf-b135-960a0034274a")
-		)
-		(fp_line
-			(start -1.38 6.46)
-			(end 3.92 6.46)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "143089ca-158b-43ea-af8b-f94725f39a85")
-		)
-		(fp_line
-			(start 1.27 -1.38)
-			(end 3.92 -1.38)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "eb54c86b-20e8-4ee3-a0f6-d33911879cfa")
-		)
-		(fp_line
-			(start 1.27 1.27)
-			(end 1.27 -1.38)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "54ac8014-9556-46db-85e5-e5da8c2b965a")
-		)
-		(fp_line
-			(start 3.92 -1.38)
-			(end 3.92 6.46)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "32fb8121-5495-4626-bf17-7a877de33c28")
-		)
-		(fp_rect
-			(start -1.77 -1.77)
-			(end 4.32 6.85)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "75c14d50-021d-415b-96ed-c37f43f7bbb5")
-		)
-		(fp_line
-			(start -1.27 0)
-			(end 0 -1.27)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "beebbad1-0386-4f97-bd6a-8793f7eeb071")
-		)
-		(fp_line
-			(start -1.27 6.35)
-			(end -1.27 0)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "3919d54d-0743-49de-95fa-b8380555d753")
-		)
-		(fp_line
-			(start 0 -1.27)
-			(end 3.81 -1.27)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "d9c49f9d-66ac-4cb1-9145-e1c242e4e376")
-		)
-		(fp_line
-			(start 3.81 -1.27)
-			(end 3.81 6.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "a574a7c1-8431-41f5-bff6-bddc7d6b65de")
-		)
-		(fp_line
-			(start 3.81 6.35)
-			(end -1.27 6.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "a25d8c96-69e1-4458-a3ee-0862dd9fa702")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 1.27 2.54 90)
-			(layer "F.Fab")
-			(uuid "56f4dd19-8ac6-46dd-bd63-6f667ace9d98")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(pad "1" thru_hole rect
-			(at 0 0)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net 53 "/Standard_Test_Blocks/UART_PEER_RX")
-			(pinfunction "Pin_1")
-			(pintype "passive")
-			(uuid "bdafd129-0596-4d91-9c80-e1bf0fc133dc")
-		)
-		(pad "2" thru_hole circle
-			(at 2.54 0)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net 50 "/TI_UART_B_TX")
-			(pinfunction "Pin_2")
-			(pintype "passive")
-			(uuid "51255e54-88db-4ae5-aa24-3cf6f20c674e")
-		)
-		(pad "3" thru_hole circle
-			(at 0 2.54)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net 52 "/Standard_Test_Blocks/UART_PEER_TX")
-			(pinfunction "Pin_3")
-			(pintype "passive")
-			(uuid "ab232535-da49-4146-b57d-ae43d74bd2b8")
-		)
-		(pad "4" thru_hole circle
-			(at 2.54 2.54)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net 45 "/TI_UART_B_RX")
-			(pinfunction "Pin_4")
-			(pintype "passive")
-			(uuid "2b610ed1-5753-438d-bab4-b63fd53553fb")
-		)
-		(pad "5" thru_hole circle
-			(at 0 5.08)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net 1 "TI_GND")
-			(pinfunction "Pin_5")
-			(pintype "passive")
-			(uuid "05fab409-f294-428d-b1a3-ae39357fb113")
-		)
-		(pad "6" thru_hole circle
-			(at 2.54 5.08)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net 1 "TI_GND")
-			(pinfunction "Pin_6")
-			(pintype "passive")
-			(uuid "18be3038-d721-4733-ade7-6488eb082723")
-		)
-		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x03_P2.54mm_Vertical.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "08961cf8-1d44-424a-9e4e-b41876c9bc85")
@@ -1718,6 +1495,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3b0ad5fa-960c-4087-a32e-41d29373c1ac")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fd08de03-b8fc-47cf-990a-a5e8a75f14b4")
 			(effects
 				(font
 					(size 1 1)
@@ -1957,6 +1747,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "9c5b6d04-88a5-430e-a447-4049db8abf7a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "86501fa7-6c45-47b9-b550-14fcfd19a763")
 			(effects
 				(font
 					(size 1 1)
@@ -2341,6 +2144,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "327a24d3-da53-4298-b8ef-f74e45f6ac61")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/ff98381b-4eba-4081-ad91-217ca18df4b0")
 		(sheetname "/Standard_Test_Blocks/")
@@ -2501,6 +2317,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3473b423-4cf3-4cf0-9d07-714c27901bd8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "57e767f9-309c-4e69-8a86-f2d07c8beaa4")
 			(effects
 				(font
 					(size 1 1)
@@ -3061,7 +2890,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Endpoint-A TX to external-peer RX series protection"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3069,6 +2898,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "72a9ff9d-bc5b-4c67-85e9-a76a3f701507")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cdaeded4-759f-4822-92d6-a27a303a1551")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "10d90a6f-4aee-4071-870f-36f83c80e1e4")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -3220,6 +3088,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "9edcef35-85fe-4331-94ac-e465e8b905c7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "18a5d0e3-4aae-41a0-ab19-0a339dcebd70")
 			(effects
 				(font
 					(size 1 1)
@@ -3387,6 +3268,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "cb570b44-a14f-4011-8af8-9209b91b6f31")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "96433a6c-03f3-4930-a7ab-068acf6d0ab1")
 			(effects
 				(font
 					(size 1 1)
@@ -3764,6 +3658,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "c2594f91-7522-414b-a4da-a6842690d0ef")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "25fcfac4-bc4e-48fb-9398-16dcc65f1db3")
 			(effects
 				(font
 					(size 1 1)
@@ -4183,7 +4090,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "External-peer TX to endpoint-A RX series protection"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -4191,6 +4098,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7b0e80e0-d643-4aa0-8e95-26abda19aadf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d16c2df6-f495-4419-9644-716b58011927")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "66301d0c-c412-47da-8647-ce640190f350")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -4342,6 +4288,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0e38b94f-a6d2-4982-9d69-fb5b89320543")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5d2c5f02-ba73-4824-8187-7079cab3d1a8")
 			(effects
 				(font
 					(size 1 1)
@@ -4509,6 +4468,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "aba5ad00-15dd-46c1-8391-8d1b980d6a6e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9ccc36fe-e4dc-457d-9db0-af88cf412797")
 			(effects
 				(font
 					(size 1 1)
@@ -4755,6 +4727,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a7c45514-1a09-41a3-adf4-cd9155fa4cec")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/78e6e864-d323-4862-bf8b-edd203edc32b")
 		(sheetname "/Routing_Control/")
@@ -4922,7 +4907,7 @@
 				)
 			)
 		)
-		(property "DNP" "true"
+		(property "DNP" ""
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5194,6 +5179,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ce72d391-24f5-4621-b55d-b422ee1d5b89")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/9c06f167-5cfc-5577-a20a-8e18b0093c2b")
 		(sheetname "/Routing_Control/")
@@ -5433,6 +5431,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b8137668-d4c0-45f4-a021-3094dbccfe3e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/56859d58-39d7-4058-96df-30d2102316b8")
 		(sheetname "/Routing_Control/")
@@ -5587,6 +5598,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "62a98c57-d5e4-4b99-b3cc-d652ea7346b7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/f6a019b1-3187-445b-85ab-e821f8f1efa5")
 		(sheetname "/Routing_Control/")
@@ -5734,6 +5758,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "66b26211-e4b8-4315-b91c-7805874fbdf5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2cecc204-652d-45ae-84e1-59af18fc22ea")
 			(effects
 				(font
 					(size 1 1)
@@ -5954,6 +5991,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bb92d82d-a491-49ec-8a22-5a8909df27ba")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000128")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -6100,6 +6150,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "fc74f23b-87a0-4efb-abba-496825bf5241")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e7363559-226a-4666-8f06-52cfd104b587")
 			(effects
 				(font
 					(size 1 1)
@@ -6333,6 +6396,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "780b94d3-c0e9-4196-b22d-c589a346d508")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/484cd659-6c9a-4375-951c-f7acf803476c")
 		(sheetname "/Standard_Test_Blocks/")
@@ -6546,6 +6622,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "57d3ab83-8167-4152-be1b-7fb0d5602af7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/d1fa5fb6-b277-4ec4-9ee8-295867301210")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -6684,6 +6773,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "88fd7835-8f2d-4272-b6b2-e7bfe481fd42")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -7012,6 +7114,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "32a267fd-43b9-4b93-bdbd-73e6937f086c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/cdb5fa24-8a99-5d8c-bf33-76965badac13")
 		(sheetname "/Routing_Control/")
@@ -7166,6 +7281,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b01d3973-d7ee-4184-9684-159b9882379a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/c2eae590-0cc1-41ad-8436-d92dd381e945")
 		(sheetname "/Power_Control/")
@@ -7307,6 +7435,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "075eb730-56e7-4490-ae40-f9be180e5170")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/bec2fccc-5d2e-5431-a653-ec486d7ac320")
 		(sheetname "/Routing_Control/")
@@ -7444,6 +7585,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7dcc6a6b-fb2e-48f2-bf4a-5fc67d1a05e8")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -7608,6 +7762,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "da1ea30a-183a-4529-a1d6-0bf053e97389")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b6b53118-be12-4652-aa34-8c44a1ed689f")
 			(effects
 				(font
 					(size 1 1)
@@ -8025,6 +8192,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9091291f-c84a-4a36-bd32-4513fc728955")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000131")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -8184,6 +8364,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "02ef34e9-51c8-4732-a409-28a658f429a6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6bfe6589-36dd-4997-a48c-6bfac456cf5e")
 			(effects
 				(font
 					(size 1 1)
@@ -8430,6 +8623,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ba8ad837-c16c-419e-acd3-cb1253b09e63")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/2aefbf64-9b13-4191-9311-2308cef4bc02")
 		(sheetname "/Standard_Test_Blocks/")
@@ -8669,6 +8875,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3c94fef2-1995-44f9-80ab-25246bf74d26")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/5f93e286-e909-43bf-8801-8e643b7d195d")
 		(sheetname "/Standard_Test_Blocks/")
@@ -8816,6 +9035,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0df0bffb-c9c4-4110-a8f9-358c3f98ddc4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3a7f8b88-b554-42f8-a5cc-5513af4c553e")
 			(effects
 				(font
 					(size 1 1)
@@ -8983,6 +9215,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e00c002a-a63b-41bf-b0ed-e94c557dbcc6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d315e944-5925-461b-baeb-612bd836ffa0")
 			(effects
 				(font
 					(size 1 1)
@@ -9216,6 +9461,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4a762f87-0b12-447a-9fca-c48b6186450d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000034")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -9362,6 +9620,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "9082cf84-6cc9-4524-9dde-152078923cee")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2d4bdb7a-878d-410d-8cf9-282b4aa1677d")
 			(effects
 				(font
 					(size 1 1)
@@ -9523,6 +9794,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "67774399-b8c3-4b4a-8244-64053796e69e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/0fd59c4d-2192-4ff7-b1ec-e27042157079")
 		(sheetname "/Standard_Test_Blocks/")
@@ -9670,6 +9954,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "004e6e51-b172-4240-9457-b0a83f1dd59e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0f74d13d-1213-4428-9be6-af77ee48d7ae")
 			(effects
 				(font
 					(size 1 1)
@@ -9916,6 +10213,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c7b82888-188f-4e9f-b3d3-f40e19b56c6e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000426")
 		(sheetname "/Standard_Test_Blocks/")
@@ -10053,6 +10363,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9cb389e8-255f-4987-8c50-d87af064f5f9")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -10421,6 +10744,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cccfa0b0-b379-4dea-b916-27a786daf4e9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/60e2ac8d-e8c5-4b6f-b2bb-4c4e77665a32")
 		(sheetname "/Power_Control/")
@@ -10568,6 +10904,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "549cb7e9-b4d4-4438-bdd6-ab320679b502")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5172d3a0-3d64-4676-a467-a55fc4865d94")
 			(effects
 				(font
 					(size 1 1)
@@ -10728,6 +11077,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cd5fe3d9-661b-4fe3-b5a0-d90b63bda0b4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/361221cc-063f-4fc5-8cc3-da3fef50d649")
 		(sheetname "/Standard_Test_Blocks/")
@@ -10867,6 +11229,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "561e540c-618d-4e6c-adee-f6c3749013ff")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -11195,6 +11570,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eb6f4990-2bc6-4719-b2ad-3f199d5f9389")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/13236fd2-3046-41af-a4b0-e6178e9993d5")
 		(sheetname "/Routing_Control/")
@@ -11355,6 +11743,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "68eeb6ca-b8e3-48ec-83c5-0e3d7d76e25d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4460d7db-b719-4fb8-8b77-5beff7cac34e")
 			(effects
 				(font
 					(size 1 1)
@@ -11582,6 +11983,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4907f2db-c377-4574-9955-97e2de1b3951")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -11984,6 +12398,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bec5045c-d54e-453f-aea0-109cc440c8b4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/72fd4843-2aa8-5eea-bd92-c2b85eaa4ebe")
 		(sheetname "/Routing_Control/")
@@ -12195,6 +12622,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "93fbfbcc-b3b9-44af-b8c7-a79bb5a206fa")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -12523,6 +12963,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8f767701-1d69-4cdb-bdf1-3841cb845a60")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/f3af451c-b63c-45ac-beac-6535b15b745e")
 		(sheetname "/Power_Control/")
@@ -12677,6 +13130,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f6919806-1dee-4cdd-80dd-b93647364bfd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/f5832afc-e280-4090-9d5e-cf460e8eda6d")
 		(sheetname "/Routing_Control/")
@@ -12814,6 +13280,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f3eda12f-3d3a-4678-9103-a892afa4886d")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -12959,6 +13438,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8bb3c949-659c-4c49-a9b2-07da9b937cf8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/c95d068c-3f89-4289-9066-0867bd46ad18")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -13095,6 +13587,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e04de6ba-7fe3-4c74-ba67-59e4f01e2716")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -13469,6 +13974,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "27023eab-7e1a-4ef8-88ab-5347174c4658")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "SOT?23*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/5b1b2f44-88ae-5b13-b535-b27559a295dc")
 		(sheetname "/Routing_Control/")
@@ -13827,6 +14345,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0d95f4c8-b02e-424d-95d5-0fff561d86b7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/8a9c28bc-84a4-49a9-bd13-cec43115cef9")
 		(sheetname "/Routing_Control/")
@@ -13994,6 +14525,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dde0b95f-e63d-4812-98a7-019b325ea4cb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/0994f8df-1c28-4f93-b523-3717eb6186c4")
 		(sheetname "/Standard_Test_Blocks/")
@@ -14141,6 +14685,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "c4212ceb-7c99-4865-aef5-b3bbb9ab4d58")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b3e91bf1-9611-46ea-9511-ffcf923688a3")
 			(effects
 				(font
 					(size 1 1)
@@ -14374,6 +14931,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "45bbf04d-123d-4a78-bbd9-2112246b2305")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/773115d9-ae91-4788-b8a8-f2128582a505")
 		(sheetname "/Standard_Test_Blocks/")
@@ -14547,6 +15117,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4b20b5cd-acda-45af-8dfb-5b1ad450213b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9af78274-5c3d-4877-ba0b-791685489de1")
 			(effects
 				(font
 					(size 1 1)
@@ -14774,6 +15357,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "295b9c90-4f0a-4240-ad66-4ac89118cb6b")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -15343,6 +15939,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bd19a1c9-5809-47af-bae5-7aada768f6db")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/77b6607c-8b76-42e9-a44b-83a03c1949c9")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -15720,6 +16329,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b3a64efa-785a-4c14-9ef9-8183b25b9d1b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/749b48d9-a00b-4671-9b1e-1053752929b9")
 		(sheetname "/Routing_Control/")
@@ -15867,6 +16489,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5da3e8f8-859f-4e7d-b27d-1dbae0acb492")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e00b9f43-ec75-4afd-b760-6f7e4cb01d5a")
 			(effects
 				(font
 					(size 1 1)
@@ -16028,6 +16663,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8e50b711-0019-4e40-9c50-deb6c252da4b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/8a00ea58-c437-4d6d-9f3e-faa2dcf76dc1")
 		(sheetname "/Power_Control/")
@@ -16175,6 +16823,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "cccbf098-75ac-4f58-8ebd-63d523a95593")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f09553c3-a919-4873-884d-e7f404fa200f")
 			(effects
 				(font
 					(size 1 1)
@@ -16503,6 +17164,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "15fc8093-4acf-4cc2-a4b5-3896b028c313")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000163")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -16669,7 +17343,7 @@
 				)
 			)
 		)
-		(property "DNP" "true"
+		(property "DNP" ""
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -17137,6 +17811,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8f63a749-681e-4656-8df6-7d8296c8d2c5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/5e5fdeb2-6c32-4469-b054-c2d502a7c3c2")
 		(sheetname "/Standard_Test_Blocks/")
@@ -17363,6 +18050,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5d5e88af-aefe-4ba0-9a61-50319ca3b5a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/82632da1-764e-4848-bfd9-8cb8f87bc119")
 		(sheetname "/Power_Control/")
@@ -17500,6 +18200,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3fdc46ec-3878-45d2-9d2c-aa45aedc98f2")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -17651,6 +18364,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "766a6e34-28cd-46e6-b7c0-0594334ef4b0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1cfca4f0-7257-4ab3-ad2c-8899e62ab030")
 			(effects
 				(font
 					(size 1 1)
@@ -17867,6 +18593,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dc7edeeb-6e1f-4c0f-9212-607e5c0f2d8e")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -18707,7 +19446,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "U701 SEL2 external safe-state pull-down; holds UP02_EN low and B-TX-to-A-RX path open"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -18725,6 +19464,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "b1256377-72b5-47f9-bfc5-447fa9d22e99")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0424b168-6132-47aa-83a2-e8e7d8861033")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bb3c689e-5e63-4c61-8d92-9745d5ec994c")
 			(effects
 				(font
 					(size 1 1)
@@ -18879,6 +19644,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4d447906-c744-4803-ba8a-e2adfeddadd5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "34979e58-992c-4c13-846c-d4762da4e195")
 			(effects
 				(font
 					(size 1 1)
@@ -19105,6 +19883,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "6743c7c0-3c92-476d-bdb5-b20f6c3833a6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c382e398-73eb-4a1f-998a-745ed3b15b9b")
 			(effects
 				(font
 					(size 1 1)
@@ -19351,6 +20142,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "92653a11-05ea-4d64-859e-6cca29ba28dc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000420")
 		(sheetname "/Standard_Test_Blocks/")
@@ -19518,6 +20322,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fe890d5e-db5e-4094-8192-fefb014aafa2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000423")
 		(sheetname "/Standard_Test_Blocks/")
@@ -19672,6 +20489,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5cec33a8-5856-45c7-b292-f14f62be0b09")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c7b102a7-8013-5777-8ffd-529f8a68ef57")
 		(sheetname "/Routing_Control/")
@@ -19809,6 +20639,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "719b59e3-ac17-4b30-b18d-27560cded8d5")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -19959,6 +20802,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "df26c23d-23ff-4b15-b578-2e80fbffa727")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8ad0e776-2854-452a-b268-efa293e2fdaf")
 			(effects
 				(font
 					(size 1 1)
@@ -20205,6 +21061,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d8c82b46-b5f4-4488-96de-c6192c7aec6e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000429")
 		(sheetname "/Standard_Test_Blocks/")
@@ -20352,6 +21221,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ba87096f-fc1b-4c71-809a-a78a93ff7792")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "822db977-0070-4e98-b9cc-d34f8f1660ae")
 			(effects
 				(font
 					(size 1 1)
@@ -20568,6 +21450,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5f213f36-14bb-4e0d-abb6-3aa034f86ac3")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -20975,6 +21870,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "64592b4e-7bbf-422d-a3e9-ba83ea5e8ca0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*PinHeader*1x02*P2.54mm*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/a640b572-1362-49f9-b8b5-a81a4a0469fb")
 		(sheetname "/Standard_Test_Blocks/")
@@ -21225,6 +22133,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8f66ea76-b7a9-4343-a07b-b4837fd77ab6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/0480087c-b859-4c29-a93c-053512e276b9")
 		(sheetname "/Routing_Control/")
@@ -21372,6 +22293,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "98959cf4-e24e-4cae-8a87-2b007bdb0fff")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5e0a8415-7651-4627-b5b9-546af34dcf96")
 			(effects
 				(font
 					(size 1 1)
@@ -21611,6 +22545,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1c8c698f-fc79-4148-ba6a-69c7935f44b7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7e61af49-1907-41d2-85b3-bdda6ac77837")
 			(effects
 				(font
 					(size 1 1)
@@ -22177,6 +23124,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6a0fd170-e279-4af5-b625-0644977d9fe9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/7a849b5d-a437-4f04-a599-7f5ddc6b3200")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -22541,6 +23501,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bd24ccb9-4dfd-460d-86e2-2f2c236674ce")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/550cac82-10eb-42f4-bfc8-08b2096a9a66")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -22713,6 +23686,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "76cd252d-bbda-4731-a569-cf41acb21431")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fc5165cd-c7b6-4b57-8aeb-d0176f93a20a")
 			(effects
 				(font
 					(size 1 1)
@@ -22957,6 +23943,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "436a388a-b8e5-4a31-8f26-a50416f82b14")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/80909186-9ba6-4ac8-a7a8-90eb2d00e751")
 		(sheetname "/Routing_Control/")
@@ -23124,6 +24123,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "55318222-90fa-4c12-b771-b3886d67ff5a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/93998e84-655f-4348-a889-0a26310e01b1")
 		(sheetname "/Standard_Test_Blocks/")
@@ -23271,6 +24283,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1d08e5fe-0484-49eb-8691-d49be6f7350d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2694f0a3-f6ff-4a18-8435-07e857d11d2b")
 			(effects
 				(font
 					(size 1 1)
@@ -23479,7 +24504,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Endpoint-A TX to endpoint-B RX series protection"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -23487,6 +24512,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cacb49ab-fe64-4e7f-9408-8e52de1583d3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "71b76e4f-585c-42e0-bbe6-fbfdef2b74f7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9b6fd4e9-fe68-4872-b849-c5e1749ed344")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -23628,6 +24692,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "abc8457a-0600-466d-9708-4f3f9ccca9bb")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -23812,7 +24889,7 @@
 				)
 			)
 		)
-		(property "DNP" "true"
+		(property "DNP" ""
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -24060,6 +25137,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c619479c-68ed-4964-8037-c9d0a3e88938")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/96ca5aa4-d764-445c-abba-e60d1f7c4a93")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -24226,6 +25316,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "246b5795-807b-4479-ac02-db416c429a30")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/62f6c43b-c770-4f9c-bb63-25b472f728e2")
 		(sheetname "/Routing_Control/")
@@ -24355,7 +25458,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "Endpoint-B TX to endpoint-A RX series protection"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24363,6 +25466,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b3d41810-c050-4b86-b495-4a05b5af6a21")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" "470R 0603 1% 0.1W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6b6af0b4-4763-484c-a82f-3971ef786a81")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fe08e958-0a3c-4f35-b053-1148c494cd17")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -24496,7 +25638,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "U701 local decoupling"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -24527,6 +25669,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "532f49fe-e874-42fb-9bcf-93ad72ce59f3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7d68e42a-fe4a-42cc-a590-8e0f3f2140df")
 			(effects
 				(font
 					(size 1 1)
@@ -24688,6 +25843,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eea303e9-f956-4132-8946-b3d32024fc0f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c753030f-6657-58f4-8f93-a242d3cb751e")
 		(sheetname "/Routing_Control/")
@@ -24835,6 +26003,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "b60b05fd-63e9-4140-b08e-7efc6457a7a7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0d2eb14b-48a4-460b-9b6f-0fe3b8ddcc8a")
 			(effects
 				(font
 					(size 1 1)
@@ -25081,7 +26262,7 @@
 				)
 			)
 		)
-		(property "DNP" "true"
+		(property "DNP" ""
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -25536,6 +26717,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8fe8931d-6011-4922-93e3-b145a770ca61")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/614aa652-3922-4bd2-a4d5-cff7a2bab993")
 		(sheetname "/Power_Control/")
@@ -25677,6 +26871,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "93f861ce-c4d4-46d0-809d-c1a54d64b74f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000160")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -25813,6 +27020,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ab9d8e75-d13c-46a5-8b8e-12ba9dcaa6b0")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -26153,6 +27373,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7c694b15-d9f3-454d-a816-dd2df27bd658")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000432")
 		(sheetname "/Standard_Test_Blocks/")
@@ -26282,7 +27515,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "U701 SEL3 external safe-state pull-down; holds UP03_EN low and A-TX-to-peer-RX path open"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -26300,6 +27533,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3c7cf8ce-a76d-4fb6-aa89-538cae2377a1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a76ef62b-8453-4967-a030-869f944cdee9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3d971add-5c52-40bf-a3f6-a57b1f30c8e9")
 			(effects
 				(font
 					(size 1 1)
@@ -26461,6 +27720,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f34c36df-9c1f-473c-b8a5-c48435eb8847")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/1e52f1d7-a002-413d-9d3d-5e755d8489f2")
 		(sheetname "/Routing_Control/")
@@ -26608,6 +27880,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "d5b39cbe-8b19-4fb2-8fd8-d821c70cfc42")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e4397ed9-7d65-4a88-8486-260f4bda6549")
 			(effects
 				(font
 					(size 1 1)
@@ -26782,6 +28067,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0ade4c52-a59a-413f-9884-2fd6b696c9bf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/dd8e559e-b144-4d22-88ae-0c2f6cae2697")
 		(sheetname "/Routing_Control/")
@@ -26929,6 +28227,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "878cf0db-5e20-44b7-bb1f-43d0435bb329")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "762350c1-0a63-4e63-962c-9e62f722d5a6")
 			(effects
 				(font
 					(size 1 1)
@@ -27162,6 +28473,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eab5fe00-cc8e-4336-a082-70914bf31d4c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/548c607a-4981-4344-ada4-cc7104c47855")
 		(sheetname "/Routing_Control/")
@@ -27309,6 +28633,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "c4327e8c-6c82-440f-acf0-812288ba705b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "95bd5ba5-939a-40f3-87ec-23932a968256")
 			(effects
 				(font
 					(size 1 1)
@@ -27488,6 +28825,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "55760bd0-2bb2-4e6d-8c37-cf6dedb9d7d9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f4d6bf16-c0ba-4cfa-bfb1-9e4d954866c6")
 			(effects
 				(font
 					(size 1 1)
@@ -27707,7 +29057,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "U701 SEL4 external safe-state pull-down; holds UP04_EN low and peer-TX-to-A-RX path open"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27725,6 +29075,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "357dcc75-c5c1-4afd-b628-3f8fdf0a193e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b09fe073-41a3-47a1-884b-a725568e026f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0265aac4-3241-4bf7-9c25-bc0625915974")
 			(effects
 				(font
 					(size 1 1)
@@ -27899,6 +29275,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8a92ad64-8950-458e-b4cc-49fbe13348fb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/3e70349c-bc45-4f2d-b0ef-7208fc10b6fc")
 		(sheetname "/Standard_Test_Blocks/")
@@ -28036,6 +29425,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6c9b7d8c-3cec-4f28-a7f6-5da2305683c8")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -28384,6 +29786,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a0479092-1e69-410a-880d-5bb64615c0a1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/d6b9ea0a-bcea-4eb8-b9a4-42f18550dbbe")
 		(sheetname "/Power_Control/")
@@ -28513,7 +29928,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "U701 SEL1 external safe-state pull-down; holds UP01_EN low and A-TX-to-B-RX path open"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28531,6 +29946,32 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "56e8a2d4-c762-4678-80ed-18f6199ba539")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6cb84c66-4b98-4696-886d-7381f468f728")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bcc6dfe7-ca7a-4c55-8570-8f29f9dfe850")
 			(effects
 				(font
 					(size 1 1)
@@ -28685,6 +30126,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "27e8597b-f26b-4a7c-8978-fb0c68ce9a5a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "42adadc1-14b8-486c-8a9b-2ce3eff683af")
 			(effects
 				(font
 					(size 1 1)
@@ -29129,6 +30583,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9452c68c-1371-4ba5-beb4-fa7da303c00b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c7000000-0000-4000-8000-000000000401")
 		(sheetname "/Standard_Test_Blocks/")
 		(sheetfile "standard_test_blocks.kicad_sch")
@@ -29566,6 +31033,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b342ee71-92d0-41ad-ad18-902462cfd518")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/e0f85bec-a91d-5fd9-a984-83f3e6cc3a50")
 		(sheetname "/Routing_Control/")
 		(sheetfile "routing_control.kicad_sch")
@@ -29990,6 +31470,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6ec96397-3c79-44da-b032-881dafe795af")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/cf692dc7-b506-4276-9571-a31cdfdcec3a")
 		(sheetname "/Power_Control/")
@@ -30163,6 +31656,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "2efcb5c6-af65-47cb-9e9e-44626d7fbe00")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "09ce4950-920d-4e7f-a86c-1c713a4d9021")
 			(effects
 				(font
 					(size 1 1)
@@ -30433,6 +31939,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b2c483f0-4f76-4e33-b981-8f6ac1e04799")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*PinHeader*1x02*P2.54mm*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/5cf2ddd1-badd-47ea-966c-5a80146c4570")
 		(sheetname "/Standard_Test_Blocks/")
@@ -30657,6 +32176,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f9bc8fc5-d589-4b45-a923-462cd2c5a087")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/24bb28d7-34e3-4761-bc77-ee923ebf4ad5")
 		(sheetname "/Power_Control/")
@@ -30746,6 +32278,280 @@
 			)
 		)
 	)
+	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+		(layer "F.Cu")
+		(uuid "95c8bbcd-6d4f-4964-abc3-4f7cbd55c8ae")
+		(at 94.47 45.72)
+		(descr "Through hole straight pin header, 1x03, 2.54mm pitch, single row")
+		(tags "Through hole pin header THT 1x03 2.54mm single row")
+		(property "Reference" "J701"
+			(at 0 -2.38 0)
+			(layer "F.SilkS")
+			(uuid "e7296d2d-beb1-4340-93bb-0d9dded0655d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "UART_PEER"
+			(at 0 7.46 0)
+			(layer "F.Fab")
+			(uuid "82176836-862c-4566-b7da-783e9638d070")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300311121.pdf"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dc0ea158-013f-48aa-878f-c8d389bac15c")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "UART_PEER pin connector  01x03"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a29eae25-2dfa-457d-a6cb-fc12ca67a4b8")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300311121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "baf84bdc-f22f-482f-aa52-92eb11d4112f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3ed383a4-a794-457a-9b8d-1ad6c7cbf56d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "42278007-dd3b-42b9-b9b5-bfe8f79f98f8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "Connector*:*_1x??_*")
+		(path "/de8f4588-cd43-45f8-a502-51219f80935f/0bbb10cd-588a-4777-babd-7c2d6bdeed07")
+		(sheetname "/Standard_Test_Blocks/")
+		(sheetfile "standard_test_blocks.kicad_sch")
+		(attr through_hole dnp)
+		(fp_line
+			(start -1.38 -1.38)
+			(end 0 -1.38)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "251be08d-791c-42d8-a616-c629dc47ced5")
+		)
+		(fp_line
+			(start -1.38 0)
+			(end -1.38 -1.38)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "37e2b43a-3931-4e03-a48a-5fb232e3f4e7")
+		)
+		(fp_line
+			(start -1.38 1.27)
+			(end -1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "f45f6044-baf6-44e3-83ea-c5788ff00fdf")
+		)
+		(fp_line
+			(start -1.38 1.27)
+			(end 1.38 1.27)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "ef6801ab-3bc2-4eae-bf17-b75eba3c0c96")
+		)
+		(fp_line
+			(start -1.38 6.46)
+			(end 1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "96dc48c6-7c10-4f4f-9664-4b873d877f1b")
+		)
+		(fp_line
+			(start 1.38 1.27)
+			(end 1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "8e071fa9-1ddc-463f-8cb3-8cba3b10d013")
+		)
+		(fp_rect
+			(start -1.77 -1.77)
+			(end 1.77 6.85)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "adf795d8-e7c1-4461-99ef-d158d5d8b3ca")
+		)
+		(fp_line
+			(start -1.27 -0.635)
+			(end -0.635 -1.27)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "29c06bd0-226a-495a-9e2a-46a5eb0bd794")
+		)
+		(fp_line
+			(start -1.27 6.35)
+			(end -1.27 -0.635)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "7430f36b-f171-4af4-884a-3e8598435fcc")
+		)
+		(fp_line
+			(start -0.635 -1.27)
+			(end 1.27 -1.27)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "593d3a7f-6a12-417c-96f4-3041176d7a77")
+		)
+		(fp_line
+			(start 1.27 -1.27)
+			(end 1.27 6.35)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "06b8cb1f-5eb4-4dd6-b505-08824ac62d0c")
+		)
+		(fp_line
+			(start 1.27 6.35)
+			(end -1.27 6.35)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "0bbd75d5-e607-4971-881a-45f20eea20ae")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 2.54 90)
+			(layer "F.Fab")
+			(uuid "882cc89c-e29b-4dce-99f3-c4f9b39b57e2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole rect
+			(at 0 0)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 53 "/Standard_Test_Blocks/UART_PEER_RX")
+			(pinfunction "Pin_1")
+			(pintype "passive")
+			(uuid "30ecc82c-473a-4d50-a60c-bf76dec71bc3")
+		)
+		(pad "2" thru_hole circle
+			(at 0 2.54)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 52 "/Standard_Test_Blocks/UART_PEER_TX")
+			(pinfunction "Pin_2")
+			(pintype "passive")
+			(uuid "a6d4ebab-c79a-4727-8576-faeb22efa193")
+		)
+		(pad "3" thru_hole circle
+			(at 0 5.08)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 1 "TI_GND")
+			(pinfunction "Pin_3")
+			(pintype "passive")
+			(uuid "5091ac5f-0fea-4066-9899-5a593acb24f2")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x03_P2.54mm_Vertical.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "96ac70b6-28de-49f0-b3f3-ed93c102bd4e")
@@ -30804,6 +32610,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ffc5ac81-bd56-4b56-a0c0-a2afd7c3208f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cee0590d-4d3b-493e-99dd-b9990407509b")
 			(effects
 				(font
 					(size 1 1)
@@ -30948,6 +32767,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4e476209-081b-452a-83c9-6a34a201929e")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -31099,6 +32931,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "2f267148-8f84-4972-9329-b54d72ea0108")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a8678310-0536-42fe-84b3-252211bc9aa3")
 			(effects
 				(font
 					(size 1 1)
@@ -31543,6 +33388,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7cc1c258-270f-4012-9ea6-d32dd9f9706b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/d9000000-0000-4000-8000-000000000502")
 		(sheetname "/Standard_Test_Blocks/")
@@ -31703,6 +33561,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "2dfc7978-4154-4287-a256-b9799291c99b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "efbced3a-c2f0-4d3c-8061-a67ca0e72e2c")
 			(effects
 				(font
 					(size 1 1)
@@ -31876,6 +33747,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f7c851fb-dedc-490c-8e00-6885207a92fc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/32a02ce1-cda7-4490-93a8-61a77d75e8cc")
 		(sheetname "/Standard_Test_Blocks/")
@@ -32030,6 +33914,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a97a3cdb-e0db-439c-9a98-ddbdb8042981")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/cf1d27eb-4bc8-4978-a107-b160519730c7")
 		(sheetname "/Power_Control/")
@@ -32177,6 +34074,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0ef94de0-d91a-48a5-a63d-1afed1fc7260")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4395bbb1-91b1-42a0-b7b7-a1cc9821e1ef")
 			(effects
 				(font
 					(size 1 1)
@@ -32410,6 +34320,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "58e43808-8f16-4a9e-89af-fd769653a5bf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/77125fb6-e4c3-41fc-a96f-9f7479a4f8b7")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -32556,6 +34479,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "74e10198-dd08-4713-99cd-3db7d6c6a29e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "62601c64-48e4-4d84-8595-760f15fd08d2")
 			(effects
 				(font
 					(size 1 1)
@@ -32772,6 +34708,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ee1d5c43-76fa-4ef0-91e5-6e1e74826e9f")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -33153,6 +35102,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0602079b-1d57-43a2-8ef5-adf341262e60")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/dab1d4b0-b20d-5a11-91b2-6f0f44d9ed21")
 		(sheetname "/Routing_Control/")
@@ -33379,6 +35341,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1f3e3327-a6a2-4684-8713-b5f8d5446bd9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/f43ceb59-ab74-4303-bff8-7c28e7e96dfe")
 		(sheetname "/Standard_Test_Blocks/")
@@ -33592,6 +35567,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "21152c9a-543f-466f-82d9-7155c92bb067")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000108")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -33728,6 +35716,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4c66c409-ff7e-480a-8710-66af029d351b")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -34135,6 +36136,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8cfbd3f9-5b75-4b4b-bf34-e058a20e1f12")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*2Pads* TestPoint*Bridge*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/95fecba8-ab40-4a0a-ad3a-9ca1ee0ffdee")
 		(sheetname "/Standard_Test_Blocks/")
@@ -34359,6 +36373,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "37bc35ac-61cc-4068-9e12-d3d419beb5ba")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/4fc911e4-8901-5eb4-b600-d1b1d79d7f67")
 		(sheetname "/Routing_Control/")
@@ -34500,6 +36527,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2b7473dc-b779-4c58-81bc-407705df23d5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/bfc9d343-52b5-4a5e-9f40-557a68762e23")
 		(sheetname "/Routing_Control/")
@@ -34589,6 +36629,280 @@
 			)
 		)
 	)
+	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+		(layer "F.Cu")
+		(uuid "ae3acab2-891b-4c33-b99d-5329ea492dcb")
+		(at 99.06 45.72)
+		(descr "Through hole straight pin header, 1x03, 2.54mm pitch, single row")
+		(tags "Through hole pin header THT 1x03 2.54mm single row")
+		(property "Reference" "J702"
+			(at 0 -2.38 0)
+			(layer "F.SilkS")
+			(uuid "ce9e6f74-5470-47a7-aa78-e9d1f8847f0c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "UART_B_DIAGNOSTIC_NO_DRIVE"
+			(at 0 7.46 0)
+			(layer "F.Fab")
+			(uuid "65265643-2c8c-451e-902f-7e937ce2877e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300311121.pdf"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "00a28017-de64-431e-b762-34f907cdec6c")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "UART_B_DIAGNOSTIC_NO_DRIVE - pin connector  01x03"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0878634f-781e-42dd-b8d5-816c2a53c9cd")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "61300311121"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9d520d48-3b65-47d0-a3b0-430b8e800ec5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "99bdf97f-a103-4259-ae67-93b2b5fd6776")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f06f0887-1c67-4ab3-a98c-3699feef4794")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "Connector*:*_1x??_*")
+		(path "/de8f4588-cd43-45f8-a502-51219f80935f/0e10dafc-74e6-449b-8388-5505b20c4c7d")
+		(sheetname "/Standard_Test_Blocks/")
+		(sheetfile "standard_test_blocks.kicad_sch")
+		(attr through_hole dnp)
+		(fp_line
+			(start -1.38 -1.38)
+			(end 0 -1.38)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "5a30d3d8-6a07-448e-a987-628c7434a343")
+		)
+		(fp_line
+			(start -1.38 0)
+			(end -1.38 -1.38)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "75f77030-0afe-4dab-b5da-a98d2e1d40cb")
+		)
+		(fp_line
+			(start -1.38 1.27)
+			(end -1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "2a56ba04-a31c-4b56-a73c-f6e9711c09ea")
+		)
+		(fp_line
+			(start -1.38 1.27)
+			(end 1.38 1.27)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "8875de61-d856-4fa2-a699-e83bf9986200")
+		)
+		(fp_line
+			(start -1.38 6.46)
+			(end 1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "86da5964-8844-4247-9c18-d405816e14ce")
+		)
+		(fp_line
+			(start 1.38 1.27)
+			(end 1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "83a82994-2d42-45f4-8857-f2a2d9599a66")
+		)
+		(fp_rect
+			(start -1.77 -1.77)
+			(end 1.77 6.85)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "9f84321d-6957-4b7b-8860-c157f994cc45")
+		)
+		(fp_line
+			(start -1.27 -0.635)
+			(end -0.635 -1.27)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "03b9efd1-5570-4af5-9710-9402a0fd8591")
+		)
+		(fp_line
+			(start -1.27 6.35)
+			(end -1.27 -0.635)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "c20803b2-0c83-41d9-84ea-175225471528")
+		)
+		(fp_line
+			(start -0.635 -1.27)
+			(end 1.27 -1.27)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "84d5e4a2-dad9-44f1-bdff-749c458adeed")
+		)
+		(fp_line
+			(start 1.27 -1.27)
+			(end 1.27 6.35)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "92c5e956-d833-42ce-a928-903486d76f57")
+		)
+		(fp_line
+			(start 1.27 6.35)
+			(end -1.27 6.35)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "b7fbe3ea-0485-4558-8a4c-bc570c1b4cd1")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 2.54 90)
+			(layer "F.Fab")
+			(uuid "d5cb2780-af48-4783-98dd-029192f40129")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole rect
+			(at 0 0)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 50 "/TI_UART_B_TX")
+			(pinfunction "Pin_1")
+			(pintype "passive")
+			(uuid "83729ff9-746f-4ec3-9667-df00218c9b7e")
+		)
+		(pad "2" thru_hole circle
+			(at 0 2.54)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 45 "/TI_UART_B_RX")
+			(pinfunction "Pin_2")
+			(pintype "passive")
+			(uuid "b376362e-015b-4d97-bd11-9158b981604d")
+		)
+		(pad "3" thru_hole circle
+			(at 0 5.08)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 1 "TI_GND")
+			(pinfunction "Pin_3")
+			(pintype "passive")
+			(uuid "dc92e10a-3594-47ce-86a8-401378901344")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x03_P2.54mm_Vertical.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "ae4bec6e-46a1-42c9-a3c6-7ae893747d93")
@@ -34660,6 +36974,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "b64519f7-0c10-403e-a163-645e6508bca7")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a51f5403-d9e0-4a15-9bcf-3da445cfc80a")
 			(effects
 				(font
 					(size 1 1)
@@ -34827,6 +37154,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0f8f9e72-8519-414e-9281-2932387122ca")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f482d515-47c0-4109-984f-4c898ebc7e90")
 			(effects
 				(font
 					(size 1 1)
@@ -35084,6 +37424,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d5167be8-e4cd-40f3-9107-456368f2b87d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/cae8064a-a551-411a-87a7-5aa503782c69")
 		(sheetname "/Standard_Test_Blocks/")
@@ -35221,6 +37574,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3fd57ffb-ea1e-4044-96ff-04efb5d34734")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -35372,6 +37738,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3107a176-2e32-4092-bd9f-68067aaf905f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "960233d4-d4d9-4e1c-b1d9-62518009eb6a")
 			(effects
 				(font
 					(size 1 1)
@@ -35803,6 +38182,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "69d4c168-3986-4537-b3af-6bed10ad783a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/7126fd6c-a6d0-4245-ab51-78ee0bb8b135")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -36153,6 +38545,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5c1eb311-dc75-47ac-804b-dbf234878e6f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/79ae8792-cca2-4d9f-a614-7c389b925a3f")
 		(sheetname "/Standard_Test_Blocks/")
@@ -36405,6 +38810,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dae5399f-9a46-4482-8a75-ade34226d721")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*2Pads* TestPoint*Bridge*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/683ec4e0-ab3f-4bf2-87e2-97f80053e25b")
 		(sheetname "/Standard_Test_Blocks/")
@@ -36635,6 +39053,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "2accd1a3-f50d-407b-a2c9-017435e3172b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ab4742ba-649e-4a37-8bef-96b9cdf4842a")
 			(effects
 				(font
 					(size 1 1)
@@ -37079,6 +39510,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4a6c2589-8d74-479a-9611-fca8409427af")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/741df1ac-57ed-4046-ab6e-20cea69b522a")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -37245,6 +39689,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2451b493-681b-4971-80dc-920f605e62de")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/1fafaba6-63a3-4fb0-88f1-9a660cfe2225")
 		(sheetname "/Standard_Test_Blocks/")
@@ -37382,6 +39839,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cd8d48d7-1d49-4ad6-9d6f-296140254275")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -37539,6 +40009,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fecdd608-ef60-4e89-a931-7190c3bb3df1")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/4c0a85fd-056a-4bae-b884-6a30568725a8")
 		(sheetname "/Power_Control/")
@@ -37686,6 +40169,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "7ceea563-6c3e-42ce-9253-715758b211f2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "27119c4a-0a50-4471-bd9e-94f294d00e49")
 			(effects
 				(font
 					(size 1 1)
@@ -37860,6 +40356,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "39212782-3a28-4d85-9bd7-459031c34b7e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/b5000000-0000-4000-8002-000000000417")
 		(sheetname "/Standard_Test_Blocks/")
@@ -38020,6 +40529,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "bc8fc3cf-c1b8-47bb-934e-261878392961")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "28e63361-3377-4206-87c1-c2f9713d1ad1")
 			(effects
 				(font
 					(size 1 1)
@@ -38631,6 +41153,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b2761edb-4c9e-418d-86a1-80d819d4e4fb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*PinHeader*1x02*P2.54mm*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/73c5e6dd-624a-44e0-add4-ee785e47a5cf")
 		(sheetname "/Standard_Test_Blocks/")
@@ -38894,6 +41429,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e0581373-aebb-470e-86bd-148618c1b80c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Connector*PinHeader*1x02*P2.54mm*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/67674847-fdc4-41ad-ac2c-5de558eef11d")
 		(sheetname "/Standard_Test_Blocks/")
@@ -39144,6 +41692,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2b20c670-6d80-4c95-872a-f6a2283690e8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/32d20e25-4bde-420a-af82-e3070b216ac5")
 		(sheetname "/Routing_Control/")
@@ -39291,6 +41852,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4d34b33e-0e16-478c-8f14-74e6d2014f27")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ca8b9a3d-e41d-4c77-88ea-197ad845ff7c")
 			(effects
 				(font
 					(size 1 1)
@@ -39530,6 +42104,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "44ff1f2a-5df6-4125-963c-5d952e5bb917")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e6e8f38a-5fa1-4dca-9bff-3bdb3b89f4c9")
 			(effects
 				(font
 					(size 1 1)
@@ -40141,6 +42728,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d8fa4afa-80f0-4537-8807-80a183c174e9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Jumper* TestPoint*2Pads* TestPoint*Bridge*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/a0b7e1ee-3e3f-43bb-b189-3971891d0a70")
 		(sheetname "/Standard_Test_Blocks/")
@@ -40378,6 +42978,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d3bab714-e795-425f-8d31-a57fca23299c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/5e63c6de-66cb-5b95-9e4f-ac8b2b60d253")
 		(sheetname "/Routing_Control/")
@@ -40532,6 +43145,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d17f11bd-7557-41df-b4b1-09758aa6a551")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/33071a65-bd98-47eb-9d59-c5037c8a65ff")
 		(sheetname "/Routing_Control/")
@@ -40679,6 +43305,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "dfd070f6-a3d8-4769-85fd-749c02448cfa")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4b35895a-2448-40cf-b3a8-f16cba0ed2af")
 			(effects
 				(font
 					(size 1 1)
@@ -40912,6 +43551,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d7395995-d707-4857-875b-86de6d6b78fb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/1fe01ba7-31ae-4f5e-a8ae-f1d231cdd803")
 		(sheetname "/Standard_Test_Blocks/")
@@ -41066,6 +43718,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "44d87d60-4383-410d-86a5-fe8df45cde46")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/94dde973-3033-4fd6-b6c4-388680a45640")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -41202,6 +43867,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "14aa41e3-6bd6-4602-aafe-6db715e33239")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -41596,6 +44274,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "31ff6a86-7dad-46df-aaa5-85c19e76fd4a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/75ef519a-1bde-44e3-a288-4b3c019963db")
 		(sheetname "/Standard_Test_Blocks/")
@@ -41835,6 +44526,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8c157635-8c9d-4102-89de-285a27d1fa95")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/20a66349-787a-4ea1-a314-d31540d9ece1")
 		(sheetname "/Standard_Test_Blocks/")
@@ -42061,6 +44765,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1502346a-1975-43d4-9564-bd229fbccf80")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c5b3c094-36af-4ba6-b561-25763de0eb79")
 		(sheetname "/Routing_Control/")
@@ -42215,6 +44932,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ee31f54f-70e2-484d-96d6-a9b0b3f9506f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/f590d278-9dcb-42ec-a7b2-16132d5cea34")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -42353,6 +45083,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "af2734a3-4355-4bd8-a460-71db3bf178c7")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -42668,6 +45411,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "47ce63f2-4ce8-400b-9d7c-a7462053e048")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/34acfe05-433c-5772-bd76-2870f348a32b")
 		(sheetname "/Routing_Control/")
@@ -42828,6 +45584,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "afc08dbd-5c12-4d0e-a36d-7186d07c329c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e3478045-72b2-424d-b9c1-21eac17820d8")
 			(effects
 				(font
 					(size 1 1)
@@ -43206,6 +45975,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9ccf98f1-1637-4832-8448-ec0787041de2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/7e228a0a-a798-4673-b161-b47f54a9703b")
 		(sheetname "/Routing_Control/")
@@ -43366,6 +46148,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "063a001e-bbb8-4fa8-9d31-a9c251a36f42")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7fb87a1c-a368-488e-afe5-c19797dbf846")
 			(effects
 				(font
 					(size 1 1)
@@ -43660,6 +46455,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0e698aa5-0d02-4d37-bdc5-89db6346c5bd")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -43988,6 +46796,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "03a74414-a394-403d-b959-9961dbfd1321")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/c16dbe36-86a6-4ebe-b6a4-c1026b357f71")
 		(sheetname "/Routing_Control/")
@@ -44125,6 +46946,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3c2e5077-56e9-4161-b0c7-3ed120755a73")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -44458,6 +47292,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bdce75c6-435d-4437-ada2-7f59d6e4284e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/bb389ac7-a7eb-5a22-a0db-ebb336c3ef87")
 		(sheetname "/Routing_Control/")
@@ -44703,6 +47550,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8238e236-37c9-4279-a69f-e766803cdded")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "634c9c5e-f4e5-47bc-ae2d-ebd5c07ecfb9")
 			(effects
 				(font
 					(size 1 1)
@@ -44960,6 +47820,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1a43a36c-6533-4af5-8e88-14e8040de83f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/e1616d08-53ea-4ee4-8cf4-d624274ad8f6")
 		(sheetname "/Standard_Test_Blocks/")
@@ -45097,6 +47970,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d5e4cc70-0f0d-4ce5-87c8-88cf62dc5d01")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -45468,6 +48354,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e25a253f-7585-4099-a4f6-c1c5a41d0351")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/9ab18ada-1ee6-4469-a819-0701c4e75f43")
 		(sheetname "/Standard_Test_Blocks/")
@@ -45615,6 +48514,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e2ff2dc4-4f29-40eb-84f6-0589b7ed7a67")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "08d55808-09c4-4bff-81b5-2b860aff8a1b")
 			(effects
 				(font
 					(size 1 1)
@@ -45848,6 +48760,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5544cb22-530e-4adf-bb4f-737992251717")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/c9bfc86e-36cb-4b20-af91-fcd6d4fbfd39")
 		(sheetname "/Standard_Test_Blocks/")
@@ -46074,6 +48999,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "56e3853c-d25d-4d04-b947-b657f70c6c09")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/ce0c0402-2376-4dd5-b037-39bfce8fd3c3")
 		(sheetname "/Standard_Test_Blocks/")
@@ -46287,6 +49225,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "be8d9a5f-ca24-4219-a99e-393fafe69481")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/b945a90b-6644-4495-8cec-81dc9b381d5d")
 		(sheetname "/Power_Control/")
@@ -46434,6 +49385,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "b4da01e1-7a64-4b31-95d1-eac8226fa8b6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e0d8a7ed-1908-4115-8652-5fa0cd13b637")
 			(effects
 				(font
 					(size 1 1)
@@ -46667,6 +49631,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "caa3ae28-2a1f-4d2b-b30f-86a7d45cfb89")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/ccdfc547-90a4-425e-8f1c-92060a69ac50")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -46813,6 +49790,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "62b9ba46-ea5d-4330-b36c-f856d52ea834")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1be5fc6-1967-459b-b95a-cbac995538a7")
 			(effects
 				(font
 					(size 1 1)
@@ -47046,6 +50036,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3600f125-0602-41ee-b48b-03696aafb7e9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/0fe1fa32-bbe5-4f45-a0e8-b3fcb22c9c11")
 		(sheetname "/Standard_Test_Blocks/")
@@ -47255,6 +50258,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2ab2f8f4-14d7-4e3e-9773-25d017067c9b")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -47636,6 +50652,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f55a0e08-d571-4ca3-8163-4f061b0e6841")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/fb53e772-b7c2-4d0a-b1f6-3519f8837215")
 		(sheetname "/Standard_Test_Blocks/")
@@ -47849,6 +50878,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "88ecfc2c-9e50-486d-a7a8-e864279701e6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/b2000000-0000-4000-8000-000000000085")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -47987,6 +51029,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e0f190a8-57b8-4809-b27a-455ddbd3d3cf")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -48315,6 +51370,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "df5bded2-64a0-4134-84c8-bf65fcb09345")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/174dbc55-8ad5-4b92-85dc-e4f443b29143")
 		(sheetname "/Routing_Control/")
@@ -48482,6 +51550,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "babc91a2-42b4-4912-b458-a834d62a2f71")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/4182364a-05d1-5864-bc39-839dbe749624")
 		(sheetname "/Routing_Control/")
@@ -48642,6 +51723,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "a5da634d-1051-4a1b-bba2-a2b1181a3981")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "03b6ee59-cf1e-4fe2-bc79-08f4377d499a")
 			(effects
 				(font
 					(size 1 1)
@@ -49026,6 +52120,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9651524e-a192-42b8-9e55-fe0c7b1f1906")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/20bc3c85-c17c-4231-9a0f-677f06efc266")
 		(sheetname "/Standard_Test_Blocks/")
@@ -49180,6 +52287,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9e61053a-c9e8-4dcd-90a1-1d362736309a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/8d9af94a-0364-4ad7-a758-a55d9cad2df5")
 		(sheetname "/Routing_Control/")
@@ -49327,6 +52447,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "a27291df-5a94-4a62-b0ce-570d3d7ba7c5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "81f7053b-834c-44bf-bb28-0e2f71c7c40e")
 			(effects
 				(font
 					(size 1 1)
@@ -49560,6 +52693,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "13bb325a-14d0-4563-ba9a-b885da0456e3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/05247de4-e78e-47f3-9930-08175c8ca5a0")
 		(sheetname "/Standard_Test_Blocks/")
@@ -49727,6 +52873,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7d91beba-5ba9-4ba9-8cfe-f7da9cfb13f6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "C_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/2723ea8d-739b-4744-8c3e-e3e50eb13522")
 		(sheetname "/Standard_Test_Blocks/")
@@ -49874,6 +53033,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "3db4974a-8911-4302-968f-4877428f80da")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1482603-44ed-4170-bdc3-404b87eaa513")
 			(effects
 				(font
 					(size 1 1)
@@ -50048,7 +53220,7 @@
 				)
 			)
 		)
-		(property "DNP" "true"
+		(property "DNP" ""
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -50324,6 +53496,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3aa3bf3c-19e2-4da2-82d4-d3a5342dd0db")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b4f33c56-176e-50a1-bff7-4c71621dfbc6/846127f3-e72e-5ab4-a421-8c41ff4ad7c6")
 		(sheetname "/Routing_Control/")
@@ -50484,6 +53669,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "843138dd-acdd-425d-8254-1f6178f16e7a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d52b66a7-7e38-46e7-aca7-7bc7b6d0c5f4")
 			(effects
 				(font
 					(size 1 1)
@@ -50700,6 +53898,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6f62c720-5169-450b-8c04-d11490fdbc1c")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -51089,6 +54300,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9d6c07d9-58c9-4bc3-baf8-d0eccf16920f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/11ed3dd2-d279-4483-beff-991112c2ba4c/d7d51d05-7c56-436e-b060-a3482a494386")
 		(sheetname "/Power_Control/")
 		(sheetfile "power_control.kicad_sch")
@@ -51466,6 +54690,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "00016f19-c98c-4952-90af-58705d671783")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/de8f4588-cd43-45f8-a502-51219f80935f/9ca0da94-f7e5-4eb2-a6b3-c7cfe70e0270")
 		(sheetname "/Standard_Test_Blocks/")
@@ -51626,6 +54863,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e379b55d-d9e2-4589-8c35-81195029a4cb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f46ec174-750d-4beb-b782-a2e3ac3f30e7")
 			(effects
 				(font
 					(size 1 1)
@@ -52004,6 +55254,19 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eab48c12-3631-4b7a-b224-66e0f361d699")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/b42d37c0-332f-4415-bc51-a9ef01c1562f/269241d5-b88c-4cd5-97bc-ae652620263b")
 		(sheetname "/V2 Rev-A Rack Control Endpoint/")
 		(sheetfile "rack_control.kicad_sch")
@@ -52168,6 +55431,20 @@
 			(layer "B.Fab")
 			(hide yes)
 			(uuid "8fb066b3-0836-4c33-8061-994272b93c38")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+				(justify mirror)
+			)
+		)
+		(property "DNP" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "6a650540-5900-45c3-b28d-5510bf72f2e5")
 			(effects
 				(font
 					(size 1 1)

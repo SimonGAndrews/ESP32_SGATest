@@ -8476,6 +8476,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 262.89 92.71 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8c1cd816-add0-4caf-a1db-768f531ca73b")
 		)
@@ -8683,6 +8692,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 204.47 208.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "bda4e1ef-3f8e-5cd6-b914-5ac13c1f39b9")
 		)
@@ -8795,6 +8813,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 356.87 208.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4c95b4ec-e891-5252-9f8d-8fcd4e769a60")
 		)
@@ -8898,6 +8925,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 52.07 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "36c3c9b6-7fea-4159-aa08-876afc6d582d")
 		)
@@ -8969,6 +9005,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 199.39 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 199.39 241.3 90)
 			(effects
 				(font
@@ -9051,6 +9096,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 52.07 208.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9165,6 +9219,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 62.23 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d1bbfdfb-dea3-5693-a112-c42bfc8d2d01")
 		)
@@ -9247,6 +9310,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 307.34 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9336,6 +9408,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 295.91 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a408e29b-c1b3-4bc6-b704-8bb22f8b7e0c")
 		)
@@ -9412,6 +9493,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 274.32 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "35024f6c-fc54-4505-9e52-eadf29a26151")
 		)
@@ -9472,6 +9562,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 275.59 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 275.59 52.07 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9563,6 +9662,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 323.85 43.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a2c9c5b2-0b5e-56f3-9b25-cd0cac0eb736")
 		)
@@ -9630,6 +9738,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 275.59 57.15 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "27fc52d5-1ec3-5149-b784-19e23c14c393")
 		)
@@ -9689,6 +9806,15 @@
 			)
 		)
 		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
+			(at 41.91 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 41.91 99.06 0)
 			(effects
 				(font
@@ -9784,6 +9910,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 364.49 189.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "88649bf3-b05e-4070-afeb-78a21b5e863f")
 		)
@@ -9861,6 +9996,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 358.14 96.52 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "52d7f5be-71f9-412b-9040-8e62ec420472")
 		)
@@ -9921,6 +10065,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 275.59 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 275.59 68.58 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10069,6 +10222,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 128.27 208.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d3ad339c-df08-599a-a20b-58c6f2944e3e")
 		)
@@ -10182,6 +10344,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 196.85 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "924f584d-28fe-50f3-aa76-e96fc4620ec2")
 		)
@@ -10260,6 +10431,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 86.36 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10489,6 +10669,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 59.69 189.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5e77f885-1ecb-5f82-8dde-ff6b9856bf74")
 		)
@@ -10548,6 +10737,15 @@
 			)
 		)
 		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
+			(at 165.1 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 165.1 110.49 0)
 			(effects
 				(font
@@ -10636,6 +10834,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 80.01 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a792b076-db34-5eb0-bf19-c1bd7d290505")
 		)
@@ -10692,6 +10899,15 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 295.91 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 295.91 99.06 0)
 			(effects
 				(font
@@ -10833,6 +11049,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 318.77 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9a80f0c3-1bb4-4900-8c28-b6300b84890c")
 		)
@@ -10901,6 +11126,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 361.95 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 361.95 241.3 90)
 			(effects
 				(font
@@ -10993,6 +11227,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 135.89 189.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6d4534a1-9a7c-4796-8687-1e07a6fea770")
 		)
@@ -11062,6 +11305,15 @@
 			)
 		)
 		(property "MPN" "61300111121"
+			(at 170.18 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 170.18 152.4 0)
 			(effects
 				(font
@@ -11151,6 +11403,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 281.94 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8621f278-20f2-5901-aca7-9f4e365634c2")
 		)
@@ -11231,6 +11492,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 39.37 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 39.37 241.3 90)
 			(effects
 				(font
@@ -11323,6 +11593,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 288.29 189.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5b6c38f7-14d6-4c18-81bc-ea3d2f80dbcd")
 		)
@@ -11392,6 +11671,15 @@
 			)
 		)
 		(property "MPN" "61300111121"
+			(at 111.76 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 111.76 153.67 0)
 			(effects
 				(font
@@ -11479,6 +11767,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 372.11 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11570,6 +11867,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 139.7 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4b6a9d99-5f17-5aff-84f5-4933136a1fb9")
 		)
@@ -11644,6 +11950,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 140.97 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "45f81313-7c55-5b11-bd25-8f321f3ebe12")
 		)
@@ -11709,6 +12024,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 214.63 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 214.63 241.3 90)
 			(effects
 				(font
@@ -11796,6 +12120,15 @@
 		)
 		(property "AISLER_MPN" "4.7nF 10% 16V X7R 0603"
 			(at 283.21 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 270.51 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11953,6 +12286,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 212.09 189.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "c870401b-c011-444c-b775-48b6ee7dfd50")
 		)
@@ -12038,6 +12380,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 283.21 125.73 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "739a1321-81dc-42e8-99fd-e7fd8b06d3ee")
 		)
@@ -12107,6 +12458,15 @@
 			)
 		)
 		(property "MPN" "61300111121"
+			(at 195.58 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 195.58 140.97 0)
 			(effects
 				(font
@@ -12186,6 +12546,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 316.23 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12299,6 +12668,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 318.77 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "fede965f-fb62-4c12-9e98-c821b95d93e7")
 		)
@@ -12367,6 +12745,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 118.11 242.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 118.11 242.57 90)
 			(effects
 				(font
@@ -12451,6 +12838,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 45.72 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "50f8579e-f097-564a-abd7-32fd62c5480e")
 		)
@@ -12510,6 +12906,15 @@
 			)
 		)
 		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
+			(at 151.13 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 151.13 93.98 0)
 			(effects
 				(font
@@ -12597,6 +13002,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 269.24 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "250ca2c6-ecad-4123-9708-a4a8097bed76")
 		)
@@ -12665,6 +13079,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 289.56 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 289.56 241.3 90)
 			(effects
 				(font
@@ -12756,6 +13179,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 140.97 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12955,6 +13387,15 @@
 			)
 		)
 		(property "MPN" "61300111121"
+			(at 171.45 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 171.45 129.54 0)
 			(effects
 				(font
@@ -13166,6 +13607,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 346.71 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "2112ebb2-3245-4438-8aba-d343d5f0c827")
 		)
@@ -13235,6 +13685,15 @@
 			)
 		)
 		(property "MPN" "61300111121"
+			(at 113.03 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 113.03 140.97 0)
 			(effects
 				(font
@@ -13449,6 +13908,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 80.01 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9c9fb552-be50-5717-a578-3593850e27a4")
 		)
@@ -13523,6 +13991,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 111.76 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d64bca08-a84d-58a2-b039-d9a69bac1153")
 		)
@@ -13588,6 +14065,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 123.19 242.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 123.19 242.57 90)
 			(effects
 				(font
@@ -13729,6 +14215,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 275.59 73.66 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "cdd7b928-b5d3-598d-89ff-a9539c357fc4")
 		)
@@ -13808,6 +14303,15 @@
 		)
 		(property "AISLER_MPN" "4.7nF 10% 16V X7R 0603"
 			(at 355.6 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
+			(at 342.9 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13897,6 +14401,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 200.66 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14044,6 +14557,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 383.54 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8a9ccfe3-0ffb-4382-9d35-df45c1b4f7de")
 		)
@@ -14112,6 +14634,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 284.48 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 284.48 241.3 90)
 			(effects
 				(font
@@ -14196,6 +14727,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 194.31 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "2a229485-317b-4cf3-918d-6d4b4997e741")
 		)
@@ -14272,6 +14812,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 138.43 242.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b598971d-9445-5ccf-af79-2394ba5a5fc3")
 		)
@@ -14340,6 +14889,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 133.35 242.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 133.35 242.57 90)
 			(effects
 				(font
@@ -14489,6 +15047,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 57.15 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3d07fb3a-231c-5794-a831-9a2801fb59ca")
 		)
@@ -14548,6 +15115,15 @@
 			)
 		)
 		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
+			(at 154.94 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 154.94 102.87 0)
 			(effects
 				(font
@@ -14832,6 +15408,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 80.01 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "2cbd5229-d8d1-52fc-bf7a-b707e89e2046")
 		)
@@ -14913,6 +15498,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 204.47 43.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8d706704-6a69-4b28-9e45-8439fa9a5ff6")
 		)
@@ -14982,6 +15576,15 @@
 			)
 		)
 		(property "MPN" "61300111121"
+			(at 171.45 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 171.45 140.97 0)
 			(effects
 				(font
@@ -15061,6 +15664,15 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "DNP" ""
+			(at 280.67 208.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15185,6 +15797,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 251.46 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "437e6d4a-60d2-4e48-8ba7-447ab3a54382")
 		)
@@ -15269,6 +15890,15 @@
 				)
 			)
 		)
+		(property "DNP" ""
+			(at 90.17 39.37 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d4217e2b-ed22-4bdb-a107-6c1bf983c68a")
 		)
@@ -15337,6 +15967,15 @@
 			)
 		)
 		(property "AISLER_MPN" "100k 0603 1% 0.1W"
+			(at 351.79 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 351.79 241.3 90)
 			(effects
 				(font
@@ -15421,6 +16060,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 209.55 241.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "680a315e-6122-41e8-a833-3ab61c562ae9")
 		)
@@ -15480,6 +16128,15 @@
 			)
 		)
 		(property "Description" "3-pole Solder Jumper, pins 1+2 closed/bridged"
+			(at 38.1 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 38.1 90.17 0)
 			(effects
 				(font

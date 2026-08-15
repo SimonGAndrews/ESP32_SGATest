@@ -112,8 +112,8 @@ and safe-state rules.
 |---|---|---|---|---|
 | `UP01` | `TI_UART_A_TX` | `TI_UART_B_RX` | UART crosslink | Open |
 | `UP02` | `TI_UART_B_TX` | `TI_UART_A_RX` | UART crosslink | Open |
-| `UP03` | `TI_UART_A_TX` | Selected external peer RX | UART external peer | Open |
-| `UP04` | Selected external peer TX | `TI_UART_A_RX` | UART external peer | Open |
+| `UP03` | `TI_UART_A_TX` | External peer RX at endpoint-A peer header | UART external peer | Open |
+| `UP04` | External peer TX at endpoint-A peer header | `TI_UART_A_RX` | UART external peer | Open |
 
 `UP01` and `UP02` operate as one full-duplex crosslink state. `UP03` and
 `UP04` operate as one external-peer state. The two states are mutually
@@ -125,6 +125,12 @@ exclusive:
 
 No configuration may connect the external-peer TX and `TI_UART_B_TX` to
 `TI_UART_A_RX` together.
+
+Rev-A external-peer operation therefore uses logical endpoint A. The separate
+endpoint-A peer header carries only the switched, 470 Ohm protected paths and
+ground. The endpoint-B header is a direct high-impedance diagnostic provision;
+external equipment shall not drive either of its signal contacts. A target
+with only one usable UART maps that UART to endpoint A.
 
 CTS and RTS are not accepted Target Interface or Block 7 requirements in the
 current inventory. A justified target-specific test may expose them through a

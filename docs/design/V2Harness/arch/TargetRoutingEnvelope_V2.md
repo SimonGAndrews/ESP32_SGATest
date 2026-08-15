@@ -914,9 +914,11 @@ The direct UART assignments connect the Pico GPIOs directly to the four
 protected Block 7 endpoint nodes; they do not make the endpoint-A-to-endpoint-B
 crosslink permanent. Common Block 7 UART connection switches enable both
 protected crosslink directions for full-duplex target testing and open them
-before an external peer drives a selected RX. The 2x3 peer/diagnostic header
-remains a high-impedance observation point while the crosslink is active. These
-block-local switches are not Pico route-selection entries.
+before an external peer drives endpoint-A RX. The separate endpoint-B
+diagnostic header remains a high-impedance observation point while the
+crosslink is active and shall not be externally driven. The endpoint-A peer
+header carries the switched, protected external-peer paths. These block-local
+switches are not Pico route-selection entries.
 
 #### Required Simultaneous Configurations
 

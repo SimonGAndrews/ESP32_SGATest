@@ -6253,6 +6253,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 242.57 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "2134d7ab-7f82-4d0f-b1b8-250e5ff0f0b3")
 		)
@@ -6378,6 +6387,15 @@
 			)
 		)
 		(property "Description" "Generic connector, double row, 02x06, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 246.38 303.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 246.38 303.53 0)
 			(effects
 				(font
@@ -6682,6 +6700,15 @@
 				(hide yes)
 			)
 		)
+		(property "DNP" ""
+			(at 368.3 358.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "96d03481-a4cc-4c2d-b398-50b00351d0d2")
 		)
@@ -6747,6 +6774,15 @@
 			)
 		)
 		(property "Description" "Generic connector, double row, 02x06, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 269.24 358.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 269.24 358.14 0)
 			(effects
 				(font
@@ -6976,6 +7012,15 @@
 			)
 		)
 		(property "Description" "V2 Target Interface connector bank; 2x12 odd/even contact numbering"
+			(at 330.2 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "DNP" ""
 			(at 330.2 180.34 0)
 			(effects
 				(font

@@ -1,0 +1,136 @@
+schema_version: 1
+kind: block_contract
+block_id: TB07
+
+# Independent machine-checkable intent derived from Standard Test Blocks
+# Section 6.7, the accepted UP01-UP04 matrix and the TMUX1511 PW pin table.
+# Permitted control-state sequencing, powered-off analogue behaviour, native
+# DNP/hand-fit disposition, connector separation, layout and signal quality
+# remain human-reviewed PCB, assembly and functional-test checks.
+assertions:
+  pin_net:
+    # U701 implements the two crosslink and two endpoint-A peer paths.
+    - {ref: U701, pin: "1", net: UP01_EN}
+    - {ref: U701, pin: "2", net: TI_UART_A_TX}
+    - {ref: U701, pin: "3", net: Net-(U701-D1)}
+    - {ref: U701, pin: "4", net: UP02_EN}
+    - {ref: U701, pin: "5", net: TI_UART_B_TX}
+    - {ref: U701, pin: "6", net: Net-(U701-D2)}
+    - {ref: U701, pin: "7", net: TI_GND}
+    - {ref: U701, pin: "8", net: Net-(U701-D3)}
+    - {ref: U701, pin: "9", net: TI_UART_A_TX}
+    - {ref: U701, pin: "10", net: UP03_EN}
+    - {ref: U701, pin: "11", net: Net-(U701-D4)}
+    - {ref: U701, pin: "12", net: UART_PEER_TX}
+    - {ref: U701, pin: "13", net: UP04_EN}
+    - {ref: U701, pin: "14", net: ROUTING_LOGIC_3V3}
+
+    # Every switched signal path retains its 470 Ohm series protection.
+    - {ref: R701, pin: "1", net: Net-(U701-D1)}
+    - {ref: R701, pin: "2", net: TI_UART_B_RX}
+    - {ref: R702, pin: "1", net: Net-(U701-D2)}
+    - {ref: R702, pin: "2", net: TI_UART_A_RX}
+    - {ref: R703, pin: "1", net: Net-(U701-D3)}
+    - {ref: R703, pin: "2", net: UART_PEER_RX}
+    - {ref: R704, pin: "1", net: Net-(U701-D4)}
+    - {ref: R704, pin: "2", net: TI_UART_A_RX}
+
+    # RCTRL1 owns four independent active-high controls. External pull-downs
+    # hold all controls low while the controller is reset or high impedance.
+    - {ref: U611, pin: "24", net: UP01_EN}
+    - {ref: U611, pin: "25", net: UP02_EN}
+    - {ref: U611, pin: "26", net: UP03_EN}
+    - {ref: U611, pin: "27", net: UP04_EN}
+    - {ref: R705, pin: "1", net: UP01_EN}
+    - {ref: R705, pin: "2", net: TI_GND}
+    - {ref: R706, pin: "1", net: UP02_EN}
+    - {ref: R706, pin: "2", net: TI_GND}
+    - {ref: R707, pin: "1", net: UP03_EN}
+    - {ref: R707, pin: "2", net: TI_GND}
+    - {ref: R708, pin: "1", net: UP04_EN}
+    - {ref: R708, pin: "2", net: TI_GND}
+
+    # Local routing-logic supply bypass.
+    - {ref: C701, pin: "1", net: ROUTING_LOGIC_3V3}
+    - {ref: C701, pin: "2", net: TI_GND}
+
+    # J701 is the only driven external-peer interface and uses peer-perspective
+    # signal names. J702 is direct endpoint-B diagnostic observation only.
+    - {ref: J701, pin: "1", net: UART_PEER_RX}
+    - {ref: J701, pin: "2", net: UART_PEER_TX}
+    - {ref: J701, pin: "3", net: TI_GND}
+    - {ref: J702, pin: "1", net: TI_UART_B_TX}
+    - {ref: J702, pin: "2", net: TI_UART_B_RX}
+    - {ref: J702, pin: "3", net: TI_GND}
+
+    # Target Interface and route-fabric endpoint continuity.
+    - {ref: J901, pin: "18", net: TI_UART_A_TX}
+    - {ref: J901, pin: "19", net: TI_UART_A_RX}
+    - {ref: J901, pin: "21", net: TI_UART_B_TX}
+    - {ref: J901, pin: "22", net: TI_UART_B_RX}
+    - {ref: U603, pin: "8", net: TI_UART_A_TX}
+    - {ref: U604, pin: "3", net: TI_UART_A_RX}
+
+  component_value:
+    - {ref: U701, value: TMUX1511}
+    - {ref: C701, value: 100nF}
+    - {ref: R701, value: 470R}
+    - {ref: R702, value: 470R}
+    - {ref: R703, value: 470R}
+    - {ref: R704, value: 470R}
+    - {ref: R705, value: 100k}
+    - {ref: R706, value: 100k}
+    - {ref: R707, value: 100k}
+    - {ref: R708, value: 100k}
+    - {ref: J701, value: UART_PEER}
+    - {ref: J702, value: UART_B_DIAGNOSTIC_NO_DRIVE}
+
+  forbidden_same_net:
+    - id: TB07-F01
+      endpoints: [U701.2, U701.3]
+      reason: UP01 must remain a switch boundary rather than permanently connect A TX to the protected B RX branch.
+    - id: TB07-F02
+      endpoints: [U701.5, U701.6]
+      reason: UP02 must remain a switch boundary rather than permanently connect B TX to the protected A RX branch.
+    - id: TB07-F03
+      endpoints: [U701.9, U701.8]
+      reason: UP03 must remain a switch boundary rather than permanently connect A TX to the protected peer RX branch.
+    - id: TB07-F04
+      endpoints: [U701.12, U701.11]
+      reason: UP04 must remain a switch boundary rather than permanently connect peer TX to the protected A RX branch.
+    - id: TB07-F05
+      endpoints: [R701.1, R701.2]
+      reason: The A-TX-to-B-RX crosslink must retain its 470 Ohm protection resistor.
+    - id: TB07-F06
+      endpoints: [R702.1, R702.2]
+      reason: The B-TX-to-A-RX crosslink must retain its 470 Ohm protection resistor.
+    - id: TB07-F07
+      endpoints: [R703.1, R703.2]
+      reason: The endpoint-A-TX-to-peer-RX path must retain its 470 Ohm protection resistor.
+    - id: TB07-F08
+      endpoints: [R704.1, R704.2]
+      reason: The peer-TX-to-endpoint-A-RX path must retain its 470 Ohm protection resistor.
+    - id: TB07-F09
+      endpoints: [R705.1, R705.2]
+      reason: UP01_EN must reach ground only through its fitted safe-state pull-down.
+    - id: TB07-F10
+      endpoints: [R706.1, R706.2]
+      reason: UP02_EN must reach ground only through its fitted safe-state pull-down.
+    - id: TB07-F11
+      endpoints: [R707.1, R707.2]
+      reason: UP03_EN must reach ground only through its fitted safe-state pull-down.
+    - id: TB07-F12
+      endpoints: [R708.1, R708.2]
+      reason: UP04_EN must reach ground only through its fitted safe-state pull-down.
+    - id: TB07-F13
+      endpoints: [J701.1, J701.2]
+      reason: External-peer RX and TX must remain separate full-duplex signals.
+    - id: TB07-F14
+      endpoints: [J702.1, J702.2]
+      reason: Endpoint-B TX and RX must remain separate diagnostic signals.
+    - id: TB07-F15
+      endpoints: [J701.2, J702.1]
+      reason: External-peer TX and endpoint-B TX are independent active sources and must never be tied together.
+    - id: TB07-F16
+      endpoints: [U701.14, U701.7]
+      reason: U701 routing-logic supply and ground must remain separate.

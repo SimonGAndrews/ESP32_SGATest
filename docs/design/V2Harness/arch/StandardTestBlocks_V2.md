@@ -1398,12 +1398,12 @@ selector or shunt changes during routine tests. The target-specific assignment
 of hardware UARTs and GPIOs to endpoint A or B is supplied by the Target
 Profile and established through direct or automated routed connections.
 
-The block shall also support a single-target-endpoint configuration. This
-reduces the target-side requirement from two UART endpoints and four GPIOs to
-one UART endpoint and two GPIOs; it does not remove the need to wire the tested
-target UART. Its selected TX and RX reach the peer connector through direct or
-automated routed connections, while the unused target endpoint remains
-disconnected.
+The block shall also support a single-target-endpoint configuration using
+logical endpoint A. This reduces the target-side requirement from two UART
+endpoints and four GPIOs to one UART endpoint and two GPIOs; it does not remove
+the need to wire the tested target UART. Endpoint-A TX and RX reach the peer
+connector through the automated block-local switches and 470 Ohm protected
+paths, while endpoint B remains isolated from endpoint A and the peer.
 
 In this external-peer configuration, a host-controlled 3.3 V USB-UART adapter
 or a future programmable harness peer may receive and validate target
@@ -1414,18 +1414,26 @@ separate Control Service connection. Whether the peer becomes a standard
 programmable harness or harness-master facility is deferred to the Control
 Service specification.
 
-Provide one compact 2.54 mm 2x3 external-peer and diagnostic header with the
-following logical arrangement:
+Provide two physically distinct vertical 2.54 mm 1x3 headers:
 
-| Header row | Position 1 | Position 2 | Position 3 |
-|---|---|---|---|
-| UART A | A TX | A RX | GND |
-| UART B | B TX | B RX | GND |
+| Header function | Pin 1 | Pin 2 | Pin 3 | Permitted use |
+|---|---|---|---|---|
+| UART peer | Endpoint-A TX to peer RX | Peer TX to endpoint-A RX | GND | Active 3.3 V external peer |
+| UART diagnostic | Endpoint-B TX | Endpoint-B RX | GND | High-impedance observation only; no external drive |
 
-The header provides no power output. An external USB-UART adapter or other peer
-must be independently powered, use 3.3 V signalling and
-share harness ground. The final connector footprint and orientation remain
-subject to physical layout review.
+The peer header is the only standard connection for an active external UART
+peer. Its two signal paths pass through the endpoint-A block-local switches
+and 470 Ohm series protection. The diagnostic header connects directly to the
+endpoint-B nodes so they remain observable while the internal crosslink is
+active; attached instruments shall present high impedance and shall not drive
+either signal.
+
+Neither header provides a power output. An external USB-UART adapter or other
+peer must be independently powered, use 3.3 V signalling and share harness
+ground. The two footprints shall be sufficiently separated and labelled
+`PEER` and `DIAGNOSTIC - NO DRIVE` so they cannot be mistaken for a symmetric
+2x3 interface. Final footprint orientation remains subject to physical layout
+review.
 
 Dedicated bad-frame or glitch-generation circuitry is not part of this Test
 Block. Where required, malformed traffic, mismatched settings, break-like
@@ -1457,11 +1465,12 @@ full-duplex transfers. The routing design must not connect two target outputs,
 leave two sources driving one RX net, or activate parallel direct and routed
 paths without explicit isolation.
 
-In external-peer operation, the peer RX observes the selected target TX and
-the peer TX drives the selected target RX through a protected path. The other
-target endpoint shall be disconnected before the peer is enabled. An external
-peer must not be attached as a second driver while the corresponding crossed
-target TX path is active.
+In external-peer operation, logical endpoint A is the selected target UART.
+The peer RX observes endpoint-A TX and the peer TX drives endpoint-A RX through
+the switched, 470 Ohm protected paths. The endpoint-B crosslink paths shall be
+open before the peer is enabled. An external peer must not be attached as a
+second driver while the corresponding crossed target TX path is active, and it
+shall never drive the endpoint-B diagnostic header.
 
 The block may use direct or legal routed connections. Route application and
 verification must complete before either UART is configured to transmit. A
@@ -1519,16 +1528,17 @@ Automated route isolation shall replace the V1 manual UART selectors and
 links. It must be possible to isolate endpoint A, endpoint B and the external
 peer so that each source and receive path can be diagnosed independently.
 
-The 2x3 header exposes A TX, A RX, B TX, B RX and two ground contacts for logic
-analysis, baud measurement and connection of external 3.3 V peers. Signal
-labels and the two endpoint rows shall be unambiguous on the silkscreen. The
-header must remain electrically useful for observation while the internal
-crosslink is active.
+The peer header exposes the switched endpoint-A TX, endpoint-A RX and ground
+for connection of an external 3.3 V peer. The separate diagnostic header
+exposes endpoint-B TX, endpoint-B RX and ground for high-impedance logic
+analysis and baud measurement. It must remain electrically useful for
+observation while the internal crosslink is active, but shall not be used as a
+driven peer interface.
 
-The final prototype review shall determine whether this shared header alone
-provides adequate observation while an external peer is fitted or whether
-additional individual header-pin test points are justified. That decision must
-consider the cumulative connector and test-point budget in Section 7.
+The final prototype review shall confirm that the two headers provide adequate
+probe and cable access without additional individual UART test points. That
+decision must consider the cumulative connector and test-point budget in
+Section 7.
 
 The Resolved Test Configuration and evidence must record the endpoint
 assignments, active routes, baud and framing, control connection, external-peer
@@ -1563,9 +1573,10 @@ following follow-up is assigned under Section 7.6:
 * the baseline and maximum baud required after routing-path validation
 * any target-specific CTS or RTS Adapter Service and external-peer arrangement
   justified by a target test requirement
-* the final standard external-peer connector footprint and orientation,
-  preserving the accepted 2x3 logical arrangement without CTS or RTS
-* whether the shared peer header requires additional live observation pins
+* the final standard 1x3 peer and 1x3 diagnostic connector footprints,
+  separation and orientation, without CTS or RTS
+* whether the separate diagnostic header provides adequate live observation
+  without additional UART test points
 * whether weak RX idle bias is useful and electrically safe across the target
   envelope
 * whether the host-controlled USB-UART peer remains external equipment or is
@@ -1779,10 +1790,10 @@ than one logical role with one physical target resource.
 | `TI_ONEWIRE_DQ` | 5 | Bidirectional open-drain | Direct or characterised bidirectional route; preserves 1-Wire timing |
 | `TI_ONEWIRE_GPIO_A_FB` | 5 | Input | Direct or routed; simultaneous with B feedback; may exclusively reuse a Block 1 input |
 | `TI_ONEWIRE_GPIO_B_FB` | 5 | Input | Direct or routed; simultaneous with A feedback; may exclusively reuse a Block 1 input |
-| `TI_UART_A_TX` | 7 | Output | Direct or routed; crosslinks only to B RX or selected peer RX |
-| `TI_UART_A_RX` | 7 | Input | Direct or routed; one active source only |
-| `TI_UART_B_TX` | 7 | Output | Direct or routed; crosslinks only to A RX or selected peer RX |
-| `TI_UART_B_RX` | 7 | Input | Direct or routed; one active source only |
+| `TI_UART_A_TX` | 7 | Output | Direct or routed; switches only to B RX or external peer RX |
+| `TI_UART_A_RX` | 7 | Input | Direct or routed; one active source from B TX or external peer TX only |
+| `TI_UART_B_TX` | 7 | Output | Direct or routed; switches only to A RX; separately exposed for high-impedance observation |
+| `TI_UART_B_RX` | 7 | Input | Direct or routed; driven only from A TX; separately exposed for high-impedance observation |
 | `TI_RGB_DATA` | 9 | Output | Direct or routed; protected 3.3 V node before module level translation |
 
 Harness power, ground and Control Service signals are outside this Test Block
@@ -1825,7 +1836,7 @@ other Control Service hardware are not included.
 | 3 | Two 1x2 I2C pull-up-enable headers and two shunts | 6 | One 2x8 GPIO breakout and one 1x4 2.0 mm Grove connector | Socketed MCP23017; removable Grove branch |
 | 4 | No routine shunt header | 7: SCK, MOSI, MISO, `CS_ADC`, `CS_EXT`, 3.3 V and GND | One 1x8 analogue breakout and one 2x7 castellated module-land array | Socketed MCP3008; removable microSD card; BFF removable by powered-off rework |
 | 5 | One 1x3 resistor-limited pull-up selector and one shunt | 5 | Two three-position sensor screw terminals and one 1x4 DS2413 header | Both sensors and the DS2413 are removable |
-| 7 | No manual isolation header | 0 additional pins | One shared 2x3 UART peer/diagnostic header | Route isolation; external peer removable |
+| 7 | No manual isolation header | 0 additional pins | One 1x3 UART peer header and one separate 1x3 diagnostic header | Route isolation; external peer removable |
 | 9 | No routine shunt header | 2 | One 1x4 right-angle Pixel Shifter connection | Complete module removal |
 
 The resulting Test Block baseline is:
@@ -1836,7 +1847,7 @@ The resulting Test Block baseline is:
 | Three-pin pull-up selector | 1 | 3 |
 | Fitted shunts | 8 | — |
 | Individual observation pins | 29 | 29 |
-| Functional, breakout and module connectors | 10 | 64 |
+| Functional, breakout and module connectors | 11 | 64 |
 | Socketed integrated circuits | 2 | excluded from the connector-contact total |
 | **Header and connector baseline** |  | **110** |
 
@@ -1858,9 +1869,9 @@ The cross-block review accepts the following consolidation and priority rules:
   connection; add only the separate `CS_ADC` observation pin
 * retain the five live 1-Wire observation pins because the occupied DS2413
   module header does not expose usable live PIO access
-* use the Block 7 2x3 peer connector for routine UART observation; do not add
-  separate UART test points unless prototype use proves the shared header
-  inaccessible with a peer attached
+* use the separate Block 7 peer and diagnostic 1x3 headers for UART connection
+  and observation; do not add individual UART test points unless prototype use
+  proves the diagnostic header inaccessible
 * use device, card or module removal for Grove, microSD, DS18B20, DS2413 and
   RGB isolation rather than adding signal shunts to every branch; complete BFF
   removal is powered-off solder rework
@@ -1967,7 +1978,7 @@ Physical connector pin assignment remains outside this document.
 
 ## Appendix A — Test Block Functional And Module Connector Register
 
-This appendix expands the ten functional, breakout and module connectors
+This appendix expands the eleven functional, breakout and module connectors
 counted in Section 7.3. It is an implementation aid; the detailed electrical,
 mechanical and isolation requirements remain authoritative in the applicable
 block sections.
@@ -1982,7 +1993,8 @@ block sections.
 | 5 | DS18B20 sensor connector A | 1x3 screw terminal | Connect or replace the first powered 1-Wire sensor |
 | 5 | DS18B20 sensor connector B | 1x3 screw terminal | Connect or replace the second powered 1-Wire sensor |
 | 5 | DS2413 module header | 1x4 | Mount and completely remove the 1-Wire GPIO breakout |
-| 7 | UART peer and diagnostic header | 2x3 | Expose both UART endpoint pairs and two ground contacts |
+| 7 | UART peer header | 1x3 | Connect an active 3.3 V peer to switched, protected endpoint A and ground |
+| 7 | UART diagnostic header | 1x3 | Expose endpoint-B TX, endpoint-B RX and ground for high-impedance observation only |
 | 9 | Pixel Shifter connection | 1x4 right-angle | Mount the removable edge-overhanging RGB module; the `CLK` position is mechanically present but not connected |
 
 The register contains 64 PCB contact positions. It excludes isolation and
@@ -1991,7 +2003,7 @@ Interface banks, routing hardware and Control Service connectors.
 
 ## Appendix B — Individual Observation-Point Register
 
-This appendix expands the 23 individual observation pins counted in Section
+This appendix expands the 29 individual observation pins counted in Section
 7.3. Each entry is one accessible 2.54 mm header pin.
 
 | Block | Observation point | Primary diagnostic purpose |
@@ -2027,6 +2039,6 @@ This appendix expands the 23 individual observation pins counted in Section
 | 9 | GND | Provide a nearby RGB waveform measurement reference |
 
 Block 4 obtains CH0 through CH7 observation through the analogue breakout.
-Block 7 obtains UART observation through its shared 2x3 peer header. Those
-connector-provided points are listed in Appendix A and are not counted again
-as individual observation pins.
+Block 7 obtains UART observation through its separate peer and diagnostic
+headers. Those connector-provided points are listed in Appendix A and are not
+counted again as individual observation pins.
