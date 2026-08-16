@@ -16,7 +16,7 @@
     {
       "id": "manifest",
       "file": "ReusableHarnessRevA_Connectivity.yaml",
-      "sha256": "7ea89e92f5a678899c7f26f9189953186d8affbabd469ce27238a0e8f08cba5a"
+      "sha256": "cd2f33a9d43188529ddd6922129826c2a13abed3fca5683e1550fb13d57b9004"
     },
     {
       "id": "PC01",
@@ -72,6 +72,11 @@
       "id": "TB09",
       "file": "contracts/TB09-addressable-rgb-output.yaml",
       "sha256": "8ee11255c60f4a5c27cd65f4062acb8fef328d0fee25ce5ddcbb141a386045a7"
+    },
+    {
+      "id": "TI01",
+      "file": "contracts/TI01-target-interface-connector-banks.yaml",
+      "sha256": "0f86699e9fbf4dd3546e6be7063f6a54911aaa73440f3ddc101d5c404988c61f"
     },
     {
       "id": "SYS01",
@@ -199,6 +204,17 @@
         "pin_net": 12,
         "component_value": 5,
         "forbidden_same_net": 8
+      }
+    },
+    {
+      "id": "TI01",
+      "kind": "block_contract",
+      "status": "pass",
+      "checks": 54,
+      "assertions": {
+        "pin_net": 48,
+        "component_value": 2,
+        "forbidden_same_net": 4
       }
     },
     {

@@ -1303,7 +1303,7 @@
 	)
 	(rectangle
 		(start 205.74 132.08)
-		(end 378.46 223.52)
+		(end 378.46 254)
 		(stroke
 			(width 0)
 			(type default)
@@ -1347,6 +1347,17 @@
 			)
 		)
 		(uuid "75718ba0-6932-4668-8e4f-e617b7c011b3")
+	)
+	(text "TARGET INTERFACE — COPLANAR HARNESS/DAUGHTER CONNECTION\n\nJ900/J901: harness-side 2x12 right-angle female sockets,\ncut from Adafruit 1543; mandatory post-AISLER hand-fit.\nDaughter board uses mating 2x12 male sections cut from Adafruit 1541.\n\nConnector A/B positions are asymmetrically offset for orientation control.\nBoth banks must engage together; mate or separate only while unpowered."
+		(exclude_from_sim no)
+		(at 210.82 236.22 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7a5d0290-3b85-48c0-9a46-76b130e36576")
 	)
 	(text "RACK POWER BACKPLANE INTERFACE - PROVISIONAL"
 		(exclude_from_sim no)
@@ -1873,7 +1884,7 @@
 	)
 	(wire
 		(pts
-			(xy 209.55 153.67) (xy 237.49 153.67)
+			(xy 212.09 153.67) (xy 237.49 153.67)
 		)
 		(stroke
 			(width 0)
@@ -6208,7 +6219,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "2d653a8f-3034-44e9-9399-929fe0432ee7")
 		(property "Reference" "J900"
 			(at 242.57 147.32 0)
@@ -6235,7 +6246,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/P1543.pdf"
 			(at 242.57 181.61 0)
 			(effects
 				(font
@@ -6244,7 +6255,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "V2 Target Interface connector bank; 2x12 odd/even contact numbering"
+		(property "Description" "Target Interface A harness socket; 2x12 cut from Adafruit 1543; post-AISLER hand-fit"
 			(at 242.57 181.61 0)
 			(effects
 				(font
@@ -6253,13 +6264,20 @@
 				(hide yes)
 			)
 		)
-		(property "DNP" ""
+		(property "MPN" "1543"
 			(at 242.57 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 242.57 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"
@@ -6517,7 +6535,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 209.55 153.67 0)
+		(at 212.09 153.67 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6526,7 +6544,7 @@
 		(fields_autoplaced yes)
 		(uuid "72ea7e8a-2a6c-495b-bdd7-f79a78b09fe5")
 		(property "Reference" "#FLG03"
-			(at 209.55 151.765 0)
+			(at 212.09 151.765 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6535,7 +6553,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 209.55 148.59 0)
+			(at 212.09 148.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6543,7 +6561,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 209.55 153.67 0)
+			(at 212.09 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6552,7 +6570,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 209.55 153.67 0)
+			(at 212.09 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6561,7 +6579,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 209.55 153.67 0)
+			(at 212.09 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6975,7 +6993,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "ef5c3b11-1a2e-482e-a297-6ae538e7315f")
 		(property "Reference" "J901"
 			(at 330.2 146.05 0)
@@ -7002,7 +7020,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://cdn-shop.adafruit.com/datasheets/P1543.pdf"
 			(at 330.2 180.34 0)
 			(effects
 				(font
@@ -7011,7 +7029,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "V2 Target Interface connector bank; 2x12 odd/even contact numbering"
+		(property "Description" "Target Interface B harness socket; 2x12 cut from Adafruit 1543; post-AISLER hand-fit"
 			(at 330.2 180.34 0)
 			(effects
 				(font
@@ -7020,13 +7038,20 @@
 				(hide yes)
 			)
 		)
-		(property "DNP" ""
+		(property "MPN" "1543"
 			(at 330.2 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
+			)
+		)
+		(property "AISLER_MPN" ""
+			(at 330.2 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 			)
 		)
 		(pin "1"

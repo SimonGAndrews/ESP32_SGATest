@@ -147,7 +147,7 @@ is a board-level decision. A material change returns the affected block to
 | TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB05-onewire-functional-devices-and-gpio.png) | Verified |
 | TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB07-uart-crosslink-and-external-peer.png) | Verified |
 | TB09 | Addressable RGB output | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB09-addressable-rgb-output.png) | Verified |
-| TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | TBD | Draft |
+| TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | [PNG](review-images/TI01-target-interface-connector-banks.png) | Reviewed |
 | BP01 | Rack Control and backplane interface | High | Root schematic | Standard Control Services | TBD | Draft |
 | EP01 | Rack Control Endpoint and direct reset/boot stages | High | `rack_control.kicad_sch` | Standard Control Services | TBD | Draft |
 
@@ -929,7 +929,7 @@ guaranteed electrical limits and powered-off behaviour.
 | Requirements inspection | Controlled Routing and Combined Capability Connection Matrix | Accepted: the selected five-switch approach implements the complete 19-path inventory and preserves the required route-entry grouping |
 | Behaviour and safe-state analysis | Operating table, partial-power review and current full-hierarchy normalized connectivity | Circuit approach accepted; powered-off leakage, 3.6 V boundary and complete controller-reset margin remain physical/RC02 checks |
 | Manufacturer source screen | Sources and conclusions above | Accepted for circuit approach; no architecture or topology change required |
-| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete twelve-contract set passes 1017 checks |
+| Connectivity contract | `verification/contracts/RC01-routing-fabric.yaml` and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Accepted: 164 RC01 checks pass against the fresh root netlist: 116 pin/net, 29 component-value and 19 forbidden-direct-path assertions; the complete thirteen-contract set passes 1071 checks |
 | Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings after removal of the six redundant ground-to-ground resistors and application of the board-wide test-point metadata |
 | Symbol-to-footprint pin mapping | TMUX1511 Rev. B PW pin table, PW0014A package drawing, project-local symbol, installed KiCad footprint and current PCB pads | Accepted: pins 1–14, package family, body size, pitch, pad order and pin-1 orientation agree; the footprint's IPC land pattern is a permitted alternate to TI's example pattern |
 | Visual schematic review | `review-images/RC01-routing-fabric.png` | Accepted current reviewed circuit capture after removal of the six redundant resistors |
@@ -1162,7 +1162,7 @@ schematic; final manufacturer assignment remains part of BOM reconciliation.
 |---|---|
 | Requirements and manufacturer review | Accepted against Controlled Routing and Standard Control Services, including MCP23017, TPS3808, TMUX1511 and DMG2302UKQ manufacturer sources. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings. |
-| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete twelve-contract set passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/RC02-routing-controllers-and-fixed-i2c-isolation.yaml` passes 210 checks: 160 pin/net, 39 component-value and 11 forbidden-direct-path assertions. The complete thirteen-contract set passes all 1071 checks. |
 | Visual schematic review | Accepted full Routing Control sheet and focused cross-sheet Hardware Clear request-stage images linked above. |
 | Package and metadata review | Exact active-device MPNs and symbol/footprint pin mappings accepted as recorded above. |
 | Remaining work | Physical waveform, I2C loading, layout, BOM assignment and assembly checks remain in the PCB action and release registers; they do not reopen the accepted schematic topology. |
@@ -1259,7 +1259,7 @@ manufacturer component drawings/specifications above.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; no architecture change required. |
 | V1 prototype evidence | Accepted as proof of the two-pair 470 Ω functional pattern, including link-removal negative control; not used as Rev-A package proof. |
-| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted twelve-contract baseline passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB01-digital-gpio-loopback.yaml` passes 28 checks against a fresh full-hierarchy export: 12 pin/net, 8 component-value and 8 forbidden-direct-path assertions. The accepted thirteen-contract baseline passes all 1071 checks. |
 | Package review | Accepted SMD resistors, THT headers, shunts and existing test pins are compatible with their intended roles and footprints. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-12: zero errors and zero warnings after migrating `JP101/JP102` to the project-local symbol. |
 | Visual schematic review | Accepted focused image linked above; both paths, values, endpoints, assembly-stage DNP test points and operating notes are legible. |
@@ -1402,7 +1402,7 @@ isolation boundary.
 |---|---|
 | Requirements and functional review | Accepted circuit approach; the corrected MCP3008 isolation topology implements the existing architecture without changing it. |
 | V1 prototype evidence | Accepted for the 10 kOhm filtered-PWM function and concurrent target/MCP3008 ADC comparison; not used as Rev-A package or 1 uF performance proof. |
-| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete twelve-contract baseline passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB02-analogue-pwm-feedback.yaml` passes 38 checks: 19 pin/net, 11 component-value and 8 forbidden-direct-path assertions. The complete thirteen-contract baseline passes all 1071 checks. |
 | Package review | Accepted `R201`, `C201`, three isolation headers, three shunts, stimulus header and existing board-wide test-pin selection. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the complete Block 2 path, all three isolation boundaries, stimulus precautions, filter values and the MCP3008 CH0/`J401.1` cross-block endpoint. |
@@ -1540,7 +1540,7 @@ effective resistance, capacitance, rise time and low-level margin.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.3, including the corrected device-only SDA/SCL isolation and downstream RESET/INTA biasing. |
 | V1 prototype evidence | Accepted for the functional I2C device, GPIO feedback, interrupt and Grove-extension concepts; not used as Rev-A package, isolation or event-stage proof. |
-| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete twelve-contract set passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB03-i2c-functional-device.yaml` passes 150 checks: 99 pin/net, 32 component-value and 19 forbidden-direct-path assertions. The complete thirteen-contract set passes all 1071 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-13: zero errors and zero warnings. |
 | Visual schematic review | Accepted in the two focused images linked above. Together they show the shared bus, pull-ups, all device-isolation boundaries, isolated supply and biases, full GPIO breakout, feedback/interrupt paths and both Supervisor event stages. |
 | PCB synchronization | Accepted for schematic-baseline scope. Every contracted TB03 reference occurs exactly once on the current PCB, including the project-local `J301` footprint. The PCB carries the final `MCP23017_GPIO` value for `J302` and exact U301/Q301/Q302 metadata. Final placement, pad-level physical review and routing remain PCB-stage work. |
@@ -1658,7 +1658,7 @@ solder rework.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.4, including the fixed underside microSD decision, shared SPI bus, independent chip selects, CH0 cross-block isolation and required observation points. |
 | V1 prototype evidence | Accepted for the socketed MCP3008 and shared-bus/second-chip-select concepts; not used as ADA5683, local-capacitance, footprint or routed-timing proof. |
-| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete twelve-contract baseline passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB04-spi-functional-device-and-storage.yaml` passes 75 checks: 49 pin/net, 15 component-value and 11 forbidden-direct-path assertions. The complete thirteen-contract baseline passes all 1071 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the MCP3008 core and breakout, both inactive-state chip-select pull-ups, fixed BFF interface, local capacitance, hand-fit state and seven observation points. |
 | PCB synchronization | Accepted for schematic-baseline scope. U401 and J401 carry their exact MPNs and DNP state; J402 occurs once on `B.Cu` with the accepted project footprint, DNP state, six correct electrical pad nets, eight unnumbered mechanical lands and no paste apertures. Final placement and routing remain PCB-stage work. |
@@ -1820,7 +1820,7 @@ low-level margin.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.5, including normal and diagnostic selector states, removable devices, simultaneous protected PIO feedback and safe route sequencing. |
 | V1 prototype evidence | Accepted for the two-sensor and mixed DS18B20/DS2413 functional patterns; explicitly not used as proof of the V2 switch path, connectors, layout or leads. |
-| Connectivity contract | `verification/contracts/TB05-onewire-functional-devices-and-gpio.yaml` passes 65 checks: 36 pin/net, 15 component-value and 14 forbidden-direct-path assertions. The complete twelve-contract baseline passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB05-onewire-functional-devices-and-gpio.yaml` passes 65 checks: 36 pin/net, 15 component-value and 14 forbidden-direct-path assertions. The complete thirteen-contract baseline passes all 1071 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-14: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It clearly records DQ and feedback flow, selector states, removable devices, observation points, power-off reconfiguration and DS2413 retained-state behaviour. |
 | PCB synchronization | Accepted for schematic-baseline scope. `J501`–`J504`, `R501`–`R506` and `TP501`–`TP505` each occur once on the current PCB with the accepted footprints and pad nets. `J501`–`J504` carry native through-hole DNP attributes matching the saved schematic. Final placement, silkscreen, routing and accessory fit remain PCB-stage work. |
@@ -1994,7 +1994,7 @@ uncontrolled source.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.7, the UP01–UP04 connection matrix and the updated separate-header architecture. |
 | V1 prototype evidence | Accepted for full-duplex crosslink function, 470 Ohm protection and at least 115200 baud; explicitly not used as proof of TMUX switching, external-peer mode or partial power. |
-| Connectivity contract | `verification/contracts/TB07-uart-crosslink-and-external-peer.yaml` passes 76 checks: 48 pin/net, 12 component-value and 16 forbidden-direct-path assertions. The complete twelve-contract baseline passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB07-uart-crosslink-and-external-peer.yaml` passes 76 checks: 48 pin/net, 12 component-value and 16 forbidden-direct-path assertions. The complete thirteen-contract baseline passes all 1071 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-15: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It records the complete switch paths, permitted state vectors, safe-state pull-downs, peer-perspective names, connector restrictions and absence of connector power. |
 | PCB synchronization | Accepted for schematic-baseline scope. `U701`, `C701`, `R701`–`R708`, `J701` and `J702` each occur once on the current PCB with the accepted footprints and pad nets. J701/J702 carry native `through_hole dnp` attributes; their pads are respectively peer RX/peer TX/GND and endpoint-B TX/endpoint-B RX/GND. Final placement and routing remain PCB-stage work. |
@@ -2145,7 +2145,7 @@ support cannot be accepted from drawings alone and remain physical checks.
 |---|---|
 | Requirements and functional review | Accepted against Standard Test Blocks Section 6.9 and the Target Interface/route-destination assignments. |
 | V1 prototype evidence | None: TB09 is new in V2. This absence is retained as a physical-verification requirement rather than treated as schematic evidence. |
-| Connectivity contract | `verification/contracts/TB09-addressable-rgb-output.yaml` passes 25 checks: 12 pin/net, 5 component-value and 8 forbidden-direct-path assertions. The complete twelve-contract baseline passes all 1017 checks. |
+| Connectivity contract | `verification/contracts/TB09-addressable-rgb-output.yaml` passes 25 checks: 12 pin/net, 5 component-value and 8 forbidden-direct-path assertions. The complete thirteen-contract baseline passes all 1071 checks. |
 | Full-hierarchy ERC | Accepted root report dated 2026-08-15: zero errors and zero warnings. |
 | Visual schematic review | Accepted focused image linked above. It shows the corrected G/V/DAT/CLK order, explicit CLK no-connect, protected data path, local bypass, DNP state and safe operating notes. |
 | PCB synchronization | Accepted for schematic-baseline scope. `R901`, `C901`, `J902`, `TP901` and `TP902` each occur once with the accepted footprints and pad nets. J902, TP901 and TP902 carry native `through_hole dnp`; R901 and C901 carry their accepted AISLER metadata. Final placement and routing remain PCB-stage work. |
@@ -2166,6 +2166,144 @@ support cannot be accepted from drawings alone and remain physical checks.
 
 No TB09 schematic-baseline exception is accepted at this stage.
 
+### 4.12 TI01 — Target Interface connector banks
+
+**Purpose and requirements:** Provide the fixed 48-contact electrical and
+mechanical boundary between the reusable harness and each removable target
+daughter board. The implementation is governed by the accepted Target
+Interface Contract, particularly Section 7.
+**Source schematic:** root `Espruino_Harness_RevA.kicad_sch`, references
+`J900` and `J901`.
+**Visual review:** [Target Interface connector-bank image](review-images/TI01-target-interface-connector-banks.png).
+**Risk:** High
+**Status:** Reviewed electrical schematic baseline. The 48-contact allocation,
+exact connector products, harness/daughter gender arrangement, native-DNP
+hand-fit disposition, focused visual, full-hierarchy ERC and deterministic
+connectivity are accepted. The received-part dimensions, final footprint,
+contact-current capacity, PCB placement and physical mating remain required
+before TI01 can become `Verified`.
+
+#### Functional, power and safety flow
+
+```text
+Target daughter-board signals and target-provided 3.3 V
+  -> two 2x12 right-angle male banks cut from Adafruit 1541
+  -> coplanar board-to-board mating boundary
+  -> J900/J901 female banks cut from Adafruit 1543
+  -> harness routing, control and Standard Test Block circuits
+
+Harness switched target 5 V
+  -> J900.23 and J901.23
+  -> daughter board and target
+
+Target-provided 3.3 V
+  -> J900.1 and J901.1
+  -> harness power-selection and I/O-reference circuits
+
+Twelve distributed connector contacts -> common TI_GND
+```
+
+J900 carries the seven routing entries, target reset and boot request, fixed
+I2C, I2C feedback/interrupt, RGB and analogue signals. J901 carries the direct
+GPIO-loopback, SPI, 1-Wire and UART signals. Each connector contributes one
+3.3 V contact, one switched-5-V contact and six ground contacts. The duplicated
+rail contacts are joined to their corresponding rail on the harness and shall
+also be joined on every daughter board.
+
+The harness uses two female banks and the daughter board uses two male banks.
+Because Connector A and Connector B no longer use mixed gender as a key, their
+board-height positions and edge datums shall be asymmetric. Both banks must
+engage together only in the correct orientation. The boards are mated or
+separated only while unpowered; the interface makes no hot-plug, first-mate or
+last-break guarantee.
+
+#### Manufacturer-source review
+
+The following selected-product sources were reviewed:
+
+- [Adafruit Product 1543](https://www.adafruit.com/product/1543) and its
+  [female connector drawing](https://cdn-shop.adafruit.com/datasheets/P1543.pdf),
+  covering the 2x36, 2.54 mm, right-angle socket stock used on the harness.
+- [The Pi Hut SKU 104444](https://thepihut.com/products/0-1-2x36-pin-strip-right-angle-socket-female-header-5-pack),
+  confirming the purchased five-pack, manual cutting method and gold-plated
+  contacts.
+- [Adafruit Product 1541](https://www.adafruit.com/product/1541) and
+  [The Pi Hut SKU 104400](https://thepihut.com/products/break-away-0-1-2x36-pin-strip-right-angle-male-header-5-pack),
+  confirming the matching 2x36, 2.54 mm, right-angle breakaway male stock for
+  daughter boards.
+
+The male stock is deliberately broken into 2x12 sections. The female housing
+is not breakaway and requires a sacrificed socket position at each cut, then
+dressing and inspection of the retained housing and contacts. The retail
+sources establish pitch, form and plating but do not provide an accepted
+contact-current rating. Received-part measurement and current-capacity evidence
+therefore remain release requirements rather than inferred catalogue values.
+
+#### Electrical and fault review
+
+- The implemented contact allocation exactly matches Target Interface
+  Contract Sections 7.3.1 and 7.3.2: 32 signals/controls, two target-3.3-V
+  contacts, two switched-5-V contacts and twelve ground contacts.
+- `TI_TARGET_3V3`, `TI_SWITCHED_TARGET_5V` and `TI_GND` remain three distinct
+  nets. The interface does not join the target-provided 3.3 V supply to the
+  harness-provided switched 5 V supply.
+- Distributed ground contacts place returns beside the principal signal
+  groups and share rail-return current. Final copper, contact and daughter-board
+  paths must still meet the PC02 voltage-drop allocation and all accepted
+  target profiles.
+- Signal contacts add no schematic pull-up, pull-down or protection element;
+  their electrical behaviour remains owned by the corresponding routing,
+  control or Test Block circuit.
+- Partial or one-bank-only engagement can expose incorrect power and signal
+  sequences. Mechanical asymmetry, rack constraints, clear A/B and pin-1
+  marking, unpowered mating and physical fit tests are mandatory controls.
+
+#### Exact components and package state
+
+| References/item | Current implementation | Review result |
+|---|---|---|
+| `J900`, `J901` | Adafruit Product `1543`, purchased as The Pi Hut SKU `104444`; functional values `TARGET INTERFACE CONNECTOR A/B`; datasheet `P1543.pdf`; native DNP; no footprint assigned | Product, metadata and post-AISLER mandatory hand-fit disposition accepted. Final 2x12 footprint and hole geometry intentionally remain unassigned until received-part measurement. |
+| Daughter-board mating banks | Adafruit Product `1541`, purchased as The Pi Hut SKU `104400`; two 2x12 male sections required per daughter | Accepted connector choice. Daughter-board symbols, mirrored pad mapping and footprints remain DB01 implementation work. |
+| Cut-stock procurement | Adafruit `1543` and `1541` are five-pack retail products rather than individually orderable 2x12 sections | KiCad reference quantities count prepared connector sections, not retail packs. Final procurement shall apply the recorded cut yield and include cutting spares rather than interpreting two schematic references as two retail packs. |
+
+`AISLER_MPN` remains blank for J900/J901. Native DNP excludes them from AISLER
+assembly while retaining them in the complete BOM; for TI01, DNP means
+mandatory post-manufacture hand fitting rather than absence from the completed
+board.
+
+#### Verification state
+
+| Evidence | Result |
+|---|---|
+| Requirements and functional review | Accepted against the complete Target Interface contact allocation and the selected female-harness/male-daughter arrangement. |
+| Connectivity contract | `verification/contracts/TI01-target-interface-connector-banks.yaml` passes 54 checks: 48 pin/net, 2 component-value and 4 forbidden-net assertions. The complete thirteen-contract baseline passes all 1071 checks. |
+| Full-hierarchy ERC | Accepted root report dated 2026-08-16: zero errors and zero warnings. |
+| Visual schematic review | Accepted focused image linked above. Both 24-contact banks, every net name, native-DNP marking and the coplanar/unpowered-mating note are legible. |
+| PCB synchronization | Deferred by design. J900/J901 have no footprint and are absent from the PCB until the received female stock is measured and its exact project footprint is accepted. |
+
+#### Closure actions and accepted exceptions
+
+- Measure the received male and female samples: PCB tails, square-pin/contact
+  compatibility, drill requirement, body envelope, board-edge datum, mating
+  depth and fully engaged board-to-board offset.
+- Prepare and inspect representative 2x12 sections, then create or accept exact
+  project footprints. Assign the female footprint to J900/J901 and independently
+  mirror-check the daughter-board male pad mapping.
+- Establish adequate contact-current capacity for the accepted 3.3 V and 5 V
+  limits. Include both contacts, PCB copper, daughter-board copper and the
+  complete PC02 voltage-drop budget; do not assume equal current sharing without
+  verification.
+- Prove the asymmetric A/B placement, aligned top edges, simultaneous mating,
+  rack insertion/removal clearance and resistance to reversal, exchange,
+  one-pin offset and one-bank-only engagement using actual parts and a printed
+  1:1 or fabricated-board check.
+- Define a hand-assembly fixture or mated-board process that keeps both banks
+  square, parallel and co-planar while end pins are tack-soldered and all joints
+  are completed with power removed.
+
+TI01 remains `Reviewed`; no exception is accepted for the missing footprint,
+current-capacity evidence or physical mating proof.
+
 ## 5. System integration review
 
 Use this section for checks that cross circuit-block ownership. Do not repeat
@@ -2173,7 +2311,7 @@ calculations or verification already recorded in the owning block.
 
 | Interface or mode | Governing contract | Implemented by | Status |
 |---|---|---|---|
-| Target Interface | Target Interface contract | `TI01` | Draft |
+| Target Interface | Target Interface contract | `TI01` | Reviewed; footprint and physical verification pending |
 | Rack Control/backplane | Standard Control Services | `BP01` | Draft |
 | Supervisor | Standard Control Services | `PC01`, `PC02` | Draft |
 | Standalone | Standard Control Services | `PC01`, `PC02` | Draft |
@@ -2254,7 +2392,7 @@ and close it only with the evidence named below.
 | `PCB-TB09-01` | TB09 module mechanics and identification | Place native-DNP J902 at the selected board edge so the actual Adafruit 6066 input screw terminal engages all four header positions, the module overhang is supported, its NeoPixel remains visible and adjacent Grove/microSD access is unobstructed. Mark pin 1 and `GND | 3V3 | DAT | NC`; make reversal visibly implausible. | Actual-module/header fit, 3D review, printed 1:1 access check and silkscreen review | Open |
 | `PCB-TB09-02` | TB09 protected data and local power layout | Keep R901, J902 and TP901 on a short path over a materially continuous ground reference. Place C901 directly at the J902 3.3 V/ground entry and retain nearby TP902 ground access. Confirm J902.4 has no copper connection and keep module-local 5 V isolated from all harness nets. | Routed-layout and pad-net inspection, PCB DRC, ground-reference review and probe-access check | Open |
 | `PCB-TB09-03` | TB09 startup, waveform and functional operation | With the actual module, verify powered-off fit/removal, route-before-drive sequencing, low/high-impedance startup, 3.3 V input current and absence of exported module 5 V. Capture the R901-protected encoded waveform at TP901 and retain off, primary/mixed-colour, repeated-update, byte-order and recovery results at the supported targets and bounded brightness. | Power/current measurements, oscilloscope or logic-analyser captures and retained NeoPixel functional-test results | Open |
-| `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Verify Target Interface and backplane connector position, orientation, pin 1, keying, current paths and mechanical engagement using the actual mating parts. | 3D model, printed 1:1 check and physical mating-part review | Open |
+| `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Prepare 2x12 sections from Adafruit `1543` female and `1541` male stock; measure and accept the exact footprints, holes, body/edge datums and mating depth. Place the two banks asymmetrically with aligned board tops, clear A/B and pin-1 markings, and prove simultaneous engagement without reversal, exchange, one-pin offset, one-bank-only engagement or PCB twist. Verify contact/current and voltage-drop capacity, rack access and the post-AISLER hand-fit alignment process using actual parts. | Accepted project footprints, pad mapping, current/contact calculation, 3D model, printed 1:1 check, actual-part mating review and assembly record | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |
 

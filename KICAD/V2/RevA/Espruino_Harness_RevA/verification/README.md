@@ -78,6 +78,7 @@ contracts/
   TB05-onewire-functional-devices-and-gpio.yaml
   TB07-uart-crosslink-and-external-peer.yaml
   TB09-addressable-rgb-output.yaml
+  TI01-target-interface-connector-banks.yaml
   SYS01-power-events-to-rack-control.yaml
 ```
 

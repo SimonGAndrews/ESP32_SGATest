@@ -1,0 +1,79 @@
+schema_version: 1
+kind: block_contract
+block_id: TI01
+
+# Independent machine-checkable intent derived from the accepted Target
+# Interface Contract Section 7. Native DNP/hand-fit disposition, cut-stock
+# preparation, footprint geometry, connector current capacity, asymmetric
+# placement and physical mating remain human-reviewed assembly and PCB checks.
+assertions:
+  pin_net:
+    # Connector A: routing, control and low-speed signals.
+    - {ref: J900, pin: "1", net: TI_TARGET_3V3}
+    - {ref: J900, pin: "2", net: TI_GND}
+    - {ref: J900, pin: "3", net: R0}
+    - {ref: J900, pin: "4", net: R1}
+    - {ref: J900, pin: "5", net: R2}
+    - {ref: J900, pin: "6", net: R3}
+    - {ref: J900, pin: "7", net: R4}
+    - {ref: J900, pin: "8", net: TI_GND}
+    - {ref: J900, pin: "9", net: R5}
+    - {ref: J900, pin: "10", net: R6}
+    - {ref: J900, pin: "11", net: TI_TARGET_RESET_N}
+    - {ref: J900, pin: "12", net: TI_GND}
+    - {ref: J900, pin: "13", net: TI_BOOT_REQUEST}
+    - {ref: J900, pin: "14", net: TI_RGB_DATA}
+    - {ref: J900, pin: "15", net: TI_I2C_SDA}
+    - {ref: J900, pin: "16", net: TI_GND}
+    - {ref: J900, pin: "17", net: TI_I2C_SCL}
+    - {ref: J900, pin: "18", net: TI_I2C_FB}
+    - {ref: J900, pin: "19", net: TI_I2C_INT}
+    - {ref: J900, pin: "20", net: TI_GND}
+    - {ref: J900, pin: "21", net: TI_ANALOG_PWM_OUT}
+    - {ref: J900, pin: "22", net: TI_ANALOG_ADC_IN}
+    - {ref: J900, pin: "23", net: TI_SWITCHED_TARGET_5V}
+    - {ref: J900, pin: "24", net: TI_GND}
+
+    # Connector B: direct digital Test Block signals.
+    - {ref: J901, pin: "1", net: TI_TARGET_3V3}
+    - {ref: J901, pin: "2", net: TI_GND}
+    - {ref: J901, pin: "3", net: TI_GPIO_LOOP_A_OUT}
+    - {ref: J901, pin: "4", net: TI_GPIO_LOOP_A_IN}
+    - {ref: J901, pin: "5", net: TI_GPIO_LOOP_B_OUT}
+    - {ref: J901, pin: "6", net: TI_GPIO_LOOP_B_IN}
+    - {ref: J901, pin: "7", net: TI_SPI_SCK}
+    - {ref: J901, pin: "8", net: TI_GND}
+    - {ref: J901, pin: "9", net: TI_SPI_MOSI}
+    - {ref: J901, pin: "10", net: TI_SPI_MISO}
+    - {ref: J901, pin: "11", net: TI_SPI_CS_ADC}
+    - {ref: J901, pin: "12", net: TI_GND}
+    - {ref: J901, pin: "13", net: TI_SPI_CS_EXT}
+    - {ref: J901, pin: "14", net: TI_ONEWIRE_DQ}
+    - {ref: J901, pin: "15", net: TI_ONEWIRE_GPIO_A_FB}
+    - {ref: J901, pin: "16", net: TI_GND}
+    - {ref: J901, pin: "17", net: TI_ONEWIRE_GPIO_B_FB}
+    - {ref: J901, pin: "18", net: TI_UART_A_TX}
+    - {ref: J901, pin: "19", net: TI_UART_A_RX}
+    - {ref: J901, pin: "20", net: TI_GND}
+    - {ref: J901, pin: "21", net: TI_UART_B_TX}
+    - {ref: J901, pin: "22", net: TI_UART_B_RX}
+    - {ref: J901, pin: "23", net: TI_SWITCHED_TARGET_5V}
+    - {ref: J901, pin: "24", net: TI_GND}
+
+  component_value:
+    - {ref: J900, value: TARGET INTERFACE CONNECTOR A}
+    - {ref: J901, value: TARGET INTERFACE CONNECTOR B}
+
+  forbidden_same_net:
+    - id: TI01-F01
+      endpoints: [J900.1, J900.2]
+      reason: Target-provided 3.3 V must remain isolated from ground.
+    - id: TI01-F02
+      endpoints: [J900.23, J900.24]
+      reason: Switched target 5 V must remain isolated from ground.
+    - id: TI01-F03
+      endpoints: [J900.1, J900.23]
+      reason: Target-provided 3.3 V and harness-provided switched 5 V must never be joined.
+    - id: TI01-F04
+      endpoints: [J901.1, J901.23]
+      reason: The duplicated 3.3 V and 5 V contacts must remain on separate rails.

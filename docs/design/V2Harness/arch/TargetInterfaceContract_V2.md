@@ -1,10 +1,11 @@
 # V2 Target Interface Contract
 
-**Status:** Accepted — Two-Connector 48-Pin Pinout Fixed; Exact Connector Parts Pending
+**Status:** Accepted — Two-Connector 48-Pin Pinout And Connector System Fixed;
+Physical Verification Pending
 
-**Version:** 1.0
+**Version:** 1.1
 
-**Last Updated:** 7 August 2026
+**Last Updated:** 15 August 2026
 
 ## 1. Conclusion
 
@@ -23,8 +24,12 @@ The pinout covers every connection required by the accepted V2 architecture.
 Section 7 shows what is connected to every pin, how Connector A and Connector B
 mate and how the Breakaway Links join the boards before separation.
 
-The exact male and female connector parts, plating and PCB footprints still
-need to be selected and checked before the Rev-A PCB is released.
+The accepted physical arrangement uses two female right-angle socket banks on
+the reusable harness and two male right-angle header banks on each daughter
+board. The connectors are cut to 2x12 positions from the selected 2x36 parts
+listed in Section 7.1 and hand-fitted after AISLER manufacture. Received-part
+measurements, physical mating, current capacity and final PCB footprints still
+need to be verified before the Rev-A PCB is released.
 
 ## 2. What This Document Defines
 
@@ -200,20 +205,39 @@ This gives:
 
 * 48 pins using only two connectors on each board
 * a clear Connector A and Connector B in the schematic and PCB layout
-* the option to use one male and one female connector to prevent mistakes
+* female contacts on the permanently installed harness and exposed male pins
+  only on the removable daughter board
 * fewer parts to buy and align than four smaller connectors
 
-Possible right-angle sockets include the Samtec
-`SSQ-112-02-T-D-RA` and `SSW-112-02-F-D-RA`. They demonstrate that a
-standard connector family is available in the required shape.
-Samtec identifies the TSW `-NA` header orientation for mating edge-to-edge in
-the same plane with its SSW right-angle socket series:
+The accepted connector products are:
 
-* <https://suddendocs.samtec.com/catalog_english/tsw_th.pdf>
+| Board | Accepted product | Supplier reference | Preparation and assembly |
+|---|---|---|---|
+| Reusable harness | Adafruit Product `1543`, 0.1-inch 2x36 right-angle female socket strip | The Pi Hut SKU `104444` | Cut into 2x12 sections; mandatory hand-fit after AISLER manufacture |
+| Daughter board | Adafruit Product `1541`, 0.1-inch 2x36 right-angle male breakaway header | The Pi Hut SKU `104400` | Break into 2x12 sections; mandatory hand-fit after manufacture |
 
-The exact male and female parts are not selected yet. Before PCB release we
-must check that they mate with the boards in one plane, are available at an
-acceptable cost and can safely carry the required current.
+Product sources and the available female technical drawing are:
+
+* <https://thepihut.com/products/0-1-2x36-pin-strip-right-angle-socket-female-header-5-pack>
+* <https://thepihut.com/products/break-away-0-1-2x36-pin-strip-right-angle-male-header-5-pack>
+* <https://www.adafruit.com/product/1543>
+* <https://www.adafruit.com/product/1541>
+* <https://cdn-shop.adafruit.com/datasheets/P1543.pdf>
+
+The male product is intended to break apart at the 2.54 mm pitch. The female
+product is not breakaway: it shall be cut with diagonal cutters or a thin
+hacksaw by sacrificing a socket position, then dressed and inspected so the
+retained 2x12 housing and contacts are undamaged. The prepared parts are BOM
+items for the completed assembly but shall use KiCad native DNP for the AISLER
+assembly stage. For these Target Interface connectors, DNP therefore means
+mandatory post-manufacture hand fitting rather than absence from the completed
+board. `AISLER_MPN` shall remain empty.
+
+The retail product information confirms the pitch, orientation and gold-plated
+contacts but does not state an accepted contact-current rating. Before PCB
+release, received samples must be measured and mated, the footprint and drill
+geometry must be confirmed, and adequate current capacity must be established
+for the accepted 3.3 V and 5 V limits.
 
 ### 7.2 Pin Names And Orientation
 
@@ -236,14 +260,19 @@ will normally appear mirrored relative to the harness footprint. The pin
 numbers must be checked against the manufacturer's drawings rather than judged
 from appearance.
 
-The preferred keying uses a male Connector A and female Connector B on the
-harness, with the opposite parts on the daughter board. The two connectors
-should also be placed asymmetrically so the daughter board cannot be fitted
-backwards or moved sideways by one pin. If the final parts cannot use mixed
-genders, another positive mechanical key must provide the same protection.
+Both harness connectors are female and both daughter-board connectors are
+male. Connector A and Connector B shall therefore use a deliberately
+asymmetric board-height offset and fixed edge datums so both banks can engage
+simultaneously only in the correct orientation. When correctly mated, the
+harness and daughter board lie in the same plane and their top edges align.
+The PCB outlines, connector spacing and rack installation shall make inversion,
+Connector A/B exchange, sideways one-pin offset and convincing one-bank-only
+engagement mechanically implausible.
 
 Both PCBs must mark Connector A, Connector B and pin 1. The boards must be
-unpowered before the connectors are joined or separated.
+unpowered before the connectors are joined or separated. The daughter board
+is inserted into the female banks on the harness after the harness is situated
+in the rack.
 
 ### 7.3 Pin Allocation
 
@@ -347,21 +376,26 @@ group names are only PCB-layout labels; they do not create any new signals.
 
 Before releasing the Rev-A PCB we must:
 
-1. choose the exact male and female connectors and check that both PCBs lie in
-   the same plane when mated
-2. confirm the connector current rating and set maximum allowed 3.3 V and 5 V
-   currents
+1. measure cut samples of Adafruit Products `1543` and `1541`, confirm their
+   PCB-tail, drill, body, mating-depth and board-edge geometry, and check that
+   both PCBs lie in the same plane with their top edges aligned when mated
+2. establish adequate connector/contact current capacity and set maximum
+   allowed 3.3 V and 5 V currents
 3. check that both pins for each power rail are connected together on every
    harness and daughter board
 4. place the Target Power Monitor before the switched 5 V track divides
    between Connector A and Connector B
 5. check what happens during partial or misaligned insertion and prohibit
    connecting or disconnecting powered boards
-6. verify that connector gender, spacing and markings prevent reversal,
-   connector exchange and one-pin offset
+6. verify that the asymmetric offset, board outlines, rack constraints and
+   markings prevent reversal, connector exchange, one-pin offset and
+   convincing one-bank-only engagement
 7. check that both connectors align and mate without twisting either PCB
 8. test the Breakaway Links for continuity, current capacity, clean separation
    and isolation after separation
+9. define and verify a hand-assembly fixture or mated-board process that keeps
+   both connector banks square, parallel and co-planar while their end pins are
+   tack-soldered and before all joints are completed
 
 There are no spare pins in this 48-pin pinout. If a future requirement needs
 another pin, use a larger connector arrangement rather than removing the
