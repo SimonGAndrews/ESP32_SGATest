@@ -39,6 +39,8 @@ evaluations that may inform V2.
 
 Read:
 
+- `docs/handoff/2026-08-17-idf5-expedited-esp32-family-validation.md` when
+  working on the current Gordon Williams IDF5 validation request
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
 - `docs/design/common-harness-design-and-blocks.md`
 - `docs/design/harness-modes.md`
@@ -60,6 +62,8 @@ repository, not in this harness repository.
 
 Read:
 
+- `docs/handoff/2026-08-17-idf5-expedited-esp32-family-validation.md` for the
+  current upstream/MaBecker IDF5 reconciliation and V1 evidence task
 - `docs/handoff/2026-07-05-espruino-repo-structure.md`
 - `docs/handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`
 - the relevant document under `docs/investigations/`

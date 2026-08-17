@@ -61,8 +61,9 @@ from historical continuity records.
 
 | Workstream | Entry point |
 |---|---|
-| V1 bench tests and functional runners | `handoff/2026-06-25-esp32-family-tests.md` |
-| Firmware investigations | `handoff/2026-07-05-espruino-repo-structure.md` and the relevant `investigations/` area |
+| Current ESP32-family IDF5 validation | `handoff/2026-08-17-idf5-expedited-esp32-family-validation.md` |
+| General V1 bench tests and functional runners | `handoff/2026-06-25-esp32-family-tests.md` |
+| Firmware investigations | `handoff/2026-07-05-espruino-repo-structure.md`, `handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md` and the relevant `investigations/` area |
 | V2 architecture and Target Interface | `design/V2Harness/README.md` and `handoff/2026-07-17-v2-services-and-routing.md` |
 | V2 KiCad implementation | `design/V2Harness/README.md` and `../KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md` |
 

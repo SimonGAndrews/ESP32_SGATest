@@ -2,6 +2,14 @@
 
 Date: 2026-07-05
 
+> **Current IDF5 overlay - 17 August 2026:** For the expedited Gordon Williams
+> validation request, do not assume the MaBecker checkout remains the build
+> baseline. Gordon has created `espruino/Espruino:IDF5` from the maintained
+> work and merged current upstream `master`. First reconcile that branch with
+> `MaBecker/Espruino:esp32_5` using
+> [`2026-08-17-idf5-expedited-esp32-family-validation.md`](2026-08-17-idf5-expedited-esp32-family-validation.md).
+> The repository roles below remain useful local-checkout history.
+
 This note is a simplified successor to:
 
 - [`2026-07-01-espruino-repo-structure.md`](2026-07-01-espruino-repo-structure.md)

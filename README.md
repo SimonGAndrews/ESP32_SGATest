@@ -170,6 +170,8 @@ tests/repl/                Portable community-facing REPL test scripts
 Key starting documents:
 
 - `AGENTS.md`
+- `docs/handoff/2026-08-17-idf5-expedited-esp32-family-validation.md` for the
+  current expedited ESP32-family IDF5 work
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
 - `docs/design/common-harness-design-and-blocks.md`
 - `docs/design/repl-test-suite-design.md`
@@ -218,19 +220,27 @@ current targets on IDF4:
 - `ESP32_C3` / `ESP32C3_IDF4`
 - `ESP32_V1` / `ESP32_IDF4`
 
-The current active work is to continue block-by-block expansion of the shared
-functional suite, with the aim of:
+The immediate priority is to help establish and validate the current ESP32
+IDF5 upgrade. The first task is to reconcile Gordon Williams' official-repo
+`IDF5` branch with MaBecker's maintained IDF5 line before selecting exact
+build commits. The completed classic ESP32 and ESP32-C3 V1 harnesses will then
+provide repeatable hardware evidence. See
+`docs/handoff/2026-08-17-idf5-expedited-esp32-family-validation.md`.
+
+This work continues block-by-block expansion of the shared functional suite,
+with the aim of:
 
 - exercising Espruino APIs more fully across the common harness blocks
 - preserving the existing per-target wiring checks as hardware-regression
   references
-- establishing IDF4 as the baseline family proof first
-- then repeating the same shared functional coverage on IDF5 firmware variants
+- retaining useful legacy and IDF4 comparators for anomaly attribution
+- applying the same shared functional coverage to selected IDF5 commits
+- keeping new tests portable to the future V2 target-map layer
 
-In parallel, V2 architecture and KiCad implementation are active. V2 is
-defining a reusable harness with removable target daughter boards and a fixed
-Target Interface contract. See `docs/design/V2Harness/README.md` for the V2
-entry point.
+V2 architecture and KiCad implementation remain active but are deliberately
+slowed during the expedited firmware work. The current V2 return point is
+commit `c70e50c`, which established the Rev-A daughter-board foundations. See
+`docs/design/V2Harness/README.md` for the V2 entry point.
 
 Routine V1 hardware development and prototyping have stopped. The completed V1
 harnesses remain the stable bench platforms for runner development, regression

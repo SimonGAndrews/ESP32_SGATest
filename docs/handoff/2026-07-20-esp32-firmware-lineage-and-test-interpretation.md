@@ -2,6 +2,14 @@
 
 Date: 2026-07-20
 
+> **Current IDF5 overlay - 17 August 2026:** Gordon Williams has created an
+> official-repository `IDF5` branch from the maintained IDF5 work and merged
+> current upstream `master`. Its exact relationship to MaBecker's `esp32_5`
+> branch must be established before choosing comparison builds. Use
+> [`2026-08-17-idf5-expedited-esp32-family-validation.md`](2026-08-17-idf5-expedited-esp32-family-validation.md)
+> as the current entry point; the lineage and interpretation rules below still
+> apply.
+
 ## Conclusion
 
 Treat every ESP32-family Espruino firmware line as a test subject. The mature
