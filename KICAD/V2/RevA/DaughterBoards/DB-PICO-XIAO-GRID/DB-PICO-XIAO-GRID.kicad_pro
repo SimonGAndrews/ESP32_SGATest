@@ -451,7 +451,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Espruino_Harness_RevA.kicad_pro",
+    "filename": "DB-PICO-XIAO-GRID.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -526,21 +526,9 @@
           "show": true
         },
         {
-          "group_by": false,
+          "group_by": true,
           "label": "Value",
           "name": "Value",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "MPN",
-          "name": "MPN",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "AISLER_MPN",
-          "name": "AISLER_MPN",
           "show": true
         },
         {
@@ -550,19 +538,19 @@
           "show": true
         },
         {
-          "group_by": false,
+          "group_by": true,
           "label": "Exclude from BOM",
           "name": "${EXCLUDE_FROM_BOM}",
           "show": true
         },
         {
-          "group_by": false,
+          "group_by": true,
           "label": "Exclude from Board",
           "name": "${EXCLUDE_FROM_BOARD}",
           "show": true
         },
         {
-          "group_by": false,
+          "group_by": true,
           "label": "Footprint",
           "name": "Footprint",
           "show": true
@@ -572,38 +560,14 @@
           "label": "Datasheet",
           "name": "Datasheet",
           "show": true
-        },
-        {
-          "group_by": false,
-          "label": "Description",
-          "name": "Description",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "#",
-          "name": "${ITEM_NUMBER}",
-          "show": true
-        },
-        {
-          "group_by": true,
-          "label": "DNP",
-          "name": "DNP",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "SHUNT_MPN",
-          "name": "SHUNT_MPN",
-          "show": false
         }
       ],
-      "filter_string": "j90",
-      "group_symbols": false,
+      "filter_string": "",
+      "group_symbols": true,
       "include_excluded_from_bom": true,
-      "name": "",
+      "name": "Default Editing",
       "sort_asc": true,
-      "sort_field": "${EXCLUDE_FROM_BOM}"
+      "sort_field": "Reference"
     },
     "connection_grid_size": 50.0,
     "drawing": {
@@ -632,7 +596,7 @@
     "meta": {
       "version": 1
     },
-    "net_format_name": "KiCad",
+    "net_format_name": "",
     "page_layout_descr_file": "",
     "plot_directory": "",
     "space_save_all_events": true,
@@ -647,28 +611,8 @@
   },
   "sheets": [
     [
-      "12444148-a051-4fb0-ae7b-e3d34eecc954",
+      "f947ec4c-e81e-4f1c-bec8-b3723a2b92bb",
       "Root"
-    ],
-    [
-      "de8f4588-cd43-45f8-a502-51219f80935f",
-      "Standard_Test_Blocks"
-    ],
-    [
-      "8165b755-b7b4-43f2-8c27-65baae41abc9",
-      "Prototype_Daughter_Board"
-    ],
-    [
-      "b4f33c56-176e-50a1-bff7-4c71621dfbc6",
-      "Routing_Control"
-    ],
-    [
-      "11ed3dd2-d279-4483-beff-991112c2ba4c",
-      "Power_Control"
-    ],
-    [
-      "b42d37c0-332f-4415-bc51-a9ef01c1562f",
-      "V2 Rev-A Rack Control Endpoint"
     ]
   ],
   "text_variables": {}

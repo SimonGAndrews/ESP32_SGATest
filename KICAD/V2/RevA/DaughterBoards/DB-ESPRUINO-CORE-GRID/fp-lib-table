@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "V2_DaughterBoard_Targets")(type "KiCad")(uri "${KIPRJMOD}/../V2_DaughterBoard_Targets.pretty")(options "")(descr "Shared V2 daughter-board target footprints"))
+  (lib (name "V2_Target_Interface")(type "KiCad")(uri "${KIPRJMOD}/../../V2_Target_Interface.pretty")(options "")(descr "Measured V2 Target Interface harness and daughter-board connectors"))
+)

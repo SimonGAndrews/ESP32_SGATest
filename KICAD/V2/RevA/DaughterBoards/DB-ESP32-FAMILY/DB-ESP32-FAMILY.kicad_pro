@@ -451,7 +451,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "GenericDaughterBoardV1.kicad_pro",
+    "filename": "DB-ESP32-FAMILY.kicad_pro",
     "version": 3
   },
   "net_settings": {

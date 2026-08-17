@@ -1,8 +1,8 @@
 # V2 Hybrid Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.5
-**Last Updated:** 27 July 2026
+**Version:** 0.6
+**Last Updated:** 16 August 2026
 
 ---
 
@@ -76,6 +76,12 @@ reusable harness PCB
 The Target Interface pin banks are the fixed physical, electrical, logical and
 schematic net-name boundary between the target daughter board and reusable
 harness PCB.
+
+`DaughterBoardMatrix_V2.md` owns the accepted three-board daughter set, exact
+target-variant allocation, mounting and shared-footprint compatibility rules,
+and the complex-board-first implementation sequence. This document continues
+to own the system boundary and daughter-board responsibility model rather than
+duplicating that implementation matrix.
 
 ---
 

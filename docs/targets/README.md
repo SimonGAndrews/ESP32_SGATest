@@ -60,12 +60,31 @@ Key files:
 
 - `wiring.md`
 
+### `olimex-esp32-s3-devkit-lipo/`
+
+Olimex ESP32-S3-DevKit-LiPo target documentation.
+
+Status:
+
+- owned V2 target is the `-EA` external-antenna ordering variant, hardware
+  revision B and N8R8 configuration
+- allocated to `DB-ESP32-FAMILY`
+- authoritative target CAD exists; the GPIO-to-Target-Interface mapping is
+  accepted in `../design/V2Harness/arch/TargetRoutingEnvelope_V2.md`
+- retained manufacturer files currently remain in the older mixed Olimex
+  resource directory pending the planned target-asset rationalisation
+
+Key file:
+
+- `README.md`
+
 ## V2 Target-Library Reference Sets
 
 - `ESP32-S3-DevKitC-1_V1.1/`
 - `Raspberry-Pi-Pico-Family/`
 - `espruino_pico/`
 - `MDBT42Q_breakout/`
+- `olimex-esp32-s3-devkit-lipo/`
 
 These directories provide manufacturer drawings, pinouts and, where present,
 target-library notes used to validate the curated symbols and footprints in

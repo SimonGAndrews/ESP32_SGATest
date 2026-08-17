@@ -178,7 +178,7 @@
 	(net 98 "/TI_SPI_MOSI")
 	(net 99 "/TI_ONEWIRE_DQ")
 	(net 100 "/TI_ONEWIRE_GPIO_B_FB")
-	(footprint "GenericDaughterBoardV1:HN1x22"
+	(footprint "V2_DaughterBoard_Targets:HN1x22"
 		(layer "F.Cu")
 		(uuid "388530cc-2eb4-4e63-96e5-23c0085565a3")
 		(at 203.623414 87.63 -90)
@@ -234,7 +234,7 @@
 		)
 		(path "/00000000-0000-0000-0000-0000642b585d")
 		(sheetname "/")
-		(sheetfile "GenericDaughterBoardV1.kicad_sch")
+		(sheetfile "DB-ESPRUINO-CORE-GRID.kicad_sch")
 		(solder_mask_margin 0.0508)
 		(solder_paste_margin -0.0508)
 		(attr through_hole)
@@ -4121,7 +4121,7 @@
 			)
 		)
 	)
-	(footprint "GenericDaughterBoardV1:ESPRUINO_PICO_SMD"
+	(footprint "V2_DaughterBoard_Targets:ESPRUINO_PICO_SMD"
 		(layer "F.Cu")
 		(uuid "ec1ab3f2-f759-4712-a3d0-71b1648f67ad")
 		(at 189.653414 90.17 90)
@@ -4173,7 +4173,7 @@
 		)
 		(path "/6a316bcf-bae2-42a2-bc83-67540367223d")
 		(sheetname "/")
-		(sheetfile "GenericDaughterBoardV1.kicad_sch")
+		(sheetfile "DB-ESPRUINO-CORE-GRID.kicad_sch")
 		(fp_line
 			(start 7.62 -7.62)
 			(end 7.62 7.62)
@@ -4646,7 +4646,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "GenericDaughterBoardV1:HN1x22"
+	(footprint "V2_DaughterBoard_Targets:HN1x22"
 		(layer "F.Cu")
 		(uuid "f136dfff-8b8a-4c34-ba89-378b54560559")
 		(at 178.223414 87.63 -90)
@@ -4702,7 +4702,7 @@
 		)
 		(path "/00000000-0000-0000-0000-000064d21fb0")
 		(sheetname "/")
-		(sheetfile "GenericDaughterBoardV1.kicad_sch")
+		(sheetfile "DB-ESPRUINO-CORE-GRID.kicad_sch")
 		(solder_mask_margin 0.0508)
 		(solder_paste_margin -0.0508)
 		(attr through_hole)
@@ -8644,7 +8644,7 @@
 		(property ki_fp_filters "Connector*:*_2x12_*")
 		(path "/ef5c3b11-1a2e-482e-a297-6ae538e7315f")
 		(sheetname "/")
-		(sheetfile "GenericDaughterBoardV1.kicad_sch")
+		(sheetfile "DB-ESPRUINO-CORE-GRID.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.38 -1.38)
@@ -9130,7 +9130,7 @@
 		(property ki_fp_filters "Connector*:*_2x12_*")
 		(path "/2d653a8f-3034-44e9-9399-929fe0432ee7")
 		(sheetname "/")
-		(sheetfile "GenericDaughterBoardV1.kicad_sch")
+		(sheetfile "DB-ESPRUINO-CORE-GRID.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -1.38 -1.38)

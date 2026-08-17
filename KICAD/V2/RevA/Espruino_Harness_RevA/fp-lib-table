@@ -7,4 +7,11 @@
 		(options "")
 		(descr "Project-local footprints for the V2 Rev-A harness and daughter board")
 	)
+	(lib
+		(name "V2_Target_Interface")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/../V2_Target_Interface.pretty")
+		(options "")
+		(descr "Measured V2 Target Interface harness and daughter-board connectors")
+	)
 )

@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.3
+**Version:** 0.4
 
-**Last Updated:** 26 July 2026
+**Last Updated:** 17 August 2026
 
 ## 1. Purpose
 
@@ -118,6 +118,7 @@ These targets influence the initial routing envelope.
 | ESP32-C3-DevKitC-02 | ESP32-C3 | Constrained routing baseline | Initial design |
 | ESP32 DevKitC V4 | ESP32 | V1 evidence and generous ESP32 validation | Initial design |
 | ESP32-S3-DevKitC-1 | ESP32-S3 | Native USB, console and service validation | Initial design |
+| Olimex ESP32-S3-DevKit-LiPo-EA Rev B N8R8 | ESP32-S3 | Owned external-antenna S3 target with LiPo and board-sense loads | Initial design |
 | Raspberry Pi Pico 1 family | RP2040 | Non-ESP32 architecture and port-development validation | Initial design |
 | Raspberry Pi Pico 2 family | RP2350 | Generational compatibility and port-development validation | Initial design |
 | Espruino Pico | STM32 | Official Espruino hardware and early design feedback | Initial design |
@@ -134,6 +135,7 @@ exposed pins from pins that are safe and practically available for the harness.
 | ESP32 DevKitC V4 official module options | 32 header positions; WROOM-DA exposes 30 | `D21`/`D22` direct I2C; `D0` boot; `D1`/`D3` USB-UART; `D6`-`D11` module flash; `D12`-`D15` external JTAG configuration | `D2`, `D5`, `D12`, `D15` straps; `D34`/`D35`/`D36`/`D39` input-only; WROVER reserves `D16`/`D17`; WROOM-DA does not expose `D2`/`D25` | 19 WROOM/SOLO; 17 WROVER; 18 WROOM-DA | Direct I2C on `D21`/`D22`; onboard USB-UART; reset on `EN`; boot on `D0`; dedicated external JTAG group | 7, using the common C3 route topology | 6 WROOM/SOLO; 4 WROVER; 5 WROOM-DA; plus `D13`/`D14` reserved for JTAG |
 | ESP32-S3-DevKitC-1 V1.1 N8R8 / 1U-N8R8 | 36 | `D10`/`D11` direct I2C; `D0` boot; `D19`/`D20` native USB; `D43`/`D44` USB-UART; `D35`-`D37` octal PSRAM; `D38` onboard RGB; `D39`-`D42` optional external JTAG | `D3`, `D45`, `D46` straps; module and board revision affect memory and RGB reservations | 24 | Onboard USB-UART; native USB Serial/JTAG/OTG; reset on `EN`; boot on `D0`; optional four-wire JTAG | 7, using the common C3 route topology | 9; plus `D39`-`D42` reserved for optional JTAG |
 | ESP32-S3-DevKitC-1 V1.1 N32R16V | 36 | As N8R8, with `D35`-`D37` unavailable on WROOM-2 | `D3`, `D45`, `D46` straps; `D47`/`D48` are 1.8 V and unavailable to the 3.3 V Target Interface | 22 | Same control, USB, reset, boot and optional JTAG paths | 7, using the same common mapping | 7; plus `D39`-`D42` reserved for optional JTAG |
+| Olimex ESP32-S3-DevKit-LiPo-EA Rev B N8R8 | 36 | `D5` power sense; `D6` battery sense; `D10`/`D11` pUEXT; `D17`/`D18` pUEXT UART; `D19`/`D20` native USB; `D43`/`D44` USB-UART; `D35`-`D37` octal memory; `D38` LED; `D39`-`D42` optional JTAG | `D3`, `D45`, `D46` straps; `D10` has an onboard 10 kOhm pull-up; competing USB, LiPo and external supplies require control | 22 before deliberately preserved service pins | Onboard USB-UART; native USB; reset on `EN`; boot on `D0`; optional JTAG; LiPo support | 7, with `D15`/`D16` replacing loaded `D5`/`D6` | 7 (`D2`, `D4`-`D6`, `D12`-`D14`), subject to onboard loads and peripheral choice |
 | Raspberry Pi Pico / Pico H / Pico W / Pico WH (RP2040) | 26 | USB and SWD use dedicated pins; `RUN` and `3V3_EN` are separate control pins; internal `D23`-`D25` and `D29` are not header GPIO | RP2040 hardware-peripheral mux; Pico W/WH antenna clearance and different SWD position | 26 | Native USB; dedicated SWD; reset on `RUN`; manual BOOTSEL; candidate power control on `3V3_EN` | 2 required for accepted Block 1/5 input reuse; ESP route bundles are not portable | 5 (`D2`, `D3`, `D14`, `D21`, `D27`) |
 | Raspberry Pi Pico 2 / Pico 2 with headers / Pico 2 W / Pico 2 W with headers (RP2350A) | 26 | Same dedicated USB, SWD, `RUN`, `3V3_EN` and internal-GPIO treatment as Pico 1 | RP2350 build and processor-architecture selection; wireless antenna clearance and variant-specific SWD arrangement | 26 | Native USB; dedicated SWD; reset on `RUN`; manual BOOTSEL; candidate power control on `3V3_EN` | Same 2 accepted Block 1/5 input selections and direct logical mapping as Pico 1 | Same 5 (`D2`, `D3`, `D14`, `D21`, `D27`) |
 | Espruino Pico | 22 | No exposed GPIO fixed; onboard USB, LEDs/button and SWD use separate MCU pins or debug pads | Peripheral alternate-function groupings; optional non-SWD debug functions require separate review | 22 | Onboard or daughter-board native USB; BOOT0 recovery pad; underside SWD pads | 2 required for accepted Block 1/5 input reuse | 1 (`A10`) |
@@ -654,7 +656,103 @@ and the manual EN/BOOT controls. Direct `TI_TARGET_RESET_N` and optional
 download circuit. USB VBUS ownership, controlled cycling and competing-supply
 protection remain Power Control and Adapter Service decisions.
 
-### 7.4 Raspberry Pi Pico Families
+### 7.4 Olimex ESP32-S3-DevKit-LiPo-EA Rev B
+
+**Assessment status:** Accepted for the owned EA Rev-B N8R8 target
+
+#### Exact Variant And Routing Contribution
+
+This assessment applies only to
+`OLIMEX-ESP32-S3-DEVKIT-LIPO-EA-REV-B-N8R8`: the Rev-B board fitted with the
+external-antenna N8R8 module. The target uses the common seven-route ESP32-S3
+topology, but it cannot copy the Espressif DevKitC mapping unchanged. Olimex
+uses `D5` for 5 V sensing and `D6` for battery sensing; the latter includes a
+470 kOhm/150 kOhm divider and 100 nF capacitor. These pins remain unallocated
+to waveform-carrying Test Block roles. Routes R2 and R3 therefore move from
+`D5`/`D6` to unloaded `D15`/`D16`.
+
+The board's normal console remains on UART0 `D43`/`D44`. The accepted UART-B
+endpoint uses UART1 `D17`/`D18`, which is also present on the optional pUEXT
+connector. The pUEXT connector shall be absent or left completely unconnected
+during harness tests that use `D10`, `D11`, `D17` or `D18`.
+
+#### Accepted Target Mapping
+
+| Harness role | Route or direct signal | Olimex GPIO / control |
+|---|---|---|
+| Analogue ADC and 1-Wire DQ | R0 | `D1` |
+| Loop A output and SPI MISO | R1 | `D4` |
+| Loop A input, I2C feedback, SPI ADC CS and 1-Wire feedback A | R2 | `D15` |
+| Loop B output, SPI MOSI and UART-A TX | R3 | `D16` |
+| SPI SCK and UART-A RX | R4 | `D7` |
+| Analogue PWM and addressable RGB | R5 | `D8` |
+| Loop B input, I2C interrupt, SPI extension CS and 1-Wire feedback B | R6 | `D9` |
+| Target-owned I2C SDA | Direct | `D10` |
+| Target-owned I2C SCL | Direct | `D11` |
+| UART-B TX | Direct | `D17` / `U1TXD` |
+| UART-B RX | Direct | `D18` / `U1RXD` |
+| Target reset | Direct, open-drain action | `ESP_EN` |
+| Boot request | Direct, open-drain action | `D0` / `BUT1` |
+
+The physical daughter-board implementation shall use this Target Interface
+contact map. Duplicate logical Test Block contacts remain unconnected because
+their function is already supplied through R0-R6.
+
+| Target Interface contact | Net / function | Target symbol pin |
+|---|---|---:|
+| A01 and B01 | `TI_TARGET_3V3` | 1 and 2 (`3V3`) |
+| A03 | R0 | 26 (`D1`) |
+| A04 | R1 | 4 (`D4`) |
+| A05 | R2 | 8 (`D15`) |
+| A06 | R3 | 9 (`D16`) |
+| A07 | R4 | 7 (`D7`) |
+| A09 | R5 | 12 (`D8`) |
+| A10 | R6 | 15 (`D9`) |
+| A11 | `TI_TARGET_RESET_N` | 3 (`ESP_EN`) |
+| A13 | `TI_BOOT_REQUEST` | 36 (`D0/BUT1`) |
+| A15 | `TI_I2C_SDA` | 16 (`D10`) |
+| A17 | `TI_I2C_SCL` | 17 (`D11`) |
+| B21 | `TI_UART_B_TX` | 10 (`D17/U1TXD`) |
+| B22 | `TI_UART_B_RX` | 11 (`D18/U1RXD`) |
+| A23 and B23 | `TI_SWITCHED_TARGET_5V` | 21 (`5V`) |
+| All Interface ground contacts | `TI_GND` | 22, 23, 43 and 44 (`GND`) |
+
+#### Required Simultaneous Configurations
+
+| Selected capability | Simultaneous Olimex assignments |
+|---|---|
+| Block 1 GPIO loopback | R1 `D4` to R2 `D15`, and R3 `D16` to R6 `D9` |
+| Block 2 analogue feedback | R5 `D8` PWM and R0 `D1` ADC |
+| Block 3 I2C | direct `D10`/`D11` bus, R2 `D15` feedback and R6 `D9` interrupt |
+| Block 4 SPI | R4 `D7` SCK, R3 `D16` MOSI, R1 `D4` MISO, R2 `D15` ADC CS and R6 `D9` extension CS |
+| Blocks 2 and 4 analogue observation | all seven route entries R0-R6 assigned concurrently |
+| Block 5 1-Wire and GPIO | R0 `D1` DQ with R2 `D15` and R6 `D9` feedback |
+| Block 7 UART crosslink | R3 `D16` TX to direct endpoint-B RX `D18`; direct endpoint-B TX `D17` to R4 `D7` RX |
+| Block 9 addressable RGB | R5 `D8` routed to the protected RGB output |
+
+#### Board-Specific Qualifications
+
+* `D10` has an onboard 10 kOhm pull-up to 3.3 V. In parallel with the normal
+  4.7 kOhm harness pull-up it gives about 3.2 kOhm. This is accepted, but the
+  combined bus pull-up and rise time remain a bring-up check.
+* `D5/PWR_SENS` and `D6/BAT_SENS` remain outside the accepted route set so the
+  harness neither corrupts the measurements nor subjects a Test Block waveform
+  to the battery-sense capacitor.
+* `D47`/`D48` preserve the board's pUEXT I2C option; `D39`-`D42` preserve
+  optional JTAG; `D43`/`D44` preserve the USB-UART console; and `D19`/`D20`
+  preserve native USB.
+* Harness-controlled power tests require one controlled source. Disconnect the
+  LiPo battery and ensure both USB VBUS sources are absent or explicitly
+  isolated before using `TI_SWITCHED_TARGET_5V` to prove power removal.
+* `TI_TARGET_3V3` observes the target-generated 3.3 V rail and supplies the
+  target-side harness pull-ups. It shall not be driven as a second supply.
+* `TI_TARGET_RESET_N` and `TI_BOOT_REQUEST` are open-drain actions and must
+  coexist with the board's buttons and automatic download circuit.
+* Daughter-board placement must retain access to both USB-C connectors, the
+  U.FL antenna connector and manual controls, and provide antenna-cable
+  clearance.
+
+### 7.5 Raspberry Pi Pico Families
 
 **Assessment status:** Accepted -- port-development targets
 
@@ -817,7 +915,7 @@ USB, BOOTSEL and RUN access, SWD connector or pad geometry and, for Pico 2 W,
 the antenna keepout. These physical qualifications do not alter the common
 logical mapping.
 
-### 7.5 Espruino Pico
+### 7.6 Espruino Pico
 
 **Assessment status:** Accepted
 
@@ -987,7 +1085,7 @@ increase the C3-derived seven-entry minimum, but it requires the Target
 Interface and daughter-board mapping to support clean direct bypass of unused
 routing channels.
 
-### 7.6 MDBT42Q Breakout
+### 7.7 MDBT42Q Breakout
 
 **Assessment status:** Accepted
 
@@ -1157,15 +1255,15 @@ This table consolidates the accepted logical roles. Each target assessment
 classifies its implementation as `direct`, `routed`, `reused`, `unavailable`
 or `adapter` and records qualifications where necessary.
 
-| Test Block | Concurrent target-facing roles | C3 | ESP32 | S3 | Pico 1/2 families | Espruino Pico | MDBT42Q | Routing consequence |
-|---|---:|---|---|---|---|---|---|---|
-| 1. Digital loopback | 4 | Routed: `D1`, `D2`, `D3`, `D5` | Common routes R1 `D19`, R2 `D33`, R3 `D23`, R6 `D26` | Common routes R1 `D4`, R2 `D5`, R3 `D6`, R6 `D9` | Direct outputs `D10`/`D12`; selected inputs `D11`/`D13` | Direct outputs `B3`/`B5`; routed inputs `B4`/`A4` | Direct outputs `D25`/`D27`; routed inputs `D26`/`D28` | Four roles concurrent; reusable inputs require selection |
-| 2. Analogue feedback | 2 | Routed: `D10`, `D0` | Common routes R5 `D27` PWM and R0 `D32` ADC | Common routes R5 `D8` PWM and R0 `D1` ADC | Direct `D15`/`D26` | Direct `A1`/`A0` | Direct `D4`/`D3` | Concurrent with all five Block 4 roles |
-| 3. I2C | 4, including 2 mandatory direct | Direct `D6`/`D7`; routed `D2`/`D5` | Direct `D21`/`D22`; common routes R2 `D33` feedback and R6 `D26` interrupt | Direct `D10`/`D11`; common routes R2 `D5` feedback and R6 `D9` interrupt | Direct `D4`/`D5` bus and `D6`/`D7` inputs | Direct `B9`/`B8` bus and `B10`/`B1` inputs | Direct `D15`/`D14` bus and `D16`/`D17` inputs | Mandatory direct bus retained |
-| 4. SPI | 5 | Routed: `D4`, `D3`, `D1`, `D2`, `D5` | Common routes R4 `D18`, R3 `D23`, R1 `D19`, R2 `D33`, R6 `D26` | Common routes R4 `D7`, R3 `D6`, R1 `D4`, R2 `D5`, R6 `D9` | Direct `D18`/`D19`/`D16` and `D17`/`D20` | Direct `B13`/`B15`/`B14` and `A6`/`A7` | Direct `D18`/`D19`/`D20` and `D22`/`D11` | Five roles concurrent; two independent CS roles |
-| 5. 1-Wire and GPIO | 3 | Routed: `D0`, `D2`, `D5`; feedback roles reuse Block 1 inputs | Common routes R0 `D32` DQ and R2 `D33`/R6 `D26` feedback | Common routes R0 `D1` DQ and R2 `D5`/R6 `D9` feedback | Direct `D28`; selected feedback on `D11`/`D13` | Direct `A8`; routed feedback on `B4`/`A4` | Direct `D29`; routed feedback on `D26`/`D28` | Three roles concurrent; accepted exclusive reuse |
-| 7. UART | 4, or 2 with external peer | Routed `D3`/`D4`; conditional direct `D20`/`D21` | Common routes R3 `D23`/R4 `D18`; direct endpoint B `D4`/`D36`, with UART0 control | Common routes R3 `D6`/R4 `D7`; direct endpoint B `D17`/`D18`, with UART0 or native USB control | Direct UART0 `D0`/`D1` and UART1 `D8`/`D9`, with native USB control | Direct USART1 `B6`/`B7` and USART2 `A2`/`A3` | Direct single USART `D6`/`D8` in external-peer form | Four roles for crosslink targets; two for an accepted external-peer target |
-| 9. Addressable RGB | 1 | Routed: `D10` | Common route R5 `D27` | Common route R5 `D8` | Direct `D22` | Direct `A5` | Direct `D5` | No Block 2/Block 9 concurrency required |
+| Test Block | Concurrent target-facing roles | C3 | ESP32 | S3 DevKitC | Olimex S3 | Pico 1/2 families | Espruino Pico | MDBT42Q | Routing consequence |
+|---|---:|---|---|---|---|---|---|---|---|
+| 1. Digital loopback | 4 | Routed: `D1`, `D2`, `D3`, `D5` | Common routes R1 `D19`, R2 `D33`, R3 `D23`, R6 `D26` | Common routes R1 `D4`, R2 `D5`, R3 `D6`, R6 `D9` | Common routes R1 `D4`, R2 `D15`, R3 `D16`, R6 `D9` | Direct outputs `D10`/`D12`; selected inputs `D11`/`D13` | Direct outputs `B3`/`B5`; routed inputs `B4`/`A4` | Direct outputs `D25`/`D27`; routed inputs `D26`/`D28` | Four roles concurrent; reusable inputs require selection |
+| 2. Analogue feedback | 2 | Routed: `D10`, `D0` | Common routes R5 `D27` PWM and R0 `D32` ADC | Common routes R5 `D8` PWM and R0 `D1` ADC | Common routes R5 `D8` PWM and R0 `D1` ADC | Direct `D15`/`D26` | Direct `A1`/`A0` | Direct `D4`/`D3` | Concurrent with all five Block 4 roles |
+| 3. I2C | 4, including 2 mandatory direct | Direct `D6`/`D7`; routed `D2`/`D5` | Direct `D21`/`D22`; common routes R2 `D33` feedback and R6 `D26` interrupt | Direct `D10`/`D11`; common routes R2 `D5` feedback and R6 `D9` interrupt | Direct `D10`/`D11`; common routes R2 `D15` feedback and R6 `D9` interrupt | Direct `D4`/`D5` bus and `D6`/`D7` inputs | Direct `B9`/`B8` bus and `B10`/`B1` inputs | Direct `D15`/`D14` bus and `D16`/`D17` inputs | Mandatory direct bus retained |
+| 4. SPI | 5 | Routed: `D4`, `D3`, `D1`, `D2`, `D5` | Common routes R4 `D18`, R3 `D23`, R1 `D19`, R2 `D33`, R6 `D26` | Common routes R4 `D7`, R3 `D6`, R1 `D4`, R2 `D5`, R6 `D9` | Common routes R4 `D7`, R3 `D16`, R1 `D4`, R2 `D15`, R6 `D9` | Direct `D18`/`D19`/`D16` and `D17`/`D20` | Direct `B13`/`B15`/`B14` and `A6`/`A7` | Direct `D18`/`D19`/`D20` and `D22`/`D11` | Five roles concurrent; two independent CS roles |
+| 5. 1-Wire and GPIO | 3 | Routed: `D0`, `D2`, `D5`; feedback roles reuse Block 1 inputs | Common routes R0 `D32` DQ and R2 `D33`/R6 `D26` feedback | Common routes R0 `D1` DQ and R2 `D5`/R6 `D9` feedback | Common routes R0 `D1` DQ and R2 `D15`/R6 `D9` feedback | Direct `D28`; selected feedback on `D11`/`D13` | Direct `A8`; routed feedback on `B4`/`A4` | Direct `D29`; routed feedback on `D26`/`D28` | Three roles concurrent; accepted exclusive reuse |
+| 7. UART | 4, or 2 with external peer | Routed `D3`/`D4`; conditional direct `D20`/`D21` | Common routes R3 `D23`/R4 `D18`; direct endpoint B `D4`/`D36`, with UART0 control | Common routes R3 `D6`/R4 `D7`; direct endpoint B `D17`/`D18`, with UART0 or native USB control | Common routes R3 `D16`/R4 `D7`; direct endpoint B `D17`/`D18`, with UART0 or native USB control | Direct UART0 `D0`/`D1` and UART1 `D8`/`D9`, with native USB control | Direct USART1 `B6`/`B7` and USART2 `A2`/`A3` | Direct single USART `D6`/`D8` in external-peer form | Four roles for crosslink targets; two for an accepted external-peer target |
+| 9. Addressable RGB | 1 | Routed: `D10` | Common route R5 `D27` | Common route R5 `D8` | Common route R5 `D8` | Direct `D22` | Direct `A5` | Direct `D5` | No Block 2/Block 9 concurrency required |
 
 The table represents 23 logical Test Block roles for a two-UART crosslink
 target before accepted exclusive reuse. An accepted external-peer UART target
@@ -1503,6 +1601,22 @@ ESP32-S3-DevKitC-1 sources:
   `https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-guides/jtag-debugging/configure-builtin-jtag.html`
   and
   `https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-guides/usb-serial-jtag-console.html`
+
+Olimex ESP32-S3-DevKit-LiPo-EA Rev-B sources:
+
+* `docs/targets/olimex-esp32-s3-devkit-lipo/README.md`
+* `docs/targets/olimex-esp32-devkit-lipo/Resources/ESP32-S3-DevKit-LiPo_Rev_B.pdf`
+* `docs/targets/olimex-esp32-devkit-lipo/Resources/Manual_ESP32-S3-DevKit-LiPo_Rev_B.pdf`
+* `docs/targets/olimex-esp32-devkit-lipo/Resources/Pinout_ESP32-S3-DevKit-LiPo.jpg`
+* `docs/targets/olimex-esp32-devkit-lipo/Resources/ESP32-S3-DevKit-LiPo-dimensions.png`
+* `KICAD/V2/Exploration/Espruino_Harness_V2/TARGET_LIBRARY_PROVENANCE.md`
+* upstream source revision `98e62ae2b9b1e52448ec585089730defb45ba869`,
+  schematic path
+  `KICAD/V2/upstream/OLIMEX-ESP32-S3-DevKit-LiPo/HARDWARE/ESP32-S3-DevKit-LiPo_Rev_B/ESP32-S3-DevKit-LiPo_Rev_B.sch`
+* official product page:
+  `https://www.olimex.com/Products/IoT/ESP32-S3/ESP32-S3-DevKit-Lipo-EA/open-source-hardware`
+* official open-source hardware repository:
+  `https://github.com/OLIMEX/ESP32-S3-DevKit-LiPo`
 
 Raspberry Pi Pico-family sources:
 

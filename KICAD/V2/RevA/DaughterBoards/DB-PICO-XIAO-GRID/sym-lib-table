@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "V2_DaughterBoard_Targets")(type "KiCad")(uri "${KIPRJMOD}/../V2_DaughterBoard_Targets.kicad_sym")(options "")(descr "Shared V2 daughter-board target symbols"))
+)

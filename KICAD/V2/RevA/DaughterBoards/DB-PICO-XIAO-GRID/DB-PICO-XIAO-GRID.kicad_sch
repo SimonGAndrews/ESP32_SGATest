@@ -261,7 +261,7 @@
 		)
 		(embedded_fonts no)
 	)
-		(symbol "GenericDaughterBoardV1:CON22"
+		(symbol "V2_DaughterBoard_Targets:CON22"
 			(pin_names
 				(offset 1.016)
 			)
@@ -284,7 +284,7 @@
 					)
 				)
 			)
-			(property "Footprint" "GenericDaughterBoardV1:HN1x22"
+			(property "Footprint" "V2_DaughterBoard_Targets:HN1x22"
 				(at 0.635 -31.75 0)
 				(effects
 					(font
@@ -2058,7 +2058,7 @@
 		)
 		(embedded_fonts no)
 	)
-		(symbol "GenericDaughterBoardV1:Target_Interface_2x12_Odd_Even"
+		(symbol "V2_DaughterBoard_Targets:Target_Interface_2x12_Odd_Even"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -3191,7 +3191,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "GenericDaughterBoardV1:ESPRUINO_PICO_SMD"
+		(symbol "V2_DaughterBoard_Targets:ESPRUINO_PICO_SMD"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -3213,7 +3213,7 @@
 					(hide yes)
 				)
 			)
-			(property "Footprint" "GenericDaughterBoardV1:ESPRUINO_PICO_SMD"
+			(property "Footprint" "V2_DaughterBoard_Targets:ESPRUINO_PICO_SMD"
 				(at 0 0 0)
 				(effects
 					(font
@@ -7053,7 +7053,7 @@
 			(uuid "07488eb1-acf3-46ef-b02c-9416199352a0")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#PWR04")
 					(unit 1)
@@ -7116,7 +7116,7 @@
 			(uuid "456c6e80-701f-4ed9-81d4-96d22b772269")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#PWR07")
 					(unit 1)
@@ -7178,7 +7178,7 @@
 			(uuid "20e4909f-1e0c-4a65-ba46-26f202cdc9e3")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#PWR06")
 					(unit 1)
@@ -7242,7 +7242,7 @@
 			(uuid "1d30628d-7847-48ea-a5ef-4e6ace365359")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#PWR024")
 					(unit 1)
@@ -7306,7 +7306,7 @@
 			(uuid "f604f445-271b-469b-ade4-45fef399a6b8")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#PWR023")
 					(unit 1)
@@ -7315,7 +7315,7 @@
 		)
 	)
 	(symbol
-		(lib_id "GenericDaughterBoardV1:CON22")
+		(lib_id "V2_DaughterBoard_Targets:CON22")
 		(at 257.81 180.34 0)
 		(mirror y)
 		(unit 1)
@@ -7342,7 +7342,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "GenericDaughterBoardV1:HN1x22"
+		(property "Footprint" "V2_DaughterBoard_Targets:HN1x22"
 			(at 257.175 212.09 0)
 			(effects
 				(font
@@ -7434,7 +7434,7 @@
 			(uuid "ab32bc3b-39e7-4ebc-afa0-b844d317ca39")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "EXT1")
 					(unit 1)
@@ -7443,7 +7443,7 @@
 		)
 	)
 	(symbol
-		(lib_id "GenericDaughterBoardV1:CON22")
+		(lib_id "V2_DaughterBoard_Targets:CON22")
 		(at 287.02 180.34 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7469,7 +7469,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "GenericDaughterBoardV1:HN1x22"
+		(property "Footprint" "V2_DaughterBoard_Targets:HN1x22"
 			(at 287.655 212.09 0)
 			(effects
 				(font
@@ -7561,7 +7561,7 @@
 			(uuid "45259587-faac-4028-bc6a-2ab2bad8e625")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "EXT2")
 					(unit 1)
@@ -7625,7 +7625,7 @@
 			(uuid "7d950a10-5050-40c2-90ab-0cc369cc646a")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#PWR05")
 					(unit 1)
@@ -7635,7 +7635,7 @@
 	)
 	(symbol
 		(lib_name "Target_Interface_2x12_Odd_Even_1")
-		(lib_id "GenericDaughterBoardV1:Target_Interface_2x12_Odd_Even")
+		(lib_id "V2_DaughterBoard_Targets:Target_Interface_2x12_Odd_Even")
 		(at 119.38 88.9 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7659,7 +7659,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x12_P2.54mm_Vertical"
+		(property "Footprint" "V2_Target_Interface:TargetInterface_2x12_P2.54mm_RA_Male_Adafruit1541_Daughter"
 			(at 119.38 88.9 0)
 			(effects
 				(font
@@ -7759,7 +7759,7 @@
 			(uuid "bad1abff-e15b-4762-a9b3-f4b8dc1aec0b")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "J900")
 					(unit 1)
@@ -7768,7 +7768,7 @@
 		)
 	)
 	(symbol
-		(lib_id "GenericDaughterBoardV1:ESPRUINO_PICO_SMD")
+		(lib_id "V2_DaughterBoard_Targets:ESPRUINO_PICO_SMD")
 		(at 281.94 67.31 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7794,7 +7794,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "GenericDaughterBoardV1:ESPRUINO_PICO_SMD"
+		(property "Footprint" "V2_DaughterBoard_Targets:ESPRUINO_PICO_SMD"
 			(at 281.94 67.31 0)
 			(effects
 				(font
@@ -7900,7 +7900,7 @@
 			(uuid "70f6073c-0437-40f3-a2af-3c83f252697a")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "U$1")
 					(unit 1)
@@ -7966,7 +7966,7 @@
 			(uuid "8d9a53db-6748-4616-abf7-ff7a6771e4cb")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#FLG03")
 					(unit 1)
@@ -8032,7 +8032,7 @@
 			(uuid "0228859d-2fc7-4bd7-8949-2ce608efeeca")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "#FLG01")
 					(unit 1)
@@ -8041,7 +8041,7 @@
 		)
 	)
 	(symbol
-		(lib_id "GenericDaughterBoardV1:Target_Interface_2x12_Odd_Even")
+		(lib_id "V2_DaughterBoard_Targets:Target_Interface_2x12_Odd_Even")
 		(at 119.38 168.91 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8065,7 +8065,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x12_P2.54mm_Vertical"
+		(property "Footprint" "V2_Target_Interface:TargetInterface_2x12_P2.54mm_RA_Male_Adafruit1541_Daughter"
 			(at 119.38 168.91 0)
 			(effects
 				(font
@@ -8165,7 +8165,7 @@
 			(uuid "d641f77f-164a-4a2f-960a-42e8a9ab6424")
 		)
 		(instances
-			(project "GenericDaughterBoardV1"
+			(project "DB-PICO-XIAO-GRID"
 				(path "/f947ec4c-e81e-4f1c-bec8-b3723a2b92bb"
 					(reference "J901")
 					(unit 1)

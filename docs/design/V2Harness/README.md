@@ -67,6 +67,7 @@ Start with:
 - `arch/TestHarnessArchitecture_V2.md`
 - `arch/HarnessConceptualModel_V2.md`
 - `arch/HybridHarnessArchitecture_V2.md`
+- `arch/DaughterBoardMatrix_V2.md`
 - `arch/StandardTestBlocks_V2.md`
 - `arch/StandardControlServices_V2.md`
 - `arch/TargetRoutingEnvelope_V2.md`
@@ -150,6 +151,9 @@ under `../../../KICAD/V2/RevA/Espruino_Harness_RevA/verification/`.
   verification remain in progress.
 - `arch/HybridHarnessArchitecture_V2.md` defines the prototype boundary and
   records the removable daughter-board decision in Appendix A.
+- `arch/DaughterBoardMatrix_V2.md` owns the three-board target allocation,
+  exact-variant matrix, mounting and shared-footprint compatibility decisions,
+  and the complex-board-first implementation gates.
 - `arch/ReusableHarnessPrototypeStrategy_V2.md` defines the Rev-A manufactured
   harness, wire-wrap daughter-board and pre-manufacture validation approach.
 - `implementation/ReusableHarnessRevA_DesignBaseline.md` records the selected

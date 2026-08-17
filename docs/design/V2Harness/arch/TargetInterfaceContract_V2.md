@@ -224,6 +224,21 @@ Product sources and the available female technical drawing are:
 * <https://www.adafruit.com/product/1541>
 * <https://cdn-shop.adafruit.com/datasheets/P1543.pdf>
 
+Received-part photographs are held in `../Parts/`; the controlled bench
+measurement worksheet is
+`../implementation/J900_J901_ReceivedPartMeasurementWorksheet.md`. Complete
+that record before accepting the J900/J901 footprints, board-edge datums or
+mating clearances.
+
+The measured Rev-A footprints are held in the shared KiCad footprint library
+`KICAD/V2/RevA/V2_Target_Interface.pretty`. The accepted nominal placement
+uses 10.43 mm from the female inner-row centre to the harness mating edge and
+4.42 mm from the male inner-row centre to the daughter-board mating edge. At
+full insertion, each connector mating face projects 0.25 mm beyond its PCB
+edge, producing the physically demonstrated 0.50 mm board-to-board gap. The
+footprint `Dwgs.User` lines mark these nominal PCB-edge datums; they are not
+`Edge.Cuts` geometry.
+
 The male product is intended to break apart at the 2.54 mm pitch. The female
 product is not breakaway: it shall be cut with diagonal cutters or a thin
 hacksaw by sacrificing a socket position, then dressed and inspected so the

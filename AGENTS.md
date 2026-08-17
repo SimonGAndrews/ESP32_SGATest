@@ -80,6 +80,8 @@ Read:
 - `docs/design/V2Harness/arch/TestHarnessArchitecture_V2.md`
 - `docs/design/V2Harness/arch/HarnessConceptualModel_V2.md`
 - `docs/design/V2Harness/arch/HybridHarnessArchitecture_V2.md`
+- `docs/design/V2Harness/arch/DaughterBoardMatrix_V2.md` when allocating or
+  implementing target daughter boards
 - `docs/design/V2Harness/arch/StandardTestBlocks_V2.md`
 - `docs/design/V2Harness/arch/TargetRoutingEnvelope_V2.md`
 - `docs/handoff/2026-07-17-v2-services-and-routing.md`

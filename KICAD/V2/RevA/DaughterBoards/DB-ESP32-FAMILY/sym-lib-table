@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "V2_DaughterBoard_Targets")(type "KiCad")(uri "${KIPRJMOD}/../V2_DaughterBoard_Targets.kicad_sym")(options "")(descr "Shared V2 daughter-board target symbols"))
+  (lib (name "V2_Targets_Exploration")(type "KiCad")(uri "${KIPRJMOD}/../../../Exploration/Espruino_Harness_V2/V2_Targets.kicad_sym")(options "")(descr ""))
+)

@@ -6237,7 +6237,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "V2_Target_Interface:TargetInterface_2x12_P2.54mm_RA_Female_Adafruit1543_Harness"
 			(at 242.57 181.61 0)
 			(effects
 				(font
@@ -7011,7 +7011,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "V2_Target_Interface:TargetInterface_2x12_P2.54mm_RA_Female_Adafruit1543_Harness"
 			(at 330.2 180.34 0)
 			(effects
 				(font
