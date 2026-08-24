@@ -1,10 +1,18 @@
 # Recommended V1 Testing To Support The V2 Architecture
 
-**Status:** Working test recommendation
+**Status:** Superseded evidence plan — USB No-VBUS policy rejected 21 August 2026
 
 **Date:** 20 July 2026
 
 ## Recommendation
+
+> **Historical note:** The USB No-VBUS approach below was useful evidence but
+> is no longer an accepted V2 architecture direction. Review of CP2102N and
+> other accepted targets showed that some targets require VBUS for their normal
+> USB connection. The accepted replacement is the daughter-board manual VBUS
+> selector and reusable-harness Standalone regulator defined by
+> `StandardControlServices_V2.md`. Do not use this document as an implementation
+> requirement.
 
 Use the completed V1 harnesses to test the operating behaviours on which the
 V2 architecture depends. Give priority to USB No-VBUS operation, externally

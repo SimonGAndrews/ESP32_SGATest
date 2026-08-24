@@ -1,28 +1,29 @@
 # V2 Target Interface Contract
 
-**Status:** Accepted — Two-Connector 48-Pin Pinout And Connector System Fixed;
-Physical Verification Pending
+**Status:** Accepted — corrected power allocation and complete 48-contact map
 
-**Version:** 1.1
+**Version:** 1.3
 
-**Last Updated:** 15 August 2026
+**Last Updated:** 22 August 2026
 
 ## 1. Conclusion
 
-The accepted Target Interface uses two 24-pin connectors on each board. Each
-connector has two rows of 12 pins, giving 48 pins per board. Thirty-two pins
-carry signals and controls, four carry power — two for 3.3 V and two for 5 V —
-and twelve are ground.
+The accepted mechanical direction uses two 24-pin connectors on each board,
+giving 48 contacts. The accepted map assigns 32 signal/control contacts, four
+power contacts — one target 3.3 V reference, one selected target-VBUS return
+and two switched 5 V feeds — and twelve grounds. VBUS source selection is
+manual and local to the daughter board, so no select conductor crosses the
+Target Interface.
 
-Those 32 signal and control pins provide:
+The currently mapped 32 signal and control pins provide:
 
 * seven reusable route pins, R0-R6
 * 23 direct connections to the Standard Test Blocks
 * direct reset and boot-control pins
 
-The pinout covers every connection required by the accepted V2 architecture.
-Section 7 shows what is connected to every pin, how Connector A and Connector B
-mate and how the Breakaway Links join the boards before separation.
+Section 7 shows the accepted mapping, how Connector A and Connector B mate
+and how the Breakaway Links join the boards before separation. It is not an
+implementation authority for the Target Interface.
 
 The accepted physical arrangement uses two female right-angle socket banks on
 the reusable harness and two male right-angle header banks on each daughter
@@ -114,20 +115,20 @@ direct and routed versions of the same function must never be enabled together.
 
 | Pin function | Direction | What it does | Wiring rule |
 |---|---|---|---|
-| `TI_TARGET_3V3` | Target to harness | Powers the routing and Test Block logic in `STANDALONE` and provides the target's 3.3 V I/O reference | Shall remain between 3.00 V and 3.60 V at the Target Interface under the accepted harness load; must never power the target or be connected to the external harness 3.3 V supply |
-| `TI_SWITCHED_TARGET_5V` | Harness to daughter board | Supplies switched 5 V to the target in Supervisor operation | The daughter board must not connect it to another live supply |
+| `TI_TARGET_3V3` | Target to harness | Provides the target's actual 3.3 V I/O-domain reference and rail-valid indication | Low-current reference only; shall remain between 3.00 V and 3.60 V while the target is powered and shall never supply harness logic or be joined to another 3.3 V source |
+| `TI_TARGET_VBUS` | Daughter board to harness | Returns the manually selected VBUS — the same VBUS delivered to the target — to the harness-local 5 V-to-3.3 V regulator | Shall be absent when selected target VBUS is intentionally off and shall not bypass target-power monitoring or switching |
+| `TI_SWITCHED_TARGET_5V` | Harness to daughter board | Supplies the Supervisor-controlled input to the daughter-board VBUS selector | Shall not be joined directly to host VBUS; the selector chooses exactly one source and is changed only while unpowered |
 | `TI_TARGET_RESET_N` | Harness to target | Pulls the target reset input low | Must normally be released and must not depend on I2C or the Routing Fabric |
 | `TI_BOOT_REQUEST` | Harness to target | Optionally pulls a target boot or recovery input low | A daughter board may leave it unconnected when the target has no safe equivalent |
 
-A target profile that cannot maintain `TI_TARGET_3V3` at or above 3.00 V under
-the accepted harness load shall not use `STANDALONE`; it shall use
-`STANDALONE EXT` with the external regulated 3.3 V source. The 3.60 V maximum
-also applies when `TI_TARGET_3V3` is used only as the target I/O-domain
-reference.
+`TI_TARGET_3V3` is deliberately independent of the 300 mA harness-load budget.
+The corrected Power Control Service always supplies that load from either the
+harness-local regulator or `EXT_3V3`.
 
-The two power pins work in opposite directions: 3.3 V comes from the target,
-while switched 5 V comes from the harness. Do not use either pin to send power
-in the opposite direction.
+The three power functions have fixed ownership: switched 5 V travels from the
+harness to the selector, selected target VBUS returns from the selector to the
+harness regulator, and target 3.3 V travels from the target only as a bounded
+reference. None may be used in the opposite direction.
 
 ### 3.4 Common Ground
 
@@ -135,26 +136,27 @@ All `TI_GND` pins are connected to the same 0 V ground on both boards. Multiple
 ground pins spread the return current and place a nearby ground beside the
 main signal groups.
 
-The proposed pinout uses twelve ground pins across Connector A and Connector B.
+The accepted pinout uses twelve ground pins across Connector A and Connector B.
 They are placed near power, analogue, I2C, SPI, UART and the general digital
 signals.
 
-## 4. Why 34 Functions Need 48 Pins
+## 4. Contact Allocation
 
-The interface has 34 different functions:
+The corrected interface has 35 different functions:
 
 | Function group | Pins |
 |---|---:|
 | Route pins R0-R6 | 7 |
 | Direct Standard Test Block pins | 23 |
-| 3.3 V and switched 5 V | 2 |
-| Reset and boot control | 2 |
-| **Different functions** | **34** |
+| Target 3.3 V reference, selected target VBUS and switched 5 V | 3 |
+| Reset and boot controls | 2 |
+| **Different functions** | **35** |
 
-The physical connectors use 48 pins because both power connections are
-duplicated and twelve pins are ground. Using R0-R6 can reduce the number of
-target GPIOs needed for a particular daughter board, but it does not remove
-the direct Test Block pins from the standard connector.
+The physical map uses 48 contacts for the 35 functions, one duplicate
+switched-target-5-V contact and twelve ground contacts. The allocation is
+therefore complete. Using R0-R6 can reduce the number of target GPIOs needed
+for a particular daughter board, but it does not remove the direct Test Block
+pins from the standard connector.
 
 ## 5. Connections Handled Elsewhere
 
@@ -162,7 +164,7 @@ The following connections do not pass through Connector A or Connector B:
 
 | Function | Where it connects instead |
 |---|---|
-| Target USB data, USB VBUS and USB No-VBUS | Target's onboard USB connector, a cable or a daughter-board Adapter Service |
+| Target USB D+, D−, host VBUS and the physical host/target USB connectors | Common daughter-board USB data/VBUS-selector Adapter Service; only selected `TI_TARGET_VBUS` and Supervisor `TI_SWITCHED_TARGET_5V` cross the interface |
 | SWD, JTAG and target-specific debug | A target connector or daughter-board Adapter Service |
 | UART CTS and RTS | A daughter-board Adapter Service when a target needs that test |
 | Onboard USB-UART bridge isolation | Target-specific links, wiring or setup instructions |
@@ -184,13 +186,17 @@ The pin list includes:
 * all 23 target-facing connections from `StandardTestBlocks_V2.md`
 * all seven route pins from `TargetRoutingEnvelope_V2.md`
 * the direct I2C and second UART connections required by the combined matrix
-* target 3.3 V, switched target 5 V, reset and optional boot from
+* target 3.3 V reference, selected target VBUS, switched target 5 V, reset and optional boot from
   `StandardControlServices_V2.md`
 * both the direct and routed wiring required by
   `HybridHarnessArchitecture_V2.md`
 * the decision to handle CTS/RTS and the Target Power Monitor elsewhere
 
-No currently accepted feature needs another connector pin.
+The accepted resolution is a separate manual two-position source selector on
+every daughter board. It chooses host VBUS in Standalone or
+`TI_SWITCHED_TARGET_5V` in Supervisor and is changed only while unpowered. No
+schematic shall infer mode solely from the presence of
+`TI_SWITCHED_TARGET_5V`, and raw host VBUS shall not cross this interface.
 
 ## 7. Connector Pinout
 
@@ -289,7 +295,7 @@ unpowered before the connectors are joined or separated. The daughter board
 is inserted into the female banks on the harness after the harness is situated
 in the rack.
 
-### 7.3 Pin Allocation
+### 7.3 Accepted Pin Allocation
 
 Each connector uses sixteen pins for signals and controls, two for power and
 six for ground.
@@ -297,14 +303,17 @@ six for ground.
 | Pin use | Pins |
 |---|---:|
 | Signals and controls | 32 |
-| `TI_TARGET_3V3` | 2 |
+| `TI_TARGET_3V3` | 1 |
+| `TI_TARGET_VBUS` | 1 |
 | `TI_SWITCHED_TARGET_5V` | 2 |
 | `TI_GND` | 12 |
 | **Total** | **48** |
 
-The 3.3 V and 5 V pins each appear once on Connector A and once on Connector B.
-The matching pair is connected together on each PCB to share the current and
-reduce voltage drop.
+The switched 5 V feed appears once on each connector to share target current.
+`TI_TARGET_3V3` and `TI_TARGET_VBUS` each use one contact with an adjacent
+ground because their revised reference and regulator-input currents do not
+require duplicated contacts. Contact-current capability remains a PCB-release
+verification action.
 
 #### 7.3.1 Connector A — Routing, Control And Low-Speed Signals
 
@@ -327,7 +336,7 @@ reduce voltage drop.
 
 | Column | Odd pin | Function | Even pin | Function |
 |---:|---|---|---|---|
-| 1 | `B01` | `TI_TARGET_3V3` | `B02` | `TI_GND` |
+| 1 | `B01` | `TI_TARGET_VBUS` | `B02` | `TI_GND` |
 | 2 | `B03` | `TI_GPIO_LOOP_A_OUT` | `B04` | `TI_GPIO_LOOP_A_IN` |
 | 3 | `B05` | `TI_GPIO_LOOP_B_OUT` | `B06` | `TI_GPIO_LOOP_B_IN` |
 | 4 | `B07` | `TI_SPI_SCK` | `B08` | `TI_GND` |
@@ -346,8 +355,9 @@ The 48-pin arrangement was selected because:
 
 * `TI_SWITCHED_TARGET_5V` supplies the complete target load in Supervisor
   operation, so it uses one pin on each connector
-* `TI_TARGET_3V3` supplies the Routing Logic and Test Block rails in
-  `STANDALONE`, so it also uses one pin on each connector
+* `TI_TARGET_VBUS` returns the source-qualified VBUS delivered to the target
+  and supplies the harness-local Standalone regulator through one contact
+* `TI_TARGET_3V3` is a low-current target-domain reference through one contact
 * twelve ground pins spread the return current and put ground pins near the
   main signal groups
 * all required signals already have pins, so no pins are left unused just in
@@ -357,7 +367,8 @@ The 48-pin arrangement was selected because:
 
 Connector A keeps R0-R6 together with reset, boot, I2C, analogue and RGB.
 Connector B carries the direct GPIO, SPI, OneWire and UART connections. Both
-connectors include 3.3 V, 5 V and ground pins.
+connectors include power and ground contacts; Connector A carries the target
+3.3 V reference and Connector B carries the combined target-VBUS return.
 
 This grouping only makes the schematic, PCB and wiring easier to follow. It
 does not change which tests or combinations are allowed.
@@ -375,13 +386,14 @@ carry more current.
 | `A-S2` | `A13`, `A14`, `A15`, `A17`, `A18`, `A19`, `A21`, `A22` | 8 |
 | `B-S1` | `B03`, `B04`, `B05`, `B06`, `B07`, `B09`, `B10`, `B11` | 8 |
 | `B-S2` | `B13`, `B14`, `B15`, `B17`, `B18`, `B19`, `B21`, `B22` | 8 |
-| `P-3V3` | `A01`, `B01`, plus grounds `A02`, `B02` | 4 |
+| `P-REF/VBUS` | `A01` (`TI_TARGET_3V3`), `B01` (`TI_TARGET_VBUS`), plus grounds `A02`, `B02` | 4 |
 | `P-5V` | `A23`, `B23`, plus grounds `A24`, `B24` | 4 |
 | **Total** | 32 signal, 4 power and 4 ground conductors | **40** |
 
 The other eight ground pins are already connected to the same ground copper on
-each PCB, so they do not need separate tracks across the break. The two 3.3 V
-tracks and two 5 V tracks match the duplicated power pins on the connectors.
+each PCB, so they do not need separate tracks across the break. The separate
+target-3.3-V-reference and target-VBUS tracks plus the two switched-5-V tracks
+match the accepted power contacts.
 
 PCB layout must set suitable track widths for the expected current and make
 the tracks narrow enough at the break points for clean separation. The link
@@ -396,8 +408,8 @@ Before releasing the Rev-A PCB we must:
    both PCBs lie in the same plane with their top edges aligned when mated
 2. establish adequate connector/contact current capacity and set maximum
    allowed 3.3 V and 5 V currents
-3. check that both pins for each power rail are connected together on every
-   harness and daughter board
+3. check that A23 and B23 are connected together on every harness and daughter
+   board and that the single-contact reference/return rails meet their budgets
 4. place the Target Power Monitor before the switched 5 V track divides
    between Connector A and Connector B
 5. check what happens during partial or misaligned insertion and prohibit

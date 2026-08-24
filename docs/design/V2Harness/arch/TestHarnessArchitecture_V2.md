@@ -1,8 +1,8 @@
 # V2 Espruino Test Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.4
-**Last Updated:** 26 July 2026
+**Version:** 0.5
+**Last Updated:** 22 August 2026
 
 ## 1. Purpose
 
@@ -202,9 +202,17 @@ contract.
 Controlled removal and restoration of target power is a standard Power Control
 Service in `SUPERVISOR` operation. An external regulated 5 V source feeds an
 independent harness switch and Target Power Monitor for each rack position.
-The daughter board maps the provisional `TI_SWITCHED_TARGET_5V` service to the
-target's accepted external-power input and provides any target-specific
-adaptation.
+The daughter board manually selects either `TI_SWITCHED_TARGET_5V` or host USB
+VBUS without allowing the sources to be joined, presents the selected VBUS at
+the target's normal USB power input and returns that selected rail as
+`TI_TARGET_VBUS`. The reusable harness regulates this return for Standalone
+routing and Test Block power. Selection is local to the daughter board and is
+changed only while unpowered; no selector-control interface allocation is
+required. A separate harness 2x3 two-shunt selector chooses local or external
+3.3 V and enables the local regulator only in Standalone. Both shunts are
+moved together only while unpowered. `TI_TARGET_3V3` remains only the target
+I/O-domain reference. A target without native USB uses a documented Adapter
+Service while preserving the same source-ownership rules.
 
 This service supports recovery, cold-start and boot testing, powered-off
 isolation checks, and operating and sleep-current measurement. It supplements

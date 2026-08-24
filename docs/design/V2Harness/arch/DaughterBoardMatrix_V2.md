@@ -2,7 +2,7 @@
 
 **Status:** Accepted architecture direction; target implementation assessment in progress
 **Version:** 0.1
-**Last Updated:** 17 August 2026
+**Last Updated:** 21 August 2026
 
 ## 1. Accepted Direction
 
@@ -86,6 +86,17 @@ Interface roles.
 11. A joined harness/daughter panel may use hard wiring across the separation
     zone, while a separated pair uses the accepted Target Interface connectors.
     Both forms must implement the same electrical contract.
+12. Every daughter-board design shall implement the common USB data path and
+    manual two-position VBUS selector defined by
+    `StandardControlServices_V2.md`. It shall accept host VBUS and
+    `TI_SWITCHED_TARGET_5V` as mutually exclusive sources, deliver the selected
+    VBUS to the target and return it as `TI_TARGET_VBUS`. The selector shall be
+    changed only while unpowered, labelled for Standalone and Supervisor, and
+    recorded as a configuration precondition. No host VBUS or selector-control
+    signal crosses the Target Interface. A target
+    without native USB shall retain the same power contract while its matrix
+    row and Target Profile identify the alternative data/control endpoint and
+    target-power input.
 
 ## 5. Matrix Field Definitions
 

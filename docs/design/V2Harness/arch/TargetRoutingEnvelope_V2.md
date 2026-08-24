@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.4
+**Version:** 0.5
 
-**Last Updated:** 17 August 2026
+**Last Updated:** 22 August 2026
 
 ## 1. Purpose
 
@@ -309,16 +309,13 @@ routing-fabric functions and seven-entry minimum are unchanged.
 #### UART And Adapter-Service Qualification
 
 UART crosslink testing uses native USB Serial/JTAG on `D18`/`D19` as the
-independent test-control path. The board Micro-USB connection must not power or
-drive the onboard CP2102N while its UART0 pins participate in the crosslink;
-the target instead uses the explicitly selected harness power path.
-
-This is a board-specific operating constraint. The later Control Service and
-Adapter Service reviews must determine whether cable removal remains an
-accepted precondition, whether USB VBUS should be sensed, or whether the C3
-daughter board needs another isolation provision. A build without a usable
-native USB Serial/JTAG test-control path requires an external peer or records the
-crosslink capability as unavailable.
+independent test-control path. The common daughter-board VBUS selector supplies the
+target's normal USB VBUS in both active modes, so the onboard CP2102N remains
+powered whenever the target is powered. A Target Profile that assigns UART0
+pins to the crosslink shall therefore isolate the CP2102N signal path or prove
+that it does not contend; otherwise it shall use another UART mapping or record
+the crosslink capability as unavailable. Removing VBUS from an otherwise
+powered target is not an accepted workaround.
 
 The preferred C3 hardware-debug path is native USB Serial/JTAG on `D18` and
 `D19`, exposed through a target-specific USB connector on the daughter board.
@@ -485,17 +482,15 @@ recovery uses the independent Hardware Clear action. Harness-side pull-ups and
 routing devices must not back-power an unpowered target.
 
 The DevKitC documentation permits USB, 5 V-header or 3.3 V-header power as
-mutually exclusive alternatives. The V1 harness normally uses the onboard USB
-and leaves its external-5 V link open. A later controlled-power-cycle service
-cannot remove target power while USB continues to supply the board, so the
-Power Control and Adapter Service design must define USB-UART operation without
-creating competing supply paths.
+mutually exclusive alternatives. V2 uses the common daughter-board VBUS selector
+to power the normal USB VBUS input from host VBUS in Standalone or switched
+harness 5 V in Supervisor; the header supply alternatives remain disconnected.
 
 The daughter board must preserve usable access to the onboard Micro-USB
 connector and manual EN/BOOT controls. Direct `TI_TARGET_RESET_N` and optional
 `TI_BOOT_REQUEST` automation must coexist safely with the onboard CP2102N
-automatic-download transistor circuit. Exact drive isolation, USB VBUS
-handling and controlled-power-cycle behaviour remain service-design decisions.
+automatic-download transistor circuit. Exact reset/boot drive isolation and
+the physical USB data/VBUS-selector implementation remain daughter-board decisions.
 
 ### 7.3 ESP32-S3-DevKitC-1
 
@@ -644,17 +639,16 @@ recovery uses the independent Hardware Clear action. Independently powered
 pull-ups, routing devices, USB connections and peers must not back-power an
 unpowered target.
 
-A controlled target-power-cycle service must account for both USB VBUS paths
-and any external supply. The board permits its two USB ports to supply it
-individually or together, with an external 5 V- or 3.3 V-header supply as an
-alternative. Switching only the external harness supply cannot remove target
-power while either USB connector continues to power the board.
+A controlled target-power-cycle service shall select one target USB device
+connection through the common daughter-board VBUS selector. The other USB VBUS path
+and all external header supplies shall remain disconnected or explicitly
+isolated. The optional USB-OTG host VBUS service is separate and defaults off.
 
 The daughter board must preserve usable access to both Micro-USB connectors
 and the manual EN/BOOT controls. Direct `TI_TARGET_RESET_N` and optional
 `TI_BOOT_REQUEST` automation must coexist safely with the onboard automatic
-download circuit. USB VBUS ownership, controlled cycling and competing-supply
-protection remain Power Control and Adapter Service decisions.
+download circuit. Connector choice, the second-port isolation and optional
+OTG-host VBUS remain daughter-board Adapter Service decisions.
 
 ### 7.4 Olimex ESP32-S3-DevKit-LiPo-EA Rev B
 
@@ -700,7 +694,8 @@ their function is already supplied through R0-R6.
 
 | Target Interface contact | Net / function | Target symbol pin |
 |---|---|---:|
-| A01 and B01 | `TI_TARGET_3V3` | 1 and 2 (`3V3`) |
+| A01 | `TI_TARGET_3V3` | 1 and 2 (`3V3`) |
+| B01 | `TI_TARGET_VBUS` | Daughter-board VBUS-selector common / selected target USB VBUS |
 | A03 | R0 | 26 (`D1`) |
 | A04 | R1 | 4 (`D4`) |
 | A05 | R2 | 8 (`D15`) |
@@ -714,7 +709,7 @@ their function is already supplied through R0-R6.
 | A17 | `TI_I2C_SCL` | 17 (`D11`) |
 | B21 | `TI_UART_B_TX` | 10 (`D17/U1TXD`) |
 | B22 | `TI_UART_B_RX` | 11 (`D18/U1RXD`) |
-| A23 and B23 | `TI_SWITCHED_TARGET_5V` | 21 (`5V`) |
+| A23 and B23 | `TI_SWITCHED_TARGET_5V` | Daughter-board VBUS-selector Supervisor input; not directly to target pin 21 |
 | All Interface ground contacts | `TI_GND` | 22, 23, 43 and 44 (`GND`) |
 
 #### Required Simultaneous Configurations
@@ -742,8 +737,8 @@ their function is already supplied through R0-R6.
   optional JTAG; `D43`/`D44` preserve the USB-UART console; and `D19`/`D20`
   preserve native USB.
 * Harness-controlled power tests require one controlled source. Disconnect the
-  LiPo battery and ensure both USB VBUS sources are absent or explicitly
-  isolated before using `TI_SWITCHED_TARGET_5V` to prove power removal.
+  LiPo battery, route the selected USB device connection through the common
+  VBUS selector and leave the other USB VBUS source absent or explicitly isolated.
 * `TI_TARGET_3V3` observes the target-generated 3.3 V rail and supplies the
   target-side harness pull-ups. It shall not be driven as a second supply.
 * `TI_TARGET_RESET_N` and `TI_BOOT_REQUEST` are open-drain actions and must
@@ -811,11 +806,10 @@ tested, the host must instead use the probe's wired-UART test-control path.
 SWD remains a debug and recovery path rather than being treated as an Espruino
 test runner. These arrangements do not consume additional Test Block GPIOs.
 
-Power may arrive through USB VBUS or the board supply pins. A controlled power
-cycle must account for every connected source; switching an external harness
-supply alone cannot depower a USB-powered target. `3V3_EN` may offer a useful
-target-specific control action, but its exact semantics belong in the Target
-Profile and Adapter Service design.
+V2 powers the target through normal USB VBUS selected by the common
+daughter-board VBUS selector. `VSYS` shall not receive a parallel external source.
+`3V3_EN` may offer a useful target-specific control action, but its exact
+semantics belong in the Target Profile and Adapter Service design.
 
 #### Provisional Logical Role Mapping
 
@@ -1039,10 +1033,10 @@ is established.
 #### Power And Physical Qualifications
 
 The Pico operates in the 3.3 V logic domain and includes its own regulator. The
-daughter-board design must select a supported target power input and prevent
-competing supply paths when the onboard USB connection and harness power are
-both present. Exact VBAT, 5 V, VDD and USB-power handling belongs to the power
-Control Service and daughter-board implementation review.
+daughter-board design shall apply the common USB data path and manual VBUS selector to the
+target's supported USB input and shall not drive `VBAT`, 5 V or VDD in
+parallel. Target-specific connector mechanics belong to the daughter-board
+implementation review.
 
 The target owns routing control over the direct `B8`/`B9` I2C bus in every
 powered Operating Mode. The Harness Supervisor does not access this bus;
@@ -1060,9 +1054,10 @@ ESD protection.
 
 The Pico 1v4 provides the alternate Mini-B footprint beneath rear silkscreen;
 its copper must be deliberately exposed and its exact geometry confirmed from
-the authoritative board source. USB VBUS ownership and prevention of
-simultaneous use of the onboard and daughter-board connectors remain power and
-Adapter Service design requirements. The USB and J6 access apertures may be
+the authoritative board source. Simultaneous use of the onboard and
+daughter-board USB connections shall be prevented by the physical design and
+manual source selector; both USB data paths shall not be connected simultaneously. The
+physical design. The USB and J6 access apertures may be
 combined only if the physical review preserves clearance, copper keepouts and
 independent soldering access for both pad groups.
 
@@ -1722,9 +1717,8 @@ does not change the reusable routing envelope.
   consuming one of the mapped GPIOs
 * the daughter board must preserve access and clearance for the USB-C connector
   and U.FL antenna connection
-* target power must use a reviewed USB/VBUS, protected 5 V or battery
-  arrangement; the exposed 3.3 V rail must not be assumed to be the target
-  power input
+* target power shall use the common daughter-board USB data path and manual VBUS selector; the
+  exposed 3.3 V and 5 V pins shall not be driven as parallel target supplies
 * powered-off routing, UART, reset and boot connections must not back-power the
   target
 

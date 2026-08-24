@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 1.1
+**Version:** 1.2
 
-**Last Updated:** 11 August 2026
+**Last Updated:** 22 August 2026
 
 ## 1. Conclusion And Purpose
 
@@ -544,11 +544,10 @@ Each isolated bus segment shall have pull-ups to its own valid 3.3 V domain:
 * the Test Block segment to the Test Block Supply Rail
 
 `TI_TARGET_3V3` shall remain available as a bounded, low-current target
-I/O-domain reference whenever the target is powered, including in
-`STANDALONE EXT`. In that mode the Operating Mode selection disconnects it from
-the Routing Logic Supply Rail; it supplies only approved reference loads such
-as target-side I2C pull-ups and target-domain-valid qualification. It is not a
-second harness supply source.
+I/O-domain reference whenever the target is powered. It supplies only approved
+reference loads such as target-side I2C pull-ups and target-domain-valid
+qualification; the corrected Power Control Service never connects it to the
+Routing Logic Supply Rail.
 
 This fixed isolation is infrastructure, not a software-selected route. The
 accepted connection matrix confirms the four required isolation paths.

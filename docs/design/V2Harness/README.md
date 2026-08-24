@@ -20,6 +20,11 @@ The agreed prototype direction is:
   routing, control and fixed Target Interface pin banks
 - removable target daughter boards containing the target socket and
   target-specific mapping to that interface
+- a common daughter-board USB data path and manual VBUS selector, plus a reusable-harness
+  Standalone regulator, so full harness capability never depends on target
+  3.3 V output capacity
+- two coordinated two-position power selectors, changed only while unpowered;
+  no host-VBUS or selector-control conductor crosses the Target Interface
 - wirewrapped prototype daughter boards first, with manufactured passive
   adapter PCBs possible after mappings are stable
 
@@ -42,7 +47,9 @@ connection matrix turns those requirements into a concrete path inventory,
 simultaneous-use model and provisional Target Interface contact count. The
 controlled-routing specification is also accepted against that matrix. The
 accepted Target Interface uses two 24-pin connectors, each with two rows of
-12 pins. Its complete 48-pin Connector A and Connector B pinout is fixed.
+12 pins. Its complete 48-pin Connector A and Connector B pinout is fixed,
+including the corrected B01 `TI_TARGET_VBUS` return and low-current-only A01
+`TI_TARGET_3V3` reference.
 Exact connector parts, plating and KiCad footprints still need to be selected
 and mechanically checked before the Rev-A harness is released. The current
 KiCad project is a prototype implementation and must not be mistaken for a

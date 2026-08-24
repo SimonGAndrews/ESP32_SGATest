@@ -136,7 +136,7 @@ is a board-level decision. A material change returns the affected block to
 
 | ID | Circuit block | Risk | Owning sheet | Requirements | Visual review | Status |
 |---|---|---|---|---|---|---|
-| PC01 | Operating mode and 3.3 V rail | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC01-operating-mode-and-3v3-rail.png) | Verified |
+| PC01 | Operating mode and 3.3 V rail | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC01-operating-mode-and-3v3-rail.png) | Superseded by accepted power correction; redesign pending |
 | PC02 | Target 5 V switch and two-range monitor | High | `power_control.kicad_sch` | Standard Control Services | [PNG](review-images/PC02-target-5v-switch-and-two-range-monitor.png) | Verified |
 | RC01 | Routing Fabric | High | `routing_control.kicad_sch` | Controlled routing | [PNG](review-images/RC01-routing-fabric.png) | Verified |
 | RC02 | Routing controllers and fixed I2C isolation | High | `routing_control.kicad_sch`; Hardware Clear request stage on `rack_control.kicad_sch` | Controlled routing and Standard Control Services | [Full sheet](review-images/RC02-routing-controllers-and-fixed-i2c-isolation.png); [Hardware Clear](review-images/RC02-hardware-clear-request.png) | Verified |
@@ -147,7 +147,7 @@ is a board-level decision. A material change returns the affected block to
 | TB05 | 1-Wire devices and GPIO | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB05-onewire-functional-devices-and-gpio.png) | Verified |
 | TB07 | UART crosslink and external peer | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB07-uart-crosslink-and-external-peer.png) | Verified |
 | TB09 | Addressable RGB output | Standard | `standard_test_blocks.kicad_sch` | Standard Test Blocks | [PNG](review-images/TB09-addressable-rgb-output.png) | Verified |
-| TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | [PNG](review-images/TI01-target-interface-connector-banks.png) | Reviewed |
+| TI01 | Target Interface connector banks | High | Root schematic | Target Interface contract | [PNG](review-images/TI01-target-interface-connector-banks.png) | Power-pin correction pending |
 | BP01 | Rack Control and backplane interface | High | Root schematic | Standard Control Services | TBD | Draft |
 | EP01 | Rack Control Endpoint and direct reset/boot stages | High | `rack_control.kicad_sch` | Standard Control Services | TBD | Draft |
 
@@ -160,30 +160,111 @@ Appendix A.
 ### 4.1 PC01 — Operating mode and 3.3 V rails
 
 **Purpose and requirements:** Select the permitted Routing Logic 3.3 V source,
-hold the harness inactive in `OFF`, and provide either automatic or
-Supervisor-controlled Test Block 3.3 V without joining the target and external
-supplies. See Standard Control Services Sections 3.1–3.3 and Appendix C.2.
+enable the local regulator only in Standalone, and provide either automatic or
+Supervisor-controlled Test Block 3.3 V without joining the local and external
+supplies. Complete power-off is achieved by removing the sources rather than
+by a selector position. See Standard Control Services Sections 3.1–3.3 and
+Appendix C.2.
 **Source schematic:** `power_control.kicad_sch`, references `U1001`, `U1002`,
 `D1001`–`D1005`, `Q1001`, `R1001`–`R1004`, `R1009` and `C1001`–`C1005`.
 **Visual review:** Accepted
 [`PC01-operating-mode-and-3v3-rail.png`](review-images/PC01-operating-mode-and-3v3-rail.png).
 **Risk:** High
-**Status:** Verified; functional topology, exported connectivity, Test Block
-inrush implementation, discrete control margins, exact principal devices,
-engineering package evidence, visual review, ERC and deterministic
-connectivity checks are accepted. PCB implementation, AISLER commercial
-assignments and physical Rev-A measurements remain manufacturing-release
-actions.
+**Status:** Superseded by the accepted 22 August 2026 two-position power
+architecture. The evidence below remains valid only where explicitly retained.
+PC01 must be redesigned so `TI_TARGET_VBUS` feeds a harness-local 5 V-to-3.3 V
+regulator and a manual 2x3 two-shunt selector chooses that local rail or
+`EXT_3V3`. Its second shunt column drives `LOCAL_REG_ENABLE`: high in
+Standalone, low in Supervisor and pulled low if unselected. A
+`SN74LVC2G14DBVR` dual Schmitt-trigger inverter derives
+`MODE_SUPERVISOR` and `TEST_BLOCK_AUTO_EN` from that static state.
+`R1009` and `R1004` change from 100 kOhm to 22 kOhm so the corresponding
+logic and Test Block enable states remain guaranteed low during partial-power
+conditions. `TI_TARGET_3V3` is reference-only. TPS2116 and its old mode decode
+are removed. Re-run the complete PC01 baseline before manufacturing release.
 
 #### Interfaces and domains
 
 | Type | Signals or rails | Function |
 |---|---|---|
-| Source inputs | `TI_TARGET_3V3`, `EXT_3V3` | Alternative Routing Logic supplies; they must never be directly joined |
-| Mode inputs | `MODE_STANDALONE`, `MODE_STANDALONE_EXT`, `MODE_SUPERVISOR` | One-of-three outputs from the grouped Operating Mode header |
+| Source inputs | `TI_TARGET_VBUS`, `EXT_3V3` | `TI_TARGET_VBUS` feeds the new local regulator; its output and `EXT_3V3` are alternative Routing Logic supplies and must never be directly joined |
+| Reference input | `TI_TARGET_3V3` | Low-current target I/O-domain reference and rail-valid indication only |
+| Mode selection | Würth `61300621121` 2x3 header with two `60900213421` shunts | Odd pins 1-3-5 select `LOCAL_3V3` or `EXT_3V3`; even pins 2-4-6 drive the resistor-protected `LOCAL_REG_ENABLE` state. `SN74LVC2G14DBVR` derives `MODE_SUPERVISOR` and `TEST_BLOCK_AUTO_EN`; hand-fitted header and shunts after AISLER manufacture |
 | Supervisor input | `TEST_BLOCK_POWER_EN` | Enables Test Block power only in Supervisor mode |
 | Power outputs | `ROUTING_LOGIC_3V3`, `TEST_BLOCK_3V3` | Supplies routing-control circuits and Standard Test Blocks |
 | Ground | `TI_GND` | Common 0 V reference |
+
+#### Corrected architecture requirement cross-check
+
+This is a requirements-level result, not schematic acceptance. The accepted
+two-selector architecture can satisfy the complete V2 power-service contract
+without another Target Interface contact, subject to the implementation
+conditions below.
+
+| Requirement | Corrected architecture result | Remaining proof |
+|---|---|---|
+| Target USB enumeration in both active modes | Satisfied: D+/D−/GND pass directly and the selected source powers the target's normal USB VBUS | Target-by-target enumeration and back-power tests |
+| No host/harness 5 V source joining | Satisfied by a local two-position daughter-board selector changed only while unpowered | Exact selector MPN, contact/current/inrush review and continuity test |
+| Standalone routing and Test Blocks without target-3.3-V loading | Satisfied by the selected TPSM828438 module from returned `TI_TARGET_VBUS` through a TPS22917 input isolator | Schematic integration, layout/ripple/startup evidence and accepted host-source load envelope |
+| Supervisor routing while target power is removed | Satisfied by the selected 3 A header/shunts on pins 3-5 and 4-6, selecting `EXT_3V3` and disabling the TPS22917 regulator-input isolator | Exact bias circuit, visual-preflight proof and cold-start/power-down captures |
+| Supervisor-controlled target power cycling | Satisfied when the daughter selector is in its Harness position | Recorded selector states and preflight proof that the target de-energizes |
+| 100 µA target-current measurement | Satisfied at component-budget level by isolating the regulator behind a TPS22917 whose disabled input current is 100 nA maximum through 85 °C | Complete calibrated error and leakage evidence through 55 °C |
+| Test Block default and inrush behaviour | Unchanged: TPS22917 remains automatic-on in Standalone and controlled/default-off in Supervisor | Corrected enable decode and retained 2.2 nF/50 µF validation |
+| Complete Target Interface allocation | Satisfied: 35 functions, duplicated switched 5 V and twelve grounds fit 48 contacts | TI01 net correction and connectivity contract refresh |
+| Complete power-off | Satisfied as a system condition, not a selector state | Disconnect host, rack/external and every target-local competing source |
+
+The analysis therefore identifies no fundamental architecture blocker. PC01
+remains unverified until the mode-bias circuit is selected, the accepted
+selector, regulator and input isolator are implemented, and the corrected
+block passes the normal baseline process.
+
+#### Resolved design decision — local regulator and PC02 isolation
+
+**Status:** Regulator and input-isolator devices selected; schematic,
+footprint and physical verification pending.
+**Decision:** Use Texas Instruments `TPSM828438VCFR`, a 600 mA
+integrated-inductor synchronous buck module, for the 5 V-to-3.3 V conversion.
+Place a `TPS22917DBVR` active-high load switch between `TI_TARGET_VBUS` and
+the module input. The even-numbered shunt column controls the TPS22917; the
+module enable remains inside the isolated input domain. Set 3.3 V with
+249 kΩ, 1% from `VSET` to
+ground. Use at least 4.7 µF effective input capacitance and 10 µF nominal
+output capacitance after tolerance and DC-bias derating.
+
+**Manufacturer evidence:** The
+[TPSM82843 product page](https://www.ti.com/product/TPSM82843) and
+[Rev-A data sheet](https://www.ti.com/lit/ds/symlink/tpsm82843.pdf) confirm
+1.8 V to 5.5 V input, 600 mA output, the QFN-FCMOD VCF-7 package, integrated
+inductor, output discharge, the 249 kΩ 3.3 V selection and the required
+capacitor ranges. The
+[TPS22917 product page](https://www.ti.com/product/TPS22917) and
+[Rev-B data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf) confirm the
+active-high DBVR device, 1 V to 5.5 V operation, 2 A rating, always-on reverse
+current blocking and 100 nA maximum disabled input current from -40 °C to
+85 °C. Mouser listed `TPSM828438VCFR` and `TPS22917DBVR` in stock during
+the 22 August 2026 review; AISLER assignment and availability remain release
+checks rather than frozen architecture facts.
+
+**Thermal result:** TPSM828438 specifies `RθJA = 72.4 °C/W`. At 5 V,
+3.3 V and 300 mA, a conservative 80% efficiency calculation gives 0.248 W
+loss, approximately 18 °C rise and 73 °C junction at 55 °C ambient. At
+the required 500 mA continuous design capability the same calculation gives
+0.413 W, approximately 30 °C rise and 85 °C junction. Both retain clear
+margin to the 125 °C operating-junction limit. The calculation selects the
+part but does not replace layout and assembled-board temperature/ripple tests.
+
+**Leakage and reverse-current result:** The regulator module alone allows up
+to 850 nA shutdown current over the complete 1.8 V to 5.5 V input range and
+-40 °C to 85 °C. Direct connection would consume 0.85 percentage point at
+100 µA and leave only about 1.44% of the current PC02 residual allowance.
+The upstream TPS22917 reduces the guaranteed monitored-rail contribution to
+100 nA, or 0.10 percentage point, leaving about 2.19%. Its specified -1 µA
+maximum reverse leakage applies only when its output is driven above its
+input; the permitted mode topology prevents that condition by disconnecting
+`LOCAL_3V3` from `EXT_3V3`. Reverse-current blocking is therefore a secondary
+fault control, not a permitted steady-state current path. Verify the complete
+branch through 55 °C and challenge selector overlap, missing-source and
+partial-power cases before PC01 acceptance.
 
 #### Resolved design issue — Test Block turn-on current
 
@@ -209,11 +290,11 @@ peak charging current, acceptable source disturbance and successful startup
 from both permitted 3.3 V sources. A later load above 50 µF requires renewed
 calculation and validation.
 
-#### Resolved design issue — discrete control-voltage margins
+#### Superseded evidence — discrete control-voltage margins
 
-**Status:** Resolved and synchronized at design, component-selection,
-schematic-metadata and connectivity-contract level; physical Rev-A validation
-remains required.
+**Status:** Superseded with the target-powered source and retained only as
+evidence for the currently implemented schematic. It shall not be used to
+accept the corrected mode decoder.
 **Affected requirement:** Every fitted Operating Mode row must select the stated
 rail, while `OFF` must leave `ROUTING_LOGIC_3V3` high impedance.
 **Decision:** `TI_TARGET_3V3` is specified as 3.00 V to 3.60 V at the Target
@@ -232,7 +313,10 @@ TPS2116 0.92 V minimum selection reference. With Q1001 off, target-derived
 `MUX_PR1` is at least 3.00 V - 0.24 V = 2.76 V, giving 1.68 V margin over the
 TPS2116 1.08 V maximum selection reference.
 
-#### Selected implementation
+#### Superseded implemented topology
+
+The following bullets describe the current KiCad circuit, not the newly
+accepted requirement. They remain here to make the redesign delta auditable.
 
 - `U1001`, TPS2116DRL, is used in manual mode as a break-before-make 2:1 power
   multiplexer. `VIN1` receives `TI_TARGET_3V3`, `VIN2` receives `EXT_3V3`, and
@@ -249,26 +333,22 @@ TPS2116 1.08 V maximum selection reference.
   bypassing shown by the schematic. `C1005` is the separate TPS22917 timing
   capacitor and does not add to the switched-load capacitance.
 
-#### Operating logic and safe states
+#### Corrected required operating logic and safe states
 
-| Operating Mode | TPS2116 `MODE` | TPS2116 `PR1` | Routing source | Test Block switch |
-|---|---:|---:|---|---|
-| `OFF` | 0 | 1 when a source exists | High impedance | Off |
-| `STANDALONE` | 1 | 1 | `TI_TARGET_3V3` | On automatically |
-| `STANDALONE EXT` | 1 | 0 | `EXT_3V3` | On automatically |
-| `SUPERVISOR` | 1 | 0 | `EXT_3V3` | Controlled by `TEST_BLOCK_POWER_EN`, default off |
+| Operating Mode | Odd-column shunt | Even-column shunt | Routing source | Test Block switch |
+|---|---|---|---|---|
+| `STANDALONE` | Pins 1-3: `LOCAL_3V3` selected | Pins 2-4: local regulator enabled | Harness-local regulated 3.3 V from `TI_TARGET_VBUS` | On automatically |
+| `SUPERVISOR` | Pins 3-5: `EXT_3V3` selected | Pins 4-6: local regulator disabled; `MODE_SUPERVISOR` asserted | `EXT_3V3` | Controlled by `TEST_BLOCK_POWER_EN`, default off |
 
-The grouped header is a power-configuration device and shall be changed only
-with the associated sources off. The design therefore does not rely on live
-source transfer. `R1001`, `R1003`, `R1004` and `R1009` hold the decoded control
-nodes inactive when their inputs are absent. If either 3.3 V source remains
-present in `OFF`, `D1003` and `R1002` hold `PR1` high while `MODE` remains low,
-which is the TPS2116 shutdown state. TPS2116 reverse-current blocking and
-break-before-make behaviour prevent the unselected source from being powered
-through the mux. TPS22917 `QOD` is intentionally tied to its output to discharge
-`TEST_BLOCK_3V3` when disabled; no alternative source may drive that rail.
+The 2x3 header is a power-configuration device and both shunts shall be moved
+only with associated sources off. The circuit does not rely on live transfer.
+Both shunts must occupy the same end; missing, mismatched or cross-column
+shunts are invalid preflight states. `OFF` is the de-energized condition with
+host USB, external supplies and competing target sources removed. TPS22917
+`QOD` remains tied to its output to discharge `TEST_BLOCK_3V3` when disabled;
+no alternative source may drive that rail.
 
-#### Key calculations and limits
+#### Superseded calculations and retained TPS22917 limits
 
 | Subject | Calculation or limit | Reviewed result |
 |---|---|---|
@@ -290,7 +370,7 @@ through the mux. TPS22917 `QOD` is intentionally tied to its output to discharge
 | `MUX_PR1` low | 0.34 mA × 29 mOhm | Less than 0.01 mV; far below the 0.92 V TPS2116 minimum reference |
 | `MUX_PR1` target-derived high | 3.00 V - 0.24 V | At least 2.76 V; 1.68 V above the 1.08 V TPS2116 maximum reference |
 
-#### Manufacturer source and application review
+#### Superseded manufacturer source and application review
 
 The source screen below covers every principal PC01 component. Product pages
 are retained because they are the current index of manufacturer-linked data
@@ -309,7 +389,7 @@ remain authoritative for current revisions.
 | BAT54C-E3-08 (`D1001`–`D1005`) | [Vishay BAT54 family data sheet](https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf); no product-specific application note relevant to this static low-current decode was identified | The exact common-cathode SOT-23 part is selected. Its 0.24 V maximum forward drop at 0.1 mA supports every reviewed decode-high margin. |
 | DMN2024UQ-7 (`Q1001`) | [Local reviewed Diodes Inc. data sheet](DataSheets/3168380-DMN2024UQ.pdf); no product-specific application note relevant to this low-current pull-down was identified | The part guarantees 29 mOhm maximum on-resistance at 2.5 V gate drive and uses the existing SOT-23 pin 1 gate, pin 2 source, pin 3 drain mapping. The calculated minimum gate drive is 2.99 V. |
 
-#### Components and packaging
+#### Superseded components and packaging
 
 | References | Manufacturer | Exact orderable part | Package | KiCad footprint | Datasheet/revision | Pin/pad mapping | AISLER assignment |
 |---|---|---|---|---|---|---|---|
@@ -322,33 +402,57 @@ remain authoritative for current revisions.
 | `C1001`–`C1004` | TBD | 1 µF, X7R, ±20% or better, at least 10 V | 0603 | `Capacitor_SMD:C_0603_1608Metric` | Standard policy | Two-terminal mapping and standard KiCad footprint inspected; accepted | Grouped assignment pending; preserve adequate effective capacitance at 3.3 V bias |
 | `C1005` | TBD | 2.2 nF, C0G/NP0, ±10% or better, at least 10 V | 0603 | `Capacitor_SMD:C_0603_1608Metric` | [TPS22917](https://www.ti.com/lit/ds/symlink/tps22917.pdf) | `U1002.CT` to `U1002.VIN`; connectivity reviewed | Assign exact approved part; pending |
 
-The engineering package review is complete for PC01. It accepts the listed
-symbol pins, package families, footprint pad order and land patterns. Final PCB
-placement, rotation and assembly-rendering checks remain release-stage controls;
-AISLER stock and MPN assignment remains a separate commercial selection step.
+This package review applies to the superseded PC01 circuit only. Retained
+devices may reuse its evidence, but the new regulator, corrected mode decode
+and every changed connection require a fresh package and manufacturer review.
 
-#### Verification
+#### Superseded verification evidence
 
 | Check | Evidence | Result |
 |---|---|---|
-| Requirements inspection | Standard Control Services 3.1–3.3 and Appendix C.2 | Mode truth table and source ownership agree |
-| Behaviour and safe-state analysis | Truth table, unpowered-state review, control-margin, maximum-drop/thermal and inrush calculations above | Functional topology and principal-device implementation supported; physical measurement pending |
-| Manufacturer source screen | Product-linked documents summarized above | Complete for current principal-device choices |
-| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml`, canonical full-hierarchy netlist and `verification/baseline/Espruino_Harness_RevA_FullHierarchy_Connectivity.json` | Refreshed 2026-08-11: PC01 passes all 73 assertions; complete PC01/PC02/SYS01 set passes 186 checks |
-| Full-hierarchy ERC | `verification/baseline/Espruino_Harness_RevA_FullHierarchy_ERC.rpt`, refreshed from the root schematic on 2026-08-12 | Accepted: zero errors and zero warnings |
-| Symbol-to-footprint mapping | Manufacturer pin tables, package drawings, full-hierarchy netlist, installed KiCad footprints and current PCB pad nets | Principal IC, diode, MOSFET and passive mappings agree; package land patterns and intrinsic pin-1 orientation accepted |
-| Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Accepted current reviewed circuit capture |
+| Requirements inspection | Superseded Standard Control Services topology | Historical result only; corrected requirements now govern |
+| Behaviour and safe-state analysis | Historical truth table and calculations above | Retain only where unchanged by redesign |
+| Manufacturer source screen | Product-linked documents summarized above | Retain for reused parts; new regulator and decode require review |
+| Connectivity contract | `verification/contracts/PC01-operating-mode-and-3v3-rail.yaml` and historical exports | Superseded; contract and exports must be replaced after redesign |
+| Full-hierarchy ERC | Historical accepted report | Superseded for PC01; run again after redesign |
+| Symbol-to-footprint mapping | Historical component and PCB review | Superseded for changed or added parts |
+| Visual schematic review | `review-images/PC01-operating-mode-and-3v3-rail.png` | Superseded; replace after redesign |
 
 #### Open issues and accepted exceptions
 
+- Implement the selected `TPS22917DBVR` input isolator and
+  `TPSM828438VCFR` 5 V-to-3.3 V module from `TI_TARGET_VBUS`. Assign new
+  references, add the 249 kΩ 1% `VSET` resistor, select exact input/output
+  capacitors that retain the required effective capacitance, and verify the
+  manufacturer-derived QFN-FCMOD footprint and AISLER assembly mapping.
+- Replace the existing mode header and TPS2116 circuit with the accepted manual
+  2x3 two-shunt selector. The odd-numbered column selects `LOCAL_3V3` or
+  `EXT_3V3`; the even-numbered column enables the local regulator in
+  Standalone and grounds its control in Supervisor. Use Würth
+  `61300621121` with two `60900213421` shunts and select the static
+  regulator-enable/`MODE_SUPERVISOR` circuit from manufacturer evidence.
+- Update the Target Interface B01 implementation from duplicate
+  `TI_TARGET_3V3` to `TI_TARGET_VBUS` and add the common USB data path and
+  manual two-position VBUS selector to every daughter-board design. Route
+  A23/B23 to its Supervisor input, B01 from its common output and host VBUS only
+  to its Standalone input.
+- Replace the PC01 connectivity contract, visual evidence, netlist and
+  full-hierarchy ERC after the corrected schematic and PCB are synchronized.
 - Perform the defined Rev-A inrush measurements with both permitted sources
   and the 50 µF maximum load.
 - During PCB review, place `C1001`–`C1004` close to their devices and use short,
   wide VIN/VOUT/GND paths. Confirm that the backplane and target sources tolerate
   the specified load step or add connector-side bulk capacitance.
-- Confirm accessible Rev-A measurement points for `TI_TARGET_3V3`, `EXT_3V3`,
-  `ROUTING_LOGIC_3V3`, `TEST_BLOCK_3V3`, `MUX_MODE` and `MUX_PR1`. The unused
-  TPS2116 `ST` output may remain unconnected because it is not a requirement.
+- Confirm accessible Rev-A measurement points for `TI_TARGET_VBUS`,
+  `LOCAL_3V3`, `TI_TARGET_3V3`, `EXT_3V3`, `ROUTING_LOGIC_3V3`,
+  `TEST_BLOCK_3V3`, local-regulator enable and `MODE_SUPERVISOR`.
+- Verify the complete disabled TPS22917/regulator branch against the allocated
+  100 nA PC02 contribution through 55 °C. Challenge reverse drive and
+  selector-overlap fault cases even though the permitted states disconnect
+  `LOCAL_3V3` from `EXT_3V3`.
+- Define and verify the Standalone USB source envelope for simultaneous target
+  current, up to 300 mA harness load at 3.3 V, regulator losses and startup
+  inrush. Do not inherit the 1.5 A Supervisor allowance implicitly.
 - Complete AISLER assignments and the release-stage PCB placement, rotation
   and assembly-rendering review. The engineering package and footprint review
   is complete.
@@ -628,10 +732,20 @@ The conservative uncalibrated low-range budget at 100 µA and 55°C is:
 | Proposed 1% shunt initial tolerance | 1% | 1.00% |
 | Proposed 100 ppm/°C shunt drift, 25°C to 55°C | 0.30% | 0.30% |
 | INA228 input bias, conservatively treated as 2.5 nA measurement current | 0.0025 µA | 0.003% |
-| **Known worst-case subtotal** |  | **7.71%** |
+| TPS22917 local-regulator input-isolator shutdown current | 0.10 µA | 0.10% |
+| **Known worst-case subtotal** |  | **7.81%** |
 
-This leaves approximately 2.29% for quantization, noise, thermal EMF, PCB
+This leaves approximately 2.19% for quantization, noise, thermal EMF, PCB
 leakage and residual zero-compensation error within the ±10% requirement.
+The selected TPSM828438 regulator is isolated from `TI_TARGET_VBUS` by the
+TPS22917 during Supervisor measurement. The switch's 100 nA guaranteed
+maximum through 85°C consumes 0.10 percentage point; the regulator's own
+850 nA shutdown limit is downstream of the disabled isolation switch and is
+not added.
+Without that isolation, a 1 µA worst-case contribution would consume one
+percentage point and leave only about 1.29% for all other residual effects.
+Complete-board leakage and calibrated accuracy verification through 55°C
+remain mandatory.
 At 1 mA the bypass-leakage and monitor-offset percentages each reduce by a
 factor of ten, leaving more than 2.5 percentage points inside the ±5%
 requirement. In the normal range, the INA226 10 µV offset contributes 1% at
@@ -2176,17 +2290,17 @@ Interface Contract, particularly Section 7.
 `J900` and `J901`.
 **Visual review:** [Target Interface connector-bank image](review-images/TI01-target-interface-connector-banks.png).
 **Risk:** High
-**Status:** Reviewed electrical schematic baseline. The 48-contact allocation,
-exact connector products, harness/daughter gender arrangement, native-DNP
-hand-fit disposition, focused visual, full-hierarchy ERC and deterministic
-connectivity are accepted. The received-part dimensions, final footprint,
-contact-current capacity, PCB placement and physical mating remain required
-before TI01 can become `Verified`.
+**Status:** Power allocation superseded by the accepted 22 August 2026
+correction. The connector products, footprints, harness/daughter gender,
+native-DNP hand-fit disposition and mechanical evidence remain valid, but B01
+must change from the duplicate `TI_TARGET_3V3` net to `TI_TARGET_VBUS`.
+Connectivity, visual evidence, ERC and PCB synchronization must then be
+refreshed before TI01 can become `Verified`.
 
 #### Functional, power and safety flow
 
 ```text
-Target daughter-board signals and target-provided 3.3 V
+Target daughter-board signals and target I/O-domain 3.3 V reference
   -> two 2x12 right-angle male banks cut from Adafruit 1541
   -> coplanar board-to-board mating boundary
   -> J900/J901 female banks cut from Adafruit 1543
@@ -2194,21 +2308,25 @@ Target daughter-board signals and target-provided 3.3 V
 
 Harness switched target 5 V
   -> J900.23 and J901.23
-  -> daughter board and target
+  -> daughter-board manual VBUS-selector Supervisor input
 
-Target-provided 3.3 V
-  -> J900.1 and J901.1
-  -> harness power-selection and I/O-reference circuits
+Target-provided 3.3 V reference
+  -> J900.1
+  -> harness target-domain qualification and pull-ups only
+
+Daughter-board selected target VBUS
+  -> J901.1 as TI_TARGET_VBUS
+  -> harness-local Standalone 5 V-to-3.3 V regulator
 
 Twelve distributed connector contacts -> common TI_GND
 ```
 
 J900 carries the seven routing entries, target reset and boot request, fixed
 I2C, I2C feedback/interrupt, RGB and analogue signals. J901 carries the direct
-GPIO-loopback, SPI, 1-Wire and UART signals. Each connector contributes one
-3.3 V contact, one switched-5-V contact and six ground contacts. The duplicated
-rail contacts are joined to their corresponding rail on the harness and shall
-also be joined on every daughter board.
+GPIO-loopback, SPI, 1-Wire and UART signals. J900.1 is the sole
+`TI_TARGET_3V3` reference contact; J901.1 is the `TI_TARGET_VBUS` return. Each
+connector contributes one `TI_SWITCHED_TARGET_5V` contact and six ground
+contacts; the two switched-5-V contacts are joined at both boards.
 
 The harness uses two female banks and the daughter board uses two male banks.
 Because Connector A and Connector B no longer use mixed gender as a key, their
@@ -2241,12 +2359,12 @@ therefore remain release requirements rather than inferred catalogue values.
 
 #### Electrical and fault review
 
-- The implemented contact allocation exactly matches Target Interface
-  Contract Sections 7.3.1 and 7.3.2: 32 signals/controls, two target-3.3-V
-  contacts, two switched-5-V contacts and twelve ground contacts.
-- `TI_TARGET_3V3`, `TI_SWITCHED_TARGET_5V` and `TI_GND` remain three distinct
-  nets. The interface does not join the target-provided 3.3 V supply to the
-  harness-provided switched 5 V supply.
+- The corrected allocation remains 48 contacts: 32 signals/controls, one
+  target-3.3-V reference, one target-VBUS return, two switched-5-V contacts and
+  twelve ground contacts.
+- `TI_TARGET_3V3`, `TI_TARGET_VBUS`, `TI_SWITCHED_TARGET_5V` and `TI_GND` shall
+  remain distinct nets. The interface shall not join the target reference,
+  selected VBUS and switched Supervisor source.
 - Distributed ground contacts place returns beside the principal signal
   groups and share rail-return current. Final copper, contact and daughter-board
   paths must still meet the PC02 voltage-drop allocation and all accepted
@@ -2262,8 +2380,8 @@ therefore remain release requirements rather than inferred catalogue values.
 
 | References/item | Current implementation | Review result |
 |---|---|---|
-| `J900`, `J901` | Adafruit Product `1543`, purchased as The Pi Hut SKU `104444`; functional values `TARGET INTERFACE CONNECTOR A/B`; datasheet `P1543.pdf`; native DNP; no footprint assigned | Product, metadata and post-AISLER mandatory hand-fit disposition accepted. Final 2x12 footprint and hole geometry intentionally remain unassigned until received-part measurement. |
-| Daughter-board mating banks | Adafruit Product `1541`, purchased as The Pi Hut SKU `104400`; two 2x12 male sections required per daughter | Accepted connector choice. Daughter-board symbols, mirrored pad mapping and footprints remain DB01 implementation work. |
+| `J900`, `J901` | Adafruit Product `1543`, purchased as The Pi Hut SKU `104444`; functional values `TARGET INTERFACE CONNECTOR A/B`; datasheet `P1543.pdf`; native DNP; `V2_Target_Interface:TargetInterface_2x12_P2.54mm_RA_Female_Adafruit1543_Harness` | Product, measured project footprint, metadata and post-AISLER mandatory hand-fit disposition accepted. B01 net correction remains pending. |
+| Daughter-board mating banks | Adafruit Product `1541`, purchased as The Pi Hut SKU `104400`; two 2x12 male sections required per daughter; shared measured male project footprint | Accepted connector choice and footprint. Each daughter-board B01 net and manual VBUS-selector implementation remain pending. |
 | Cut-stock procurement | Adafruit `1543` and `1541` are five-pack retail products rather than individually orderable 2x12 sections | KiCad reference quantities count prepared connector sections, not retail packs. Final procurement shall apply the recorded cut yield and include cutting spares rather than interpreting two schematic references as two retail packs. |
 
 `AISLER_MPN` remains blank for J900/J901. Native DNP excludes them from AISLER
@@ -2275,20 +2393,16 @@ board.
 
 | Evidence | Result |
 |---|---|
-| Requirements and functional review | Accepted against the complete Target Interface contact allocation and the selected female-harness/male-daughter arrangement. |
-| Connectivity contract | `verification/contracts/TI01-target-interface-connector-banks.yaml` passes 54 checks: 48 pin/net, 2 component-value and 4 forbidden-net assertions. The complete thirteen-contract baseline passes all 1071 checks. |
-| Full-hierarchy ERC | Accepted root report dated 2026-08-16: zero errors and zero warnings. |
-| Visual schematic review | Accepted focused image linked above. Both 24-contact banks, every net name, native-DNP marking and the coplanar/unpowered-mating note are legible. |
-| PCB synchronization | Deferred by design. J900/J901 have no footprint and are absent from the PCB until the received female stock is measured and its exact project footprint is accepted. |
+| Requirements and functional review | Mechanical arrangement retained; B01 electrical allocation superseded and correction pending. |
+| Connectivity contract | Historical 54-check result is superseded; update B01 and forbidden-net assertions after schematic correction. |
+| Full-hierarchy ERC | Historical accepted report is superseded for TI01; rerun after correction. |
+| Visual schematic review | Existing image is superseded by the B01 net change; replace after correction. |
+| PCB synchronization | Measured harness footprints are assigned and present in the PCB; synchronize the B01 net after schematic correction. |
 
 #### Closure actions and accepted exceptions
 
-- Measure the received male and female samples: PCB tails, square-pin/contact
-  compatibility, drill requirement, body envelope, board-edge datum, mating
-  depth and fully engaged board-to-board offset.
-- Prepare and inspect representative 2x12 sections, then create or accept exact
-  project footprints. Assign the female footprint to J900/J901 and independently
-  mirror-check the daughter-board male pad mapping.
+- Change J901.1/B01 from `TI_TARGET_3V3` to `TI_TARGET_VBUS` on the harness and
+  every daughter board; update the PCB and deterministic connectivity contract.
 - Establish adequate contact-current capacity for the accepted 3.3 V and 5 V
   limits. Include both contacts, PCB copper, daughter-board copper and the
   complete PC02 voltage-drop budget; do not assume equal current sharing without
@@ -2301,8 +2415,8 @@ board.
   square, parallel and co-planar while end pins are tack-soldered and all joints
   are completed with power removed.
 
-TI01 remains `Reviewed`; no exception is accepted for the missing footprint,
-current-capacity evidence or physical mating proof.
+TI01 remains `Reviewed`; no exception is accepted for the pending B01
+correction, current-capacity evidence or final physical mating proof.
 
 ## 5. System integration review
 
@@ -2311,11 +2425,10 @@ calculations or verification already recorded in the owning block.
 
 | Interface or mode | Governing contract | Implemented by | Status |
 |---|---|---|---|
-| Target Interface | Target Interface contract | `TI01` | Reviewed; footprint and physical verification pending |
+| Target Interface | Target Interface contract | `TI01` | Reviewed; B01 power-net correction and physical verification pending |
 | Rack Control/backplane | Standard Control Services | `BP01` | Draft |
 | Supervisor | Standard Control Services | `PC01`, `PC02` | Draft |
 | Standalone | Standard Control Services | `PC01`, `PC02` | Draft |
-| Standalone external | Standard Control Services | `PC01`, `PC02` | Draft |
 | Off/safe state | Standard Control Services | `PC01`, `PC02`, `RC01`, `RC02` | Draft |
 
 The final integration review shall trace every power source, ground, connector,
@@ -2333,10 +2446,15 @@ block review.
 |---|---|---|---|
 | `INT01` | Use one MCP23017 for each Rack Control Endpoint | Port A owns six control outputs; Port B observes `TARGET_POWER_FAULT_N`, `TARGET_POWER_ALERT_N`, `SUP_EVENT_IN` and the latched `LOW_RANGE_OK_N`; `INTB` is the sole active-low open-drain `RACK_INT_N` source. Fault and alert events are host-only; `SUP_EVENT_OUT` changes only on an explicit Supervisor operation. The exact allocation is defined by Standard Control Services Section 8.3. | Accepted; schematic implementation complete and full-hierarchy ERC clean; firmware and release verification pending |
 | `INT02` | Use one consistent fitted diagnostic test-point part across Rev A | All 43 `TP` references use Würth Elektronik `61300111121`, a one-position vertical 2.54 mm through-hole header pin, with `Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical`. Scope is Routing Control `TP601`–`TP614` and Standard Test Blocks `TP101`–`TP104`, `TP201`–`TP205`, `TP301`–`TP306`, `TP401`–`TP407`, `TP501`–`TP505` and `TP901`–`TP902`. Keep each part in the overall KiCad BOM with exact `MPN = 61300111121`. Mark each DNP so AISLER excludes it from its assembly stage, then hand-fit it after manufacture. For `INT02` only, DNP records an assembly-stage boundary rather than absence from the completed Rev-A board. This retains the accepted individual 2.54 mm header-pin architecture and common compatibility with probes, hooks, clips and female jumper leads. | Accepted policy, package mapping and MPN metadata; hierarchy-wide DNP application, PCB metadata and final accessibility review pending |
+| `INT03` | Use one common daughter-board USB data path/manual VBUS selector and a harness-local Standalone regulator | D+/D−/GND pass continuously. The unpowered manual selector chooses host VBUS in Standalone or `TI_SWITCHED_TARGET_5V` in Supervisor, powers the target's normal USB VBUS input and returns the selected rail as `TI_TARGET_VBUS`. The harness 2x3 two-shunt selector chooses local or external 3.3 V and drives a resistor-protected static state that disables the TPS22917 input isolator in Supervisor. `SN74LVC2G14DBVR` derives `MODE_SUPERVISOR` and `TEST_BLOCK_AUTO_EN`. `TI_TARGET_3V3` is reference-only; no host-VBUS/select conductor crosses the Target Interface. | Architecture, TPSM828438 regulator, TPS22917 input isolator, SN74LVC2G14 mode stage and Würth `61300621121` plus two `60900213421` selector parts accepted; Target Interface allocation complete; PC01, TI01 and daughter-board implementations pending |
 
 ### 5.2 Open integration gaps
 
-No cross-block schematic integration gap is currently recorded.
+The accepted `INT03` correction is an open cross-block schematic integration
+gap. PC01, TI01 and the daughter boards still implement the superseded
+target-powered/No-VBUS assumptions and must be corrected together. The
+48-contact interface is complete; VBUS selection is manual on each daughter
+board and adds no interface signal.
 `LOW_RANGE_OK_N` is connected from PC02 to Rack Control `U1201.GPB3`, the
 `SYS01` contract records that cross-block path, and the refreshed full
 hierarchy passes ERC. Firmware verification remains a release check. Other
@@ -2361,8 +2479,8 @@ and close it only with the evidence named below.
 | `PCB-GEN-01` | Prototype Strategy Sections 5 and 10 | Hold the harness height at 100 mm, extend only its length if more area is required, and preserve the backplane datum, mounting-hole positions and mechanically fixed connector locations. | Dimensioned board drawing, KiCad measurements and printed 1:1 review | Open |
 | `PCB-GEN-02` | Prototype Strategy Section 4 | Begin with the accepted two-layer preference, preserve a materially continuous ground reference, and change to four layers if placement or routing demonstrates one of the documented two-layer failure conditions. | Reviewed stack-up decision plus ground-plane and critical-route inspection | Open |
 | `PCB-GEN-03` | Prototype Strategy Sections 3 and 7 | Keep isolation links, selectors, test points, removable modules and diagnostic access usable with the target fitted; retain clear pin-1, polarity and mode markings. | 3D review, printed 1:1 review and access checklist | Open |
-| `PCB-PC01-01` | PC01 open issues | Place `C1001`–`C1004` at their owning devices and use short, wide VIN, VOUT and ground paths. Assess connector-side bulk capacitance after the complete load and source path are known. | Placement inspection, routed-copper review and recorded capacitance decision | Open |
-| `PCB-PC01-02` | PC01 open issues | Provide accessible measurement points for `TI_TARGET_3V3`, `EXT_3V3`, `ROUTING_LOGIC_3V3`, `TEST_BLOCK_3V3`, `MUX_MODE` and `MUX_PR1`. | PCB inspection and probe-access review | Open |
+| `PCB-PC01-01` | PC01 correction | Place the TPS22917 input isolator, TPSM828438 regulator module, manufacturer-required capacitors, 249 kΩ VSET resistor, manual 2x3 two-shunt selector, static mode stage and U1002 bypassing as compact power groups. Follow TI's QFN-FCMOD land pattern and short input/output/ground-loop guidance; keep the VSET node free of added leakage/capacitance and assess required connector-side bulk capacitance. | Placement inspection, routed-copper and thermal review, manufacturer-footprint comparison and recorded capacitance decision | Open |
+| `PCB-PC01-02` | PC01 correction | Provide accessible measurement points for `TI_TARGET_VBUS`, isolated regulator input, local regulated 3.3 V, `TI_TARGET_3V3`, `EXT_3V3`, `ROUTING_LOGIC_3V3`, `TEST_BLOCK_3V3`, isolator enable and `MODE_SUPERVISOR`. Verify selector labelling/access, complete disabled-branch leakage against the 100 nA allocation through 55 °C and the Standalone target-plus-harness USB load envelope. | PCB inspection, probe-access review, leakage evidence and load/startup captures | Open |
 | `PCB-PC02-01` | PC02 and TPS2559-Q1 data sheet | Connect U1101 PowerPAD pad 11 to `TI_GND` with short, wide copper and nearby ground vias. Keep vias out of the paste-covered pad unless AISLER accepts a changed via-in-pad process. | Routed-layout inspection, thermal/ground review and AISLER DFM confirmation | Open |
 | `PCB-PC02-02` | PC02 measurement design | Use the accepted project-local footprints for `R1101` and `R1102`; take separate Kelvin sense traces directly from the corresponding shunt pads to each monitor IN+/IN− pair, away from load-current copper and noisy switching routes. | Pad-level net inspection, routed Kelvin-pair review and PCB DRC | Open |
 | `PCB-PC02-03` | PC02 voltage-drop budget | Size and review the complete 1.5 A path so PCB, Target Interface, backplane and connector resistance remains within the provisional combined 26 mΩ allocation. | KiCad conductor calculation, connector/contact calculation and completed-layout path review | Open |
@@ -2393,6 +2511,7 @@ and close it only with the evidence named below.
 | `PCB-TB09-02` | TB09 protected data and local power layout | Keep R901, J902 and TP901 on a short path over a materially continuous ground reference. Place C901 directly at the J902 3.3 V/ground entry and retain nearby TP902 ground access. Confirm J902.4 has no copper connection and keep module-local 5 V isolated from all harness nets. | Routed-layout and pad-net inspection, PCB DRC, ground-reference review and probe-access check | Open |
 | `PCB-TB09-03` | TB09 startup, waveform and functional operation | With the actual module, verify powered-off fit/removal, route-before-drive sequencing, low/high-impedance startup, 3.3 V input current and absence of exported module 5 V. Capture the R901-protected encoded waveform at TP901 and retain off, primary/mixed-colour, repeated-update, byte-order and recovery results at the supported targets and bounded brightness. | Power/current measurements, oscilloscope or logic-analyser captures and retained NeoPixel functional-test results | Open |
 | `PCB-IF-01` | Target Interface Contract and Prototype Strategy | Prepare 2x12 sections from Adafruit `1543` female and `1541` male stock; measure and accept the exact footprints, holes, body/edge datums and mating depth. Place the two banks asymmetrically with aligned board tops, clear A/B and pin-1 markings, and prove simultaneous engagement without reversal, exchange, one-pin offset, one-bank-only engagement or PCB twist. Verify contact/current and voltage-drop capacity, rack access and the post-AISLER hand-fit alignment process using actual parts. | Accepted project footprints, pad mapping, current/contact calculation, 3D model, printed 1:1 check, actual-part mating review and assembly record | Open |
+| `PCB-IF-02` | Standard Control Services Section 3.4 and Target Interface Contract | Implement and review the common USB data path and manual VBUS selector on every daughter board. Keep D+/D− short and paired; route host VBUS only to the Standalone input, A23/B23 only to the Supervisor input and the common output to target USB VBUS plus B01 `TI_TARGET_VBUS`. Verify switch current/contact resistance/inrush, clear mode labelling, source isolation, repeated USB enumeration and Supervisor preflight detection of a wrong selector state. | Manufacturer-source selector review, PCB DRC, continuity/source-isolation measurements, oscilloscope captures and repeated enumeration/power-cycle evidence | Open |
 | `PCB-PANEL-01` | Prototype Strategy Section 6 | Implement the harness/daughter-board breakaway geometry, Breakaway Links and local trace neck-down rules without vias or layer changes in the bridges. | Panel drawing, PCB DRC and AISLER manufacturing review | Open |
 | `PCB-REL-01` | Prototype Strategy Section 9 | Complete final PCB DRC, 3D and printed 1:1 reviews, silkscreen/polarity review, AISLER rendering/orientation review and BOM Assign before release. | Accepted reports, review record and final AISLER project/quote | Open |
 
@@ -2416,8 +2535,8 @@ No exclusion is accepted without a specific explanation.
 - [ ] Every high-risk block has an accepted logic/state or electrical-limit analysis.
 - [ ] Every key design issue has a recorded disposition and verification result.
 - [ ] No unresolved major design issue remains.
-- [x] Full-hierarchy ERC is accepted.
-- [x] Connectivity contract passes.
+- [ ] Full-hierarchy ERC is accepted after the power correction.
+- [ ] Corrected PC01 and TI01 connectivity contracts pass.
 - [ ] All IC and connector package/pin mappings are checked.
 - [ ] BOM matches the intended fitted and DNP configuration.
 - [ ] PCB DRC is accepted.

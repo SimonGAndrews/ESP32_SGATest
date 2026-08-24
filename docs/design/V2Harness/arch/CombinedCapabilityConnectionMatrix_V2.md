@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 1.0
+**Version:** 1.2
 
-**Last Updated:** 27 July 2026
+**Last Updated:** 22 August 2026
 
 ## 1. Conclusion
 
@@ -148,10 +148,11 @@ requirement and a revised connection matrix.
 | `DP02` | `TI_I2C_SCL` | Mandatory direct, bidirectional open-drain | Never software routed |
 | `DP03` | `TI_UART_B_TX` | Direct in the common two-UART form | Used by `UP02`; may be unavailable for an accepted external-peer-only target |
 | `DP04` | `TI_UART_B_RX` | Direct in the common two-UART form | Used by `UP01`; may be unavailable for an accepted external-peer-only target |
-| `DP05` | `TI_TARGET_3V3` | Target output and bounded I/O-domain reference | Direct power/reference service; never a route |
-| `DP06` | `TI_SWITCHED_TARGET_5V` | Harness output to the daughter-board target-power mapping | Direct power service; never a route |
+| `DP05` | `TI_TARGET_3V3` | Target output and bounded low-current I/O-domain reference | Direct reference service; never supplies harness load and never a route |
+| `DP06` | `TI_SWITCHED_TARGET_5V` | Harness output to the daughter-board manual VBUS selector | Direct Supervisor power service; never a route |
 | `DP07` | `TI_TARGET_RESET_N` | Active-low open-drain reset request | Direct Control Service; never depends on target I2C |
 | `DP08` | `TI_BOOT_REQUEST` | Optional active-low open-drain boot request | Direct Control Service; never depends on target I2C |
+| `DP09` | `TI_TARGET_VBUS` | Daughter-board selector output and actual target VBUS returned to the harness-local regulator | Direct Standalone power service; never a route |
 
 The selected host-facing Test Control endpoint is also direct or
 target-specific and shall remain independent of the route under test. It does
@@ -299,15 +300,17 @@ The schematic shall include the path IDs from this matrix in net labels,
 hierarchical labels, fields or an adjacent implementation table so that every
 physical switch channel remains traceable.
 
-## Appendix A: Provisional Target Interface Contact Count
+## Appendix A: Accepted Target Interface Contact Count
 
 ### A.1 Working Assumption
 
-The working assumption is a **40-contact Target Interface** comprising 34
-named functional contacts and six distributed ground contacts.
+The corrected logical inventory comprises 35 named functions. The accepted
+two-2x12 physical map carries all 35, duplicates switched target 5 V and
+provides twelve distributed grounds. VBUS selection is manual and local to the
+daughter board.
 
-This is a planning input for connector-bank selection and mechanical layout.
-It is not yet the accepted physical Target Interface contract.
+The physical mapping and connector details remain owned by
+`TargetInterfaceContract_V2.md`.
 
 ### A.2 Functional Contact Count
 
@@ -315,9 +318,9 @@ It is not yet the accepted physical Target Interface contract.
 |---|---:|---|
 | Common route entries R0-R6 | 7 | One contact for each constrained-target route entry |
 | Logical Test Block signals | 23 | Complete inventory from `StandardTestBlocks_V2.md`, including direct I2C and UART A/B |
-| Target power and reference | 2 | `TI_TARGET_3V3` and `TI_SWITCHED_TARGET_5V` |
+| Target power and reference | 3 | `TI_TARGET_3V3`, `TI_TARGET_VBUS` and `TI_SWITCHED_TARGET_5V` |
 | Direct reset and boot controls | 2 | `TI_TARGET_RESET_N` and optional `TI_BOOT_REQUEST` |
-| Functional-contact total | **34** | Excludes duplicated ground or power contacts |
+| Functional-contact total | **35** | Excludes duplicated ground or power contacts |
 
 Providing all 23 logical Test Block contacts preserves the accepted hybrid
 architecture:
@@ -326,15 +329,16 @@ architecture:
 * targets with sufficient GPIO may use reviewed direct Test Block mappings
 * a daughter board may use an accepted combination of direct and routed paths
 
-A smaller constrained-target-only interface would require 15 non-ground
-contacts: seven route entries, direct I2C SDA/SCL, direct UART-B TX/RX and four
+A smaller constrained-target-only interface would require 16 non-ground
+contacts: seven route entries, direct I2C SDA/SCL, direct UART-B TX/RX and five
 power/control contacts. That form is not the working baseline because it would
 force more generous targets through the routing fabric and remove the general
 direct-mapping option.
 
-### A.3 Provisional Ground Allocation
+### A.3 Ground Allocation
 
-Six ground contacts are provisionally allowed, distributed near:
+Twelve ground contacts are allocated across the two accepted connector banks,
+distributed near:
 
 * target power
 * target 3.3 V reference and direct I2C
@@ -347,21 +351,10 @@ The physical contact table may adjust their exact grouping, but it shall
 provide adequate return paths and shall not concentrate all grounds at one end
 of the connector arrangement.
 
-### A.4 Validation Before Acceptance
+### A.4 VBUS-Selection Resolution
 
-The 40-contact assumption shall be checked against:
-
-1. peak switched-target 5 V current and the selected connector's per-contact
-   rating, resistance and temperature rise
-2. maximum target-supplied 3.3 V current in `STANDALONE`
-3. ground-return and signal-integrity requirements for analogue, SPI, I2C,
-   UART and routed signals
-4. connector availability, keying, orientation and daughter-board alignment
-5. whether duplicated 5 V or 3.3 V contacts are required
-6. whether the frozen architecture requires deliberately reserved contacts
-
-If either power rail requires a duplicate contact, or if reserved contacts are
-accepted, a provisional **44-contact** arrangement shall be compared with the
-40-contact baseline. The physical Target Interface specification shall record
-the final bank count, contact numbering and every duplicated or reserved
-position.
+Every daughter board uses a separate manual two-position selector for host
+VBUS or `TI_SWITCHED_TARGET_5V`. This removes the former interface-control
+contact, preserves both switched-5-V contacts and makes the 48-contact map
+complete. Selector position is an unpowered configuration precondition and
+shall be recorded; source presence alone is not an acceptable selector.

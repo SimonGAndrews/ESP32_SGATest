@@ -1,8 +1,8 @@
 # V2 Hybrid Harness Architecture
 
 **Status:** Accepted
-**Version:** 0.6
-**Last Updated:** 16 August 2026
+**Version:** 0.7
+**Last Updated:** 22 August 2026
 
 ---
 
@@ -167,9 +167,14 @@ must be unambiguous and unchanged when a new target daughter board is added.
 The reusable harness logic and standard Test Block domain is fixed at 3.3 V
 with a common reference ground. Standard Test Block signals and external
 peripheral connections are 3.3 V-only. A target requiring another logic domain
-must provide an Adapter Service on its daughter board. USB VBUS and any other
-service supply remain separate from the 3.3 V logic domain; their source,
-isolation and ownership belong to the power-service and Target Interface work.
+must provide an Adapter Service on its daughter board. Every daughter board
+also implements the common USB data path and manual VBUS selector, while the
+reusable harness implements the common Standalone 5 V-to-3.3 V regulator.
+Selected target VBUS,
+target 3.3 V reference and the harness 3.3 V logic domain remain separate;
+their source, isolation and ownership are fixed by the Power Control Service
+and Target Interface contract. No raw host VBUS or selector-control signal
+crosses the Target Interface.
 
 A Test Block may generate a contained local rail solely for its own documented
 test-device implementation. Such a rail is not a Target Interface voltage
@@ -177,9 +182,10 @@ domain or general-purpose peripheral supply and must not reach the target.
 `StandardTestBlocks_V2.md` defines and constrains any accepted exception.
 
 `TargetInterfaceContract_V2.md` owns the complete current contact inventory.
-Its first accepted stage comprises seven R0-R6 route entries, 23 logical Test
-Block contacts, two target-power/reference contacts, two reset/boot controls
-and a distributed common-ground class.
+Its corrected logical inventory comprises seven R0-R6 route entries, 23
+logical Test Block contacts, three target-power/reference services, reset and
+boot controls, and a distributed common-ground class. The two-2x12 physical
+map carries the complete inventory.
 
 USB, SWD, JTAG, UART CTS/RTS, battery services, Supervisor event signals, Rack
 Control I2C and target-power-monitor connections do not cross this boundary.

@@ -5247,7 +5247,7 @@
 		)
 		(uuid "72f36c91-e2fa-4b59-840a-4c87eeca4a0f")
 	)
-	(label "TI_TARGET_3V3"
+	(label "TI_TARGET_VBUS"
 		(at 300.99 152.4 0)
 		(effects
 			(font
@@ -5667,7 +5667,7 @@
 		)
 		(uuid "ab19fb22-e803-4758-ab3d-75a095ac59a5")
 	)
-	(label "TI_TARGET_3V3"
+	(label "TI_TARGET_VBUS"
 		(at 19.05 68.58 0)
 		(effects
 			(font
@@ -7209,7 +7209,7 @@
 				(justify right)
 			)
 		)
-		(pin "TI_TARGET_3V3" input
+		(pin "TI_TARGET_VBUS" input
 			(at 43.18 68.58 180)
 			(uuid "b714dc71-8e52-4f4e-9094-fb2a2f89aa1a")
 			(effects

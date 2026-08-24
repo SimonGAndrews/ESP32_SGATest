@@ -1,10 +1,10 @@
 # V2 Standard Control Services
 
-**Status:** Accepted
+**Status:** Accepted — two-position manual power architecture; Rev-A schematic update pending
 
-**Version:** 0.1
+**Version:** 0.3
 
-**Last Updated:** 7 August 2026
+**Last Updated:** 22 August 2026
 
 ## 1. Purpose
 
@@ -35,117 +35,169 @@ The Target Profile shall state which services and owners are available. The
 Resolved Test Configuration shall record the selections and observed states
 needed to reproduce a test.
 
-Target-specific USB, supply, polarity or protection arrangements are Adapter
-Services on the target daughter board or documented harness accessories. They
-shall not be duplicated on the reusable harness merely to accommodate one
-target.
+The USB data path and manually selected VBUS path are common Adapter Services
+on every target daughter board. Target-specific connector, polarity and
+protection details remain daughter-board responsibilities. The reusable
+harness owns the common Standalone 5 V-to-3.3 V regulator because the accepted
+target set cannot be required to supply the complete harness load from target
+3.3 V.
 
 ### 2.1 Operating-Mode Capability Summary
 
 The reusable harness provides its routing and Standard Test Block functions in
-all three operating modes. `SUPERVISOR` additionally provides the independent
+both active operating modes. `SUPERVISOR` additionally provides the independent
 control, observation and recovery services that must remain available while
 the target is unpowered or unresponsive. Availability still depends on the
 interfaces declared by the applicable Target Profile.
 
-| Capability | `STANDALONE` | `STANDALONE EXT` | `SUPERVISOR` |
-|---|---|---|---|
-| Target execution, functional tests and direct Routing Control | **Available.** The target owns the routing-control I2C. | **Available.** The target owns the routing-control I2C. | **Available.** The target retains ownership of the routing-control I2C. |
-| Standard Test Blocks | **Available**, powered from `TI_TARGET_3V3`. | **Available**, powered from external regulated 3.3 V. | **Available**, powered from external regulated 3.3 V and enabled by the Supervisor when required. |
-| Host console, test control and firmware flashing | **Available** through the target's normal powered USB or another declared host endpoint. | **Available** through the target's normal powered USB or another declared host endpoint. | **Available** through a direct target endpoint, normally USB No-VBUS while the harness powers the target; the Supervisor does not proxy this connection. |
-| Harness-controlled target power cycling | **Not available.** Normal powered USB supplies the target. | **Not available.** Normal powered USB supplies the target. | **Available** through the switched and protected external 5 V target supply. |
-| Integrated target voltage, current and sleep-current measurement | **Not available.** Use external instrumentation. | **Not available.** Use external instrumentation. | **Available** through the Target Power Monitor and its normal- and low-current ranges. |
-| Harness-controlled direct reset and boot requests | **Not available.** Use a declared target/host automatic sequence or manual controls. | **Not available.** Use a declared target/host automatic sequence or manual controls. | **Available** through the selected Rack Control Endpoint and target-specific daughter-board mapping. |
-| Rack-position selection and Rack Control Endpoint services | **Not available.** | **Not available.** | **Available.** The Supervisor selects and controls one rack position at a time. |
-| Automated external sleep/wake stimulus and timestamped acknowledgement | **Not available.** Timer wake and manual stimulus remain possible. | **Not available.** Timer wake and manual stimulus remain possible while external 3.3 V keeps the harness services powered. | **Available** through the Supervisor event interface; timer wake also remains available. |
-| Harness Supervisor Wi-Fi/BLE test peer | **Not available.** An independently provided peer may still be used. | **Not available.** An independently provided peer may still be used. | **Available.** |
-| Unattended out-of-band recovery from unresponsive target firmware | **Not available.** Host-endpoint recovery or operator intervention is required. | **Not available.** Host-endpoint recovery or operator intervention is required. | **Available** through independent power, reset, boot and host-observation services. |
-
-`STANDALONE EXT` extends only the source of the Routing Logic and Test Block
-3.3 V rails. It does **not** enable the harness-switched external 5 V target
-supply, integrated target-power measurement, Rack Control Endpoint or other
-Supervisor-owned services.
+| Capability | `STANDALONE` | `SUPERVISOR` |
+|---|---|---|
+| Target execution, functional tests and direct Routing Control | **Available.** The target owns the routing-control I2C. | **Available.** The target retains ownership of the routing-control I2C. |
+| Standard Test Blocks | **Available**, powered by the harness-local regulator and enabled automatically. | **Available**, powered from external regulated 3.3 V and enabled by the Supervisor when required. |
+| Host console, test control and firmware flashing | **Available** through the target's normal USB or another declared host endpoint. | **Available** through the same target endpoint; the daughter-board selector isolates host VBUS while passing USB data and applying harness-controlled target VBUS. |
+| Harness-controlled target power cycling | **Not available.** Host USB supplies target VBUS. | **Available** through the switched, monitored and manually selected external 5 V target supply. |
+| Integrated target voltage, current and sleep-current measurement | **Not available.** Use external instrumentation. | **Available** through the Target Power Monitor and its normal- and low-current ranges. |
+| Harness-controlled direct reset and boot requests | **Not available.** Use a declared target/host automatic sequence or manual controls. | **Available** through the selected Rack Control Endpoint and target-specific daughter-board mapping. |
+| Rack-position selection and Rack Control Endpoint services | **Not available.** | **Available.** The Supervisor selects and controls one rack position at a time. |
+| Automated external sleep/wake stimulus and timestamped acknowledgement | **Not available.** Timer wake and manual stimulus remain possible while the local regulator keeps harness services powered. | **Available** through the Supervisor event interface; timer wake also remains available. |
+| Harness Supervisor Wi-Fi/BLE test peer | **Not available.** An independently provided peer may still be used. | **Available.** |
+| Unattended out-of-band recovery from unresponsive target firmware | **Not available.** Host-endpoint recovery or operator intervention is required. | **Available** through independent power, reset, boot and host-observation services. |
 
 ## 3. Power Control Service
 
 ### 3.1 Architecture
 
-One grouped **Operating Mode** header coordinates the Routing Logic Supply
-Rail source, Test Block power-switch selection and harness target-power
-control. The header accepts one shunt in one of four clearly marked positions:
+Two deliberately coordinated, two-position manual selectors define the
+active operating mode:
 
-| Mode | Routing Logic Supply Rail | Test Block Supply Rail | Target power from harness |
-|---|---|---|---|
-| `OFF` | Off | Off | Off |
-| `STANDALONE` | Target 3.3 V | On | Off; normal powered USB is used |
-| `STANDALONE EXT` | External 3.3 V | On | Off; normal powered USB is used |
-| `SUPERVISOR` | External 3.3 V | Supervisor-controlled, default off | Supervisor-controlled 5 V |
+1. a daughter-board VBUS selector chooses host VBUS or
+   `TI_SWITCHED_TARGET_5V` for the target; and
+2. a harness-board 2x3 two-shunt selector chooses the Routing Logic Supply
+   Rail source and the harness-local regulator-enable state.
 
-These Operating Mode header positions are physical power-configuration
+| Mode | Daughter-board VBUS selector | Routing Logic Supply Rail | Local regulator | Test Block Supply Rail |
+|---|---|---|---|---|
+| `STANDALONE` | Host VBUS | Harness-local regulated 3.3 V | Enabled from `TI_TARGET_VBUS` | On automatically |
+| `SUPERVISOR` | `TI_SWITCHED_TARGET_5V` | External regulated 3.3 V | Disabled | Supervisor-controlled, default off |
+
+These Operating Mode selector positions are physical power-configuration
 preconditions, not test-facing capability modes. Tests still request
 capabilities through the Target Support Module and record the resulting
 Resolved Test Configuration.
 
-`OFF` removes harness-provided routing, Test Block and target power. It does
-not disconnect a target that is independently powered through an ordinary USB
-cable or another external connection. A target that must be fully unpowered
-shall have those competing sources removed or use the defined USB No-VBUS
-connection.
+`OFF` is not a selector position. It is the de-energized system condition in
+which host USB VBUS and the external/rack supplies are disconnected. Any
+additional target-local source, including a second USB connection or battery,
+shall also be disconnected. This avoids implying that a selector can remove a
+source still connected directly to the target.
 
-This removes invalid user-selected combinations while retaining externally
-powered Standalone operation for development, diagnosis or a target with
-insufficient spare 3.3 V capacity. The grouped-header implementation shall be
-confirmed during schematic design.
+This removes the invalid assumption that an accepted target can supply the
+complete 300 mA harness allowance from its onboard 3.3 V regulator. The
+two-selector implementation shall be revised and confirmed during schematic
+design. Both selectors shall be changed only while all associated sources are
+off. Their states shall agree and shall be recorded in the Resolved Test
+Configuration.
 
 The target owns the direct routing-control I2C in both Standalone and
 Supervisor operation. Operating Mode selection does not switch I2C ownership.
 
-![V2 Harness architecture overview](diagrams/Rack-Architecture-Overview_V2.png)
+The earlier architecture overview is withdrawn because it depicts the
+superseded target-powered Standalone and USB No-VBUS arrangement. Its draw.io
+source shall be redrawn only after the corrected schematic topology is
+accepted; the normative flows in this section are the present authority.
 
-*Figure 1 — Common V2 harness architecture. This view shows functional
-boundaries rather than physical connector assignments. The
-[canonical draw.io source](diagrams/rack-architecture-overview.drawio)
-generates this and the mode-specific power views.*
-
-Target-specific Adapter Services may use target-local 3.3 V and/or 5 V where
-their implementation requires it. This optional daughter-board power mapping
-does not define additional mandatory Target Interface rails; the daughter-board
-schematic and Target Profile shall identify the actual sources and loads.
+Every daughter board shall provide the common USB data path and manual VBUS
+selector and shall return the selected target VBUS through `TI_TARGET_VBUS`.
+No raw host VBUS or VBUS-select control crosses the Target Interface.
+Target-specific
+Adapter Services may additionally use target-local rails where required, but
+shall identify every source and load and shall not bypass the common source
+isolation.
 
 ### 3.2 Routing-Control 3.3 V
 
-The Routing Logic Supply Rail shall accept either target 3.3 V or an external
-regulated 3.3 V harness-system supply. The Operating Mode header shall select
-one source without allowing the two supplies to be connected together.
+The Routing Logic Supply Rail shall accept either harness-local regulated
+3.3 V or an external regulated 3.3 V harness-system supply. A manual 2x3,
+2.54 mm through-hole header with two removable shunts shall select one source
+without allowing the two supplies to be connected together in either valid
+configuration. The odd-numbered column selects `LOCAL_3V3` or `EXT_3V3` to
+`ROUTING_LOGIC_3V3`. The even-numbered column enables the local regulator
+input-isolation stage in `STANDALONE` and holds it disabled in `SUPERVISOR`.
 
-The daughter board supplies target 3.3 V through the Target Interface on the
-provisional `TI_TARGET_3V3` signal, with the common ground reference. It is an
-output from the powered target into the harness mode selection, not a general
-bidirectional 3.3 V rail or a target power input. Physical contact allocation
-remains part of the Target Interface contract.
+The selector pin and shunt contract shall be:
 
-`TI_TARGET_3V3` shall also remain available as a bounded, low-current target
+| Pins | Connection |
+|---|---|
+| 1 | `LOCAL_3V3` |
+| 3 | `ROUTING_LOGIC_3V3` common |
+| 5 | `EXT_3V3` |
+| 2 | Standalone enable source: `TI_TARGET_VBUS` through 10 kOhm |
+| 4 | `LOCAL_REG_ENABLE` common: TPS22917 input-isolator `ON`, mode-stage input and 22 kOhm pull-down to `TI_GND` |
+| 6 | Supervisor disable bias: `TI_GND` through 10 kOhm |
+
+Both shunts shall always occupy the same end of the header: pins 1-3 and 2-4
+for `STANDALONE`, or pins 3-5 and 4-6 for `SUPERVISOR`. A missing shunt, a
+mismatched pair or a shunt fitted across the two columns is an invalid
+configuration and shall be caught by visual preflight. The PCB silkscreen
+shall show the two valid paired patterns and identify `STANDALONE` and
+`SUPERVISOR` without relying on pin numbers alone.
+
+The reusable harness shall use a `TPSM828438VCFR` synchronous buck module to
+regulate selected `TI_TARGET_VBUS` to `LOCAL_3V3`. The selected device
+integrates its inductor, is rated for 600 mA from 1.8 V to 5.5 V and therefore
+supports the specified 300 mA steady harness load and the required 500 mA
+continuous design capability. A `TPS22917DBVR` active-high load switch shall
+isolate the module input from `TI_TARGET_VBUS`; the selector's even-numbered
+shunt column controls its `ON`
+input. The switch output supplies the module `VIN`, and the module `EN` shall
+be driven only from that isolated input domain. In `SUPERVISOR`, only the
+disabled TPS22917 input remains connected to the monitored rail.
+
+The TPS22917 data sheet guarantees at most 100 nA disabled input current over
+1 V to 5.5 V and -40 °C to 85 °C. This consumes at most 0.10 percentage
+point of a 100 µA PC02 reading and leaves approximately 2.19% of the present
+uncalibrated error allowance. Its always-active reverse-current blocking is a
+secondary protection; permitted mode states shall also keep the regulator
+output isolated from `EXT_3V3`, so no source is allowed to drive the isolated
+regulator domain backwards. The TPSM828438's own 850 nA maximum shutdown
+current is downstream of the disabled isolation switch and is therefore not a PC02
+measurement load. Complete-board leakage shall nevertheless be measured
+through 55 °C before the 100 µA claim is accepted.
+
+Set the TPSM828438 output to 3.3 V with a 249 kΩ, 1% `VSET` resistor. Fit at
+least 4.7 µF effective low-ESR ceramic capacitance at its input and 10 µF
+nominal at its output, using X5R or X7R dielectric and preserving the data-sheet
+effective-capacitance limits after tolerance and DC-bias derating. The
+TPS22917 `QOD` pin shall be tied to its output to discharge the isolated input
+domain; its `CT` value shall be selected during schematic implementation to
+limit charging current into the regulator input capacitor without violating
+the required startup envelope.
+
+The TPSM828438 data sheet gives `RθJA = 72.4 °C/W`. At 5 V, 3.3 V and
+300 mA, even an intentionally conservative 80% efficiency assumption gives
+0.248 W loss, an 18 °C junction rise and approximately 73 °C junction at
+the 55 °C design ambient. At the 500 mA design capability the same
+conservative assumption gives 0.413 W, a 30 °C rise and approximately 85 °C
+junction, below the 125 °C operating limit. Final PCB review shall still
+follow the manufacturer's capacitor placement, short current-loop and ground
+guidance and shall verify output ripple and transient response on assembled
+hardware.
+
+`TI_TARGET_3V3` shall remain available only as a bounded, low-current target
 I/O-domain reference whenever the target is powered. When the Operating Mode
 selection disconnects it from the Routing Logic Supply Rail, the reference may
 serve only approved loads such as target-side I2C pull-ups and target-domain
 power-valid qualification. It shall not be connected to the external 3.3 V
 source.
 
-`TI_TARGET_3V3` shall remain between 3.00 V and 3.60 V at the Target Interface
-under the accepted harness load. A Target Profile that cannot maintain the
-3.00 V minimum shall require `STANDALONE EXT`. This range is defined by the
-[Target Interface contract](TargetInterfaceContract_V2.md); it also provides
-the minimum source used by the Rev-A mode-decoding margin calculation.
-
-In `STANDALONE`, the target 3.3 V rail is expected to be established before
-test code executes. Routing devices shall nevertheless enter their safe state
-in hardware while the target starts. A Target Profile shall require
-`STANDALONE EXT` where target 3.3 V is unavailable or cannot supply the
-complete harness load.
+`TI_TARGET_3V3` shall remain between 3.00 V and 3.60 V whenever the target is
+powered. Its complete accepted load shall be specified as a low-current
+reference budget during the corrected schematic review; it shall never supply
+the Routing Logic or Test Block rails.
 
 The selected source powers the Routing Logic Supply Rail directly. The Test
 Block Supply Rail is derived from it through a controlled power switch. It is
-on in both Standalone modes so active Test Blocks remain available without a
+on in Standalone so active Test Blocks remain available without a
 software power-enable step. In `SUPERVISOR` it defaults off and is enabled only
 when required. Passive Test Block connections do not require this rail.
 
@@ -159,29 +211,57 @@ The calculated values select the component but are not guaranteed limits,
 because the data sheet specifies the relevant timing constants as typical.
 Rev-A testing shall therefore confirm no more than 100 mA peak charging
 current, acceptable source-rail disturbance and valid Test Block startup from
-both `TI_TARGET_3V3` and `EXT_3V3`. Any later increase beyond 50 µF requires a
+both the harness-local regulated source and `EXT_3V3`. Any later increase beyond 50 µF requires a
 new inrush calculation and validation before it is accepted.
 
-The Operating Mode is a test precondition and shall not be changed while any
-associated source is powered.
+The Operating Mode is a test precondition and neither selector shall be
+changed while an associated source is powered. The two header shunts shall be
+removed and refitted only after host USB, external supplies and competing
+target sources are disconnected. Their separated manual movement is not a
+live-transfer mechanism. Rev A shall use Würth Elektronik `61300621121`, a
+3 A straight 2x3 2.54 mm through-hole WR-PHD header, with two
+`60900213421` 3 A open-top shunts already used elsewhere in Rev A. The header
+and shunts shall be hand-fitted after AISLER manufacture and retained in the
+design BOM as the completed-board configuration. Automatic priority
+switchover, live transfer and a selector `OFF` position are not required.
 
-The Rev-A implementation shall use a TPS2116 power multiplexer in manual mode
-to apply this static source selection. It is not used to transfer between
-supplies during a test. The grouped Operating Mode header and simple external
-biasing shall set the multiplexer as follows:
+The even-numbered shunt column shall drive the TPS22917 input-isolation switch
+control so that those contacts carry only switch-control bias rather than
+regulator load current. A 10 kOhm resistor shall connect `TI_TARGET_VBUS` to
+selector pin 2, a second 10 kOhm resistor shall connect pin 6 to `TI_GND`, and
+a 22 kOhm resistor shall hold pin 4 `LOCAL_REG_ENABLE` low. The two endpoint
+resistors limit current if a shunt is accidentally fitted across columns;
+such placement remains invalid and shall not be used as an operating state.
 
-| Operating Mode | `MODE` | `PR1` | Multiplexer result |
-|---|---:|---:|---|
-| `OFF` | Low | High | Both inputs disconnected |
-| `STANDALONE` | High | High | `TI_TARGET_3V3` selected |
-| `STANDALONE EXT` | High | Low | External 3.3 V selected |
-| `SUPERVISOR` | High | Low | External 3.3 V selected |
+`LOCAL_REG_ENABLE` shall drive the TPS22917 `ON` input directly and one input
+of a `SN74LVC2G14DBVR` dual Schmitt-trigger inverter powered from
+`ROUTING_LOGIC_3V3`. The first inverter output shall be `MODE_SUPERVISOR`; the
+second shall invert `MODE_SUPERVISOR` to produce `TEST_BLOCK_AUTO_EN`.
+`R1009` shall change from 100 kOhm to 22 kOhm from `MODE_SUPERVISOR` to
+`TI_GND`, holding Supervisor qualification absent while the inverter is
+unpowered. `R1004` shall likewise change from 100 kOhm to 22 kOhm on
+`TEST_BLOCK_SWITCH_EN`, ensuring powered-off leakage through the second
+inverter output and `D1005` cannot enable U1002. The Schmitt-input device is
+required because the source and power-startup edges may be slow. Its 5.5 V-
+tolerant input and `Ioff` partial-power-down behaviour permit the Standalone
+enable input to precede `ROUTING_LOGIC_3V3` without back-powering that rail.
 
-The separate `STANDALONE EXT` and `SUPERVISOR` header positions shall remain
-electrically distinguishable for Test Block and target-power control even
-though they select the same 3.3 V source. The TPS2116 provides source
-isolation, reverse-current blocking and a high-impedance `OFF` state. Automatic
-priority switchover and test-time source changes are not required.
+At the specified 4.75 V minimum switched-target supply, the 10 kOhm feed,
+22 kOhm pull-down, 5 uA worst-case powered inverter input leakage and 10 nA
+TPS22917 `ON` leakage leave at least approximately 3.23 V at
+`LOCAL_REG_ENABLE`. This exceeds the inverter's 2.2 V maximum positive-going
+threshold at a 3.0 V supply and the TPS22917 1.0 V input-high requirement.
+With the common shunt absent and the inverter unpowered, its 10 uA maximum
+`Ioff` contribution develops no more than 0.22 V across the 22 kOhm
+pull-down, below the TPS22917 0.35 V input-low limit. In Supervisor, the
+10 kOhm disable resistor in parallel with the pull-down holds the common near
+ground. At either inverter output, 10 uA maximum powered-off output leakage
+plus 5 uA maximum receiving-input leakage develops no more than 0.33 V across
+22 kOhm. This remains below the 0.8 V input-low limit of the powered PC02 LVC
+logic. The second output alone can develop no more than 0.22 V at
+`TEST_BLOCK_SWITCH_EN` through `D1005` and `R1004`, below U1002's 0.35 V
+input-low limit. The detailed circuit shall not depend on target firmware or
+`TI_TARGET_3V3`.
 
 Appendix C records the Rev-A circuit that implements this mode selection and
 the derived Test Block Supply Rail control.
@@ -243,16 +323,27 @@ its 3.3 V regulator are designed.
 
 ### 3.3 Standalone Operation
 
-Standalone operation uses the target's normal powered USB connection for
-power, firmware flashing and console access. The target establishes and verifies
-the required routes through the direct routing-control I2C.
+Standalone operation uses the target's normal USB data connection. Host VBUS
+passes through the daughter-board VBUS selector, supplies the target USB VBUS
+input and returns through `TI_TARGET_VBUS` to the reusable-harness regulator. The target
+establishes and verifies the required routes through the direct
+routing-control I2C.
 
-![Standalone power routes](diagrams/Rack-Architecture-Power-Standalone_V2.png)
+```text
+Host USB D+/D- ----------------------------------> target USB D+/D-
+Host USB VBUS --> daughter selector --> target USB VBUS
+                                      `--> TI_TARGET_VBUS
+                                             `--> harness 5 V-to-3.3 V
+                                                  `--> routing and Test Blocks
+```
 
-*Figure 2 — Active `STANDALONE` power routes. Powered USB supplies the target;
-the target returns `TI_TARGET_3V3` to the Operating Mode selection, which
-supplies the Routing Logic and Test Block rails. The target 5 V switch and
-input remain visible as parts of the common architecture but are inactive.*
+The host port, hub, cable, daughter-board selector and target connector shall
+support the simultaneous Standalone load of the target plus the local
+regulator input current required to supply up to 300 mA at 3.3 V, including
+startup and inrush margin. This is a separate Standalone source envelope; the
+1.5 A Supervisor target-position allowance shall not be assumed available from
+an arbitrary USB host port. Each Target Profile or Resolved Test Configuration
+shall state the accepted Standalone source and any excluded high-load tests.
 
 Automated power cycling is unavailable in this arrangement. Tests that require
 it shall be excluded, adapted to a manual step or run later with a Supervisor.
@@ -262,32 +353,40 @@ The routing fabric shall not be needed to establish the control bus or the
 normal recovery connection. This prevents an incorrect route from blocking
 the means required to correct it.
 
-### 3.4 Standalone External Operation
+### 3.4 USB Data And Manual VBUS Selection
 
-`STANDALONE EXT` retains the normal powered USB connection to the target but
-uses an external regulated 3.3 V harness-system supply for the Routing Logic
-Supply Rail. The Operating Mode selection disconnects `TI_TARGET_3V3` from
-that rail, selects the external source and holds the Test Block 3.3 V power
-switch on. The target remains the owner of the direct routing-control I2C.
+Every daughter board shall use a manual two-position selector to choose one of
+two mutually exclusive 5 V sources for the VBUS presented at the target's
+normal USB connector:
 
-![Standalone external power routes](diagrams/Rack-Architecture-Power-Standalone-EXT_V2.png)
+* host USB VBUS in `STANDALONE`
+* `TI_SWITCHED_TARGET_5V` in `SUPERVISOR`
 
-*Figure 3 — Active `STANDALONE EXT` power routes. Powered USB supplies the
-target; an external regulated 3.3 V source supplies Operating Mode, Routing
-Logic and Test Block services. `TI_TARGET_3V3` is disconnected as a harness
-supply source but remains a bounded target I/O-domain reference;
-harness-switched target 5 V is inactive.*
+USB D+ and D- and ground remain direct host-to-target paths in both modes. The
+selector shall not connect the two 5 V sources together, shall support the
+accepted target current and inrush, and shall expose its common output both to
+the target and as the `TI_TARGET_VBUS` return. A target without native USB
+shall retain the same common power contract while its Target Profile declares
+the applicable data/control endpoint and accepted target-power input.
 
-This mode shall be used when the target does not expose a 3.3 V output capable
-of supplying the complete routing and Test Block load, cannot supply that load
-within its rating, or must remain electrically independent of it. The external
-source may be a standalone bench supply or the regulated 3.3 V harness-system
-supply used by a rack, but it shall share the defined ground reference and
-shall not be connected to the target's low-current 3.3 V reference.
+The selector is local to the daughter board; no source-select signal crosses
+the Target Interface. It shall be changed only with both sources off and shall
+be clearly labelled `HOST / STANDALONE` and `HARNESS / SUPERVISOR`. The exact
+selector or header-and-shunt MPN shall be reviewed for current rating, contact
+resistance, inrush, physical keying and manual-assembly requirements.
 
-Target power cycling remains unavailable because ordinary powered USB still
-supplies the target. Evidence shall distinguish `STANDALONE EXT` from
-`STANDALONE` and record the external 3.3 V source and measured rail state.
+The two manual selectors can be set inconsistently. `SUPERVISOR` on the
+harness with `HOST` on the daughter board can leave the target host-powered
+and defeat controlled power cycling. Supervisor preflight shall therefore
+command target power off and confirm that the target is de-energized through a
+declared independent observation, normally disappearance of its USB endpoint.
+A target without an observable USB endpoint shall declare an alternative
+target-rail, debug or handshake observation in its Target Profile; unattended
+Supervisor power-cycle tests are unavailable if the off state cannot be
+observed. The runner shall refuse the test if the target remains powered.
+`STANDALONE` on the
+harness with `HARNESS` on the daughter board is a safe but non-functional
+configuration. Clear labelling and recorded selector states remain mandatory.
 
 ### 3.5 Supervisor-Controlled Target Power
 
@@ -481,25 +580,21 @@ Kelvin connections, filtering and averaging. Component limits and final
 design requirements shall be taken from the manufacturer's data sheet and
 verified by prototype measurement.
 
-The Power Control Service provides the switched 5 V supply. The daughter board
-maps that supply from a dedicated logical Target Interface power-service
-connection, provisionally `TI_SWITCHED_TARGET_5V`, to the target's accepted
-`5V`, `VBUS`, `VSYS` or target-specific power input. This connection is an
-output from the harness to the daughter board, not a general bidirectional 5 V
-rail. Physical contact allocation remains part of the Target Interface
-contract.
+The Power Control Service provides `TI_SWITCHED_TARGET_5V` as the Supervisor
+input to the daughter-board VBUS selector. This connection is an output from
+the harness, not a general bidirectional 5 V rail. The selector applies it
+instead of host VBUS to the target's normal USB VBUS input and returns the
+result as `TI_TARGET_VBUS`. It shall not energise a target header power input
+in parallel with the target USB input. Appendix A records the assessed-target
+consequences and the limited exception for a target without native USB.
 
-The daughter-board mapping shall not bypass a target's intended onboard
-regulation or connect the switched supply to host USB VBUS or another active
-source. In Standalone operation this path remains inactive while the normal
-powered USB connection supplies the target. Appendix A records the
-supplier-documented external-power connection for each assessed target.
-
-![Supervisor power routes](diagrams/Rack-Architecture-Power-Supervisor_V2.png)
-
-*Figure 4 — Active `SUPERVISOR` power routes. The rack supplies independent
-3.3 V routing power and switched 5 V target power. The host connection to the
-target carries USB data and ground with no VBUS.*
+```text
+Host USB D+/D- ----------------------------------> target USB D+/D-
+Host USB VBUS -- isolated by daughter selector in Supervisor mode
+EXT_5V --> harness switch and monitor --> TI_SWITCHED_TARGET_5V
+         --> daughter selector --> target USB VBUS --> TI_TARGET_VBUS return
+EXT_3V3 ------------------------------------------------> harness logic
+```
 
 The switching and monitoring implementation shall provide the current,
 measurement-range, accuracy and voltage-drop performance in Section 3.5.1,
@@ -510,29 +605,18 @@ decisions.
 
 ### 3.6 Host USB During Controlled Power Cycling
 
-The harness system normally uses a host-powered local USB hub. Short, marked
-cables connect the hub to the target USB ports. A **USB No-VBUS Cable** passes
-USB data and ground but has no VBUS power connection. It therefore
-prevents the host or hub from becoming a competing target-power source.
+The harness system normally uses a powered local USB hub. Ordinary complete
+USB cables connect stable hub ports to the daughter-board host connectors.
+The daughter-board selector, rather than a modified cable, controls VBUS
+ownership while leaving D+, D- and ground continuous. This is required for
+targets whose onboard USB bridge or MCU needs VBUS present to establish or
+maintain the host connection.
 
-The USB hub and USB No-VBUS Cables are harness-system equipment, not circuitry
-repeated on every daughter board. A target-specific USB interposer is an
-Adapter Service only where a USB No-VBUS Cable is insufficient.
-
-For the prototype, a USB-A male screw-terminal adapter at the hub end provides
-a simple reusable construction method. A target cable can retain its moulded
-target connector while its USB-A end is removed; data and ground connect at
-the adapter and VBUS remains disconnected. This keeps the bulky termination at
-the hub and permits different target connectors and cable lengths. The
-following off-the-shelf adapter is a candidate rather than a fixed component
-selection: `https://www.amazon.co.uk/dp/B0CM65GY89`. Each completed cable shall
-be continuity-tested and marked `USB NO VBUS`; USB-C cables require separate
-attach-detection validation.
-
-The initial ESP32-S3 arrangement may use externally powered native USB while
-the host remains connected. Standards-compliant self-powered USB attach and
-detach sensing is not an initial harness capability; it may be added later as
-an S3-specific Adapter Service if that behaviour needs to be tested.
+In `STANDALONE`, host VBUS supplies the target and the harness-local regulator.
+In `SUPERVISOR`, the selector isolates host VBUS and selects
+`TI_SWITCHED_TARGET_5V`; removal of that source removes target VBUS without
+disconnecting the USB data pair. Selection is a manual, unpowered
+configuration step; live source transfer is prohibited.
 
 ESP32-S3 USB OTG host operation additionally requires the target to supply
 VBUS to the attached USB device. Its daughter board shall therefore provide an
@@ -540,8 +624,9 @@ optional, controllable VBUS Adapter Service supplied from the harness switched
 5 V service. The VBUS output shall default off and prevent reverse current; it
 is enabled only when the target is deliberately operating as the USB host.
 The switch, current protection, control path and connector arrangement remain
-daughter-board design decisions. An ordinary USB No-VBUS Cable supports the
-normal device-mode host connection but does not provide this OTG-host supply.
+daughter-board design decisions. The common device-mode selector does not by
+itself provide the separately controlled downstream VBUS required in OTG-host
+operation.
 
 USB VBUS isolation alone does not prove that a target is unpowered. Prototype
 verification shall also check USB data, control I2C, routing, reset, debug,
@@ -549,38 +634,39 @@ wake and handshake connections for back-power paths.
 
 ### 3.7 Evidence And Verification
 
-Power-related test evidence shall record the Operating Mode, target power
-source, relevant USB No-VBUS Cable connections and Test Block Supply Rail
-state. Supervisor-controlled tests shall record both the commanded and
+Power-related test evidence shall record both manual selector states, the
+target power source and the Test Block Supply Rail state.
+Supervisor-controlled tests shall record both the commanded and
 observed target-power state. They shall also record target-position voltage,
 current and power measurements where required by the test, including the
 settled sleep-current measurement for a low-power test.
 
 The prototype shall demonstrate:
 
-1. safe Standalone startup with routing powered from target 3.3 V
-2. safe `STANDALONE EXT` operation with target-controlled routing from the
-   external 3.3 V source and no connection to target 3.3 V
+1. safe Standalone startup with routing powered by the harness-local regulator
+2. correct host-VBUS and switched-5-V selection without source backfeed
 3. controlled enable and removal of the Test Block Supply Rail
 4. safe routing and peripheral states during target power removal
-5. supervised removal and restoration of target 5 V
+5. supervised removal and restoration of target VBUS
 6. absence of material back-power through every attached path
 7. restoration of the selected console or USB connection after power cycling
 8. target-position current measurement across the accepted operating and
    sleep-current ranges
 9. external 3.3 V and 5 V regulation, ripple, load-transient behaviour and
    safe-state operation at the maximum accepted rack loads
+10. Supervisor preflight detection of a target that remains host-powered
+11. Standalone operation at the accepted target-plus-harness USB load envelope
 
 ### 3.8 Downstream Decisions
 
-Appendix C records the current Rev-A grouped-header biasing and Test Block
-switch. Detailed design shall complete the 3.3 V source connector,
+Appendix C records the required Rev-A two-selector correction. Detailed design shall complete the
+harness-local regulator,
 target-power switch, Target Power Monitor, two-range measurement arrangement,
 discharge behaviour and protection components against the Section 3.5.1
 contract. Prototype measurements shall demonstrate the required peak-current,
 sleep-current, accuracy and voltage-drop performance and determine whether
-any target requires USB data isolation in addition to the VBUS disconnection
-in its USB No-VBUS Cable.
+any target requires USB data isolation in addition to the common VBUS
+selector.
 
 Physical Target Interface contacts are not assigned by this specification.
 
@@ -630,11 +716,11 @@ test.
 
 ### 4.2 Path Selection
 
-In both Standalone modes, the normal powered target USB or documented
-alternative provides the host-facing path. In `SUPERVISOR`, the host still
-connects directly to the target, normally through the configured USB No-VBUS
-connection while harness-switched 5 V powers the target. `OFF` does not
-disconnect an independently powered host connection.
+In `STANDALONE`, the normal target USB or documented alternative provides the
+host-facing path. In `SUPERVISOR`, the host still connects directly to the
+target through the daughter-board USB data path while the daughter-board
+selector applies harness-switched 5 V to target VBUS. The de-energized `OFF`
+condition requires all independent target sources to be disconnected.
 
 The Target Profile shall identify each available endpoint, its supported
 roles, power behaviour, firmware dependencies, conflicts and required
@@ -649,9 +735,9 @@ role to the stable Linux path defined in Section 8.5.
 ### 4.3 Safety, Recovery And Evidence
 
 No connection used for test control, console, firmware flashing or debug may
-back-power an unpowered target or compete with another driver. USB No-VBUS
-removes one supply path but does not replace powered-off validation of USB
-data, UART, I2C, debug and other attached signals.
+back-power an unpowered target or compete with another driver. The USB/VBUS
+selector isolates the two declared VBUS sources but does not replace powered-off
+validation of USB data, UART, I2C, debug and other attached signals.
 
 Firmware flashing shall have exclusive use of its endpoint. If the runtime path
 fails, recovery shall use the declared direct reset, boot, power-cycle,
@@ -687,7 +773,7 @@ Power Control Service defined in Section 3.
 
 The host runner owns the reset or boot operation. In `SUPERVISOR`, the Harness
 Supervisor performs the requested action through the Supervisor Interface and,
-in rack operation, the selected Rack Control Endpoint. In either Standalone
+in rack operation, the selected Rack Control Endpoint. In Standalone
 mode, the host uses the target's supported automatic sequence or the operator
 uses the declared manual controls.
 
@@ -709,9 +795,9 @@ on target-controlled I2C or a Test Block route.
 
 ### 5.2 Modes And Target Options
 
-In `OFF`, harness-driven reset and boot controls remain inactive, although an
-independently powered target may still respond to its onboard controls. Both
-Standalone modes retain the target's documented manual or host-endpoint
+In the de-energized `OFF` condition, harness-driven reset and boot controls
+remain inactive.
+Standalone retains the target's documented manual or host-endpoint
 sequence. `SUPERVISOR` adds automated reset and optional boot sequencing
 without changing their target-side meaning.
 
@@ -808,11 +894,11 @@ software-selected routes.
 
 ### 6.2 Modes And Configuration Options
 
-In `OFF`, routing-control power is removed and every controlled path shall
-remain in its safe inactive state. In `STANDALONE`, target 3.3 V powers the
-Routing Logic Supply Rail; in `STANDALONE EXT` and `SUPERVISOR`, the external
-regulated 3.3 V source powers it. The target remains the routing owner in all
-three powered modes.
+In the de-energized `OFF` condition, routing-control power is removed and every controlled path shall
+remain in its safe inactive state. In `STANDALONE`, the harness-local
+regulator powers the Routing Logic Supply Rail; in `SUPERVISOR`, the external
+regulated 3.3 V source powers it. The target remains the routing owner in both
+active modes.
 
 In `SUPERVISOR`, the Routing Logic Supply Rail remains powered while target
 power is cycled. Hardware Clear establishes the safe routing state before the
@@ -978,9 +1064,9 @@ target-power service.
 
 In Standalone operation, timer wake remains available and the MCP23017 input
 may be driven manually through its GPIO breakout. Automated stimulus and
-timestamped acknowledgement require `SUPERVISOR` mode. The MCP23017 and its
-interrupt pull-up shall remain powered throughout the test; `STANDALONE EXT`
-is used if target 3.3 V is not maintained during sleep.
+timestamped acknowledgement require `SUPERVISOR` mode. The harness-local
+regulator keeps the MCP23017 and its interrupt pull-up powered independently
+of target 3.3 V throughout the Standalone test.
 
 Independent waveform capture is not implied by this service. In `SUPERVISOR`,
 the Target Power Monitor defined in Section 3 provides sleep-current evidence;
@@ -1298,7 +1384,7 @@ permitted.
 
 Rack Control Endpoint power controls and Target Power Monitor telemetry shall
 be effective only with the harness Operating Mode set to `SUPERVISOR`. In
-either Standalone mode, the absent or unpowered devices and their externally
+Standalone, the absent or unpowered devices and their externally
 biased local interfaces shall be harmless.
 
 The multiplexer shall start with all downstream channels closed and the
@@ -1332,7 +1418,8 @@ isolates target-side I2C buses.
 ### 8.5 Host USB And Rack Configuration
 
 Rack operation requires an Ubuntu host. Each target USB connection uses a
-fixed, labelled host-hub port and a USB No-VBUS Cable. The Supervisor remains
+fixed, labelled host-hub port, an ordinary complete USB cable and the common
+daughter-board USB data/VBUS-selector assembly. The Supervisor remains
 available through its normal powered USB connection while targets are
 power-cycled.
 
@@ -1367,44 +1454,31 @@ Wi-Fi, BLE and automated sleep/wake tests use the same sequence and the shared
 Supervisor peer. Rack execution is sequential from the first prototype and
 does not imply parallel target testing.
 
-## Appendix A. Target Power Adaptation
+## Appendix A. Target Power Compatibility
 
-The assessed targets can use the common switched 5 V service through their
-supplier-documented external-power inputs. The daughter board owns the
-target-specific mapping and any required source isolation.
+The assessed USB targets use the same electrical contract: the daughter-board
+selector feeds their normal USB VBUS input from host VBUS in Standalone or
+`TI_SWITCHED_TARGET_5V` in Supervisor. This preserves VBUS detection in USB
+bridges and native-USB devices while preventing the two sources from being
+joined. Target header power inputs remain disconnected unless a separately
+reviewed Target Profile explicitly requires them.
 
-| Target | Supplier-documented external-power connection | Daughter-board mapping |
+| Target | Normal controlled-power connection | Qualification |
 |---|---|---|
-| ESP32-C3-DevKitC-02 | `5V` and `GND` header pins | Switched 5 V to `5V` |
-| ESP32 DevKitC V4 | `5V` and `GND` header pins | Switched 5 V to `5V` |
-| ESP32-S3-DevKitC-1 | `5V` and `GND` header pins | Switched 5 V to `5V` |
-| Raspberry Pi Pico and Pico W | `VSYS`, approximately 1.8 V to 5.5 V | Switched 5 V through a diode or reviewed source isolator to `VSYS` |
-| Raspberry Pi Pico 2 and Pico 2 W | `VSYS`, approximately 1.8 V to 5.5 V | Switched 5 V through a diode or reviewed source isolator to `VSYS` |
-| Espruino Pico | `Bat` / `VBAT` and `GND`; onboard regulator accepts 5 V | Switched 5 V to `Bat` / `VBAT` |
-| MDBT42Q breakout | `V+` / `Vin` and `GND`; accepts 2.5 V to 16 V | Switched 5 V to `Vin` |
-
-The Espressif development-board guides define USB, 5 V header and 3.3 V
-header supply methods as mutually exclusive. Supervisor operation therefore
-uses USB No-VBUS Cables when the switched 5 V header supply is active.
-The ESP32-S3 daughter board also requires the optional controllable VBUS
-Adapter Service defined in Section 3.6 when USB OTG host operation is tested.
-
-The Pico-family supplier guidance recommends source isolation when USB and an
-external `VSYS` source may both be present. A diode is the simple prototype
-arrangement; a later daughter board may use the supplier-described P-channel
-MOSFET arrangement where its lower voltage drop is useful.
+| ESP32-C3-DevKitC-02 and DevKitM-1 | Target USB VBUS | Required for the onboard USB-UART/USB connection; do not parallel the documented header-supply alternatives |
+| ESP32 DevKitC V4 | Target USB VBUS | Preserves the onboard USB-UART path; do not parallel the 5 V or 3.3 V header alternatives |
+| ESP32-S3-DevKitC-1 | Selected target USB VBUS input | Preserve the second USB connector's isolation state; OTG-host VBUS remains the separate Adapter Service in Section 3.6 |
+| Olimex ESP32-S3-DevKit-LiPo-EA Rev B | Selected target USB VBUS input | LiPo shall be absent or explicitly isolated during harness-controlled power-removal tests |
+| Raspberry Pi Pico, Pico W, Pico 2 and Pico 2 W | Target USB VBUS | Avoids simultaneous direct drive of `VSYS`; the Debug Probe remains data/debug only |
+| Espruino Pico | Target USB VBUS | Daughter-board mechanics shall provide the accepted USB connection without a parallel `VBAT` source |
+| Seeed XIAO ESP32-C3, ESP32-S3 and RP2040 | Target USB VBUS | Uses the family USB connector and common selector; the board `5V` pin is not driven in parallel |
+| MDBT42Q regulated breakout | `V+` / `Vin` from selected target VBUS | Native USB is absent, so the common selected output supplies the documented 2.5 V to 16 V input; the Target Profile declares its separate host/debug endpoint |
 
 The accepted MDBT42Q target is the regulated breakout board. A bare MDBT42Q
-module instead requires 1.7 V to 3.6 V at `VDD` and is not covered by the
-switched 5 V mapping above.
-
-The completed compatibility targets also accept the service with documented
-adaptation:
-
-| Compatibility target | Supplier-documented external-power connection | Daughter-board mapping |
-|---|---|---|
-| ESP32-C3-DevKitM-1 | `5V` and `GND` header pins | Switched 5 V to `5V` |
-| Seeed Studio XIAO ESP32-S3 | External input through the `5V` pin with a series diode | Switched 5 V through the documented diode arrangement to `5V` |
+module instead requires 1.7 V to 3.6 V at `VDD` and is outside this mapping.
+For every target, prototype validation shall confirm connection order,
+power-off discharge, absence of reverse feed and successful USB enumeration
+after a Supervisor power cycle.
 
 ### A.1 Supplier References
 
@@ -1457,8 +1531,10 @@ flowchart TB
             direction LR
             RackMCP["Rack Control<br/>MCP23017"]
             TargetPowerMonitor["Target Power Monitor<br/>shunt + I2C"]
-            Mode["Operating Mode<br/>SUPERVISOR gate"]
+            Mode["Manual 2x3 two-shunt mode selector<br/>+ static mode gate"]
             Target5Switch["Target 5 V<br/>power switch"]
+            LocalReg["Standalone 5 V-to-3.3 V<br/>local regulator"]
+            SourceSelector["2x3 odd-numbered column<br/>3.3 V source selector"]
             RouteRail["Routing Logic<br/>Supply Rail"]
             Routing["Routing-control<br/>devices"]
             TestSwitch["Test Block 3.3 V<br/>power switch"]
@@ -1471,7 +1547,7 @@ flowchart TB
 
         subgraph Daughter1["Target daughter board"]
             direction LR
-            PowerAdapt["Target-power<br/>adaptation"]
+            VbusSelector["USB data pass-through +<br/>manual VBUS selector"]
             ControlAdapt["Reset / boot<br/>adaptation"]
         end
 
@@ -1509,7 +1585,7 @@ flowchart TB
 
     Ext3 -->|"External 3.3 V"| OtherPositions
     Ext5 -->|"External 5 V"| OtherPositions
-    Hub -.->|"Fixed USB ports<br/>USB data + GND; no VBUS"| OtherPositions
+    Hub -.->|"Fixed USB ports<br/>D+/D- + VBUS to selectors"| OtherPositions
 
 
 
@@ -1520,7 +1596,7 @@ flowchart TB
     Target5Switch -->|"Switched target 5 V"| TargetPowerMonitor
     TargetPowerMonitor -->|"TI_SWITCHED_TARGET_5V"| TI
 
-    Ext3 -->|"External 3.3 V"| RouteRail
+    Ext3 -->|"Supervisor 3.3 V source"| SourceSelector
     RouteRail -->|"Routing Logic 3.3 V"| Routing
     RouteRail -->|"Test Block source 3.3 V"| TestSwitch
     RackMCP -.->|"TEST_BLOCK_POWER_EN"| Mode
@@ -1539,105 +1615,77 @@ flowchart TB
     TI -.->|"Local target routing-control I2C<br/>powered-off protected"| Routing
     TI -.->|"Local target functional I2C<br/>switched-branch protected"| BlockMCP
 
-    TI -->|"Switched target 5 V"| PowerAdapt
-    PowerAdapt -->|"Adapted target supply"| TargetPower
+    TI -->|"TI_SWITCHED_TARGET_5V"| VbusSelector
+    Hub -->|"Host D+/D- + VBUS"| VbusSelector
+    VbusSelector -->|"D+/D- + selected VBUS"| TargetUSB
+    VbusSelector -->|"TI_TARGET_VBUS return"| TI
+    TI -->|"Returned target VBUS"| LocalReg
+    LocalReg -->|"Standalone 3.3 V source"| SourceSelector
+    SourceSelector -->|"Selected ROUTING_LOGIC_3V3"| RouteRail
+    TargetUSB -->|"USB VBUS"| TargetPower
     TargetPower -->|"Regulated target power"| TargetMCU
 
     TI -.->|"Reset / boot request"| ControlAdapt
     ControlAdapt -.->|"Target-specific reset / boot"| TargetMCU
 
-    Hub -.->|"USB data + GND; no VBUS"| TargetUSB
     TargetUSB -.->|"USB data"| TargetMCU
     Supervisor -.->|"Wi-Fi / BLE peer"| TargetMCU
     Mode -.->|"Target-power-off route-safe action"| Routing
-
-
-
-
-    %% Blue lines are USB paths that include power.
-    linkStyle 0,1 stroke:#2563eb,stroke-width:4px
-
-    %% Green lines are 3.3 V power paths.
-    linkStyle 2,3,4,6,7,11,15,23,24,25,28,29,30,40 stroke:#15803d,stroke-width:4px
-
-    %% Red lines are target 5 V and adapted target-power paths.
-    linkStyle 16,18,21,22,38,39 stroke:#b91c1c,stroke-width:4px
-
-    %% Purple lines are the shared open-drain rack interrupt.
-    linkStyle 12,13,14 stroke:#7e22ce,stroke-width:5px
-
-    %% Orange lines are data or control paths.
-    linkStyle 5,8,9,10,17,19,20,26,27,31,32,33,34,35,36,37,41,42,43,44,45,46 stroke:#c2410c,stroke-width:4px,stroke-dasharray:12 6
 ```
 
-Blue lines are powered USB paths, green lines are 3.3 V power paths, red lines
-are target-power paths, purple lines form the shared open-drain rack interrupt
-and wide orange dashed lines are data or control paths. The Grove cable to
-each rack position carries its green `RACK_CONTROL_3V3` path and orange
-rack-control SDA/SCL path; `RACK_INT_N` uses the additional purple conductor.
+The Grove cable to each rack position carries `RACK_CONTROL_3V3` and the
+rack-control SDA/SCL path; `RACK_INT_N` uses the additional interrupt
+conductor. The diagram shows both alternative Routing Logic sources so their
+ownership is visible; the Operating Mode circuit selects only one.
 
-## Appendix C. Rev-A Power Control Implementation
+## Appendix C. Rev-A Power Control Correction
 
-This appendix explains how the current Rev-A schematic implements the
-Operating Mode and 3.3 V rail behaviour defined in Sections 3.1 and 3.2.
-Section 3 remains the behavioural authority.
+The existing Rev-A schematic implements the superseded target-powered
+Standalone arrangement and is not an accepted implementation of Sections 3.1
+and 3.2. The reference designators below describe the intended correction;
+component reuse and final assignments remain subject to schematic review.
+The regulator, input-isolator and 2x3 two-shunt selector architecture and
+parts are resolved; reference assignments remain pending. Section 3 remains
+the behavioural authority.
 
 ### C.1 Operating Mode And Routing Supply
 
 | Device | Function in this design | Specification |
 |---|---|---|
-| `J1001` | A 2x4 header accepting one shunt. Its four rows select `SUPERVISOR`, `STANDALONE EXT`, `STANDALONE` or `OFF`; the `OFF` row asserts no mode signal. | Section 3.1 |
-| `D1001`, `D1002` | Vishay BAT54C-E3-08 dual common-cathode Schottky diodes that decode the three active header rows into `MODE_EXT_SELECTED` and the TPS2116 `MUX_MODE` input without joining the mode signals. | Section 3.2; [BAT54C-E3-08 data sheet](https://www.vishay.com/docs/86410/bat54_bat54a_bat54c_bat54s.pdf) |
-| `D1003` | Diode-ORs `TI_TARGET_3V3` and external 3.3 V into the low-current `MODE_BIAS_3V3` bias rail without connecting the two supplies together. It does not carry Routing Logic or Test Block load current. | Section 3.2; BAT54C-E3-08 data sheet |
-| `Q1001` | A DMN2024UQ-7 logic-level N-channel MOSFET that pulls `MUX_PR1` low when `MODE_EXT_SELECTED` is active. Otherwise `R1002` pulls `MUX_PR1` high from `MODE_BIAS_3V3`. | Section 3.2; [DMN2024UQ data sheet](../implementation/DataSheets/3168380-DMN2024UQ.pdf) |
-| `U1001` | A TPS2116 power multiplexer. `VIN1` receives `TI_TARGET_3V3`, `VIN2` receives external 3.3 V and `VOUT` supplies `ROUTING_LOGIC_3V3`. `MUX_MODE` and `MUX_PR1` produce the Section 3.2 truth table, including the high-impedance `OFF` state. | [TPS2116 data sheet](https://www.ti.com/lit/ds/symlink/tps2116.pdf), Sections 7.3.1 and 7.6.1 |
+| New 2x3 two-shunt selector | Würth `61300621121` straight dual-row 2.54 mm through-hole header with two Würth `60900213421` open-top shunts. Pins 1-3 and 2-4 select Standalone; pins 3-5 and 4-6 select Supervisor. The odd-numbered column selects `LOCAL_3V3` or `EXT_3V3` to `ROUTING_LOGIC_3V3`; the even-numbered column enables the regulator input isolator in Standalone and grounds its control in Supervisor. Change only while unpowered. | [61300621121 data sheet](https://www.we-online.com/components/products/datasheet/61300621121.pdf) and [WR-PHD jumper product family](https://www.we-online.com/en/components/products/BTB_WR_PHD_2_54_MM_JUMPER); both parts rated 3 A; use `Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical`; header and shunts hand-fitted after AISLER manufacture |
+| New regulator-input isolator | `TPS22917DBVR` active-high load switch between `TI_TARGET_VBUS` and the regulator input. `QOD` is tied to its output; `CT` is selected to control input-capacitor charging. | [TPS22917 data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf); 100 nA maximum disabled input current through 85 °C |
+| New regulator | `TPSM828438VCFR` integrated-inductor synchronous buck module. Converts the isolated 5 V input to `LOCAL_3V3`; 600 mA rating, 249 kΩ 1% `VSET`, at least 4.7 µF effective input capacitance and 10 µF nominal output capacitance. | [TPSM82843 product page](https://www.ti.com/product/TPSM82843) and [data sheet](https://www.ti.com/lit/ds/symlink/tpsm82843.pdf); QFN-FCMOD VCF-7 package |
+| Static enable/mode stage | `LOCAL_REG_ENABLE` is fed from `TI_TARGET_VBUS` through 10 kOhm in Standalone, grounded through 10 kOhm in Supervisor and held low by 22 kOhm when unselected. It drives the TPS22917 `ON` input directly. `SN74LVC2G14DBVR`, powered from `ROUTING_LOGIC_3V3`, first inverts it to `MODE_SUPERVISOR` and then inverts that signal to `TEST_BLOCK_AUTO_EN`. Change `R1009` and `R1004` from 100 kOhm to 22 kOhm for guaranteed partial-power low states. The regulator `EN` remains inside the isolated input domain. | [SN74LVC2G14 product page](https://www.ti.com/product/SN74LVC2G14), [data sheet](https://www.ti.com/lit/ds/symlink/sn74lvc2g14.pdf), and Sections 3.1 and 3.2; active-production DBV/SOT-23-6 orderable MPN |
+| Daughter-board VBUS selector | Manual two-position selector: host VBUS or `TI_SWITCHED_TARGET_5V` to target USB VBUS and `TI_TARGET_VBUS`. D+/D-/GND pass through directly. | Sections 3.3 and 3.4; exact MPN, footprint and assembly method pending |
 
-The selected BAT54C-E3-08 has a maximum 0.24 V forward drop at 0.1 mA. The
-100 kOhm decode loads keep the D1001, D1002, D1004 and D1005 paths below that
-test current. At the 3.00 V minimum `TI_TARGET_3V3`, a two-diode path therefore
-remains at or above 2.52 V. This gives at least 1.52 V margin over the 1.0 V
-high threshold of the TPS2116 `MODE` and TPS22917 `ON` inputs. At the 3.23 V
-minimum external supply, the corresponding two-diode level is at least
-2.75 V.
-
-In an external-source mode, the D1001-derived gate voltage is at least
-3.23 V - 0.24 V = 2.99 V. The selected DMN2024UQ-7 guarantees no more than
-29 mOhm on-resistance at 2.5 V gate drive. `R1002` limits its drain current to
-less than 0.34 mA, so the calculated `MUX_PR1` low level is below 0.01 mV,
-far below the TPS2116 0.92 V minimum selection reference. When `Q1001` is off,
-the worst-case target-derived `MUX_PR1` high level is at least
-3.00 V - 0.24 V = 2.76 V, at least 1.68 V above the TPS2116 1.08 V maximum
-selection reference. These calculations close the static Rev-A decode margin;
-the Operating Mode header shall still be changed only while the associated
-supplies are off.
+The previous target-derived bias, TPS2116 and decode-margin calculations are
+superseded. The corrected circuit shall repeat the static threshold analysis
+for the local regulator-enable/mode stage. Both selectors shall be changed
+only while the associated supplies are off.
 
 ### C.2 Test Block Supply
 
 | Device | Function in this design | Specification |
 |---|---|---|
-| `D1004` | Diode-ORs the two Standalone mode signals into `TEST_BLOCK_AUTO_EN`, making Test Block power automatic in both Standalone modes. | Sections 3.1 and 3.2; BAT54C-E3-08 data sheet |
+| Second `SN74LVC2G14DBVR` inverter channel | Inverts `MODE_SUPERVISOR` to derive `TEST_BLOCK_AUTO_EN`; high only while the selected Routing Logic rail is present in Standalone. | Sections 3.1 and 3.2 and the SN74LVC2G14 data sheet |
 | `D1005` | Diode-ORs `TEST_BLOCK_AUTO_EN` with the Supervisor-owned `TEST_BLOCK_POWER_EN` command to form `TEST_BLOCK_SWITCH_EN` without back-feeding either control source. | Sections 3.2, 3.5 and 8.3; BAT54C-E3-08 data sheet |
 | `U1002` | A TPS22917 active-high load switch. `VIN` receives `ROUTING_LOGIC_3V3`; `VOUT` supplies `TEST_BLOCK_3V3`; `ON` receives `TEST_BLOCK_SWITCH_EN`. `QOD` is tied to `VOUT` for controlled output discharge. `C1005`, 2.2 nF, connects from `CT` to `VIN` to control inrush into the accepted 50 µF maximum load. | [TPS22917 data sheet](https://www.ti.com/lit/ds/symlink/tps22917.pdf), Sections 9.3.1 to 9.3.3 |
 
-`R1001`, `R1003` and `R1004` hold the decoded controls low when their sources
-are absent. `R1002` gives `MUX_PR1` its defined high default. `C1001` to
-`C1004` shall be 1 µF, X7R, ±20% or better, rated for at least 10 V and
-implemented in the standard 0603 package. They provide local input and output
-supply bypassing; placement shall satisfy the two TI data sheets and the Rev-A
+The corrected schematic shall retain only control-bias components required by
+the accepted two-position circuit. Obsolete `MUX_MODE`, `MUX_PR1`,
+`MODE_STANDALONE_EXT`, `MODE_BIAS_3V3`, `MODE_EXT_SELECTED` and
+`TI_USB_VBUS_SELECT` circuitry shall be removed. Regulator input and output
+bypassing shall follow its selected manufacturer data sheet and the Rev-A
 layout review.
 `C1005` shall be 2.2 nF C0G/NP0, ±10% or better, rated for at least 10 V and
 implemented in the standard 0603 package. It is a timing capacitor and is not
 part of the switched-load capacitance.
 
-The source-selection implementation is consistent with TI's
-[Power Multiplexing Using Load Switches and eFuses](https://www.ti.com/lit/an/slva811a/slva811a.pdf)
-application report. That report identifies output droop, inrush, reverse
-current and switchover time as coupled design concerns. This harness avoids
-the live-switchover trade-off: Operating Mode is selected only while the
-associated supplies are off, and uninterrupted transfer between
-`TI_TARGET_3V3` and `EXT_3V3` is not a requirement. Rev-A review shall still
-verify source isolation, startup inrush and the resulting
-`ROUTING_LOGIC_3V3` rise for each permitted mode.
+The harness deliberately avoids live switchover. Operating Mode is selected
+only while the associated supplies are off, and uninterrupted transfer between
+the local regulated 3.3 V source and `EXT_3V3` is not a requirement. Rev-A
+review shall verify source isolation, regulator shutdown leakage, startup
+inrush and the resulting `ROUTING_LOGIC_3V3` rise for each permitted mode.
 
 ### C.3 Supervisor Target 5 V Switch
 
@@ -1668,11 +1716,11 @@ SLVSD03, with these design consequences:
   bulk value shall be calculated from rack-source impedance, maximum supported
   target capacitance and the permitted rack-rail disturbance; a small device
   bypass alone is not the bulk reservoir.
-- Disabled-state reverse-current blocking permits ordinary USB VBUS to power
-  the target in Standalone modes without feeding the harness `EXT_5V` rail.
-  While `U1101` is enabled, ordinary USB VBUS or another independent
-  target-side 5 V source shall be absent. The Supervisor USB connection to the
-  target therefore remains a No-VBUS path.
+- Disabled-state reverse-current blocking remains required, but the
+  daughter-board selector now owns host-VBUS versus switched-5-V selection.
+  `U1101` must not be back-fed through `TI_SWITCHED_TARGET_5V`; the selector
+  shall select its output independently and return only selected
+  `TI_TARGET_VBUS` to the harness regulator.
 - The selected part uses the 10-pin 3 mm by 3 mm DRC VSON/SON package with an
   exposed PowerPAD. Pad mapping, the thermal-via pattern and AISLER assembly
   availability shall be confirmed during the Rev-A footprint and BOM Assign
