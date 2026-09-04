@@ -27,6 +27,8 @@ from verify_bench_config import load_config, validate_position
 DIRECTION_POSITIONS = {
     "c3-peer": ("esp32_c3_v1", "esp32_v1"),
     "esp32-peer": ("esp32_v1", "esp32_c3_v1"),
+    "c3-idf4-peer": ("esp32_c3_peer", "esp32_c3_v1"),
+    "c3-idf5-peer": ("esp32_c3_v1", "esp32_c3_peer"),
 }
 ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 
@@ -243,7 +245,7 @@ def main() -> int:
         "channel": 6,
         "udpPort": 41234,
     }
-    if args.direction == "esp32-peer" and args.scenario == "positive":
+    if args.direction in ("esp32-peer", "c3-idf5-peer") and args.scenario == "positive":
         role_config["pingClientOnReceive"] = True
         role_config["holdAfterExchangeMs"] = 4000
 

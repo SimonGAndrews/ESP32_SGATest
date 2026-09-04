@@ -32,9 +32,16 @@ var CFGS = {
     harnessName : "ESP32-C3-DevKitC-02 harness",
     mode : "C3_SPI_FLASH_EXTENDED",
     consoleInfo : "UART0 via board USB-UART on D20/D21",
-    selectorInfo : "SEL_D10 would need flash-CS, but the shared D17 flash-extension path is not fitted on this target",
-    supported : false,
-    skipReason : "spi_extension_not_fitted_on_target"
+    selectorInfo : "SEL_D3=a1-b1 D5/D6/D7 fixed SEL_D10=a2-b2(flash-CS) SEL_D08=closed(after safe boot) J10=open",
+    supported : true,
+    SPI_PORT : "SPI1",
+    SPI_MISO : "D3",
+    SPI_MOSI : "D5",
+    SPI_SCK : "D6",
+    SPI_CS_ADC : "D7",
+    SPI_CS_FLASH : "D10",
+    PWM_OUT : "D8",
+    EXPECT_FLASH_MFR : "ef"
   }
 };
 

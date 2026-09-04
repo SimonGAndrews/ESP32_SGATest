@@ -19,6 +19,16 @@ var CFGS = {
     selectorInfo : "SEL_D35=UART JP_UART_LOOP2=closed SEL_D33=1-2 SEL_D26=1-2",
     SERIAL_A : { tx : "D4", rx : "D35", name : "Serial2" },
     SERIAL_B : { tx : "D14", rx : "D36", name : "Serial3" }
+  },
+  ESP32_C3_V1 : {
+    name : "ESP32_C3_V1",
+    boardIds : ["ESP32C3_IDF4", "ESP32C3_IDF5"],
+    harnessName : "ESP32-C3 DevKitC-02 / ESP32_C3_V1 harness",
+    mode : "C3_SERIAL_UART0_UART1_CROSSLINK",
+    consoleInfo : "native USB Serial/JTAG on D18/D19",
+    selectorInfo : "SEL_D3=a3-b3 SEL_D4=a3-b3 J10_columns_1_2=closed",
+    SERIAL_A : { tx : "D21", rx : "D20", name : "Serial1" },
+    SERIAL_B : { tx : "D3", rx : "D4", name : "Serial2" }
   }
 };
 
