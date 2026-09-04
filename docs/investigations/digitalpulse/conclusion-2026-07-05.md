@@ -86,15 +86,15 @@ So the correct ownership split is:
 
 Earlier investigation notes that lead to this outcome:
 
-- [esp32-c3-idf5-regressions-2026-06-12.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/esp32-c3-idf5-regressions-2026-06-12.md)
-- [mabecker-idf5-pr-draft-2026-06-19.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/mabecker-idf5-pr-draft-2026-06-19.md)
-- [split-submission-plan-2026-06-19.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/digitalpulse/split-submission-plan-2026-06-19.md)
+- [esp32-c3-idf5-regressions-2026-06-12.md](esp32-c3-idf5-regressions-2026-06-12.md)
+- [mabecker-idf5-pr-draft-2026-06-19.md](mabecker-idf5-pr-draft-2026-06-19.md)
+- [split-submission-plan-2026-06-19.md](split-submission-plan-2026-06-19.md)
 
 Related separate Core/watch notes:
 
-- [core-issue-draft-2026-06-19.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/jsinteractive/core-issue-draft-2026-06-19.md)
-- [pico-repro-2026-06-19.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/watch-debounce/pico-repro-2026-06-19.md)
-- [pico-simple-repro-2026-06-19.md](/home/simon/MaBecker/ESP32_SGATest/docs/investigations/watch-debounce/pico-simple-repro-2026-06-19.md)
+- [core-issue-draft-2026-06-19.md](../jsinteractive/core-issue-draft-2026-06-19.md)
+- [pico-repro-2026-06-19.md](../watch-debounce/pico-repro-2026-06-19.md)
+- [pico-simple-repro-2026-06-19.md](../watch-debounce/pico-simple-repro-2026-06-19.md)
 
 ## Current Working Position
 
@@ -103,3 +103,55 @@ For future threads, the important position is:
 - do not treat the ESP32 IDF5 `digitalPulse` regression as still open
 - refer to `MaBecker/Espruino#4` for the preserved target-side fix
 - treat any remaining debounce/watch work as a separate Core issue
+
+## 31 August 2026 Validation Addendum
+
+The classic ESP32 IDF5 comparison at `25dc06c17` initially appeared to show
+that `digitalPulse()` still prevented the structured test from completing.
+Follow-up separated source lineage, physical pulse observation and result
+timer completion.
+
+Source verification confirms that PR #4 is implemented in the exact build
+source:
+
+- merge commit `ca6b3592c` is an ancestor of `25dc06c17`;
+- `jshUtilTimerStart()` and `jshUtilTimerReschedule()` call the ESP32 utility
+  timer implementation;
+- IDF5 rescheduling uses `timer_group_set_alarm_value_in_isr()` and
+  `timer_group_enable_alarm_in_isr()`;
+- `TIMER_FINE_ADJ` uses the integer arithmetic introduced by `dedba55bf`.
+
+The flashed board reported `ESP32_IDF5`, `2v29.58`, commit `25dc06c17`. The
+original narrow V1 check produced the expected non-debounced sequence:
+
+```text
+LoopB states [1,0,1,0]
+PASS LoopB pulse/watch states=[1,0,1,0]
+DONE GPIO_BLOCK1
+```
+
+Instrumentation of the newer structured test then showed that the pulse call
+returned and all four watched edges occurred. The apparent failure was the
+absence of the later result callback under one low-console-activity timing
+shape. Emitting each observed edge changed that timing and allowed the result
+callback to complete. The corrected PR-shaped structured test passed twice:
+
+```text
+INFO pulse_edge=1
+INFO pulse_edge=0
+INFO pulse_edge=1
+INFO pulse_edge=0
+PASS gpio_pulse_states got=[1,0,1,0] expected=[1,0,1,0]
+PASS gpio_pulse_final_low got=0 expected=0
+DONE=gpio_pulse
+```
+
+Therefore:
+
+- PR #4 remains present and effective in the tested IDF5 build;
+- the August comparison did not demonstrate a surviving `digitalPulse()`
+  target regression;
+- the timing-sensitive post-pulse result-callback behaviour is a separate
+  scheduler/sleep-wake observation and is not yet root-caused;
+- later ESP32 sleep/wake changes are a candidate investigation area, not a
+  confirmed cause.

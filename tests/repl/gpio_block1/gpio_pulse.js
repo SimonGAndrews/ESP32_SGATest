@@ -170,33 +170,10 @@ function finish() {
   print("DONE=" + TEST_NAME);
 }
 
-function runPulsePhase() {
-  var states = [];
-  var watchId;
-
-  pinMode(PINS.PULSE_OUT, "output");
-  pinMode(PINS.PULSE_IN, "input");
-  digitalWrite(PINS.PULSE_OUT, 0);
-
-  watchId = addWatch(PINS.PULSE_IN, {repeat:true, edge:"both"}, function(e) {
-    states.push(e.state ? 1 : 0);
-  });
-
-  schedule(20, function() {
-    digitalPulse(PINS.PULSE_OUT, 1, [20, 20, 20]);
-  });
-
-  schedule(260, function() {
-    clearWatch(watchId);
-    metric("gpio_pulse_callbacks", states.length);
-    expectJsonEq("gpio_pulse_states", states, [1, 0, 1, 0]);
-    expectEq("gpio_pulse_final_low", digitalRead(PINS.PULSE_IN), 0);
-    finish();
-  });
-}
-
 function runWritePhase() {
-  var states = [];
+  var writeStates = [];
+  var pulseStates = [];
+  var pulsePhase = false;
   var watchId;
 
   pinMode(PINS.PULSE_OUT, "output");
@@ -204,17 +181,34 @@ function runWritePhase() {
   digitalWrite(PINS.PULSE_OUT, 0);
 
   watchId = addWatch(PINS.PULSE_IN, {repeat:true, edge:"both"}, function(e) {
-    states.push(e.state ? 1 : 0);
+    var state = e.state ? 1 : 0;
+    (pulsePhase ? pulseStates : writeStates).push(state);
+    // Report the pulse at the point it is observed. This directly proves each
+    // transition and avoids relying only on the timing-sensitive later summary.
+    if (pulsePhase) info("pulse_edge", state);
   });
 
   schedule(20, function() { digitalWrite(PINS.PULSE_OUT, 1); });
   schedule(60, function() { digitalWrite(PINS.PULSE_OUT, 0); });
 
   schedule(140, function() {
+    metric("gpio_pulse_write_callbacks", writeStates.length);
+    expectJsonEq("gpio_pulse_write_states", writeStates, [1, 0]);
+    pulsePhase = true;
+  });
+
+  // Schedule the complete pulse check from the initial turn, matching the
+  // proven PR #4 reproducer and keeping test sequencing out of the result.
+  schedule(180, function() {
+    digitalPulse(PINS.PULSE_OUT, 1, [20, 20, 20]);
+  });
+
+  schedule(420, function() {
     clearWatch(watchId);
-    metric("gpio_pulse_write_callbacks", states.length);
-    expectJsonEq("gpio_pulse_write_states", states, [1, 0]);
-    runPulsePhase();
+    metric("gpio_pulse_callbacks", pulseStates.length);
+    expectJsonEq("gpio_pulse_states", pulseStates, [1, 0, 1, 0]);
+    expectEq("gpio_pulse_final_low", digitalRead(PINS.PULSE_IN), 0);
+    finish();
   });
 }
 
