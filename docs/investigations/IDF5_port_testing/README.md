@@ -3,6 +3,11 @@
 This directory contains the detailed source, build and firmware-attribution
 records supporting the concise reports in `docs/IDF5_port_testing/`.
 
+The expedited investigation is closed except for the official-master
+post-merge sanity run defined in
+`docs/handoff/2026-09-04-idf5-classic-validation-status.md`. Subsequent defects
+should be recorded in the normal API-specific investigation area.
+
 The dated Markdown files record the initial functional comparisons, the
 candidate corrections and their pull-request preparation. The build-log
 subdirectories retain raw terminal evidence from the corresponding build

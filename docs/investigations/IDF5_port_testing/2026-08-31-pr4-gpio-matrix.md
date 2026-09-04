@@ -1,5 +1,10 @@
 # PR 4: Restore GPIO Output After Peripheral Use on ESP32 IDF5
 
+## Upstream Outcome
+
+Merged as Espruino PR `#2736` by commit `4ba8157c9` and included in master
+merge `5d79af218`.
+
 ## Submission Details
 
 - Upstream repository: `espruino/Espruino`

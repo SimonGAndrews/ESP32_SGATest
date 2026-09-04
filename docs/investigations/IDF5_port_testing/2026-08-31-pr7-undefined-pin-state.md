@@ -1,5 +1,10 @@
 # PR 7: Support Undefined Pin State During ESP32 Cleanup
 
+## Upstream Outcome
+
+Merged as Espruino PR `#2738` by commit `c1c95ae69` and included in master
+merge `5d79af218`.
+
 ## Submission Details
 
 - Upstream repository: `espruino/Espruino`

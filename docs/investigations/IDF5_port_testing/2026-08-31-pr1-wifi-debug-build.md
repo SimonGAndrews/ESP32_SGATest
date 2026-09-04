@@ -1,5 +1,10 @@
 # PR 1: Fix the ESP32 IDF5 Wi-Fi Debug Build
 
+## Upstream Outcome
+
+Merged as Espruino PR `#2733` by commit `6ad8b4c71` and included in master
+merge `5d79af218`.
+
 ## Submission Details
 
 - Upstream repository: `espruino/Espruino`

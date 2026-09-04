@@ -40,7 +40,7 @@ evaluations that may inform V2.
 Read:
 
 - `docs/handoff/2026-09-04-idf5-classic-validation-status.md` when
-  working on the current Gordon Williams IDF5 validation request
+  working on the post-merge ESP32 master sanity run or its IDF5 evidence
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
 - `docs/design/common-harness-design-and-blocks.md`
 - `docs/design/harness-modes.md`
@@ -63,7 +63,7 @@ repository, not in this harness repository.
 Read:
 
 - `docs/handoff/2026-09-04-idf5-classic-validation-status.md` for the
-  current upstream/MaBecker IDF5 reconciliation and V1 evidence task
+  upstream IDF5 merge outcome and remaining same-source master sanity run
 - `docs/handoff/2026-07-05-espruino-repo-structure.md`
 - `docs/handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md`
 - the relevant document under `docs/investigations/`

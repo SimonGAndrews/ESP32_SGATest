@@ -4,6 +4,11 @@
 
 **Do not push or submit `fix/esp32-idf5-onewire-timing` yet.**
 
+As of the upstream master merge `5d79af218`, this proposal was not submitted
+and is not included. Further OneWire work is now a normal master-line firmware
+investigation and must retain the distinction between reliable discovery and
+unreliable addressed DS18B20 CRC results.
+
 The local critical-section change is a proven improvement to
 `OneWire.search()` on classic ESP32 IDF5, but the final clean-image test shows
 that it does not fully fix addressed DS18B20 reads. A pull request description

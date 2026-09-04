@@ -171,7 +171,7 @@ Key starting documents:
 
 - `AGENTS.md`
 - `docs/handoff/2026-09-04-idf5-classic-validation-status.md` for the
-  current expedited ESP32-family IDF5 work
+  post-IDF5-merge ESP32 master sanity run and its historical evidence
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
 - `docs/design/common-harness-design-and-blocks.md`
 - `docs/design/repl-test-suite-design.md`
@@ -213,18 +213,18 @@ Important conclusions from prior work:
 The current hardware state is that both harness boards are built and their
 initial scripted wiring-check coverage is in place.
 
-The current software state is that the shared functional REPL runner and the
-first shared functional block are now in place and validated across both
-current targets on IDF4:
+The shared functional suite now covers GPIO, watches and pulses, analogue and
+PWM paths, I2C, SPI, OneWire, UART and paired Wi-Fi/BLE behaviour where the V1
+harness and peer hardware support them. It has been used for repeatable classic
+ESP32 master-versus-IDF5 comparisons and for targeted ESP32-C3 evidence. The
+older IDF4 results remain useful comparators rather than the current endpoint.
 
-- `ESP32_C3` / `ESP32C3_IDF4`
-- `ESP32_V1` / `ESP32_IDF4`
-
-The immediate priority is to help establish and validate the current ESP32
-IDF5 upgrade. The first task is to reconcile Gordon Williams' official-repo
-`IDF5` branch with MaBecker's maintained IDF5 line before selecting exact
-build commits. The completed classic ESP32 and ESP32-C3 V1 harnesses will then
-provide repeatable hardware evidence. See
+The expedited ESP32 IDF5 validation supplied build and V1 regression evidence
+that informed Gordon Williams' decision to merge the official `IDF5` branch
+into Espruino `master` at `5d79af218`. The remaining acceptance task is to
+build `BOARD=ESP32` and `BOARD=ESP32_IDF5` from the same current official-master
+commit and run the established suite as a post-merge sanity check. Further
+defects then return to normal Espruino-master investigation. See
 `docs/handoff/2026-09-04-idf5-classic-validation-status.md`.
 
 This work continues block-by-block expansion of the shared functional suite,
@@ -234,11 +234,12 @@ with the aim of:
 - preserving the existing per-target wiring checks as hardware-regression
   references
 - retaining useful legacy and IDF4 comparators for anomaly attribution
-- applying the same shared functional coverage to selected IDF5 commits
+- applying the same shared functional coverage to both ESP32 board targets in
+  current master
 - keeping new tests portable to the future V2 target-map layer
 
-V2 architecture and KiCad implementation remain active but are deliberately
-slowed during the expedited firmware work. The current V2 return point is
+V2 architecture and KiCad implementation remain active and can continue in
+parallel with normal master regression work. The current V2 return point is
 commit `c70e50c`, which established the Rev-A daughter-board foundations. See
 `docs/design/V2Harness/README.md` for the V2 entry point.
 

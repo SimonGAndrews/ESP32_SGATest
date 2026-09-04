@@ -63,7 +63,7 @@ from historical continuity records.
 
 | Workstream | Entry point |
 |---|---|
-| Current ESP32-family IDF5 validation | `handoff/2026-09-04-idf5-classic-validation-status.md` |
+| ESP32 post-IDF5-merge sanity | `handoff/2026-09-04-idf5-classic-validation-status.md` |
 | General V1 bench tests and functional runners | `handoff/2026-06-25-esp32-family-tests.md` |
 | Firmware investigations | `handoff/2026-07-05-espruino-repo-structure.md`, `handoff/2026-07-20-esp32-firmware-lineage-and-test-interpretation.md` and the relevant `investigations/` area |
 | V2 architecture and Target Interface | `design/V2Harness/README.md` and `handoff/2026-07-17-v2-services-and-routing.md` |

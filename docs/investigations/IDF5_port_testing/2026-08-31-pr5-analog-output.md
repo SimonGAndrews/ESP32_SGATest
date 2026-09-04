@@ -1,5 +1,14 @@
 # PR 5: Restore PWM and DAC Output on ESP32 IDF5
 
+## Upstream Outcome
+
+Incorporated from Espruino PR `#2737` as patch-equivalent commits
+`919ac70f1`, `176614e08` and `b0fa32b4b`, then included in master merge
+`5d79af218`. Gordon subsequently replaced hard-coded DAC GPIO numbers with
+`pinInfo` metadata and explicit DAC pin-state tracking in `43fb9e08d`. He
+requested a fresh `ESP32_IDF5` DAC rerun after that portability change, so the
+post-merge sanity suite must cover DAC output and GPIO reuse explicitly.
+
 ## Submission Details
 
 - Upstream repository: `espruino/Espruino`

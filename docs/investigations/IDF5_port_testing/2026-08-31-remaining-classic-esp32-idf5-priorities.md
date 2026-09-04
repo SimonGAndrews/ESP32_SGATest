@@ -2,6 +2,13 @@
 
 Date: 31 August 2026
 
+## Subsequent Outcome
+
+All four submission-ready corrections described below were incorporated into
+the final IDF5 tip and merged into Espruino master at `5d79af218`. The held
+OneWire proposal was not submitted and is not included. This document
+otherwise preserves the pre-submission status and validation evidence.
+
 ## Conclusion
 
 Four remaining corrections are bench-validated and prepared as focused

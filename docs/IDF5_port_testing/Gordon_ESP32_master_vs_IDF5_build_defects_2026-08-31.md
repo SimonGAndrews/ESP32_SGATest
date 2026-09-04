@@ -3,6 +3,13 @@
 - Date: 31 August 2026
 For: Gordon Williams
 
+> **Subsequent status, 4 September 2026:** This report records the pre-merge
+> comparison supplied to Gordon as input to the IDF5 merge decision. The
+> official IDF5 branch, including submitted corrections #2733 through #2738,
+> was merged into Espruino master at `5d79af218`. The held OneWire proposal was
+> not submitted. A same-source post-merge sanity run remains outstanding; the
+> results below have not been rewritten.
+
 ## Objective
 
 Compare the user-visible Espruino peripheral behaviour of the current classic

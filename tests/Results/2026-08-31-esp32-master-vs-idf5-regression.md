@@ -6,6 +6,13 @@
 - Control port: `/dev/ttyUSB0`
 Target MAC: `08:b6:1f:70:14:e8`
 
+> **Subsequent status, 4 September 2026:** This is the retained pre-merge
+> evidence that supported the upstream decision. The official IDF5 branch was
+> merged into Espruino master at `5d79af218`, including all submitted
+> corrective PRs. The held OneWire timing proposal was not included. The final
+> merge tree and Gordon's follow-up DAC pin-metadata change require a new
+> same-source sanity record rather than alteration of these results.
+
 ## Conclusion
 
 The corrected IDF5 build is broadly comparable with current master across the
