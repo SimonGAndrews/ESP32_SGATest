@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "bench_id": "classic_idf5_validation_2026_08_19",
+  "operating_mode": "STANDALONE",
+  "power_configuration": {
+    "target_supply": "usb_vbus",
+    "usb_cables": "fully_connected_with_vbus",
+    "external_target_power": false,
+    "harness_supervisor": false,
+    "controlled_power_cycle_available": false
+  },
+  "identity_policy": {
+    "path_namespace": "/dev/serial/by-path",
+    "require_unique_resolved_devices": true,
+    "verify_before_test": true
+  },
+  "positions": [
+    {
+      "position_id": "esp32_v1",
+      "label": "ESP32 V1 harness - Gordon IDF5 candidate",
+      "expected_target_profile": "esp32_devkitc_v4_idf5",
+      "control_role": "console",
+      "usb_roles": {
+        "console": {
+          "path": "/dev/serial/by-path/pci-0000:00:14.0-usb-0:2.3:1.0-port0",
+          "baud": 115200
+        }
+      },
+      "expected_firmware": {
+        "board": "ESP32_IDF5",
+        "version": "2v29.58",
+        "git_commit": "25dc06c17"
+      },
+      "required_capabilities": [
+        "wifi",
+        "ble"
+      ]
+    },
+    {
+      "position_id": "esp32_c3_v1",
+      "label": "Olimex ESP32-C3-DevKit-Lipo Rev B IDF4 radio peer",
+      "expected_target_profile": "olimex_esp32_c3_devkit_lipo_rev_b_idf4",
+      "control_role": "console",
+      "usb_roles": {
+        "console": {
+          "path": "/dev/serial/by-path/pci-0000:00:14.0-usb-0:2.4:1.0",
+          "baud": 115200
+        }
+      },
+      "expected_firmware": {
+        "board": "ESP32C3_IDF4",
+        "version": "2v29.274",
+        "git_commit": "b905c8099"
+      },
+      "required_capabilities": [
+        "wifi",
+        "ble"
+      ]
+    }
+  ]
+}
