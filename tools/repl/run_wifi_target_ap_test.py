@@ -42,6 +42,11 @@ STATIC_STATION_SCRIPT = Path("tests/WIFI_BLE/wifi/wifi_station_static_ip.js")
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--config",
+        type=Path,
+        default=CONFIG_PATH,
+    )
+    parser.add_argument(
         "--target-board",
         choices=tuple(TARGET_PAIRS),
         default="c3",
@@ -53,7 +58,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    config = load_config(CONFIG_PATH)
+    config = load_config(args.config)
     target_position_id, supervisor_position_id = TARGET_PAIRS[args.target_board]
     target_position = get_position(config, target_position_id)
     supervisor_position = get_position(config, supervisor_position_id)
@@ -82,7 +87,7 @@ def main() -> int:
         "RUNNER test="
         + ("wifi_station_static_ip" if static_station else "wifi_target_ap_service")
     )
-    print(f"RUNNER config={CONFIG_PATH}")
+    print(f"RUNNER config={args.config}")
     print(f"RUNNER run_id={run_id}")
     print(f"RUNNER target_board={args.target_board}")
     print(f"RUNNER station_address={args.station_address}")
