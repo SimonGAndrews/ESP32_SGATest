@@ -39,7 +39,7 @@ specifications rather than relying on conversation history.
 
 | Workstream | Current handover | Use |
 |---|---|---|
-| Current ESP32-family IDF5 validation | `2026-08-17-idf5-expedited-esp32-family-validation.md` | Reconcile Gordon's official `IDF5` branch with MaBecker's maintained line, then use the V1 ESP32 and C3 harnesses for repeatable evidence while improving V2-portable shared tests |
+| Current ESP32-family IDF5 validation | `2026-09-04-idf5-classic-validation-status.md` | Continue from the completed classic ESP32 master-versus-corrected-IDF5 comparison, investigate the remaining Wi-Fi and OneWire failures, and retest the submitted corrections after merge |
 | General V1 bench testing and functional runners | `2026-06-25-esp32-family-tests.md` | Generic family-test model and preserved target constraints; its July 12 overlay points to the root README and `tests/repl/` for newer progress |
 | Firmware repository selection | `2026-07-05-espruino-repo-structure.md` | Select the correct local Espruino checkout and workflow |
 | ESP32 firmware lineage and evidence interpretation | `2026-07-20-esp32-firmware-lineage-and-test-interpretation.md` | Cross-build confidence, comparison matrix and anomaly-attribution rules for bench and firmware threads |

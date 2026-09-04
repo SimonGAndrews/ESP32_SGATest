@@ -170,7 +170,7 @@ tests/repl/                Portable community-facing REPL test scripts
 Key starting documents:
 
 - `AGENTS.md`
-- `docs/handoff/2026-08-17-idf5-expedited-esp32-family-validation.md` for the
+- `docs/handoff/2026-09-04-idf5-classic-validation-status.md` for the
   current expedited ESP32-family IDF5 work
 - `docs/handoff/2026-06-25-esp32-family-tests.md`
 - `docs/design/common-harness-design-and-blocks.md`
@@ -225,7 +225,7 @@ IDF5 upgrade. The first task is to reconcile Gordon Williams' official-repo
 `IDF5` branch with MaBecker's maintained IDF5 line before selecting exact
 build commits. The completed classic ESP32 and ESP32-C3 V1 harnesses will then
 provide repeatable hardware evidence. See
-`docs/handoff/2026-08-17-idf5-expedited-esp32-family-validation.md`.
+`docs/handoff/2026-09-04-idf5-classic-validation-status.md`.
 
 This work continues block-by-block expansion of the shared functional suite,
 with the aim of:
