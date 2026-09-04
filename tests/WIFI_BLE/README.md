@@ -52,6 +52,58 @@ coupled.
 
 Results belong under `tests/Results/WIFI_BLE_Results/`.
 
+## Initial BLE Supervisor Peer Tests
+
+The BLE tests use a generated name and run token so the host can correlate the
+two serial transcripts with the peer observed over the air. No event-handshake
+wiring or bench modification is required.
+
+Run advertising and filtered discovery with the C3 as the Supervisor Peer:
+
+```bash
+python3 tools/repl/run_ble_peer_test.py
+```
+
+Reverse the radio roles:
+
+```bash
+python3 tools/repl/run_ble_peer_test.py --direction esp32-peer
+```
+
+Both directions pass. The scanner requires exactly one matching name, a real
+over-air device address, numeric RSSI and the exact run payload under service
+UUID `0xFFF0`.
+
+The GATT test adds connection, custom-service and characteristic discovery, a
+run-bound read, two writes and disconnection:
+
+```bash
+python3 tools/repl/run_ble_gatt_test.py
+python3 tools/repl/run_ble_gatt_test.py --direction esp32-peer
+```
+
+In `c3-peer`, the C3 is the GATT peripheral and the classic ESP32 is the
+central. In `esp32-peer`, those radio roles reverse. Both directions pass the
+complete transaction and cleanup. Each role first forces its existing
+`Serial1` console with `E.setConsole(..., {force:true})`; otherwise the shared
+ESP32 BLE connection handler automatically moves the REPL to Bluetooth while
+the default BLE UART service is enabled. The role restores automatic console
+selection after the test.
+
+Scripts and runners:
+
+- `ble/ble_capability_survey.js`
+- `ble/ble_supervisor_advertiser.js`
+- `ble/ble_target_filtered_scan.js`
+- `ble/ble_supervisor_gatt_peer.js`
+- `ble/ble_target_gatt_client.js`
+- `tools/repl/run_ble_peer_test.py`
+- `tools/repl/run_ble_gatt_test.py`
+
+Results and interpretation are in
+`tests/Results/WIFI_BLE_Results/2026-07-20-ble-supervisor-peer-initial.md`.
+Firmware anomalies are registered under `docs/investigations/ble/`.
+
 ## Initial Wi-Fi Supervisor Peer Test
 
 The first two-board Wi-Fi proof assigns the roles as follows:
