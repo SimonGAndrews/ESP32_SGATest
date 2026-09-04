@@ -75,11 +75,12 @@ def decode_temp_c(scratch: bytes) -> float:
     return raw / 16.0
 
 
-def make_setup_js(pin: str) -> str:
+def make_setup_js(pin: str, family_prefix: str) -> str:
     return f"""
 echo(false);
 pinMode({pin}, 'input');
 var ow = new OneWire({pin});
+var __OW_FAMILY_PREFIX = {json.dumps(family_prefix.lower())};
 function bytesToHex(a) {{
   return a.map(function(x) {{ return ("0" + x.toString(16)).slice(-2); }}).join("");
 }}
@@ -106,7 +107,13 @@ function ds18b20Run(roms) {{
   }}
   return result;
 }}
-var __OW_ROMS = ow.search();
+function familyMatch(rom) {{
+  return typeof rom === "string" &&
+    rom.slice(0, __OW_FAMILY_PREFIX.length).toLowerCase() === __OW_FAMILY_PREFIX;
+}}
+var __OW_ALL_ROMS = ow.search();
+var __OW_ROMS = __OW_ALL_ROMS.filter(familyMatch);
+print("OW_INIT_ALL=" + JSON.stringify(__OW_ALL_ROMS));
 print("OW_INIT=" + JSON.stringify(__OW_ROMS));
 echo(true);
 print("READY_DS18B20_SOAK");
@@ -130,9 +137,14 @@ def main() -> int:
     parser.add_argument("--pin", default="D0")
     parser.add_argument("--baud", type=int, default=115200)
     parser.add_argument("--runs", type=int, default=20)
+    parser.add_argument(
+        "--family-prefix",
+        default="28",
+        help="ROM family prefix to keep from the initial OneWire search (default: 28 for DS18B20)",
+    )
     args = parser.parse_args()
 
-    setup_js = make_setup_js(args.pin)
+    setup_js = make_setup_js(args.pin, args.family_prefix)
 
     with serial.Serial(args.port, args.baud, timeout=0.1) as ser:
         ser.reset_input_buffer()
@@ -148,6 +160,7 @@ def main() -> int:
         print(f"Version: {version}")
         print(f"Pin: {args.pin}")
         print(f"Runs: {args.runs}")
+        print(f"Family prefix: {args.family_prefix.lower()}")
 
         ser.reset_input_buffer()
         ser.write((setup_js + "\n").encode("utf-8"))
@@ -159,17 +172,31 @@ def main() -> int:
           print("Missing setup completion marker from REPL.", file=sys.stderr)
           return 2
 
+        init_all_match = re.search(r"^OW_INIT_ALL=(.+)$", output, re.M)
         init_match = re.search(r"^OW_INIT=(.+)$", output, re.M)
         if not init_match:
             print("Missing OW_INIT payload.", file=sys.stderr)
+            return 2
+        if not init_all_match:
+            print("Missing OW_INIT_ALL payload.", file=sys.stderr)
+            return 2
+        try:
+            all_roms = json.loads(init_all_match.group(1))
+        except json.JSONDecodeError:
+            print("Bad OW_INIT_ALL payload.", file=sys.stderr)
             return 2
         try:
             roms = json.loads(init_match.group(1))
         except json.JSONDecodeError:
             print("Bad OW_INIT payload.", file=sys.stderr)
             return 2
-        if not isinstance(roms, list):
-            print("OW_INIT is not a list.", file=sys.stderr)
+        if not isinstance(all_roms, list) or not isinstance(roms, list):
+            print("OW_INIT payloads are not lists.", file=sys.stderr)
+            return 2
+        print(f"Initial all ROMs: {all_roms}")
+        print(f"Initial filtered ROMs: {roms}")
+        if not roms:
+            print("No filtered ROMs found for requested family prefix.", file=sys.stderr)
             return 2
 
         failed_runs = 0
