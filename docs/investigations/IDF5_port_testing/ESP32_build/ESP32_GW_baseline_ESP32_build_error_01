@@ -1,0 +1,878 @@
+Done! You can now compile ESP-IDF projects.
+Go to the project directory and run:
+
+  idf.py build
+simon@OptiPlex3050:~/MaBecker/Espruino_IDF5_Gordon_validation$ make BOARD=ESP32 clean
+Cleaning targets
+simon@OptiPlex3050:~/MaBecker/Espruino_IDF5_Gordon_validation$ make BOARD=ESP32  RELEASE=1 flash
+================================== Generating platform configs
+================================== Generating pin info
+================================== Generating JS wrappers
+WRAPPERSOURCES = src/jswrap_array.c src/jswrap_arraybuffer.c src/jswrap_dataview.c src/jswrap_date.c src/jswrap_error.c src/jswrap_functions.c src/jswrap_json.c src/jswrap_number.c src/jswrap_object.c src/jswrap_regexp.c src/jswrap_timer.c src/jswrap_string.c src/jswrap_modules.c src/jswrap_math.c src/jswrap_espruino.c src/jswrap_flash.c src/jswrap_interactive.c src/jswrap_io.c src/jswrap_pin.c src/jswrap_pipe.c src/jswrap_process.c src/jswrap_onewire.c src/jswrap_promise.c src/jswrap_serial.c src/jswrap_storage.c src/jswrap_spi_i2c.c src/jswrap_stepper.c src/jswrap_stream.c src/jswrap_waveform.c libs/compression/jswrap_heatshrink.c libs/filesystem/jswrap_fs.c libs/filesystem/jswrap_file.c libs/graphics/jswrap_graphics.c libs/network/jswrap_net.c libs/network/http/jswrap_http.c libs/network/js/jswrap_jsnetwork.c libs/network/jswrap_wifi.c libs/network/esp32/jswrap_esp32_network.c targets/esp32/jswrap_esp32.c libs/network/telnet/jswrap_telnet.c libs/bluetooth/jswrap_bluetooth.c libs/crypto/jswrap_crypto.c libs/neopixel/jswrap_neopixel.c
+================================== Generating pin info
+DEFINES = -DGIT_COMMIT=391070be2 -DNO_ASSERT -DRELEASE -DBUILDNUMBER="41" -DESP32 -DESP_PLATFORM -DESP32=1 -DESP_STACK_SIZE=25000 -DJSVAR_MALLOC -DUSE_FONT_6X8 -DUSE_DEBUGGER -DUSE_TAB_COMPLETE -DUSE_HEATSHRINK -DUSE_FILESYSTEM -DUSE_GRAPHICS -DUSE_NET -DUSE_NETWORK_JS -DUSE_ESP32 -DUSE_TELNET -DBLUETOOTH -DUSE_CRYPTO -DMBEDTLS_CIPHER_MODE_CTR -DMBEDTLS_CIPHER_MODE_CBC -DMBEDTLS_CIPHER_MODE_CFB -DUSE_SHA256 -DUSE_SHA512 -DUSE_TLS -DUSE_AES -DUSE_NEOPIXEL -DESP32 -DEMBEDDED
+CC obj/src/jslex.o
+CC obj/src/jsflags.o
+CC obj/src/jsvar.o
+src/jsvar.c: In function 'jsvSetFirstChild':
+src/jsvar.c:81:75: warning: conversion from 'JsVarRef' {aka 'short unsigned int'} to 'short unsigned int:14' may change value [-Wconversion]
+   81 | void jsvSetFirstChild(JsVar *v, JsVarRef r) { v->varData.ref.firstChild = r; }
+      |                                                                           ^
+src/jsvar.c: In function 'jsvSetLastChild':
+src/jsvar.c:82:73: warning: conversion from 'JsVarRef' {aka 'short unsigned int'} to 'short unsigned int:14' may change value [-Wconversion]
+   82 | void jsvSetLastChild(JsVar *v, JsVarRef r) { v->varData.ref.lastChild = r; }
+      |                                                                         ^
+src/jsvar.c: In function 'jsvSetNextSibling':
+src/jsvar.c:83:77: warning: conversion from 'JsVarRef' {aka 'short unsigned int'} to 'short unsigned int:14' may change value [-Wconversion]
+   83 | void jsvSetNextSibling(JsVar *v, JsVarRef r) { v->varData.ref.nextSibling = r; }
+      |                                                                             ^
+src/jsvar.c: In function 'jsvSetPrevSibling':
+src/jsvar.c:84:77: warning: conversion from 'JsVarRef' {aka 'short unsigned int'} to 'short unsigned int:14' may change value [-Wconversion]
+   84 | void jsvSetPrevSibling(JsVar *v, JsVarRef r) { v->varData.ref.prevSibling = r; }
+      |                                                                             ^
+src/jsvar.c: In function 'jsvSetRefs':
+src/jsvar.c:87:73: warning: conversion from 'JsVarRefCounter' {aka 'short unsigned int'} to 'unsigned char' may change value [-Wconversion]
+   87 | void jsvSetRefs(JsVar *v, JsVarRefCounter refs) { v->varData.ref.refs = refs; }
+      |                                                                         ^~~~
+src/jsvar.c: In function 'jsvIsUTF8String':
+src/jsvar.c:139:67: warning: unused variable 'f' [-Wunused-variable]
+  139 | bool jsvIsUTF8String(const JsVar *v) { if (!v) return false; char f = v->flags&JSV_VARTYPEMASK; return JSV_IS_UNICODE_STRING(f); } ///< Just a unicode string (UTF8 JsVar, pointing to a string)
+      |                                                                   ^
+CC obj/src/jsvariterator.o
+src/jsvar.c: In function 'jsvNewNativeString':
+src/jsvar.c:1243:11: warning: comparison between pointer and integer
+ 1243 |   if (ptr >= FLASH_START && (ptr < FLASH_START+FLASH_TOTAL))
+      |           ^~
+src/jsvar.c:1243:34: warning: comparison between pointer and integer
+ 1243 |   if (ptr >= FLASH_START && (ptr < FLASH_START+FLASH_TOTAL))
+      |                                  ^
+src/jsvar.c: In function 'jsvNewArrayBufferFromString':
+src/jsvar.c:1268:37: warning: conversion from 'unsigned int' to 'unsigned int:24' may change value [-Wconversion]
+ 1268 |   arr->varData.arraybuffer.length = (JsVarArrayBufferLength)lengthOrZero;
+      |                                     ^
+CC obj/src/jsutils.o
+src/jsvar.c: In function 'jsvNewFromStringVar':
+src/jsvar.c:2037:50: warning: passing argument 1 of 'jsvNewFlatStringFromStringVar' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+ 2037 |       JsVar *var = jsvNewFlatStringFromStringVar(str, stridx, length);
+      |                                                  ^~~
+src/jsvar.c:1982:45: note: expected 'JsVar *' {aka 'struct JsVarStruct *'} but argument is of type 'const JsVar *' {aka 'const struct JsVarStruct *'}
+ 1982 | JsVar *jsvNewFlatStringFromStringVar(JsVar *var, size_t stridx, size_t maxLength) {
+      |                                      ~~~~~~~^~~
+src/jsvar.c: In function 'jsvConvertFromUTF8Index':
+src/jsvar.c:2146:36: warning: unused parameter 'str' [-Wunused-parameter]
+ 2146 | int jsvConvertFromUTF8Index(JsVar *str, int idx) {
+      |                             ~~~~~~~^~~
+src/jsvar.c: In function 'jsvConvertToUTF8Index':
+src/jsvar.c:2151:34: warning: unused parameter 'str' [-Wunused-parameter]
+ 2151 | int jsvConvertToUTF8Index(JsVar *str, int idx) {
+      |                           ~~~~~~~^~~
+src/jsutils.c: In function 'clipi8':
+src/jsutils.c:986:22: warning: unsigned conversion from 'int' to 'char' changes value from '-128' to '128' [-Wsign-conversion]
+  986 |   if (x<-128) return -128;
+      |                      ^
+src/jsvar.c: In function '_jsvDefragment_moveReferences':
+src/jsvar.c:4422:15: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4422 |         vr += (unsigned int)jsvGetFlatStringBlocks(v); // skip forward
+      |               ^
+src/jsvar.c: In function 'jsvDefragment':
+src/jsvar.c:4456:14: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4456 |         i += (unsigned int)jsvGetFlatStringBlocks(v); // skip forward (loop will add 1 too)
+      |              ^
+src/jsvar.c:4468:24: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4468 |         defragToRef += 1+(unsigned int)jsvGetFlatStringBlocks(defragTo); // skip forward
+      |                        ^
+src/jsvar.c:4501:46: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4501 |                 if ((_jsvGetAddressOf(fsToRef+i)->flags&JSV_VARTYPEMASK)!=JSV_UNUSED) {
+      |                                       ~~~~~~~^~
+src/jsvar.c:4503:30: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4503 |                   fsToRef += i; // jump to this used block
+      |                              ^
+src/jsvar.c:4512:30: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4512 |                   fsToRef += 1+(unsigned int)jsvGetFlatStringBlocks(v); // skip forward
+      |                              ^
+src/jsvar.c:4533:26: warning: conversion from 'unsigned int' to 'JsVarRef' {aka 'short unsigned int'} may change value [-Wconversion]
+ 4533 |         defragFromRef += blocksNeeded-1; // skip forward (for loop adds 1)
+      |                          ^~~~~~~~~~~~
+CC obj/src/jsnative.o
+CC obj/src/jsparse.o
+CC obj/gen/jswrapper.o
+CC obj/src/jsflash.o
+src/jsflash.c: In function 'jsfCacheClearFile':
+src/jsflash.c:127:43: warning: unused parameter 'name' [-Wunused-parameter]
+  127 | static void jsfCacheClearFile(JsfFileName name) {}
+      |                               ~~~~~~~~~~~~^~~~
+src/jsflash.c: In function 'jsfCacheFind':
+src/jsflash.c:128:42: warning: unused parameter 'name' [-Wunused-parameter]
+  128 | static uint32_t jsfCacheFind(JsfFileName name, JsfFileHeader *header) { return JSF_CACHE_NOT_FOUND; }
+      |                              ~~~~~~~~~~~~^~~~
+src/jsflash.c:128:63: warning: unused parameter 'header' [-Wunused-parameter]
+  128 | static uint32_t jsfCacheFind(JsfFileName name, JsfFileHeader *header) { return JSF_CACHE_NOT_FOUND; }
+      |                                                ~~~~~~~~~~~~~~~^~~~~~
+src/jsflash.c: In function 'jsfCachePut':
+src/jsflash.c:129:40: warning: unused parameter 'header' [-Wunused-parameter]
+  129 | static void jsfCachePut(JsfFileHeader *header, uint32_t addr) { }
+      |                         ~~~~~~~~~~~~~~~^~~~~~
+src/jsflash.c:129:57: warning: unused parameter 'addr' [-Wunused-parameter]
+  129 | static void jsfCachePut(JsfFileHeader *header, uint32_t addr) { }
+      |                                                ~~~~~~~~~^~~~
+src/jsflash.c: In function 'jsfGetBankEndAddress':
+src/jsflash.c:203:47: warning: unused parameter 'addr' [-Wunused-parameter]
+  203 | static uint32_t jsfGetBankEndAddress(uint32_t addr) {
+      |                                      ~~~~~~~~~^~~~
+src/jsflash.c: In function 'jsfEraseFileInternal':
+src/jsflash.c:283:77: warning: unused parameter 'createFilenameTable' [-Wunused-parameter]
+  283 | static void jsfEraseFileInternal(uint32_t addr, JsfFileHeader *header, bool createFilenameTable) {
+      |                                                                             ^
+src/jsflash.c: In function 'jsvIsDriveC':
+src/jsflash.c:658:30: warning: unused parameter 'drive' [-Wunused-parameter]
+  658 | static bool jsvIsDriveC(char drive) {
+      |                         ~~~~~^~~~~
+src/jsflash.c: In function 'jsfStripDriveFromName':
+src/jsflash.c:671:59: warning: unused parameter 'explicitOnly' [-Wunused-parameter]
+  671 | static char jsfStripDriveFromName(JsfFileName *name, bool explicitOnly){
+      |                                                           ^
+src/jsflash.c: In function 'jsfGetDriveBankAddress':
+src/jsflash.c:691:34: warning: unused parameter 'drive' [-Wunused-parameter]
+  691 | void jsfGetDriveBankAddress(char drive, uint32_t *bankStartAddr, uint32_t *bankEndAddr){
+      |                             ~~~~~^~~~~
+src/jsflash.c: In function '_jsfCreateFile':
+src/jsflash.c:710:8: warning: unused variable 'explicitDriveName' [-Wunused-variable]
+  710 |   bool explicitDriveName = jsvIsDriveNameExplicit(&name);
+      |        ^~~~~~~~~~~~~~~~~
+src/jsflash.c: In function 'jsfBankFindFile':
+src/jsflash.c:789:64: warning: unused parameter 'bankEndAddress' [-Wunused-parameter]
+  789 | static uint32_t jsfBankFindFile(uint32_t bankAddress, uint32_t bankEndAddress, JsfFileName name, JsfFileHeader *returnedHeader) {
+      |                                                       ~~~~~~~~~^~~~~~~~~~~~~~
+src/jsflash.c: In function 'jsfBankFindFileFromAddr':
+src/jsflash.c:881:72: warning: unused parameter 'bankEndAddress' [-Wunused-parameter]
+  881 | static uint32_t jsfBankFindFileFromAddr(uint32_t bankAddress, uint32_t bankEndAddress, uint32_t containsAddr, JsfFileHeader *returnedHeader) {
+      |                                                               ~~~~~~~~~^~~~~~~~~~~~~~
+src/jsflash.c: In function 'jsfBankListFilesHandleFile':
+src/jsflash.c:1171:26: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'JsVarInt' {aka 'int'} may change the sign of the result [-Wsign-conversion]
+ 1171 |     *hash = *hash ^ addr ^ jsvGetIntegerAndUnLock(jswrap_espruino_CRC32(v)); // apply filename
+      |                          ^
+src/jsflash.c: At top level:
+src/jsflash.c:1477:13: warning: 'jsfResetStorage_progress' defined but not used [-Wunused-function]
+ 1477 | static void jsfResetStorage_progress(unsigned char *buf, uint32_t addr, uint32_t len) {
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+src/jsflash.c:658:13: warning: 'jsvIsDriveC' defined but not used [-Wunused-function]
+  658 | static bool jsvIsDriveC(char drive) {
+      |             ^~~~~~~~~~~
+CC obj/src/jspin.o
+CC obj/src/jsinteractive.o
+src/jsinteractive.c: In function 'jsiConsolePrintf':
+src/jsinteractive.c:317:13: warning: cast between incompatible function types from 'void (*)(const char *)' to 'void (*)(const char *, void *)' [-Wcast-function-type]
+  317 |   vcbprintf((vcbprintf_callback)jsiConsolePrint,0, fmt, argp);
+      |             ^
+src/jsinteractive.c: In function 'jsiCheckErrors':
+src/jsinteractive.c:1272:26: warning: unused parameter 'wasREPL' [-Wunused-parameter]
+ 1272 | void jsiCheckErrors(bool wasREPL) {
+      |                          ^
+src/jsinteractive.c: In function 'jsiHandleConsoleChar':
+src/jsinteractive.c:1916:24: warning: unsigned conversion from 'int' to 'unsigned int' changes value from '-6145' to '4294961151' [-Wsign-conversion]
+ 1916 |       execInfo.execute &= ~EXEC_CTRL_C_MASK; // if we got Ctrl-C, ignore it
+      |                        ^~
+src/jsinteractive.c: In function 'jsiHandleIOEventForSerial':
+src/jsinteractive.c:2253:16: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2253 |   return length+2;
+      |          ~~~~~~^~
+src/jsinteractive.c:2246:63: warning: unused parameter 'eventFlags' [-Wunused-parameter]
+ 2246 | int jsiHandleIOEventForSerial(JsVar *usartClass, IOEventFlags eventFlags, uint8_t *data, unsigned int length) {
+      |                                                  ~~~~~~~~~~~~~^~~~~~~~~~
+src/jsinteractive.c: In function 'jsiIdle':
+src/jsinteractive.c:2284:45: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2284 |       jsiHandleIOEventForConsole(eventData, eventLen);
+      |                                             ^~~~~~~~
+src/jsinteractive.c:2309:47: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2309 |       jstOnCustomEvent(eventFlags, eventData, eventLen);
+      |                                               ^~~~~~~~
+src/jsinteractive.c:2310:47: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2310 |       jswOnCustomEvent(eventFlags, eventData, eventLen);
+      |                                               ^~~~~~~~
+src/jsinteractive.c:2313:50: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2313 |       maxEvents -= jsble_exec_pending(eventData, eventLen);
+      |                                                  ^~~~~~~~
+src/jsinteractive.c: In function 'jsiDebuggerLoop':
+src/jsinteractive.c:2901:47: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2901 |         jsiHandleIOEventForConsole(eventData, eventLen);
+      |                                               ^~~~~~~~
+src/jsinteractive.c:2909:45: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+ 2909 |       jsiHandleIOEventForConsole(eventData, eventLen);
+      |                                             ^~~~~~~~
+CC obj/src/jsdevices.o
+CC obj/src/jstimer.o
+src/jsdevices.c:450:1: warning: ignoring attribute 'section (".iram1.3")' because it conflicts with previous 'section (".iram1.0")' [-Wattributes]
+  450 | bool CALLED_FROM_INTERRUPT jshPushEvent(IOEventFlags evt, uint8_t *data, unsigned int length) {
+      | ^~~~
+In file included from src/jsdevices.c:15:
+src/jsdevices.h:191:28: note: previous declaration here
+  191 | bool CALLED_FROM_INTERRUPT jshPushEvent(IOEventFlags evt, uint8_t *data, unsigned int length);
+      |                            ^~~~~~~~~~~~
+src/jsdevices.c:484:1: warning: ignoring attribute 'section (".iram1.4")' because it conflicts with previous 'section (".iram1.1")' [-Wattributes]
+  484 | bool CALLED_FROM_INTERRUPT jshPushCustomEvent(IOCustomEventFlags customFlags) {
+      | ^~~~
+src/jsdevices.h:193:28: note: previous declaration here
+  193 | bool CALLED_FROM_INTERRUPT jshPushCustomEvent(IOCustomEventFlags customFlags);
+      |                            ^~~~~~~~~~~~~~~~~~
+src/jsdevices.c: In function 'jshPushIOCharEvents':
+src/jsdevices.c:503:43: warning: passing argument 2 of 'jshPushIOCharEventsHandler' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  503 |   if (jshPushIOCharEventsHandler(channel, data, count)) return;
+      |                                           ^~~~
+src/jsdevices.c:489:68: note: expected 'char *' but argument is of type 'const char *'
+  489 | static bool jshPushIOCharEventsHandler(IOEventFlags channel, char *data, unsigned int count) {
+      |                                                              ~~~~~~^~~~
+src/jstimer.c: In function 'jstUtilTimerInterruptHandler':
+src/jstimer.c:216:20: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  216 |         task->time += task->repeatInterval;
+      |                    ^~
+src/jstimer.c:216:23: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+  216 |         task->time += task->repeatInterval;
+      |                       ^~~~
+src/jstimer.c: In function 'jstGetUtilTimerOffset':
+src/jstimer.c:265:10: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  265 |   return utilTimerOffset;
+      |          ^~~~~~~~~~~~~~~
+src/jstimer.c: In function 'utilTimerInsertTask':
+src/jstimer.c:308:20: warning: conversion from 'JsSysTime' {aka 'long long int'} to 'int' may change value [-Wconversion]
+  308 |   int timePassed = utilTimerOn ? (jshGetSystemTime() - utilTimerSetTime) : 0;
+      |                    ^~~~~~~~~~~
+src/jstimer.c: In function 'jstPinOutputAtTime':
+src/jstimer.c:476:23: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  476 |   utilTimerInsertTask(idx, timerOffset, false/*doesn't have to be first*/);
+      |                       ^~~
+src/jstimer.c: In function 'jstPinPWM':
+src/jstimer.c:520:24: warning: conversion from 'JsSysTime' {aka 'long long int'} to 'int' may change value [-Wconversion]
+  520 |       ptaskoff->time = ptaskon->time + pulseLength;
+      |                        ^~~~~~~
+src/jstimer.c:522:24: warning: conversion from 'JsSysTime' {aka 'long long int'} to 'int' may change value [-Wconversion]
+  522 |       ptaskoff->time = ptaskon->time + pulseLength - (unsigned int)period;
+      |                        ^~~~~~~
+src/jstimer.c:567:23: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  567 |   utilTimerInsertTask(onidx, &timerOffset, false/*doesn't have to be first*/);
+      |                       ^~~~~
+src/jstimer.c:568:23: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  568 |   utilTimerInsertTask(offidx, &timerOffset, false/*doesn't have to be first*/);
+      |                       ^~~~~~
+src/jstimer.c: In function 'jstExecuteFn':
+src/jstimer.c:584:23: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  584 |   utilTimerInsertTask(idx, timerOffset, false/*doesn't have to be first*/);
+      |                       ^~~
+src/jstimer.c: In function 'jstSetWakeUp':
+src/jstimer.c:605:23: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  605 |   utilTimerInsertTask(idx, NULL, true/* must be first! If not something else will wake us first so don't bother. */);
+      |                       ^~~
+src/jstimer.c: In function 'jstStartSignal':
+src/jstimer.c:660:23: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  660 |   utilTimerInsertTask(idx, NULL, false/*doesn't have to be first*/);
+      |                       ^~~
+src/jstimer.c: In function 'jstSystemTimeChanged':
+src/jstimer.c:705:37: warning: unused parameter 'diff' [-Wunused-parameter]
+  705 | void jstSystemTimeChanged(JsSysTime diff) {
+      |                           ~~~~~~~~~~^~~~
+src/jstimer.c: In function 'jstOnCustomEvent':
+src/jstimer.c:710:36: warning: unused parameter 'eventFlags' [-Wunused-parameter]
+  710 | void jstOnCustomEvent(IOEventFlags eventFlags, uint8_t *data, int dataLen) {
+      |                       ~~~~~~~~~~~~~^~~~~~~~~~
+src/jstimer.c:710:67: warning: unused parameter 'dataLen' [-Wunused-parameter]
+  710 | void jstOnCustomEvent(IOEventFlags eventFlags, uint8_t *data, int dataLen) {
+      |                                                               ~~~~^~~~~~~
+CC obj/src/jsi2c.o
+CC obj/src/jsserial.o
+CC obj/src/jsspi.o
+CC obj/src/jshardware_common.o
+src/jsserial.c: In function 'jsserialEventCallbackInit':
+src/jsserial.c:221:21: warning: conversion from 'int' to 'unsigned char' may change value [-Wconversion]
+  221 |   data->frameSize = inf->bytesize + inf->stopbits + (inf->parity?1:0);
+      |                     ^~~
+src/jsserial.c: In function 'jsserialEventCallbackIdle':
+src/jsserial.c:288:25: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  288 |           data->bitData |= ((1<<bitCnt)-1) << data->bitCnt;
+      |                         ^~
+src/jsserial.c:289:27: warning: conversion from 'int' to 'unsigned char' may change value [-Wconversion]
+  289 |           data->bitCnt += bitCnt;
+      |                           ^~~~~~
+src/jsserial.c: In function 'jsserialEventCallback':
+src/jsserial.c:337:31: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  337 |   if (bitValue) data->bitData |= ((1<<bitCnt)-1) << data->bitCnt; // add 1s if we need to
+      |                               ^~
+src/jsserial.c:338:19: warning: conversion from 'int' to 'unsigned char' may change value [-Wconversion]
+  338 |   data->bitCnt += bitCnt;
+      |                   ^~~~~~
+src/jsspi.c: In function 'jsspiFastSoftwareFunc':
+src/jsspi.c:34:37: warning: unused parameter 'rx' [-Wunused-parameter]
+   34 |   unsigned char *tx, unsigned char *rx, unsigned int len,
+      |                      ~~~~~~~~~~~~~~~^~
+src/jsspi.c: In function 'jsspiSoftwareFunc':
+src/jsspi.c:89:21: warning: conversion from 'int' to 'unsigned char' may change value [-Wconversion]
+   89 |     if (rx) rx[i] = result;
+      |                     ^~~~~~
+src/jshardware_common.c: In function 'jshIsPinStateDefault':
+src/jshardware_common.c:127:53: warning: unused parameter 'pin' [-Wunused-parameter]
+  127 | __attribute__((weak)) bool jshIsPinStateDefault(Pin pin, JshPinState state) {
+      |                                                 ~~~~^~~
+src/jshardware_common.c: In function 'jshKickSoftWatchDog':
+src/jshardware_common.c:168:42: warning: unsigned conversion from 'int' to 'unsigned int' changes value from '-4097' to '4294963199' [-Wsign-conversion]
+  168 |     execInfo.execute = (execInfo.execute & ~EXEC_CTRL_C_WAIT) | EXEC_CTRL_C;
+      |                                          ^
+src/jshardware_common.c: In function 'jsvGetProcessorPowerUsage':
+src/jshardware_common.c:178:61: warning: unused parameter 'devices' [-Wunused-parameter]
+  178 | __attribute__((weak)) void jsvGetProcessorPowerUsage(JsVar *devices) {
+      |                                                      ~~~~~~~^~~~~~~
+CC obj/libs/compression/heatshrink/heatshrink_encoder.o
+CC obj/libs/compression/heatshrink/heatshrink_decoder.o
+libs/compression/heatshrink/heatshrink_encoder.c: In function 'heatshrink_encoder_sink':
+libs/compression/heatshrink/heatshrink_encoder.c:154:22: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  154 |     uint16_t cp_sz = rem < size ? rem : size;
+      |                      ^~~
+libs/compression/heatshrink/heatshrink_encoder.c: In function 'find_longest_match':
+libs/compression/heatshrink/heatshrink_encoder.c:495:14: warning: conversion from 'int' to 'int16_t' {aka 'short int'} may change value [-Wconversion]
+  495 |     for (pos=end - 1; pos - (int16_t)start >= 0; pos--) {
+      |              ^~~
+libs/compression/heatshrink/heatshrink_encoder.c:508:31: warning: conversion to 'uint16_t' {aka 'short unsigned int'} from 'int16_t' {aka 'short int'} may change the sign of the result [-Wsign-conversion]
+  508 |                 match_index = pos;
+      |                               ^~~
+libs/compression/heatshrink/heatshrink_encoder.c: In function 'push_outgoing_bits':
+libs/compression/heatshrink/heatshrink_encoder.c:538:16: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  538 |         bits = hse->outgoing_bits >> (hse->outgoing_bits_count - 8);
+      |                ^~~
+libs/compression/heatshrink/heatshrink_encoder.c:541:16: warning: conversion from 'uint16_t' {aka 'short unsigned int'} to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  541 |         bits = hse->outgoing_bits;
+      |                ^~~
+libs/compression/heatshrink/heatshrink_encoder.c: In function 'save_backlog':
+libs/compression/heatshrink/heatshrink_encoder.c:601:20: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  601 |     uint16_t rem = input_buf_sz - msi; // unprocessed bytes
+      |                    ^~~~~~~~~~~~
+libs/compression/heatshrink/heatshrink_encoder.c:602:25: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  602 |     uint16_t shift_sz = input_buf_sz + rem;
+      |                         ^~~~~~~~~~~~
+libs/compression/heatshrink/heatshrink_encoder.c:609:24: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  609 |     hse->input_size -= input_buf_sz - rem;
+      |                        ^~~~~~~~~~~~
+CC obj/libs/compression/compress_heatshrink.o
+libs/compression/heatshrink/heatshrink_decoder.c: In function 'heatshrink_decoder_sink':
+libs/compression/heatshrink/heatshrink_decoder.c:113:24: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  113 |     hsd->input_size += size;
+      |                        ^~~~
+libs/compression/heatshrink/heatshrink_decoder.c: In function 'st_d_yield_literal':
+libs/compression/heatshrink/heatshrink_decoder.c:212:21: warning: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
+  212 |         uint8_t c = byte & 0xFF;
+      |                     ^~~~
+libs/compression/heatshrink/heatshrink_decoder.c: In function 'st_yield_backref':
+libs/compression/heatshrink/heatshrink_decoder.c:284:30: warning: conversion from 'size_t' {aka 'unsigned int'} to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  284 |         hsd->output_count -= count;
+      |                              ^~~~~
+CC obj/libs/filesystem/fat_sd/fattime.o
+CC obj/libs/filesystem/fat_sd/ff.o
+libs/compression/compress_heatshrink.c: In function 'heatshrink_decode_cb':
+libs/compression/compress_heatshrink.c:139:19: warning: comparison between 'HSD_poll_res' and 'enum <anonymous>' [-Wenum-compare]
+  139 |     } while (pres == HSER_POLL_MORE);
+      |                   ^~
+libs/filesystem/fat_sd/ff.c: In function 'cmp_lfn':
+libs/filesystem/fat_sd/ff.c:1338:13: warning: conversion to 'UINT' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+ 1338 |         i = ((dir[LDIR_Ord] & ~LLE) - 1) * 13;  /* Get offset in the LFN buffer */
+      |             ^
+libs/filesystem/fat_sd/ff.c: In function 'pick_lfn':
+libs/filesystem/fat_sd/ff.c:1369:13: warning: conversion to 'UINT' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+ 1369 |         i = ((dir[LDIR_Ord] & 0x3F) - 1) * 13;  /* Offset in the LFN buffer */
+      |             ^
+libs/filesystem/fat_sd/ff.c: In function 'fit_lfn':
+libs/filesystem/fat_sd/ff.c:1409:13: warning: conversion to 'UINT' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+ 1409 |         i = (ord - 1) * 13;                             /* Get offset in the LFN buffer */
+      |             ^
+libs/filesystem/fat_sd/ff.c: In function 'sum_sfn':
+CC obj/libs/filesystem/fat_sd/option/unicode.o
+libs/filesystem/fat_sd/ff.c:1497:18: warning: conversion from 'int' to 'BYTE' {aka 'unsigned char'} may change value [-Wconversion]
+ 1497 |         do sum = (sum >> 1) + (sum << 7) + *dir++; while (--n);
+      |                  ^
+libs/filesystem/fat_sd/ff.c: In function 'dir_find':
+libs/filesystem/fat_sd/ff.c:1541:54: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 1541 |                                                 c &= ~LLE; ord = c;     /* LFN start order */
+      |                                                      ^
+libs/filesystem/fat_sd/ff.c: In function 'dir_read':
+libs/filesystem/fat_sd/ff.c:1597:46: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 1597 |                                         c &= ~LLE; ord = c;
+      |                                              ^
+libs/filesystem/fat_sd/ff.c: In function 'create_name':
+libs/filesystem/fat_sd/ff.c:1851:29: warning: conversion from 'int' to 'WCHAR' {aka 'short unsigned int'} may change value [-Wconversion]
+ 1851 |                         w = (w << 8) + b;                       /* Create a DBC */
+      |                             ^
+libs/filesystem/fat_sd/ff.c:1887:13: warning: conversion from 'UINT' {aka 'unsigned int'} to 'BYTE' {aka 'unsigned char'} may change value [-Wconversion]
+ 1887 |         b = i = 0; ni = 8;
+      |             ^
+CC obj/libs/filesystem/fat_sd/spi_diskio.o
+libs/filesystem/fat_sd/ff.c: In function 'f_read':
+libs/filesystem/fat_sd/ff.c:2640:53: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 2640 |                                         fp->flag &= ~FA__DIRTY;
+      |                                                     ^
+libs/filesystem/fat_sd/ff.c: In function 'f_write':
+libs/filesystem/fat_sd/ff.c:2725:45: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 2725 |                                 fp->flag &= ~FA__DIRTY;
+      |                                             ^
+libs/filesystem/fat_sd/ff.c:2746:53: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 2746 |                                         fp->flag &= ~FA__DIRTY;
+      |                                                     ^
+libs/filesystem/fat_sd/ff.c: In function 'f_sync':
+libs/filesystem/fat_sd/ff.c:2810:45: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 2810 |                                 fp->flag &= ~FA__DIRTY;
+      |                                             ^
+libs/filesystem/fat_sd/ff.c:2823:45: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-33' [-Wsign-conversion]
+ 2823 |                                 fp->flag &= ~FA__WRITTEN;
+      |                                             ^
+libs/filesystem/fat_sd/ff.c: In function 'f_lseek':
+libs/filesystem/fat_sd/ff.c:3146:45: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 3146 |                                 fp->flag &= ~FA__DIRTY;
+      |                                             ^
+CC obj/libs/graphics/bitmap_font_4x6.o
+libs/filesystem/fat_sd/ff.c: In function 'f_truncate':
+libs/filesystem/fat_sd/ff.c:3443:53: warning: unsigned conversion from 'int' to 'BYTE' {aka 'unsigned char'} changes the value of '-65' [-Wsign-conversion]
+ 3443 |                                         fp->flag &= ~FA__DIRTY;
+      |                                                     ^
+CC obj/libs/graphics/bitmap_font_6x8.o
+libs/filesystem/fat_sd/spi_diskio.c: In function 'disk_initialize':
+libs/filesystem/fat_sd/spi_diskio.c:364:25: warning: unsigned conversion from 'int' to 'DSTATUS' {aka 'unsigned char'} changes the value of '-2' [-Wsign-conversion]
+  364 |                 Stat &= ~STA_NOINIT;            /* Clear STA_NOINIT */
+      |                         ^
+libs/filesystem/fat_sd/spi_diskio.c: In function 'disk_ioctl':
+libs/filesystem/fat_sd/spi_diskio.c:525:49: warning: conversion from 'int' to 'WORD' {aka 'short unsigned int'} may change value [-Wconversion]
+  525 |                                         csize = csd[9] + ((WORD)csd[8] << 8) + 1;
+      |                                                 ^~~
+libs/filesystem/fat_sd/spi_diskio.c:528:45: warning: conversion from 'int' to 'BYTE' {aka 'unsigned char'} may change value [-Wconversion]
+  528 |                                         n = (csd[5] & 15) + ((csd[10] & 128) >> 7) + ((csd[9] & 3) << 1) + 2;
+      |                                             ^
+libs/filesystem/fat_sd/spi_diskio.c:529:49: warning: conversion from 'int' to 'WORD' {aka 'short unsigned int'} may change value [-Wconversion]
+  529 |                                         csize = (csd[8] >> 6) + ((WORD)csd[7] << 2) + ((WORD)(csd[6] & 3) << 10) + 1;
+      |                                                 ^
+libs/filesystem/fat_sd/spi_diskio.c:554:65: warning: conversion to 'DWORD' {aka 'long unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  554 |                                                 *(DWORD*)buff = (((csd[10] & 63) << 1) + ((WORD)(csd[11] & 128) >> 7) + 1) << ((csd[13] >> 6) - 1);
+      |                                                                 ^
+libs/filesystem/fat_sd/spi_diskio.c:556:65: warning: conversion to 'DWORD' {aka 'long unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  556 |                                                 *(DWORD*)buff = ((WORD)((csd[10] & 124) >> 2) + 1) * (((csd[11] & 3) << 3) + ((csd[11] & 224) >> 5) + 1);
+      |                                                                 ^
+libs/filesystem/fat_sd/ff.c: In function 'f_printf':
+libs/filesystem/fat_sd/ff.c:4587:41: warning: conversion from 'int' to 'TCHAR' {aka 'char'} may change value [-Wconversion]
+ 4587 |                         if (d > 9) d += (c == 'x') ? 0x27 : 0x07;
+      |                                         ^
+CC obj/libs/graphics/vector_font.o
+CC obj/libs/graphics/pbf_font.o
+CC obj/libs/graphics/graphics.o
+CC obj/libs/graphics/lcd_arraybuffer.o
+CC obj/libs/graphics/lcd_js.o
+libs/graphics/graphics.c: In function 'graphicsBlendColorRGB565':
+libs/graphics/graphics.c:388:24: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  388 |   unsigned int ri = (br*(256-amt) + fr*amt) >> 8;
+      |                        ^
+libs/graphics/graphics.c:388:39: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  388 |   unsigned int ri = (br*(256-amt) + fr*amt) >> 8;
+      |                                       ^
+libs/graphics/graphics.c:389:24: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  389 |   unsigned int gi = (bg*(256-amt) + fg*amt) >> 8;
+      |                        ^
+libs/graphics/graphics.c:389:39: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  389 |   unsigned int gi = (bg*(256-amt) + fg*amt) >> 8;
+      |                                       ^
+libs/graphics/graphics.c:390:24: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  390 |   unsigned int bi = (bb*(256-amt) + fb*amt) >> 8;
+      |                        ^
+libs/graphics/graphics.c:390:39: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  390 |   unsigned int bi = (bb*(256-amt) + fb*amt) >> 8;
+      |                                       ^
+libs/graphics/graphics.c:391:22: warning: conversion from 'unsigned int' to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  391 |   return (bi | gi<<5 | ri<<11);
+      |          ~~~~~~~~~~~~^~~~~~~~~
+libs/graphics/graphics.c: In function 'graphicsBlendColor':
+libs/graphics/graphics.c:402:37: warning: conversion from 'unsigned int' to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  402 |     return graphicsBlendColorRGB565(fg,bg,iamt);
+      |                                     ^~
+libs/graphics/graphics.c:402:40: warning: conversion from 'unsigned int' to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  402 |     return graphicsBlendColorRGB565(fg,bg,iamt);
+      |                                        ^~
+libs/graphics/graphics.c: At top level:
+libs/graphics/graphics.c:465:13: warning: 'graphicsSetPixelDeviceBlended' defined but not used [-Wunused-function]
+  465 | static void graphicsSetPixelDeviceBlended(JsGraphics *gfx, int x, int y, int amt) {
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CC obj/libs/network/network.o
+CC obj/libs/network/socketserver.o
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ssl.h:53,
+                 from libs/network/network.c:38:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config.h:674:9: warning: "MBEDTLS_CIPHER_MODE_CBC" redefined
+  674 | #define MBEDTLS_CIPHER_MODE_CBC
+      |         ^~~~~~~~~~~~~~~~~~~~~~~
+<command-line>: note: this is the location of the previous definition
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config.h:681:9: warning: "MBEDTLS_CIPHER_MODE_CFB" redefined
+  681 | #define MBEDTLS_CIPHER_MODE_CFB
+      |         ^~~~~~~~~~~~~~~~~~~~~~~
+<command-line>: note: this is the location of the previous definition
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/mbedtls/mbedtls/include/mbedtls/config.h:688:9: warning: "MBEDTLS_CIPHER_MODE_CTR" redefined
+  688 | #define MBEDTLS_CIPHER_MODE_CTR
+      |         ^~~~~~~~~~~~~~~~~~~~~~~
+<command-line>: note: this is the location of the previous definition
+libs/network/network.c: In function 'ssl_debug':
+libs/network/network.c:311:35: warning: unused parameter 'file' [-Wunused-parameter]
+  311 |                       const char *file, int line, const char *str )
+      |                       ~~~~~~~~~~~~^~~~
+libs/network/network.c:311:45: warning: unused parameter 'line' [-Wunused-parameter]
+  311 |                       const char *file, int line, const char *str )
+      |                                         ~~~~^~~~
+libs/network/network.c:311:63: warning: unused parameter 'str' [-Wunused-parameter]
+  311 |                       const char *file, int line, const char *str )
+      |                                                   ~~~~~~~~~~~~^~~
+libs/network/network.c: In function 'dummy_rng':
+libs/network/network.c:439:28: warning: unused parameter 'p_rng' [-Wunused-parameter]
+  439 | static int dummy_rng(void *p_rng, unsigned char *out, size_t len) {
+      |                      ~~~~~~^~~~~
+libs/network/network.c: At top level:
+libs/network/network.c:439:12: warning: 'dummy_rng' defined but not used [-Wunused-function]
+  439 | static int dummy_rng(void *p_rng, unsigned char *out, size_t len) {
+      |            ^~~~~~~~~
+CC obj/libs/network/socketerrors.o
+CC obj/libs/network/js/network_js.o
+CC obj/libs/network/esp32/network_esp32.o
+CC obj/targets/esp32/jshardwareI2c.o
+CC obj/targets/esp32/jshardwareSpi.o
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:89,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/FreeRTOS.h:105,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/port/esp32/include/arch/sys_arch.h:36,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/port/esp32/include/arch/cc.h:42,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/lwip/src/include/lwip/arch.h:48,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/port/esp32/include/lwipopts.h:403,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/lwip/src/include/lwip/opt.h:51,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/lwip/src/include/lwip/sockets.h:42,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/lwip/lwip/src/include/posix/sys/socket.h:33,
+                 from libs/network/esp32/network_esp32.c:35:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h: In function 'cpu_configure_region_protection':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h:77:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+   77 |     for (int i = 0; i < sizeof(pages_to_protect)/sizeof(pages_to_protect[0]); ++i) {
+      |                       ^
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h: In function 'xPortGetCoreID':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:214:12: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  214 |     return id;
+      |            ^~
+CC obj/targets/esp32/jshardwareUart.o
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/time.h:27,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/stat.h:9,
+                 from libs/network/esp32/network_esp32.c:24:
+libs/network/esp32/network_esp32.c: In function 'net_esp32_accept':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:258:51: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  258 | #  define       FD_SET(n, p)    ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+      |                                                   ^
+libs/network/esp32/network_esp32.c:224:3: note: in expansion of macro 'FD_SET'
+  224 |   FD_SET(sckt,&s);
+      |   ^~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:258:76: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  258 | #  define       FD_SET(n, p)    ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+      |                                                                            ^
+libs/network/esp32/network_esp32.c:224:3: note: in expansion of macro 'FD_SET'
+  224 |   FD_SET(sckt,&s);
+      |   ^~~~~~
+libs/network/esp32/network_esp32.c: In function 'net_esp32_recv':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:258:51: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  258 | #  define       FD_SET(n, p)    ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+      |                                                   ^
+libs/network/esp32/network_esp32.c:246:3: note: in expansion of macro 'FD_SET'
+  246 |   FD_SET(sckt,&s);
+      |   ^~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:258:76: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  258 | #  define       FD_SET(n, p)    ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+      |                                                                            ^
+libs/network/esp32/network_esp32.c:246:3: note: in expansion of macro 'FD_SET'
+  246 |   FD_SET(sckt,&s);
+      |   ^~~~~~
+libs/network/esp32/network_esp32.c:258:35: warning: pointer of type 'void *' used in arithmetic [-Wpointer-arith]
+  258 |       num = (int)recvfrom(sckt,buf+sizeof(JsNetUDPPacketHeader),len-sizeof(JsNetUDPPacketHeader),0,(struct sockaddr*)&fromAddr, &fromAddrLen);
+      |                                   ^
+libs/network/esp32/network_esp32.c:263:24: warning: conversion from 'int' to 'uint16_t' {aka 'short unsigned int'} may change value [-Wconversion]
+  263 |       header->length = num;
+      |                        ^~~
+libs/network/esp32/network_esp32.c:267:11: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  267 |       num += sizeof(JsNetUDPPacketHeader);
+      |           ^~
+libs/network/esp32/network_esp32.c:267:14: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+  267 |       num += sizeof(JsNetUDPPacketHeader);
+      |              ^~~~~~
+libs/network/esp32/network_esp32.c: In function 'net_esp32_send':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:258:51: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  258 | #  define       FD_SET(n, p)    ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+      |                                                   ^
+libs/network/esp32/network_esp32.c:282:3: note: in expansion of macro 'FD_SET'
+  282 |   FD_SET(sckt, &writefds);
+      |   ^~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:258:76: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  258 | #  define       FD_SET(n, p)    ((p)->fds_bits[(n)/NFDBITS] |= (1L << ((n) % NFDBITS)))
+      |                                                                            ^
+libs/network/esp32/network_esp32.c:282:3: note: in expansion of macro 'FD_SET'
+  282 |   FD_SET(sckt, &writefds);
+      |   ^~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:260:51: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  260 | #  define       FD_ISSET(n, p)  ((p)->fds_bits[(n)/NFDBITS] & (1L << ((n) % NFDBITS)))
+      |                                                   ^
+libs/network/esp32/network_esp32.c:290:14: note: in expansion of macro 'FD_ISSET'
+  290 |   } else if (FD_ISSET(sckt, &writefds)) {
+      |              ^~~~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/sys/types.h:260:75: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  260 | #  define       FD_ISSET(n, p)  ((p)->fds_bits[(n)/NFDBITS] & (1L << ((n) % NFDBITS)))
+      |                                                                           ^
+libs/network/esp32/network_esp32.c:290:14: note: in expansion of macro 'FD_ISSET'
+  290 |   } else if (FD_ISSET(sckt, &writefds)) {
+      |              ^~~~~~~~
+libs/network/esp32/network_esp32.c:303:33: warning: pointer of type 'void *' used in arithmetic [-Wpointer-arith]
+  303 |       n = (int)sendto(sckt, buf + sizeof(JsNetUDPPacketHeader), header->length, flags, (struct sockaddr *)&sin, sizeof(sockaddr_in)) + sizeof(JsNetUDPPacketHeader);
+      |                                 ^
+libs/network/esp32/network_esp32.c:303:134: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  303 |       n = (int)sendto(sckt, buf + sizeof(JsNetUDPPacketHeader), header->length, flags, (struct sockaddr *)&sin, sizeof(sockaddr_in)) + sizeof(JsNetUDPPacketHeader);
+      |                                                                                                                                      ^
+libs/network/esp32/network_esp32.c:303:11: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
+  303 |       n = (int)sendto(sckt, buf + sizeof(JsNetUDPPacketHeader), header->length, flags, (struct sockaddr *)&sin, sizeof(sockaddr_in)) + sizeof(JsNetUDPPacketHeader);
+      |           ^
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:89,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/FreeRTOS.h:105,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/i2c.h:25,
+                 from targets/esp32/jshardwareI2c.c:20:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h: In function 'cpu_configure_region_protection':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h:77:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+   77 |     for (int i = 0; i < sizeof(pages_to_protect)/sizeof(pages_to_protect[0]); ++i) {
+      |                       ^
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h: In function 'xPortGetCoreID':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:214:12: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  214 |     return id;
+      |            ^~
+targets/esp32/jshardwareI2c.c: In function 'jshI2CSetup':
+targets/esp32/jshardwareI2c.c:119:27: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  119 |   conf.master.clk_speed = info->bitrate;
+      |                           ^~~~
+targets/esp32/jshardwareI2c.c: In function 'jshI2CWrite':
+targets/esp32/jshardwareI2c.c:155:29: warning: passing argument 2 of 'i2c_master_write' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  155 |   ret=i2c_master_write(cmd, data, nBytes, ACK_CHECK_EN);
+      |                             ^~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/i2c.h:288:66: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'const unsigned char *'
+  288 | esp_err_t i2c_master_write(i2c_cmd_handle_t cmd_handle, uint8_t* data, size_t data_len, bool ack_en);
+      |                                                         ~~~~~~~~~^~~~
+targets/esp32/jshardwareI2c.c:155:35: warning: conversion to 'size_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  155 |   ret=i2c_master_write(cmd, data, nBytes, ACK_CHECK_EN);
+      |                                   ^~~~~~
+targets/esp32/jshardwareI2c.c: In function 'jshI2CRead':
+targets/esp32/jshardwareI2c.c:180:43: warning: conversion to 'size_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  180 |     ret=i2c_master_read(cmd, data, nBytes - 1, ACK_VAL);
+      |                                    ~~~~~~~^~~
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:89,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/FreeRTOS.h:105,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/spi_master.h:20,
+                 from targets/esp32/jshardwareSpi.h:21,
+                 from targets/esp32/jshardwareSpi.c:34:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h: In function 'cpu_configure_region_protection':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h:77:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+   77 |     for (int i = 0; i < sizeof(pages_to_protect)/sizeof(pages_to_protect[0]); ++i) {
+      |                       ^
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h: In function 'xPortGetCoreID':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:214:12: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  214 |     return id;
+      |            ^~
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/spi_common.h:22,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/spi_master.h:23:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/esp32/include/rom/lldesc.h: In function 'lldesc_config':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/esp32/include/rom/lldesc.h:153:18: warning: conversion from 'uint8_t' {aka 'unsigned char'} to 'unsigned char:1' may change value [-Wconversion]
+  153 |     ds->owner  = owner;
+      |                  ^~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/esp32/include/rom/lldesc.h:154:18: warning: conversion from 'uint8_t' {aka 'unsigned char'} to 'unsigned char:1' may change value [-Wconversion]
+  154 |     ds->eof    = eof;
+      |                  ^~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/esp32/include/rom/lldesc.h:155:18: warning: conversion from 'uint8_t' {aka 'unsigned char'} to 'unsigned char:1' may change value [-Wconversion]
+  155 |     ds->sosf   = sosf;
+      |                  ^~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/esp32/include/rom/lldesc.h:156:18: warning: conversion from 'uint16_t' {aka 'short unsigned int'} to 'short unsigned int:12' may change value [-Wconversion]
+  156 |     ds->length = len;
+      |                  ^~~
+CC obj/targets/esp32/jshardwareAnalog.o
+targets/esp32/jshardwareSpi.c: In function 'jshSPISend':
+targets/esp32/jshardwareSpi.c:158:11: warning: unused variable 'byte' [-Wunused-variable]
+  158 |   uint8_t byte = (uint8_t)data;
+      |           ^~~~
+targets/esp32/jshardwareSpi.c: In function 'jshSPISendMany':
+targets/esp32/jshardwareSpi.c:183:19: warning: conversion from 'int' to 'unsigned char' may change value [-Wconversion]
+  183 |     if (rx) *rx = r;
+      |                   ^
+targets/esp32/jshardwareSpi.c:197:12: warning: passing argument 1 of 'memset' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  197 |     memset(&spi_trans, 0, sizeof(spi_trans));
+      |            ^~~~~~~~~~
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/string.h:10,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/src/jsutils.h:22,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/src/jspin.h:21,
+                 from gen/jspininfo.h:7,
+                 from targets/esp32/jshardwareSpi.c:31:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/_ansi.h:50:25: note: expected 'void *' but argument is of type 'volatile spi_transaction_t *'
+   50 | #define _PTR            void *
+      |                         ^~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/_ansi.h:65:46: note: in definition of macro '_EXFUN'
+   65 | #define _EXFUN(name, proto)             name proto
+      |                                              ^~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/newlib/include/string.h:25:25: note: in expansion of macro '_PTR'
+   25 | _PTR     _EXFUN(memset,(_PTR, int, size_t));
+      |                         ^~~~
+targets/esp32/jshardwareSpi.c:201:54: warning: passing argument 2 of 'spi_device_transmit' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  201 |     spi_device_transmit(SPIChannels[channelPnt].spi, &spi_trans); // blocking
+      |                                                      ^~~~~~~~~~
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/spi_master.h:288:78: note: expected 'spi_transaction_t *' but argument is of type 'volatile spi_transaction_t *'
+  288 | esp_err_t spi_device_transmit(spi_device_handle_t handle, spi_transaction_t *trans_desc);
+      |                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+targets/esp32/jshardwareSpi.c: In function 'jshSPISend16':
+targets/esp32/jshardwareSpi.c:225:7: warning: unused variable 'channelPnt' [-Wunused-variable]
+  225 |   int channelPnt = getSPIChannelPnt(device);
+      |       ^~~~~~~~~~
+targets/esp32/jshardwareSpi.c:223:9: warning: unused parameter 'data' [-Wunused-parameter]
+  223 |     int data             //!< Unknown
+      |     ~~~~^~~~
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:89,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/FreeRTOS.h:105,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/uart.h:28,
+                 from targets/esp32/jshardwareUart.c:19:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h: In function 'cpu_configure_region_protection':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h:77:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+   77 |     for (int i = 0; i < sizeof(pages_to_protect)/sizeof(pages_to_protect[0]); ++i) {
+      |                       ^
+CC obj/targets/esp32/jshardwarePWM.o
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h: In function 'xPortGetCoreID':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:214:12: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  214 |     return id;
+      |            ^~
+targets/esp32/jshardwareSpi.c: In function 'jshSPISendMany':
+targets/esp32/jshardwareSpi.c:202:8: warning: 'ret' may be used uninitialized [-Wmaybe-uninitialized]
+  202 |     if (ret != ESP_OK) {
+      |        ^
+targets/esp32/jshardwareSpi.c:190:13: note: 'ret' was declared here
+  190 |   esp_err_t ret;
+      |             ^~~
+targets/esp32/jshardwareUart.c: In function 'pollSerialDevices':
+targets/esp32/jshardwareUart.c:256:39: warning: pointer targets in passing argument 2 of 'jshPushIOCharEvents' differ in signedness [-Wpointer-sign]
+  256 |       jshPushIOCharEvents(EV_SERIAL1, rxbuf, len);
+      |                                       ^~~~~
+      |                                       |
+      |                                       uint8_t * {aka unsigned char *}
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/src/jshardware.h:25,
+                 from targets/esp32/jshardwareUart.h:17,
+                 from targets/esp32/jshardwareUart.c:18:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/src/jsdevices.h:201:60: note: expected 'const char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+  201 | void jshPushIOCharEvents(IOEventFlags channel, const char *data, unsigned int count);
+      |                                                ~~~~~~~~~~~~^~~~
+targets/esp32/jshardwareUart.c:256:46: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  256 |       jshPushIOCharEvents(EV_SERIAL1, rxbuf, len);
+      |                                              ^~~
+targets/esp32/jshardwareUart.c:264:39: warning: pointer targets in passing argument 2 of 'jshPushIOCharEvents' differ in signedness [-Wpointer-sign]
+  264 |       jshPushIOCharEvents(EV_SERIAL2, rxbuf, len);
+      |                                       ^~~~~
+      |                                       |
+      |                                       uint8_t * {aka unsigned char *}
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/src/jsdevices.h:201:60: note: expected 'const char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+  201 | void jshPushIOCharEvents(IOEventFlags channel, const char *data, unsigned int count);
+      |                                                ~~~~~~~~~~~~^~~~
+targets/esp32/jshardwareUart.c:264:46: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  264 |       jshPushIOCharEvents(EV_SERIAL2, rxbuf, len);
+      |                                              ^~~
+targets/esp32/jshardwareUart.c:272:39: warning: pointer targets in passing argument 2 of 'jshPushIOCharEvents' differ in signedness [-Wpointer-sign]
+  272 |       jshPushIOCharEvents(EV_SERIAL3, rxbuf, len);
+      |                                       ^~~~~
+      |                                       |
+      |                                       uint8_t * {aka unsigned char *}
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/src/jsdevices.h:201:60: note: expected 'const char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+  201 | void jshPushIOCharEvents(IOEventFlags channel, const char *data, unsigned int count);
+      |                                                ~~~~~~~~~~~~^~~~
+targets/esp32/jshardwareUart.c:272:46: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+  272 |       jshPushIOCharEvents(EV_SERIAL3, rxbuf, len);
+      |                                              ^~~
+CC obj/targets/esp32/rtosutil.o
+targets/esp32/jshardwareAnalog.c: In function 'readADC':
+targets/esp32/jshardwareAnalog.c:164:11: warning: 'adc1_get_voltage' is deprecated [-Wdeprecated-declarations]
+  164 |           int value = adc1_get_voltage(channel);
+      |           ^~~
+In file included from targets/esp32/jshardwareAnalog.c:18:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/adc.h:226:5: note: declared here
+  226 | int adc1_get_voltage(adc1_channel_t channel) __attribute__((deprecated));
+      |     ^~~~~~~~~~~~~~~~
+targets/esp32/jshardwareAnalog.c: In function 'writeDAC':
+targets/esp32/jshardwareAnalog.c:172:12: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  172 |   if(value > 255){
+      |            ^
+targets/esp32/jshardwareAnalog.c:181:3: warning: 'dac_out_voltage' is deprecated [-Wdeprecated-declarations]
+  181 |   if(channel >= 0) dac_out_voltage(channel, value);
+      |   ^~
+In file included from targets/esp32/jshardwareAnalog.c:20:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/dac.h:62:11: note: declared here
+   62 | esp_err_t dac_out_voltage(dac_channel_t channel, uint8_t dac_value) __attribute__ ((deprecated));
+      |           ^~~~~~~~~~~~~~~
+CC obj/targets/esp32/jshardwarePulse.o
+targets/esp32/jshardwarePWM.c: In function 'getTimerIndex':
+targets/esp32/jshardwarePWM.c:31:31: warning: unused parameter 'freq' [-Wunused-parameter]
+   31 | int getTimerIndex(Pin pin,int freq){
+      |                           ~~~~^~~~
+targets/esp32/jshardwarePWM.c: In function 'getFreeChannel':
+targets/esp32/jshardwarePWM.c:55:5: error: type of 'pin' defaults to 'int' [-Wimplicit-int]
+   55 | int getFreeChannel(pin){
+      |     ^~~~~~~~~~~~~~
+targets/esp32/jshardwarePWM.c:57:23: warning: conversion from 'int' to 'Pin' {aka 'unsigned char'} may change value [-Wconversion]
+   57 |   i = getChannelIndex(pin);
+      |                       ^~~
+targets/esp32/jshardwarePWM.c: In function 'timerConfig':
+targets/esp32/jshardwarePWM.c:73:16: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   73 |     .freq_hz = freq,//set frequency of pwm
+      |                ^~~~
+targets/esp32/jshardwarePWM.c: In function 'channelConfig':
+targets/esp32/jshardwarePWM.c:97:13: warning: conversion to 'unsigned int' from 'int' may change the sign of the result [-Wsign-conversion]
+   97 |     .duty = value,//set the duty for initialization.(duty range is 0 ~ ((2**bit_num)-1)
+      |             ^~~~~
+make: *** [Makefile:862: obj/targets/esp32/jshardwarePWM.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:89,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/FreeRTOS.h:105,
+                 from targets/esp32/rtosutil.h:21,
+                 from targets/esp32/rtosutil.c:16:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h: In function 'cpu_configure_region_protection':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h:77:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+   77 |     for (int i = 0; i < sizeof(pages_to_protect)/sizeof(pages_to_protect[0]); ++i) {
+      |                       ^
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h: In function 'xPortGetCoreID':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:214:12: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  214 |     return id;
+      |            ^~
+targets/esp32/rtosutil.c: At top level:
+targets/esp32/rtosutil.c:28:11: warning: "TIMER_BASE_CLK" redefined
+   28 |   #define TIMER_BASE_CLK  80000000ULL  // APB 80MHz
+      |           ^~~~~~~~~~~~~~
+In file included from targets/esp32/rtosutil.c:18:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/timer.h:29:9: note: this is the location of the previous definition
+   29 | #define TIMER_BASE_CLK   (APB_CLK_FREQ)  /*!< Frequency of the clock on the input of the timer groups */
+      |         ^~~~~~~~~~~~~~
+targets/esp32/rtosutil.c: In function 'queue_indexByName':
+targets/esp32/rtosutil.c:101:29: warning: unused parameter 'queueName' [-Wunused-parameter]
+  101 | int queue_indexByName(char *queueName) { /* unchanged */ }
+      |                       ~~~~~~^~~~~~~~~
+targets/esp32/rtosutil.c: In function 'task_indexByName':
+targets/esp32/rtosutil.c:105:28: warning: unused parameter 'taskName' [-Wunused-parameter]
+  105 | int task_indexByName(char *taskName) { /* unchanged */ }
+      |                      ~~~~~~^~~~~~~~
+targets/esp32/rtosutil.c: In function 'queue_indexByName':
+targets/esp32/rtosutil.c:101:58: warning: control reaches end of non-void function [-Wreturn-type]
+  101 | int queue_indexByName(char *queueName) { /* unchanged */ }
+      |                                                          ^
+targets/esp32/rtosutil.c: In function 'task_indexByName':
+targets/esp32/rtosutil.c:105:56: warning: control reaches end of non-void function [-Wreturn-type]
+  105 | int task_indexByName(char *taskName) { /* unchanged */ }
+      |                                                        ^
+In file included from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:89,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/FreeRTOS.h:105,
+                 from /home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/driver/include/driver/rmt.h:21,
+                 from targets/esp32/jshardwarePulse.c:27:
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h: In function 'cpu_configure_region_protection':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/soc/esp32/include/soc/cpu.h:77:23: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+   77 |     for (int i = 0; i < sizeof(pages_to_protect)/sizeof(pages_to_protect[0]); ++i) {
+      |                       ^
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h: In function 'xPortGetCoreID':
+/home/simon/MaBecker/Espruino_IDF5_Gordon_validation/esp-idf/components/freertos/include/freertos/portable.h:214:12: warning: conversion to 'uint32_t' {aka 'unsigned int'} from 'int' may change the sign of the result [-Wsign-conversion]
+  214 |     return id;
+      |            ^~
+targets/esp32/jshardwarePulse.c: In function 'setPulseLow':
+targets/esp32/jshardwarePulse.c:150:24: warning: conversion from 'int' to 'short unsigned int:15' may change value [-Wconversion]
+  150 |   items[0].duration0 = duration;
+      |                        ^~~~~~~~
+targets/esp32/jshardwarePulse.c: In function 'setPulseHigh':
+targets/esp32/jshardwarePulse.c:157:24: warning: conversion from 'int' to 'short unsigned int:15' may change value [-Wconversion]
+  157 |   items[0].duration0 = duration;
+      |                        ^~~~~~~~
+simon@OptiPlex3050:~/MaBecker/Espruino_IDF5_Gordon_validation$

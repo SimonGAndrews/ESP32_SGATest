@@ -1,0 +1,65 @@
+simon@OptiPlex3050:~/MaBecker/Espruino_master$ make BOARD=ESP32C3_IDF4 clean
+Cleaning targets
+simon@OptiPlex3050:~/MaBecker/Espruino_master$ make BOARD=ESP32C3_IDF4 RELEASE=1 flash
+MAKE CMAKEFILE
+-I/home/simon/MaBecker/Espruino_master -I/home/simon/MaBecker/Espruino_master/targets -I/home/simon/MaBecker/Espruino_master/src  -I/home/simon/MaBecker/Espruino_master/libs/compression -I/home/simon/MaBecker/Espruino_master/libs/compression/heatshrink -I/home/simon/MaBecker/Espruino_master/libs/filesystem -I/home/simon/MaBecker/Espruino_master/libs/filesystem/fat_sd -I/home/simon/MaBecker/Espruino_master/libs/graphics -I/home/simon/MaBecker/Espruino_master/libs/network -I/home/simon/MaBecker/Espruino_master/libs/network -I/home/simon/MaBecker/Espruino_master/libs/network/http -I/home/simon/MaBecker/Espruino_master/libs/network/js -I/home/simon/MaBecker/Espruino_master/libs/network/esp32 -I/home/simon/MaBecker/Espruino_master/libs/bluetooth -I/home/simon/MaBecker/Espruino_master/libs/crypto -I/home/simon/MaBecker/Espruino_master/libs/neopixel -I/home/simon/MaBecker/Espruino_master/targets/esp32 -I/home/simon/MaBecker/Espruino_master/gen
+================================== Generating platform configs
+================================== Generating pin info
+================================== Generating pin info
+================================== Generating JS wrappers
+WRAPPERSOURCES = src/jswrap_array.c src/jswrap_arraybuffer.c src/jswrap_dataview.c src/jswrap_date.c src/jswrap_error.c src/jswrap_functions.c src/jswrap_json.c src/jswrap_number.c src/jswrap_object.c src/jswrap_regexp.c src/jswrap_timer.c src/jswrap_string.c src/jswrap_modules.c src/jswrap_math.c src/jswrap_espruino.c src/jswrap_flash.c src/jswrap_interactive.c src/jswrap_io.c src/jswrap_pin.c src/jswrap_pipe.c src/jswrap_process.c src/jswrap_onewire.c src/jswrap_promise.c src/jswrap_serial.c src/jswrap_storage.c src/jswrap_spi_i2c.c src/jswrap_stepper.c src/jswrap_stream.c src/jswrap_waveform.c libs/compression/jswrap_heatshrink.c libs/filesystem/jswrap_fs.c libs/filesystem/jswrap_file.c libs/graphics/jswrap_graphics.c libs/network/jswrap_net.c libs/network/http/jswrap_http.c libs/network/js/jswrap_jsnetwork.c libs/network/jswrap_wifi.c libs/network/esp32/jswrap_esp32_network.c targets/esp32/jswrap_esp32.c libs/bluetooth/jswrap_bluetooth.c libs/crypto/jswrap_crypto.c libs/neopixel/jswrap_neopixel.c
+DEFINES = -DGIT_COMMIT=b905c8099 -DNO_ASSERT -DRELEASE -DBUILDNUMBER="274" -DESP32C3_IDF4 -DBLUETOOTH_NAME_PREFIX="Espruino" -DESP_PLATFORM -DESP32=1 -DESP_STACK_SIZE=15000 -DESP_HEAP_SIZE=70000 -DJSVAR_MALLOC -DUSE_FONT_6X8 -DESPR_USE_USB_SERIAL_JTAG -DUSE_DEBUGGER -DUSE_TAB_COMPLETE -DUSE_HEATSHRINK -DUSE_FILESYSTEM -DUSE_GRAPHICS -DUSE_NET -DUSE_NETWORK_JS -DUSE_ESP32 -DBLUETOOTH -DUSE_CRYPTO -DUSE_SHA256 -DUSE_SHA512 -DUSE_TLS -DUSE_AES -DUSE_NEOPIXEL -DESP32 -DESPR_DEFINES_ON_COMMANDLINE -DEMBEDDED
+cd bin && idf.py build
+Executing action: all (aliases: build)
+Running cmake in directory /home/simon/MaBecker/Espruino_master/bin/build
+Executing "cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DESP_PLATFORM=1 -DIDF_TARGET=esp32c3 -DCCACHE_ENABLE=0 /home/simon/MaBecker/Espruino_master/bin"...
+-- Found Git: /usr/bin/git (found version "2.43.0")
+-- The C compiler identification is GNU 8.4.0
+-- The CXX compiler identification is GNU 8.4.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/simon/.espressif/tools/riscv32-esp-elf/esp-2021r2-patch5-8.4.0/riscv32-esp-elf/bin/riscv32-esp-elf-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /home/simon/.espressif/tools/riscv32-esp-elf/esp-2021r2-patch5-8.4.0/riscv32-esp-elf/bin/riscv32-esp-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/simon/.espressif/tools/riscv32-esp-elf/esp-2021r2-patch5-8.4.0/riscv32-esp-elf/bin/riscv32-esp-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Building ESP-IDF components for target esp32c3
+-- Project sdkconfig file /home/simon/MaBecker/Espruino_master/bin/sdkconfig
+info: Trying to set symbol BOOTLOADER_LOG_LEVEL_INFO to n, but it is currently selected by choice BOOTLOADER_LOG_LEVEL. For setting it to n, set another choice symbol to y instead.
+info: Choice PARTITION_TABLE_TYPE has multiple active selections. The last one will be used: PARTITION_TABLE_CUSTOM .
+info: Trying to set symbol BT_CTRL_LPCLK_SEL_MAIN_XTAL to n, but it is currently selected by choice BT_CTRL_LOW_POWER_CLOCK. For setting it to n, set another choice symbol to y instead.
+info: Trying to set symbol BT_LOG_HCI_TRACE_LEVEL_WARNING to n, but it is currently selected by choice BT_LOG_HCI_TRACE_LEVEL. For setting it to n, set another choice symbol to y instead.
+info: Trying to set symbol BT_LOG_APPL_TRACE_LEVEL_WARNING to n, but it is currently selected by choice BT_LOG_APPL_TRACE_LEVEL. For setting it to n, set another choice symbol to y instead.
+info: Trying to set symbol LOG_DEFAULT_LEVEL_INFO to n, but it is currently selected by choice LOG_DEFAULT_LEVEL. For setting it to n, set another choice symbol to y instead.
+Traceback (most recent call last):
+  File "/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/kconfig_new/confgen.py", line 644, in <module>
+    main()
+  File "/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/kconfig_new/confgen.py", line 330, in main
+    output_function(deprecated_options, config, temp_file)
+  File "/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/kconfig_new/confgen.py", line 407, in write_header
+    deprecated_options.append_header(config, filename)
+  File "/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/kconfig_new/confgen.py", line 186, in append_header
+    if new_opt in config.syms and _opt_defined(config.syms[new_opt]):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/kconfig_new/confgen.py", line 173, in _opt_defined
+    if opt.orig_type in (kconfiglib.BOOL, kconfiglib.TRISTATE) and opt.str_value != 'n':
+                         ^^^^^^^^^^^^^^^
+AttributeError: module 'kconfiglib' has no attribute 'BOOL'
+CMake Error at /home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/cmake/kconfig.cmake:266 (message):
+  Failed to run confgen.py
+  (/home/simon/.espressif/python_env/idf4.4_py3.12_env/bin/python;/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/kconfig_new/confgen.py;--kconfig;/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/Kconfig;--sdkconfig-rename;/home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/sdkconfig.rename;--config;/home/simon/MaBecker/Espruino_master/bin/sdkconfig;--env-file;/home/simon/MaBecker/Espruino_master/bin/build/config.env).
+  Error 1
+Call Stack (most recent call first):
+  /home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/cmake/build.cmake:534 (__kconfig_generate_config)
+  /home/simon/MaBecker/Espruino_master/esp-idf-4/esp-idf/tools/cmake/project.cmake:476 (idf_build_process)
+  CMakeLists.txt:6 (project)
+
+
+-- Configuring incomplete, errors occurred!
+cmake failed with exit code 1
+make: *** [make/targets/ESP32_IDF4.make:57: bin/espruino_2v29.274_esp32c3.bin] Error 2
