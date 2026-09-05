@@ -4,18 +4,26 @@ Date: 2026-09-04
 
 ## Conclusion
 
-The expedited ESP32 IDF5 validation has largely completed its purpose. V1
+The expedited ESP32 IDF5 validation has completed its purpose. V1
 harness regression evidence was supplied to Gordon Williams and informed the
 decision to merge the official `IDF5` branch into Espruino `master`. The merge
 is commit `5d79af2185f33020a02e315c6318dab81e27dfde`, with previous master
 `c5ff787b199148c31ef2776fb6f70673cba01a25` and IDF5 tip
 `955305fd29e1c3e38380ff72b23106cf4b3c441b` as its parents.
 
-The remaining acceptance task is a same-source sanity comparison: build
-`BOARD=ESP32` and `BOARD=ESP32_IDF5` from one recorded official-master commit
-and run the established classic ESP32 V1 suite. After that run, continuing
-Wi-Fi, OneWire or other defects become ordinary Espruino-master investigations
-rather than continuation of the expedited port-validation project.
+The same-source sanity comparison is now complete. `BOARD=ESP32` and
+`BOARD=ESP32_IDF5` were built from official-master commit `e5341719a` and run
+through the established classic ESP32 V1 suite. Both builds pass the wired
+GPIO, ADC, PWM, DAC, I2C, SPI and external-flash coverage, including Gordon's
+metadata-based DAC pin selection. IDF5 is materially better in the UART and
+addressed-OneWire samples, but retains Wi-Fi regressions as an AP and in
+station scan/ping behaviour. Continuing Wi-Fi, OneWire, UART or BLE defects
+are now ordinary Espruino-master investigations rather than continuation of
+the expedited port-validation project.
+
+The authoritative post-merge result is:
+
+- `tests/Results/2026-09-05-esp32-post-idf5-merge-same-source-sanity.md`
 
 ## Contribution to Upstream
 
@@ -33,9 +41,9 @@ merge:
 
 Gordon followed PR `#2737` with commit `43fb9e08d`, replacing hard-coded DAC
 GPIO numbers with `pinInfo` function metadata and explicit DAC pin-state
-tracking. This is a sound portability improvement, but it was made after the
-bench-tested PR commits and therefore requires a focused DAC and GPIO-release
-rerun on the merged source.
+tracking. The post-merge sanity run validated this portability improvement on
+the merged source: both D25 and D26 passed low/full-scale DAC feedback and
+subsequent ordinary GPIO use.
 
 The proposed OneWire timing change was deliberately held, was not submitted,
 and is not included in the upstream merge. It improved device discovery but
@@ -64,16 +72,12 @@ Authoritative records:
 - `tests/Results/2026-08-31-esp32-idf5-corrective-candidate.md`
 - `docs/investigations/IDF5_port_testing/2026-08-31-remaining-classic-esp32-idf5-priorities.md`
 
-## Required Post-Merge Sanity Run
+## Completed Post-Merge Sanity Run
 
-Use the clean `/home/simon/MaBecker/Espruino_master` checkout. Fast-forward its
-local `master` from official `upstream/master`, preserve the previous
-`b905c8099` position on an archive branch, and create one temporary validation
-branch at the selected upstream commit. Build the two board configurations
-sequentially from that branch, using a fresh terminal and board-specific
-provisioning for each build.
-
-Run the full classic ESP32 V1 suite on both images. Prioritise:
+The clean Espruino checkout used validation branch
+`validation/post-idf5-merge-sanity` at `e5341719a`. Both board configurations
+were built sequentially with board-specific provisioning. The completed suite
+covered:
 
 1. DAC low/full-scale output and ordinary GPIO use after DAC release;
 2. ADC, PWM and GPIO-matrix behaviour;
@@ -83,14 +87,9 @@ Run the full classic ESP32 V1 suite on both images. Prioritise:
 6. Wi-Fi station scan, WPA2 access-point authentication and static IP;
 7. BLE GATT in both roles and advertising/service-data behaviour.
 
-Where the harness permits it, exercise both D25 and D26 as DAC outputs so the
-new metadata-based channel selection is covered rather than testing only the
-original D25-to-D26 direction.
-
-Record the result in a new dated file under `tests/Results/`; do not rewrite the
-pre-merge evidence. If a failure appears only on `BOARD=ESP32_IDF5`, retain
-that board attribution. If it appears on both builds, treat it as a shared
-master-line issue.
+Both D25 and D26 were exercised as DAC outputs, with low/full-scale analogue
+feedback and later GPIO use. The dated result preserves build-specific,
+shared and test-runner findings without rewriting the pre-merge evidence.
 
 ## Workstream Return Point
 
