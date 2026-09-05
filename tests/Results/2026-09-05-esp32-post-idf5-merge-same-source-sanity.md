@@ -17,6 +17,13 @@ callback-contract defects. Those are now normal Espruino `master`
 investigations rather than blockers to completing the historical branch
 reconciliation.
 
+Follow-up status: the UART regression recorded below has since been narrowed
+to post-baseline target scheduling and driver-lifecycle changes. A guarded
+local correction passes all 18 UART scripts on both `BOARD=ESP32` and
+`BOARD=ESP32_IDF5`. The original comparison results below remain unchanged;
+the follow-up investigation is recorded in
+`docs/investigations/uart/esp32-post-idf5-merge-uart-regression-2026-09-05.md`.
+
 ## Objective
 
 Sanity-check the merged ESP32 IDF5 implementation by compiling the classic
@@ -206,4 +213,3 @@ from firmware results.
 | Wi-Fi AP | WPA2 AP creation, default/custom subnet, station join/leave, DHCP, ping, UDP and cleanup |
 | BLE advertising | named advertising, filtered discovery, service-data correlation, RSSI/address and cleanup in both directions |
 | BLE GATT | connect, discover service/characteristics, read challenge, perform two writes, disconnect and clean up in both directions |
-

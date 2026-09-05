@@ -527,7 +527,7 @@ Required selector positions / wiring:
 | Runner/control path | native USB Serial/JTAG on `D18` / `D19` |
 | `SEL_D3` | shunt `GPIO3` to `D3_UART1_TX`, `a3-b3` |
 | `SEL_D4` | shunt `GPIO4` to `D4_UART1_RX`, `a3-b3` |
-| `J10` / `SEL_UART0_UART1` column 1 | fit shunt: `D3_UART1_TX` -> `D20_UART0_RX` through `R6` |
+| `J10` / `SEL_UART0_UART1` column 1 | fit only after isolating the DevKitC-02 CP2102N TX path: `D3_UART1_TX` -> `D20_UART0_RX` through `R6` |
 | `J10` / `SEL_UART0_UART1` column 2 | fit shunt: `D21_UART0_TX` -> `D4_UART1_RX` through `R8` |
 | `J10` / `SEL_UART0_UART1` column 3 | GND/GND; available as common ground for external UART access |
 
@@ -547,6 +547,20 @@ External UART access:
   access connector for either side of the UART test block.
 - the two GND pins on column 3 provide a local common reference for an external
   USB-UART adapter or test instrument.
+
+DevKitC-02 onboard USB-UART limitation:
+
+- the fitted DevKitC-02 schematic powers its CP2102N from `VCC_3V3` and joins
+  CP2102N TXD to `U0RXD` through zero-ohm resistor `R21`;
+- disconnecting the USB-UART cable does not by itself release `D20` while the
+  board remains externally powered; bench testing found `D20` held high even
+  against the ESP32-C3 internal pull-down;
+- do not fit `J10` column 1 and drive `D3_UART1_TX` against that active output;
+  a full two-way UART0/UART1 crosslink requires deliberate isolation of the
+  CP2102N TX path;
+- for non-destructive native-USB validation of UART setup/unsetup, use the
+  loop-B path instead: open both `J10` signal columns, set `SEL_D3=a2-b2` and
+  `SEL_D4=a2-b2`, then configure one UART with TX `D3` and RX `D4`.
 
 Enabled coverage:
 

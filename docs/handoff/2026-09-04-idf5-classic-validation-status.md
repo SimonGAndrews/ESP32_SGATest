@@ -25,6 +25,13 @@ The authoritative post-merge result is:
 
 - `tests/Results/2026-09-05-esp32-post-idf5-merge-same-source-sanity.md`
 
+A subsequent focused UART investigation produced commit `154d4a8c8`, a
+guarded candidate that restores all 18 Block 7 UART tests on both classic
+build systems. The C3 native-USB build also completes and passes 22/22 focused
+UART loopback checks, including twenty setup/unsetup cycles. See:
+
+- `docs/investigations/uart/esp32-post-idf5-merge-uart-regression-2026-09-05.md`
+
 ## Contribution to Upstream
 
 The following submitted corrections are now present in master through the IDF5

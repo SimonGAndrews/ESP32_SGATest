@@ -27,7 +27,7 @@ var CFGS = {
     harnessName : "ESP32-C3 DevKitC-02 / ESP32_C3_V1 harness",
     mode : "C3_SERIAL_UART0_UART1_CROSSLINK",
     consoleInfo : "native USB Serial/JTAG on D18/D19",
-    selectorInfo : "SEL_D3=a3-b3 SEL_D4=a3-b3 J10_columns_1_2=closed",
+    selectorInfo : "SEL_D3=a3-b3 SEL_D4=a3-b3 J10_columns_1_2=closed CP2102_TX_to_D20_isolated",
     SERIAL_A : { tx : "D21", rx : "D20", name : "Serial1" },
     SERIAL_B : { tx : "D3", rx : "D4", name : "Serial2" }
   }

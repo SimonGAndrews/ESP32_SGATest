@@ -78,8 +78,9 @@ Important C3-specific features include:
 - native USB Serial/JTAG on `D18` / `D19`
 - UART0 on `D20` / `D21` reserved by default for board USB-UART REPL/flashing
 - selector-heavy GPIO allocation due to the smaller available pin budget
-- UART0/UART1 crosslink mode that uses native USB Serial/JTAG as the runner
-  path because UART0 is under test
+- UART0/UART1 crosslink provisions that use native USB Serial/JTAG as the
+  runner path; the DevKitC-02 onboard CP2102N TX must be isolated before its
+  `D20` UART0 RX path can be used as the second crosslink direction
 
 KiCad project:
 
@@ -221,10 +222,11 @@ older IDF4 results remain useful comparators rather than the current endpoint.
 
 The expedited ESP32 IDF5 validation supplied build and V1 regression evidence
 that informed Gordon Williams' decision to merge the official `IDF5` branch
-into Espruino `master` at `5d79af218`. The remaining acceptance task is to
-build `BOARD=ESP32` and `BOARD=ESP32_IDF5` from the same current official-master
-commit and run the established suite as a post-merge sanity check. Further
-defects then return to normal Espruino-master investigation. See
+into Espruino `master` at `5d79af218`. The same-source post-merge sanity check
+of `BOARD=ESP32` and `BOARD=ESP32_IDF5` is complete. Further defects have
+returned to normal Espruino-master investigation; the first follow-up has
+narrowed the post-merge classic UART regression and validated local commit
+`154d4a8c8` on both classic build systems and the C3 native-USB UART path. See
 `docs/handoff/2026-09-04-idf5-classic-validation-status.md`.
 
 This work continues block-by-block expansion of the shared functional suite,
