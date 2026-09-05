@@ -140,6 +140,12 @@ function addWatch(pin, options, fn) {
   return id;
 }
 
+function clearTrackedWatch(id) {
+  var index = watchIds.indexOf(id);
+  if (index >= 0) watchIds.splice(index, 1);
+  clearWatch(id);
+}
+
 function clearAllWatches() {
   while (watchIds.length) {
     var id = watchIds.pop();
@@ -212,7 +218,7 @@ function runShiftOutPhase() {
   });
 
   schedule(200, function() {
-    clearWatch(watchId);
+    clearTrackedWatch(watchId);
     metric("gpio_shiftout_clock_edges", clockCount);
     metric("gpio_shiftout_bits_seen", JSON.stringify(bitsSeen));
     expectEq("gpio_shiftout_clock_count", clockCount, 8);

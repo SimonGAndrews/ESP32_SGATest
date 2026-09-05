@@ -115,7 +115,6 @@ var __OW_ALL_ROMS = ow.search();
 var __OW_ROMS = __OW_ALL_ROMS.filter(familyMatch);
 print("OW_INIT_ALL=" + JSON.stringify(__OW_ALL_ROMS));
 print("OW_INIT=" + JSON.stringify(__OW_ROMS));
-echo(true);
 print("READY_DS18B20_SOAK");
 """
 
@@ -261,6 +260,8 @@ def main() -> int:
                 all_temps.append(tuple(temps))
             if not good:
                 failed_runs += 1
+
+        send_and_capture(ser, "echo(true);\n", settle=0.2)
 
     print("DS18B20 soak summary:")
     print(f"  runs={args.runs}")

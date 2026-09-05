@@ -118,7 +118,11 @@ function safeCall(fn) {
 }
 
 function schedule(delayMs, fn) {
-  var id = setTimeout(fn, delayMs);
+  var id = setTimeout(function() {
+    var index = timerIds.indexOf(id);
+    if (index >= 0) timerIds.splice(index, 1);
+    fn();
+  }, delayMs);
   timerIds.push(id);
   return id;
 }
@@ -127,6 +131,12 @@ function addWatch(pin, options, fn) {
   var id = setWatch(fn, pin, options);
   watchIds.push(id);
   return id;
+}
+
+function clearTrackedWatch(id) {
+  var index = watchIds.indexOf(id);
+  if (index >= 0) watchIds.splice(index, 1);
+  clearWatch(id);
 }
 
 function clearAllWatches() {
@@ -203,8 +213,8 @@ function runWritePhase() {
     digitalPulse(PINS.PULSE_OUT, 1, [20, 20, 20]);
   });
 
-  schedule(420, function() {
-    clearWatch(watchId);
+  schedule(320, function() {
+    clearTrackedWatch(watchId);
     metric("gpio_pulse_callbacks", pulseStates.length);
     expectJsonEq("gpio_pulse_states", pulseStates, [1, 0, 1, 0]);
     expectEq("gpio_pulse_final_low", digitalRead(PINS.PULSE_IN), 0);

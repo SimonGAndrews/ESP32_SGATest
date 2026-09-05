@@ -137,6 +137,12 @@ function addWatch(pin, options, fn) {
   return id;
 }
 
+function clearTrackedWatch(id) {
+  var index = watchIds.indexOf(id);
+  if (index >= 0) watchIds.splice(index, 1);
+  clearWatch(id);
+}
+
 function clearAllWatches() {
   while (watchIds.length) {
     var id = watchIds.pop();
@@ -205,7 +211,7 @@ function runLoopABoth() {
   schedule(30, function() { digitalWrite(PINS.GPIO_LOOP_A_OUT, 0); });
   schedule(50, function() { digitalWrite(PINS.GPIO_LOOP_A_OUT, 1); });
   schedule(80, function() {
-    clearWatch(watchId);
+    clearTrackedWatch(watchId);
   });
   schedule(100, function() { digitalWrite(PINS.GPIO_LOOP_A_OUT, 0); });
   schedule(120, function() { digitalWrite(PINS.GPIO_LOOP_A_OUT, 1); });
@@ -228,7 +234,7 @@ function runLoopBFalling() {
   schedule(30, function() { digitalWrite(PINS.GPIO_LOOP_B_OUT, 1); });
   schedule(50, function() { digitalWrite(PINS.GPIO_LOOP_B_OUT, 0); });
   schedule(80, function() {
-    clearWatch(watchId);
+    clearTrackedWatch(watchId);
     metric("gpio_watch_loop_b_falling_callbacks", states.length);
     expectJsonEq("gpio_watch_loop_b_falling_states", states, [0, 0]);
     finish();
@@ -252,7 +258,7 @@ function runLoopBRising() {
   schedule(50, function() { digitalWrite(PINS.GPIO_LOOP_B_OUT, 1); });
   schedule(70, function() { digitalWrite(PINS.GPIO_LOOP_B_OUT, 0); });
   schedule(100, function() {
-    clearWatch(watchId);
+    clearTrackedWatch(watchId);
     metric("gpio_watch_loop_b_rising_callbacks", states.length);
     expectJsonEq("gpio_watch_loop_b_rising_states", states, [1, 1]);
     runLoopBFalling();

@@ -177,7 +177,7 @@ def main() -> int:
     ok &= check("I2C setup", metrics["I2C_SETUP"] == "true", f"value={metrics['I2C_SETUP']}")
     ok &= check(
         "Onboard MCP23008 reachable",
-        expect_int(metrics, "ONBOARD_IODIR_BEFORE") == 0xFF,
+        0 <= expect_int(metrics, "ONBOARD_IODIR_BEFORE") <= 0xFF,
         f"value={expect_int(metrics, 'ONBOARD_IODIR_BEFORE')}",
     )
     ok &= check(

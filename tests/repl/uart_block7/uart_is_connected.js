@@ -119,8 +119,8 @@ function run() {
   expectBool("uart_connected_before_b_boolean", beforeB);
   expectEq("uart_connected_after_setup_a", afterSetupA, true);
   expectEq("uart_connected_after_setup_b", afterSetupB, true);
-  expectEq("uart_connected_after_unsetup_a", afterUnsetupA, true);
-  expectEq("uart_connected_after_unsetup_b", afterUnsetupB, true);
+  expectEq("uart_connected_after_unsetup_a", afterUnsetupA, false);
+  expectEq("uart_connected_after_unsetup_b", afterUnsetupB, false);
   finish();
 }
 
