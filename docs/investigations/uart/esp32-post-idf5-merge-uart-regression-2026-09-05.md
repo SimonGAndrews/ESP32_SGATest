@@ -1,172 +1,203 @@
-# ESP32 Post-IDF5-Merge UART Compatibility Regression
+# ESP32 Current-Master UART Investigation
 
-Date: 5 September 2026
+Updated: 7 September 2026
 
 ## Conclusion
 
-A local Espruino source candidate restores the classic ESP32 UART behaviour
-lost after the IDF5 merge. The candidate passes all 18 V1 Block 7 UART scripts
-when built as either `BOARD=ESP32` or `BOARD=ESP32_IDF5`. Both builds again
-deliver complete 128-byte and 200-byte transfers in both directions, and pass
-full-duplex and repeated setup/unsetup tests.
+Current Espruino master `ed46a3a0b` has two confirmed classic-ESP32 UART
+driver-lifecycle symptoms:
 
-The correction preserves the newer UART-task transmit path for targets that
-define `ESPR_USE_USB_SERIAL_JTAG`, while restoring the proven pre-merge
-execution model for classic ESP32 targets. A clean `BOARD=ESP32C3_IDF5` build
-and focused C3 V1 runtime test confirm that the native USB path remains
-compileable and functional.
+1. `Serial.setup()` or `Serial.unsetup()` can delete an ESP-IDF UART driver
+   while Espruino's UART task is inside `uart_read_bytes()`. In the legacy
+   `BOARD=ESP32` build this produced `uart driver error`, a FreeRTOS
+   `xQueueGenericReceive` assertion and a reboot.
+2. Recreating the two non-console UARTs can expose one stale leading byte. In
+   the `BOARD=ESP32_IDF5` build, five alternating reverse-direction transfers
+   returned `"\0UART_n"` instead of `"UART_n"`.
 
-Status: validated local candidate committed as `154d4a8c8`; not yet submitted
-upstream.
+A minimal source candidate fixes both symptoms. It coordinates driver
+replacement with the UART task and flushes receive state after reinstalling a
+classic ESP32 UART. The corrected 18-script suite passes under both
+`BOARD=ESP32` and `BOARD=ESP32_IDF5`. The exact candidate also passed a
+102-check `BOARD=ESP32C3_IDF5` runtime test, with the classic-only change
+excluded by `CONFIG_IDF_TARGET_ESP32`.
 
-## Regression Context
+The earlier apparent 64-byte and 120-byte truncations were test timing
+artifacts. With receipt-driven completion, current master delivers 128-byte
+and 200-byte payloads in both directions. Buffer size, UART polling timing and
+the transmit path therefore do not need changing for this PR.
 
-The same-source post-merge run at `e5341719a` found:
+Status: correction validated and submitted as a pull request; awaiting
+upstream review.
 
-- classic `ESP32`: 2 of 18 UART scripts passed;
-- `ESP32_IDF5`: 16 of 18 UART scripts passed;
-- classic failures included leading NUL data, lifecycle assertions and long
-  transfers stopping at an internal boundary;
-- pre-IDF5-merge `ESP32_IDF4` at `0af6e1568`, including Core fix
-  `a3f085979`, had previously passed clean-start 128-byte and 200-byte bursts
-  in both directions.
+## Test Subject
 
-The current investigation used Espruino branch
-`fix/esp32-classic-uart-compat`, based on `bffc6d068`. Firmware reports
-`2v29.380`; the candidate source is commit `154d4a8c8`.
+- upstream source: `espruino/Espruino` master `ed46a3a0b`;
+- reported version: `2v29.383`;
+- candidate branch: `fix/esp32-uart-driver-reconfiguration`;
+- candidate commit: `cc6dd86d2`;
+- classic target: ESP32 DevKitC V4, MAC `08:b6:1f:70:14:e8`;
+- runtime builds: `BOARD=ESP32` and `BOARD=ESP32_IDF5`;
+- C3 guard/runtime build: `BOARD=ESP32C3_IDF5`, ESP-IDF 5.5.3.
 
-## Source Attribution
+The classic runtime tests used UART0 for the REPL and cross-connected the two
+non-console UARTs:
 
-The earlier Core correction `a3f085979` remains present and is still required.
-It prevents failure when serial data from multiple internal event chunks is
-assembled into a JavaScript string. It does not address the later target-side
-UART scheduling regression investigated here.
-
-The relevant post-baseline ESP32 changes are:
-
-- `391070be2` moved physical UART transmission out of `jshUSARTKick()` and
-  into the high-priority UART polling task;
-- `5dc64163d` added 64-byte transmit batching and replaced the former
-  256-byte receive buffer with a 64-byte task-local buffer;
-- `ac9189744` made `Serial.unsetup()` delete an installed UART driver, which
-  exposed a race if the UART task was blocked inside `uart_read_bytes()`;
-- later adaptive/idle-delay changes were designed for native USB Serial/JTAG
-  targets but also changed classic ESP32 polling timing.
-
-The most diagnostic symptom was deterministic receipt of exactly 120 bytes
-from a 128-byte or 200-byte transfer. This matches the ESP32 UART FIFO-full
-threshold: the full-threshold portion was delivered while the trailing partial
-FIFO was not consistently serviced in the merged scheduling model.
-
-## Candidate Correction
-
-The candidate changes only the shared ESP32 UART implementation:
-
-1. When `ESPR_USE_USB_SERIAL_JTAG` is not defined, physical UART output is
-   again drained synchronously by `jshUSARTKick()`, one byte at a time.
-2. The UART polling task leaves classic physical-UART transmit data to that
-   synchronous path. Native USB targets retain task-owned 64-byte batching.
-3. Classic builds regain a 256-byte receive buffer and the pre-merge 50 ms
-   UART0 read interval; native USB targets retain the newer 64-byte/adaptive
-   path.
-4. Classic receiver setup flushes stale input and explicitly enables a short
-   receive timeout so a trailing partial FIFO is delivered.
-5. On classic ESP32 only, setup and unsetup pause the UART polling task before
-   deleting or replacing a driver. This prevents `uart_driver_delete()`
-   invalidating driver objects while `uart_read_bytes()` is using them. The
-   pause state and handshake are excluded entirely when
-   `ESPR_USE_USB_SERIAL_JTAG` is defined.
-6. Classic UART0 polling remains unconditional because its console driver is
-   installed for the task lifetime. Native USB targets retain the
-   initialisation check because UART0 can legitimately be absent.
-
-The principal compatibility boundary is target capability, not IDF version:
-classic ESP32 builds under both the legacy IDF and IDF5 use the classic path;
-C3/native-USB builds retain the newer path.
-
-## Validation Results
-
-Hardware and mode:
-
-- classic ESP32 DevKitC V4 target, MAC `08:b6:1f:70:14:e8`;
-- ESP32 V1 harness;
 - `Serial2`: TX `D4`, RX `D35`;
-- `Serial3`: TX `D14`, RX `D36`;
-- `SEL_D35=UART`, `JP_UART_LOOP2=closed`, `SEL_D33=1-2`,
-  `SEL_D26=1-2`;
-- UART0 on `D1`/`D3` used as the runner/control connection.
+- `Serial3`: TX `D14`, RX `D36`.
 
-| Build | Toolchain | Result |
-|---|---|---|
-| `BOARD=ESP32` | legacy ESP-IDF build | 18/18 UART scripts pass |
-| `BOARD=ESP32_IDF5` | ESP-IDF 5.5.3 | 18/18 UART scripts pass |
-| `BOARD=ESP32C3_IDF5` | ESP-IDF 5.5.3 | clean build and focused C3 UART loopback pass, 22/22 checks |
+## Exact Current-Master Failures
 
-The 18-script runtime suite covers:
+### Driver replacement race
+
+The no-wiring reproduction repeatedly calls:
+
+```js
+Serial2.setup(115200, {tx:D4, rx:D35});
+Serial2.unsetup();
+```
+
+On the untouched `BOARD=ESP32` build it reported:
+
+```text
+uart: uart_read_bytes(1227): uart driver error
+xQueueGenericReceive ... assert failed
+```
+
+The decoded call chain is:
+
+```text
+xQueueGenericReceive
+  -> uart_read_bytes
+  -> pollSerialDevices (targets/esp32/jshardwareUart.c)
+  -> uartTask (targets/esp32/main.c)
+```
+
+This confirms that the polling task was still using ESP-IDF driver objects
+while the Espruino task deleted the driver.
+
+### Stale first receive byte
+
+The cross-UART reproduction repeatedly unsets and recreates `Serial2` and
+`Serial3`, alternates 115200/57600 baud and alternates transfer direction. On
+the untouched `BOARD=ESP32_IDF5` build, all five `Serial3` to `Serial2`
+iterations contained the complete intended payload plus one leading NUL:
+
+```text
+got="\u0000UART_1" expected="UART_1"
+got="\u0000UART_3" expected="UART_3"
+got="\u0000UART_5" expected="UART_5"
+got="\u0000UART_7" expected="UART_7"
+got="\u0000UART_9" expected="UART_9"
+```
+
+The broader legacy suite also observed occasional leading bytes, although the
+compact ten-iteration reproduction happened to pass on that build. The
+lifecycle assertion is the deterministic legacy-build reproduction.
+
+### No long-transfer defect
+
+The corrected tests no longer compute hashes inside UART `data` callbacks and
+no longer judge completion at a short fixed deadline. They collect received
+data, evaluate it as soon as the expected length is present, and retain a
+failure deadline only for genuinely incomplete transfers.
+
+With that correction:
+
+- 128-byte and 200-byte transfers pass in both directions;
+- simultaneous full-duplex payloads are complete;
+- the upstream 64-byte UART-task receive buffer is sufficient;
+- no 120-byte FIFO-boundary truncation remains.
+
+## Minimal Source Correction
+
+The candidate changes only `targets/esp32/jshardwareUart.c`, and only for
+`CONFIG_IDF_TARGET_ESP32`:
+
+1. `initSerial()` and `uninitSerial()` request a cooperative pause and wait
+   for the UART task to acknowledge it before deleting or installing a UART
+   driver.
+2. The UART task waits while driver replacement is in progress, then resumes
+   normal polling.
+3. `Serial2` and `Serial3` call `uart_flush_input()` immediately after driver
+   installation so receive state from the former driver/pin route is not
+   exposed to JavaScript.
+
+The candidate does not change the transmit implementation, receive-buffer
+size, polling delay, receive timeout or UART0 behavior. It does not use a USB
+feature as a proxy for target identity.
+
+## Validation
+
+| Source/build | Corrected 18-script suite | Focused result |
+|---|---:|---|
+| untouched master, `BOARD=ESP32` | disrupted by lifecycle failures | setup/unsetup reproducer asserted and rebooted |
+| untouched master, `BOARD=ESP32_IDF5` | 17/18 scripts passed | first-receive reproducer failed 5/10 iterations |
+| candidate, `BOARD=ESP32` | 18/18 scripts passed | both focused reproducers passed |
+| candidate, `BOARD=ESP32_IDF5` | 18/18 scripts passed | both focused reproducers passed |
+| candidate, `BOARD=ESP32C3_IDF5` | focused C3 runtime test | clean build; all 102 checks passed; classic-only code excluded |
+
+The candidate completed 100 repeated `Serial2.setup()`/`unsetup()` cycles on
+both runtime build lines with no driver error, assertion or reboot. The
+cross-UART reproduction completed ten alternating setup/write/read cycles on
+both builds with no extra byte or malformed payload.
+
+The exact candidate C3 build completed polling and event-driven reception plus
+100 alternating 115200/57600-baud setup/write/read/unsetup cycles. It reported
+no unexpected bytes, failed checks, assertions or resets.
+
+The full functional suite covers:
 
 - `Serial.setup()`, `Serial.unsetup()` and `Serial.isConnected()`;
 - `Serial.write()`, `print()`, `println()` and `flush()`;
-- `available()`, partial `read()` and buffered delivery;
-- `on("data")`, listener ordering/removal and listener reattachment;
+- `available()`, partial `read()` and `on("data")` delivery;
+- listener addition, removal, ordering and reattachment;
 - `inject()` and `pipe()`;
-- baud rate, frame options, mismatch and recovery;
+- baud and frame reconfiguration, mismatch and recovery;
 - simultaneous full-duplex transfer;
-- ten alternating setup/write/read/unsetup iterations;
+- repeated setup/write/read/unsetup;
 - 32, 64, 65, 96, 128 and 200-byte transfers in both directions.
 
-No failed checks, leading NUL bytes, assertions or resets were observed in
-either complete candidate run.
+## Simple REPL Reproductions
 
-### C3 Native-USB Guard Validation
+The focused scripts are under `docs/investigations/uart/repros/`:
 
-The final C3 run used:
+- `esp32_uart_driver_lifecycle.js`: no external UART wiring required;
+- `esp32_uart_stale_nul.js`: three short alternating transfers reproduce the
+  stale NUL and stop without a final driver teardown;
+- `esp32_uart_first_receive.js`: connect `D4` to `D36` and `D14` to `D35`;
+- `core_stream_buffer_multichunk.js`: separate Core buffering issue described
+  below.
 
-- ESP32-C3-DevKitC-02 V1 target, MAC `dc:da:0c:d1:c1:90`;
-- `BOARD=ESP32C3_IDF5`, Espruino `2v29.380`, source `154d4a8c8`;
-- ESP-IDF 5.5.3;
-- native USB Serial/JTAG on `D18`/`D19` as `/dev/ttyACM0` for control;
-- external 5 V harness power, with the board USB-UART cable disconnected;
-- `SEL_D3=a2-b2` and `SEL_D4=a2-b2` for the `D3 -> R7 -> D4`
-  loop-B path;
-- both signal shunts on `J10 / SEL_UART0_UART1` open.
+They can be pasted directly into an Espruino REPL or run with:
 
-The focused test exercised `Serial2` on TX `D3` and RX `D4`. It passed a
-polling `available()`/`read()` transfer, an `on("data")` transfer, and twenty
-alternating 115200/57600-baud setup/write/read/unsetup cycles. All 22 checks
-passed. This directly covers the setup/unsetup lifecycle that motivated
-guarding the pause handshake away from native-USB targets.
+```bash
+python3 tools/repl/run_test.py \
+  docs/investigations/uart/repros/esp32_uart_driver_lifecycle.js \
+  --port <REPL_PORT> --timeout 40 --show-raw
+```
 
-Source inspection provides the second part of the C3 confidence: all pause
-state, pause/resume helpers and calls are inside
-`#ifndef ESPR_USE_USB_SERIAL_JTAG`. The native C3 uninitialisation ordering,
-64-byte UART-task transmit batching, receive buffer and adaptive polling path
-remain the upstream implementation.
+## Separate Core Stream-Buffer Defect
 
-### C3 DevKit UART0 RX Limitation
+There is a third issue, but it is not part of the proposed ESP32 driver PR.
+When physical serial data arrives in multiple 64-byte events while no
+JavaScript `data` listener is attached, `Serial.read()` does not reliably
+return the complete buffered payload.
 
-The intended full UART0/UART1 crosslink was also checked, but it is not a valid
-two-way test on the fitted DevKitC-02 without isolating its onboard USB-UART
-bridge. The board schematic powers the CP2102N from `VCC_3V3` and connects its
-TXD to `U0RXD` through zero-ohm resistor `R21`. Live GPIO tests found `D20`
-high with floating, pull-up and pull-down input modes, and still high while
-`D3` was driven low. By contrast, the `D21 -> D4` path followed both logic
-levels and passed a polling serial transfer.
+On untouched current master:
 
-Therefore failures in the `D3 UART1 TX -> D20 UART0 RX` direction are a
-hardware ownership conflict, not candidate firmware evidence. The full
-crosslink requires deliberate CP2102N TX isolation. The non-destructive
-loop-B test above is the accepted C3 runtime evidence for this source guard.
+- `BOARD=ESP32` asserted in `jsvStringIteratorAppend()` while
+  `jswrap_stream_pushData()` appended the second chunk;
+- `BOARD=ESP32_IDF5` returned only 64 of 128 bytes.
 
-Temporary detailed runner logs from this investigation are under:
+This path is in Espruino Core stream buffering, after the target driver has
+already supplied the events. It should be reported and corrected separately;
+bundling it would obscure the narrowly evidenced UART driver fix.
 
-- `/tmp/espruino-classic-uart-compat-full-suite/`;
-- `/tmp/espruino-idf5-uart-compat-full-suite/`;
-- `/tmp/espruino-c3-uart-guard-suite/`.
+## PR Boundary
 
-These paths are local evidence only and are not repository artifacts.
-
-## Next Action
-
-Package Espruino commit `154d4a8c8` as the proposed fix associated with the
-classic ESP32 UART regression issue. The classic builds and the native-USB C3
-guard have now received the required local validation.
+The submitted PR contains only the one-file, classic-target driver
+coordination and input-flush change. Its evidence should include the two
+simple reproductions, both corrected classic runtime suites and the C3 clean
+compile/runtime check. It does not claim a receive-buffer-size or UART-FIFO
+fix and does not include the separate Core stream-buffer correction.
