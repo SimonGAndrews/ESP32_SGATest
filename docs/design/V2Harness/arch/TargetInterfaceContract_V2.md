@@ -2,9 +2,9 @@
 
 **Status:** Accepted — corrected power allocation and complete 48-contact map
 
-**Version:** 1.3
+**Version:** 1.4
 
-**Last Updated:** 22 August 2026
+**Last Updated:** 5 September 2026
 
 ## 1. Conclusion
 
@@ -167,7 +167,7 @@ The following connections do not pass through Connector A or Connector B:
 | Target USB D+, D−, host VBUS and the physical host/target USB connectors | Common daughter-board USB data/VBUS-selector Adapter Service; only selected `TI_TARGET_VBUS` and Supervisor `TI_SWITCHED_TARGET_5V` cross the interface |
 | SWD, JTAG and target-specific debug | A target connector or daughter-board Adapter Service |
 | UART CTS and RTS | A daughter-board Adapter Service when a target needs that test |
-| Onboard USB-UART bridge isolation | Target-specific links, wiring or setup instructions |
+| Onboard USB-UART bridge isolation | Target-specific links, wiring or a proved target modification; a setup instruction alone is sufficient only when bench evidence shows that it removes the bridge drive |
 | `SUP_EVENT_OUT` and `SUP_EVENT_IN` | The separate Supervisor Interface between the Rack Control Endpoint and Test Block 3 |
 | Rack Control I2C | The Rack Control Backplane |
 | Target Power Monitor I2C and shunt | Reusable-harness circuitry connected to the Rack Control Backplane |
@@ -175,6 +175,15 @@ The following connections do not pass through Connector A or Connector B:
 | External regulated 3.3 V and 5 V inputs | Harness power connectors |
 | Target-specific VIN, VBAT, USB-OTG VBUS or other rails | A daughter-board Adapter Service where required |
 | Target or daughter-board identity | Documentation and the Target Profile; no connector pin is currently required |
+
+ESP32-C3-DevKitC-02 V1 evidence demonstrates why this remains outside the
+common Interface. Its daughter-board native USB Adapter Service successfully
+provides an independent `/dev/ttyACM` control path, but the target's onboard
+CP2102N still drives UART0 RX on D20 through R21 whenever the DevKit is
+powered. That internal target-board branch cannot be disconnected by Connector
+A, Connector B or reusable-harness routing. The unmodified target profile must
+therefore disable the full UART crosslink and use the standard endpoint-A
+external-peer form unless another non-contending mapping is proved.
 
 Adding one of these functions to a later Target Interface would require a
 review of this pinout and the architecture documents that define the function.

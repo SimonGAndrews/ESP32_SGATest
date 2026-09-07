@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.5
+**Version:** 0.6
 
-**Last Updated:** 22 August 2026
+**Last Updated:** 5 September 2026
 
 ## 1. Purpose
 
@@ -316,6 +316,24 @@ pins to the crosslink shall therefore isolate the CP2102N signal path or prove
 that it does not contend; otherwise it shall use another UART mapping or record
 the crosslink capability as unavailable. Removing VBUS from an otherwise
 powered target is not an accepted workaround.
+
+V1 bench evidence on 5 September 2026 confirms both sides of this
+qualification. The harness J1 native USB connection enumerated independently
+as `/dev/ttyACM0` and carried the Espruino runner while the board CP2102N
+enumerated as `/dev/ttyUSB0`. With both V1 J10 signal shunts open, D20 remained
+high for 16 of 16 samples in floating, pull-up and pull-down input modes. The
+same held-high result occurred when the board USB cable was removed and the
+target was supplied from external 5 V. Independent native-USB control does not
+isolate the CP2102N TX output from D20.
+
+An unmodified ESP32-C3-DevKitC-02 Target Profile shall therefore prohibit the
+Block 7 full-crosslink state and use the accepted endpoint-A external-peer
+form, unless another non-contending UART mapping is explicitly proved. A
+profile may enable the full crosslink only for an explicitly identified target
+variant or modification that isolates the onboard CP2102N TX-to-D20 path and
+passes continuity, bias and bidirectional transfer checks. Because the fitted
+zero-ohm link R21 is on the DevKit itself, routing or switching solely on the
+daughter board cannot disconnect that internal branch.
 
 The preferred C3 hardware-debug path is native USB Serial/JTAG on `D18` and
 `D19`, exposed through a target-specific USB connector on the daughter board.

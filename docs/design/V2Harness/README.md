@@ -55,6 +55,15 @@ and mechanically checked before the Rev-A harness is released. The current
 KiCad project is a prototype implementation and must not be mistaken for a
 frozen production design.
 
+The ESP32-C3-DevKitC-02 now has a specific Block 7 qualification. V1 bench
+evidence proves that the daughter-board-style D18/D19 native USB connection
+can provide an independent `/dev/ttyACM` runner, but it also proves that this
+does not release D20 from the onboard CP2102N TX output. The unmodified target
+therefore uses Block 7's endpoint-A external-peer form; the full two-UART
+crosslink is enabled only for an explicitly isolated or separately proved
+target mapping. Rev-A action `PCB-DB-C3-01` carries this into the
+`DB-ESP32-FAMILY` implementation.
+
 ## Active V2 Workstreams
 
 ### Architecture and Target Interface

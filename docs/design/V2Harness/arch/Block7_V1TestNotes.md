@@ -1,6 +1,22 @@
 
 Notes copied from V1 block 7 uart testing.
 
+## ESP32-C3 Evidence Correction — 5 September 2026
+
+The harness J1 connection on D18/D19 has now been proved as an independent
+native USB Serial/JTAG Espruino control path on `/dev/ttyACM0`. This does not,
+however, make the V1 C3 UART0/UART1 crosslink safe. The DevKitC-02 CP2102N TX
+continues to drive D20 high through fitted zero-ohm link R21 whenever the board
+is powered. D20 stayed high against the C3 internal pull-down with either
+onboard-USB power or external 5 V power and the onboard USB cable removed.
+
+The V2 implication is that native USB solves control-channel independence but
+not UART0 electrical ownership. An unmodified DevKitC-02 must use Block 7's
+single-UART external-peer form or another proved mapping. Full internal
+crosslink use requires explicit target-side CP2102 TX isolation. The governing
+requirements are in `StandardTestBlocks_V2.md` Section 6.7 and
+`TargetRoutingEnvelope_V2.md` Section 7.1.
+
 
 see https://github.com/espruino/Espruino/issues/2718#issuecomment-4886914338  which the V1 test harness was instrumental in closing via PR.  Note the issue raiser was uing modem hardware to debug and the test harness was able to reproduce with the V1 Block7 crosover capability.
 

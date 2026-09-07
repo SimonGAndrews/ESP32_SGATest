@@ -2,9 +2,9 @@
 
 **Status:** Accepted
 
-**Version:** 0.5
+**Version:** 0.6
 
-**Last Updated:** 15 August 2026
+**Last Updated:** 5 September 2026
 
 ## 1. Purpose
 
@@ -1346,13 +1346,23 @@ UART0 remains the board USB-UART runner and control path. This implementation
 proves the value of a two-endpoint crosslink without requiring a second
 external serial device.
 
-**Evidence correction:** the ESP32-C3 V1 harness physically provides two
-different host connections. Its target-board USB connector uses the onboard
-USB-to-UART bridge connected to UART0 on D20/D21. The separate harness
-connector wires the C3 native USB Serial/JTAG signals on D18/D19, but that
-native path was not exercised in the reported testing. The proposed C3
-UART0/UART1 crosslink under independent native-USB control is therefore a V1
-hardware provision and V2 design input, not proven Block 7 bench evidence.
+**C3 evidence update, 5 September 2026:** the ESP32-C3 V1 harness provides two
+independent host connections. J1 on the harness exposes native USB
+Serial/JTAG on D18/D19 and was verified as an Espruino control path on
+`/dev/ttyACM0`. The DevKit's onboard Micro-USB connection enumerated its
+CP2102N on `/dev/ttyUSB0`. Native USB therefore provides the required
+independent runner, but it does not release UART0 from the onboard bridge.
+
+With both J10 crosslink shunts open, D20 remained high for all 16 samples in
+each of `input`, `input_pullup` and `input_pulldown` modes while the DevKit was
+powered through onboard USB. The same held-high state had already been
+observed with external 5 V power and the board USB cable disconnected. The
+C3 V1 evidence therefore proves the native control path and also proves that
+an unmodified DevKitC-02 cannot safely use D20 as the second crosslink RX while
+its CP2102N TX remains connected. The reusable Block 7 design remains valid;
+the C3 Target Profile must provide target-side bridge isolation or use the
+accepted single-UART external-peer form. Detailed evidence is in
+`../../../investigations/uart/esp32-post-idf5-merge-uart-regression-2026-09-05.md`.
 
 Recent ESP32_V1 testing substantially extended the shared Block 7 coverage.
 The crosslink reproduced Espruino issue 2718 as a symmetric assertion at the

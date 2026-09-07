@@ -1,7 +1,7 @@
 # ESP32-C3-DevKitC-02 V2 GPIO Allocation And Routing Design
 
 **Status:** Provisional design study
-**Last Updated:** 26 July 2026
+**Last Updated:** 5 September 2026
 
 > **Current V2 device decision, 19 July 2026:** Accepted Block 3 now uses an
 > MCP23017 as its functional I2C and Supervisor event-handshake device. The
@@ -181,17 +181,22 @@ D3  UART1 TX -> 470R -> D20 UART0 RX
 D21 UART0 TX -> 470R -> D4  UART1 RX
 ```
 
-Because D20/D21 remain physically attached to the onboard CP2102N, the current
-operator precondition is:
+The earlier assumption that unplugging the board Micro-USB connector would
+release UART0 RX is disproved. Bench testing on 5 September 2026 verified the
+native D18/D19 control path as `/dev/ttyACM0`, but D20 remained high against
+the C3 internal pull-down both when the target was powered through onboard USB
+and when it was externally powered with the board USB cable disconnected. The
+onboard CP2102N remains powered from the DevKit 3.3 V rail and drives D20
+through fitted zero-ohm link R21.
 
-* unplug the board Micro-USB connector
-* connect the native USB Serial/JTAG harness connector on D18/D19
-* provide power through the explicitly selected harness supply path
-
-The current tests have no mechanism to confirm that the board USB cable is
-unplugged. This remains an unverified mode instruction that must be recorded in
-test evidence. Automated route selection does not remove this external
-precondition.
+This provisional study must not be used to enable the two-UART crosslink on an
+unmodified DevKitC-02. The accepted
+[Target Routing Envelope](../../arch/TargetRoutingEnvelope_V2.md) now requires
+the unmodified target to use Block 7's endpoint-A external-peer form, or a
+separately proved non-contending mapping. Full crosslink use requires an
+explicitly identified target modification or variant that isolates the
+CP2102N TX-to-D20 path; daughter-board routing alone cannot disconnect R21 on
+the DevKit.
 
 ## Separate Routing And Functional I2C Devices
 

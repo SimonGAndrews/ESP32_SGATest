@@ -2,7 +2,7 @@
 
 **Date:** 17 July 2026
 **Status:** Current V2 architecture and Rev-A implementation handover
-**Updated:** 12 August 2026
+**Updated:** 5 September 2026
 **Scope:** Carry the accepted V2 architecture and Target Interface contract
 through Rev-A circuit-block verification and PCB implementation
 
@@ -93,6 +93,22 @@ The design-basis set covers ESP32-C3, classic ESP32, ESP32-S3, Raspberry Pi
 Pico 1/2 families, Espruino Pico and MDBT42Q. Post-design checks against the
 Seeed Studio XIAO ESP32-S3 and ESP32-C3-DevKitM-1 required no expansion of the
 envelope. No further target what-if exercise is required at this stage.
+
+### 3.4 ESP32-C3 UART ownership evidence update
+
+V1 bench testing on 5 September 2026 verified the ESP32-C3-DevKitC-02 harness
+J1 connection on D18/D19 as an independent native USB Serial/JTAG Espruino
+runner on `/dev/ttyACM0`. It also established that this control path does not
+release UART0 RX: the onboard CP2102N continued to hold D20 high against the
+C3 internal pull-down with either onboard-USB power or external 5 V power and
+the onboard USB cable removed.
+
+Carry this into `DB-ESP32-FAMILY` as a target-profile restriction, not a
+reusable TB07 redesign. An unmodified DevKitC-02 shall use endpoint-A
+external-peer operation and shall not select the `1100` full-crosslink state.
+A modified-target profile may enable the crosslink only after explicit
+target-side CP2102 TX isolation and continuity, bias and bidirectional transfer
+proof. Rev-A action `PCB-DB-C3-01` records the implementation gate.
 
 ## 4. Accepted Decisions To Carry Forward
 

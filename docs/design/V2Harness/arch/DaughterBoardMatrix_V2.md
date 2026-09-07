@@ -1,8 +1,8 @@
 # V2 Target Daughter-Board Matrix
 
 **Status:** Accepted architecture direction; target implementation assessment in progress
-**Version:** 0.1
-**Last Updated:** 21 August 2026
+**Version:** 0.2
+**Last Updated:** 5 September 2026
 
 ## 1. Accepted Direction
 
@@ -97,6 +97,10 @@ Interface roles.
     without native USB shall retain the same power contract while its matrix
     row and Target Profile identify the alternative data/control endpoint and
     target-power input.
+13. An independent native-USB control connection shall not be treated as proof
+    that an onboard USB-UART bridge has released its UART pins. A daughter-board
+    mapping and Target Profile shall explicitly isolate the bridge, prove a
+    non-contending condition, or disable the affected UART crosslink state.
 
 ## 5. Matrix Field Definitions
 
@@ -147,8 +151,8 @@ placement or routing proof is complete.
 | `ESPRUINO-PICO-1V4` | Espruino Pico revision 1v4 | `DB-ESPRUINO-CORE-GRID` | Official Espruino STM32 reference | Direct/hybrid | `ESPRUINO-PICO-1V4` | Fully routed, qualified | Unique | USB edge access; underside SWD and recovery access | Routing assessment and derived CAD exist | Complete 1:1 footprint and physical-fit proof | Allocated |
 | `ESPRUINO-MDBT42Q-BREAKOUT` | Official Espruino MDBT42Q breakout | `DB-ESPRUINO-CORE-GRID` | Official Espruino nRF52/BLE reference | Socketed | `MDBT42Q-BREAKOUT-27` | Fully routed, qualified | Unique | Antenna keepout; UART/console ownership; debug and recovery access | Routing assessment and derived CAD exist | Complete physical-fit and antenna-clearance proof | Allocated |
 | `ESP32-DEVKITC-V4-WROOM-32E` | Espressif ESP32-DevKitC V4 with ESP32-WROOM-32E | `DB-ESPRUINO-CORE-GRID` | Classic ESP32 reference and primary non-Espruino business target | Socketed | `ESP32-DEVKITC-V4-2X19` | Fully routed, qualified | Unique pending exact-variant expansion | Micro-USB, EN/BOOT and antenna access; male-header target required | Accepted routing assessment, V1 evidence and curated CAD exist | Prove outer socket placement with the two Espruino targets and grid | Allocated |
-| `ESP32-C3-DEVKITC-02-WROOM-02` | Espressif ESP32-C3-DevKitC-02 with ESP32-C3-WROOM-02 | `DB-ESP32-FAMILY` | C3 gold-standard reference | Socketed | `ESP32-C3-DEVKITC-02-2X15` | Fully routed, qualified | Confirmed common | Micro-USB and PCB-antenna clearance | Accepted routing assessment and V1 evidence exist | Validate authoritative footprint and placement | Allocated |
-| `ESP32-C3-DEVKITC-02-WROOM-02U` | Espressif ESP32-C3-DevKitC-02 with ESP32-C3-WROOM-02U | `DB-ESP32-FAMILY` | Supported external-antenna variant | Socketed | `ESP32-C3-DEVKITC-02-2X15` | Fully routed, qualified | Confirmed common | External antenna connector and cable clearance | Common mapping accepted | Validate antenna-cable placement | Allocated |
+| `ESP32-C3-DEVKITC-02-WROOM-02` | Espressif ESP32-C3-DevKitC-02 with ESP32-C3-WROOM-02 | `DB-ESP32-FAMILY` | C3 gold-standard reference | Socketed | `ESP32-C3-DEVKITC-02-2X15` | Fully routed, qualified | Confirmed common | Micro-USB and PCB-antenna clearance; native USB control does not isolate CP2102N TX from D20 | Accepted routing assessment and V1 native-USB/CP2102 ownership evidence exist | Validate authoritative footprint and placement; define the unmodified-target external-peer profile and prohibit full crosslink without target-side isolation proof | Allocated |
+| `ESP32-C3-DEVKITC-02-WROOM-02U` | Espressif ESP32-C3-DevKitC-02 with ESP32-C3-WROOM-02U | `DB-ESP32-FAMILY` | Supported external-antenna variant | Socketed | `ESP32-C3-DEVKITC-02-2X15` | Fully routed, qualified | Confirmed common | External antenna connector and cable clearance; native USB control does not isolate CP2102N TX from D20 | Common mapping and DevKitC-02 CP2102 ownership evidence accepted | Validate antenna-cable placement; apply the same external-peer/full-crosslink restriction as the WROOM-02 profile | Allocated |
 | `ESP32-C3-DEVKITM-1-MINI-1` | Espressif ESP32-C3-DevKitM-1 with ESP32-C3-MINI-1 | `DB-ESP32-FAMILY` | Official compact C3 compatibility target | Socketed | `ESP32-C3-DEVKITM-1-2X15` | Fully routed, qualified | Confirmed common | Micro-USB and PCB-antenna clearance | Compatibility exercise accepted | Create or validate authoritative footprint | Allocated |
 | `ESP32-C3-DEVKITM-1-MINI-1U` | Espressif ESP32-C3-DevKitM-1 with ESP32-C3-MINI-1U | `DB-ESP32-FAMILY` | Supported compact external-antenna variant | Socketed | `ESP32-C3-DEVKITM-1-2X15` | Fully routed, qualified | Confirmed common | External antenna connector and cable clearance | Common mapping accepted | Create or validate authoritative footprint | Allocated |
 | `ESP32-S3-DEVKITC-1-V1.1-N8R8` | Espressif ESP32-S3-DevKitC-1 V1.1 with ESP32-S3-WROOM-1-N8R8 | `DB-ESP32-FAMILY` | S3 gold-standard reference | Socketed | `ESP32-S3-DEVKITC-1-V1.1-2X22` | Fully routed, qualified | Confirmed common | Dual USB access; PCB antenna; memory and loaded-RGB qualifications | Accepted routing assessment and curated CAD exist | Validate placement and connector population | Allocated |
@@ -252,6 +256,13 @@ Demonstrate complete target-to-Interface routing on the intended layer count,
 including power, reset, boot and I2C-control paths. Check that unpopulated
 branches create neither cross-net shorts nor unsafe power paths and that the
 remaining generic grid is useful rather than merely nominal.
+
+For any target with an onboard USB-UART bridge, also prove that every enabled
+Block 7 state has only one active source per RX node. Independent native USB
+control is not bridge-isolation evidence. The unmodified
+ESP32-C3-DevKitC-02 shall default to the endpoint-A external-peer profile;
+full crosslink qualification requires explicit target-side isolation or a
+separately proved UART mapping.
 
 ### Gate 5: Architecture Acceptance
 

@@ -552,9 +552,10 @@ DevKitC-02 onboard USB-UART limitation:
 
 - the fitted DevKitC-02 schematic powers its CP2102N from `VCC_3V3` and joins
   CP2102N TXD to `U0RXD` through zero-ohm resistor `R21`;
-- disconnecting the USB-UART cable does not by itself release `D20` while the
-  board remains externally powered; bench testing found `D20` held high even
-  against the ESP32-C3 internal pull-down;
+- neither disconnecting the board USB-UART cable while using external 5 V nor
+  powering the board through its onboard USB connection releases `D20`;
+  bench testing in both arrangements found `D20` held high even against the
+  ESP32-C3 internal pull-down;
 - do not fit `J10` column 1 and drive `D3_UART1_TX` against that active output;
   a full two-way UART0/UART1 crosslink requires deliberate isolation of the
   CP2102N TX path;
