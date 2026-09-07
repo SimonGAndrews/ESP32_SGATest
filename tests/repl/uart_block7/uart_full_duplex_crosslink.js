@@ -7,7 +7,7 @@ var TEST_NAME = "uart_full_duplex_crosslink";
 var TARGET = "AUTO";
 var TIMEOUT_MS = 4000;
 var BAUD = 115200;
-var SETTLE_MS = 420;
+var COMPLETION_GRACE_MS = 20;
 
 var CFGS = {
   ESP32_V1 : {
@@ -115,26 +115,48 @@ function hashString(text) {
   }
   return hash >>> 0;
 }
-function hashAppend(hash, text) {
-  for (var i = 0; i < text.length; i++) {
-    hash ^= text.charCodeAt(i);
-    hash = (hash * 16777619) >>> 0;
-  }
-  return hash >>> 0;
-}
-
 function run() {
   var boardId = process.env.BOARD || "UNKNOWN";
   var payloadA = makePayload("FD_A", 96);
   var payloadB = makePayload("FD_B", 128);
+  var expectedHashA = hashString(payloadA);
+  var expectedHashB = hashString(payloadB);
   var rxA = "";
   var rxB = "";
   var callbacksA = 0;
   var callbacksB = 0;
   var maxChunkA = 0;
   var maxChunkB = 0;
-  var hashA = 2166136261;
-  var hashB = 2166136261;
+  var resultScheduled = false;
+
+  // Keep receive callbacks lightweight. On slower interpreters, hashing here
+  // can delay later serial events until after an otherwise arbitrary timer.
+  function evaluate() {
+    if (done) return;
+    var hashA = hashString(rxA);
+    var hashB = hashString(rxB);
+    metric("uart_full_duplex_a_callbacks", callbacksA);
+    metric("uart_full_duplex_b_callbacks", callbacksB);
+    metric("uart_full_duplex_a_received_len", rxA.length);
+    metric("uart_full_duplex_b_received_len", rxB.length);
+    metric("uart_full_duplex_a_max_chunk", maxChunkA);
+    metric("uart_full_duplex_b_max_chunk", maxChunkB);
+    metric("uart_full_duplex_a_hash", hashA);
+    metric("uart_full_duplex_b_hash", hashB);
+    expectEq("uart_full_duplex_a_rx_len", rxA.length, payloadB.length);
+    expectEq("uart_full_duplex_b_rx_len", rxB.length, payloadA.length);
+    expectEq("uart_full_duplex_a_hash", hashA, expectedHashB);
+    expectEq("uart_full_duplex_b_hash", hashB, expectedHashA);
+    expectEq("uart_full_duplex_a_rx", rxA, payloadB);
+    expectEq("uart_full_duplex_b_rx", rxB, payloadA);
+    finish();
+  }
+  function maybeEvaluate() {
+    if (resultScheduled || rxA.length < payloadB.length || rxB.length < payloadA.length) return;
+    resultScheduled = true;
+    // Allow a short event-loop turn to expose unexpected trailing data.
+    schedule(COMPLETION_GRACE_MS, evaluate);
+  }
 
   print("TEST=" + TEST_NAME);
   print("TARGET=" + (CFG ? CFG.name : "UNRESOLVED"));
@@ -149,7 +171,10 @@ function run() {
   info("baud", "" + BAUD);
   info("payload_a_len", "" + payloadA.length);
   info("payload_b_len", "" + payloadB.length);
-  timeoutId = setTimeout(function() { fail("timeout", "ms=" + TIMEOUT_MS); finish(); }, TIMEOUT_MS);
+  timeoutId = setTimeout(function() {
+    fail("timeout", "ms=" + TIMEOUT_MS);
+    evaluate();
+  }, TIMEOUT_MS);
 
   try {
     PORTS.SERIAL_A.port.setup(BAUD, {tx:PORTS.SERIAL_A.tx, rx:PORTS.SERIAL_A.rx});
@@ -163,14 +188,14 @@ function run() {
   PORTS.SERIAL_A.port.on("data", function(d) {
     callbacksA++;
     rxA += d;
-    hashA = hashAppend(hashA, d);
     if (d.length > maxChunkA) maxChunkA = d.length;
+    maybeEvaluate();
   });
   PORTS.SERIAL_B.port.on("data", function(d) {
     callbacksB++;
     rxB += d;
-    hashB = hashAppend(hashB, d);
     if (d.length > maxChunkB) maxChunkB = d.length;
+    maybeEvaluate();
   });
 
   schedule(20, function() {
@@ -178,23 +203,6 @@ function run() {
     PORTS.SERIAL_B.port.write(payloadB);
   });
 
-  schedule(SETTLE_MS, function() {
-    metric("uart_full_duplex_a_callbacks", callbacksA);
-    metric("uart_full_duplex_b_callbacks", callbacksB);
-    metric("uart_full_duplex_a_received_len", rxA.length);
-    metric("uart_full_duplex_b_received_len", rxB.length);
-    metric("uart_full_duplex_a_max_chunk", maxChunkA);
-    metric("uart_full_duplex_b_max_chunk", maxChunkB);
-    metric("uart_full_duplex_a_hash", hashA);
-    metric("uart_full_duplex_b_hash", hashB);
-    expectEq("uart_full_duplex_a_rx_len", rxA.length, payloadB.length);
-    expectEq("uart_full_duplex_b_rx_len", rxB.length, payloadA.length);
-    expectEq("uart_full_duplex_a_hash", hashA, hashString(payloadB));
-    expectEq("uart_full_duplex_b_hash", hashB, hashString(payloadA));
-    expectEq("uart_full_duplex_a_rx", rxA, payloadB);
-    expectEq("uart_full_duplex_b_rx", rxB, payloadA);
-    finish();
-  });
 }
 
 run();

@@ -8,6 +8,7 @@ var TARGET = "AUTO";
 var TIMEOUT_MS = 9000;
 var BAUD = 115200;
 var INTER_CASE_MS = 120;
+var COMPLETION_GRACE_MS = 20;
 var CASE_LENGTHS = [32, 64, 65, 96];
 var DIRECTION = {
   senderKey : "SERIAL_B",
@@ -216,23 +217,6 @@ function hashString(text) {
   return hash >>> 0;
 }
 
-function hashAppend(hash, text) {
-  for (var i = 0; i < text.length; i++) {
-    hash ^= text.charCodeAt(i);
-    hash = (hash * 16777619) >>> 0;
-  }
-  return hash >>> 0;
-}
-
-function updateHeadTail(state, text) {
-  for (var i = 0; i < text.length; i++) {
-    var ch = text.charAt(i);
-    if (state.head.length < 16) state.head += ch;
-    state.tail += ch;
-    if (state.tail.length > 16) state.tail = state.tail.substr(state.tail.length - 16);
-  }
-}
-
 function runBurstCase(index, sender, receiver, label, doneFn) {
   if (index >= CASE_LENGTHS.length) {
     doneFn();
@@ -242,12 +226,36 @@ function runBurstCase(index, sender, receiver, label, doneFn) {
   var length = CASE_LENGTHS[index];
   var payload = makePayload(label + "_" + length, length);
   var expectedHash = hashString(payload);
-  var receivedLength = 0;
-  var receivedHash = 2166136261;
-  var markers = { head : "", tail : "" };
+  var received = "";
   var callbackCount = 0;
   var maxChunk = 0;
+  var resultScheduled = false;
   var checkName = "uart_rx_" + label + "_len_" + length;
+
+  function evaluate() {
+    if (done) return;
+    var receivedHash = hashString(received);
+    safeCall(function() { receiver.port.removeAllListeners("data"); });
+    metric(checkName + "_callbacks", callbackCount);
+    metric(checkName + "_received_len", received.length);
+    metric(checkName + "_max_chunk", maxChunk);
+    metric(checkName + "_hash", receivedHash);
+    metric(checkName + "_head", JSON.stringify(received.substr(0, 16)));
+    metric(checkName + "_tail", JSON.stringify(received.substr(-16)));
+    expectEq(checkName + "_length", received.length, payload.length);
+    expectEq(checkName + "_hash", receivedHash, expectedHash);
+    expectTextMarkerEq(checkName + "_head", received.substr(0, 16), payload.substr(0, 16));
+    expectTextMarkerEq(checkName + "_tail", received.substr(-16), payload.substr(-16));
+    drainPort(receiver);
+    schedule(INTER_CASE_MS, function() {
+      runBurstCase(index + 1, sender, receiver, label, doneFn);
+    });
+  }
+  function maybeEvaluate() {
+    if (resultScheduled || received.length < payload.length) return;
+    resultScheduled = true;
+    schedule(COMPLETION_GRACE_MS, evaluate);
+  }
 
   safeCall(function() { sender.port.removeAllListeners("data"); });
   safeCall(function() { receiver.port.removeAllListeners("data"); });
@@ -255,33 +263,15 @@ function runBurstCase(index, sender, receiver, label, doneFn) {
 
   receiver.port.on("data", function(d) {
     callbackCount++;
-    receivedLength += d.length;
-    receivedHash = hashAppend(receivedHash, d);
-    updateHeadTail(markers, d);
+    received += d;
     if (d.length > maxChunk) maxChunk = d.length;
+    maybeEvaluate();
   });
 
   schedule(10, function() {
     sender.port.write(payload);
   });
 
-  schedule(260, function() {
-    safeCall(function() { receiver.port.removeAllListeners("data"); });
-    metric(checkName + "_callbacks", callbackCount);
-    metric(checkName + "_received_len", receivedLength);
-    metric(checkName + "_max_chunk", maxChunk);
-    metric(checkName + "_hash", receivedHash);
-    metric(checkName + "_head", JSON.stringify(markers.head));
-    metric(checkName + "_tail", JSON.stringify(markers.tail));
-    expectEq(checkName + "_length", receivedLength, payload.length);
-    expectEq(checkName + "_hash", receivedHash, expectedHash);
-    expectTextMarkerEq(checkName + "_head", markers.head, payload.substr(0, 16));
-    expectTextMarkerEq(checkName + "_tail", markers.tail, payload.substr(-16));
-    drainPort(receiver);
-    schedule(INTER_CASE_MS, function() {
-      runBurstCase(index + 1, sender, receiver, label, doneFn);
-    });
-  });
 }
 
 function run() {

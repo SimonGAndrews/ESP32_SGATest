@@ -7,11 +7,12 @@ The current UART RX burst pack targets the `ESP32_V1` harness, using the
 existing UART1/UART2 crosslink while UART0 remains the runner/control path.
 Four scripts also contain an `ESP32_C3_V1` UART0/UART1 map. That map requires
 native USB Serial/JTAG for control and deliberate isolation of the
-ESP32-C3-DevKitC-02 onboard CP2102N TX connection to `D20`; merely
-disconnecting the board USB-UART cable is insufficient while the board is
-externally powered. Without that isolation, use the `D3` to `D4` loop-B path
-for a single-UART C3 lifecycle check rather than interpreting the blocked
-`D3` to `D20` direction as a firmware failure.
+ESP32-C3-DevKitC-02 onboard CP2102N TX connection to `D20`. The bridge holds
+`D20` high both when the board is externally powered with its USB-UART cable
+disconnected and when the board is powered through that onboard USB
+connection. Without CP2102N TX isolation, use the `D3` to `D4` loop-B path for
+a single-UART C3 lifecycle check rather than interpreting the blocked `D3` to
+`D20` direction as a firmware failure.
 
 The pack is split by direction and burst-size scope so each file stays focused
 and bench failures remain easy to interpret:
