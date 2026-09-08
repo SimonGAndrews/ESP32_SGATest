@@ -11,8 +11,8 @@ var configs = {
   ESP32_IDF5:   {port:Serial2, tx:D4, rx:D35, pins:"D4/D35"},
   ESP32C3_IDF4: {port:Serial2, tx:D3, rx:D4,  pins:"D3/D4"},
   ESP32C3_IDF5: {port:Serial2, tx:D3, rx:D4,  pins:"D3/D4"},
-  ESP32S3_IDF4: {port:Serial2, tx:D6, rx:D7,  pins:"D6/D7"},
-  ESP32S3_IDF5: {port:Serial2, tx:D6, rx:D7,  pins:"D6/D7"}
+  ESP32S3_IDF4: {port:Serial2, tx:D4, rx:D7,  pins:"D4/D7"},
+  ESP32S3_IDF5: {port:Serial2, tx:D4, rx:D7,  pins:"D4/D7"}
 };
 var cfg = configs[boardId];
 var iteration = 0;

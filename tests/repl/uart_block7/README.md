@@ -43,8 +43,9 @@ Focused firmware-investigation tests outside the V1 harness pack are under
   setup/unsetup reproduction with safe pins selected for classic ESP32, C3
   and S3 board definitions;
 - `esp32s3_uart_crosslink_lifecycle.js` exercises both S3 hardware UARTs over
-  a temporary `D6 -> D18` and `D17 -> D7` crosslink on an
-  ESP32-S3-DevKitC-1.
+  temporary `D4 -> D16` and `D15 -> D7` crosslinks on the expansion headers.
+  These pins avoid the Olimex ESP32-S3-DevKit-LiPo battery/power sensing,
+  native USB, USB-UART, user button and status LED connections.
 
 Current intent:
 

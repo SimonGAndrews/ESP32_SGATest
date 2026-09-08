@@ -1,5 +1,5 @@
 // ESP32-S3 two-UART crosslink and driver-lifecycle test.
-// Cross-connect D6 to D18 and D17 to D7.
+// Cross-connect D4 to D16 and D15 to D7.
 // Keep the REPL on native USB Serial/JTAG or the independent UART0 bridge.
 
 echo(false);
@@ -7,10 +7,10 @@ echo(false);
 var TEST_NAME = "esp32s3_uart_crosslink_lifecycle";
 var PORT_A = Serial2;
 var PORT_B = Serial3;
-var A_TX = D6;
+var A_TX = D4;
 var A_RX = D7;
-var B_TX = D17;
-var B_RX = D18;
+var B_TX = D15;
+var B_RX = D16;
 var ITERATIONS = 100;
 var SETTLE_MS = 180;
 var INTER_CASE_MS = 60;
@@ -99,9 +99,9 @@ function runIteration(index) {
 var boardId = process.env.BOARD || "UNKNOWN";
 print("TEST=" + TEST_NAME);
 print("INFO board=" + boardId);
-print("INFO wiring=D6_to_D18,D17_to_D7");
-print("INFO Serial2=tx_D6_rx_D7");
-print("INFO Serial3=tx_D17_rx_D18");
+print("INFO wiring=D4_to_D16,D15_to_D7");
+print("INFO Serial2=tx_D4_rx_D7");
+print("INFO Serial3=tx_D15_rx_D16");
 print("INFO iterations=" + ITERATIONS);
 
 if (boardId !== "ESP32S3_IDF4" && boardId !== "ESP32S3_IDF5") {
