@@ -11,6 +11,7 @@ var A_TX = D4;
 var A_RX = D7;
 var B_TX = D15;
 var B_RX = D16;
+var BAUD = 115200;
 var ITERATIONS = 100;
 var SETTLE_MS = 180;
 var INTER_CASE_MS = 60;
@@ -51,9 +52,16 @@ function finish() {
   print("DONE=" + TEST_NAME);
 }
 
-function setupBoth(baud) {
-  PORT_A.setup(baud, {tx:A_TX, rx:A_RX});
-  PORT_B.setup(baud, {tx:B_TX, rx:B_RX});
+function setupBoth(baud, reverse) {
+  // Establish the transmitting side first so its TX line is at UART idle-high
+  // before the crossed receiver is enabled.
+  if (reverse) {
+    PORT_B.setup(baud, {tx:B_TX, rx:B_RX});
+    PORT_A.setup(baud, {tx:A_TX, rx:A_RX});
+  } else {
+    PORT_A.setup(baud, {tx:A_TX, rx:A_RX});
+    PORT_B.setup(baud, {tx:B_TX, rx:B_RX});
+  }
   PORT_A.read();
   PORT_B.read();
 }
@@ -67,14 +75,13 @@ function runIteration(index) {
 
   cleanup();
   setTimeout(function() {
-    var baud = (index & 1) ? 57600 : 115200;
     var reverse = !!(index & 1);
     var sender = reverse ? PORT_B : PORT_A;
     var receiver = reverse ? PORT_A : PORT_B;
-    var payload = "S3_UART_" + index + "_" + baud;
+    var payload = "S3_UART_" + index + "_" + BAUD;
 
     try {
-      setupBoth(baud);
+      setupBoth(BAUD, reverse);
       sender.write(payload);
     } catch (e) {
       fail("iteration_" + index, "setup_or_write=" + e);
@@ -102,6 +109,7 @@ print("INFO board=" + boardId);
 print("INFO wiring=D4_to_D16,D15_to_D7");
 print("INFO Serial2=tx_D4_rx_D7");
 print("INFO Serial3=tx_D15_rx_D16");
+print("INFO baud=" + BAUD);
 print("INFO iterations=" + ITERATIONS);
 
 if (boardId !== "ESP32S3_IDF4" && boardId !== "ESP32S3_IDF5") {
