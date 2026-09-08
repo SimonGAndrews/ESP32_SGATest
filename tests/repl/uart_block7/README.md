@@ -36,6 +36,16 @@ and bench failures remain easy to interpret:
 - `uart_rx_burst_200_s2_to_s3.js`
 - `uart_rx_burst_200_s3_to_s2.js`
 
+Focused firmware-investigation tests outside the V1 harness pack are under
+`docs/investigations/uart/repros/`:
+
+- `esp32_uart_driver_lifecycle_family.js` repeats the no-wiring driver
+  setup/unsetup reproduction with safe pins selected for classic ESP32, C3
+  and S3 board definitions;
+- `esp32s3_uart_crosslink_lifecycle.js` exercises both S3 hardware UARTs over
+  a temporary `D6 -> D18` and `D17 -> D7` crosslink on an
+  ESP32-S3-DevKitC-1.
+
 Current intent:
 
 - polling coverage for `Serial.available()` and partial `Serial.read(n)`
