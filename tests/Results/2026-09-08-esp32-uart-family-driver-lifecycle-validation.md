@@ -4,17 +4,32 @@ Date: 8 September 2026
 
 ## Conclusion
 
-The revised UART driver-lifecycle candidate is suitable for family-wide
-upstream review. It prevents the ESP32 UART polling task from using a driver
-while `Serial.setup()` or `Serial.unsetup()` deletes or reinstalls that driver.
-The change compiles for all seven current ESP32-family board definitions and
-completed repeated runtime lifecycle tests on classic ESP32, ESP32-C3 and
-ESP32-S3 hardware without an assertion, abort or reboot.
+The revised UART driver-lifecycle change was accepted upstream and merged into
+Espruino `master` through pull request `#2742`. It prevents the ESP32 UART
+polling task from using a driver while `Serial.setup()` or `Serial.unsetup()`
+deletes or reinstalls that driver. The change compiles for all seven current
+ESP32-family board definitions and completed repeated runtime lifecycle tests
+on classic ESP32, ESP32-C3 and ESP32-S3 hardware without an assertion, abort
+or reboot.
 
-This candidate addresses only the driver deletion/reconfiguration race. It no
+The merged change addresses only the driver deletion/reconfiguration race. It
 longer contains the classic-target guard or an RX flush, and it makes no claim
 to correct unsolicited bytes seen during UART setup on the legacy classic
 build.
+
+## Upstream Outcome
+
+Gordon Williams merged the two PR commits on 8 September 2026 as:
+
+```text
+e6a3fe0892e0e7d48811c53fa4f1e2fbda500e1d
+Merge pull request #2742 from SimonGAndrews/fix/esp32-uart-driver-reconfiguration
+```
+
+Issue `#2741` was closed by the merge. Gordon also confirmed that configuring
+the transmitter before the receiver, or otherwise holding a potentially
+floating UART RX line high, is the expected hardware treatment for the
+setup-time byte. No RX flush was required.
 
 ## Source Under Test
 
@@ -23,6 +38,7 @@ build.
   `espruino/Espruino`;
 - candidate branch: `fix/esp32-uart-driver-reconfiguration`;
 - candidate revision: `363ba92c96ee2ccdf346fa7cb259f4e3016aa598`;
+- upstream merge: `e6a3fe0892e0e7d48811c53fa4f1e2fbda500e1d`;
 - reported Espruino version: `2v29.385`;
 - modified firmware file: `targets/esp32/jshardwareUart.c`;
 - upstream pull request:
@@ -50,7 +66,7 @@ The compile checks confirm that the unguarded coordination code is accepted by
 the legacy, IDF4 and IDF5 implementations for each supported target. Runtime
 claims are limited to the builds and physical boards shown above.
 
-Each build used the board-specific environment selected by the candidate
+Each build used the board-specific environment selected by the tested
 revision's `scripts/provision.sh`, followed by a clean release build. The
 provisioned SDK lines were the legacy ESP32 V3.1 build environment, ESP-IDF
 4.4.8 and ESP-IDF 5.5.3 respectively.
@@ -99,7 +115,7 @@ no-wiring lifecycle reproduction also completed 100 cycles.
 
 The legacy `BOARD=ESP32` build completed the PR's focused 100-cycle lifecycle
 reproduction without the former FreeRTOS queue assertion or a reboot. This is
-the direct validation of the defect addressed by the candidate.
+the direct validation of the defect addressed by the merged change.
 
 The broader 18-script run produced six completely clean scripts and twelve
 scripts with an unsolicited byte at UART startup. Most received `0x00`; the

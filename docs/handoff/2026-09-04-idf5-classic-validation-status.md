@@ -25,12 +25,13 @@ The authoritative post-merge result is:
 
 - `tests/Results/2026-09-05-esp32-post-idf5-merge-same-source-sanity.md`
 
-A subsequent focused UART investigation produced pull request `#2742`. Its
-current revision `363ba92c9` coordinates driver reconfiguration across the
-ESP32 family and deliberately excludes the separate unsolicited-byte symptom.
-It compiles for all seven current ESP32-family board definitions and has
-completed runtime lifecycle validation on classic ESP32, ESP32-C3 and
-ESP32-S3 hardware. See:
+A subsequent focused UART investigation produced pull request `#2742`, merged
+into Espruino `master` as `e6a3fe089`. Revision `363ba92c9` coordinates driver
+reconfiguration across the ESP32 family and deliberately excludes the separate
+setup-time byte caused by enabling a receiver before its TX source has reached
+the idle-high state. It compiles for all seven current ESP32-family board
+definitions and completed runtime lifecycle validation on classic ESP32,
+ESP32-C3 and ESP32-S3 hardware. See:
 
 - `tests/Results/2026-09-08-esp32-uart-family-driver-lifecycle-validation.md`
 
