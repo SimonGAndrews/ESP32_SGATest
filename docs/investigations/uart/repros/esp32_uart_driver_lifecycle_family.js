@@ -5,16 +5,15 @@ echo(false);
 print("TEST=esp32_uart_driver_lifecycle_family");
 
 var boardId = process.env.BOARD || "UNKNOWN";
-var configs = {
-  ESP32:        {port:Serial2, tx:D4, rx:D35, pins:"D4/D35"},
-  ESP32_IDF4:   {port:Serial2, tx:D4, rx:D35, pins:"D4/D35"},
-  ESP32_IDF5:   {port:Serial2, tx:D4, rx:D35, pins:"D4/D35"},
-  ESP32C3_IDF4: {port:Serial2, tx:D3, rx:D4,  pins:"D3/D4"},
-  ESP32C3_IDF5: {port:Serial2, tx:D3, rx:D4,  pins:"D3/D4"},
-  ESP32S3_IDF4: {port:Serial2, tx:D4, rx:D7,  pins:"D4/D7"},
-  ESP32S3_IDF5: {port:Serial2, tx:D4, rx:D7,  pins:"D4/D7"}
-};
-var cfg = configs[boardId];
+var cfg;
+if (boardId === "ESP32" || boardId === "ESP32_IDF4" ||
+    boardId === "ESP32_IDF5") {
+  cfg = {port:Serial2, tx:D4, rx:D35, pins:"D4/D35"};
+} else if (boardId === "ESP32C3_IDF4" || boardId === "ESP32C3_IDF5") {
+  cfg = {port:Serial2, tx:D3, rx:D4, pins:"D3/D4"};
+} else if (boardId === "ESP32S3_IDF4" || boardId === "ESP32S3_IDF5") {
+  cfg = {port:Serial2, tx:D4, rx:D7, pins:"D4/D7"};
+}
 var iteration = 0;
 var finished = false;
 var deadline;
