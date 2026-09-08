@@ -135,15 +135,17 @@
             }
           });
 
-          emit("PEER_READY", {
-            runId : cfg.runId,
-            ssid : cfg.ssid,
-            channel : cfg.channel,
-            udpPort : cfg.udpPort,
-            apDetails : apDetailsForLog(),
-            apIP : wifi.getAPIP(),
-            time : Date.now()
-          });
+          setTimeout(function () {
+            emit("PEER_READY", {
+              runId : cfg.runId,
+              ssid : cfg.ssid,
+              channel : cfg.channel,
+              udpPort : cfg.udpPort,
+              apDetails : apDetailsForLog(),
+              apIP : wifi.getAPIP(),
+              time : Date.now()
+            });
+          }, cfg.peerReadyDelayMs || 0);
         });
       });
   }, 500);

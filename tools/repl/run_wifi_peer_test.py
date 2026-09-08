@@ -218,6 +218,47 @@ def main() -> int:
         choices=tuple(DIRECTION_POSITIONS),
         default="c3-peer",
     )
+    parser.add_argument(
+        "--skip-scan",
+        action="store_true",
+        help="connect directly in the positive test to isolate post-scan functions",
+    )
+    parser.add_argument(
+        "--ping-responses",
+        type=int,
+        default=1,
+        help="number of successful ping callbacks to await before UDP exchange",
+    )
+    parser.add_argument(
+        "--ping-rounds",
+        type=int,
+        default=1,
+        help="number of sequential ping sessions to complete before UDP exchange",
+    )
+    parser.add_argument(
+        "--ping-round-delay-ms",
+        type=int,
+        default=250,
+        help="delay between completed ping sessions (default: 250 ms)",
+    )
+    parser.add_argument(
+        "--target-timeout",
+        type=float,
+        default=30.0,
+        help="seconds to wait for the positive target test (default: 30)",
+    )
+    parser.add_argument(
+        "--overall-timeout-ms",
+        type=int,
+        default=30000,
+        help="target-side positive-test deadline in milliseconds (default: 30000)",
+    )
+    parser.add_argument(
+        "--peer-ready-delay-ms",
+        type=int,
+        default=0,
+        help="delay peer readiness until its AP has settled (default: 0 ms)",
+    )
     args = parser.parse_args()
 
     if args.target_script is None:
@@ -248,6 +289,27 @@ def main() -> int:
     if args.direction in ("esp32-peer", "c3-idf5-peer") and args.scenario == "positive":
         role_config["pingClientOnReceive"] = True
         role_config["holdAfterExchangeMs"] = 4000
+    if args.skip_scan:
+        if args.scenario != "positive":
+            parser.error("--skip-scan is only valid with --scenario positive")
+        role_config["skipScan"] = True
+    if args.ping_responses < 1:
+        parser.error("--ping-responses must be at least 1")
+    if args.ping_rounds < 1:
+        parser.error("--ping-rounds must be at least 1")
+    if args.ping_round_delay_ms < 0:
+        parser.error("--ping-round-delay-ms must not be negative")
+    if args.target_timeout <= 0:
+        parser.error("--target-timeout must be greater than zero")
+    if args.overall_timeout_ms <= 0:
+        parser.error("--overall-timeout-ms must be greater than zero")
+    if args.peer_ready_delay_ms < 0:
+        parser.error("--peer-ready-delay-ms must not be negative")
+    role_config["pingResponses"] = args.ping_responses
+    role_config["pingRounds"] = args.ping_rounds
+    role_config["pingRoundDelayMs"] = args.ping_round_delay_ms
+    role_config["overallTimeoutMs"] = args.overall_timeout_ms
+    role_config["peerReadyDelayMs"] = args.peer_ready_delay_ms
 
     print(f"RUNNER test=wifi_station_peer_{args.scenario}")
     print(f"RUNNER config={args.config}")
@@ -312,7 +374,7 @@ def main() -> int:
                         args.target_script,
                         target_config,
                         ("DONE=PASS", "DONE=FAIL"),
-                        30.0,
+                        args.target_timeout,
                     )
                     expected_target_passes = 1
                 else:

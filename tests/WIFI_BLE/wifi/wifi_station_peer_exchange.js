@@ -21,6 +21,10 @@
     print("INFO " + name + "=" + JSON.stringify(value));
   }
 
+  function bleSecurityForLog() {
+    return typeof NRF !== "undefined" ? NRF.getSecurityStatus() : null;
+  }
+
   function pass(name, details) {
     passes++;
     print("PASS " + name + (details ? " " + details : ""));
@@ -111,6 +115,7 @@
   }
 
   function runUDPExchange() {
+    info("ble_security_after_ping", bleSecurityForLog());
     var challenge = cfg.runId + "|1|ESPRUINO_WIFI_PEER";
     var expected = "ACK|" + challenge;
     var dgram = require("dgram");
@@ -163,51 +168,71 @@
   }
 
   function runPing() {
-    var pingHandled = false;
-    var lastPingResult;
-    pingTimeout = setTimeout(function () {
-      if (pingHandled) return;
-      pingHandled = true;
-      fail(
-        "wifi_ping_peer",
-        "timeout last=" + JSON.stringify(lastPingResult)
-      );
-      runUDPExchange();
-    }, 6500);
+    var expectedPingResponses = cfg.pingResponses || 1;
+    var expectedPingRounds = cfg.pingRounds || 1;
+    var pingRoundDelayMs = cfg.pingRoundDelayMs === undefined ?
+      250 : cfg.pingRoundDelayMs;
+    var pingRound = 0;
 
-    wifi.ping(cfg.peerIP, function (result) {
-      if (pingHandled) return;
-      var responseTime = typeof result === "number" ? result :
-        (result && result.respTime);
-      lastPingResult = typeof result === "number" ? { time : result } : {
-        totalCount : result && result.totalCount,
-        totalBytes : result && result.totalBytes,
-        totalTime : result && result.totalTime,
-        respTime : responseTime,
-        timeoutCount : result && result.timeoutCount,
-        bytes : result && result.bytes,
-        error : result && result.error
-      };
-      info("ping_result", lastPingResult);
-      if (typeof result === "number" && result >= 0) {
+    function runPingRound() {
+      var pingHandled = false;
+      var lastPingResult;
+      var pingResponses = 0;
+      pingRound++;
+      pingTimeout = setTimeout(function () {
+        if (pingHandled) return;
+        pingHandled = true;
+        fail(
+          "wifi_ping_peer",
+          "round=" + pingRound + " timeout last=" + JSON.stringify(lastPingResult)
+        );
+        runUDPExchange();
+      }, 6500);
+
+      wifi.ping(cfg.peerIP, function (result) {
+        if (pingHandled) return;
+        pingResponses++;
+        var responseTime = typeof result === "number" ? result :
+          (result && result.respTime);
+        lastPingResult = typeof result === "number" ? { time : result } : {
+          round : pingRound,
+          totalCount : result && result.totalCount,
+          totalBytes : result && result.totalBytes,
+          totalTime : result && result.totalTime,
+          respTime : responseTime,
+          timeoutCount : result && result.timeoutCount,
+          bytes : result && result.bytes,
+          error : result && result.error
+        };
+        info("ping_result", lastPingResult);
+        if (typeof result === "number" && result >= 0) {
+          metric("ping_time_ms", result);
+          pass("wifi_ping_peer", "round=" + pingRound + " time_ms=" + result);
+        } else if (
+          result &&
+          typeof responseTime === "number" &&
+          result.bytes > 0
+        ) {
+          metric("ping_time_ms", responseTime);
+          pass(
+            "wifi_ping_peer",
+            "round=" + pingRound + " time_ms=" + responseTime
+          );
+        } else {
+          return;
+        }
+        if (pingResponses < expectedPingResponses) return;
         pingHandled = true;
         clearTimeout(pingTimeout);
-        metric("ping_time_ms", result);
-        pass("wifi_ping_peer", "time_ms=" + result);
-      } else if (
-        result &&
-        typeof responseTime === "number" &&
-        result.bytes > 0
-      ) {
-        pingHandled = true;
-        clearTimeout(pingTimeout);
-        metric("ping_time_ms", responseTime);
-        pass("wifi_ping_peer", "time_ms=" + responseTime);
-      } else {
-        return;
-      }
-      runUDPExchange();
-    });
+        if (pingRound < expectedPingRounds) {
+          setTimeout(runPingRound, pingRoundDelayMs);
+        } else {
+          runUDPExchange();
+        }
+      });
+    }
+
+    runPingRound();
   }
 
   function connectToPeer() {
@@ -319,10 +344,16 @@
   overallTimeout = setTimeout(function () {
     fail("wifi_test_overall", "timeout");
     finish("overall_timeout");
-  }, 30000);
+  }, cfg.overallTimeoutMs || 30000);
 
   wifi.removeAllListeners();
   wifi.disconnect();
   wifi.stopAP();
-  setTimeout(scanForPeer, 500);
+  info("ble_security_before_wifi", bleSecurityForLog());
+  if (cfg.skipScan) {
+    info("scan", { skipped : true, reason : "post_scan_isolation" });
+    setTimeout(connectToPeer, 500);
+  } else {
+    setTimeout(scanForPeer, 500);
+  }
 })();
