@@ -2,6 +2,11 @@
 
 Date: 7 September 2026
 
+> Superseded: the candidate was subsequently changed to coordinate UART driver
+> reconfiguration across the ESP32 family and to omit the proposed RX flush.
+> Current validation is recorded in
+> [the family-wide result](2026-09-08-esp32-uart-family-driver-lifecycle-validation.md).
+
 ## Result
 
 The corrected functional tests disprove the previously reported long-transfer

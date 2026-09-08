@@ -224,9 +224,10 @@ The expedited ESP32 IDF5 validation supplied build and V1 regression evidence
 that informed Gordon Williams' decision to merge the official `IDF5` branch
 into Espruino `master` at `5d79af218`. The same-source post-merge sanity check
 of `BOARD=ESP32` and `BOARD=ESP32_IDF5` is complete. Further defects have
-returned to normal Espruino-master investigation; the first follow-up has
-narrowed the post-merge classic UART regression and validated local commit
-`154d4a8c8` on both classic build systems and the C3 native-USB UART path. See
+returned to normal Espruino-master investigation; the first follow-up is UART
+driver-lifecycle pull request `#2742`, whose family-wide revision has compile
+coverage across seven ESP32 board definitions and runtime coverage on classic
+ESP32, ESP32-C3 and ESP32-S3 hardware. See
 `docs/handoff/2026-09-04-idf5-classic-validation-status.md`.
 
 This work continues block-by-block expansion of the shared functional suite,

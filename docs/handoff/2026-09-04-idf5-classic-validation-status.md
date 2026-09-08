@@ -25,12 +25,14 @@ The authoritative post-merge result is:
 
 - `tests/Results/2026-09-05-esp32-post-idf5-merge-same-source-sanity.md`
 
-A subsequent focused UART investigation produced commit `154d4a8c8`, a
-guarded candidate that restores all 18 Block 7 UART tests on both classic
-build systems. The C3 native-USB build also completes and passes 22/22 focused
-UART loopback checks, including twenty setup/unsetup cycles. See:
+A subsequent focused UART investigation produced pull request `#2742`. Its
+current revision `363ba92c9` coordinates driver reconfiguration across the
+ESP32 family and deliberately excludes the separate unsolicited-byte symptom.
+It compiles for all seven current ESP32-family board definitions and has
+completed runtime lifecycle validation on classic ESP32, ESP32-C3 and
+ESP32-S3 hardware. See:
 
-- `docs/investigations/uart/esp32-post-idf5-merge-uart-regression-2026-09-05.md`
+- `tests/Results/2026-09-08-esp32-uart-family-driver-lifecycle-validation.md`
 
 ## Contribution to Upstream
 
