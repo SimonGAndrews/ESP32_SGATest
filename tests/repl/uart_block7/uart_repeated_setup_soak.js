@@ -109,8 +109,10 @@ function runIteration(index) {
   removeListenersAndUnsetup(PORTS.SERIAL_B);
   schedule(INTER_ITER_MS, function() {
     try {
-      PORTS.SERIAL_A.port.setup(baud, {tx:PORTS.SERIAL_A.tx, rx:PORTS.SERIAL_A.rx});
-      PORTS.SERIAL_B.port.setup(baud, {tx:PORTS.SERIAL_B.tx, rx:PORTS.SERIAL_B.rx});
+      // Establish the transmitting side first so the crossed receiver is not
+      // enabled while its source TX pin is still changing to UART idle-high.
+      sender.port.setup(baud, {tx:sender.tx, rx:sender.rx});
+      receiver.port.setup(baud, {tx:receiver.tx, rx:receiver.rx});
     } catch (e) {
       fail(checkName + "_setup", "" + e);
       finish();
