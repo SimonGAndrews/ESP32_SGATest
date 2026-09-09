@@ -52,6 +52,25 @@ coupled.
 
 Results belong under `tests/Results/WIFI_BLE_Results/`.
 
+## Current C3 Peer Status
+
+The bench C3 is currently flashed from official Espruino `master` commit
+`d8322cec9` as `ESP32C3_IDF4` `2v29.392`. It is qualified for the established
+GATT-central role in the concurrent BLE-plus-HTTPS test, and for controlled
+Wi-Fi AP/UDP use. It is not yet a fully interchangeable radio peer:
+
+- repeated C3-peripheral `NRF.setServices()` runs exposed an intermittent
+  asynchronous service-array lifetime fault;
+- C3-station `Wifi.ping()` did not call back despite working DHCP, UDP and
+  inbound ICMP echo replies;
+- filtered `NRF.findDevices()` scans returned no devices during the same
+  qualification, while connection-oriented `NRF.requestDevice()` worked.
+
+Use the exact expected identity in
+`esp32_idf5_ping_70k_bench_config.json`. See
+`../Results/WIFI_BLE_Results/2026-09-10-esp32c3-current-master-peer-qualification.md`
+before assigning the C3 a peripheral or filtered-scanner role.
+
 ## Concurrent BLE And HTTPS Test
 
 The memory-coexistence test keeps a GATT connection open between the classic
@@ -120,9 +139,11 @@ Reverse the radio roles:
 python3 tools/repl/run_ble_peer_test.py --direction esp32-peer
 ```
 
-Both directions pass. The scanner requires exactly one matching name, a real
-over-air device address, numeric RSSI and the exact run payload under service
-UUID `0xFFF0`.
+The initial baseline evidence passed in both directions. The current-master C3
+qualification returned an empty filtered-scan result in both directions, so a
+new current-master pass must not be inferred from the historical result. The
+scanner requires exactly one matching name, a real over-air device address,
+numeric RSSI and the exact run payload under service UUID `0xFFF0`.
 
 The GATT test adds connection, custom-service and characteristic discovery, a
 run-bound read, two writes and disconnection:
@@ -133,8 +154,9 @@ python3 tools/repl/run_ble_gatt_test.py --direction esp32-peer
 ```
 
 In `c3-peer`, the C3 is the GATT peripheral and the classic ESP32 is the
-central. In `esp32-peer`, those radio roles reverse. Both directions pass the
-complete transaction and cleanup. Each role first forces its existing
+central. In `esp32-peer`, those radio roles reverse. The current-master C3
+passes as the central; its peripheral role is intermittent and is not a
+qualified pass. Each role first forces its existing
 `Serial1` console with `E.setConsole(..., {force:true})`; otherwise the shared
 ESP32 BLE connection handler automatically moves the REPL to Bluetooth while
 the default BLE UART service is enabled. The role restores automatic console

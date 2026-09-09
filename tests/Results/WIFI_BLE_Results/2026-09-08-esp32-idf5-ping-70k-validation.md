@@ -211,9 +211,18 @@ can race the asynchronous recreation started by `NRF.setServices()`. The later
 correction stops each service first and deletes it only after ESP-IDF delivers
 `ESP_GATTS_STOP_EVT`. Reversing only the GATT roles avoided that old peripheral
 service-replacement path and preserved the classic target's simultaneous BLE,
-Wi-Fi and HTTPS workload. Reflashing the C3 from current master and repeating
-both the focused call and full peripheral role is required to confirm that the
-upstream correction resolves the complete peer-startup symptom.
+Wi-Fi and HTTPS workload.
+
+Follow-up qualification on 2026-09-10 flashed the C3 with current-master
+`ESP32C3_IDF4` `2v29.392`, commit `d8322cec9`. The primary C3-central
+BLE-plus-HTTPS direction passed again, but the C3-peripheral service role was
+intermittent: three complete transactions passed and four attempts crashed
+inside service replacement. Decoded frames and source review show that the
+stop/delete/unregister sequence can overlap allocation of the replacement
+global service arrays. Commit `ed46a3a0b` corrects stop-before-delete but does
+not serialize teardown and recreation. See
+`2026-09-10-esp32c3-current-master-peer-qualification.md` for the evidence and
+the resulting restricted peer designation.
 
 ### Separate Wi-Fi scan result
 
