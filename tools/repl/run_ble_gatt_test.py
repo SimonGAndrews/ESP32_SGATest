@@ -99,8 +99,10 @@ def main() -> int:
 
             hardware_reboot(peer_repl)
             hardware_reboot(target_repl)
-            ble_runtime_cleanup(peer_repl, "BLE_GATT_PEER_PRE")
-            ble_runtime_cleanup(target_repl, "BLE_GATT_TARGET_PRE")
+            # A chip reboot is the clean precondition. Calling NRF.sleep()
+            # here and NRF.wake() at the start of each role creates an
+            # unnecessary asynchronous controller transition immediately
+            # before NRF.setServices(). Keep BLE cleanup at the end instead.
 
             peer_output = upload_role(
                 peer_repl,
@@ -112,6 +114,9 @@ def main() -> int:
             ready = marker_payload(peer_output, "BLE_GATT_PEER_READY")
             if not ready:
                 print("BLE GATT peer did not report ready.", file=sys.stderr)
+                print("RUNNER peer_diagnostic_begin")
+                print(peer_output.rstrip())
+                print("RUNNER peer_diagnostic_end")
                 result = 2
             else:
                 target_output = upload_role(

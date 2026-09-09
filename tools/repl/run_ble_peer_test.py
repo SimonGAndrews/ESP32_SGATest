@@ -126,8 +126,9 @@ def main() -> int:
 
             hardware_reboot(peer_repl)
             hardware_reboot(target_repl)
-            ble_runtime_cleanup(peer_repl, "BLE_PEER_PRE")
-            ble_runtime_cleanup(target_repl, "BLE_TARGET_PRE")
+            # The chip reboot is already the clean precondition. Avoid an
+            # unnecessary NRF.sleep()/NRF.wake() transition immediately
+            # before starting the BLE roles.
 
             peer_output = upload_role(
                 peer_repl,

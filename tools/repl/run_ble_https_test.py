@@ -439,6 +439,55 @@ def run_test(
                     and peer_ready
                 )
                 print(
+                    "RUNNER target_correlation="
+                    + json.dumps(
+                        {
+                            "donePassCount": count_output_marker(
+                                target_output, "DONE=PASS"
+                            ),
+                            "doneFailCount": count_output_marker(
+                                target_output, "DONE=FAIL"
+                            ),
+                            "summaryPresent": bool(target_summary),
+                            "runIdMatches": bool(
+                                target_summary
+                                and target_summary.get("runId") == run_id
+                            ),
+                            "checksFailed": (
+                                target_summary.get("checksFailed")
+                                if target_summary
+                                else None
+                            ),
+                        },
+                        sort_keys=True,
+                    )
+                )
+                print(
+                    "RUNNER peer_correlation="
+                    + json.dumps(
+                        {
+                            "donePassCount": count_output_marker(
+                                peer_output, "DONE=PASS"
+                            ),
+                            "doneFailCount": count_output_marker(
+                                peer_output, "DONE=FAIL"
+                            ),
+                            "readyPresent": bool(peer_ready),
+                            "summaryPresent": bool(peer_summary),
+                            "runIdMatches": bool(
+                                peer_summary
+                                and peer_summary.get("runId") == run_id
+                            ),
+                            "checksFailed": (
+                                peer_summary.get("checksFailed")
+                                if peer_summary
+                                else None
+                            ),
+                        },
+                        sort_keys=True,
+                    )
+                )
+                print(
                     "PASS host_correlated_ble_https_target"
                     if target_pass
                     else "FAIL host_correlated_ble_https_target"
