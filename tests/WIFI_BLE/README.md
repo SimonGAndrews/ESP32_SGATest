@@ -52,6 +52,56 @@ coupled.
 
 Results belong under `tests/Results/WIFI_BLE_Results/`.
 
+## Concurrent BLE And HTTPS Test
+
+The memory-coexistence test keeps a GATT connection open between the classic
+ESP32 target and the C3 peer while the classic target joins an independently
+routed 2.4 GHz Wi-Fi network and downloads an HTTPS response. The classic is
+the GATT peripheral and HTTPS client; the C3 is the GATT central. The C3 reads
+and writes the controlled GATT service before HTTPS, holds the connection, and
+writes again only after the host has observed HTTPS completion. This proves
+that BLE remained usable during the TLS transaction.
+
+Copy `local_wifi_credentials.example.json` to
+`local_wifi_credentials.json`, enter the local 2.4 GHz Wi-Fi credentials and
+restrict the file to the current user. The local file is ignored by Git. Its
+contents are injected with REPL echo disabled and are not printed in the
+structured result:
+
+```bash
+cp tests/WIFI_BLE/local_wifi_credentials.example.json \
+  tests/WIFI_BLE/local_wifi_credentials.json
+chmod 600 tests/WIFI_BLE/local_wifi_credentials.json
+```
+
+Connect the bench PC to the isolated router and supply the PC's IPv4 address on
+that LAN. Run the test with the C3 as the controlled GATT central and the
+classic ESP32 as the GATT peripheral, Wi-Fi station and HTTPS client. The
+runner creates a temporary self-signed certificate, starts a TLS-1.2 server
+with a run-specific URL and response, and checks independently that the target
+fetched it:
+
+```bash
+python3 tools/repl/run_ble_https_test.py \
+  --local-server-address 192.168.50.2
+```
+
+The server binds to an automatically selected port by default. An externally
+managed endpoint may instead be selected with `--https-url`; its expected
+status and minimum response size are configurable with `--expected-status`
+and `--minimum-bytes`.
+
+The runner reboots both boards with one shared startup wait, reports elapsed
+time at each major phase and streams its output line-by-line. The JavaScript
+roles retain paced serial upload because eliminating that pacing risks REPL
+input loss for only a small reduction in a successful run's duration.
+
+Merely connecting the C3 peer to an upstream Wi-Fi network does not route the
+classic target's access-point traffic. That topology would additionally need
+IP forwarding and NAT on the C3. The coexistence test avoids that extra,
+unproven component by connecting the classic target directly to the routed
+network.
+
 ## Initial BLE Supervisor Peer Tests
 
 The BLE tests use a generated name and run token so the host can correlate the

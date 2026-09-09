@@ -9,6 +9,9 @@
 **/__pycache__/
 *.code-workspace
 
+# Local Wi-Fi credentials used by bench tests. Never commit these.
+tests/WIFI_BLE/local_wifi_credentials.json
+
 # Local KiCad/AISLER and autorouter working artifacts.
 **/.kicad-push
 **/temp-freerouting.dsn
