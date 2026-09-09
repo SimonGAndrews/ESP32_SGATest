@@ -1,6 +1,6 @@
 # ESP32 IDF5 Modern Ping And 70 KB Native-Heap Validation
 
-Date: 2026-09-08
+Date: 2026-09-08; HTTPS coexistence validation added 2026-09-09
 
 ## Conclusion
 
@@ -8,12 +8,14 @@ The 70 KB native-heap candidate is a sound basis for the restored IDF5
 `Wifi.ping()` implementation on the tested classic ESP32. It completed ten
 rapid consecutive ping sessions, active Wi-Fi traffic and active BLE
 advertising without an allocation failure, assertion or reboot. The final
-candidate also passed a complete connected BLE GATT transaction.
+candidate also passed a complete connected BLE GATT transaction and a
+controlled HTTPS download while a GATT connection remained active.
 
 The result does not yet justify applying 70 KB globally to every ESP32-family
 board. On this non-PSRAM classic ESP32, the larger native reserve leaves 2,771
-JsVars at a 14-byte block size. HTTPS remains to be tested on a network with a
-routable TLS endpoint before the Bluetooth-plus-HTTPS use case is claimed.
+JsVars at a 14-byte block size. The board-specific 70 KB candidate nevertheless
+demonstrated the intended Bluetooth-plus-HTTPS use case with 31,456 bytes as
+the native-heap low-water mark and no allocation failure.
 
 The existing IDF5 Wi-Fi scan failure remains separate: direct association and
 all post-scan functions passed, but `Wifi.scan()` returned an empty list while
@@ -136,9 +138,82 @@ client checks and all peripheral checks passed.
 
 An earlier image with the same 70 KB board allocation also passed the complete
 transaction with the classic ESP32 as the GATT central. Two attempts to repeat
-that direction on the final image stopped because the C3 peer stalled while
-creating its GATT service and never declared itself ready; no classic-target
-failure occurred in those attempts.
+that direction on the final image stopped because the old C3 peer did not
+complete the full service-startup role and never declared itself ready; no
+classic-target failure occurred in those attempts. Subsequent isolation
+testing refined the apparent `NRF.setServices()` stall as described below.
+
+### Concurrent BLE GATT and HTTPS
+
+Run `20260909T221302Z` exercised TLS while maintaining a real connected GATT
+session. The controlled network used a dedicated WPA2 2.4 GHz router. The
+classic ESP32 obtained `192.168.50.102` by DHCP and the bench host provided a
+temporary TLS 1.2 endpoint at `192.168.50.101`.
+
+The radio and application roles were:
+
+| Device | Concurrent roles |
+|---|---|
+| Classic ESP32 under test | GATT peripheral, Wi-Fi station and HTTPS client |
+| C3 controlled peer | GATT central |
+| Bench host | runner and run-specific HTTPS server |
+
+The test performed the following Espruino API sequence:
+
+1. the classic target created and advertised a run-specific service with
+   `NRF.setServices()` and `NRF.setAdvertising()`;
+2. the C3 selected it with `NRF.requestDevice()`, connected, discovered the
+   service, read its challenge and wrote a matching acknowledgement;
+3. while that GATT connection remained active, the classic target used
+   `Wifi.connect()` and `require("http").get()` with an HTTPS URL;
+4. the target received HTTP status 200 and the complete 744-byte response;
+5. only after the host observed HTTPS completion, the C3 verified that its
+   GATT connection was still active and wrote a second run-specific value;
+6. the classic target received that post-HTTPS write, then both roles cleaned
+   up.
+
+The host independently recorded exactly one request from `192.168.50.102` for
+the expected run-specific path. All ten classic-target functional checks, all
+seven C3-central checks and all three host correlation checks passed. No
+out-of-memory report, assertion, abort, brownout or firmware reset occurred.
+
+| Phase | Native free heap | Native minimum heap | Largest native block | JsVars free |
+|---|---:|---:|---:|---:|
+| Initial script state | 68,432 | 68,092 | 65,536 | 696 |
+| GATT connected | 64,064 | 62,204 | 61,440 | 1,978 |
+| Wi-Fi connected | 54,176 | 53,708 | 53,248 | 1,868 |
+| Immediately before HTTPS | 54,176 | 53,708 | 53,248 | 1,863 |
+| HTTPS response complete, GATT still connected | 53,280 | 31,456 | 31,744 | 1,783 |
+| After Wi-Fi and BLE cleanup | 59,704 | 31,456 | 32,768 | 1,867 |
+
+The minimum-heap field retained the lowest value observed during the TLS
+transaction, while current free heap recovered after cleanup. This is direct
+evidence that the 70 KB configuration supplied enough native memory for Wi-Fi,
+TLS and connected BLE to coexist on this image.
+
+The endpoint used a temporary self-signed certificate. The current Espruino
+ESP32 TLS implementation configures certificate verification off, so this test
+validates the TLS handshake, encrypted transfer, application response and
+memory coexistence; it does not claim server-certificate authentication.
+
+Two preceding attempts with the C3 as the GATT peripheral stopped before Wi-Fi
+because that peer never emitted its service-ready marker. A focused test on
+the C3's old `b905c8099` firmware showed that `NRF.setServices()` returned but
+ESP-IDF reported `BT_GATT: Active Service Found`; a following
+`NRF.setAdvertising()` also returned and reported advertising active in the
+minimal case. The evidence therefore does not support describing
+`NRF.setServices()` itself as unconditionally blocking.
+
+The C3 firmware predates current-master commit `ed46a3a0b`, titled
+`ESP32: Fixing BT_GATT: Active Service Found error when calling reset()`.
+In the old source, GATT reset requests direct deletion of an active service and
+can race the asynchronous recreation started by `NRF.setServices()`. The later
+correction stops each service first and deletes it only after ESP-IDF delivers
+`ESP_GATTS_STOP_EVT`. Reversing only the GATT roles avoided that old peripheral
+service-replacement path and preserved the classic target's simultaneous BLE,
+Wi-Fi and HTTPS workload. Reflashing the C3 from current master and repeating
+both the focused call and full peripheral role is required to confirm that the
+upstream correction resolves the complete peer-startup symptom.
 
 ### Separate Wi-Fi scan result
 
@@ -148,19 +223,23 @@ reported its AP started. Direct connection to the same generated SSID then
 passed consistently. This confirms the scan issue is independent of ping
 session allocation and does not invalidate the post-scan memory evidence.
 
-## Remaining Validation
+## Remaining Board-Specific Validation
 
-Before recommending a global 70 KB native-heap default:
+Moving the heap setting into a global ESP32-family default is outside the
+scope of this candidate. Remaining useful validation is:
 
-1. Run an HTTPS client transaction while BLE is enabled, using a routable and
-   controlled TLS endpoint.
-2. Decide explicitly whether reducing a non-PSRAM classic ESP32 to 2,771
-   JsVars is an acceptable trade for the additional native-heap margin.
-3. Compile representative C3 and S3 board definitions if the change is to be
-   moved from `ESP32_IDF5.py` into a global default.
+1. repeat the same BLE-plus-HTTPS workload on an otherwise identical 40 KB
+   `ESP32_IDF5` build to quantify whether 70 KB is required and how much native
+   margin it adds;
+2. measure the corresponding increase in usable JsVars on that 40 KB build so
+   the native-memory benefit and JavaScript-capacity cost are explicit;
+3. complete focused ping edge cases and a longer repeated-session soak;
+4. compile representative ESP32 IDF4/legacy and C3/S3 IDF5 configurations
+   because the guarded ping implementation shares source with those targets.
 
-The Wi-Fi scan defect and the C3 GATT-peer startup stall should remain separate
-investigations rather than being attributed to the heap proposal.
+The Wi-Fi scan defect and the old-C3 GATT service-replacement symptom should
+remain separate investigations rather than being attributed to the heap
+proposal.
 
 ## Appendix A: Memory Measurement Method
 
