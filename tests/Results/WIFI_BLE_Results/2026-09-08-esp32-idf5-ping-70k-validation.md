@@ -161,3 +161,101 @@ Before recommending a global 70 KB native-heap default:
 
 The Wi-Fi scan defect and the C3 GATT-peer startup stall should remain separate
 investigations rather than being attributed to the heap proposal.
+
+## Appendix A: Memory Measurement Method
+
+### Measurement sequence
+
+The fresh-boot figures were collected from the classic ESP32 through its
+wired Espruino REPL as follows:
+
+1. issue `ESP32.reboot()`;
+2. allow approximately two seconds for startup;
+3. resynchronise the serial REPL;
+4. verify `process.env.BOARD`, `process.version` and
+   `process.env.GIT_COMMIT`;
+5. evaluate `process.memory()` and `ESP32.getState()`.
+
+A directly reproducible Espruino form of the measurement is:
+
+```javascript
+var memory = process.memory();
+var state = ESP32.getState();
+
+print(JSON.stringify({
+  nativeFreeHeap : state.freeHeap,
+  nativeMinimumHeap : state.minHeap,
+  largestNativeBlock : memory.tx.largest_block,
+  jsVarsTotal : memory.total,
+  jsVarsFree : memory.free,
+  jsVarBlockSize : memory.blocksize
+}));
+```
+
+`process.memory()` performs a JavaScript garbage-collection pass by default.
+Its JsVar results therefore describe memory after collection and give a
+reasonably clean view of the available JavaScript storage. The post-soak
+figures were collected in the same way after the runner had completed its
+Wi-Fi cleanup, without rebooting the target. The reported minimum heap then
+represented the lowest value since the runner's initial reboot, including
+startup, association, ping sessions, UDP exchange and cleanup.
+
+### Espruino and ESP-IDF sources
+
+| Reported value | Espruino field | Native source |
+|---|---|---|
+| Native free heap | `ESP32.getState().freeHeap` | `esp_get_free_heap_size()` |
+| Native minimum heap | `ESP32.getState().minHeap` | `heap_caps_get_minimum_free_size(MALLOC_CAP_8BIT)` |
+| Largest native free block | `process.memory().tx.largest_block` | `heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)` |
+| JsVars total | `process.memory().total` | `jsvGetMemoryTotal()` |
+| JsVars used | `process.memory().usage` | `jsvGetMemoryUsage()` less reclaimable command-history blocks |
+| JsVars free | `process.memory().free` | total JsVars minus the adjusted usage value |
+| JsVar block size | `process.memory().blocksize` | `sizeof(JsVar)` |
+
+In this ESP32 implementation, `process.memory()` places `free_heap` and
+`largest_block` inside its `tx` object. They remain native heap measurements;
+they do not describe the amount of UART transmit-buffer memory.
+
+The meanings of the native readings are:
+
+- `freeHeap` is the total native ESP-IDF heap available at the instant of the
+  call;
+- `minHeap` is a retained low-water mark and does not increase when temporary
+  allocations are released;
+- `largest_block` is the largest single contiguous native allocation possible
+  at that instant and therefore adds information about fragmentation. Total
+  free heap can appear adequate while no individual block is large enough for
+  a TLS or ping allocation;
+- `process.memory().free` includes command-history JsVars because Espruino can
+  reclaim that history when JavaScript memory becomes scarce.
+
+### Relationship to the 70 KB setting
+
+The board setting does not allocate a dedicated 70,000-byte buffer. During
+startup, the ESP32 port calculates its initial JsVar count using:
+
+```c
+heapVars = (esp_get_free_heap_size() - ESP_HEAP_SIZE) / sizeof(JsVar);
+```
+
+It then allocates that JsVar block from native memory. With
+`ESP_HEAP_SIZE=70000`, the intention is to leave approximately 70 KB available
+for ESP-IDF networking, Bluetooth, TLS and other native work. Later startup
+allocations account for the measured fresh-boot value of 68,420 bytes rather
+than exactly 70,000 bytes.
+
+### Confidence boundary
+
+The source wrappers are direct: they perform no unit conversion or derived
+heap calculation. The observed behaviour was also internally consistent:
+current free heap largely recovered after the soak, while the retained
+minimum remained at its lower value.
+
+`process.memory().tx.free_heap` and `ESP32.getState().freeHeap` both expose
+`esp_get_free_heap_size()`. Agreement between them confirms consistent
+JavaScript exposure but is not an independent measurement of the IDF heap.
+No direct C diagnostic, known-sized native test allocation, JTAG inspection or
+IDF heap trace was used. The values should therefore be described as reported
+by the ESP-IDF heap APIs. The successful functional operations and absence of
+allocation failures, assertions and resets remain the primary validation
+evidence.
