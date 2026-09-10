@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "bench_id": "esp32_idf5_ping_70k_2026_09_08",
+  "bench_id": "esp32_idf5_ping_40k_2026_09_10",
   "operating_mode": "STANDALONE",
   "power_configuration": {
     "target_supply": "usb_vbus",
@@ -17,7 +17,7 @@
   "positions": [
     {
       "position_id": "esp32_v1",
-      "label": "ESP32 V1 harness - IDF5 modern ping with 70 KB native heap",
+      "label": "ESP32 V1 harness - IDF5 modern ping with 40 KB native heap",
       "expected_target_profile": "esp32_devkitc_v4_idf5",
       "control_role": "console",
       "usb_roles": {
@@ -29,7 +29,7 @@
       "expected_firmware": {
         "board": "ESP32_IDF5",
         "version": "2v29.396",
-        "git_commit": "20302d7f9"
+        "git_commit": "cfd696413"
       },
       "required_capabilities": [
         "wifi",

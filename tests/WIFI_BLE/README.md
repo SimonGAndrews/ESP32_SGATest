@@ -211,6 +211,29 @@ The scripts are:
 The initial result is recorded in
 `tests/Results/WIFI_BLE_Results/2026-07-20-wifi-supervisor-peer-initial.md`.
 
+## Focused Ping Lifecycle Test
+
+The focused test uses the C3 as a controlled WPA2 access point and ICMP/UDP
+peer. It verifies invalid-address and overlapping-session rejection, successful
+replies, an unreachable-address timeout, immediate session restart, repeated
+ping sessions, BLE-advertising continuity, UDP operation after ping and native
+heap stability. Run it against the qualified 70 KB classic image with:
+
+```bash
+python3 tools/repl/run_wifi_peer_test.py \
+  --config tests/WIFI_BLE/esp32_idf5_ping_70k_bench_config.json \
+  --target-script tests/WIFI_BLE/wifi/wifi_ping_lifecycle.js \
+  --direction c3-peer \
+  --skip-scan \
+  --ping-rounds 25 \
+  --target-timeout 180 \
+  --overall-timeout-ms 170000
+```
+
+The 40 KB comparison configuration records the otherwise identical image used
+for the controlled memory-allocation comparison; update and verify the expected
+firmware identity whenever that comparison image is rebuilt.
+
 ## Negative Wi-Fi Station Cases
 
 The negative scenario keeps the C3 Supervisor Peer AP active while the classic
