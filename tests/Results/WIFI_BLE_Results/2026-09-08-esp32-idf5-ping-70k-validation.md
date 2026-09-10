@@ -1,6 +1,7 @@
 # ESP32 IDF5 Modern Ping And 70 KB Native-Heap Validation
 
-Date: 2026-09-08; HTTPS coexistence validation added 2026-09-09
+Date: 2026-09-08; HTTPS coexistence validation added 2026-09-09; controlled
+40 KB comparison and focused ping qualification added 2026-09-10
 
 ## Conclusion
 
@@ -16,6 +17,20 @@ board. On this non-PSRAM classic ESP32, the larger native reserve leaves 2,771
 JsVars at a 14-byte block size. The board-specific 70 KB candidate nevertheless
 demonstrated the intended Bluetooth-plus-HTTPS use case with 31,456 bytes as
 the native-heap low-water mark and no allocation failure.
+
+A subsequent like-for-like comparison completed the same connected BLE GATT
+and HTTPS workload three times on each setting. Both settings completed all
+three runs, but the 40 KB build's native-heap low-water mark fell as low as
+1,900 bytes, while the 70 KB build retained at least 30,736 bytes. The 70 KB
+setting therefore provides substantial native allocation margin rather than
+merely changing the reported partition between native heap and JsVars.
+
+The final ping implementation then completed two focused lifecycle runs. In
+total it completed 39 successful sessions with 195 correct replies, two
+unreachable sessions with all 10 timeout callbacks and correct cumulative
+counters, immediate restart after both successful and timed-out sessions, BLE
+continuity, UDP traffic after ping, and clean shutdown. No material native-heap
+loss, allocation failure, assertion or reset was observed.
 
 The existing IDF5 Wi-Fi scan failure remains separate: direct association and
 all post-scan functions passed, but `Wifi.scan()` returned an empty list while
@@ -34,6 +49,7 @@ Base: `d8322cec9`
 | `ffa968c28` | Restore `ESP32_IDF5.py` to `JSVAR_MALLOC`, remove `RESIZABLE_JSVARS`, set the maximum to 16,383 variables and reserve 70,000 bytes of native heap. |
 | `c56c82412` | Implement IDF5 `Wifi.ping()` with the supported `ping/ping_sock.h` session API. |
 | `cdcf5e8e7` | Retain the final ping result until IDF reports session completion, so a new ping can be started from the final JavaScript callback. |
+| `20302d7f9` | Count completed ping attempts and timeouts in the wrapper so the IDF5 result retains the legacy `totalCount` and `timeoutCount` behaviour even when IDF cannot transmit an unreachable request. |
 
 The clean release build used:
 
@@ -49,21 +65,42 @@ The resulting board identified itself as:
 
 ```text
 BOARD=ESP32_IDF5
-VERSION=2v29.395
-GIT_COMMIT=cdcf5e8e7
+VERSION=2v29.396
+GIT_COMMIT=20302d7f9
 ```
 
-The firmware binary was `0x16e9e0` bytes and left 27% of its application
+The firmware binary was `0x16ea00` bytes and left 27% of its application
 partition free. A clean build was required after an incremental build was
 found to contain stale Espruino version strings; binary inspection and the
 runtime identity check both confirmed the final clean image.
+
+The exact final 70 KB firmware archive is retained locally as
+`firmware/ESP32_IDF5/2v29.396-20302d7f9-70k/espruino_2v29.396_esp32.tgz`.
+Its SHA-256 digest is
+`140d07ff200da49597093cb12cb1da7e35b9851670993b5cb39ad766bcd836c9`.
+
+### Build portability
+
+Commit `20302d7f9` also completed clean release builds for each representative
+side of the IDF version guard and for all three IDF5 target families:
+
+| Board definition | IDF path | Result | Application image |
+|---|---|---|---:|
+| `ESP32.py` | legacy ESP-IDF | completed | 1,523,376 bytes |
+| `ESP32_IDF4.py` | ESP-IDF 4.4 | completed | `0x15aa40` bytes |
+| `ESP32_IDF5.py` | ESP-IDF 5.5.3 | completed | `0x16ea00` bytes |
+| `ESP32C3_IDF5.py` | ESP-IDF 5.5.3 | completed | `0x19bed0` bytes |
+| `ESP32S3_IDF5.py` | ESP-IDF 5.5.3 | completed | `0x17c5e0` bytes |
+
+The non-classic builds are compile checks, not runtime claims. The 70 KB
+change remains in `ESP32_IDF5.py`; it was not moved into a shared default.
 
 ## Bench Configuration
 
 | Role | Board | Firmware | Control path |
 |---|---|---|---|
-| Target | Classic ESP32 V1 harness | `ESP32_IDF5` `2v29.395`, `cdcf5e8e7` | board USB-UART console |
-| Controlled peer | ESP32-C3 | `ESP32C3_IDF4` `2v29.274`, `b905c8099` | native USB Serial/JTAG console |
+| Target | Classic ESP32 V1 harness | `ESP32_IDF5` `2v29.396`, `20302d7f9` | board USB-UART console |
+| Controlled peer | ESP32-C3 | `ESP32C3_IDF4` `2v29.392`, `d8322cec9` | native USB Serial/JTAG console |
 
 Both identities, connection paths and Wi-Fi/BLE capabilities passed the bench
 configuration verifier before the final run. The boards operated in standalone
@@ -128,6 +165,31 @@ IDF calls the success or timeout callback for the final request before it calls
 then clears the native session state before the final JavaScript callback is
 executed. The previously failing cadence subsequently passed all ten sessions.
 
+Focused timeout testing then exposed a second compatibility detail. ESP-IDF's
+`ESP_PING_PROF_REQUEST` counter includes only requests successfully handed to
+the network stack. A request to an unreachable local address can fail during
+address resolution, causing IDF to deliver a timeout callback without
+incrementing that counter. The legacy Espruino implementation counted every
+completed attempt, so the first IDF5 wrapper reported only three total attempts
+after five timeout callbacks. Commit `20302d7f9` maintains explicit completed-
+attempt and timeout counters in the IDF5 wrapper and preserves the established
+JavaScript result semantics.
+
+The corrected image passed these two controlled runs:
+
+| Run | Successful sessions | Successful replies | Unreachable sessions | Timeout callbacks | Functional checks | Heap result |
+|---|---:|---:|---:|---:|---:|---|
+| `20260910T082644Z` | 27 | 135 | 1 | 5 | 35 completed from 35 | free heap unchanged at 53,892 bytes across the 25-session soak |
+| `20260910T082915Z` | 12 | 60 | 1 | 5 | 20 completed from 20 | 53,768 bytes before and 53,772 bytes after the 10-session soak |
+
+Each run also rejected an invalid address and a simultaneous second ping,
+restarted a successful session directly from the preceding final callback,
+reported five cumulative timeouts for five attempts to the unreachable
+address, restarted immediately from the final timeout callback, retained BLE
+advertising, exchanged a run-specific UDP message after the ping sequence, and
+cleanly disconnected. The C3 peer independently observed the classic target
+join and leave and received the UDP challenge.
+
 ### BLE GATT
 
 On the final image, the classic ESP32 operated as the GATT peripheral. The C3
@@ -191,10 +253,53 @@ transaction, while current free heap recovered after cleanup. This is direct
 evidence that the 70 KB configuration supplied enough native memory for Wi-Fi,
 TLS and connected BLE to coexist on this image.
 
+After the final ping-counter correction, run `20260910T085339Z` repeated this
+workload on the exact `2v29.396` / `20302d7f9` candidate. It passed all 10
+classic-target checks, all seven C3-central checks and all three host
+correlation checks; received status 200 and the full 744-byte response; and
+retained the GATT connection through the post-HTTPS write. Its native-heap
+low-water mark was 30,580 bytes, with 52,424 bytes free immediately after the
+HTTPS response and 58,664 bytes after cleanup. This confirms that the small
+ping-counter change did not invalidate the final-image coexistence result.
+
 The endpoint used a temporary self-signed certificate. The current Espruino
 ESP32 TLS implementation configures certificate verification off, so this test
 validates the TLS handshake, encrypted transfer, application response and
 memory coexistence; it does not claim server-certificate authentication.
+
+### Controlled 40 KB versus 70 KB comparison
+
+On 2026-09-10, an otherwise identical 40 KB image was built from the validated
+70 KB candidate. Its only source change removed the
+`DEFINES+=-DESP_HEAP_SIZE=70000` board-file entry, allowing the 40,000-byte
+default in `targets/esp32/main.c` to apply. Both images were clean release
+builds using ESP-IDF 5.5.3 and were flashed after a full flash erase.
+
+| Build | Firmware identity | BLE-plus-HTTPS runs | JsVars total | Initial native free heap | Native low-water mark | Native free after HTTPS | Largest block after HTTPS | Native free after cleanup |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| 40 KB default | `2v29.396`, `cfd696413` | 3 completed from 3 | 4,958-4,976 | 34,488-38,320 | 1,900-3,840 | 23,972-25,508 | 13,312-14,336 | 29,996-31,376 |
+| 70 KB candidate | `2v29.395`, `cdcf5e8e7` | 3 completed from 3 | 2,815-2,833 | 66,992-67,256 | 30,736-30,900 | 52,580-52,784 | 30,720-32,768 | 58,668-58,816 |
+
+The controlled run identifiers were `20260910T075350Z`, `075457Z` and
+`075540Z` for 40 KB, and `20260910T080517Z`, `080604Z` and `080647Z` for
+70 KB. Every run passed all ten classic-target checks, all seven C3-central
+checks and the host's exact HTTPS request correlation. Each target received
+status 200 and all 744 response bytes, retained its GATT connection throughout
+the TLS operation and accepted the post-HTTPS GATT write.
+
+For corresponding boots, the 70 KB build had exactly 2,143 fewer JsVars than
+the 40 KB build. At 14 bytes per JsVar this is 30,002 bytes, matching the
+30,000-byte increase in the requested native reserve within allocation
+rounding. The measured allocation trade therefore agrees with the startup
+calculation.
+
+This comparison does not show that the 40 KB image must fail with this small,
+local TLS endpoint: it completed all three attempts. It does show that the
+same operation can reduce its native heap to less than 2 KB, whereas the 70 KB
+image retains more than 30 KB. The additional reserve provides meaningful
+margin for variation in TLS handshakes, certificates, network activity and
+other concurrent ESP-IDF allocations. The board-specific memory-allocation
+comparison is complete for the tested classic ESP32 and workload.
 
 Two preceding attempts with the C3 as the GATT peripheral stopped before Wi-Fi
 because that peer never emitted its service-ready marker. A focused test on
@@ -232,19 +337,12 @@ reported its AP started. Direct connection to the same generated SSID then
 passed consistently. This confirms the scan issue is independent of ping
 session allocation and does not invalidate the post-scan memory evidence.
 
-## Remaining Board-Specific Validation
+## Scope Boundary And Separate Issues
 
 Moving the heap setting into a global ESP32-family default is outside the
-scope of this candidate. Remaining useful validation is:
-
-1. repeat the same BLE-plus-HTTPS workload on an otherwise identical 40 KB
-   `ESP32_IDF5` build to quantify whether 70 KB is required and how much native
-   margin it adds;
-2. measure the corresponding increase in usable JsVars on that 40 KB build so
-   the native-memory benefit and JavaScript-capacity cost are explicit;
-3. complete focused ping edge cases and a longer repeated-session soak;
-4. compile representative ESP32 IDF4/legacy and C3/S3 IDF5 configurations
-   because the guarded ping implementation shares source with those targets.
+scope of this candidate. The controlled board-specific memory comparison,
+focused classic-ESP32 ping qualification and representative compile checks are
+complete.
 
 The Wi-Fi scan defect and the old-C3 GATT service-replacement symptom should
 remain separate investigations rather than being attributed to the heap

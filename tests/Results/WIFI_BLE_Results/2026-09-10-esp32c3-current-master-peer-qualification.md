@@ -78,6 +78,26 @@ Each of the three complete primary BLE-plus-HTTPS runs produced:
 - the classic received status 200 and the complete 744-byte body;
 - the C3 remained connected and performed its second GATT write after HTTPS.
 
+## Relationship To Earlier C3 Testing
+
+This qualification used the current-master `ESP32C3_IDF4` build. The
+intermittent `NRF.setServices()` crash was not observed during earlier C3 IDF5
+functional testing, but those tests completed individual GATT transactions
+rather than repeatedly replacing services. The earlier results therefore do
+not exclude this timing-dependent defect, and the defect has not yet been
+reproduced specifically on C3 IDF5.
+
+The other two limitations are not newly discovered C3 IDF4 regressions.
+The absent `Wifi.ping()` callback was already recorded during earlier C3 IDF5
+testing. Empty `NRF.findDevices()` results are also consistent with previously
+recorded ESP32-family advertising and discovery failures and have not been
+attributed to this particular firmware build.
+
+The new qualification evidence is the intermittent failure while replacing
+GATT services. It prevents qualification of the C3 as an unrestricted BLE
+peer, but it does not invalidate the successful repeated central-role
+BLE-plus-HTTPS runs reported above.
+
 ## Intermittent GATT Peripheral Failure
 
 The complete C3-peripheral transaction passed in runs `20260909T225623Z`,
