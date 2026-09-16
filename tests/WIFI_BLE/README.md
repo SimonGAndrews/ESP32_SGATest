@@ -225,6 +225,80 @@ The scripts are:
 The initial result is recorded in
 `tests/Results/WIFI_BLE_Results/2026-07-20-wifi-supervisor-peer-initial.md`.
 
+## ESP32 Wi-Fi Station Lifecycle Regression Tests
+
+These tests exercise the station transitions affected by the ESP32 wrapper's
+station-start handling. The candidate bench configuration identifies the
+classic ESP32 IDF5 target and ESP32-C3 IDF4 controlled peer built from commit
+`dc274713a`; it also fixes their physical USB positions. Verify or update those
+facts before reusing it with different firmware or bench wiring.
+
+Run the main lifecycle test to cover connection from an idle station, scanning
+and reconnecting while connected, explicit disconnect, scanning while
+disconnected, and connection after that scan:
+
+```bash
+python3 tools/repl/run_wifi_peer_test.py \
+  --config tests/WIFI_BLE/esp32_wifi_lifecycle_dc274_bench_config.json \
+  --target-script tests/WIFI_BLE/wifi/wifi_station_transition_lifecycle.js \
+  --direction c3-peer \
+  --target-timeout 90 \
+  --overall-timeout-ms 60000
+```
+
+The additional lifecycle cases use the same controlled peer:
+
+```bash
+# Cancel an in-progress request, then complete five connect/disconnect cycles.
+python3 tools/repl/run_wifi_peer_test.py \
+  --config tests/WIFI_BLE/esp32_wifi_lifecycle_dc274_bench_config.json \
+  --target-script tests/WIFI_BLE/wifi/wifi_connect_cancel_lifecycle.js \
+  --direction c3-peer \
+  --target-timeout 90 \
+  --overall-timeout-ms 60000
+
+# Remove and restore the peer AP, then reconnect explicitly.
+python3 tools/repl/run_wifi_peer_test.py \
+  --config tests/WIFI_BLE/esp32_wifi_lifecycle_dc274_bench_config.json \
+  --peer-script tests/WIFI_BLE/wifi/wifi_recovery_peer.js \
+  --target-script tests/WIFI_BLE/wifi/wifi_station_recovery_lifecycle.js \
+  --direction c3-peer \
+  --target-timeout 60 \
+  --overall-timeout-ms 40000
+
+# Exercise AP-only, AP+station and station-only transitions on classic ESP32.
+python3 tools/repl/run_wifi_peer_test.py \
+  --config tests/WIFI_BLE/esp32_wifi_lifecycle_dc274_bench_config.json \
+  --target-script tests/WIFI_BLE/wifi/wifi_apsta_transition_lifecycle.js \
+  --direction c3-peer \
+  --target-timeout 60 \
+  --overall-timeout-ms 45000
+```
+
+The AP+station case is intentionally limited to the classic ESP32. Espruino's
+current C3 wrapper uses a single-role workaround and does not expose the same
+simultaneous AP+station transition.
+
+The saved-configuration test proves restoration after a hardware reboot:
+
+```bash
+python3 tools/repl/run_wifi_restore_test.py \
+  --config tests/WIFI_BLE/esp32_wifi_lifecycle_dc274_bench_config.json
+```
+
+This test deliberately writes `.wificfg`, reboots the target, verifies the
+restored connection and UDP traffic, then clears the saved configuration. Its
+runner also attempts persistent and runtime cleanup if an intermediate phase
+fails. A cleanup warning makes an otherwise successful run fail and requires
+manual inspection before the target is reused.
+
+The S3 was checked separately with the focused scan reproduction. Its broader
+reconnect lifecycle is not qualified here because both the base and candidate
+firmware showed the same pre-existing reconnect stall. The clean-master scan
+configuration is retained as
+`esp32_wifi_scan_master_26fff_bench_config.json`; it is evidence-specific and
+is not a default for current lifecycle runs.
+
 ## Focused Ping Lifecycle Test
 
 The focused test uses the C3 as a controlled WPA2 access point and ICMP/UDP
