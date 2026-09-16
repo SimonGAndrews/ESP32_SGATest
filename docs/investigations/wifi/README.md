@@ -19,6 +19,10 @@ proof of network state:
 Both behaviours reproduced on the classic legacy and C3 IDF4 builds. The
 matching firmware sources share the defective worker logic.
 
+For a tutorial explanation of station, access-point, scan, connection,
+save/restore and recovery state transitions, see
+[`esp32-wifi-lifecycle-tutorial.md`](esp32-wifi-lifecycle-tutorial.md).
+
 ## Issue Register
 
 | ID | Issue | Status | Primary record |
