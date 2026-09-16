@@ -5,9 +5,9 @@ Date opened: 2026-07-20
 ## Current Conclusion
 
 The V1 two-board Wi-Fi tests have identified two confirmed shared ESP32-port
-IP-configuration defects and two open follow-up anomalies. None currently
-indicates a V1 harness hardware fault or a failure of the proposed V2
-Supervisor Peer mechanism.
+IP-configuration defects, two earlier open follow-up anomalies and one
+confirmed IDF5 scan regression. None currently indicates a V1 harness
+hardware fault or a failure of the proposed V2 Supervisor Peer mechanism.
 
 The strongest confirmed finding is that callback status must not be treated as
 proof of network state:
@@ -27,6 +27,7 @@ matching firmware sources share the defective worker logic.
 | WIFI-002 | `Wifi.setIP()` does not stop the station DHCP client and does not apply the requested address after association | Confirmed; source cause identified; unpatched | [`ip-configuration-api-2026-07-20.md`](ip-configuration-api-2026-07-20.md) |
 | WIFI-003 | C3-station-to-classic-AP `Wifi.ping()` receives no replies while bidirectional UDP works | Open; endpoint attribution incomplete | [`directional-ping-asymmetry-2026-07-20.md`](directional-ping-asymmetry-2026-07-20.md) |
 | WIFI-004 | Classic legacy build reset during two post-`setIP()` continuation sequences | Open; trigger not isolated | [`classic-post-setip-reset-2026-07-20.md`](classic-post-setip-reset-2026-07-20.md) |
+| WIFI-005 | Classic `ESP32_IDF5` `Wifi.scan()` returns an empty AP list because station startup also starts a connection | Confirmed; candidate validated on classic, C3 and the focused S3 failure path; PR ready | [`esp32-idf5-scan-empty-2026-09-14.md`](esp32-idf5-scan-empty-2026-09-14.md) |
 
 ## Evidence Boundary
 

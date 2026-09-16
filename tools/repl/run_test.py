@@ -77,6 +77,21 @@ def read_until_done(ser: serial.Serial, timeout: float) -> str:
     return b"".join(chunks).decode("utf-8", "replace")
 
 
+def read_until_prompt(ser: serial.Serial, timeout: float) -> str:
+    deadline = time.monotonic() + timeout
+    chunks: list[bytes] = []
+    while time.monotonic() < deadline:
+        waiting = ser.in_waiting
+        if waiting:
+            chunks.append(ser.read(waiting))
+            text = b"".join(chunks).decode("utf-8", "replace")
+            if text.rstrip().endswith(">"):
+                return text
+        else:
+            time.sleep(0.02)
+    return b"".join(chunks).decode("utf-8", "replace")
+
+
 def sync_repl(ser: serial.Serial) -> None:
     ser.reset_input_buffer()
     ser.reset_output_buffer()
