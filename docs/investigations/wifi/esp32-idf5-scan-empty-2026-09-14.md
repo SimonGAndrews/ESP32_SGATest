@@ -130,7 +130,9 @@ the unconditional call itself.
 
 The committed correction is on branch
 `fix/esp32-wifi-sta-start-intent` at `dc274713a`. It is rebased onto current
-upstream master `1c96229d0`. The correction:
+upstream master `1c96229d0` and was submitted as
+[Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752). The
+correction:
 
 - records station `START` and `STOP` events explicitly;
 - records a one-shot pending connection only when `Wifi.connect()` must start
@@ -233,7 +235,7 @@ The `Wifi.ping()` step timed out in these two candidate runs because plain
 current master does not yet include the separate modern IDF5 ping
 implementation. That expected failure is unrelated to scan validation.
 
-## Pull Request Readiness
+## Pull Request Status
 
 Clean release builds passed for every ESP32 configuration in the upstream
 build matrix: `ESP32`, `ESP32_IDF4`, `ESP32_IDF5`, `ESP32C3_IDF4`,
@@ -248,10 +250,18 @@ candidate runtime evidence for the scan defect, while the broader lifecycle
 remains outside the qualifying matrix because both images reproduce a separate
 reconnect stall.
 
-The branch has been pushed to SimonGAndrews/Espruino, but no upstream pull
-request has yet been opened. Exposing immediate `esp_wifi_scan_start()`
-failures to the JavaScript callback remains a separate robustness change and
-is intentionally outside this correction.
+The correction was submitted upstream on 2026-09-16 as
+[Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752), titled
+`ESP32: connect after station start only when requested`. At submission it was
+cleanly mergeable and all 27 GitHub Actions jobs passed, including the seven
+ESP32-family builds and Linux build. The PR contains the single candidate
+commit `dc274713a` and changes only
+`libs/network/esp32/jswrap_esp32_network.c`.
+
+The PR links and fixes
+[issue #2750](https://github.com/espruino/Espruino/issues/2750). Exposing
+immediate `esp_wifi_scan_start()` failures to the JavaScript callback remains
+a separate robustness change and is intentionally outside this correction.
 
 ## Deferred ESP32-C3 AP+Station Follow-Up
 

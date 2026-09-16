@@ -22,8 +22,9 @@ points, but it must not connect to one. Confusing those two operations caused
 the `Wifi.scan()` empty-result defect investigated in September 2026.
 
 This document explains the ESP32 implementation on upstream base `1c96229d0`
-and the scan/connect candidate at `dc274713a`. It is a tutorial and
-investigation aid, not a replacement for the public
+and the scan/connect correction at `dc274713a`, submitted as
+[Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752). It is a
+tutorial and investigation aid, not a replacement for the public
 [Espruino `Wifi` API reference](https://www.espruino.com/Reference#Wifi).
 
 ## The Two Software Layers
