@@ -37,7 +37,7 @@ PEER_SCRIPT = Path("tests/WIFI_BLE/ble/ble_supervisor_advertiser.js")
 TARGET_SCRIPT = Path("tests/WIFI_BLE/ble/ble_target_filtered_scan.js")
 
 
-def ble_runtime_cleanup(repl: serial.Serial, label: str) -> tuple[str, str]:
+def ble_runtime_cleanup(repl: serial.Serial, label: str) -> tuple[str, str, str]:
     send_and_capture(repl, "\x03", settle=0.15)
     send_and_capture(repl, "echo(true);\n", settle=0.15)
     cleanup = (
@@ -51,7 +51,12 @@ def ble_runtime_cleanup(repl: serial.Serial, label: str) -> tuple[str, str]:
     initial = send_and_capture(repl, cleanup, settle=0.2)
     output = collect_until(repl, initial, (label + "_CLEAN=1",), 3.0)
     security = query_value(repl, "NRF.getSecurityStatus()", label + "_SECURITY")
-    return output, security
+    connected = query_value(
+        repl,
+        "NRF.getSecurityStatus().connected===true",
+        label + "_CONNECTED",
+    )
+    return output, security, connected
 
 
 def print_role_output(label: str, output: str) -> None:
@@ -188,17 +193,19 @@ def main() -> int:
                 )
                 result = 0 if all((target_pass, peer_pass, host_match)) else 1
 
-            _, peer_security = ble_runtime_cleanup(peer_repl, "BLE_PEER_POST")
-            _, target_security = ble_runtime_cleanup(
+            _, peer_security, peer_connected = ble_runtime_cleanup(
+                peer_repl,
+                "BLE_PEER_POST",
+            )
+            _, target_security, target_connected = ble_runtime_cleanup(
                 target_repl,
                 "BLE_TARGET_POST",
             )
             print(f"RUNNER peer_final_security={peer_security}")
             print(f"RUNNER target_final_security={target_security}")
-            cleanup_ok = (
-                "'connected': True" not in peer_security
-                and "'connected': True" not in target_security
-            )
+            print(f"RUNNER peer_final_connected={peer_connected}")
+            print(f"RUNNER target_final_connected={target_connected}")
+            cleanup_ok = peer_connected == "False" and target_connected == "False"
             if cleanup_ok:
                 print("PASS ble_runtime_cleanup")
             else:

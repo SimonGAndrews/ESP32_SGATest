@@ -153,6 +153,20 @@ python3 tools/repl/run_ble_gatt_test.py
 python3 tools/repl/run_ble_gatt_test.py --direction esp32-peer
 ```
 
+To validate service replacement rather than only initial service setup, the
+same runner can replace the peripheral service repeatedly before advertising
+the final run-specific value:
+
+```bash
+python3 tools/repl/run_ble_gatt_test.py \
+  --service-replacements 50 \
+  --service-replacement-delay-ms 500
+```
+
+The central must discover the final service, read its exact run challenge,
+write both correlated responses and disconnect. A JavaScript loop completing
+on the peripheral is therefore not sufficient for this result.
+
 In `c3-peer`, the C3 is the GATT peripheral and the classic ESP32 is the
 central. In `esp32-peer`, those radio roles reverse. The current-master C3
 passes as the central; its peripheral role is intermittent and is not a

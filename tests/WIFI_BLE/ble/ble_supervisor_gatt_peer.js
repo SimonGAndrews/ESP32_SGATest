@@ -19,6 +19,89 @@
     return E.toString(data);
   }
 
+  function servicesFor(challenge) {
+    return {
+      0xFFF0 : {
+        0xFFF1 : {
+          value : challenge,
+          maxLen : 20,
+          readable : true
+        },
+        0xFFF2 : {
+          maxLen : 20,
+          writable : true,
+          onWrite : function (evt) {
+            written = text(evt.data);
+            events.push({event:"write", value:written});
+            print("BLE_GATT_WRITE=" + JSON.stringify({
+              runId:c.runId,
+              value:written
+            }));
+          }
+        },
+        0xFFF3 : {
+          maxLen : 20,
+          writable : true,
+          onWrite : function (evt) {
+            completed = text(evt.data);
+            events.push({event:"complete", value:completed});
+            print("BLE_GATT_COMPLETE=" + JSON.stringify({
+              runId:c.runId,
+              value:completed
+            }));
+          }
+        }
+      }
+    };
+  }
+
+  function beginAdvertising() {
+    NRF.setAdvertising({}, {
+      name:c.name,
+      showName:true,
+      connectable:true,
+      scannable:true,
+      interval:100
+    });
+
+    var initial = NRF.getSecurityStatus();
+    if (initial.advertising) pass("ble_gatt_peer_advertising");
+    else fail("ble_gatt_peer_advertising", JSON.stringify(initial));
+
+    print("BLE_GATT_PEER_READY=" + JSON.stringify({
+      runId:c.runId,
+      name:c.name,
+      challenge:c.challenge,
+      expectedAck:c.ack,
+      serviceReplacements:c.serviceReplacements || 0,
+      security:initial
+    }));
+  }
+
+  function replaceServices(iteration) {
+    var replacementLimit = c.serviceReplacements || 0;
+    var finalReplacement = iteration === replacementLimit;
+    var challenge = finalReplacement
+      ? c.challenge
+      : c.challenge + "-" + iteration;
+
+    NRF.setServices(servicesFor(challenge));
+    print("BLE_GATT_REPLACEMENT=" + JSON.stringify({
+      runId:c.runId,
+      iteration:iteration,
+      final:finalReplacement,
+      challenge:challenge
+    }));
+
+    if (finalReplacement) {
+      setTimeout(beginAdvertising, c.serviceReplacementDelayMs || 500);
+    } else {
+      setTimeout(function () {
+        replaceServices(iteration + 1);
+      }, c.serviceReplacementDelayMs || 500);
+    }
+  }
+
   print("TEST=ble_supervisor_gatt_peer");
   print("TARGET=" + process.env.BOARD);
   print("INFO run=" + JSON.stringify(c));
@@ -36,58 +119,11 @@
     print("INFO ble_peer_disconnected=" + reason);
   });
 
-  NRF.setServices({
-    0xFFF0 : {
-      0xFFF1 : {
-        value : c.challenge,
-        maxLen : 20,
-        readable : true
-      },
-      0xFFF2 : {
-        maxLen : 20,
-        writable : true,
-        onWrite : function (evt) {
-          written = text(evt.data);
-          events.push({event:"write", value:written});
-          print("BLE_GATT_WRITE=" + JSON.stringify({
-            runId:c.runId,
-            value:written
-          }));
-        }
-      },
-      0xFFF3 : {
-        maxLen : 20,
-        writable : true,
-        onWrite : function (evt) {
-          completed = text(evt.data);
-          events.push({event:"complete", value:completed});
-          print("BLE_GATT_COMPLETE=" + JSON.stringify({
-            runId:c.runId,
-            value:completed
-          }));
-        }
-      }
-    }
-  });
-  NRF.setAdvertising({}, {
-    name:c.name,
-    showName:true,
-    connectable:true,
-    scannable:true,
-    interval:100
-  });
-
-  var initial = NRF.getSecurityStatus();
-  if (initial.advertising) pass("ble_gatt_peer_advertising");
-  else fail("ble_gatt_peer_advertising", JSON.stringify(initial));
-
-  print("BLE_GATT_PEER_READY=" + JSON.stringify({
-    runId:c.runId,
-    name:c.name,
-    challenge:c.challenge,
-    expectedAck:c.ack,
-    security:initial
-  }));
+  if (c.serviceReplacements) replaceServices(1);
+  else {
+    NRF.setServices(servicesFor(c.challenge));
+    beginAdvertising();
+  }
 
   global.bleGattPeerStop = function () {
     var security = NRF.getSecurityStatus();
@@ -103,6 +139,7 @@
       expectedAck:c.ack,
       completed:completed,
       expectedComplete:c.complete,
+      serviceReplacements:c.serviceReplacements || 0,
       security:security,
       events:events,
       checksFailed:failed

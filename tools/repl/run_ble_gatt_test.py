@@ -49,7 +49,27 @@ def main() -> int:
         choices=tuple(DIRECTION_POSITIONS),
         default="c3-peer",
     )
+    parser.add_argument(
+        "--service-replacements",
+        type=int,
+        default=0,
+        help=(
+            "Replace the peripheral GATT service this many times before "
+            "advertising it (default: one normal service setup)"
+        ),
+    )
+    parser.add_argument(
+        "--service-replacement-delay-ms",
+        type=int,
+        default=500,
+        help="Delay between repeated service setups (default: 500 ms)",
+    )
     args = parser.parse_args()
+
+    if args.service_replacements < 0:
+        parser.error("--service-replacements must be zero or greater")
+    if args.service_replacement_delay_ms < 1:
+        parser.error("--service-replacement-delay-ms must be positive")
 
     config = load_config(args.config)
     peer_position_id, target_position_id = DIRECTION_POSITIONS[args.direction]
@@ -66,6 +86,8 @@ def main() -> int:
         "challenge": "Q" + suffix,
         "ack": "A" + suffix,
         "complete": "D" + suffix,
+        "serviceReplacements": args.service_replacements,
+        "serviceReplacementDelayMs": args.service_replacement_delay_ms,
     }
 
     print("RUNNER test=ble_supervisor_peer_gatt")
@@ -109,7 +131,12 @@ def main() -> int:
                 PEER_SCRIPT,
                 role_config,
                 ("BLE_GATT_PEER_READY=",),
-                10.0,
+                10.0
+                + (
+                    args.service_replacements
+                    * args.service_replacement_delay_ms
+                    / 1000.0
+                ),
             )
             ready = marker_payload(peer_output, "BLE_GATT_PEER_READY")
             if not ready:
@@ -155,12 +182,41 @@ def main() -> int:
                     peer_stop_output,
                     "BLE_GATT_PEER_SUMMARY",
                 )
+                replacement_count = count_output_marker(
+                    peer_output,
+                    "BLE_GATT_REPLACEMENT=",
+                )
+                final_replacement = marker_payload(
+                    peer_output,
+                    "BLE_GATT_REPLACEMENT",
+                )
+                replacements_ok = args.service_replacements == 0 or bool(
+                    replacement_count == args.service_replacements
+                    and final_replacement
+                    and final_replacement.get("runId") == run_id
+                    and final_replacement.get("iteration")
+                    == args.service_replacements
+                    and final_replacement.get("final") is True
+                    and final_replacement.get("challenge")
+                    == role_config["challenge"]
+                )
                 over_air_correlated = bool(
                     peer_summary
                     and peer_summary.get("runId") == run_id
                     and peer_summary.get("written") == role_config["ack"]
                     and peer_summary.get("completed") == role_config["complete"]
+                    and peer_summary.get("serviceReplacements")
+                    == args.service_replacements
                 )
+                if args.service_replacements:
+                    print(
+                        "PASS ble_peer_service_replacements "
+                        f"count={replacement_count}"
+                        if replacements_ok
+                        else "FAIL ble_peer_service_replacements "
+                        f"expected={args.service_replacements} "
+                        f"observed={replacement_count}"
+                    )
                 print(
                     "PASS ble_host_correlated_gatt_over_air"
                     if over_air_correlated
@@ -172,25 +228,22 @@ def main() -> int:
                     else "FAIL ble_target_reported_gatt_transaction"
                 )
                 result = 0 if all(
-                    (target_pass, peer_pass, over_air_correlated)
+                    (target_pass, peer_pass, replacements_ok, over_air_correlated)
                 ) else 1
 
-            _, peer_security = ble_runtime_cleanup(
+            _, peer_security, peer_connected = ble_runtime_cleanup(
                 peer_repl,
                 "BLE_GATT_PEER_POST",
             )
-            _, target_security = ble_runtime_cleanup(
+            _, target_security, target_connected = ble_runtime_cleanup(
                 target_repl,
                 "BLE_GATT_TARGET_POST",
             )
             print(f"RUNNER peer_final_security={peer_security}")
             print(f"RUNNER target_final_security={target_security}")
-            cleanup_ok = (
-                peer_security != "UNKNOWN"
-                and target_security != "UNKNOWN"
-                and "'connected': True" not in peer_security
-                and "'connected': True" not in target_security
-            )
+            print(f"RUNNER peer_final_connected={peer_connected}")
+            print(f"RUNNER target_final_connected={target_connected}")
+            cleanup_ok = peer_connected == "False" and target_connected == "False"
             print(
                 "PASS ble_runtime_cleanup"
                 if cleanup_ok
