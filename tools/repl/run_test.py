@@ -136,7 +136,9 @@ def run_direct(test_path: Path, port: str, baud: int, timeout: float) -> str:
     js_test = test_path.read_text()
     with serial.Serial(port, baud, timeout=0.1) as ser:
         sync_repl(ser)
-        send_and_capture(ser, "reset();\n", settle=0.8)
+        reset_output = send_and_capture(ser, "reset();\n", settle=0.2)
+        if not reset_output.rstrip().endswith(">"):
+            read_until_prompt(ser, min(timeout, 8.0))
         send_and_capture(ser, "echo(true);\n", settle=0.2)
         ser.reset_input_buffer()
         raw_output = send_script_paced(ser, js_test)
