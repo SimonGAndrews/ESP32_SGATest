@@ -4,8 +4,10 @@ Date: 2026-07-20
 
 Issue IDs: WIFI-001, WIFI-002
 
-Status: confirmed on classic legacy and C3 IDF4; source cause identified; no
-firmware patch applied
+Status: confirmed on current-master classic IDF5 and legacy/IDF4 comparison
+builds; upstream [Espruino issue #2753](https://github.com/espruino/Espruino/issues/2753)
+open; focused correction validated and submitted as
+[PR #2754](https://github.com/espruino/Espruino/pull/2754)
 
 ## Conclusion
 
@@ -18,7 +20,26 @@ The shared ESP32 `Wifi.setIP()` / `Wifi.setAPIP()` worker contains two defects:
 
 The bench results match both defects exactly. `setAPIP()` succeeds
 functionally but reports failure. Post-association `setIP()` fails
-functionally but reports success.
+functionally but reports success on the legacy/IDF4 paths. On IDF5,
+post-association `setIP()` changes the address but still reports failure due to
+the shared inverted callback expression.
+
+## Current-Master Confirmation
+
+The focused REPL reproducers were rerun on 17 September 2026. The primary
+current-master target was classic `ESP32_IDF5`, built from Espruino commit
+`1c96229d0` with ESP-IDF 5.5.3. Existing classic legacy and C3 IDF4 firmware
+were used as behavioural comparisons.
+
+| Build | `Wifi.setAPIP()` result | Post-association `Wifi.setIP()` result |
+|---|---|---|
+| Classic `ESP32_IDF5`, current master `1c96229d0` | requested `192.168.47.1` applied; callback `"Failure"` | DHCP address `.102` changed to requested `.240`; callback `"Failure"` |
+| Classic legacy `ESP32`, `dc274713a` | requested address applied; callback `"Failure"` | DHCP address `.104` unchanged; callback `null` |
+| ESP32-C3 IDF4, `b905c8099` | requested address applied; callback `"Failure"` | DHCP address `.103` unchanged; callback `null` |
+
+The current IDF5 path correctly calls `esp_netif_dhcpc_stop()` before setting
+the station address, so WIFI-002 does not describe that path. WIFI-001 remains
+shared: the successful IDF5 operation is still reported as failure.
 
 ## Documented Contract
 
@@ -110,51 +131,57 @@ The matching code was inspected at:
 
 | Firmware | Selected local repo role | Commit | Source |
 |---|---|---|---|
+| classic IDF5 | current upstream master | `1c96229d0` | `libs/network/esp32/jswrap_esp32_network.c` |
 | classic legacy | legacy ESP32 codebase | `d3d33f4aa` | `libs/network/esp32/jswrap_esp32_network.c` |
 | C3 IDF4 | IDF4/upstream codebase | `0af6e1568` | `libs/network/esp32/jswrap_esp32_network.c` |
 
-The source is shared rather than guarded differently for these two observed
-paths. That accounts for the cross-build reproduction. It also means the
-problem should be checked in classic IDF4, S3 IDF4 and IDF5 before defining the
-complete affected-version range.
+The callback expression is shared across the observed paths, accounting for
+the cross-build reproduction. The station DHCP calls differ by ESP-IDF family:
+current IDF5 uses `esp_netif_dhcpc_stop()`, while the older path uses the wrong
+DHCP-server call. Candidate validation subsequently covered classic ESP32 and
+ESP32-C3 builds on both sides of this API split.
 
-## Candidate Fix Shape For A Firmware Thread
+## Submitted Correction
 
-No patch is authorized or applied by this investigation note. The smallest
-candidate shape to evaluate in the appropriate Espruino repo is:
+PR #2754 applies the smallest correction matching the two confirmed causes:
 
-1. stop the station DHCP client with the correct station/client API
-2. preserve the AP path's DHCP-server stop, set and restart sequence
-3. return `null` only when `err == ESP_OK`
-4. return useful failure text or error information when `err != ESP_OK`
-5. check and propagate failures from DHCP stop/start rather than discarding
-   them
+1. replace `tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_STA)` with
+   `tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA)` on the pre-IDF5 station
+   path
+2. return `null` only when the address-setting call succeeds, and `"Failure"`
+   when it returns an error
 
-The station DHCP restoration path after disconnect/reconnect also needs to be
-understood before accepting a fix. A local one-line substitution alone is not
-yet a complete reviewed solution.
+The patch does not redesign the wider Wi-Fi lifecycle or alter the AP DHCP
+server sequence.
 
-## Required Regression Matrix
+## Candidate Validation
 
-Run the existing focused roles unchanged across:
+The candidate was built from current master `1c96229d0`. Each runtime test
+checked both the address reported by `Wifi.getIP()` or `Wifi.getAPIP()` and the
+callback result. A full chip reboot preceded each station test so it genuinely
+started with DHCP enabled.
 
 | Firmware line | `setAPIP()` | post-association `setIP()` |
 |---|---|---|
-| classic legacy | baseline captured | baseline captured |
-| classic IDF4 | pending | pending |
-| C3 IDF4 | baseline captured | baseline captured |
-| S3 IDF4 | pending when hardware is available | pending when hardware is available |
-| classic/C3/S3 IDF5 | pending WIP comparison | pending WIP comparison |
+| classic `ESP32` | requested address applied; callback success | DHCP address changed to requested static address; callback success |
+| classic `ESP32_IDF4`, ESP-IDF 4.4.8 | requested address applied; callback success | DHCP address changed to requested static address; callback success |
+| classic `ESP32_IDF5`, ESP-IDF 5.5.3 | requested address applied; callback success | DHCP address changed to requested static address; callback success |
+| `ESP32C3_IDF4`, ESP-IDF 4.4.8 | requested address applied; callback success | DHCP address changed to requested static address; callback success |
+| `ESP32C3_IDF5`, ESP-IDF 5.5.3 | requested address applied; callback success | DHCP address changed to requested static address; callback success |
 
-For every run, retain four independent assertions:
+The focused reproducers retain these independent assertions:
 
 1. callback value
 2. local `getIP()` / `getAPIP()` result
-3. address observed by the other endpoint
-4. run-bound application traffic
+
+The earlier two-board functional evidence also retains peer-observed address
+and application-traffic results. Those broader checks were not needed to
+distinguish the two source corrections in the focused PR validation.
 
 ## Related Test Assets
 
+- [`repros/esp32_wifi_setapip.js`](repros/esp32_wifi_setapip.js)
+- [`repros/esp32_wifi_setip_after_dhcp.js`](repros/esp32_wifi_setip_after_dhcp.js)
 - [`../../../tools/repl/run_wifi_target_ap_test.py`](../../../tools/repl/run_wifi_target_ap_test.py)
 - [`../../../tests/WIFI_BLE/wifi/wifi_target_ap_service.js`](../../../tests/WIFI_BLE/wifi/wifi_target_ap_service.js)
 - [`../../../tests/WIFI_BLE/wifi/wifi_station_static_ip.js`](../../../tests/WIFI_BLE/wifi/wifi_station_static_ip.js)
