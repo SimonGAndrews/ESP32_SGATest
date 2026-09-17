@@ -24,6 +24,15 @@ local correction passes all 18 UART scripts on both `BOARD=ESP32` and
 the follow-up investigation is recorded in
 `docs/investigations/uart/esp32-post-idf5-merge-uart-regression-2026-09-05.md`.
 
+Subsequent WPA2 AP resolution: a controlled reconstruction of this exact IDF5
+source and historical C3 peer reproduced the timeout in all three attempts
+with the original `variables: 0` plus `RESIZABLE_JSVARS` board configuration.
+Changing only to `variables: 16383` plus `JSVAR_MALLOC`, while retaining the
+default 40 KB native-heap reserve, made all three attempts pass. The historical
+result below remains the correct result for the image tested; its cause is now
+attributed to the old board allocation configuration. See
+`tests/Results/WIFI_BLE_Results/2026-09-17-esp32-idf5-historical-wpa2-allocation-cause.md`.
+
 ## Objective
 
 Sanity-check the merged ESP32 IDF5 implementation by compiling the classic

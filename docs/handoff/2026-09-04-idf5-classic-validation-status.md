@@ -32,10 +32,20 @@ and the integration image each completed three focused authentication, DHCP
 and UDP cycles with the C3 station. A retained 40 KB image and the 70 KB
 integration image then each completed three cycles with a stable classic
 station, including AP join/leave events. The 70 KB reserve is therefore not a
-requirement for this small AP workload, and the exact historical cause remains
-unproven. See:
+requirement for this small AP workload. A controlled reconstruction then used
+the exact historical source and peer: the original `variables: 0` plus
+`RESIZABLE_JSVARS` image failed all three WPA2 attempts, while an image
+differing only by fixed `JSVAR_MALLOC` allocation with the same 40 KB native
+heap reserve passed all three. This attributes the historical failure to the
+old board allocation configuration; the exact internal ESP-IDF allocation
+that failed was not logged. A same-source `ESP32_IDF4` build at integration
+commit `7ad526102` also completed three authentication, DHCP, run-bound UDP
+and disconnect cycles with the stable classic station. This confirms that the
+integration source
+preserves the tested AP path under both IDF 4.4.8 and IDF 5.5.3. See:
 
 - `tests/Results/WIFI_BLE_Results/2026-09-17-esp32-idf5-wpa2-ap-follow-up.md`
+- `tests/Results/WIFI_BLE_Results/2026-09-17-esp32-idf5-historical-wpa2-allocation-cause.md`
 
 A subsequent focused UART investigation produced pull request `#2742`, merged
 into Espruino `master` as `e6a3fe089`. Revision `363ba92c9` coordinates driver
