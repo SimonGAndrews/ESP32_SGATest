@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "bench_id": "esp32_idf5_40k_cfd696_wpa2_2026_09_17",
+  "operating_mode": "STANDALONE",
+  "power_configuration": {
+    "target_supply": "usb_vbus",
+    "usb_cables": "fully_connected_with_vbus",
+    "external_target_power": false,
+    "harness_supervisor": false,
+    "controlled_power_cycle_available": false
+  },
+  "identity_policy": {
+    "path_namespace": "/dev/serial/by-path",
+    "require_unique_resolved_devices": true,
+    "verify_before_test": true
+  },
+  "positions": [
+    {
+      "position_id": "esp32_v1",
+      "label": "Classic ESP32 IDF5 controlled 40 KB WPA2 target",
+      "expected_target_profile": "esp32_devkitc_v4_idf5",
+      "control_role": "console",
+      "usb_roles": {
+        "console": {
+          "path": "/dev/serial/by-path/pci-0000:00:14.0-usb-0:2.3:1.0-port0",
+          "baud": 115200
+        }
+      },
+      "expected_firmware": {
+        "board": "ESP32_IDF5",
+        "version": "2v29.396",
+        "git_commit": "cfd696413"
+      },
+      "required_capabilities": [
+        "wifi",
+        "ble"
+      ]
+    },
+    {
+      "position_id": "esp32_c3_v1",
+      "label": "ESP32-C3 IDF4 controlled Wi-Fi station peer",
+      "expected_target_profile": "esp32_c3_devkitc_02_idf4",
+      "control_role": "console",
+      "usb_roles": {
+        "console": {
+          "path": "/dev/serial/by-path/pci-0000:00:14.0-usb-0:2.2:1.0",
+          "baud": 115200
+        }
+      },
+      "expected_firmware": {
+        "board": "ESP32C3_IDF4",
+        "version": "2v29.397",
+        "git_commit": "dc274713a"
+      },
+      "required_capabilities": [
+        "wifi",
+        "ble"
+      ]
+    }
+  ]
+}
