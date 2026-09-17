@@ -390,6 +390,33 @@ Run the classic ESP32 as the target AP and C3 as the Supervisor station:
 python3 tools/repl/run_wifi_target_ap_test.py --target-board esp32
 ```
 
+To isolate target-hosted WPA2 authentication from station scanning, ping and
+custom IP configuration, use the focused authentication mode. It connects
+directly by SSID/password on the reset-default AP subnet, obtains a DHCP
+address and completes the UDP challenge. It requires the AP-side join event,
+the station-side disconnect event and inactive cleanup, but does not make the
+separate AP-side `sta_left` event part of the authentication verdict. The
+station peer's BLE advertising is disabled for this focused run so that any
+peer-side Bluetooth activity cannot contaminate the WPA2 result:
+
+```bash
+python3 tools/repl/run_wifi_target_ap_test.py \
+  --config tests/WIFI_BLE/standalone_bench_config.json \
+  --target-board esp32 \
+  --focus-auth
+```
+
+For a bench configuration that names a different station peer, replace the
+`--target-board` mapping with explicit configured position IDs:
+
+```bash
+python3 tools/repl/run_wifi_target_ap_test.py \
+  --config path/to/bench_config.json \
+  --target-position esp32_v1 \
+  --station-position esp32_station_peer \
+  --focus-auth
+```
+
 Both builds applied the custom address, served DHCP and completed the
 run-bound UDP exchange. Both also returned the string `"Failure"` to the
 documented `Wifi.setAPIP()` callback despite applying the requested address.

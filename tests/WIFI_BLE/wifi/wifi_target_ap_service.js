@@ -163,6 +163,11 @@
     }
     if (eventNames.indexOf("sta_left") >= 0) {
       pass("wifi_target_ap_station_left");
+    } else if (cfg.requireStationLeave === false) {
+      info("wifi_target_ap_station_left", {
+        observed : false,
+        note : "not required by authentication-isolation mode"
+      });
     } else {
       fail("wifi_target_ap_station_left", "not observed");
     }

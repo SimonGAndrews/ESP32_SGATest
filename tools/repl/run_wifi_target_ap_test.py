@@ -52,14 +52,38 @@ def main() -> int:
         default="c3",
     )
     parser.add_argument(
+        "--target-position",
+        help="explicit target position_id from the bench configuration",
+    )
+    parser.add_argument(
+        "--station-position",
+        help="explicit station position_id from the bench configuration",
+    )
+    parser.add_argument(
         "--station-address",
         choices=("dhcp", "static"),
         default="dhcp",
     )
+    parser.add_argument(
+        "--focus-auth",
+        action="store_true",
+        help=(
+            "isolate WPA2 AP authentication by using the reset-default AP "
+            "subnet, connecting directly without a scan, and skipping ping"
+        ),
+    )
     args = parser.parse_args()
 
     config = load_config(args.config)
-    target_position_id, supervisor_position_id = TARGET_PAIRS[args.target_board]
+    if bool(args.target_position) != bool(args.station_position):
+        parser.error(
+            "--target-position and --station-position must be supplied together"
+        )
+    if args.target_position:
+        target_position_id = args.target_position
+        supervisor_position_id = args.station_position
+    else:
+        target_position_id, supervisor_position_id = TARGET_PAIRS[args.target_board]
     target_position = get_position(config, target_position_id)
     supervisor_position = get_position(config, supervisor_position_id)
     target_path, target_baud = control_connection(target_position)
@@ -67,16 +91,29 @@ def main() -> int:
 
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     static_station = args.station_address == "static"
+    if args.focus_auth and static_station:
+        parser.error("--focus-auth requires --station-address dhcp")
     role_config = {
         "runId": run_id,
         "ssid": "ESPRUINO_TARGET_AP_" + run_id[-7:-1],
         "password": "TargetAP_" + run_id[-7:-1],
         "channel": 6,
         "udpPort": 41235,
-        "apIP": "192.168.4.1" if static_station else "192.168.47.1",
+        "apIP": (
+            "192.168.4.1"
+            if static_station or args.focus_auth
+            else "192.168.47.1"
+        ),
         "netmask": "255.255.255.0",
-        "configureAPIP": not static_station,
+        "configureAPIP": not (static_station or args.focus_auth),
     }
+    if args.focus_auth:
+        role_config.update({
+            "skipScan": True,
+            "skipPing": True,
+            "requireStationLeave": False,
+            "disableStationBLE": True,
+        })
     if static_station:
         role_config.update({
             "stationIP": "192.168.4.77",
@@ -89,8 +126,12 @@ def main() -> int:
     )
     print(f"RUNNER config={args.config}")
     print(f"RUNNER run_id={run_id}")
-    print(f"RUNNER target_board={args.target_board}")
+    print(
+        "RUNNER target_board="
+        + ("custom_positions" if args.target_position else args.target_board)
+    )
     print(f"RUNNER station_address={args.station_address}")
+    print(f"RUNNER focus_auth={args.focus_auth}")
     print(f"RUNNER target_position={target_position_id}")
     print(f"RUNNER target_path={target_path}")
     print(f"RUNNER supervisor_position={supervisor_position_id}")
@@ -162,7 +203,16 @@ def main() -> int:
                     print("RUNNER station_diagnostic_begin")
                     print(station_output.rstrip())
                     print("RUNNER station_diagnostic_end")
-                target_output += read_available(target_repl, 0.5)
+                # The station reports its own disconnect before the AP-side
+                # sta_left event is necessarily delivered. Allow that
+                # independent event to arrive before asking the target to
+                # stop its AP and summarise the run.
+                target_output = collect_until(
+                    target_repl,
+                    target_output,
+                    ('INFO target_ap_event={"name":"sta_left"',),
+                    3.0,
+                )
 
                 initial_stop = send_and_capture(
                     target_repl,
@@ -216,6 +266,7 @@ def main() -> int:
                         for event in summary.get("events", [])
                     )
                 )
+                left_required = role_config.get("requireStationLeave", True)
                 print(
                     "PASS wifi_target_ap_received_challenge"
                     if received
@@ -232,11 +283,15 @@ def main() -> int:
                     if joined
                     else "FAIL wifi_target_ap_observed_station_join"
                 )
-                print(
-                    "PASS wifi_target_ap_observed_station_leave"
-                    if left
-                    else "FAIL wifi_target_ap_observed_station_leave"
-                )
+                if left:
+                    print("PASS wifi_target_ap_observed_station_leave")
+                elif left_required:
+                    print("FAIL wifi_target_ap_observed_station_leave")
+                else:
+                    print(
+                        "SKIP wifi_target_ap_observed_station_leave "
+                        "reason=authentication_isolation"
+                    )
                 result = 0 if all(
                     (
                         station_pass,
@@ -244,7 +299,7 @@ def main() -> int:
                         received,
                         received_from_static_ip,
                         joined,
-                        left,
+                        left or not left_required,
                     )
                 ) else 1
 

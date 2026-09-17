@@ -280,7 +280,12 @@
           "expected=" + cfg.peerIP + " observed=" + ip.gw
         );
       }
-      runPing();
+      if (cfg.skipPing) {
+        info("ping", { skipped : true, reason : "authentication_isolation" });
+        runUDPExchange();
+      } else {
+        runPing();
+      }
     });
   }
 
@@ -349,6 +354,14 @@
   wifi.removeAllListeners();
   wifi.disconnect();
   wifi.stopAP();
+  if (
+    cfg.disableStationBLE &&
+    typeof NRF !== "undefined" &&
+    typeof NRF.sleep === "function"
+  ) {
+    NRF.sleep();
+    info("ble", { disabled : true, reason : "wifi_authentication_isolation" });
+  }
   info("ble_security_before_wifi", bleSecurityForLog());
   if (cfg.skipScan) {
     info("scan", { skipped : true, reason : "post_scan_isolation" });
