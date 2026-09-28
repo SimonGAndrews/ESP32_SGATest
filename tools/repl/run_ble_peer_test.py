@@ -65,7 +65,7 @@ def print_role_output(label: str, output: str) -> None:
     for line in filter_structured_lines(normalized):
         print(line)
     for line in normalized.splitlines():
-        if line.startswith("BLE_"):
+        if line.startswith(("BLE_", "XFSM_")):
             print(line)
     print(f"RUNNER {label}_output_end")
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Run HTTPS on the classic ESP32 while a C3 GATT connection stays active."""
+"""Run HTTPS on one ESP32 while a peer GATT connection stays active."""
 
 from __future__ import annotations
 
 import argparse
+import base64
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import http.server
@@ -16,11 +17,19 @@ import sys
 import tempfile
 import threading
 import time
+import zlib
 
 import serial
 
 from run_ble_peer_test import ble_runtime_cleanup, print_role_output
-from run_test import read_available, send_and_capture, send_script_paced, sync_repl
+from run_test import (
+    query_value,
+    read_available,
+    read_until_prompt,
+    send_and_capture,
+    send_script_paced,
+    sync_repl,
+)
 from run_wifi_peer_test import (
     collect_until,
     control_connection,
@@ -34,12 +43,17 @@ from run_wifi_peer_test import (
 from verify_bench_config import load_config
 
 
+DIRECTION_POSITIONS = {
+    "classic-target": ("esp32_c3_v1", "esp32_v1"),
+    "c3-target": ("esp32_v1", "esp32_c3_v1"),
+}
 CONFIG_PATH = Path("tests/WIFI_BLE/esp32_idf5_ping_70k_bench_config.json")
 CREDENTIALS_PATH = Path("tests/WIFI_BLE/local_wifi_credentials.json")
 PEER_SCRIPT = Path("tests/WIFI_BLE/ble_wifi/ble_gatt_hold_client.js")
 TARGET_SCRIPT = Path(
     "tests/WIFI_BLE/ble_wifi/ble_https_peripheral_target.js"
 )
+TARGET_STORAGE_FILE = "xftsvc"
 
 
 def make_https_handler(expected_path: str, body: bytes, observed: dict):
@@ -161,6 +175,8 @@ def upload_secret_role(
     role_config: dict,
     markers: tuple[str, ...],
     timeout: float,
+    preload_path: Path | None = None,
+    use_storage: bool = False,
 ) -> str:
     # Disable echo before injecting credentials so neither SSID nor password
     # appears in the captured serial transcript.
@@ -171,8 +187,68 @@ def upload_secret_role(
         settle=0.2,
     )
     send_and_capture(repl, "echo(true);\n", settle=0.15)
-    initial = send_script_paced(repl, role_path.read_text())
-    return collect_until(repl, initial, markers, timeout)
+    output = ""
+    if preload_path is not None:
+        output = send_script_paced(repl, preload_path.read_text())
+        output = collect_until(
+            repl,
+            output,
+            ("XFSM_SERVICE_READY=",),
+            12.0,
+        )
+        if marker_payload(output, "XFSM_SERVICE_READY") is None:
+            return output
+    if use_storage:
+        data = role_path.read_bytes()
+        send_and_capture(
+            repl,
+            f'require("Storage").erase("{TARGET_STORAGE_FILE}");\n',
+            settle=0.15,
+        )
+        for offset in range(0, len(data), 256):
+            chunk = base64.b64encode(data[offset : offset + 256]).decode("ascii")
+            chunk_output = send_and_capture(
+                repl,
+                f'require("Storage").write("{TARGET_STORAGE_FILE}",'
+                f'atob("{chunk}"),{offset},{len(data)});\n',
+                settle=0.15,
+            )
+            if not chunk_output.rstrip().endswith(">"):
+                chunk_output += read_until_prompt(repl, 2.0)
+            output += chunk_output
+            if "=true" not in chunk_output or "Error" in chunk_output:
+                raise ValueError(
+                    f"target script Storage write failed at offset {offset}"
+                )
+        observed_size = query_value(
+            repl,
+            f'require("Storage").read("{TARGET_STORAGE_FILE}").length',
+            "TARGET_SCRIPT_BYTES",
+        )
+        if observed_size != str(len(data)):
+            raise ValueError(
+                "target script Storage length mismatch: "
+                f"expected {len(data)}, observed {observed_size}"
+            )
+        expected_crc = zlib.crc32(data) & 0xFFFFFFFF
+        observed_crc = query_value(
+            repl,
+            f'E.CRC32(require("Storage").read("{TARGET_STORAGE_FILE}"))',
+            "TARGET_SCRIPT_CRC32",
+        )
+        if observed_crc != str(expected_crc):
+            raise ValueError(
+                "target script Storage CRC32 mismatch: "
+                f"expected {expected_crc}, observed {observed_crc}"
+            )
+        output += send_and_capture(
+            repl,
+            f'eval(require("Storage").read("{TARGET_STORAGE_FILE}"));\n',
+            settle=0.2,
+        )
+    else:
+        output += send_script_paced(repl, role_path.read_text())
+    return collect_until(repl, output, markers, timeout)
 
 
 def reboot_pair(peer_repl: serial.Serial, target_repl: serial.Serial) -> None:
@@ -190,9 +266,18 @@ def main() -> int:
         sys.stderr.reconfigure(line_buffering=True)
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=CONFIG_PATH)
+    parser.add_argument(
+        "--direction",
+        choices=tuple(DIRECTION_POSITIONS),
+        default="classic-target",
+    )
     parser.add_argument("--credentials", type=Path, default=CREDENTIALS_PATH)
-    parser.add_argument("--peer-path", help="override the C3 peer serial path")
-    parser.add_argument("--target-path", help="override the classic target serial path")
+    parser.add_argument("--peer-script", type=Path, default=PEER_SCRIPT)
+    parser.add_argument("--target-script", type=Path, default=TARGET_SCRIPT)
+    parser.add_argument("--target-preload-script", type=Path)
+    parser.add_argument("--target-script-storage", action="store_true")
+    parser.add_argument("--peer-path", help="override the peer serial path")
+    parser.add_argument("--target-path", help="override the target serial path")
     endpoint = parser.add_mutually_exclusive_group(required=True)
     endpoint.add_argument(
         "--local-server-address",
@@ -209,8 +294,9 @@ def main() -> int:
     credentials = load_credentials(args.credentials)
     warn_if_credentials_readable(args.credentials)
 
-    peer_position = get_position(config, "esp32_c3_v1")
-    target_position = get_position(config, "esp32_v1")
+    peer_position_id, target_position_id = DIRECTION_POSITIONS[args.direction]
+    peer_position = get_position(config, peer_position_id)
+    target_position = get_position(config, target_position_id)
     configured_peer_path, peer_baud = control_connection(peer_position)
     configured_target_path, target_baud = control_connection(target_position)
     peer_path = args.peer_path or configured_peer_path
@@ -228,12 +314,20 @@ def main() -> int:
     print("RUNNER test=ble_https_concurrent")
     print(f"RUNNER config={args.config}")
     print(f"RUNNER run_id={run_id}")
-    print("RUNNER peer_position=esp32_c3_v1")
+    print(f"RUNNER direction={args.direction}")
+    print(f"RUNNER peer_position={peer_position_id}")
     print("RUNNER peer_radio_role=gatt_central")
     print(f"RUNNER peer_path={peer_path}")
-    print("RUNNER target_position=esp32_v1")
+    print(f"RUNNER peer_script={args.peer_script}")
+    print(f"RUNNER target_position={target_position_id}")
     print("RUNNER target_roles=gatt_peripheral,wifi_station,https_client")
     print(f"RUNNER target_path={target_path}")
+    print(f"RUNNER target_script={args.target_script}")
+    print(f"RUNNER target_preload_script={args.target_preload_script}")
+    print(
+        "RUNNER target_script_transport="
+        + ("storage" if args.target_script_storage else "repl")
+    )
     print("RUNNER credentials=loaded_without_logging")
 
     peer_output = ""
@@ -278,6 +372,10 @@ def main() -> int:
                 target_path,
                 target_baud,
                 target_position,
+                args.peer_script,
+                args.target_script,
+                args.target_preload_script,
+                args.target_script_storage,
                 public_config,
                 target_config,
                 run_id,
@@ -321,6 +419,10 @@ def run_test(
     target_path: str,
     target_baud: int,
     target_position: dict,
+    peer_script: Path,
+    target_script: Path,
+    target_preload_script: Path | None,
+    target_script_storage: bool,
     public_config: dict,
     target_config: dict,
     run_id: str,
@@ -355,25 +457,27 @@ def run_test(
 
             target_output = upload_secret_role(
                 target_repl,
-                TARGET_SCRIPT,
+                target_script,
                 target_config,
                 ("BLE_HTTPS_TARGET_READY=",),
                 12.0,
+                target_preload_script,
+                target_script_storage,
             )
-            phase("classic_gatt_ready")
+            phase("target_gatt_ready")
             target_ready = marker_payload(target_output, "BLE_HTTPS_TARGET_READY")
             if not target_ready:
-                print("Classic GATT target did not report ready.", file=sys.stderr)
+                print("GATT target did not report ready.", file=sys.stderr)
                 result = 2
             else:
                 peer_output = upload_role(
                     peer_repl,
-                    PEER_SCRIPT,
+                    peer_script,
                     public_config,
                     ("BLE_GATT_CLIENT_HOLD_READY=", "DONE=FAIL"),
                     18.0,
                 )
-                phase("c3_gatt_connected")
+                phase("peer_gatt_connected")
                 peer_ready = marker_payload(
                     peer_output,
                     "BLE_GATT_CLIENT_HOLD_READY",
@@ -499,6 +603,12 @@ def run_test(
                 )
                 result = 0 if target_pass and peer_pass else 1
 
+            if target_script_storage:
+                send_and_capture(
+                    target_repl,
+                    f'require("Storage").erase("{TARGET_STORAGE_FILE}");\n',
+                    settle=0.2,
+                )
             ble_runtime_cleanup(peer_repl, "BLE_HTTPS_PEER_POST")
             ble_runtime_cleanup(target_repl, "BLE_HTTPS_TARGET_BLE_POST")
             runtime_cleanup(target_repl, "BLE_HTTPS_TARGET_WIFI_POST")

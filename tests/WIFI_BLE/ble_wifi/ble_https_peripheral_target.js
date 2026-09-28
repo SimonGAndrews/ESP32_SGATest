@@ -1,4 +1,4 @@
-// Keep a classic ESP32 GATT connection active during an HTTPS transaction.
+// Keep an ESP32 GATT connection active during an HTTPS transaction.
 
 (function () {
   var cfg = global.WIFI_TEST_CONFIG;
@@ -16,6 +16,7 @@
   var passes = 0;
   var failures = 0;
   var observed = {httpsBytes:0, httpsStatus:null};
+  var serviceHook = global.XFSM_SERVICE_HOOK;
 
   function pass(name, detail) {
     passes++;
@@ -48,6 +49,10 @@
     return snapshot;
   }
 
+  function serviceEvent(event) {
+    return !serviceHook || serviceHook.send(event);
+  }
+
   function finish(reason) {
     if (finished) return;
     finished = true;
@@ -61,6 +66,13 @@
     wifi.disconnect();
     NRF.disconnect();
     setTimeout(function () {
+      var xfsm = serviceHook ? serviceHook.check() : null;
+      if (serviceHook) {
+        if (xfsm.ok) pass("xfsm_service_lifecycle");
+        else fail("xfsm_service_lifecycle", JSON.stringify(xfsm));
+        serviceHook.cleanup();
+        serviceHook = undefined;
+      }
       var finalMemory = memorySnapshot("after_cleanup");
       print("METRIC checks_passed=" + passes);
       print("METRIC checks_failed=" + failures);
@@ -71,6 +83,7 @@
         completeReceived : completeReceived,
         httpsComplete : httpsComplete,
         observed : observed,
+        xfsm : xfsm,
         finalMemory : finalMemory,
         checksPassed : passes,
         checksFailed : failures
@@ -129,6 +142,13 @@
               " observed=" + observed.httpsBytes
             );
           }
+          serviceEvent({
+            type : "HTTPS_COMPLETE",
+            status : observed.httpsStatus,
+            bytes : observed.httpsBytes,
+            expectedStatus : cfg.expectedStatus,
+            minimumBytes : cfg.minimumBytes
+          });
           httpsComplete = failures === 0;
           if (NRF.getSecurityStatus().connected) {
             pass("ble_connected_after_https");
@@ -177,6 +197,7 @@
       } else {
         fail("wifi_connected", "ip=" + JSON.stringify(ip));
       }
+      serviceEvent("WIFI_CONNECTED");
       var status = wifi.getStatus();
       if (status.ssid) status.ssid = "<redacted>";
       info("wifi_network", {status:status, ip:ip});
@@ -198,6 +219,7 @@
     if (!connectionObserved) {
       connectionObserved = true;
       pass("ble_gatt_connected", "address=" + address);
+      serviceEvent("BLE_CONNECTED");
       memorySnapshot("after_ble_connect");
     }
   });
@@ -220,7 +242,7 @@
           ackReceived = E.toString(event.data);
           if (ackReceived === cfg.ack) {
             pass("ble_gatt_write_before_https", "value=" + ackReceived);
-            connectWifi();
+            if (serviceEvent("GATT_ACK")) connectWifi();
           } else {
             fail("ble_gatt_write_before_https", "value=" + JSON.stringify(ackReceived));
             httpsPhaseDone("bad_initial_gatt_write");
@@ -234,6 +256,7 @@
           completeReceived = E.toString(event.data);
           if (completeReceived === cfg.complete) {
             pass("ble_gatt_write_after_https", "value=" + completeReceived);
+            serviceEvent("BLE_CONFIRMED");
           } else {
             fail("ble_gatt_write_after_https", "value=" + JSON.stringify(completeReceived));
           }

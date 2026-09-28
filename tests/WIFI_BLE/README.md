@@ -74,12 +74,13 @@ before assigning the C3 a peripheral or filtered-scanner role.
 ## Concurrent BLE And HTTPS Test
 
 The memory-coexistence test keeps a GATT connection open between the classic
-ESP32 target and the C3 peer while the classic target joins an independently
-routed 2.4 GHz Wi-Fi network and downloads an HTTPS response. The classic is
-the GATT peripheral and HTTPS client; the C3 is the GATT central. The C3 reads
-and writes the controlled GATT service before HTTPS, holds the connection, and
-writes again only after the host has observed HTTPS completion. This proves
-that BLE remained usable during the TLS transaction.
+ESP32 and C3 while the selected target joins an independently routed 2.4 GHz
+Wi-Fi network and downloads an HTTPS response. The target is the GATT
+peripheral, WiFi station, and HTTPS client; the other board is the GATT
+central. The central reads and writes the controlled GATT service before
+HTTPS, holds the connection, and writes again only after the host has observed
+HTTPS completion. This proves that BLE remained usable during the TLS
+transaction.
 
 Copy `local_wifi_credentials.example.json` to
 `local_wifi_credentials.json`, enter the local 2.4 GHz Wi-Fi credentials and
@@ -94,16 +95,42 @@ chmod 600 tests/WIFI_BLE/local_wifi_credentials.json
 ```
 
 Connect the bench PC to the isolated router and supply the PC's IPv4 address on
-that LAN. Run the test with the C3 as the controlled GATT central and the
-classic ESP32 as the GATT peripheral, Wi-Fi station and HTTPS client. The
-runner creates a temporary self-signed certificate, starts a TLS-1.2 server
-with a run-specific URL and response, and checks independently that the target
-fetched it:
+that LAN. The default direction retains the original arrangement with the
+classic ESP32 as the target. The runner creates a temporary self-signed
+certificate, starts a TLS-1.2 server with a run-specific URL and response, and
+checks independently that the target fetched it:
 
 ```bash
 python3 tools/repl/run_ble_https_test.py \
   --local-server-address 192.168.50.2
 ```
+
+Use `--direction c3-target` to reverse the roles. A target-specific role and
+an optional preload fixture can be supplied with `--target-script` and
+`--target-preload-script`. `--target-script-storage` transfers the target role
+to a temporary `Storage` file in prompt-checked chunks, verifies its byte
+length and CRC-32, and evaluates it from there; use this when a retained
+workload makes direct multi-line REPL parsing part of the memory pressure. The
+file is erased during runner cleanup.
+
+The XFSM C3 service-coexistence qualification uses the exact firmware and USB
+positions in `xfsm_profile1_bench_config.json`:
+
+```bash
+python3 tools/repl/run_ble_https_test.py \
+  --config tests/WIFI_BLE/xfsm_profile1_bench_config.json \
+  --direction c3-target \
+  --target-preload-script \
+    /home/simon/Espruino-XFSM-Profile1/libs/xfsm/tests/prepare_host_service_coexistence.js \
+  --target-script \
+    /home/simon/Espruino-XFSM-Profile1/libs/xfsm/tests/test_host_service_coexistence.js \
+  --target-script-storage \
+  --local-server-address 192.168.50.101 \
+  --timeout 90
+```
+
+The absolute implementation path and LAN address above describe this local
+bench. Supply the corresponding paths and host address on another machine.
 
 The server binds to an automatically selected port by default. An externally
 managed endpoint may instead be selected with `--https-url`; its expected
