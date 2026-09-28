@@ -49,8 +49,8 @@
       },
       "expected_firmware": {
         "board": "ESP32C3_IDF5",
-        "version": "2v29.444",
-        "git_commit": "cb5d74e89"
+        "version": "2v29.445",
+        "git_commit": "aded959ad"
       },
       "required_capabilities": [
         "wifi",
