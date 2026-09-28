@@ -17,7 +17,7 @@
   "positions": [
     {
       "position_id": "esp32_v1",
-      "label": "Classic ESP32 XFSM controlled radio peer",
+      "label": "Classic ESP32 XFSM service-coexistence target or peer",
       "expected_target_profile": "esp32_idf5_xfsm_profile1",
       "control_role": "console",
       "usb_roles": {
@@ -28,8 +28,8 @@
       },
       "expected_firmware": {
         "board": "ESP32_IDF5",
-        "version": "2v29.444",
-        "git_commit": "cb5d74e89"
+        "version": "2v29.446",
+        "git_commit": "c25a1c32d"
       },
       "required_capabilities": [
         "wifi",
@@ -38,7 +38,7 @@
     },
     {
       "position_id": "esp32_c3_v1",
-      "label": "ESP32-C3 XFSM service-coexistence target",
+      "label": "ESP32-C3 XFSM service-coexistence target or peer",
       "expected_target_profile": "esp32c3_idf5_xfsm_profile1",
       "control_role": "console",
       "usb_roles": {
