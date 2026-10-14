@@ -39,7 +39,7 @@ specifications rather than relying on conversation history.
 
 | Workstream | Current handover | Use |
 |---|---|---|
-| ESP32 post-IDF5-merge sanity | `2026-09-04-idf5-classic-validation-status.md` | Completed same-source legacy/IDF5 sanity comparison and return point for outstanding defects as normal master investigations |
+| ESP32 post-IDF5-merge sanity | `2026-09-04-idf5-classic-validation-status.md` | Completed same-source legacy/IDF5 comparison and entry point to the active October current-master closeout log and task list |
 | General V1 bench testing and functional runners | `2026-06-25-esp32-family-tests.md` | Generic family-test model and preserved target constraints; its July 12 overlay points to the root README and `tests/repl/` for newer progress |
 | Classic ESP32 flashing and direct testing | `2026-09-25-classic-esp32-flashing-and-direct-test-practice.md` | Codex-oriented Ubuntu procedure and tool choice for building, flashing, CLI/direct-serial testing, evidence and recovery |
 | Firmware repository selection | `2026-07-05-espruino-repo-structure.md` | Select the correct local Espruino checkout and workflow |

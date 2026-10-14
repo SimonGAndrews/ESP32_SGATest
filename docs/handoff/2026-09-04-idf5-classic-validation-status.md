@@ -2,6 +2,18 @@
 
 Date: 2026-09-04
 
+> **Current-master closeout resumed - 13 October 2026:** The final sanity
+> sequence has restarted from synchronised official master `92fe2b5cf`. The
+> unmodified classic `ESP32_IDF5` image builds and flashes but does not provide
+> a UART0 REPL because upstream commit `7be3a7d92` supplies an invalid 128-byte
+> transmit buffer to the ESP-IDF UART driver. A local 256-byte candidate
+> restores the REPL and has completed classic cross-UART regression coverage,
+> family build coverage and focused ESP32-C3/ESP32-S3 lifecycle testing. The
+> focused correction is awaiting upstream review in
+> [Espruino PR `#2768`](https://github.com/espruino/Espruino/pull/2768). Use
+> [`../../tests/Results/2026-10-13-esp32-idf5-current-master-closeout.md`](../../tests/Results/2026-10-13-esp32-idf5-current-master-closeout.md)
+> as the active sequence, evidence and task record.
+
 ## Conclusion
 
 The expedited ESP32 IDF5 validation has completed its purpose. V1
