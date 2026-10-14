@@ -192,7 +192,9 @@ function runLoopAFinalCheck(states) {
   metric("gpio_watch_loop_a_callbacks", states.length);
   expectJsonEq("gpio_watch_loop_a_both_states", states, [1, 0, 1]);
   expectEq("gpio_watch_loop_a_clear", states.length, 3);
-  runLoopBRising();
+  // Start the next watch on a fresh event-loop turn. On ESP32, creating it
+  // directly from this timer callback can race the previous watch teardown.
+  schedule(10, runLoopBRising);
 }
 
 function runLoopABoth() {

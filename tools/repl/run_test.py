@@ -97,8 +97,10 @@ def sync_repl(ser: serial.Serial) -> None:
     ser.reset_output_buffer()
     send_and_capture(ser, "\x03", settle=0.2)
     send_and_capture(ser, "\x03", settle=0.2)
-    send_and_capture(ser, "\n", settle=0.2)
-    send_and_capture(ser, "echo(true);\n", settle=0.15)
+    output = send_and_capture(ser, "\r\n", settle=0.2)
+    if not output.rstrip().endswith(">"):
+        read_until_prompt(ser, 3.0)
+    send_and_capture(ser, "echo(true);\r\n", settle=0.5)
 
 
 def query_value(ser: serial.Serial, expr: str, label: str) -> str:

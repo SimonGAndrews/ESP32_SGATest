@@ -138,10 +138,13 @@ def query_value(ser: serial.Serial, expr: str, label: str) -> str:
         f'print("{marker}="+JSON.stringify({expr}))\n',
         settle=0.45,
     )
-    m = re.search(rf"{re.escape(marker)}=(.*)", output)
-    if not m:
+    value = None
+    for line in output.splitlines():
+        line = line.strip()
+        if line.startswith(marker + "="):
+            value = line[len(marker) + 1 :]
+    if value is None:
         return "UNKNOWN"
-    value = m.group(1).strip()
     try:
         parsed = json.loads(value)
     except json.JSONDecodeError:

@@ -27,6 +27,7 @@ from verify_bench_config import load_config, validate_position
 DIRECTION_POSITIONS = {
     "c3-peer": ("esp32_c3_v1", "esp32_v1"),
     "esp32-peer": ("esp32_v1", "esp32_c3_v1"),
+    "esp32-peer-s3": ("esp32_v1", "esp32_s3"),
     "c3-idf4-peer": ("esp32_c3_peer", "esp32_c3_v1"),
     "c3-idf5-peer": ("esp32_c3_v1", "esp32_c3_peer"),
 }
@@ -115,6 +116,20 @@ def marker_payload(output: str, marker: str) -> dict | None:
             except json.JSONDecodeError:
                 continue
     return payload
+
+
+def marker_payloads(output: str, marker: str) -> list[dict]:
+    prefix = marker + "="
+    payloads = []
+    for line in output.splitlines():
+        stripped = clean_repl_line(line)
+        position = stripped.find(prefix)
+        if position >= 0:
+            try:
+                payloads.append(json.loads(stripped[position + len(prefix) :]))
+            except json.JSONDecodeError:
+                continue
+    return payloads
 
 
 def upload_role(
@@ -286,7 +301,11 @@ def main() -> int:
         "channel": 6,
         "udpPort": 41234,
     }
-    if args.direction in ("esp32-peer", "c3-idf5-peer") and args.scenario == "positive":
+    if args.direction in (
+        "esp32-peer",
+        "esp32-peer-s3",
+        "c3-idf5-peer",
+    ) and args.scenario == "positive":
         role_config["pingClientOnReceive"] = True
         role_config["holdAfterExchangeMs"] = 4000
     if args.skip_scan:
@@ -437,35 +456,65 @@ def main() -> int:
                     == expected_target_passes
                     and count_output_marker(target_output, "DONE=FAIL") == 0
                 )
-                peer_summary = marker_payload(
-                    peer_output + peer_stop_output,
-                    "PEER_SUMMARY",
+                peer_records = peer_output + peer_stop_output
+                peer_summary = marker_payload(peer_records, "PEER_SUMMARY")
+                peer_events = marker_payloads(peer_records, "PEER_EVENT")
+                peer_rx = marker_payloads(peer_records, "PEER_RX")
+                peer_pings = marker_payloads(peer_records, "PEER_PING")
+                summary_received = peer_summary and (
+                    peer_summary.get("received")
+                    or peer_summary.get("receivedData")
                 )
-                peer_received_any = bool(
-                    peer_summary and peer_summary.get("received")
-                )
+                peer_received_any = bool(summary_received or peer_rx)
                 peer_received = bool(
-                    peer_received_any
-                    and peer_summary["received"][0]["data"].startswith(run_id + "|")
+                    (
+                        peer_summary
+                        and peer_summary.get("received")
+                        and peer_summary["received"][0]["data"].startswith(run_id + "|")
+                    )
+                    or (
+                        peer_summary
+                        and isinstance(peer_summary.get("receivedData"), str)
+                        and peer_summary["receivedData"].startswith(run_id + "|")
+                    )
+                    or any(
+                        item.get("data", "").startswith(run_id + "|")
+                        for item in peer_rx
+                    )
+                )
+                summary_event_names = (
+                    peer_summary.get("eventNames", []) if peer_summary else []
                 )
                 peer_joined = bool(
-                    peer_summary
-                    and any(
-                        event.get("name") == "sta_joined"
-                        for event in peer_summary.get("events", [])
+                    "sta_joined" in summary_event_names
+                    or (
+                        peer_summary
+                        and any(
+                            event.get("name") == "sta_joined"
+                            for event in peer_summary.get("events", [])
+                        )
                     )
+                    or any(event.get("name") == "sta_joined" for event in peer_events)
                 )
                 peer_left = bool(
-                    peer_summary
-                    and any(
-                        event.get("name") == "sta_left"
-                        for event in peer_summary.get("events", [])
+                    "sta_left" in summary_event_names
+                    or (
+                        peer_summary
+                        and any(
+                            event.get("name") == "sta_left"
+                            for event in peer_summary.get("events", [])
+                        )
                     )
+                    or any(event.get("name") == "sta_left" for event in peer_events)
                 )
                 peer_ping_succeeded = bool(
-                    peer_summary
-                    and peer_summary.get("pingResult")
-                    and peer_summary["pingResult"].get("bytes", 0) > 0
+                    (
+                        peer_summary
+                        and peer_summary.get("pingResult")
+                        and peer_summary["pingResult"].get("bytes", 0) > 0
+                    )
+                    or (peer_summary and (peer_summary.get("pingBytes") or 0) > 0)
+                    or any((item.get("bytes") or 0) > 0 for item in peer_pings)
                 )
                 peer_done = marker_payload(peer_stop_output, "PEER_DONE") is not None
 
