@@ -1,8 +1,8 @@
 # ESP32 UART transmit-buffer pull request
 
-> **Status — 14 October 2026:** Submitted upstream as
+> **Status — 14 October 2026:** Submitted and merged upstream as
 > [espruino/Espruino#2768](https://github.com/espruino/Espruino/pull/2768).
-> The PR is open and awaiting upstream review.
+> The upstream merge commit is `5e90a914531e6724349c38f22c392747fe49f4f8`.
 
 ## Submitted title
 
@@ -103,7 +103,8 @@ The change is intentionally limited to
 | Item | Value |
 |---|---|
 | Upstream base | `92fe2b5cf40ed0d9313ac0c8b9a46347bcb6979c` |
-| Upstream PR | [`#2768`](https://github.com/espruino/Espruino/pull/2768), open |
+| Upstream PR | [`#2768`](https://github.com/espruino/Espruino/pull/2768), merged |
+| Upstream merge | `5e90a914531e6724349c38f22c392747fe49f4f8` |
 | Branch | `fix/esp32-uart-tx-buffer` |
 | Commit | `b404ed671f1fc378bea40a2a89389059f831dd33` |
 | Files changed | 1 |

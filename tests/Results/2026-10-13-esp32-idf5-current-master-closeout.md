@@ -18,8 +18,8 @@ all 18 classic V1 cross-UART functional scripts. The combined candidate also
 completed clean builds for all seven maintained ESP32 board definitions and
 100-cycle UART lifecycle runs on ESP32-C3 and ESP32-S3 IDF5 hardware. The
 focused correction was submitted upstream as
-[`#2768`](https://github.com/espruino/Espruino/pull/2768) and is awaiting
-review; it is not yet part of upstream `master`.
+[`#2768`](https://github.com/espruino/Espruino/pull/2768) and merged into
+upstream `master` as `5e90a914531e6724349c38f22c392747fe49f4f8`.
 
 The current-master `Wifi.ping()` failure has also been isolated and corrected
 on focused local branches. The original failure was an IPv4 parser return
@@ -468,7 +468,8 @@ and temporary state became reclaimable.
 - [x] Submit the focused UART transmit-buffer correction upstream as
   [`#2768`](https://github.com/espruino/Espruino/pull/2768), including the
   no-REPL reproduction and invalid 128-byte-buffer diagnosis.
-- [ ] Await upstream review and disposition of PR `#2768`.
+- [x] Record the acceptance and upstream merge of PR `#2768` as
+  `5e90a914531e6724349c38f22c392747fe49f4f8`.
 - [x] Run the classic V1 UART crosslink suite on the 256-byte candidate with
   `SEL_D35=UART` and `JP_UART_LOOP2=closed`.
 - [x] Build and flash `ESP32C3_IDF5` from the same source and complete its

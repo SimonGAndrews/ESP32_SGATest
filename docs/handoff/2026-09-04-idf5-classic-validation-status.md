@@ -9,8 +9,9 @@ Date: 2026-09-04
 > transmit buffer to the ESP-IDF UART driver. A local 256-byte candidate
 > restores the REPL and has completed classic cross-UART regression coverage,
 > family build coverage and focused ESP32-C3/ESP32-S3 lifecycle testing. The
-> focused correction is awaiting upstream review in
-> [Espruino PR `#2768`](https://github.com/espruino/Espruino/pull/2768). Use
+> focused correction was merged through
+> [Espruino PR `#2768`](https://github.com/espruino/Espruino/pull/2768) as
+> upstream commit `5e90a9145`. Use
 > [`../../tests/Results/2026-10-13-esp32-idf5-current-master-closeout.md`](../../tests/Results/2026-10-13-esp32-idf5-current-master-closeout.md)
 > as the active sequence, evidence and task record.
 
