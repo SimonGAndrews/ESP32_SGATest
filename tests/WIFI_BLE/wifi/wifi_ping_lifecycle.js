@@ -46,11 +46,15 @@
   function memorySnapshot(phase) {
     var memory = process.memory();
     var state = ESP32.getState();
+    var largestNativeBlock = state.largestBlock;
+    if (largestNativeBlock === undefined && memory.tx) {
+      largestNativeBlock = memory.tx.largest_block;
+    }
     var snapshot = {
       phase : phase,
       nativeFreeHeap : state.freeHeap,
       nativeMinimumHeap : state.minHeap,
-      largestNativeBlock : memory.tx && memory.tx.largest_block,
+      largestNativeBlock : largestNativeBlock,
       jsVarsTotal : memory.total,
       jsVarsFree : memory.free
     };

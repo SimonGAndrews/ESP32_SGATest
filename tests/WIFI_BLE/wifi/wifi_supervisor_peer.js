@@ -59,11 +59,10 @@
 
     emit("PEER_SUMMARY", {
       runId : state.runId,
-      events : state.events,
-      received : state.received,
-      pingResult : state.pingResult,
-      apDetails : apDetailsForLog(),
-      apIP : wifi.getAPIP()
+      eventNames : state.events.map(function (item) { return item.name; }),
+      receivedData : state.received.length ? state.received[0].data : null,
+      pingBytes : state.pingResult && state.pingResult.bytes,
+      apIP : wifi.getAPIP().ip
     });
 
     wifi.removeAllListeners();
@@ -72,8 +71,8 @@
     setTimeout(function () {
       emit("PEER_DONE", {
         runId : state.runId,
-        status : wifi.getStatus(),
-        ip : wifi.getIP(),
+        mode : wifi.getStatus().mode,
+        ip : wifi.getIP().ip,
         time : Date.now()
       });
     }, 500);
@@ -141,8 +140,7 @@
               ssid : cfg.ssid,
               channel : cfg.channel,
               udpPort : cfg.udpPort,
-              apDetails : apDetailsForLog(),
-              apIP : wifi.getAPIP(),
+              apIP : { ip : wifi.getAPIP().ip },
               time : Date.now()
             });
           }, cfg.peerReadyDelayMs || 0);
