@@ -199,13 +199,14 @@ buffer is invalid. The release configuration disables assertions; the failed
 driver-install result does not terminate startup. Espruino then marks UART0 as
 initialised and its polling task repeatedly calls the missing driver.
 
-The change is in shared ESP32-family source. Runtime occurrence is proven here
-only for classic `ESP32_IDF5`; legacy, IDF4, C3 and S3 effects must be checked
-before deciding the final scope and wording of an upstream correction.
+The change is in shared ESP32-family source. Runtime occurrence was proven on
+classic `ESP32_IDF5`; the correction subsequently completed the seven-board
+build matrix and focused runtime lifecycle checks on C3 and S3 IDF5.
 
-### Local candidate
+### Candidate and upstream resolution
 
-The current validation branch has one uncommitted firmware change:
+The original validation candidate changed only the invalid transmit-buffer
+argument:
 
 ```diff
 -  err = uart_driver_install(uart_num, 512, 128, 0, NULL, 0);
@@ -213,8 +214,8 @@ The current validation branch has one uncommitted firmware change:
 ```
 
 The 256-byte value preserves the intended reduction from the former
-1024-byte buffer while satisfying the ESP-IDF requirement. This is a test
-candidate, not yet the accepted upstream fix.
+1024-byte buffer while satisfying the ESP-IDF requirement. This correction
+was accepted through PR `#2768` and merged upstream as `5e90a9145`.
 
 ### Initial candidate result
 
@@ -347,10 +348,13 @@ correction therefore:
 - releases the callback and session state on normal completion and on session
   creation/start failure.
 
-The focused firmware branch is `fix/esp32-ping-ipv4-parse`, containing parser
-commit `4580d3ac8` and lifecycle commit `5624acb16`. Runtime validation used
-the equivalent changes on `validation/esp32-ping-with-uart-prereq`, because
-the classic target also requires the separately isolated UART0 prerequisite.
+The final focused firmware branch is `fix/esp32-idf5-ping`, based on upstream
+master `5e90a9145` after the UART0 prerequisite was merged. It contains parser
+commit `b5a3942e6`, lifecycle commit `7f9162edc` and family-delivery commit
+`9f310b87b`. Its proposed diff changes only the two ESP32 network wrapper
+files. Earlier full runtime validation used equivalent ping source on
+`validation/esp32-ping-with-uart-prereq`.
+
 The exact flashed validation image reported:
 
 | Item | Value |
@@ -370,6 +374,14 @@ Native free heap was 54,480 bytes after the first soak session, at its lowest
 observed soak sample, and after the final soak session, so no progressive
 session leak was observed. Both boards then left the test network and the
 runner confirmed inactive Wi-Fi state without a recovery reset.
+
+The exact final branch at `9f310b87b` subsequently completed clean release
+builds for `ESP32`, `ESP32_IDF4`, `ESP32_IDF5`, `ESP32C3_IDF4`,
+`ESP32C3_IDF5`, `ESP32S3_IDF4` and `ESP32S3_IDF5`. Freshly flashed classic,
+C3 and S3 IDF5 targets each reported Espruino `2v29.490` and passed the
+automated two-call loopback check: the first session delivered five ordered
+callbacks, the overlapping call was rejected, and the second callback count
+remained zero.
 
 ## Classic baseline peripheral phase
 
@@ -501,8 +513,8 @@ and temporary state became reclaimable.
 - [x] Obtain targeted IDF5 runtime evidence on classic ESP32, ESP32-C3 and
   ESP32-S3. Each target completed the standalone five-callback loopback test,
   100 UART lifecycle cycles and the 35-check controlled ping lifecycle.
-- [x] Commit the parser and lifecycle corrections on a focused firmware branch
-  with no UART prerequisite in its proposed diff.
+- [x] Assemble the parser, lifecycle and family-delivery corrections on the
+  focused `fix/esp32-idf5-ping` branch based on the upstream UART merge.
 - [x] Resume and complete the current-master classic `ESP32_IDF5` functional
   sanity suite with the UART0 candidate explicitly documented as a local
   prerequisite.
@@ -514,10 +526,8 @@ and temporary state became reclaimable.
 ## Current board state
 
 The classic ESP32 V1-harness target, ESP32-C3 and ESP32-S3 are currently
-flashed with validation IDF5 images reporting Espruino 2v29.488 at
-`6d1512f79`. All three contain the focused parser/lifecycle candidate, the
-family idle-hook and task-priority amendments, and the separately isolated
-UART prerequisite. The classic UART crosslink was selected for its final
-100-cycle UART run. These images must be described as candidate images rather
-than unmodified current master because the final family amendments remain
-uncommitted at the time of this record.
+flashed with exact-branch IDF5 images reporting Espruino `2v29.490` at
+`9f310b87b`. All three contain the merged upstream UART correction and the
+three committed ping corrections. Each passed the automated two-call loopback
+confirmation. They remain candidate images rather than unmodified upstream
+master until the ping pull request is merged.

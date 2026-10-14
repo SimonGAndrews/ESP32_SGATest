@@ -1,7 +1,9 @@
 # Draft PR: restore ESP32 IPv4 ping parsing and complete IDF5 ping sessions
 
-> Draft supporting text for an Espruino pull request. Replace the screenshot
-> placeholder and review the validation section before submission.
+> Supporting text for the prepared Espruino pull request. The source branch,
+> seven-target build matrix and three-target IDF5 runtime confirmation are
+> complete; the parser-only Web IDE screenshot remains optional supporting
+> evidence.
 
 ## Summary
 
@@ -136,7 +138,10 @@ Test image provenance:
 | Parser-only validation commit | `b341732c2` |
 | Lifecycle correction present | No |
 
-<!-- Drag the Web IDE reproduction screenshot into the GitHub PR editor here. -->
+The same test is retained as the directly runnable
+[`repros/esp32_wifi_ping_overlap.js`](repros/esp32_wifi_ping_overlap.js)
+script. The parser-only Web IDE screenshot may also be attached to the PR as
+supporting evidence, but is not required to reproduce the failure.
 
 > **Parser-only reproduction:** `ESP32_IDF5`, Espruino `2v29.487`, commit
 > `b341732c2`. This image contains the current-master source, the independent
@@ -208,28 +213,28 @@ ICMP work to run while JavaScript delivery remains in Espruino's idle path.
 
 ## Focused source commits
 
-The proposed firmware branch is `fix/esp32-ping-ipv4-parse`:
+The proposed firmware branch is `fix/esp32-idf5-ping`, based on upstream
+master `5e90a9145`:
 
 | Commit | Purpose |
 |---|---|
-| `4580d3ac8` | Restore and validate IPv4 string parsing |
-| `5624acb16` | Complete ESP-IDF 5 ping-session handling |
+| `b5a3942e6` | Restore and validate IPv4 string parsing |
+| `7f9162edc` | Complete ESP-IDF 5 ping-session handling |
+| `9f310b87b` | Deliver ping results across ESP32 targets |
 
-The family idle-hook and task-priority amendments were added after those two
-focused commits during C3/S3 runtime validation. The commit table must be
-refreshed after the final PR branch is assembled.
-
-The focused branch does not contain the separate UART TX-buffer prerequisite.
-Runtime validation used equivalent commits on a temporary integration branch
-because the classic IDF5 target required that independent correction to
-provide its UART console.
+The upstream base includes the independently merged UART TX-buffer correction
+from PR `#2768`. The proposed PR diff itself changes only
+`libs/network/esp32/jswrap_esp32_network.c` and
+`libs/network/esp32/jswrap_esp32_network.h`.
 
 ## Validation completed
 
 The full candidate was exercised on classic `ESP32_IDF5`, `ESP32C3_IDF5` and
 `ESP32S3_IDF5`, all reporting Espruino 2v29.488 at validation commit
-`6d1512f79` and using ESP-IDF 5.5.3. The images also contained the uncommitted
-family idle-hook and task-priority amendments described above. A second
+`6d1512f79` and using ESP-IDF 5.5.3. Those images contained the family
+idle-hook and task-priority amendments later committed as `9f310b87b`. A
+byte-for-byte comparison of the two changed network source files confirms that
+the final PR branch contains the same tested implementation. A second
 candidate target acted as the controlled access point and UDP peer in each
 run.
 
@@ -272,8 +277,8 @@ C3 and S3 images. This confirms that the separately required UART prerequisite
 remained functional while the ping candidate was tested; this focused check
 did not transfer UART payloads.
 
-The final source also completed clean builds for every maintained ESP32 board
-definition in the agreed matrix:
+The exact final branch at `9f310b87b` completed clean release builds for every
+maintained ESP32 board definition in the agreed matrix:
 
 | Board definition | IDF line | Build result |
 |---|---|---|
@@ -289,15 +294,14 @@ This specifically verifies that the family-wide idle registration links to
 the queued implementation on IDF5 and to the no-op compatibility
 implementation on the legacy and IDF4 builds.
 
-The same two-call REPL reproducer was then rerun on the full candidate:
+The automated two-call loopback reproducer was then run on freshly built and
+flashed images from the exact final branch:
 
-| Item | Value |
-|---|---|
-| Board | `ESP32_IDF5` |
-| Espruino | `2v29.488` |
-| Full validation commit | `6d1512f79` |
-| Parser correction present | Yes |
-| Lifecycle correction present | Yes |
+| Target | Espruino | Commit | Result |
+|---|---|---|---|
+| Classic `ESP32_IDF5` | `2v29.490` | `9f310b87b` | Pass |
+| `ESP32C3_IDF5` | `2v29.490` | `9f310b87b` | Pass |
+| `ESP32S3_IDF5` | `2v29.490` | `9f310b87b` | Pass |
 
 It produced the intended single-session result:
 
@@ -306,14 +310,14 @@ FIRST_CALL=accepted
 SECOND_CALL=rejected Error: A ping is already in progress
 FIRST_COUNT=5
 SECOND_COUNT=0
-DONE
+DONE=PASS
 ```
 
 All five results carried consecutive `totalCount` and `seqNo` values from 1
 through 5. No second callback was invoked, and the target returned normally to
 the REPL without an assertion or reboot.
 
-## Validation still to complete before submission
+## Submission readiness
 
 - [x] Rerun the two-call REPL test on the full candidate and record
   `FIRST_CALL=accepted`, rejection of the second call, `FIRST_COUNT=5` and
@@ -321,7 +325,7 @@ the REPL without an assertion or reboot.
 - [x] Build the candidate for all seven maintained ESP32-family board
   definitions in the agreed matrix.
 - [x] Add classic, C3 and S3 IDF5 runtime comparison results.
-- [ ] Upload the parser-only Web IDE screenshot and replace the placeholder
-  above.
-- [ ] Replace this checklist with the final verified results before submitting
-  the PR.
+- [x] Assemble the three tested corrections on a clean branch based on current
+  upstream master.
+- [x] Confirm the exact final branch on classic, C3 and S3 IDF5 hardware.
+- [x] Retain directly runnable parser and overlapping-session reproducers.
