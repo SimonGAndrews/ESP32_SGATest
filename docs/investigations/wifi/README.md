@@ -4,9 +4,11 @@ Date opened: 2026-07-20
 
 ## Current Conclusion
 
-The V1 two-board Wi-Fi tests have identified two confirmed shared ESP32-port
+The V1 two-board Wi-Fi tests identified two confirmed shared ESP32-port
 IP-configuration defects, two earlier open follow-up anomalies and one
-confirmed IDF5 scan regression. The IP-configuration defects are reported in
+confirmed IDF5 scan regression. Later focused ESP32-C3 work has also confirmed
+three asynchronous-operation defects in connect, disconnect and ping reset
+lifecycle handling. The IP-configuration defects are reported in
 [Espruino issue #2753](https://github.com/espruino/Espruino/issues/2753), and
 the focused correction is submitted as
 [PR #2754](https://github.com/espruino/Espruino/pull/2754). None currently
@@ -27,6 +29,11 @@ current-master classic IDF5 run also reproduced the inverted callback and
 confirmed that its station address is changed despite the reported failure.
 The matching firmware sources share the defective worker logic.
 
+The newer lifecycle evidence adds a complementary rule: accepted asynchronous
+work must retain explicit ownership until exactly one terminal completion.
+See
+[`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md).
+
 For a tutorial explanation of station, access-point, scan, connection,
 save/restore and recovery state transitions, see
 [`esp32-wifi-lifecycle-tutorial.md`](esp32-wifi-lifecycle-tutorial.md).
@@ -40,6 +47,9 @@ save/restore and recovery state transitions, see
 | WIFI-003 | C3-station-to-classic-AP `Wifi.ping()` receives no replies while bidirectional UDP works | Open; endpoint attribution incomplete | [`directional-ping-asymmetry-2026-07-20.md`](directional-ping-asymmetry-2026-07-20.md) |
 | WIFI-004 | Classic legacy build reset during two post-`setIP()` continuation sequences | Open; trigger not isolated | [`classic-post-setip-reset-2026-07-20.md`](classic-post-setip-reset-2026-07-20.md) |
 | WIFI-005 | Classic `ESP32_IDF5` `Wifi.scan()` returns an empty AP list because station startup also starts a connection | Confirmed; candidate validated on classic, C3 and the focused S3 failure path; [Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752) submitted with initial CI passing | [`esp32-idf5-scan-empty-2026-09-14.md`](esp32-idf5-scan-empty-2026-09-14.md) |
+| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | Confirmed on ESP32-C3 IDF5; correction not yet implemented | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | Confirmed on ESP32-C3 IDF5; correction not yet implemented | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-008 | IDF5 ping work survives JavaScript `reset()` and queues results against discarded callback state | Confirmed in success, timeout and queued-final phases on ESP32-C3; recovery succeeds after drain | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
 
 ## Evidence Boundary
 
