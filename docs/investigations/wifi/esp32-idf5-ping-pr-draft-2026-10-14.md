@@ -213,8 +213,10 @@ ICMP work to run while JavaScript delivery remains in Espruino's idle path.
 
 ## Focused source commits
 
-The proposed firmware branch is `fix/esp32-idf5-ping`, based on upstream
-master `5e90a9145`:
+The proposed firmware branch is `fix/esp32-idf5-ping`. It was created from
+upstream master `5e90a9145` and has since been synchronised with upstream
+master `3b5c8d97f`. The current branch head is merge commit `10403016b`; the
+three focused implementation commits remain:
 
 | Commit | Purpose |
 |---|---|
@@ -222,10 +224,11 @@ master `5e90a9145`:
 | `7f9162edc` | Complete ESP-IDF 5 ping-session handling |
 | `9f310b87b` | Deliver ping results across ESP32 targets |
 
-The upstream base includes the independently merged UART TX-buffer correction
-from PR `#2768`. The proposed PR diff itself changes only
+The upstream history includes the independently merged UART TX-buffer
+correction from PR `#2768`. Comparing the synchronised branch with current
+upstream master still produces a PR diff that changes only
 `libs/network/esp32/jswrap_esp32_network.c` and
-`libs/network/esp32/jswrap_esp32_network.h`.
+`libs/network/esp32/jswrap_esp32_network.h`: 163 insertions and 46 deletions.
 
 ## Validation completed
 
@@ -317,6 +320,39 @@ All five results carried consecutive `totalCount` and `seqNo` values from 1
 through 5. No second callback was invoked, and the target returned normally to
 the REPL without an assertion or reboot.
 
+### Revalidation after synchronising with current master
+
+After current upstream master advanced to `3b5c8d97f`, the remote ping branch
+was synchronised through merge commit `10403016b`. The merge preserved the
+three focused ping commits and the same two-file PR scope.
+
+Clean builds from the synchronised branch passed for all seven maintained
+ESP32-family board definitions:
+
+| Board definition | IDF line | Build result |
+|---|---|---|
+| `ESP32` | legacy | Pass |
+| `ESP32_IDF4` | 4.4.8 | Pass |
+| `ESP32_IDF5` | 5.5.3 | Pass |
+| `ESP32C3_IDF4` | 4.4.8 | Pass |
+| `ESP32C3_IDF5` | 5.5.3 | Pass |
+| `ESP32S3_IDF4` | 4.4.8 | Pass |
+| `ESP32S3_IDF5` | 5.5.3 | Pass |
+
+Freshly flashed IDF5 images from the synchronised branch then passed the
+automated two-call loopback reproducer on all three available targets:
+
+| Target | Espruino | Commit | Result |
+|---|---|---|---|
+| Classic `ESP32_IDF5` | `2v29.498` | `10403016b` | Pass |
+| `ESP32C3_IDF5` | `2v29.498` | `10403016b` | Pass |
+| `ESP32S3_IDF5` | `2v29.498` | `10403016b` | Pass |
+
+On each target, the first call was accepted, the overlapping call was rejected
+with `A ping is already in progress`, the first callback received five ordered
+results and the second callback was never called. Each board returned normally
+to the REPL without an assertion or reboot.
+
 ## Submission readiness
 
 - [x] Rerun the two-call REPL test on the full candidate and record
@@ -328,4 +364,6 @@ the REPL without an assertion or reboot.
 - [x] Assemble the three tested corrections on a clean branch based on current
   upstream master.
 - [x] Confirm the exact final branch on classic, C3 and S3 IDF5 hardware.
+- [x] Synchronise the branch with current upstream master and repeat the
+  seven-board build matrix and three-target IDF5 overlap test.
 - [x] Retain directly runnable parser and overlapping-session reproducers.

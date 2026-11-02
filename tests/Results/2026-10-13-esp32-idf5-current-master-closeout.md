@@ -30,6 +30,10 @@ lifecycle and 25-session soak on the classic IDF5 target. Family build and
 runtime comparisons are complete on classic ESP32, ESP32-C3 and ESP32-S3
 IDF5 targets. All three passed the standalone loopback test, the 100-cycle
 UART lifecycle control and the full 35-check controlled ping lifecycle.
+The focused ping branch has since been synchronised with upstream master
+`3b5c8d97f` at branch head `10403016b`. All seven ESP32-family board
+definitions rebuilt successfully, and freshly flashed classic, C3 and S3 IDF5
+targets each repeated the overlap test successfully as Espruino `2v29.498`.
 
 This document is the active sequence and task record for the final
 current-master sanity run. Earlier same-source post-merge results remain in
@@ -383,6 +387,15 @@ automated two-call loopback check: the first session delivered five ordered
 callbacks, the overlapping call was rejected, and the second callback count
 remained zero.
 
+The remote branch was later synchronised with current upstream master
+`3b5c8d97f` through merge commit `10403016b`. Its PR diff remains limited to
+the same two ESP32 network-wrapper files. Clean builds from that synchronised
+head passed for all seven board definitions. Freshly flashed classic, C3 and
+S3 IDF5 targets each reported Espruino `2v29.498`, commit `10403016b`, and
+again passed the automated overlap check: one accepted session, rejection of
+the overlapping call, five ordered first-callback results and no second
+callback.
+
 ## Classic baseline peripheral phase
 
 The shared classic V1 REPL scripts were run on the same locally corrected
@@ -515,6 +528,9 @@ and temporary state became reclaimable.
   100 UART lifecycle cycles and the 35-check controlled ping lifecycle.
 - [x] Assemble the parser, lifecycle and family-delivery corrections on the
   focused `fix/esp32-idf5-ping` branch based on the upstream UART merge.
+- [x] Synchronise `fix/esp32-idf5-ping` with upstream master `3b5c8d97f` and
+  repeat the seven-board build matrix plus classic, C3 and S3 IDF5 overlap
+  testing at branch head `10403016b`.
 - [x] Resume and complete the current-master classic `ESP32_IDF5` functional
   sanity suite with the UART0 candidate explicitly documented as a local
   prerequisite.
@@ -526,8 +542,9 @@ and temporary state became reclaimable.
 ## Current board state
 
 The classic ESP32 V1-harness target, ESP32-C3 and ESP32-S3 are currently
-flashed with exact-branch IDF5 images reporting Espruino `2v29.490` at
-`9f310b87b`. All three contain the merged upstream UART correction and the
-three committed ping corrections. Each passed the automated two-call loopback
-confirmation. They remain candidate images rather than unmodified upstream
-master until the ping pull request is merged.
+flashed with synchronised-branch IDF5 images reporting Espruino `2v29.498` at
+`10403016b`. All three contain the merged upstream UART correction, the three
+committed ping corrections and current upstream master through `3b5c8d97f`.
+Each passed the automated two-call loopback confirmation. They remain
+candidate images rather than unmodified upstream master until the ping pull
+request is merged.
