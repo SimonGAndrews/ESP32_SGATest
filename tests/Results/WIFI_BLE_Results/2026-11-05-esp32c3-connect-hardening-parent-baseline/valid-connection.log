@@ -1,0 +1,87 @@
+HOST_CAPTURE transport=paced_pyserial port=/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_A0:76:4E:79:90:A0-if00 baud=115200
+HOST_CAPTURE reset_begin
+reset();
+=undefined
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_esp32_wifi_soft_init()
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_esp32_wifi_soft_init()
+[?7l
+ ____                 _
+|  __|___ ___ ___ _ _|_|___ ___
+|  __|_ -| . |  _| | | |   | . |
+|____|___|  _|_| |___|_|_|_|___|
+         |_| espruino.com
+ 2v29.502 (c) 2026 G.Williams
+
+Espruino is Open Source. Our work is supported
+only by sales of official boards and donations:
+http://espruino.com/Donate
+
+>HOST_CAPTURE upload_begin
+echo(false);
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":1,"elapsedMs":24,"dateMs":303716.41399999998,"kind":"diagnostic","name":"started","details":{"board":"ESP32C3_IDF5","version":"2v29.502","gitCommit":"bc5f06466","configFile":"wifi-event-config.json"}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":2,"elapsedMs":94,"dateMs":303786.58500000002,"kind":"diagnostic","name":"listeners_installed","details":{"events":["associated","connected","disconnected","dhcp_timeout"]}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":3,"elapsedMs":235,"dateMs":303927.23,"kind":"observation","name":"startup","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":4,"elapsedMs":381,"dateMs":304073.40899999998,"kind":"configuration","name":"loaded","details":{"storageFile":"wifi-event-config.json","profiles":["valid","incorrectPassword","unavailable"],"startupProfile":null,"connectTimeoutMs":20000}}
+=undefined
+>HOST_CAPTURE upload_end
+HOST_SEND WifiEventCharacterisation.connect("valid");
+WifiEventCharacterisation.connect("valid");
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":5,"elapsedMs":761,"dateMs":304453.245,"kind":"operation","name":"connect_requested","details":{"operation":1,"profile":"valid","ssid":"[redacted]","timeoutMs":20000}}
+HOST_CAPTURE interactive_ready; enter .capture-end to stop
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":6,"elapsedMs":927,"dateMs":304619.93900000001,"kind":"observation","name":"before_connect_1","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":7,"elapsedMs":1071,"dateMs":304763.71,"kind":"timer","name":"connect_timeout_armed","details":{"operation":1,"timeoutMs":20000}}
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: entry
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: SSID '<redacted-wifi-value>', password '<redacted-wifi-value>', Callback done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: mode STA -> STA
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_set_mode done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_set_config done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: disconnecting so we can reconnect
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_DISCONNECTED (5)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:retry to AP connect
+=true
+>[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_CONNECTED (4)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:sendWifiEvent #onassociated
+
+[JWIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":8,"elapsedMs":6147,"dateMs":309839.56800000002,"kind":"native_event","name":"associated","details":{"eventDetails":{"ssid":"[redacted]","mac":"ac:84:c6:18:a3:e8","channel":"10"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":9,"elapsedMs":6280,"dateMs":309973.08600000001,"kind":"observation","name":"after_native_associated","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+>[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: OTHER (0)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi: About to emit connect!
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:sendWifiEvent #onconnected
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:queueWifiCallbackAndUnLock
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi:startMDNS - espressif
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi:stopMDNS
+
+[JWIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":10,"elapsedMs":7758,"dateMs":311450.141,"kind":"native_event","name":"connected","details":{"eventDetails":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":11,"elapsedMs":7890,"dateMs":311582.028,"kind":"observation","name":"after_native_connected","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":12,"elapsedMs":8083,"dateMs":311776.68099999998,"kind":"timer","name":"connect_timeout_cancelled","details":{"reason":"connect_callback"}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":13,"elapsedMs":8106,"dateMs":311798.92700000002,"kind":"callback","name":"connect","details":{"operation":1,"callbackForCurrentOperation":true,"error":null,"callbackDetails":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":14,"elapsedMs":8369,"dateMs":312061.55700000002,"kind":"observation","name":"after_connect_callback_1","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+>HOST_SEND WifiEventCharacterisation.observe("valid_control_end");
+HOST_SEND WifiEventCharacterisation.stop();
+HOST_SEND require("Wifi").disconnect();
+WifiEventCharacterisation.observe("valid_control_end");
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":15,"elapsedMs":19822,"dateMs":323514.03,"kind":"observation","name":"valid_control_end","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+={
+  wifiDetails: {
+    ssid: "[redacted]",
+    password: "[redacted]",
+    status: "connected",
+    authMode: "wpa2"
+   },
+  ip: {
+    ip: "192.168.50.104",
+    netmask: "255.255.255.0",
+    gw: "192.168.50.1",
+    mac: "a0:76:4e:79:90:a0"
+   }
+ }
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":16,"elapsedMs":20084,"dateMs":323776.153,"kind":"diagnostic","name":"listeners_removed"}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":17,"elapsedMs":20092,"dateMs":323784.09600000001,"kind":"diagnostic","name":"stopped","details":{"wifiDisconnectNotRequested":true}}
+=undefined
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Disconnecting.....
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_DISCONNECTED (5)
+[/home/simon/MaBecker/Espruino_maundefined
+otwork/esp32/jswrap_esp32_network.c]:sendWifiEvent #=ndisconnected
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:stopWifiIfIdle: calling esp_wifi_stop()
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_STOP (3)
+>HOST_CAPTURE complete

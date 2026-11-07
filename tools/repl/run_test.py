@@ -141,7 +141,10 @@ def run_direct(test_path: Path, port: str, baud: int, timeout: float) -> str:
         reset_output = send_and_capture(ser, "reset();\n", settle=0.2)
         if not reset_output.rstrip().endswith(">"):
             read_until_prompt(ser, min(timeout, 8.0))
-        send_and_capture(ser, "echo(true);\n", settle=0.2)
+        # Keep the upload itself out of the captured result stream. Otherwise
+        # a literal DONE marker in the source can be mistaken for runtime
+        # completion before the program has finished executing.
+        send_and_capture(ser, "echo(false);\n", settle=0.2)
         ser.reset_input_buffer()
         raw_output = send_script_paced(ser, js_test)
         if "DONE=" in raw_output:

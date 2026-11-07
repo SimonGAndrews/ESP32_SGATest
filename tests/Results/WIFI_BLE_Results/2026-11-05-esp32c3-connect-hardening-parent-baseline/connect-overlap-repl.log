@@ -1,0 +1,48 @@
+RUNNER test=docs/investigations/wifi/repros/esp32_wifi_connect_overlap_repl.js
+RUNNER port=/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_A0:76:4E:79:90:A0-if00
+RUNNER baud=115200
+RUNNER transport=direct
+RUNNER board=ESP32C3_IDF5
+RUNNER version=2v29.502
+RUNNER git_commit=bc5f06466
+TEST=esp32_wifi_connect_overlap_repl
+DONE=OBSERVED
+RUNNER raw_output_begin
+// Minimal Web IDE/REPL reproduction for overlapping Wifi.connect() calls.
+=undefined
+=undefined
+TEST=esp32_wifi_connect_overlap_repl
+starting connection 1
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: entry
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: SSID 'XFSM-NO-SUCH-AP-1', password '12345678', Callback done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: mode STA -> STA
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_set_mode done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_set_config done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_start XFSM-NO-SUCH-AP-1
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_START (2)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_DISCONNECTED (5)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:retry to AP connect
+starting connection 2
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: entry
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: SSID 'XFSM-NO-SUCH-AP-2', password '12345678', Callback done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: mode STA -> STA
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connE (4012176) wifi:sta is connecting, cannot set config
+ect: esp_wifi_set_mode done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:wifiErrorToString 12294: ESP_ERR_WIFI_STATE
+ERROR: jswrap_wifi_connect: esp_wifi_set_config: 12294(ESP_ERR_WIFI_STATE)
+connection 2 returned normally
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_DISCONNECTED (5)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:retry to AP connect
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_DISCONNECTED (5)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:sendWifiEvent #ondisconnected
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:stopWifiIfIdle: calling esp_wifi_stop()
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_STOP (3)
+FIRST_CALLBACK_COUNT=0
+SECOND_CALLBACK_COUNT=0
+DETAILS={"status":"NO_AP_FOUND"}
+IP={"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}
+DONE=OBSERVED
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Disconnecting.....
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:wifiErrorToString 12290: ESP_ERR_WIFI_NOT_STARTED
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_disconnect: esp_wifi_disconnect rc=12290(ESP_ERR_WIFI_NOT_STARTED)
+RUNNER raw_output_end

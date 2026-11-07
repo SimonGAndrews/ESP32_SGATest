@@ -197,22 +197,39 @@ def main() -> int:
 
             verified = has_output_marker(verify_output, ("DONE=PASS",))
             peer_summary = marker_payload(peer_output + peer_stop_output, "PEER_SUMMARY")
-            joins = [
-                event for event in (peer_summary or {}).get("events", [])
-                if event.get("name") == "sta_joined"
-            ]
-            traffic = [
-                item for item in (peer_summary or {}).get("received", [])
-                if "|restore|RESTORE_LIFECYCLE" in item.get("data", "")
-            ]
+            summary = peer_summary or {}
+            # The current peer publishes compact eventNames/receivedData
+            # fields. Retain compatibility with older evidence roles that
+            # returned the underlying events/received arrays.
+            event_names = summary.get("eventNames")
+            if event_names is None:
+                event_names = [
+                    event.get("name") for event in summary.get("events", [])
+                ]
+            join_count = event_names.count("sta_joined")
+            received_data = summary.get("receivedData")
+            if received_data is None:
+                received_data = next(
+                    (
+                        item.get("data", "")
+                        for item in summary.get("received", [])
+                        if "|restore|RESTORE_LIFECYCLE" in item.get("data", "")
+                    ),
+                    "",
+                )
+            traffic_observed = "|restore|RESTORE_LIFECYCLE" in received_data
             print("PASS restored_target_script" if verified else
                   "FAIL restored_target_script")
-            print("PASS peer_observed_pre_and_post_reboot_joins" if len(joins) >= 2 else
+            print("PASS peer_observed_pre_and_post_reboot_joins" if join_count >= 2 else
                   "FAIL peer_observed_pre_and_post_reboot_joins")
-            print("PASS peer_received_restored_udp" if traffic else
+            print("PASS peer_received_restored_udp" if traffic_observed else
                   "FAIL peer_received_restored_udp")
 
-            result = 0 if prepared and verified and len(joins) >= 2 and traffic else 1
+            result = (
+                0
+                if prepared and verified and join_count >= 2 and traffic_observed
+                else 1
+            )
     except (OSError, ValueError, serial.SerialException) as error:
         print(f"RUNNER error={error}", file=sys.stderr)
         result = 2

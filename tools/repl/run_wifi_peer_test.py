@@ -28,6 +28,7 @@ DIRECTION_POSITIONS = {
     "c3-peer": ("esp32_c3_v1", "esp32_v1"),
     "esp32-peer": ("esp32_v1", "esp32_c3_v1"),
     "esp32-peer-s3": ("esp32_v1", "esp32_s3"),
+    "s3-peer": ("esp32_s3", "esp32_v1"),
     "c3-idf4-peer": ("esp32_c3_peer", "esp32_c3_v1"),
     "c3-idf5-peer": ("esp32_c3_v1", "esp32_c3_peer"),
 }
@@ -304,6 +305,7 @@ def main() -> int:
     if args.direction in (
         "esp32-peer",
         "esp32-peer-s3",
+        "s3-peer",
         "c3-idf5-peer",
     ) and args.scenario == "positive":
         role_config["pingClientOnReceive"] = True

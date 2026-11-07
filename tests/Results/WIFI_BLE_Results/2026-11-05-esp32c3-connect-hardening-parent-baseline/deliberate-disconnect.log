@@ -1,0 +1,94 @@
+HOST_CAPTURE transport=paced_pyserial port=/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_A0:76:4E:79:90:A0-if00 baud=115200
+HOST_CAPTURE reset_begin
+reset();
+=undefined
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_esp32_wifi_soft_init()
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_esp32_wifi_soft_init()
+[?7l
+ ____                 _
+|  __|___ ___ ___ _ _|_|___ ___
+|  __|_ -| . |  _| | | |   | . |
+|____|___|  _|_| |___|_|_|_|___|
+         |_| espruino.com
+ 2v29.502 (c) 2026 G.Williams
+
+Espruino is Open Source. Our work is supported
+only by sales of official boards and donations:
+http://espruino.com/Donate
+
+>HOST_CAPTURE upload_begin
+echo(false);
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":1,"elapsedMs":24,"dateMs":620423.18,"kind":"diagnostic","name":"started","details":{"board":"ESP32C3_IDF5","version":"2v29.502","gitCommit":"bc5f06466","configFile":"wifi-event-config.json"}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":2,"elapsedMs":115,"dateMs":620514.23800000001,"kind":"diagnostic","name":"listeners_installed","details":{"events":["associated","connected","disconnected","dhcp_timeout"]}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":3,"elapsedMs":234,"dateMs":620632.89300000004,"kind":"observation","name":"startup","details":{"wifiDetails":{"status":"NO_AP_FOUND"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":4,"elapsedMs":343,"dateMs":620742.38199999998,"kind":"configuration","name":"loaded","details":{"storageFile":"wifi-event-config.json","profiles":["valid","incorrectPassword","unavailable"],"startupProfile":null,"connectTimeoutMs":20000}}
+=undefined
+>HOST_CAPTURE upload_end
+HOST_SEND WifiEventCharacterisation.connect("valid");
+WifiEventCharacterisation.connect("valid");
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":5,"elapsedMs":906,"dateMs":621304.93799999996,"kind":"operation","name":"connect_requested","details":{"operation":1,"profile":"valid","ssid":"[redacted]","timeoutMs":20000}}
+HOST_CAPTURE interactive_ready; enter .capture-end to stop
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":6,"elapsedMs":1061,"dateMs":621460.61,"kind":"observation","name":"before_connect_1","details":{"wifiDetails":{"status":"NO_AP_FOUND"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":7,"elapsedMs":1223,"dateMs":621622.657,"kind":"timer","name":"connect_timeout_armed","details":{"operation":1,"timeoutMs":20000}}
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: entry
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: SSID '<redacted-wifi-value>', password '<redacted-wifi-value>', Callback done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: mode STA -> STA
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_set_mode done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_set_config done
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_connect: esp_wifi_start <redacted-wifi-value>
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_START (2)
+=true
+>[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: HOME_CHANNEL_CHANGE (43)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi: event_handler -> NOT HANDLED EVENT: 1008208184:43
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_CONNECTED (4)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:sendWifiEvent #onassociated
+
+[JWIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":8,"elapsedMs":6474,"dateMs":626873.505,"kind":"native_event","name":"associated","details":{"eventDetails":{"ssid":"[redacted]","mac":"ac:84:c6:18:a3:e8","channel":"10"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":9,"elapsedMs":6602,"dateMs":627001.46700000006,"kind":"observation","name":"after_native_associated","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+>[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: OTHER (0)
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi: About to emit connect!
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:sendWifiEvent #onconnected
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:queueWifiCallbackAndUnLock
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi:startMDNS - espressif
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Wifi:stopMDNS
+
+[JWIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":10,"elapsedMs":8023,"dateMs":628421.907,"kind":"native_event","name":"connected","details":{"eventDetails":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":11,"elapsedMs":8157,"dateMs":628555.87800000002,"kind":"observation","name":"after_native_connected","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":12,"elapsedMs":8345,"dateMs":628745.21600000001,"kind":"timer","name":"connect_timeout_cancelled","details":{"reason":"connect_callback"}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":13,"elapsedMs":8370,"dateMs":628768.95,"kind":"callback","name":"connect","details":{"operation":1,"callbackForCurrentOperation":true,"error":null,"callbackDetails":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":14,"elapsedMs":8634,"dateMs":629033.59700000006,"kind":"observation","name":"after_connect_callback_1","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+>HOST_SEND WifiEventCharacterisation.disconnect();
+WifiEventCharacterisation.disconnect();
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":15,"elapsedMs":12868,"dateMs":633267.70200000004,"kind":"operation","name":"disconnect_requested","details":{"operation":1}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":16,"elapsedMs":12972,"dateMs":633371.52800000004,"kind":"observation","name":"before_disconnect_1","details":{"wifiDetails":{"ssid":"[redacted]","password":"[redacted]","status":"connected","authMode":"wpa2"},"ip":{"ip":"192.168.50.104","netmask":"255.255.255.0","gw":"192.168.50.1","mac":"a0:76:4e:79:90:a0"}}}
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Disconnecting.....
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_DISCONNECTED (5)
+[/home/simon/MaBecker/Espruino_master/libs/neework/esp32/jswrap_esp32_network.c]:sendWifiEvent #ondisconnect=d
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:stopWifiIfIdle: calling esp_wifi_stop()
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:Event: STA_STOP (3)
+true
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":17,"elapsedMs":13203,"dateMs":633602.365,"kind":"callback","name":"disconnect","details":{"operation":1,"callbackCount":1}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":18,"elapsedMs":13362,"dateMs":633761.45200000004,"kind":"observation","name":"after_disconnect_callback_1_1","details":{"wifiDetails":{"status":"ASSOC_LEAVE"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":19,"elapsedMs":13521,"dateMs":633920.7,"kind":"callback","name":"disconnect","details":{"operation":1,"callbackCount":2}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":20,"elapsedMs":13602,"dateMs":634001.47,"kind":"observation","name":"after_disconnect_callback_1_2","details":{"wifiDetails":{"status":"ASSOC_LEAVE"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":21,"elapsedMs":13741,"dateMs":634140.43299999996,"kind":"native_event","name":"disconnected","details":{"eventDetails":{"ssid":"[redacted]","mac":"ac:84:c6:18:a3:e8","reason":"8","msg":"ASSOC_LEAVE"}}}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":22,"elapsedMs":13901,"dateMs":634300.615,"kind":"observation","name":"after_native_disconnected","details":{"wifiDetails":{"status":"ASSOC_LEAVE"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+>HOST_SEND WifiEventCharacterisation.observe("deliberate_disconnect_end");
+HOST_SEND WifiEventCharacterisation.stop();
+WifiEventCharacterisation.observe("deliberate_disconnect_end");
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":23,"elapsedMs":24592,"dateMs":644991.10600000002,"kind":"observation","name":"deliberate_disconnect_end","details":{"wifiDetails":{"status":"ASSOC_LEAVE"},"ip":{"ip":"0.0.0.0","netmask":"0.0.0.0","gw":"0.0.0.0","mac":"a0:76:4e:79:90:a0"}}}
+={
+  wifiDetails: {
+    status: "ASSOC_LEAVE"
+   },
+  ip: {
+    ip: "0.0.0.0",
+    netmask: "0.0.0.0",
+    gw: "0.0.0.0",
+    mac: "a0:76:4e:79:90:a0"
+   }
+ }
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":24,"elapsedMs":24768,"dateMs":645167.70700000005,"kind":"diagnostic","name":"listeners_removed"}
+WIFI_DIAG {"format":"xfsm-wifi-event-characterisation-v1","sequence":25,"elapsedMs":24870,"dateMs":645269.59400000004,"kind":"diagnostic","name":"stopped","details":{"wifiDisconnectNotRequested":true}}
+=undefined
+>HOST_CAPTURE complete
