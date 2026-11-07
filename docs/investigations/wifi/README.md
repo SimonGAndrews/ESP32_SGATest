@@ -31,7 +31,8 @@ The matching firmware sources share the defective worker logic.
 
 The newer lifecycle evidence adds a complementary rule: accepted asynchronous
 work must retain explicit ownership until exactly one terminal completion.
-See
+Qualified candidates now apply that rule to ping, station connection and
+station disconnection. See
 [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md).
 
 For a tutorial explanation of station, access-point, scan, connection,
@@ -47,9 +48,9 @@ save/restore and recovery state transitions, see
 | WIFI-003 | C3-station-to-classic-AP `Wifi.ping()` receives no replies while bidirectional UDP works | Open; endpoint attribution incomplete | [`directional-ping-asymmetry-2026-07-20.md`](directional-ping-asymmetry-2026-07-20.md) |
 | WIFI-004 | Classic legacy build reset during two post-`setIP()` continuation sequences | Open; trigger not isolated | [`classic-post-setip-reset-2026-07-20.md`](classic-post-setip-reset-2026-07-20.md) |
 | WIFI-005 | Classic `ESP32_IDF5` `Wifi.scan()` returns an empty AP list because station startup also starts a connection | Confirmed; candidate validated on classic, C3 and the focused S3 failure path; [Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752) submitted with initial CI passing | [`esp32-idf5-scan-empty-2026-09-14.md`](esp32-idf5-scan-empty-2026-09-14.md) |
-| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | Confirmed on ESP32-C3 IDF5; correction not yet implemented | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
-| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | Confirmed on ESP32-C3 IDF5; correction not yet implemented | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
-| WIFI-008 | IDF5 ping work survives JavaScript `reset()` and queues results against discarded callback state | Confirmed in success, timeout and queued-final phases on ESP32-C3; recovery succeeds after drain | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | IDF5 correction implemented and cross-family qualified at Espruino commit `610007d3f`; upstream submission pending | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | IDF5 correction implemented and cross-family qualified at Espruino commit `14cd9932f`; upstream submission pending | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-008 | IDF5 ping work survives JavaScript `reset()` and queues results against discarded callback state | Correction implemented and cross-family qualified in the stacked ping candidate ending at Espruino commit `bc5f06466e`; upstream submission pending | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
 
 ## Evidence Boundary
 

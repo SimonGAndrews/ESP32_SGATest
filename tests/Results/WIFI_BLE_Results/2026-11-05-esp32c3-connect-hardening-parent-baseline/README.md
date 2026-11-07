@@ -148,11 +148,11 @@ it is not part of the PR2 connection fix.
 | Log | SHA-256 |
 |---|---|
 | `connect-overlap-repl.log` | `56e63f77a6a2006f3dd7384de183abb82bbbdb135070a81ac0439dda0e657152` |
-| `connect-overlap.log` | `285468a3c195e743b037d802d567a1dd34692857fe5a9cb01ff2a34e8eda00ab` |
-| `valid-connection.log` | `705d613a6eca45e90e1575c2543b6d6c778c66b9cbd6c0fd1462c92295c33c16` |
-| `incorrect-password.log` | `e113a36474788ea9f4586b02ee845781693fabbc44cd540e2989861ae737cfc9` |
-| `unavailable-network.log` | `b1213275805e91590164613c71d6ed93ceccf79417ad96677eec2dcf3c64d9a6` |
-| `deliberate-disconnect.log` | `2a4b3def084c0175c70178c823f8dc28dcdb615595da40731fb203ce8cf2ec0d` |
+| `connect-overlap.log` | `7ca090bc1410658c9523def91f92436ac630dbceec48c2fab32948b39861dd41` |
+| `valid-connection.log` | `4b4a587ed3ae26dc08c7ec4af1e45dbd777e85927a1644b826cbe9a07082501f` |
+| `incorrect-password.log` | `c2cf86d40b75ddb1aaed3285c5e67db09b0d2985e0aaa716f6534f3ceec529a0` |
+| `unavailable-network.log` | `94bb8fcf51e7ad801824cf57011fdc7e2757ebb0ce0010c6f2399e311e5d20f7` |
+| `deliberate-disconnect.log` | `372b96c762193279577a589d89e647ee6fde9dd4a0c2062ea692e48618c4182b` |
 
 Configured SSIDs and passwords were replaced in every retained transcript.
 All retained logs were then scanned against every configured value and had
