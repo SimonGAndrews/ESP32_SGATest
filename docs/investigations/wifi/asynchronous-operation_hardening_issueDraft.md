@@ -2,7 +2,7 @@
 
 This umbrella issue tracks a related set of Espruino ESP32 Wi-Fi API problems found while validating the ESP-IDF 5 port. The investigation now covers shared and IDF4 `Wifi.ping()` correctness as well as the IDF5 ping, station connection and station disconnection lifecycles.
 
-The symptoms do not all have the same direct cause. The IPv4 parser and IDF4 ping-target configuration are correctness defects found while establishing a working test baseline. The remaining problems share an asynchronous-lifecycle concern: once an operation has started, Espruino must retain ownership of its native operation and JavaScript callback until both have finished or been cancelled safely.
+The symptoms do not all have the same direct cause. The IPv4 parser and IDF4 ping-target configuration are correctness defects found while establishing a working test baseline. The remaining problems share an asynchronous-lifecycle concern: once an asynchronous request is accepted, Espruino must retain ownership of the underlying ESP-IDF operation and its JavaScript completion callback until the operation completes or is safely torn down, with the callback delivered once or safely detached.
 
 The reproduced failure modes include:
 
@@ -15,7 +15,8 @@ This work is supported with the use of the codex AI agent in vscode for source a
 
 This umbrella issue keeps the overall investigation and its shared test evidence together. The fixes are intended to be submitted as separate, more easily reviewed pull requests:
 
-1. IDF5 ping correctness, result delivery and reset handling.
+1. Shared IPv4 parsing, IDF4 basic ping operation and IDF5 ping lifecycle
+   hardening.
 2. Station connection overlap and error reporting.
 3. Station disconnection and exactly-once callback handling.
 
@@ -23,11 +24,67 @@ Each reported runtime problem has been exercised on physical hardware using a st
 
 The retained test programs, firmware identities and longer investigation notes are available in the [ESP32_SGATest Wi-Fi investigation](https://github.com/SimonGAndrews/ESP32_SGATest/tree/main/docs/investigations/wifi).
 
+## Shared design principle and proposed PR sequence
+
+The three PRs share one principle but do not introduce a generic asynchronous-operation framework.
+
+Consider:
+
+- Each accepted JavaScript *request* creates an Espruino-managed asynchronous *operation* around the corresponding ESP-IDF work: a ping session, station connection attempt or station disconnection request. ESP-IDF reports progress and completion through different native callbacks, Wi-Fi/IP events and immediate return codes, so each operation needs a small API-specific lifecycle.
+
+- When a request supplies a JavaScript callback, the wrapper stores it as a locked `JsVar` reference alongside the operation state. This keeps the function available while ESP-IDF work continues; interpreter-side result handling uses the reference, and completion or reset handling clears and unlocks it.
+
+- A *terminal condition* is a success, failure, cancellation
+  or JavaScript `reset()` that ends an accepted operation. The code handling
+  that condition is its *completion path*: it should release the operation state and
+  any stored callback, which is either scheduled once or safely detached.
+
+For the asynchronous parts of the operations, the common approach implemented is:
+
+- validate each request before creating an operation or changing a stored
+  JavaScript callback;
+- track each accepted operation even when the optional callback is omitted;
+- reject a conflicting request without changing the active operation or its
+  stored callback;
+- keep the operation active until it reaches an API-specific terminal condition
+  (for example, usable IP assignment, exhausted connection retries, an
+  immediate ESP-IDF error or JavaScript `reset()`);
+- when more than one terminal condition can be observed, allow only one
+  completion path to finish the operation and release its stored callback;
+- prevent ESP-IDF callbacks and event handlers from accessing `JsVar` objects directly; instead, they place plain-C records in a bounded queue that Espruino’s interpreter task drains;
+- on JavaScript `reset()`, release stored callbacks and prevent later native results from reaching discarded JavaScript state or completing a later operation;
+- keep public `Wifi.on(...)` lifecycle notifications independent of callbacks
+  supplied for individual requests.
+
+The shared IPv4 parser and IDF4 ping corrections are correctness prerequisites
+rather than instances of this lifecycle contract.
+
+| Proposed PR | Scope | Qualified implementation | Comment-review head | Dependency |
+|---|---|---|---|---|
+| PR1 | shared IPv4 parsing, IDF4 basic ping and IDF5 ping lifecycle | `bc5f06466e` | `538afc299` | submit first against upstream `master` |
+| PR2 | IDF5 station-event handoff and `Wifi.connect()` lifecycle | `610007d3f` | `0b51e3087` | rebase after PR1 merges |
+| PR3 | IDF5 `Wifi.disconnect()` lifecycle | `14cd9932f` | `7fa78ff5f` | rebase after PR2 merges |
+
+The implementation revisions in the table are the exact firmware revisions
+used for qualification testing. Each later review head adds comments only and leaves
+its qualified implementation commit unchanged.
+
 ## 1. `Wifi.ping()`
 
-Testing `Wifi.ping()` identified several problems with different but sometimes overlapping causes. They are presented below in the order needed to establish a working baseline and then harden the asynchronous lifecycle.
+Testing `Wifi.ping()` identified several problems with different but sometimes
+overlapping causes. They are presented in the order needed to establish a
+working baseline and then harden the asynchronous lifecycle:
 
-An initial issue where valid IPv4 strings were rejected before an ESP-IDF ping session could be created is worked first:
+- shared IPv4 strings were rejected before backend selection;
+- IDF4 passed the parsed address to an incompatible compatibility API;
+- IDF4 and IDF5 native ping tasks could be starved on the single-core C3;
+- overlapping IDF5 requests shared one mutable callback;
+- IDF5 results crossed into JavaScript from the native ping task;
+- JavaScript `reset()` did not cancel delivery to the discarded runtime; and
+- completed native ping tasks could be starved of cleanup time.
+
+Each subsection retains the focused evidence for one problem. Section 1.8
+then summarises the combined PR1 qualification.
 
 ### 1.1 Shared IPv4-string parsing failure
 
@@ -35,9 +92,11 @@ An initial issue where valid IPv4 strings were rejected before an ESP-IDF ping s
 IDF4 or IDF5 native ping implementation, the shared wrapper converts that
 string into an lwIP `ip_addr_t`.
 
+#### Reproduction
+
 The failure is reproduced with:
 
-``` js
+```js
 echo(false);
 try {
   require("Wifi").ping("127.0.0.1", print);
@@ -49,11 +108,11 @@ try {
 
 On an affected build this returns:
 
-```JS
+```text
 PING_CALL=rejected Error: "127.0.0.1" not a valid IP address
 ```
 
-#### Investigation result
+#### Source finding
 
 Although this was found while validating the ESP-IDF 5 port, the failure is
 in the shared `stringToIP()` helper and occurs before the implementation
@@ -71,14 +130,13 @@ classic ESP32 build, but did not change that return value.
 Consequently, a valid dotted-decimal IPv4 string was rejected before the
 IDF3, IDF4 or IDF5 ping backend could be entered.
 
-#### FIX
+#### Implemented correction
 
 The correction is limited to the non-IPv6 `stringToIP()` path. It identifies
 the destination as IPv4 and returns the result of lwIP's `ip4addr_aton()`
 parser:
 
 ```c
-Diff
 #if CONFIG_LWIP_IPV6
  ...
 #else
@@ -90,13 +148,15 @@ Diff
 }
 ```
 
-This correction is commit `919bd2cce` and is included in the testing and PR below.
+This correction is commit `919bd2cce` and is included in the testing and PR
+below.
 
 #### Test coverage
 
-The corrected parser accepted `"127.0.0.1"` on physical classic ESP32,
-ESP32-C3 and ESP32-S3 targets. Build and Runtime testing included the classic IDF3
-build, all three IDF4 builds and all three IDF5 builds.
+A parser probe confirmed that the corrected wrapper accepted `"127.0.0.1"` on
+physical classic ESP32, ESP32-C3 and ESP32-S3 targets. Build and runtime
+testing included the classic IDF3 build, all three IDF4 builds and all three
+IDF5 builds.
 
 Successful parsing only establishes that the requested address reaches the
 selected native backend. Subsequent testing exposed a separate IDF4 address
@@ -109,9 +169,9 @@ Correcting the shared parser allowed a valid IPv4 string to reach the selected
 native ping implementation. Testing then showed that basic IDF4 ping operation
 was still incorrect.
 
-#### What was tested
+#### Reproduction and baseline result
 
-The loopback call was tested on physical classic ESP32, ESP32-C3 and ESP32-S3
+A loopback test was run on physical classic ESP32, ESP32-C3 and ESP32-S3
 targets using IDF4 images that contained the parser correction but not the
 IDF4 native-session correction:
 
@@ -127,14 +187,21 @@ The three targets produced different visible symptoms:
 | `ESP32C3_IDF4` | yes | no | not observable |
 | `ESP32S3_IDF4` | yes | yes | no |
 
-On the dual-core classic ESP32 and ESP32-S3, the five configured requests all timed out with zero received bytes. Each request completion was delivered through Espruino’s pre-IDF5 `pingResults()` cumulative-result adapter. When the native session ended, `PING_RES_FINISH` invoked that adapter once more without incrementing the request count. The observable result was therefore six JavaScript callbacks with cumulative `totalCount` values 1,2,3,4,5,5. The final callback was a terminal cumulative summary, not a sixth ICMP request.
+On the dual-core classic ESP32 and ESP32-S3, the five configured requests all
+timed out with zero received bytes. Each request completion was delivered
+through Espruino's pre-IDF5 `pingResults()` cumulative-result adapter. When the
+native session ended, `PING_RES_FINISH` invoked that adapter once more without
+incrementing the request count. The observable result was therefore six
+JavaScript callbacks with cumulative `totalCount` values `1,2,3,4,5,5`. The
+final callback repeated the cumulative result when the native session ended;
+it did not represent a sixth ICMP request.
 
 The C3 accepted the call but delivered no callback during the observation
 period. This prevented the address result from being observed on that target
 and was subsequently identified as the additional scheduling problem
 described in section 1.3.
 
-#### Investigation result
+#### Source finding
 
 Before this correction, every ESP-IDF version below 5 used the older target-setting interface:
 
@@ -166,7 +233,7 @@ instead supplied a pointer to the binary IPv4 value inside its parsed
 `void *`, but the binary value was then interpreted as text. The native
 session therefore did not receive the requested loopback address.
 
-#### Fix
+#### Implemented correction
 
 The implementation is divided by ESP-IDF generation:
 
@@ -214,9 +281,10 @@ static void esp4PingEnd(esp_ping_handle_t pingHandle, void *args) {
 ```
 
 This deliberately preserves the existing IDF4 result shape: five per-request
-callbacks followed by a duplicated cumulative terminal callback.
+callbacks followed by a final callback that repeats the cumulative result.
 
-The IDF4 native-session correction is commit `b53aa5707` and is included in the PR below.
+The IDF4 native-session correction is commit `b53aa5707` and is included in
+the PR below.
 
 #### Test coverage
 
@@ -231,15 +299,9 @@ successfully pinged the loopback address:
 | `ESP32S3_IDF4` | 5 | 320 | 0 | 0 |
 
 Every target also completed two strictly serialized sessions. Each session
-retained the older six-callback result shape, with cumulative `totalCount`
-values:
-
-```text
-1,2,3,4,5,5
-```
-
-The sixth callback is the preserved terminal summary and does not represent a
-sixth ICMP request.
+retained the older six-callback result shape described above, with cumulative
+`totalCount` values `1,2,3,4,5,5`. The final callback repeated the cumulative
+result and did not represent a sixth ICMP request.
 
 This correction restores basic serialized IDF4 ping operation.
 
@@ -256,22 +318,25 @@ Both the corrected IDF4 implementation and the IDF5 implementation create
 typed ESP-IDF ping sessions. Without an explicit setting, those sessions use
 ESP-IDF’s default ping-task priority of 2.
 
-#### What was tested
+#### Reproduction
 
-The problem was first observed with the two-call IDF5 loopback test described
-in section 1.4:
+An IDF5 two-call loopback test, shown in full in section 1.4, first exposed the
+problem:
 
 ```js
 wifi.ping("127.0.0.1", firstCallback);
 wifi.ping("127.0.0.1", secondCallback);
 ```
 
-At this point in the investigation, the `ESP32C3_IDF5` test image contained the IPv4 parser correction from section 1.1. No other ping changes had been applied. Each native session was configured to make five requests, and the test waited six seconds before reporting the callback counts.
+At this point in the investigation, the `ESP32C3_IDF5` test image contained
+the IPv4 parser correction from section 1.1. No other ping changes had been
+applied. Each native session was configured to make five requests, and the
+test waited six seconds before reporting the callback counts.
 
 A separate IDF4 comparison used the single-call loopback test from section
 1.2:
 
-``` js
+```js
 require("Wifi").ping("127.0.0.1", print);
 ```
 
@@ -281,7 +346,7 @@ revision, the dual-core classic ESP32 and ESP32-S3 IDF4 targets delivered
 callbacks, although their requests timed out because of the separate address
 configuration problem described in section 1.2.
 
-#### Initial IDF5 result
+#### Baseline result
 
 On the ESP32-C3, both IDF5 calls were accepted but neither callback received a
 result:
@@ -298,9 +363,9 @@ ESP32.
 
 After raising the native ping-task priority, the C3 produced all ten expected
 result events. Their 1/9 distribution between the two callbacks then exposed
-the separate callback-ownership problem described in section 1.4.
+the separate callback-replacement problem described in section 1.4.
 
-#### Investigation result
+#### Source finding
 
 The relevant ESP-IDF ping implementations use `ESP_PING_DEFAULT_CONFIG()`.
 This leaves the native ping task at ESP-IDF’s default priority of 2, while the
@@ -311,9 +376,12 @@ native USB console is active. A priority-2 ping task can therefore be prevented
 from running, leaving an accepted ping operation without any result callbacks.
 
 The IDF5 before-and-after test directly demonstrated that raising the priority
-allowed native ping processing to proceed. The IDF4 source uses the same priority-2 default. Its callbacks ran on the dual-core classic ESP32 and ESP32-S3 but not on the single-core C3, supporting the same scheduling explanation.
+allowed native ping processing to proceed. The IDF4 source uses the same
+priority-2 default. Its callbacks ran on the dual-core classic ESP32 and
+ESP32-S3 but not on the single-core C3, supporting the same scheduling
+explanation.
 
-#### Fix
+#### Implemented correction
 
 ```c
 #if ESP_IDF_VERSION_MAJOR < 4
@@ -341,7 +409,9 @@ version-specific implementations.
 
 The legacy IDF3 path remains unchanged.
 
-The IDF5 priority correction is part of commit `77e30bebb`. The corresponding IDF4 correction is commit `bc5f06466`. Both corrections are included in the testing and proposed PR below.
+The IDF5 priority correction is part of commit `77e30bebb`. The corresponding
+IDF4 correction is commit `bc5f06466e`. Both corrections are included in the
+testing and proposed PR below.
 
 #### Test coverage
 
@@ -350,12 +420,12 @@ successfully completed the five configured loopback requests on both IDF4 and
 IDF5 builds. Each target reported 320 cumulative bytes with no timeout or
 error.
 
-Subsequent lifecycle testing described in sections 1.4 to 1.6 also exercised the completed ESP32-C3 IDF5 candidate across 28 sessions and 140 callbacks. This provides broader regression coverage but is not an isolated test of the priority correction.
-
-All seven maintained ESP32-family board definitions also built successfully with the IDF4 and IDF5 priority changes.
+A broader lifecycle qualification also exercised this scheduling path, but it
+is not an isolated test of the priority correction. The complete runtime and
+build results are summarised in section 1.8.
 
 The priority correction allows the native task to run. It does not by itself
-prevent overlapping sessions or establish safe callback ownership; those IDF5
+prevent overlapping sessions or establish safe callback handling; those IDF5
 lifecycle issues are addressed next in section 1.4.
 
 ### 1.4 IDF5 overlapping sessions share the last callback
@@ -365,7 +435,7 @@ sessions even though Espruino retained only one global JavaScript callback.
 The second call replaced the first call’s callback while both native sessions
 continued running.
 
-#### What was tested
+#### Reproduction
 
 For the C3 test, the image contained the IPv4 parser correction from section
 1.1 and the task-priority change from section 1.3. No other ping changes had
@@ -414,7 +484,7 @@ setTimeout(function () {
 }, 6000);
 ```
 
-#### ESP32-C3 result
+#### Baseline result
 
 After raising the ping-task priority, both five-request sessions ran on the
 ESP32-C3 and ten result callback invocations were observed:
@@ -436,7 +506,9 @@ FIRST_COUNT=1
 SECOND_COUNT=9
 ```
 
-The board was reset immediately before this run, so the global `seqNo` counter started at 1. This counter increments across all ping results and is not a native session identifier.
+The board was reset immediately before this run, so the global `seqNo` counter
+started at 1. This counter increments across all ping results and is not a
+native session identifier.
 
 The result objects contained each cumulative count twice:
 
@@ -450,7 +522,7 @@ result events in total. One event was delivered to the first callback and nine
 were delivered to the second callback. The events delivered to the second
 callback therefore included results from both native sessions.
 
-#### Interpretation from source analysis
+#### Source finding
 
 Source inspection showed three relevant implementation details.
 
@@ -470,7 +542,8 @@ g_jsPingCallback = pingCallback;
 jsvLockAgainSafe(g_jsPingCallback);
 ```
 
-Third, results from every native session were queued using the callback stored in this global variable when the result was handled:
+Third, results from every native session were queued using the callback stored
+in this global variable when the result was handled:
 
 ```c
 jsiQueueEvents(NULL, g_jsPingCallback, params, 1);
@@ -485,12 +558,14 @@ result was queued while the first callback was installed. The second call then
 replaced the global callback, and subsequent results from both sessions were
 queued using the replacement callback.
 
-The exact split is scheduling-dependent. A 0/10 result was observed on the classic ESP32, while this C3 run produced 1/9. Both results are consistent with multiple native sessions sharing one mutable callback binding.
+The exact split is scheduling-dependent. A 0/10 result was observed on the
+classic ESP32, while this C3 run produced 1/9. Both results are consistent
+with multiple native sessions sharing one mutable callback binding.
 
-#### Fix
+#### Implemented correction
 
-IDF5 now retains explicit native-session state independently of whether an
-application callback was supplied.
+IDF5 now tracks the ping operation independently of whether an application
+callback was supplied.
 
 Before processing or replacing `g_jsPingCallback`, `jswrap_wifi_ping()` checks
 whether a ping operation is already active:
@@ -520,17 +595,17 @@ g_pingState = ESP32_PING_RUNNING;
 portEXIT_CRITICAL(&g_pingMux);
 ```
 
-During normal completion, the operation remains owned until ESP-IDF has ended
+During normal completion, the operation remains active until ESP-IDF has ended
 the native session and the retained responses have been drained. Only then
 does `g_pingState` return to `ESP32_PING_IDLE`.
 
-The completion, result-delivery and cancellation details are described in
-sections 1.5 and 1.6. Those later changes refine the lifecycle without changing
-the overlap-rejection contract.
+The result-delivery, cancellation and native-resource cleanup details are
+described in sections 1.5 to 1.7. Those later changes refine the lifecycle
+without changing the overlap-rejection contract.
 
 The initial retained-handle and overlap-rejection correction is commit
-`08739ca25`. Later lifecycle commits refine that ownership into the final
-`g_pingState` state machine.
+`08739ca25`. Later lifecycle commits refine that operation state into the
+final `g_pingState` state machine.
 
 The expected result from the two-call reproduction is:
 
@@ -543,7 +618,7 @@ SECOND_COUNT=0
 
 #### Test coverage
 
-The focused two-call loopback test was run on classic ESP32, ESP32-C3 and
+A focused two-call loopback test was run on classic ESP32, ESP32-C3 and
 ESP32-S3 IDF5 targets. On every target, the first call was accepted and the
 overlapping call threw the catchable exception:
 
@@ -555,17 +630,19 @@ The first callback received five ordered results, the rejected callback
 received none, and each target returned normally to the REPL without an
 assertion or reboot.
 
-A separate callback-less test confirmed that ownership does not depend on an
-application callback. A callback-less first call owned the native session, an
-overlapping call was rejected, and a later recovery call completed with five
-results.
+A separate test confirmed that operation tracking does not depend on an
+application callback. A first request without a callback created an active
+operation, an overlapping request was rejected, and a later recovery request
+completed with five results.
 
-The investigation then expanded to result delivery and JavaScript `reset()`. Source inspection identified the task-boundary problem described in section 1.5, while physical reset testing exposed the teardown problem described in section 1.6.
+The investigation then expanded to result delivery and JavaScript `reset()`.
+Source inspection identified the task-boundary problem described in section
+1.5, while physical reset testing exposed the teardown problem described in
+section 1.6.
 
-After the remaining lifecycle hardening was completed, the candidate passed the broader lifecycle test on all three IDF5 targets. Each target passed 35 checks, completed 28 sessions and delivered 140 expected callbacks.
-
-This broader qualification provides regression coverage for overlap rejection
-but is not an isolated test of the session-ownership correction.
+A broader final qualification provides regression coverage for overlap
+rejection but is not an isolated test of this correction. Its complete results
+are summarised in section 1.8.
 
 ### 1.5 IDF5 native ping results need to be delivered safely into JavaScript
 
@@ -574,10 +651,10 @@ Espruino’s JavaScript interpreter task. The application callback itself is
 executed later by the interpreter, but in the affected implementation its
 arguments and event-queue entry were constructed in the native task.
 
-The native task can pre-empt the interpreter, so it could access the
-JavaScript heap and event queue while the interpreter was also using them.
-Native ping processing therefore crossed the JavaScript runtime’s ownership
-boundary and relied on unsynchronised access to interpreter-owned state.
+The native task can pre-empt the interpreter, so both tasks could access the
+JavaScript heap and event queue concurrently. Native ping processing therefore
+manipulated interpreter-owned state from outside the interpreter task without
+a safe handoff.
 
 This is pursued here as part of the lifecycle-hardening design, not as a
 proven independent defect.
@@ -625,7 +702,7 @@ reproduction. The physical tests showed that results could be delivered, but
 they could not establish that concurrent JavaScript-state access was safe
 under every scheduling condition.
 
-#### Fix
+#### Implemented correction
 
 The ESP-IDF callbacks now collect only plain C data. They do not allocate
 `JsVar` objects or interact directly with the JavaScript event queue.
@@ -708,8 +785,6 @@ overflow reporting, interpreter wake-up and completion-order hardening.
 Normal result delivery is handled here. Cancellation and callback teardown
 across JavaScript `reset()` are addressed separately in section 1.6.
 
-#### ESP32 family integration
-
 The queued-delivery implementation is guarded by a family-wide `USE_ESP32`
 condition:
 
@@ -732,20 +807,15 @@ wrappers continue to build.
 
 #### Test coverage
 
-The queued-delivery implementation was tested on classic ESP32, ESP32-C3 and
-ESP32-S3 IDF5 targets. All three delivered the five expected result objects
-for successful and timeout sessions. They also completed immediate recovery
-and successfully started a new ping from the final callback without an
-assertion or reboot.
+A queued-delivery test was run on classic ESP32, ESP32-C3 and ESP32-S3 IDF5
+targets. All three delivered the five expected result objects for successful
+and timeout sessions. They also completed immediate recovery and successfully
+started a new ping from the final callback without an assertion or reboot.
 
-The later broader lifecycle qualification included a further 25-session soak.
-This provides regression coverage for queued result delivery but is not an
-isolated test of the handoff correction.
-
-Clean builds passed for all seven maintained ESP32-family board definitions.
-This confirms that the family-wide idle registration linked to the queued
-implementation on IDF5 and to the no-operation compatibility implementation
-on earlier IDF versions.
+A separate 28-session repeated-ping test provides broader regression coverage
+for queued result delivery but is not an isolated test of the handoff
+correction. Its result and the complete seven-definition build coverage are
+summarised in section 1.8.
 
 These focused results establish normal native-to-interpreter result delivery.
 Reset-specific cancellation and teardown are tested with the lifecycle
@@ -760,18 +830,18 @@ runtime without necessarily stopping native ESP-IDF work that has already
 started.
 
 Testing on the ESP32-C3 showed that the native ping session continued after
-the runtime that owned its callback had been discarded. Its remaining results
-were then delivered against callback state belonging to the old runtime,
-producing repeated event-queue errors.
+the JavaScript runtime containing its stored callback had been discarded. Its
+remaining results then tried to use the stored callback from that discarded
+runtime, producing repeated event-queue errors.
 
 The old native session eventually completed and a later ping succeeded, so
 the driver was not permanently wedged. However, the reset boundary was not
-lifecycle-safe: native operation state, queued results and JavaScript callback
-ownership were not torn down together.
+lifecycle-safe: the operation state, queued results and stored JavaScript
+callback were not cleared together.
 
-#### Test coverage before the fix
+#### Reproduction and baseline result
 
-The retained [`esp32_wifi_ping_reset.js`](repros/esp32_wifi_ping_reset.js)
+A retained [`esp32_wifi_ping_reset.js`](repros/esp32_wifi_ping_reset.js)
 probe exercised three reset timings. A chip-level `E.reboot()` was used
 between modes so that each started from an independent native state:
 
@@ -782,7 +852,7 @@ between modes so that each started from an independent native state:
 
 The ESP32-C3 baseline produced these results:
 
-| Reset timing | Old callbacks after reset request | Event-queue errors | Recovery callbacks |
+| Reset timing | Callbacks from the pre-reset operation after reset request | Event-queue errors | Recovery callbacks |
 | --- | ---: | ---: | ---: |
 | Active loopback success | 0 | 5 | 5 |
 | Active timeout target | 0 | 5 | 5 |
@@ -802,16 +872,16 @@ against the discarded runtime safe.
 
 The IDF5 ping implementation retained the native session handle, response
 queue and `g_jsPingCallback` independently of the lifetime of the JavaScript
-runtime. It had normal-completion handling through `on_ping_end`, but no
-Espruino `kill` handler to cancel or detach an active session when the runtime
-was destroyed.
+runtime. It handled normal completion through `on_ping_end`, but did not use
+Espruino's wrapper cleanup mechanism to cancel the active session and detach
+its callback when the runtime was destroyed.
 
 Calling `reset()` could therefore leave the native ping task publishing
 results into the retained response queue. The interpreter-side idle handler
-could then try to queue those results through a callback belonging to the old
-runtime.
+could then try to queue those results through the callback stored by the
+discarded runtime.
 
-#### Fix
+#### Implemented correction
 
 The IDF5 implementation now represents the native lifecycle explicitly:
 
@@ -825,9 +895,10 @@ typedef enum {
 } Esp32PingState;
 ```
 
-An Espruino `kill` handler now participates in JavaScript runtime teardown. It
-clears any retained response data, stops a running ESP-IDF session, changes
-the state to `ESP32_PING_CANCELLING` and releases `g_jsPingCallback`:
+The existing network cleanup hook, which Espruino invokes during JavaScript
+runtime teardown, now participates in ping cancellation. It clears retained
+response data, stops a running ESP-IDF session, changes the state to
+`ESP32_PING_CANCELLING` and releases `g_jsPingCallback`:
 
 ```c
 /*JSON{
@@ -868,73 +939,125 @@ observes `ESP32_PING_CANCELLING`, it clears the retained handle and returns the
 implementation to `ESP32_PING_IDLE` without exposing completion to
 JavaScript.
 
-This ownership split is deliberate: the `kill` handler prevents further
-JavaScript delivery and requests cancellation, while the native completion
-path owns final session deletion. It covers a reset racing with either a
-running session or its `on_ping_end` callback without allowing both paths to
-delete the same native session.
+The two cleanup responsibilities remain separate. The network cleanup hook
+prevents further JavaScript delivery and requests cancellation. The native
+`on_ping_end` completion path remains the only path that deletes the ESP-IDF
+session. This prevents `reset()` and native completion from both attempting to
+delete the same session when they occur at nearly the same time.
 
 The cancellation and reset-lifecycle correction was introduced in commit
 `db60cfe9b`.
 
-#### Reset qualification after the fix
+#### Test coverage
 
 The three reset modes were repeated on classic ESP32, ESP32-C3 and ESP32-S3
 IDF5 targets. Each target produced the same result:
 
-| Reset timing | Old callbacks after reset request | Event-queue errors | Recovery callbacks |
+| Reset timing | Callbacks from the pre-reset operation after reset request | Event-queue errors | Recovery callbacks |
 | --- | ---: | ---: | ---: |
 | Active loopback success | 0 | 0 | 5 |
 | Active timeout target | 0 | 0 | 5 |
 | Result queued before reset teardown | 1 | 0 | 5 |
 
-Every recovery ping completed. The one old callback in the queued-result mode
-is expected: Espruino services an event already in its queue before processing
-the deferred `reset()` and invoking wrapper `kill` handlers. No callback was
-delivered against a discarded runtime. The S3 emitted separate GPIO-number
-diagnostics during reset, but they did not affect ping cancellation or
-recovery.
+Every recovery ping completed. The one callback from the pre-reset operation
+in the queued-result mode is expected: Espruino services an event already in
+its queue before processing the deferred `reset()` and invoking wrapper
+cleanup hooks. No callback was delivered against a discarded runtime. The S3
+emitted separate GPIO-number diagnostics during reset, but they did not affect
+ping cancellation or recovery.
 
-#### Native task reclamation found during final qualification
+### 1.7 IDF5 completed ping tasks can exhaust native memory before cleanup
 
-The reset correction stopped stale JavaScript delivery, but the subsequent
-repeated-session test exposed one more native-lifecycle dependency. An early
-candidate completed only 24 of 28 sessions and 120 callbacks before failing
-with `ESP_ERR_NO_MEM`. Reported free heap fell from 71,304 bytes to 1,240
-bytes.
+The reset correction stopped stale JavaScript delivery, but a subsequent
+repeated-session test exposed a separate native-resource problem.
 
-Source inspection showed that `esp_ping_delete_session()` makes the completed
-ping task eligible to exit; it does not synchronously reclaim that task's
-stack and control block. FreeRTOS performs the final reclamation in its idle
-task. On the single-core C3, continuous Espruino interpreter and USB activity
-could prevent the idle task from running often enough between repeated ping
-sessions.
+#### Reproduction and baseline result
 
-After normal session deletion, the ESP32 IDF5 Wifi.ping() revised implementation starts a bounded 1,500 ms native-task cleanup grace period. The same grace period is started from the session create and start failure cleanup paths. While it is active, the Espruino idle handler briefly yields with vTaskDelay(1), allowing any native ping task created by the operation to exit and the FreeRTOS idle task to reclaim its resources. This does not impose a fixed 1,500 ms delay on JavaScript or prevent another ping from starting.
+A repeated-session probe attempted 28 consecutive loopback sessions. An early
+candidate completed 24 sessions and 120 callbacks before
+`esp_ping_new_session()` failed with `ESP_ERR_NO_MEM`. Reported free heap fell
+from 71,304 bytes to 1,240 bytes.
 
-The 1,500 ms bound corresponds to the configured 1,000 ms request timeout plus
-one 500 ms request interval. It therefore covers the longest configured
-request wait and a further scheduling interval while remaining finite. The
-28-session qualification below confirmed that this window was sufficient on
-the single-core C3 as well as the dual-core classic ESP32 and ESP32-S3.
+#### Source finding
 
-This task-reclamation correction was introduced in commit `70555065f`.
+`esp_ping_delete_session()` makes the completed ping task eligible to exit;
+it does not synchronously release that task's stack and control block. The
+native ping task exits later, and the FreeRTOS idle task then reclaims those
+resources. On the single-core C3, continuous Espruino interpreter and USB
+activity could prevent the idle task from running often enough between
+repeated ping sessions.
 
-The final repeated-session qualification completed all 28 sessions and all
-140 expected callbacks on each IDF5 target:
+#### Implemented correction
 
-| Target | First free heap | Final free heap | Change |
-| --- | ---: | ---: | ---: |
-| Classic ESP32 | 63,632 | 63,604 | -28 |
-| ESP32-C3 | 71,300 | 71,268 | -32 |
-| ESP32-S3 | 108,960 | 108,948 | -12 |
+After `esp_ping_delete_session()`, the IDF5 implementation starts a bounded
+1,500 ms native-task cleanup grace period. The same period starts when session
+creation or startup fails after native resources may have been allocated.
+While it is active, the Espruino idle handler briefly yields with
+`vTaskDelay(1)`. This gives the native ping task time to exit and the FreeRTOS
+idle task an opportunity to release its resources.
 
-Together, the reset tests and repeated-session qualification cover callback
-ownership, cancellation, native session deletion, interpreter recovery and
-eventual native-task reclamation. The corrections are limited to the IDF5
-implementation; the earlier-IDF compatibility paths are unchanged.
+The grace period does not block JavaScript for 1,500 ms or prevent another
+ping from starting. The 1,500 ms bound is the configured 1,000 ms request
+timeout plus one 500 ms request interval. It covers the longest configured
+request wait and a further scheduling interval while remaining finite.
 
-### 1.7 Draft pull-request submission text
+This correction was introduced in commit `70555065f`.
+
+#### Test coverage
+
+The corrected repeated-session probe completed on the single-core C3 and the
+dual-core classic ESP32 and ESP32-S3. The session, callback and heap results
+are included in the combined qualification below.
+
+### 1.8 Combined ping qualification
+
+The final PR1 candidate was executable revision `bc5f06466e`. Focused test
+programs, firmware identities and complete results are published in the
+[IDF4 basic-ping qualification](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-03-esp32-idf4-basic-ping-correction.md)
+and the
+[IDF5 ping-hardening qualification](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-03-esp32-idf5-ping-hardening-candidate.md).
+
+Physical runtime testing covered:
+
+- the classic IDF3 backend accepting the corrected IPv4 string and completing
+  two serialized sessions with its established result shape;
+- classic ESP32, ESP32-C3 and ESP32-S3 IDF4 targets completing successful
+  loopback requests and two serialized sessions;
+- classic ESP32, ESP32-C3 and ESP32-S3 IDF5 targets completing IPv4 parsing,
+  successful and timeout result delivery, overlap rejection, operation
+  tracking without a callback, recovery and a new session started from the
+  final callback; and
+- all three IDF5 targets completing the three JavaScript `reset()` modes and
+  the repeated-session test.
+
+The repeated-session test configured five requests per session. All three
+IDF5 targets therefore completed 28 sessions and delivered all 140 expected
+result callbacks:
+
+| Target | Sessions | Callbacks | First free heap | Final free heap | Change |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Classic ESP32 | 28 | 140 | 63,632 | 63,604 | -28 |
+| ESP32-C3 | 28 | 140 | 71,300 | 71,268 | -32 |
+| ESP32-S3 | 28 | 140 | 108,960 | 108,948 | -12 |
+
+Clean release builds completed for all seven maintained ESP32-family
+definitions:
+
+```text
+ESP32
+ESP32_IDF4
+ESP32_IDF5
+ESP32C3_IDF4
+ESP32C3_IDF5
+ESP32S3_IDF4
+ESP32S3_IDF5
+```
+
+The shared parser and IDF4 corrections restore basic operation on the older
+backends. Overlap rejection, interpreter-side result delivery, reset cleanup
+and native-task cleanup remain limited to IDF5.
+
+### 1.9 Proposed PR1 submission text
 
 Proposed title:
 
@@ -944,7 +1067,7 @@ Copy-ready pull-request description:
 
 ```md
 Reproduction steps, source analysis and full qualification evidence are
-recorded in #ISSUE_NUMBER.
+recorded in #2779.
 
 ## Summary
 
@@ -955,8 +1078,8 @@ lifecycle.
 The changes are kept behind the existing ESP-IDF-version branches. The shared
 IPv4 parser correction applies before backend selection, the native IDF3
 backend is otherwise unchanged, IDF4 receives a narrowly scoped session and
-scheduling correction, and the larger ownership and lifecycle changes apply
-only to IDF5.
+scheduling correction, and the larger operation-state and lifecycle changes
+apply only to IDF5.
 
 ## Changes
 
@@ -968,16 +1091,16 @@ only to IDF5.
 - Run the IDF4 and IDF5 native ping tasks at priority 6, immediately above
   Espruino's priority-5 interpreter, so the task cannot be starved by the
   interpreter on the single-core ESP32-C3.
-- Retain one authoritative IDF5 session handle, callback and lifecycle state;
-  reject an overlapping call with the catchable exception
+- Track one IDF5 ping operation with a retained session handle, state and
+  optional callback; reject an overlapping request with the catchable exception
   `A ping is already in progress`.
 - Transfer IDF5 results from the native ping task to the interpreter through
   a bounded plain-C queue. `JsVar` construction and `jsiQueueEvents()` now run
   only in the interpreter context.
 - Hold the final result until ESP-IDF reports `on_ping_end`, allowing a new
   ping to be started safely from the final JavaScript callback.
-- Cancel result delivery during JavaScript `reset()` and let the native
-  completion path retain sole ownership of session deletion.
+- Cancel result delivery during JavaScript `reset()` while leaving the native
+  completion path as the only path that deletes the ESP-IDF session.
 - Give the completed ESP-IDF ping task and the FreeRTOS idle task a bounded
   opportunity to reclaim native task resources after asynchronous session
   deletion.
@@ -992,9 +1115,9 @@ The `Wifi.ping()` signature and result-object fields are unchanged.
 - The native IDF3 backend is unchanged apart from receiving the corrected
   shared IPv4 parsing result.
 - IDF4 deliberately retains its existing result shape: five per-request
-  callbacks followed by the duplicated cumulative terminal callback.
+  callbacks followed by a final callback that repeats the cumulative result.
 - IDF5 continues to deliver five per-request callbacks for a normal session.
-- A second IDF5 call made while a session is active is now rejected
+- A second IDF5 request made while a session is active is now rejected
   immediately instead of replacing the active callback and starting another
   native session.
 
@@ -1018,8 +1141,8 @@ Physical runtime testing covered:
 - classic IDF3 IPv4 loopback and serialized legacy sessions;
 - classic ESP32, ESP32-C3 and ESP32-S3 IDF4 loopback and serialized reuse;
 - classic ESP32, ESP32-C3 and ESP32-S3 IDF5 IPv4 parsing, successful and
-  timeout result delivery, overlap rejection, callback-less session
-  ownership, immediate recovery and starting a new session from the final
+  timeout result delivery, overlap rejection, operation tracking without a
+  callback, immediate recovery and starting a new session from the final
   callback;
 - JavaScript `reset()` during an active success, active timeout and queued
   completion on all three IDF5 targets, with no callback delivered against a
@@ -1028,28 +1151,19 @@ Physical runtime testing covered:
   native-heap changes of -28 bytes on classic ESP32, -32 bytes on ESP32-C3 and
   -12 bytes on ESP32-S3.
 ```
-The branch is focused: its diff changes only:
-- libs/network/esp32/jswrap_esp32_network.c
-- libs/network/esp32/jswrap_esp32_network.h
-It passes git diff --check.
-It is not quite a submission branch yet:
-- The name fix/esp32-idf4-basic-ping no longer reflects the full PR scope.
-- It has no upstream tracking branch and has not been pushed to your GitHub fork.
-- Current Espruino upstream is two unrelated commits ahead of its base.
-- Its commit order places the IDF4 corrections after the IDF5 commits, although the draft presents IDF4 first for explanatory clarity.
-I recommend creating the eventual PR branch as fix/esp32-ping-hardening at bc5f06466e. We should then decide whether to submit from the existing base—preserving every commit hash quoted in the issue—or rebase onto current upstream and update those hashes in the draft. Given the two upstream commits are unrelated, preserving the existing hashes is currently reasonable.
-
 ## 2. `Wifi.connect()` ownership and error reporting
 
-`Wifi.connect()` starts an asynchronous station connection and optionally
-retains a JavaScript callback until the station either obtains a usable IP
-address or reaches a terminal connection failure.
+JavaScript uses `Wifi.connect()` to request a station connection. Once the
+request is accepted, the wrapper creates a connection operation around the
+ESP-IDF work. When the optional JavaScript callback is supplied, the wrapper
+retains it until the station either obtains a usable IP address or the existing
+retries end in connection failure.
 
 Testing on an ESP32-C3 showed that this works as expected when one connection
-attempt runs in isolation. A valid connection completed its callback once
-after obtaining an IP address. Incorrect credentials and an unavailable
-network each emitted a `disconnected` event and completed the callback once
-with `4WAY_HANDSHAKE_TIMEOUT` or `NO_AP_FOUND`.
+operation runs in isolation. A valid request produced one callback after
+obtaining an IP address. Incorrect credentials and an unavailable network each
+emitted a `disconnected` event and produced one callback with
+`4WAY_HANDSHAKE_TIMEOUT` or `NO_AP_FOUND`.
 
 ### Reproduction
 
@@ -1101,9 +1215,10 @@ setTimeout(function () {
 }, 30000);
 ```
 
-The six-second delay allows the first native connection attempt to be active
-before the second call. The final observation is made after 30 seconds so the
-native retry and terminal-disconnection path has had time to complete.
+The six-second delay allows the first connection operation to remain active
+when the second request is made. The final observation is made after 30
+seconds so the native retry and final-disconnection path has time to
+complete.
 
 On an `ESP32C3_IDF5` build at `bc5f06466e`, the relevant output was:
 
@@ -1129,131 +1244,127 @@ which includes a visible password.
 
 ### Problem details
 
-The problem occurs when another `Wifi.connect()` call is made while the first
-operation is still active. The current implementation does not retain an
-explicit connection-operation state. Instead, the single module-level
-callback is cleared or replaced by each new call, and a callback-less
-connection attempt leaves no callback from which to infer that an operation
-is active.
+The problem occurs when another `Wifi.connect()` request is made while the
+first operation is still active. The pre-fix implementation did not retain an
+explicit connection-operation state. Instead, it used the single module-level
+callback as both the completion function and the only indication that an
+operation was active. Each new request could clear or replace that callback
+before the request had been fully validated.
 
-With two valid overlapping calls, the second call returned normally even
-though ESP-IDF rejected its configuration change with
-`ESP_ERR_WIFI_STATE`. Espruino reported that native error only through
-`jsError()`: it did not throw a catchable exception or complete either
-callback.
+Consider the three overlap cases:
 
-An invalid second call exposed a related ownership problem. It threw the
-expected argument-type exception, but the callback belonging to the first
-accepted operation had already been cleared and was never called.
+- With two valid requests, `esp_wifi_set_config()` rejected the attempt to
+  configure the station for the second SSID with `ESP_ERR_WIFI_STATE`. The
+  second call returned normally, the error was reported only through
+  `jsError()`, and neither JavaScript callback ran.
+- With an invalid second request, the expected argument-type exception was
+  thrown, but the callback belonging to the first operation had already been
+  cleared and was never called.
+- With no optional callback on the first request, the wrapper did not record
+  an active operation, allowing the second request to reach the same
+  `ESP_ERR_WIFI_STATE` path.
 
-A callback-less first call likewise failed to reserve the operation, allowing a
-second connection attempt to reach the same native error path.
-
-Once a connection attempt has been accepted, Espruino therefore cannot
-reliably preserve its ownership or guarantee one observable terminal result.
-An application may see a call return normally while receiving neither a
+Once a connection request had been accepted, Espruino could not reliably
+retain the resulting operation or guarantee one observable completion result.
+An application could see the call return normally while receiving neither a
 catchable exception nor a callback, leaving it dependent on an external
 timeout to recover.
 
-The connection fix should retain explicit operation state independently of
-callback presence, validate a new request before changing existing state,
-reject overlapping calls without disturbing the active operation, and route
-immediate native failures to an observable JavaScript outcome. Native Wi-Fi
-lifecycle events should continue to be published independently of the
-per-call completion callback.
+The correction therefore needs explicit operation state independent of the
+optional callback. It must validate a new request before changing existing
+state, reject overlaps without disturbing the active operation, and report
+immediate ESP-IDF failures through an observable JavaScript outcome. Native
+Wi-Fi lifecycle events must remain independent of the callback supplied for
+an individual request.
 
-In addition, the debug-enabled test build printed the supplied password. The tested image was a debug-enabled release build using both `DEBUG=1` and `RELEASE=1`. A standard release built without `DEBUG=1` compiles this diagnostic out, so this is not a normal production-runtime exposure. Removing the password value is nevertheless a small defensive cleanup.
+In addition, the debug-enabled test build printed the supplied password. The
+tested image was a debug-enabled release build using both `DEBUG=1` and
+`RELEASE=1`. A standard release built without `DEBUG=1` compiles this
+diagnostic out, so this is not a normal production-runtime exposure. Removing
+the password value is nevertheless a small defensive cleanup.
 
 As a separate observation, the ESP32 backend applies a fixed retry policy. The
-published [`Wifi.connect()` documentation](https://www.espruino.com/reference#l_Wifi_connect) mentions connection retries and advises callers to use their own timeout, but does not identify the fixed ESP32 retry count.
+published [`Wifi.connect()` documentation](https://www.espruino.com/reference#l_Wifi_connect)
+mentions connection retries and advises callers to use their own timeout, but
+does not identify the fixed ESP32 retry count.
 
-Each accepted call sets `g_retryCounter` to 3. When starting disconnected, one JavaScript `Wifi.connect()` call can therefore produce three native connection attempts: the initial attempt and two retries. The public `disconnected` event and connection callback are deferred until the final attempt fails.
+Each accepted request sets `g_retryCounter` to 3. When starting disconnected,
+one `Wifi.connect()` operation can therefore produce three native connection
+attempts: the initial attempt and two retries. The public `disconnected` event
+and connection callback are deferred until the final attempt fails.
 
-This contributed to the observed completion delay. An unavailable network completed after approximately 16 seconds, while an incorrect password completed after approximately 22.5 seconds. In the latter test, a 20-second application timeout expired before Espruino reported the terminal result.
+This contributed to the observed completion delay. An unavailable network
+completed after approximately 16 seconds, while an incorrect password
+completed after approximately 22.5 seconds. In the latter test, a 20-second
+application timeout expired before Espruino reported the completion result.
 
-Changing or exposing the retry policy (eg in the connect options) is a separate design decision and is not part of this work. Its precise ESP32 behaviour can be addressed by a future issue and documentation PR.
+Changing or exposing the retry policy (eg in the connect options) is a
+separate design decision and is not part of this work. Its precise ESP32
+behaviour can be addressed by a future issue and documentation PR.
 
 ### Native event execution context
 
 Source review found that this correction also requires an explicit task
-boundary. Espruino runs its JavaScript heap and interpreter loop in the
-FreeRTOS task named `espruinoTask`. The ESP-IDF Wi-Fi event loop instead
-invokes Espruino's registered handler from its own event task: `eventTask` on
-IDF3 and `sys_evt` on IDF4 and IDF5.
+boundary. Consider: Espruino runs its JavaScript heap and interpreter loop in
+the FreeRTOS task `espruinoTask`. The ESP-IDF Wi-Fi event loop invokes
+Espruino's registered handler from a different task: `eventTask` on IDF3 and
+`sys_evt` on IDF4 and IDF5.
 
-The current handler creates and unlocks `JsVar` values, publishes `Wifi`
-events, calls `jsiQueueEvents()` and takes or clears JavaScript callback
-references directly from that native event task. `jsiQueueEvents()` does not
-provide a native-to-interpreter handoff; it allocates JavaScript objects and
-appends them to the interpreter's event array.
+The pre-fix handler created and unlocked `JsVar` values, published `Wifi`
+events, called `jsiQueueEvents()` and changed stored JavaScript callbacks
+directly from the ESP-IDF event task. `jsiQueueEvents()` does not cross the
+task boundary safely; it creates JavaScript objects and appends them to the
+interpreter's event array.
 
-The connection correction must therefore copy native station-event data into
-a bounded plain-C queue and wake the interpreter with `jshHadEvent()`. An
-interpreter idle handler must drain that queue and perform JavaScript event
-publication, callback completion and callback release. This follows the same
-task boundary used by the corrected IDF5 ping implementation, while retaining
-connection-specific event records and ownership.
+The correction must instead copy station-event data into a bounded plain-C queue and wake the interpreter with jshHadEvent(). The PR adds jswrap_wifi_events_idle() through Espruino’s existing interpreter-idle mechanism. When the interpreter runs this handler, it drains the queue and performs the JavaScript work: publishing events, completing operations and releasing stored callbacks.
 
 The source paths and version-specific dispatch chains are recorded in the
 [ESP32 Wi-Fi event-handler execution-context investigation](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/docs/investigations/wifi/esp32-wifi-event-task-context-2026-11-05.md).
 
-### Proposed `Wifi.connect()` contract
+### Implemented `Wifi.connect()` correction
 
-The correction should treat a station connection attempt as an owned
-asynchronous operation. Ownership begins after the request has been validated
-and accepted, before any ESP-IDF operation is started, and ends at one
-terminal success, terminal failure or interpreter teardown.
+Commit `610007d3f`, on top of the completed ping candidate, applies the shared
+rules above to the IDF5 connection lifecycle. It adds connection state for
+idle, waiting for station startup and connecting. This state is independent
+of the optional callback, so a request without one still creates an active
+operation.
 
-All supplied JavaScript arguments must first be validated into local values.
-Validation must not clear or replace an existing callback, change connection
-state, alter retry state, write native credentials or otherwise disturb an
-active operation. An invalid request continues to throw its existing argument
-exception. A valid request made while another connection attempt is active
-must throw this catchable exception:
+The operation begins only after the request has been validated, before any
+ESP-IDF work starts. It ends when:
+
+- the station obtains a usable IP address;
+- the existing retries end in disconnection;
+- an ESP-IDF setup or connection call fails; or
+- JavaScript `reset()` clears the operation.
+
+`jswrap_wifi_connect()` now validates the SSID, options and callback before it
+changes global or native state. An invalid request continues to throw its
+existing argument exception. A valid request made while another connection
+operation is active throws:
 
 ```text
 Error: A connection is already in progress
 ```
 
-This overlap rejection must occur before the new request changes the accepted
-operation's callback, credentials or native Wi-Fi configuration.
+The rejected request does not alter the active callback, credentials or native
+Wi-Fi configuration.
 
-Operation ownership must be represented independently of callback presence.
-A call made without a callback still owns the connection operation, rejects
-an overlap, and releases that ownership when its native lifecycle reaches a
-terminal outcome. After completion, a later connection request must be
-accepted normally.
+The first terminal condition closes the operation. A shared completion helper
+marks it inactive and removes its stored callback before scheduling that
+callback. Usable-IP success supplies a null error and connection details;
+connection failure supplies the reported Wi-Fi reason; and an immediate or
+deferred ESP-IDF failure supplies that native error. The failure may also be
+written to the diagnostic log, but `jsError()` is not its only
+application-visible result.
 
-Once accepted, the stored callback belongs exclusively to that operation. No
-later request or unrelated Wi-Fi event may replace it. Terminal completion
-must take and clear that ownership once before queuing the callback, so a
-second terminal path cannot queue it again.
+The station-event handoff described above uses a bounded 16-entry plain-C
+queue and `jswrap_wifi_events_idle()`. The existing reset/kill hook clears the
+operation, unlocks its callback and clears queued station events, preventing a
+later event from invoking an old callback or completing a subsequent request.
+Public `associated`, `connected` and `disconnected` events remain independent
+observations of the native Wi-Fi lifecycle.
 
-For an accepted request, the required terminal behaviour is:
-
-| Native or application condition | Required outcome |
-|---|---|
-| station obtains a usable IP address | complete successfully and queue the supplied callback once with a null error and connection details |
-| station reaches a terminal disconnection after the existing retry policy is exhausted | complete with the reported Wi-Fi reason and queue the supplied callback once |
-| `esp_wifi_get_mode()`, `esp_wifi_set_mode()`, `esp_wifi_set_config()`, `esp_wifi_start()` or the direct `esp_wifi_connect()` call fails immediately | release the operation and queue the supplied callback once with that native error |
-| the deferred `esp_wifi_connect()` call from the station-start event fails | release the operation and queue the supplied callback once with that native error |
-| JavaScript `reset()` discards the current runtime | detach and unlock the callback, retire the accepted operation so a late native event cannot complete against either the discarded runtime or a later request, and leave the station lifecycle recoverable by the new runtime |
-
-An immediate native failure may still be written to the diagnostic log, but
-`jsError()` must not be its only application-visible outcome. Once an
-operation has been accepted, all of its immediate and deferred terminal paths
-must use the same exactly-once completion ownership.
-
-The public `associated`, `connected`, `disconnected` and `dhcp_timeout` events
-remain independent observations of the native Wi-Fi lifecycle. They must
-continue to be emitted when applicable whether or not the accepted
-`Wifi.connect()` call supplied a callback. The connection callback must not be
-used as the source of those events, and an event must not by itself transfer
-or replace per-call callback ownership.
-
-With this contract, the two-call reproduction above should instead have the
-following result after the first attempt reaches its terminal
-`NO_AP_FOUND` outcome:
+The corrected behaviour for the two-call reproduction is:
 
 ```text
 starting connection 1
@@ -1264,63 +1375,32 @@ FIRST_CALLBACK_COUNT=1
 SECOND_CALLBACK_COUNT=0
 ```
 
-This PR should not add an application-level connection timeout or change the
-existing retry count. Native Wi-Fi events do not identify an application
-attempt generation, so application timeout and stale-event reconciliation
-remain the responsibility of the caller, including the planned XFSM Wi-Fi
-manager. The separate exactly-once behaviour of `Wifi.disconnect()` remains
-part of PR3.
-
-The connection debug output must also stop printing the supplied password.
-This is not part of operation ownership, but it was exposed by the same
-reproduction and should not remain in a diagnostic build.
+This PR does not change the existing retry count, add an application connection
+timeout or implement the documented `dhcp_timeout` event. Application timeout
+and stale-event handling remain the caller's responsibility, and the separate
+exactly-once behaviour of `Wifi.disconnect()` remains part of PR3. The debug
+connection message still identifies the SSID and whether a callback was
+supplied, but no longer prints the password.
 
 ### IDF version - scope of change
 
-The connection and disconnection hardening is limited to the IDF5 backend. IDF3 (classic ESP32 build) retains its long-established behaviour to avoid unnecessary compatibility risk, while IDF4 is transitional as IDF5 enters production. IDF3 and IDF4 remain in the build and regression-test coverage, but their connection lifecycles are not changed.
-
-### Implemented correction
-
-The correction is implemented by commit `610007d3f` on top of the completed
-ping candidate. It adds an IDF5-only connection state with three values:
-idle, waiting for station startup, and connecting. This state exists
-independently of the optional JavaScript callback, so a callback-less request
-still owns the operation.
-
-`jswrap_wifi_connect()` now validates the SSID, options and callback before it
-changes global or native state. A valid overlap then throws
-`A connection is already in progress` before changing the accepted callback,
-credentials or ESP-IDF configuration. An invalid second request continues to
-throw its argument error and likewise leaves the active operation untouched.
-
-A shared connection-completion helper first takes and clears the operation
-state and callback, then queues the callback if one was supplied. Usable-IP
-success, terminal disconnection, immediate ESP-IDF errors and failure of the
-deferred station-start `esp_wifi_connect()` call all use this path. Clearing
-ownership before queuing the result prevents another terminal event from
-completing the same operation twice.
-
-IDF5 station events no longer touch the JavaScript heap from ESP-IDF's event
-task. The handler copies the event identifier and required fixed-size data
-into a bounded 16-entry plain-C queue and calls `jshHadEvent()`. The new
-`jswrap_wifi_events_idle()` hook drains the queue in Espruino's interpreter
-task, where the existing public Wi-Fi events and connection completion are
-delivered. Scan and AP events are left on their existing paths because this PR
-only moves the station events required by the connection lifecycle.
-
-The existing reset/kill hook now retires the connection state, unlocks its
-callback and clears queued station events. This prevents a late native event
-from completing against either the discarded JavaScript runtime or a new
-request after `reset()`.
-
-The debug connection message still identifies the SSID and whether a callback
-was supplied, but no longer prints the password.
+The connection and disconnection hardening is limited to the IDF5 backend.
+IDF3, used by the classic ESP32 build, retains its long-established behaviour
+to avoid unnecessary compatibility risk. IDF4 is considered transitional as
+IDF5 enters production. Both older backends remain in the build and
+regression-test coverage, but their connection lifecycles are not changed.
 
 ### Test coverage
 
 Clean release images from `610007d3f` were flashed to classic ESP32,
 ESP32-C3 and ESP32-S3 IDF5 targets. Each runtime reported Espruino `2v29.503`
 and the exact embedded revision.
+
+Focused test programs, check definitions, firmware identities and complete
+results are published in the
+[PR2 candidate qualification](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-05-esp32-idf5-wifi-connect-hardening-candidate.md).
+A result such as `12/12` means that all twelve scripted checks passed on that
+target.
 
 | Test | Classic IDF5 | C3 IDF5 | S3 IDF5 |
 |---|---:|---:|---:|
@@ -1329,35 +1409,38 @@ and the exact embedded revision.
 | JavaScript reset during an active request | pass | pass | pass |
 | ping regression | 28 sessions, 140 callbacks | 28 sessions, 140 callbacks | 28 sessions, 140 callbacks |
 
-The connection lifecycle covered successful connection, reconnect while
+A connection-lifecycle test covered successful connection, reconnect while
 already connected, unavailable SSID, incorrect password, recovery after both
-failures, and ten further connect/disconnect cycles. Every operation completed
-its callback exactly once. The unavailable SSID reported `NO_AP_FOUND`; the
-incorrect password reported `4WAY_HANDSHAKE_TIMEOUT`.
+failures, and ten further connect/disconnect cycles. Every callback supplied
+for an accepted request was invoked exactly once. The unavailable SSID
+reported `NO_AP_FOUND`; the incorrect password reported
+`4WAY_HANDSHAKE_TIMEOUT`.
 
-The warmed native-heap deltas after the ten-cycle connection soak were -140
-bytes on classic, +100 bytes on C3 and -140 bytes on S3. The corresponding
+The first completed cycle was used as the comparison point to exclude expected
+one-time Wi-Fi allocations. After ten connect/disconnect cycles, free native
+heap differed by -140 bytes on classic, +100 bytes on C3 and -140 bytes on S3.
+These small changes showed no material continuing heap loss. A corresponding
 28-session ping regression completed all 140 callbacks on every target, with
-final heap deltas of +8, +24 and 0 bytes respectively.
+final heap differences of +8, +24 and 0 bytes respectively.
 
-The reset probe confirmed on all three targets that an old callback was not
+A reset probe confirmed on all three targets that an old callback was not
 invoked after `reset()`, while a new unavailable-network request completed
 once and recovered normally.
 
-On classic IDF5, the stateful scan regression found the configured AP after a
+A stateful scan regression on classic IDF5 found the configured AP after a
 completed connection and disconnect, without an unsolicited reconnect. A
 controlled two-board test also completed AP-only, AP+station and station-only
 transitions, retained the station address after stopping the AP, exchanged a
 UDP packet, and observed peer join and leave events.
 
-The final classic lifecycle run inspected the captured serial output before
+A final classic lifecycle run inspected the captured serial output before
 sanitising it and confirmed that neither the valid nor deliberately incorrect
 password appeared.
 
-The unchanged connection implementation also completed a basic station
-connection on classic ESP32, ESP32-C3 and ESP32-S3 IDF4 builds and on classic
-IDF3. All seven maintained ESP32-family definitions completed clean release
-builds:
+A basic station-connection test also completed successfully on the unchanged
+connection paths in the classic ESP32, ESP32-C3 and ESP32-S3 IDF4 builds, and
+in classic IDF3. All seven maintained ESP32-family definitions completed clean
+release builds:
 
 ```text
 ESP32
@@ -1369,17 +1452,14 @@ ESP32S3_IDF4
 ESP32S3_IDF5
 ```
 
-The immediate-error branches for `esp_wifi_get_mode()`,
-`esp_wifi_set_mode()`, `esp_wifi_set_config()`, `esp_wifi_start()` and direct
-or deferred `esp_wifi_connect()` are compiled and use the same completion
-helper. They were reviewed in the exact candidate diff. I did not add a
-test-only firmware hook solely to force one of these otherwise timing-dependent
-native errors, so direct physical evidence covers terminal native failures
-rather than an artificially injected immediate failure.
-
-The detailed qualification record, including physical identities, build
-sizes, heap measurements and test hashes, is in
-[the PR2 candidate result](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-05-esp32-idf5-wifi-connect-hardening-candidate.md).
+The candidate also handles immediate errors returned by
+`esp_wifi_get_mode()`, `esp_wifi_set_mode()`, `esp_wifi_set_config()`,
+`esp_wifi_start()` and either call path to `esp_wifi_connect()`. Each
+error-handling code path completes the accepted request through the same
+completion helper. These paths compiled and were inspected in the candidate
+diff, but were not forced on hardware because that would have required
+test-only fault injection. Physical testing instead exercised connection
+failures reported naturally after the native retries.
 
 ### Proposed PR2 submission text
 
@@ -1387,29 +1467,26 @@ sizes, heap measurements and test hashes, is in
 ESP32 IDF5: harden Wifi.connect lifecycle
 
 This fixes the ESP32 IDF5 Wifi.connect ownership and error-reporting problems
-described in #ISSUE_NUMBER.
+described in #2779.
 
-The change validates a request before acquiring ownership, tracks an active
-connection independently of callback presence, rejects overlaps without
-disturbing the accepted operation, and completes success or failure through
-one exactly-once path. It also moves IDF5 station-event handling from the
-ESP-IDF event task into Espruino's interpreter task through a bounded native
-queue, clears connection ownership on reset, and removes the password from
-debug output.
+The change validates a request before creating its connection operation,
+tracks the operation independently of the optional callback, rejects overlaps
+without disturbing the active operation, and allows only one completion path
+to finish it. It also moves IDF5 station-event handling from the ESP-IDF event
+task into Espruino's interpreter task through a bounded plain-C queue, clears
+the connection operation on reset, and removes the password from debug output.
 
 The lifecycle change is guarded to ESP-IDF 5. IDF3 and IDF4 connection
 behaviour is unchanged.
 
 Qualification used clean release builds for all seven ESP32 definitions and
-physical runtime testing on classic ESP32, ESP32-C3 and ESP32-S3. The focused
-IDF5 overlap tests passed 12/12 per target, the connection/recovery tests
-passed 33/33 per target, reset recovery passed on all three, and the full ping
-regression delivered 140/140 callbacks per target without final heap loss.
+physical runtime testing on classic ESP32, ESP32-C3 and ESP32-S3. Focused IDF5
+overlap tests passed 12/12 per target, connection/recovery tests passed 33/33
+per target, reset recovery passed on all three, and a full ping regression
+delivered 140/140 callbacks per target without final heap loss.
 IDF4 station smoke tests passed on all three families and classic IDF3 also
 passed.
 ```
-<!-- Replace #ISSUE_NUMBER before submitting PR2. -->
-
 ## 3. `Wifi.disconnect()` exactly-once completion
 
 `Wifi.disconnect()` requests deliberate station disconnection and optionally
@@ -1468,8 +1545,9 @@ DISCONNECT_CALLBACK_COUNT=2
 DISCONNECTED_EVENT_COUNT=1
 ```
 
-The retained reproduction uses the same operation with structured output and
-also records the final station status and IP address.
+A [retained reproduction](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/docs/investigations/wifi/repros/esp32_wifi_disconnect_connected.js)
+uses the same operation with structured output and also records the final
+station status and IP address.
 
 ### Problem details and source finding
 
@@ -1487,90 +1565,82 @@ The callback reference was also being used as the only indication that a
 disconnect operation might be active. That is insufficient when no callback
 is supplied. A second call could replace the retained callback belonging to
 the first call, and argument validation occurred only after the old reference
-had been cleared. The API had no explicit ownership with which to distinguish
-one accepted operation, an overlap, and an unrelated native disconnect.
+had been cleared. The API had no explicit operation state with which to
+distinguish one accepted operation, an overlap, and an unrelated native
+disconnect.
 
-An idle or unassociated station adds a separate terminal case. ESP-IDF can
+An idle or unassociated station adds a separate completion case. ESP-IDF can
 return `ESP_OK` from `esp_wifi_disconnect()` without publishing a
 station-disconnected event when there is no association to leave. Waiting
 unconditionally for an event would therefore leave an accepted operation
 incomplete.
 
 Finally, `Wifi.disconnect()` can be called while `Wifi.connect()` owns an
-active station attempt. The two API operations need separate ownership, but
-the deliberate disconnect must also terminate the accepted connection once
-rather than allowing its callback to remain pending or later complete from a
-stale native outcome.
+active station attempt. The two API operations need separate operation state, but the deliberate disconnect must also terminate the active connection operation once, rather than allowing its callback to remain pending or later complete from a stale native outcome.
 
-### Proposed `Wifi.disconnect()` contract
+### Implemented `Wifi.disconnect()` correction
 
-All supplied arguments must be validated before active state or callback
-ownership is changed. Once accepted, a disconnect request owns an explicit
-operation independently of whether a callback was supplied.
+Commit `14cd9932f`, on top of the qualified connection candidate, applies the
+shared rules above to the IDF5 disconnection lifecycle. It adds disconnect
+state for idle and disconnecting. This state is independent of the optional
+callback, so a request without one still creates an active operation.
 
-A valid call made while another disconnect operation is active must throw:
+`jswrap_wifi_disconnect()` now validates the optional callback before it
+changes the operation state or stored callback. An invalid request continues
+to throw its existing argument exception. A valid request made while another
+disconnect operation is active throws:
 
 ```text
 Error: A disconnection is already in progress
 ```
 
-The rejected call must not replace or complete the first operation's
-callback. An invalid overlapping call must likewise throw its existing
-argument exception without disturbing the accepted operation.
+The rejected request does not alter the active operation or its callback.
+`Wifi.connect()` also rejects a new connection while a disconnect operation
+is active.
 
-For an accepted request, the required terminal behaviour is:
+The disconnect operation begins after the request has been validated. It ends
+when:
 
-| Station condition | Required outcome |
-|---|---|
-| associated, with a native station-disconnected event expected | retain ownership until that event, then complete the disconnect callback once |
-| idle, stopped or otherwise unassociated, with no terminal event expected | complete the disconnect callback once from the API path |
-| connection attempt active | complete the connection callback once with `Connection cancelled`, request native disconnection, and complete the separate disconnect operation once |
-| JavaScript `reset()` discards the current runtime | detach and unlock the callback and retire ownership so no later native event can complete against the discarded runtime |
-| retained native station-event data is missing or the bounded queue overflows | retire the disconnect operation once while reporting the queue error |
+- ESP-IDF reports the station-disconnected event expected for an associated
+  station or a started station with an active connection attempt;
+- the API path finds that the station is idle, stopped or otherwise
+  unassociated, so no station-disconnected event can occur;
+- `esp_wifi_disconnect()` reports an immediate error;
+- required station-event data is missing or the bounded station-event queue
+  overflows; or
+- JavaScript `reset()` clears the operation.
 
-Terminal completion must clear operation state and detach the callback before
-queuing it. A later terminal path must then see no accepted operation to
-complete. The public `disconnected` event remains an independent observation
-of the native lifecycle: it must not be suppressed by callback completion,
-and its occurrence alone must not create callback ownership.
-
-The connection and disconnection hardening is limited to the IDF5 backend.
-IDF3 retains its long-established behaviour to avoid an unnecessary
-compatibility change, and IDF4 is transitional as IDF5 enters production.
-Both older backends remain covered by builds and focused runtime regression.
-
-### Implemented correction
-
-Commit `14cd9932f`, on top of the qualified connection candidate, implements
-the IDF5 disconnect contract. It adds an `IDLE`/`DISCONNECTING` state that is
-independent of `g_jsDisconnectCallback`, so a callback-less request owns the
-operation in the same way as one with a callback.
-
-`jswrap_wifi_disconnect()` now validates the callback and rejects an overlap
-before acquiring or altering ownership. Its shared completion helper changes
-the state to idle and takes and clears `g_jsDisconnectCallback` before it
-queues the function. Both the immediate no-event path and the native
-station-disconnected path use this helper, so only the first terminal path
-can complete the accepted request.
-
-The wrapper uses `esp_wifi_sta_get_ap_info()` to establish whether the station
-is actually associated. This is more reliable than the cached flag at this
-boundary because `esp_wifi_disconnect()` can succeed without emitting an
-event for an unassociated station, and `reset()` can discard an already
-queued station event before the cache is updated. When neither an association
-nor an active connection can produce a terminal event, the request completes
-immediately.
+The wrapper uses esp_wifi_sta_get_ap_info() rather than relying on the stored g_isStaConnected flag. That flag may be stale because reset() can discard a queued station event before the interpreter processes it and updates the flag. The wrapper then uses the actual association state, together with any active connection attempt, to determine whether a native station-disconnected event is expected. When an event is expected, the disconnect operation remains active until that event completes it. When no event is expected, the wrapper completes the operation and its optional callback directly, even if esp_wifi_disconnect() returns ESP_OK.
 
 If a connection operation is active, the wrapper completes it once with
-`Connection cancelled` before requesting disconnection. `Wifi.connect()`
-also rejects a new connection while a disconnect operation owns the station
-lifecycle. The existing reset/kill hook retires disconnect state and unlocks
-its callback. Missing event data and station-event queue overflow use the same
-terminal helper so they cannot strand ownership.
+`Connection cancelled` before requesting disconnection. The disconnect
+request remains a separate operation; if it has a callback, that callback is
+scheduled once when the disconnect operation completes.
 
-The public station-disconnected event continues through the existing
-interpreter-side event path independently of the per-call callback. The IDF3
-and IDF4 implementations remain behind the unchanged legacy branch.
+A shared helper completes an accepted disconnect operation. It first marks the operation inactive and removes its stored callback, then schedules the optional callback for JavaScript execution. If a later event or error reaches the helper, it finds no active operation and cannot schedule the callback again.
+Both the station-disconnected event handler and the API path used when no native event is expected call this helper. Error handling for missing station-event data or a full event queue also calls it, ensuring that these errors do not leave the operation active. During JavaScript reset(), the existing network cleanup hook instead clears the operation and unlocks its callback without scheduling it against the discarded JavaScript state.
+
+The public `disconnected` event remains an independent observation of the
+native Wi-Fi lifecycle. Completing the optional per-call callback neither
+suppresses nor duplicates that event.
+
+The corrected behaviour for the reproduction is:
+
+```text
+CONNECT_CALLBACK=null
+DISCONNECT_CALLBACK=1
+DISCONNECTED_EVENT={...}
+DISCONNECT_CALLBACK_COUNT=1
+DISCONNECTED_EVENT_COUNT=1
+```
+
+### IDF version - scope of change
+
+The connection and disconnection hardening is limited to the IDF5 backend.
+IDF3, used by the classic ESP32 build, retains its long-established behaviour
+to avoid unnecessary compatibility risk. IDF4 is considered transitional as
+IDF5 enters production. Both older backends remain in the build and
+regression-test coverage, but their disconnection lifecycles are not changed.
 
 ### Test coverage
 
@@ -1588,6 +1658,12 @@ ESP32S3_IDF4
 ESP32S3_IDF5
 ```
 
+Focused test programs, check definitions, firmware identities and complete
+results are published in the
+[PR3 candidate qualification](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-07-esp32-idf5-wifi-disconnect-hardening-candidate.md).
+A result such as `27/27` means that all twenty-seven scripted checks passed on
+that target.
+
 Physical IDF5 testing on classic ESP32, ESP32-C3 and ESP32-S3 produced:
 
 | Test | Classic IDF5 | C3 IDF5 | S3 IDF5 |
@@ -1598,47 +1674,52 @@ Physical IDF5 testing on classic ESP32, ESP32-C3 and ESP32-S3 produced:
 | disconnect reset and recovery | pass | pass | pass |
 | full ping lifecycle | 35/35 | 35/35 | 35/35 |
 
-The disconnect lifecycle covered idle and connected calls, cancellation of
-an active connection, callback-less ownership, valid and invalid overlaps,
-public-event counts and reconnection after every terminal path. Every
-accepted disconnect callback completed once; rejected overlaps supplied no
-callback; and applicable public disconnect events were each emitted once.
+A disconnect-lifecycle test covered idle and connected calls, cancellation of
+an active connection, operation tracking without a callback, valid and invalid
+overlaps, public-event counts and reconnection after every completion path.
+Every accepted disconnect callback completed once; rejected overlaps supplied
+no callback; and applicable public disconnect events were each emitted once.
 
-Each target also completed 28 ping sessions and all 140 expected callbacks.
-The warmed native-heap changes after ten connection/disconnection cycles were
--136 bytes on classic, -148 bytes on C3 and -132 bytes on S3. The ping-soak
-changes were -20, -4 and -48 bytes respectively.
+A connection-cycle test used a post-initialisation heap reading taken
+immediately before ten repeated connection/disconnection cycles as its
+comparison point. At the end, free native heap differed by -136 bytes on
+classic, -148 bytes on C3 and -132 bytes on S3. These small changes showed no
+material continuing heap loss.
 
-Reset testing detached the old disconnect callback and completed a fresh
-connection/disconnection sequence once. The C3 also passed ping reset during
-active success, active timeout and queued completion, and connection reset
-followed by a new terminal request.
+A corresponding ping regression completed 28 sessions and all 140 expected
+callbacks on every target. Its final heap differences were -20 bytes on
+classic, -4 bytes on C3 and -48 bytes on S3.
 
-Exact-source IDF4 release images on classic, C3 and S3 each completed one
-station connection and a five-result loopback ping. The expanded classic
-IDF3 regression passed 15/15 checks covering successful connection and DHCP,
-an unavailable SSID, native station events, deliberate disconnect,
-reconnection and repeated cycles. It recorded rather than changed the legacy
-two-callback deliberate-disconnect behaviour. A legacy-aware IDF3 ping test
-also completed both sessions with its established six-callback result shape.
+A disconnect-reset probe detached the old disconnect callback and completed a
+fresh connection/disconnection sequence once. The C3 also passed ping reset
+during active success, active timeout and queued completion, and connection
+reset followed by a new request that completed normally.
 
-The same classic image then completed a broader Wi-Fi API regression covering
+An IDF4 smoke-test set used exact-source release images on classic, C3 and S3.
+Each completed one station connection and a five-result loopback ping. An
+expanded classic IDF3 regression passed 15/15 checks covering successful
+connection and DHCP, an unavailable SSID, native station events, deliberate
+disconnect, reconnection and repeated cycles. It recorded rather than changed
+the legacy two-callback deliberate-disconnect behaviour. A legacy-aware IDF3
+ping test also completed both sessions with its established six-callback
+result shape.
+
+A broader Wi-Fi API regression on the same classic image covered
 scan and connected-scan behavior, cancellation and repeated cycles,
 incorrect-password recovery, controlled AP loss and restoration, AP/STA mode
 transitions, target-hosted WPA2 AP operation, static station and custom AP
-addressing, saved-configuration restoration, DNS, hostname, SNTP and supported
-global configuration. All operational roles passed. The run also recorded,
-rather than changed, the legacy duplicate disconnect callback and the ESP-IDF
-3 abort when modem sleep is disabled while Bluetooth remains enabled.
+addressing, saved-configuration restoration, DNS, hostname, SNTP and
+supported global configuration. All operational roles passed. The run also
+recorded, rather than changed, the legacy duplicate disconnect callback and
+the ESP-IDF 3 abort when modem sleep is disabled while Bluetooth remains
+enabled.
 
-For the physical access-point test, the C3 connected to `SHED`, observed one
-terminal `disconnected` event with reason 201 (`NO_AP_FOUND`) after the AP was
-disabled, and reported IP `0.0.0.0`. After `SHED` was restored, one explicit
-`Wifi.connect()` completed one callback and recovered IP `192.168.50.104`.
-
-The detailed firmware identities, build sizes, hashes, heap measurements and
-excluded bench artifacts are in
-[the PR3 candidate result](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-07-esp32-idf5-wifi-disconnect-hardening-candidate.md).
+A physical access-point loss and restoration test connected the C3 to an
+available access point. After the access point was disabled, the C3 observed
+one `disconnected` event with reason 201 (`NO_AP_FOUND`) and reported IP
+`0.0.0.0`. After the access point was restored, one explicit
+`Wifi.connect()` completed its callback once and obtained a valid station IP
+address.
 
 ### Proposed PR3 submission text
 
@@ -1646,33 +1727,147 @@ excluded bench artifacts are in
 ESP32 IDF5: harden Wifi.disconnect lifecycle
 
 This fixes the ESP32 IDF5 Wifi.disconnect ownership and duplicate-callback
-problem described in #ISSUE_NUMBER.
+problem described in #2779.
 
 The previous wrapper queued an accepted disconnect callback directly and
 retained the same callback for the later native station-disconnected event,
-allowing one call to execute it twice. This change gives each accepted
-disconnect explicit ownership independent of callback presence, validates and
-rejects overlaps before disturbing active state, and completes through one
-exactly-once helper. It distinguishes an associated station, where the native
-event completes the request, from an idle or unassociated station, where no
-event can occur and completion is immediate.
+allowing one call to execute it twice. This change creates explicit operation
+state for each accepted disconnect request, including one without a callback.
+It rejects a conflicting request without changing the active operation and
+routes all completion paths through one helper. An associated station waits
+for the native event; an idle or unassociated station, where no event can
+occur, completes immediately.
 
 Disconnecting during an active connection now completes that connection once
-with Connection cancelled. Reset retires disconnect ownership and its
-callback, while public disconnected events remain independent of per-call
+with Connection cancelled. Reset clears the disconnect operation and releases
+its callback, while public disconnected events remain independent of per-call
 completion.
 
 The lifecycle change is guarded to ESP-IDF 5. IDF3 and IDF4 behaviour is
 unchanged.
 
 Qualification used clean release builds for all seven ESP32 definitions and
-physical testing on classic ESP32, ESP32-C3 and ESP32-S3. The disconnect
-lifecycle passed 27/27 per IDF5 target, the connection regressions passed
-12/12 and 33/33 per target, reset recovery passed, and the full ping
-regression delivered 140/140 callbacks per target. IDF4 station and ping
-smoke tests passed on all three families, and classic IDF3 passed both the
-expanded 15/15 station regression and the broader Wi-Fi API matrix. Manual
-SHED loss and restoration completed with one disconnect event and one
+physical testing on classic ESP32, ESP32-C3 and ESP32-S3. A focused
+disconnect-lifecycle test passed 27/27 per IDF5 target, the connection
+regressions passed 12/12 and 33/33 per target, reset recovery passed, and the
+full ping regression delivered 140/140 callbacks per target. IDF4 station and
+ping smoke tests passed on all three families, and classic IDF3 passed both
+the expanded 15/15 station regression and the broader Wi-Fi API matrix.
+Manual SHED loss and restoration completed with one disconnect event and one
 recovery callback.
 ```
-<!-- Replace #ISSUE_NUMBER before submitting PR3. -->
+## 4. Combined qualification
+
+The final stacked qualification used executable revision `14cd9932f`. The
+later comment-review revisions listed in the opening dependency table change
+comments only; they do not alter executable code or invalidate the recorded
+runtime results.
+
+The test programs, check definitions, firmware identities, build results and
+complete physical results are published in the
+[final stacked candidate qualification](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-07-esp32-idf5-wifi-disconnect-hardening-candidate.md).
+In the runtime matrix below, a result such as `27/27` means that all
+twenty-seven scripted checks passed. The repeated-ping row reports completed
+sessions followed by the total callbacks received.
+
+All seven maintained ESP32-family definitions completed clean release builds
+from the final stacked implementation:
+
+| Board definition | ESP-IDF line | Clean build | Physical runtime scope |
+|---|---|---:|---|
+| `ESP32` | IDF3 | pass | broad station, AP, scan, addressing, persistence, recovery and ping regression |
+| `ESP32_IDF4` | IDF4 | pass | basic station and five-result ping smoke tests |
+| `ESP32_IDF5` | IDF5 | pass | full ping, connection and disconnection test sets |
+| `ESP32C3_IDF4` | IDF4 | pass | basic station and five-result ping smoke tests |
+| `ESP32C3_IDF5` | IDF5 | pass | full test sets, reset boundaries and physical AP-loss recovery |
+| `ESP32S3_IDF4` | IDF4 | pass | basic station and five-result ping smoke tests |
+| `ESP32S3_IDF5` | IDF5 | pass | full ping, connection and disconnection test sets |
+
+The final IDF5 runtime matrix was:
+
+| Test | Classic IDF5 | C3 IDF5 | S3 IDF5 |
+|---|---:|---:|---:|
+| disconnect lifecycle | 27/27 | 27/27 | 27/27 |
+| connection overlap and callback handling | 12/12 | 12/12 | 12/12 |
+| connection, failure and recovery lifecycle | 33/33 | 33/33 | 33/33 |
+| disconnect reset and recovery | pass | pass | pass |
+| full ping lifecycle | 35/35 | 35/35 | 35/35 |
+| repeated ping sessions and callbacks | 28 / 140 | 28 / 140 | 28 / 140 |
+
+A three-mode ping-reset probe called `reset()` during a successful session,
+during a timeout session and after a result had been queued. It passed on all
+three IDF5 targets on the PR1 candidate. A connection-reset probe then passed
+on all three targets on the PR2 candidate.
+
+The final stacked C3 candidate repeated the three ping-reset modes and then
+completed fresh connection and disconnection operations. A physical
+access-point loss and restoration test also completed with one public
+`disconnected` event and one callback from the explicit recovery request.
+
+## 5. Compatibility boundaries and application responsibilities
+
+### Backend and API boundaries
+
+- The IPv4 parser is shared by all ESP32 backend versions. IDF3 therefore
+  receives the parser correction, but its ping implementation is otherwise
+  unchanged.
+- IDF4 receives only the correction needed for basic ping operation and task
+  scheduling. It retains the established five per-request callbacks followed
+  by a final callback that repeats the cumulative result.
+- Ping overlap rejection, result delivery into the interpreter, reset
+  cancellation and cleanup of completed native ping tasks are IDF5-only
+  lifecycle changes.
+- Connection and disconnection operation-state changes are also IDF5-only.
+  IDF3 and IDF4 retain their existing connection behaviour, including the
+  observed IDF3 duplicate callback from a connected
+  `Wifi.disconnect(callback)` request.
+- PR2 transfers the IDF5 station events used by the connection lifecycle from
+  the ESP-IDF event task into Espruino's interpreter task. Scan and
+  access-point event paths retain their existing event-handler implementation
+  and are not claimed as hardened by this work.
+- The shared API documents `dhcp_timeout`, but the current ESP32 wrapper has no
+  explicit publication path for that event. This work does not add one.
+- The station-event and ping-result queues have fixed capacities. If either
+  queue fills, the wrapper reports the overflow through `jsError()`. A
+  station-event queue overflow also completes any active connection or
+  disconnection operation so that the operation is not left active and its
+  optional callback cannot remain pending indefinitely.
+
+### Application responsibilities
+
+The corrected wrappers track their ESP-IDF operations and optional callbacks,
+but they do not define an application's connection policy. The application
+remains responsible for:
+
+- choosing an application-level connection timeout;
+- deciding retry delay, backoff, credential replacement and provisioning
+  policy after a reported failure;
+- calling `Wifi.disconnect()` when its own timeout expires before the current
+  connection operation completes;
+- cancelling application timers after a completion callback or relevant state
+  change;
+- ignoring callbacks or timer events belonging to an earlier application
+  attempt, for example by recording an application-maintained attempt number;
+  and
+- checking the current driver state with `getStatus()`, `getDetails()` and
+  `getIP()` when a public lifecycle event is unexpected.
+
+An application-maintained attempt number can associate its own callback
+closures and timers with a particular connection request. Public
+`Wifi.on(...)` events do not carry that number; they report changes in the
+underlying driver lifecycle. The application should therefore treat them as
+observations of driver state, not as proof that an event belongs to one
+particular connection request.
+
+## 6. Proposed submission sequence
+
+The umbrella issue has been raised as
+[espruino/Espruino#2779](https://github.com/espruino/Espruino/issues/2779).
+PR1 can reference that issue and be reviewed independently. PR2 should be
+rebased and proportionately requalified after PR1 merges; PR3 should follow
+the same process after PR2 merges. Rebased commit identifiers should replace
+the draft identifiers before each dependent PR is submitted.
+
+This sequence keeps the parser and ping correction, connection ownership and
+disconnection ownership separately reviewable while preserving their common
+design principle.
