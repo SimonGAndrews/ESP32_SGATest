@@ -1,0 +1,1633 @@
+diff --git a/libs/network/esp32/jswrap_esp32_network.c b/libs/network/esp32/jswrap_esp32_network.c
+index 5c61a889e..15f687a67 100644
+--- a/libs/network/esp32/jswrap_esp32_network.c
++++ b/libs/network/esp32/jswrap_esp32_network.c
+@@ -23,7 +23,6 @@
+ // Includes from ESP-IDF
+ #include "esp_wifi.h"
+ #include "esp_event_loop.h"
+-#if ESP_IDF_VERSION_MAJOR>=5
+ #include "esp_netif.h"
+ #include "esp_event.h"
+ #include "mdns.h"
+@@ -33,20 +32,6 @@
+ #include "esp_sntp.h"
+ #include "esp_mac.h"
+ #include "nvs_flash.h"
+-#elif ESP_IDF_VERSION_MAJOR>=4
+-#include "tcpip_adapter.h"
+-#include "mdns.h"
+-#include "ping/ping.h"
+-#include "esp_ping.h"
+-#include "sntp/sntp.h"
+-#else
+-
+-#include "tcpip_adapter.h"
+-#include "mdns/include/mdns.h"
+-#include "lwip/include/apps/ping/ping.h"
+-#include "lwip/include/apps/esp_ping.h"
+-#include "apps/sntp/sntp.h"
+-#endif
+ 
+ #include "lwip/dns.h"
+ #include "jsinteractive.h"
+@@ -59,10 +44,8 @@
+ 
+ #define UNUSED(x) (void)(x)
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5
+ static esp_event_handler_instance_t instance_wifi = NULL;
+ static esp_event_handler_instance_t instance_ip = NULL;
+-#endif
+ 
+ #ifndef TCPIP_ADAPTER_IF_STA
+ #define TCPIP_ADAPTER_IF_STA 0
+@@ -94,13 +77,8 @@ static JsVar *g_jsScanCallback;
+ static JsVar *g_jsAPStartedCallback;
+ 
+ // The last time we were connected/disconnected as a station.
+-#if ESP_IDF_VERSION_MAJOR>=5
+ static wifi_event_sta_connected_t g_lastEventStaConnected;
+ static wifi_event_sta_disconnected_t g_lastEventStaDisconnected;
+-#else
+-static system_event_sta_connected_t g_lastEventStaConnected;
+-static system_event_sta_disconnected_t g_lastEventStaDisconnected;
+-#endif
+ 
+ // Are we connected as a station?
+ static bool g_isStaConnected = false;
+@@ -161,10 +139,8 @@ static char *authModeToString(wifi_auth_mode_t authMode) {
+     case WIFI_AUTH_WPA_PSK: return "wpa";
+     case WIFI_AUTH_WPA2_PSK: return "wpa2";
+     case WIFI_AUTH_WPA_WPA2_PSK: return "wpa_wpa2";
+-#if ESP_IDF_VERSION_MAJOR>=4
+     case WIFI_AUTH_WPA3_PSK: return "wpa3";
+     case WIFI_AUTH_WPA2_WPA3_PSK: return "wpa2_wpa3";
+-#endif
+     default:  return "unknown";
+   }
+ }
+@@ -239,7 +215,6 @@ static char *wifiModeToString(wifi_mode_t mode) {
+   }
+ }
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5
+ /// Convert an wifi event to a string value.
+ const char *wifiEventToString(int e) {
+   switch (e) {
+@@ -264,42 +239,6 @@ const char *wifiEventToString(int e) {
+     default: return "unknown";
+   }
+ }
+-#else
+-/// Convert an wifi event to a string value.
+-static char *wifiEventToString(uint32_t event){
+-  switch(event){
+-    case SYSTEM_EVENT_STA_CONNECTED:return "STA_CONNECTED";
+-    case SYSTEM_EVENT_STA_DISCONNECTED:return "STA_DISCONNECTED";
+-    case SYSTEM_EVENT_STA_AUTHMODE_CHANGE:return "STA_AUTHMODE_CHANGE";
+-    case SYSTEM_EVENT_STA_GOT_IP:return "STA_GOT_IP";
+-    case SYSTEM_EVENT_AP_STACONNECTED:return "AP_STACONNECTED";
+-    case SYSTEM_EVENT_AP_STADISCONNECTED: return "AP_STADISCONNECTED";
+-    case SYSTEM_EVENT_AP_PROBEREQRECVED:return "AP_PROBEREQRECVED";
+-    case SYSTEM_EVENT_WIFI_READY: return "WIFI_READY";
+-    case SYSTEM_EVENT_SCAN_DONE: return "SCAN_DONE";
+-    case SYSTEM_EVENT_STA_START: return "STA_START";
+-    case SYSTEM_EVENT_STA_STOP: return "STA_STOP";
+-    case SYSTEM_EVENT_STA_LOST_IP: return "LOST_IP";
+-    case SYSTEM_EVENT_STA_WPS_ER_SUCCESS: return "STA_WPS_ER_SUCCESS";
+-    case SYSTEM_EVENT_STA_WPS_ER_FAILED: return "STA_WPS_ER_FAILED";
+-    case SYSTEM_EVENT_STA_WPS_ER_TIMEOUT: return "STA_WPS_ER_TIMEOUT";
+-    case SYSTEM_EVENT_STA_WPS_ER_PIN: return "STA_WPS_ER_PIN";
+-    case SYSTEM_EVENT_AP_START: return "AP_START";
+-    case SYSTEM_EVENT_AP_STOP: return "AP_STOP";
+-    case SYSTEM_EVENT_GOT_IP6: return "GOT_IP6";
+-    case SYSTEM_EVENT_ETH_START: return "ETH_START";
+-    case SYSTEM_EVENT_ETH_STOP: return "ETH_STOP";
+-    case SYSTEM_EVENT_ETH_CONNECTED: return "ETH_CONNECTED";
+-    case SYSTEM_EVENT_ETH_DISCONNECTED: return "ETH_DISCONNECTED";
+-    case SYSTEM_EVENT_ETH_GOT_IP: return "ETH_GOT_IP";
+-    case SYSTEM_EVENT_MAX: return "MAX";
+-#if ESP_IDF_VERSION_MAJOR>=4
+-    case SYSTEM_EVENT_STA_BEACON_TIMEOUT: return "STA_BEACON_TIMEOUT";
+-#endif
+-    default: return "unknown event, see wifiEventToString";
+-  }
+-}
+-#endif
+ 
+ // Convert an IP address to a string. Returns 0 on failure
+ JsVar *ipToString(const ip_addr_t *ipAddr) {
+@@ -318,12 +257,10 @@ JsVar *ipToString(const ip_addr_t *ipAddr) {
+ #endif
+ 
+ }
+-#if ESP_IDF_VERSION_MAJOR >= 4
+ JsVar *espipToString(const esp_ip_addr_t *ipAddr) {
+   assert(sizeof(ip_addr_t) == sizeof(esp_ip_addr_t)); // these are actually the same
+   return ipToString((const ip_addr_t*)ipAddr);
+ }
+-#endif
+ 
+ // Convert a string to an IP address. Returns false on failure
+ bool stringToIP(ip_addr_t *ipAddr, const char *str) {
+@@ -456,29 +393,13 @@ void stopWifiIfIdle() {
+ /**
+  * Wifi event handler
+  * Here we get invoked whenever a WiFi event is received from the ESP32 WiFi subsystem. */
+-#if ESP_IDF_VERSION_MAJOR>=5
+ static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
+-#else
+-static esp_err_t event_handler(void *ctx, system_event_t *event) {
+-  UNUSED(ctx);
+-#endif
+-#if ESP_IDF_VERSION_MAJOR>=5
+   jsDebug(DBG_INFO, "Event: %s (%d)\n", event_base == WIFI_EVENT ? wifiEventToString(event_id) : "OTHER", event_id);
+-#else
+-  jsDebug(DBG_INFO, "Wifi: Event(%d):SYSTEM_EVENT_%s\n", event->event_id, wifiEventToString(event->event_id));
+-#endif
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id >= WIFI_EVENT_MAX) {
+     jsDebug(DBG_INFO, "Internal event ");
+   }
+-#endif
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+     wifi_event_sta_disconnected_t *disconnected = (wifi_event_sta_disconnected_t*)event_data;
+-#else
+-  if (event->event_id == SYSTEM_EVENT_STA_DISCONNECTED) {
+-    system_event_sta_disconnected_t *disconnected = &event->event_info.disconnected;
+-#endif
+     if (--g_retryCounter > 0 ) {
+       esp_wifi_connect();
+       jsDebug(DBG_INFO, "retry to AP connect\n");
+@@ -510,13 +431,8 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+       stopWifiIfIdle();
+     }
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_CONNECTED) {
+     wifi_event_sta_connected_t* connected = (wifi_event_sta_connected_t*)event_data;
+-#else
+-  if (event->event_id == SYSTEM_EVENT_STA_CONNECTED) {
+-    system_event_sta_connected_t *connected = &event->event_info.connected;
+-#endif
+     g_isStaConnected = true; // Flag us as connected.
+     g_lastEventStaConnected = *connected; // Save the last connected info
+     // Publish the on("associated") event to any one who has registered an interest.
+@@ -531,16 +447,12 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+     jsvObjectSetStringChild(jsDetails, "channel", temp);
+     sendWifiEvent("#onassociated", jsDetails);
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5 && CONFIG_LWIP_IPV6
++#if CONFIG_LWIP_IPV6
+     esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+     esp_netif_create_ip6_linklocal(netif); // IPv6 startup
+ #endif
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+-#else
+-  if (event->event_id == SYSTEM_EVENT_STA_START) {
+-#endif
+     g_isStaStarted = true;
+     // Complete a pending Wifi.connect() request after the station has started.
+     if (g_connectAfterStaStart) {
+@@ -550,23 +462,14 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+         jsDebug(DBG_INFO, "Wifi: event_handler STA_START: esp_wifi_connect: %d(%s)\n", err,wifiErrorToString(err));
+     }
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_STOP) {
+-#else
+-  if (event->event_id == SYSTEM_EVENT_STA_STOP) {
+-#endif
+     g_isStaStarted = false;
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == IP_EVENT && (event_id == IP_EVENT_STA_GOT_IP || event_id==IP_EVENT_GOT_IP6)) {
+     ip_event_got_ip_t* ipevent = (ip_event_got_ip_t*)event_data;
+-#else
+-  if (event->event_id == SYSTEM_EVENT_STA_GOT_IP) {
+-    system_event_sta_got_ip_t *ipevent = &event->event_info.got_ip;
+-#endif
+     JsVar *jsDetails = jsvNewObject();
+     char temp[40]; // max: "xxx.xxx.xxx.xxx\0"
+-#if ESP_IDF_VERSION_MAJOR>=5 && CONFIG_LWIP_IPV6
++#if CONFIG_LWIP_IPV6
+     if (event_id == IP_EVENT_GOT_IP6) {
+       ip_event_got_ip6_t* ip6event = (ip_event_got_ip6_t*)event_data;
+       esp_ip6_addr_t ip = ip6event->ip6_info.ip;
+@@ -593,24 +496,15 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+     queueWifiCallbackAndUnLock(&g_jsGotIpCallback, jsvNewNull(), jsDetails);
+     // start mDNS
+     const char * hostname = NULL;
+-#if ESP_IDF_VERSION_MAJOR>=5
+     esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+     esp_err_t err = esp_netif_get_hostname(netif, &hostname);
+-#else
+-    esp_err_t err = tcpip_adapter_get_hostname(TCPIP_ADAPTER_IF_STA, &hostname);
+-#endif
+     if (err) hostname = NULL;
+     if (hostname && hostname[0] != 0) {
+       startMDNS(hostname);
+     }
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STACONNECTED) {
+     wifi_event_ap_staconnected_t* sta_connected = (wifi_event_ap_staconnected_t*)event_data;
+-#else
+-  if (event->event_id == SYSTEM_EVENT_AP_STACONNECTED) {
+-    system_event_ap_staconnected_t *sta_connected = &event->event_info.sta_connected;
+-#endif
+     JsVar *jsDetails = jsvNewObject();
+     char temp[18]; // "xx:xx:xx:xx:xx:xx\0"
+     sprintf(temp, MACSTR, MAC2STR(sta_connected->mac));
+@@ -618,13 +512,8 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+     sendWifiEvent("#onsta_joined", jsDetails);
+     jsvUnLock(jsDetails);
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
+     wifi_event_ap_stadisconnected_t* sta_disconnected = (wifi_event_ap_stadisconnected_t*)event_data;
+-#else
+-  if (event->event_id == SYSTEM_EVENT_AP_STADISCONNECTED) {
+-    system_event_ap_stadisconnected_t *sta_disconnected = &event->event_info.sta_disconnected;
+-#endif
+     JsVar *jsDetails = jsvNewObject();
+     char temp[18]; // "xx:xx:xx:xx:xx:xx\0"
+     sprintf(temp, MACSTR, MAC2STR(sta_disconnected->mac));
+@@ -632,43 +521,24 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+     sendWifiEvent("#onsta_left", jsDetails);
+     jsvUnLock(jsDetails);
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_SCAN_DONE) {
+-#else
+-  if (event->event_id == SYSTEM_EVENT_SCAN_DONE) {
+-#endif
+     /* Called when a previous network scan has completed.  Here we check to see if we have
+       a registered callback that is interested in being called when a scan has completed
+       and, if we do, we build the parameters for that callback and then invoke it.  */
+     event_handler_scan_done();
+     stopWifiIfIdle();
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_START) {
+-#else
+-  if (event->event_id == SYSTEM_EVENT_AP_START) {
+-#endif
+     // Called when we have started being an access point.
+     g_isAPStarted = true;
+     queueWifiCallbackAndUnLock(&g_jsAPStartedCallback, jsvNewNull(), NULL);
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STOP) {
+-#else
+-  if (event->event_id == SYSTEM_EVENT_AP_STOP) {
+-#endif
+     // Called when we have stopped being an access point.
+     g_isAPStarted = false;
+     stopWifiIfIdle();
+   } else
+-#if ESP_IDF_VERSION_MAJOR>=5
+     jsDebug(DBG_INFO, "Wifi: event_handler -> NOT HANDLED EVENT: %d:%d\n", event_base, event_id );
+-#else
+-    jsDebug(DBG_INFO, "Wifi: event_handler -> NOT HANDLED EVENT: %d\n", event->event_id );
+-#endif
+-#if ESP_IDF_VERSION_MAJOR<5
+-  return ESP_OK;
+-#endif
+ }
+ 
+ /**
+@@ -676,28 +546,19 @@ static esp_err_t event_handler(void *ctx, system_event_t *event) {
+  * handler.
+  */
+ void esp32_wifi_init() {
+-#if ESP_IDF_VERSION_MAJOR>=5
+   ESP_ERROR_CHECK(esp_netif_init());
+   ESP_ERROR_CHECK(esp_event_loop_create_default());
+   esp_netif_create_default_wifi_ap();
+   esp_netif_create_default_wifi_sta();
+-#else
+-  tcpip_adapter_init();
+-  ESP_ERROR_CHECK( esp_event_loop_init(event_handler, NULL));
+-#endif
+ 
+   wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+   ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5
+   ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL, &instance_wifi));
+   ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL, &instance_ip));
+   ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_GOT_IP6, &wifi_event_handler, NULL, &instance_ip));
+   //ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_LOST_IP, &wifi_event_handler, NULL, &instance_lost_ip));
+   //ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_AP_STAIPASSIGNED, &wifi_event_handler, NULL, &instance_ap_ip));
+-#else
+-  ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
+-#endif
+ 
+   // Don't init wifi yet - wait until wifi.connect/startAP/setScan is called
+ }
+@@ -767,9 +628,6 @@ void jswrap_wifi_disconnect(JsVar *jsCallback) {
+   jsDebug(DBG_INFO, "Disconnecting.....\n");
+ 
+   // turn off auto-connect
+-#if !(ESP_IDF_VERSION_MAJOR>=4)
+-  esp_wifi_set_auto_connect(false);
+-#endif
+   g_connectAfterStaStart = false;
+   g_retryCounter = 0; // flag so we don't attempt to reconnect
+   err = esp_wifi_disconnect();
+@@ -924,10 +782,6 @@ void jswrap_wifi_connect(
+   staConfig.sta.scan_method = allChannels ? WIFI_ALL_CHANNEL_SCAN : WIFI_FAST_SCAN; // force a full scan
+   staConfig.sta.sort_method = WIFI_CONNECT_AP_BY_SIGNAL; // default
+   // .threshold.rssi/.threshold.authmode set as 0 - these are then ignored
+-#if !(ESP_IDF_VERSION_MAJOR>=4)
+-  esp_wifi_set_auto_connect(true);
+-  jsDebug(DBG_INFO, "jswrap_wifi_connect: esp_wifi_set_autoconnect done\n");
+-#endif
+ 
+   err = esp_wifi_set_config(ESP_IF_WIFI_STA,  &staConfig);
+   if (err != ESP_OK) {
+@@ -1215,18 +1069,12 @@ JsVar *jswrap_wifi_getStatus(JsVar *jsCallback) {
+   esp_wifi_get_ps(&psType);
+   char *psTypeStr;
+   switch(psType) {
+-#if ESP_IDF_VERSION_MAJOR>=4
+   case WIFI_PS_MIN_MODEM:
+     psTypeStr = "min_modem";
+     break;
+   case WIFI_PS_MAX_MODEM:
+     psTypeStr = "max_modem";
+     break;
+-#else
+-  case WIFI_PS_MODEM:
+-    psTypeStr = "modem";
+-    break;
+-#endif
+   case WIFI_PS_NONE:
+     psTypeStr = "none";
+     break;
+@@ -1323,10 +1171,6 @@ void jswrap_wifi_setConfig(JsVar *jsSettings) {
+   if (jsvIsString(jsPowerSave)) {
+     if (jsvIsStringEqual(jsPowerSave, "none")) {
+       esp_wifi_set_ps(WIFI_PS_NONE);
+-#if !(ESP_IDF_VERSION_MAJOR>=4)
+-    } else if (jsvIsStringEqual(jsPowerSave, "ps-poll")) {
+-      esp_wifi_set_ps(WIFI_PS_MODEM);
+-#endif
+     } else if (jsvIsStringEqual(jsPowerSave, "min")) {
+       esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
+     } else if (jsvIsStringEqual(jsPowerSave, "max")) {
+@@ -1459,14 +1303,10 @@ void jswrap_wifi_save(JsVar *what) {
+   jsvObjectSetIntChild(o, "channelAP", ap_config.channel);
+ 
+   const char * hostname = NULL;
+-#if ESP_IDF_VERSION_MAJOR>=5
+   esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+   esp_err_t err = esp_netif_get_hostname(netif, &hostname);
+   jsDebug(DBG_INFO,"esp_netif_get_hostname: %s\n", wifiErrorToString(err));
+   jsDebug(DBG_INFO,"hostname: %s\n", hostname);
+-#else
+-  esp_err_t err = tcpip_adapter_get_hostname(TCPIP_ADAPTER_IF_STA, &hostname);
+-#endif
+   if (hostname) jsvObjectSetStringChild(o, "hostname", (char *) hostname);
+ 
+   // save object
+@@ -1550,12 +1390,8 @@ void jswrap_wifi_restore(void) {
+       char hostname[64];
+       jsvGetString(v, hostname, sizeof(hostname));
+       jsDebug(DBG_INFO, "Wifi.restore: hostname=%s\n", hostname);
+-#if ESP_IDF_VERSION_MAJOR >= 5
+       esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+       if (netif) esp_netif_set_hostname(netif, hostname);
+-#else
+-      tcpip_adapter_set_hostname(TCPIP_ADAPTER_IF_STA, hostname);
+-#endif
+     }
+     jsvUnLock(v);
+   }
+@@ -1588,17 +1424,12 @@ static JsVar *getIPInfo(JsVar *jsCallback, int interface) {
+   JsVar *jsIpInfo = jsvNewObject();
+   if (!jsIpInfo) return NULL;  // Early out on OOM
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   esp_netif_t *netif = esp_netif_get_handle_from_ifkey(
+     interface == TCPIP_ADAPTER_IF_STA ? "WIFI_STA_DEF" : "WIFI_AP_DEF"
+   );
+   esp_netif_ip_info_t ipInfo;
+   esp_err_t err = (netif) ? esp_netif_get_ip_info(netif, &ipInfo) : ESP_FAIL;
+   // FIXME use esp_netif_get_all_ip6 here and return ipv6 address if we have it?
+-#else
+-  tcpip_adapter_ip_info_t ipInfo;
+-  esp_err_t err = tcpip_adapter_get_ip_info(interface, &ipInfo);
+-#endif
+   if (err == ESP_OK) {
+     jsvObjectSetChildAndUnLock(jsIpInfo, "ip",
+       networkGetAddressAsString((uint8_t*)&ipInfo.ip, 4, 10, '.'));
+@@ -1639,7 +1470,6 @@ JsVar *jswrap_wifi_getAPIP(JsVar *jsCallback) {
+ 
+ JsVar *jswrap_wifi_getHostname(JsVar *jsCallback) {
+   const char *hostname = NULL;
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+ 
+   if (netif != NULL) {
+@@ -1650,12 +1480,6 @@ JsVar *jswrap_wifi_getHostname(JsVar *jsCallback) {
+   } else {
+     hostname = "";
+   }
+-#else
+-  esp_err_t err = tcpip_adapter_get_hostname(TCPIP_ADAPTER_IF_STA, &hostname);
+-  if (err != ESP_OK || hostname == NULL) {
+-    hostname = "";
+-  }
+-#endif
+   return jsvNewFromString(hostname ? hostname : "");
+ }
+ 
+@@ -1664,7 +1488,6 @@ void jswrap_wifi_setHostname(JsVar *jsHostname, JsVar *jsCallback) {
+   jsvGetString(jsHostname, hostname, sizeof(hostname));
+   jsDebug(DBG_INFO, "Wifi.setHostname: %s\n", hostname);
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+   if (netif != NULL) {
+     esp_err_t err = esp_netif_set_hostname(netif, hostname);
+@@ -1672,12 +1495,6 @@ void jswrap_wifi_setHostname(JsVar *jsHostname, JsVar *jsCallback) {
+       jsExceptionHere(JSET_ERROR, "Failed to set hostname");
+     }
+   }
+-#else
+-  esp_err_t err = tcpip_adapter_set_hostname(TCPIP_ADAPTER_IF_STA, hostname);
+-  if (err != ESP_OK) {
+-    jsExceptionHere(JSET_ERROR, "Failed to set hostname");
+-  }
+-#endif
+ 
+   // now update mDNS
+   startMDNS(hostname);
+@@ -1688,7 +1505,6 @@ void jswrap_wifi_setHostname(JsVar *jsHostname, JsVar *jsCallback) {
+ }
+ 
+ static uint8_t g_seq_no;
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ // Helper function to build the Espruino JS object from IDF5 profiles
+ static void emit_espruino_ping_event(esp_ping_handle_t hdl, uint32_t elapsed_time) {
+   jsDebug(DBG_INFO, "espruino_ping_event\n");
+@@ -1737,30 +1553,6 @@ static void esp5_ping_on_timeout(esp_ping_handle_t hdl, void *args) {
+ static void esp5_ping_on_end(esp_ping_handle_t hdl, void *args) {
+   esp_ping_delete_session(hdl);
+ }
+-#else
+-esp_err_t pingResults(ping_target_id_t msgType, esp_ping_found * pingResp){
+-	//printf("AvgTime:%.1fmS Sent:%d Rec:%d Err:%d min(mS):%d max(mS):%d ",
+-  //(float)pf->total_time/pf->recv_count, pf->send_count, pf->recv_count, pf->err_count, pf->min_time, pf->max_time );
+-	//printf("Resp(mS):%d Timeouts:%d Total Time:%d\n",pf->resp_time, pf->timeout_count, pf->total_time);
+-  if (g_jsPingCallback != NULL) {
+-    JsVar *jsPingResponse = jsvNewObject();
+-    jsvObjectSetIntChild(jsPingResponse, "totalCount", pingResp->send_count);
+-    jsvObjectSetIntChild(jsPingResponse, "totalBytes", pingResp->total_bytes);
+-    jsvObjectSetIntChild(jsPingResponse, "totalTime", pingResp->total_time);
+-    jsvObjectSetIntChild(jsPingResponse, "respTime", pingResp->resp_time);
+-    // don't have a sequence
+-    jsvObjectSetIntChild(jsPingResponse, "seqNo", ++g_seq_no);
+-    jsvObjectSetIntChild(jsPingResponse, "timeoutCount", pingResp->timeout_count);
+-    jsvObjectSetIntChild(jsPingResponse, "bytes", pingResp->bytes);
+-    jsvObjectSetIntChild(jsPingResponse, "error", pingResp->err_count);
+-    JsVar *params[1];
+-    params[0] = jsPingResponse;
+-    jsiQueueEvents(NULL, g_jsPingCallback, params, 1);
+-    jsvUnLock(jsPingResponse);
+-  }
+-  return ESP_OK;
+-}
+-#endif
+ 
+ void jswrap_wifi_ping(
+     JsVar *ipAddr,      //!< A string representation of an IP address.
+@@ -1804,15 +1596,6 @@ void jswrap_wifi_ping(
+   uint32_t ping_timeout = 1000; //mS till we consider it timed out
+   uint32_t ping_delay = 500; //mS between pings
+ 
+-#if ESP_IDF_VERSION_MAJOR < 5
+-  esp_ping_set_target(PING_TARGET_IP_ADDRESS_COUNT, &ping_count, sizeof(uint32_t));
+-  esp_ping_set_target(PING_TARGET_RCV_TIMEO, &ping_timeout, sizeof(uint32_t));
+-  esp_ping_set_target(PING_TARGET_DELAY_TIME, &ping_delay, sizeof(uint32_t));
+-  esp_ping_set_target(PING_TARGET_IP_ADDRESS, &ip.u_addr.ip4, sizeof(uint32_t));
+-  esp_ping_set_target(PING_TARGET_RES_FN, &pingResults, sizeof(pingResults));
+-  g_seq_no = 0;
+-  ping_init();
+-#else
+   esp_ping_config_t ping_config = ESP_PING_DEFAULT_CONFIG();
+   // Assign the target container cleanly to the session configuration
+   ping_config.target_addr = ip;
+@@ -1831,7 +1614,6 @@ void jswrap_wifi_ping(
+   } else {
+     jsExceptionHere(JSET_ERROR, "Failed to initialize ping session");
+   }
+-#endif
+ }
+ 
+ void jswrap_wifi_setSNTP(JsVar *jsServer, JsVar *jsZone) {
+@@ -1853,13 +1635,9 @@ void jswrap_wifi_setSNTP(JsVar *jsServer, JsVar *jsZone) {
+   setenv("TZ", zone, 1);
+   tzset();
+ 
+-#if ESP_IDF_VERSION_MAJOR < 4
+-  // Do nothing - SNTP stops with WiFi disconnect
+-#elif ESP_IDF_VERSION_MAJOR >= 4
+   if (esp_sntp_enabled()) {
+     esp_sntp_stop();
+   }
+-#endif
+ 
+   sntp_setoperatingmode(SNTP_OPMODE_POLL);
+   sntp_setservername(0, server);
+@@ -1907,7 +1685,6 @@ void jswrap_wifi_getHostByName(
+ 
+   jsvGetString(jsHostname, hostname, sizeof(hostname));
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 4
+   // IDF 4/5: show current DNS server via ESP‑NETIF (FIXME: Only do if debug enabled?)
+     esp_netif_t *sta = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+     esp_netif_dns_info_t dns_info;
+@@ -1917,7 +1694,6 @@ void jswrap_wifi_getHostByName(
+     } else {
+       jsDebug(DBG_INFO, "esp_netif_get_dns_info: %d\n", ret);
+     }
+-#endif
+ 
+   jsDebug(DBG_INFO, "Wifi.getHostByName: %s\n", hostname);
+   esp_err_t err = dns_gethostbyname(hostname, &ipAddr, dnsFoundCallback, NULL);
+@@ -1945,13 +1721,8 @@ static void setIP(JsVar *jsSettings, JsVar *jsCallback, int interface) {
+   char ipTmp[20];
+   int len = 0;
+   esp_err_t err;
+-#if ESP_IDF_VERSION_MAJOR>=5
+   esp_netif_ip_info_t info;
+   memset(&info, 0, sizeof(info));
+-#else
+-  tcpip_adapter_ip_info_t info;
+-  memset( &info, 0, sizeof(info) );
+-#endif
+ 
+ // first check parameter
+   if (!jsvIsObject(jsSettings)) {
+@@ -2008,29 +1779,18 @@ static void setIP(JsVar *jsSettings, JsVar *jsCallback, int interface) {
+   jsvUnLock(jsNM);
+ // set IP for station
+   if (interface == WIFI_IF_STA) {
+-#if ESP_IDF_VERSION_MAJOR>=5
+     esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+     esp_netif_dhcpc_stop(netif);  // CLIENT DHCP for STA
+     err = esp_netif_set_ip_info(netif, &info);
+-#else
+-    tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA);
+-    err = tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_STA, &info);
+-#endif
+   }
+ // set IP for access point
+   else {
+-#if ESP_IDF_VERSION_MAJOR>=5
+     esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_AP_DEF");
+     if (netif != NULL) {
+       esp_netif_dhcps_stop(netif);
+       err = esp_netif_set_ip_info(netif, &info);
+       esp_netif_dhcps_start(netif);
+     }
+-#else
+-    tcpip_adapter_dhcps_stop(TCPIP_ADAPTER_IF_AP);
+-    err = tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_AP, &info);
+-    tcpip_adapter_dhcps_start(TCPIP_ADAPTER_IF_AP);
+-#endif
+   }
+ // Schedule callback
+   if (jsvIsFunction(jsCallback)) {
+diff --git a/targets/esp32/BLE/esp32_gap_func.c b/targets/esp32/BLE/esp32_gap_func.c
+index 608ec6801..bdef1d4ba 100644
+--- a/targets/esp32/BLE/esp32_gap_func.c
++++ b/targets/esp32/BLE/esp32_gap_func.c
+@@ -28,9 +28,7 @@
+ #include "bluetooth_common.h"
+ #include "jswrap_bluetooth.h"
+ 
+-#if ESP_IDF_VERSION_MAJOR==5
+ #include "esp_mac.h"
+-#endif
+ 
+ uint16_t blePeriphConnectionInterval = 0;
+ 
+diff --git a/targets/esp32/esp32_neopixel.c b/targets/esp32/esp32_neopixel.c
+index a55868425..b2d8f01bf 100644
+--- a/targets/esp32/esp32_neopixel.c
++++ b/targets/esp32/esp32_neopixel.c
+@@ -21,7 +21,6 @@ This file is part of Espruino, a JavaScript interpreter for Microcontrollers
+ #include <driver/gpio.h>
+ 
+ // IDF version-specific includes
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   #include "driver/rmt_tx.h"
+   #include "driver/rmt_encoder.h"
+   #include "hal/rmt_types.h"
+@@ -29,16 +28,6 @@ This file is part of Espruino, a JavaScript interpreter for Microcontrollers
+   static rmt_channel_handle_t neopixel_tx_chan = NULL;
+   static rmt_encoder_handle_t neopixel_copy_encoder = NULL;
+   static gpio_num_t neopixel_gpio_num = GPIO_NUM_NC;
+-#else
+-  #include <soc/rmt_struct.h>
+-  #include <soc/gpio_sig_map.h>
+-  #include "esp_intr.h"
+-  #include <driver/rmt.h>
+-  #if ESP_IDF_VERSION_MAJOR >= 4
+-  #else
+-    #include <soc/dport_reg.h>
+-  #endif
+-#endif
+ 
+ #include "esp32_neopixel.h"
+ #include "jshardware.h"  // For jshGetPinFromVar
+@@ -63,30 +52,9 @@ This file is part of Espruino, a JavaScript interpreter for Microcontrollers
+ #define PULSE_TRS  (50000 / (DURATION * DIVIDER))
+ 
+ // Legacy data (IDF < 5 only)
+-#if ESP_IDF_VERSION_MAJOR < 5
+-typedef union {
+-  struct {
+-    uint32_t duration0:15;
+-    uint32_t level0:1;
+-    uint32_t duration1:15;
+-    uint32_t level1:1;
+-  };
+-  uint32_t val;
+-} rmtPulsePair;
+-
+-static uint8_t *neopixel_buffer = NULL;
+-static unsigned int neopixel_pos, neopixel_len, neopixel_bufpart;
+-static xSemaphoreHandle neopixel_sem = NULL;
+-static intr_handle_t rmt_intr_handle = NULL;
+-static rmtPulsePair neopixel_bits[2] = {
+-  {{PULSE_T0H,1,PULSE_T0L,0}},
+-  {{PULSE_T1H,1,PULSE_T1L,0}}
+-};
+-#endif
+ 
+ int neopixelConfiguredGPIO = -1;
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ 
+ extern void esp_rom_gpio_connect_out_signal(uint32_t gpio_num, uint32_t signal_idx, bool out_inv, bool oen_inv);
+ 
+@@ -198,143 +166,10 @@ static bool neopixel_write_v5(gpio_num_t gpio_num, unsigned char *rgbData, size_
+   return true;
+ }
+ 
+-#endif  // ESP_IDF_VERSION_MAJOR >= 5
+-
+-#if ESP_IDF_VERSION_MAJOR < 5
+-
+-#if ESP_IDF_VERSION_MAJOR == 4
+-static void IRAM_ATTR ws2812_rmt_adapter(const void *src, rmt_item32_t *dest, size_t src_size,
+-                                        size_t wanted_num, size_t *translated_size, size_t *item_num) {
+-  if (src == NULL || dest == NULL) {
+-    *translated_size = 0;
+-    *item_num = 0;
+-    return;
+-  }
+-  size_t size = 0;
+-  size_t num = 0;
+-  uint8_t *psrc = (uint8_t *)src;
+-  rmt_item32_t *pdest = dest;
+-  while (size < src_size && num < wanted_num) {
+-    for (int i = 7; i >= 0; i--) {
+-      pdest->val = neopixel_bits[(*psrc >> i) & 1].val;
+-      pdest++;
+-    }
+-    num += 8;
+-    size++;
+-    psrc++;
+-  }
+-  *translated_size = size;
+-  *item_num = num;
+-}
+-
+-#else 
+-
+-void neopixel_initRMTChannel(int rmtChannel){
+-  RMT.apb_conf.fifo_mask = 1;  //enable memory access, instead of FIFO mode.
+-  RMT.apb_conf.mem_tx_wrap_en = 1; //wrap around when hitting end of buffer
+-  RMT.conf_ch[rmtChannel].conf0.div_cnt = DIVIDER;
+-  RMT.conf_ch[rmtChannel].conf0.mem_size = BUFFERS;//1;
+-  RMT.conf_ch[rmtChannel].conf0.carrier_en = 0;
+-  RMT.conf_ch[rmtChannel].conf0.carrier_out_lv = 1;
+-  RMT.conf_ch[rmtChannel].conf0.mem_pd = 0;
+-
+-  RMT.conf_ch[rmtChannel].conf1.rx_en = 0;
+-  RMT.conf_ch[rmtChannel].conf1.mem_owner = 0;
+-  RMT.conf_ch[rmtChannel].conf1.tx_conti_mode = 0;    //loop back mode.
+-  RMT.conf_ch[rmtChannel].conf1.ref_always_on = 1;    // use apb clock: 80M
+-  RMT.conf_ch[rmtChannel].conf1.idle_out_en = 1;
+-  RMT.conf_ch[rmtChannel].conf1.idle_out_lv = 0;
+-}
+-
+-#endif // ESP_IDF_VERSION_MAJOR == 4
+-
+-void neopixel_copy() {
+-  unsigned int i, j, offset, offset2, len, bit;
+-  offset = neopixel_bufpart * MAX_PULSES;
+-  neopixel_bufpart = (neopixel_bufpart+1)%BUFFERS;
+-  offset2 = neopixel_bufpart * MAX_PULSES;
+-  len = neopixel_len - neopixel_pos;
+-  if (len > (MAX_PULSES / 8)) len = (MAX_PULSES / 8);
+-  if (!len) return;
+-  for (i = 0; i < len; i++) {
+-    bit = neopixel_buffer[i + neopixel_pos];
+-    for (j = 0; j < 8; j++, bit <<= 1) {
+-      RMTMEM.chan[RMTCHANNEL].data32[j + i * 8 + offset].val = neopixel_bits[(bit >> 7) & 0x01].val;
+-    }
+-    if (i + neopixel_pos == neopixel_len - 1)
+-      RMTMEM.chan[RMTCHANNEL].data32[7 + i * 8 + offset].duration1 = PULSE_TRS;
+-  }
+-  for (i *= 8; i < MAX_PULSES; i++) RMTMEM.chan[RMTCHANNEL].data32[i + offset].val = 0;
+-  RMTMEM.chan[RMTCHANNEL].data32[offset2].val = 0;
+-  neopixel_pos += len;
+-}
+-
+-void neopixel_handleInterrupt(void *arg) {
+-  portBASE_TYPE taskAwoken = 0;
+-#if CONFIG_IDF_TARGET_ESP32S3
+-  if (RMT.int_st.ch0_tx_thr_event_int_st) {
+-    neopixel_copy();
+-    RMT.int_clr.ch0_tx_thr_event_int_clr = 1;
+-  } else if (RMT.int_st.ch0_tx_end_int_st && neopixel_sem) {
+-    xSemaphoreGiveFromISR(neopixel_sem, &taskAwoken);
+-    RMT.int_clr.ch0_tx_end_int_clr = 1;
+-  }
+-#else
+-  if (RMT.int_st.ch0_tx_thr_event) {
+-    neopixel_copy();
+-    RMT.int_clr.ch0_tx_thr_event = 1;
+-  } else if (RMT.int_st.ch0_tx_end && neopixel_sem) {
+-    xSemaphoreGiveFromISR(neopixel_sem, &taskAwoken);
+-    RMT.int_clr.ch0_tx_end = 1;
+-  }
+-#endif
+-}
+ 
+-#endif  // ESP_IDF_VERSION_MAJOR < 5
+ 
+ void neopixel_init(int gpioNum) {
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   neopixel_gpio_num = (gpio_num_t)gpioNum;
+-#elif ESP_IDF_VERSION_MAJOR >= 4
+-  if (neopixelConfiguredGPIO != gpioNum) {
+-    if (neopixelConfiguredGPIO != -1) {
+-      rmt_driver_uninstall(RMTCHANNEL);
+-      gpio_matrix_out(neopixelConfiguredGPIO, SIG_GPIO_OUT_IDX, 0, 0);
+-    }
+-    neopixelConfiguredGPIO = gpioNum;
+-    rmt_config_t config = RMT_DEFAULT_CONFIG_TX(gpioNum, RMTCHANNEL);
+-    config.clk_div = 2;
+-    ESP_ERROR_CHECK(rmt_config(&config));
+-    ESP_ERROR_CHECK(rmt_driver_install(config.channel, 0, 0));
+-    uint32_t counter_clk_hz = 0;
+-    if (rmt_get_counter_clock(config.channel, &counter_clk_hz) != ESP_OK)
+-      printf("get rmt counter clock failed\n");
+-    float ratio = (float)counter_clk_hz / 1e9;
+-    neopixel_bits[0].duration0 = (uint32_t)(ratio * WS2812_T0H_NS);
+-    neopixel_bits[0].duration1 = (uint32_t)(ratio * WS2812_T0L_NS);
+-    neopixel_bits[1].duration0 = (uint32_t)(ratio * WS2812_T1H_NS);
+-    neopixel_bits[1].duration1 = (uint32_t)(ratio * WS2812_T1L_NS);
+-    // set ws2812 to rmt adapter
+-    #if ESP_IDF_VERSION_MAJOR < 5
+-    rmt_translator_init(config.channel, ws2812_rmt_adapter);
+-    #endif
+-  }
+-#else
+-  DPORT_SET_PERI_REG_MASK(DPORT_PERIP_CLK_EN_REG, DPORT_RMT_CLK_EN);
+-  DPORT_CLEAR_PERI_REG_MASK(DPORT_PERIP_RST_EN_REG, DPORT_RMT_RST);
+-  if (neopixelConfiguredGPIO != gpioNum) {
+-    if (neopixelConfiguredGPIO != -1) {
+-      gpio_matrix_out(neopixelConfiguredGPIO,SIG_GPIO_OUT_IDX,0,0);
+-    }
+-    neopixelConfiguredGPIO = gpioNum;
+-  }
+-  rmt_set_pin((rmt_channel_t)RMTCHANNEL, RMT_MODE_TX, (gpio_num_t)gpioNum);
+-  neopixel_initRMTChannel(RMTCHANNEL);
+-  RMT.tx_lim_ch[RMTCHANNEL].limit = MAX_PULSES;
+-  RMT.int_ena.ch0_tx_thr_event = 1;
+-  RMT.int_ena.ch0_tx_end = 1;
+-  esp_intr_alloc(ETS_RMT_INTR_SOURCE, ESP_INTR_FLAG_INTRDISABLED, neopixel_handleInterrupt, NULL, &rmt_intr_handle);
+-#endif
+ }
+ 
+ bool esp32_neopixelWrite(Pin pin, unsigned char *rgbData, size_t rgbSize) {
+@@ -344,39 +179,5 @@ bool esp32_neopixelWrite(Pin pin, unsigned char *rgbData, size_t rgbSize) {
+ 
+   gpio_num_t gpio_num = (gpio_num_t)pin;
+   
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   return neopixel_write_v5(gpio_num, rgbData, rgbSize);
+-#elif ESP_IDF_VERSION_MAJOR >= 4
+-  if (rgbSize) {
+-    neopixel_init(gpio_num);
+-    if (rmt_write_sample(RMTCHANNEL, rgbData, rgbSize, true) != ESP_OK) {
+-      printf("transmit RMT samples failed\n");
+-      return false;
+-    }
+-    int timeout_ms = 100;
+-    return rmt_wait_tx_done(RMTCHANNEL, pdMS_TO_TICKS(timeout_ms));
+-  }
+-  return true;
+-#else
+-  if (rgbSize) {
+-    neopixel_init(gpio_num);
+-    neopixel_buffer = rgbData;
+-    neopixel_len = rgbSize;
+-    neopixel_pos = 0;
+-    neopixel_bufpart = 0;
+-    neopixel_sem = xSemaphoreCreateBinary();
+-    for(int i=0;i<BUFFERS-1;i++)
+-      if (neopixel_pos < neopixel_len)
+-        neopixel_copy();
+-    RMT.conf_ch[RMTCHANNEL].conf1.mem_rd_rst = 1;
+-    esp_intr_enable(rmt_intr_handle);
+-    RMT.conf_ch[RMTCHANNEL].conf1.tx_start = 1;
+-    xSemaphoreTake(neopixel_sem, portMAX_DELAY);
+-    vSemaphoreDelete(neopixel_sem);
+-    esp_intr_free(rmt_intr_handle);
+-    neopixel_sem = NULL;
+-    rmt_intr_handle = 0;
+-  }
+-  return true;
+-#endif
+ }
+diff --git a/targets/esp32/jshardware.c b/targets/esp32/jshardware.c
+index c57f1abdb..6170cce1d 100644
+--- a/targets/esp32/jshardware.c
++++ b/targets/esp32/jshardware.c
+@@ -32,9 +32,7 @@
+ #include "jshardwarePWM.h"
+ #include "jshardwarePulse.h"
+ #include "rtosutil.h"
+-#if ESP_IDF_VERSION_MAJOR>=5
+ #include "driver/gptimer.h"
+-#endif
+ #include "driver/timer.h"
+ 
+ #ifdef BLUETOOTH
+@@ -52,11 +50,9 @@
+ #ifdef USE_NET
+ #include "jswrap_esp32_network.h"
+ #endif
+-#if ESP_IDF_VERSION_MAJOR>=4
+ #include "soc/uart_reg.h"
+ #include "esp_mac.h"
+ #include "hal/gpio_ll.h"
+-#endif
+ #include "esp_attr.h"
+ #include "esp_wifi.h"
+ #include "esp_system.h"
+@@ -71,22 +67,14 @@
+ #include "driver/usb_serial_jtag.h"
+ #endif
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5
+ #include "esp_flash.h"
+ #include "soc/gpio_reg.h"
+ #include "driver/temperature_sensor.h"
+-#else
+-#include "esp_spi_flash.h"
+-#endif
+ 
+ #include "jshardwareI2c.h"
+ #include "jshardwareSpi.h"
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ #include "esp_private/esp_clk.h"
+-#else
+-#include "esp_clk.h"
+-#endif
+ 
+ #define FLASH_MAX (4*1024*1024) //4MB
+ #define FLASH_PAGE_SHIFT 12 // Shift is much faster than division by 4096 (size of page)
+@@ -287,7 +275,6 @@ void jshHadEvent() {
+ /// Enter simple sleep mode (can be woken up by interrupts). Returns true on success
+ bool jshSleep(JsSysTime timeUntilWake) {
+   // we definitely don't sleep when we have an active connection...
+-#if ESP_IDF_VERSION_MAJOR>=4
+   double ms = jshGetMillisecondsFromTime(timeUntilWake);
+   if (ms>1000) ms=1000; // hack for now - ideally jshHadEvent called from UART IRQs would break out of vTaskDelay
+   if (ms<1) return false; // don't sleep as minimum tick accuracy is 1ms
+@@ -296,10 +283,6 @@ bool jshSleep(JsSysTime timeUntilWake) {
+             pdTRUE,               // Clear notification count on exit
+             pdMS_TO_TICKS(ms)     // Max sleep duration in ticks
+         );
+-#else
+-  NOT_USED(timeUntilWake);
+-  // we never sleep in older IDFs
+-#endif
+   return true;
+ } // End of jshSleep
+ 
+@@ -392,17 +375,9 @@ void jshPinSetState(
+   gpio_num_t gpioNum = pinToESP32Pin(pin);
+   gpio_set_direction(gpioNum, mode);
+   gpio_set_pull_mode(gpioNum, pull_mode);
+-#if ESP_IDF_VERSION_MAJOR>=5
+   esp_rom_gpio_pad_select_gpio(gpioNum);
+-#else
+-  gpio_pad_select_gpio(gpioNum);
+-#endif
+   if (isOutput) { // reset pin to be GPIO in case it was used as rmt or something else
+-#if ESP_IDF_VERSION_MAJOR>=5
+     esp_rom_gpio_connect_out_signal(gpioNum, SIG_GPIO_OUT_IDX, false, false);
+-#else
+-    gpio_matrix_out(gpioNum,SIG_GPIO_OUT_IDX,0,0);
+-#endif
+   }
+   g_pinState[pin] = state; // remember what we set this to...
+ }
+@@ -535,16 +510,11 @@ void jshEnableWatchDog(JsVarFloat timeout) {
+ #ifdef QEMU_BUILD
+ #else
+   wdt_enabled = true;
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   // ESP-IDF 5 uses a config struct
+   esp_task_wdt_config_t wdt_config = {
+       .timeout_ms = (int)(timeout * 1000 + 0.5), // convert seconds to milliseconds
+   };
+   esp_task_wdt_init(&wdt_config);
+-#else
+-  // ESP-IDF 4 compatibility
+-  esp_task_wdt_init((int)(timeout + 0.5), true);
+-#endif
+   esp_task_wdt_add(NULL); // add current thread to WDT watch
+ #endif
+ #endif
+@@ -785,7 +755,6 @@ JsVarFloat jshReadTemperature() {
+   extern uint8_t temprature_sens_read(); // ESP32 uses legacy temp sensor
+   return temprature_sens_read();
+ #else
+-#if ESP_IDF_VERSION_MAJOR>=5
+   static temperature_sensor_handle_t temp_sensor = NULL;
+   if (!temp_sensor) {
+     temperature_sensor_config_t temp_config = {
+@@ -798,10 +767,6 @@ JsVarFloat jshReadTemperature() {
+   float temp;
+   temperature_sensor_get_celsius(temp_sensor, &temp);
+   return temp;
+-#else
+-  jsError(">> jshReadTemperature Not implemented");
+-  return NAN;
+-#endif
+ #endif
+ }
+ 
+@@ -839,18 +804,10 @@ void jshFlashRead(
+ 
+   if(len == 1){ // Can't read a single byte using the API, so read 4 and select the byte requested
+     uint word;
+-#if ESP_IDF_VERSION_MAJOR>=5
+     esp_flash_read(NULL, &word, addr & 0xfffffffc,4);
+-#else
+-    spi_flash_read(addr & 0xfffffffc,&word,4);
+-#endif
+     *(uint8_t *)buf = (word >> ((addr & 3) << 3 )) & 255;
+   } else {
+-#if ESP_IDF_VERSION_MAJOR>=5
+     esp_flash_read(NULL, buf, addr, len);
+-#else
+-    spi_flash_read(addr, buf, len);
+-#endif
+   }
+ }
+ 
+@@ -866,11 +823,7 @@ void jshFlashWrite(
+     uint32_t addr, //!< Flash address to write into
+     uint32_t len   //!< Length of data to write
+   ) {
+-#if ESP_IDF_VERSION_MAJOR>=5
+   esp_flash_write(NULL, buf, addr, len);
+-#else
+-  spi_flash_write(addr, buf, len);
+-#endif
+ }
+ 
+ 
+@@ -910,12 +863,8 @@ JsVar *jshFlashGetFree() {
+ 
+ /// Erase the flash page containing the address.
+ void jshFlashErasePage(uint32_t addr) {
+-#if ESP_IDF_VERSION_MAJOR>=5
+   esp_err_t err = esp_flash_erase_region(esp_flash_default_chip, addr, 4096);
+   assert(err == ESP_OK);
+-#else
+-  spi_flash_erase_sector(addr >> FLASH_PAGE_SHIFT);
+-#endif
+ }
+ 
+ size_t jshFlashGetMemMapAddress(size_t ptr) {
+diff --git a/targets/esp32/jshardwareAnalog.c b/targets/esp32/jshardwareAnalog.c
+index 32cb02d63..3b6b71c4f 100644
+--- a/targets/esp32/jshardwareAnalog.c
++++ b/targets/esp32/jshardwareAnalog.c
+@@ -66,19 +66,11 @@ adc1_channel_t pinToAdcChannel(Pin pin){
+ adc_atten_t rangeToAdcAtten(int range){
+   adc_atten_t atten;
+   switch (range){
+-#if ESP_IDF_VERSION_MAJOR>=4
+ 	case 1000: atten = ADC_ATTEN_DB_0; break;
+ 	case 1340: atten = ADC_ATTEN_DB_2_5; break;
+ 	case 2000: atten = ADC_ATTEN_DB_6; break;
+ 	case 3600: atten = ADC_ATTEN_DB_11; break;
+ 	default: atten = ADC_ATTEN_DB_11; break;
+-#else
+-	case 1000: atten = ADC_ATTEN_0db; break;
+-	case 1340: atten = ADC_ATTEN_2_5db; break;
+-	case 2000: atten = ADC_ATTEN_6db; break;
+-	case 3600: atten = ADC_ATTEN_11db; break;
+-	default: atten = ADC_ATTEN_11db; break;
+-#endif
+   }
+   return atten;
+ }
+@@ -107,17 +99,9 @@ void ADCReset(){
+ void initADC(int ADCgroup){
+   switch(ADCgroup){
+   case 1:
+-#if ESP_IDF_VERSION_MAJOR>=4
+     adc1_config_width(ADC_WIDTH_BIT_12);
+-#else
+-    adc1_config_width(ADC_WIDTH_12Bit);
+-#endif
+     for(int i = 0; i < adc_channel_max; i++) {
+-#if ESP_IDF_VERSION_MAJOR>=4
+       adc_channel[i] = ADC_ATTEN_DB_11;
+-#else
+-      adc_channel[i] = ADC_ATTEN_11db;
+-#endif
+       adc_channel_setup[i] = false;
+      }
+     break;
+@@ -147,15 +131,11 @@ int readADC(Pin pin){
+   if(channel >= 0) {
+     int idx = pinToAdcChannelIdx(pin);
+     adcEnsureChannelConfigured(channel, idx);
+-#if ESP_IDF_VERSION_MAJOR>=4
+ 	  int value=adc1_get_raw(channel);
+ #if CONFIG_IDF_TARGET_ESP32C3
+     // we need to call it twice to get a decent value on the C3 for some reason!
+     // https://forum.espruino.com/conversations/395499/?offset=100#17482163
+     value=adc1_get_raw(channel);
+-#endif
+-#else
+-	  int value = adc1_get_voltage(channel);
+ #endif
+     return value;
+   } else return -1;
+@@ -169,14 +149,10 @@ void writeDAC(Pin pin,uint8_t value){
+   }
+ #if CONFIG_IDF_TARGET_ESP32
+   channel = pinToDacChannel(pin);
+-#if ESP_IDF_VERSION_MAJOR>=4
+   if(channel >= 0) {
+     dac_output_enable(channel);
+     dac_output_voltage(channel, value);
+   }
+-#else
+-  if(channel >= 0) dac_out_voltage(channel, value);
+-#endif
+ #elif CONFIG_IDF_TARGET_ESP32C3
+   jsExceptionHere(JSET_ERROR, "not implemented\n");
+ #elif CONFIG_IDF_TARGET_ESP32S3
+diff --git a/targets/esp32/jshardwareI2c.c b/targets/esp32/jshardwareI2c.c
+index 7c1cb70df..662519b9e 100644
+--- a/targets/esp32/jshardwareI2c.c
++++ b/targets/esp32/jshardwareI2c.c
+@@ -118,9 +118,7 @@ void jshI2CSetup(IOEventFlags device, JshI2CInfo *info) {
+   conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
+   conf.master.clk_speed = info->bitrate;
+   
+-  #if ESP_IDF_VERSION_MAJOR >= 4
+     conf.clk_flags = 0; // select the default I2C clock source
+-  #endif
+                     
+   esp_err_t err=i2c_param_config(i2c_master_port, &conf);
+   if ( err == ESP_ERR_INVALID_ARG ) {
+diff --git a/targets/esp32/jshardwarePWM.c b/targets/esp32/jshardwarePWM.c
+index 249c04708..0516bf139 100644
+--- a/targets/esp32/jshardwarePWM.c
++++ b/targets/esp32/jshardwarePWM.c
+@@ -64,11 +64,7 @@ int getFreeChannel(Pin pin){
+ 
+ void timerConfig(int freq,int timer){
+   ledc_timer_config_t PWM_timer = {
+-#if ESP_IDF_VERSION_MAJOR>=4
+     .duty_resolution = LEDC_TIMER_10_BIT,
+-#else
+-    .bit_num = LEDC_TIMER_10_BIT,//set timer counter bit number
+-#endif
+ #if CONFIG_IDF_TARGET_ESP32
+     .freq_hz = freq,//set frequency of pwm
+     .speed_mode = LEDC_HIGH_SPEED_MODE,//timer mode,
+diff --git a/targets/esp32/jshardwarePulse.c b/targets/esp32/jshardwarePulse.c
+index 2124aac32..845d6753d 100644
+--- a/targets/esp32/jshardwarePulse.c
++++ b/targets/esp32/jshardwarePulse.c
+@@ -19,23 +19,15 @@
+ 
+ #include <stdio.h>
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ #include <freertos/FreeRTOS.h>
+ #include <freertos/task.h>
+ #include <driver/rmt_tx.h>
+-#else
+-#include "driver/rmt.h"
+-#endif
+ 
+ RMTChannel RMTChannels[RMTChannelMax];
+ 
+ #define RMTPinEmpty 111
+ 
+-#if ESP_IDF_VERSION_MAJOR < 5
+-rmt_item32_t items[1];
+-#else
+ static rmt_channel_handle_t rmt_channels[RMTChannelMax];
+-#endif
+ 
+ int getRMTIndex(Pin pin){
+   for(int i = 0; i < RMTChannelMax; i++){
+@@ -58,7 +50,6 @@ void RMTReset(){
+   for(int i = 0; i < RMTChannelMax; i++){
+     if(RMTChannels[i].pin != RMTPinEmpty){
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ 
+       if(rmt_channels[i]){
+         rmt_disable(rmt_channels[i]);
+@@ -66,11 +57,6 @@ void RMTReset(){
+         rmt_channels[i] = NULL;
+       }
+ 
+-#else
+-
+-      rmt_driver_uninstall(i);
+-
+-#endif
+ 
+       RMTChannels[i].pin = RMTPinEmpty;
+     }
+@@ -82,9 +68,7 @@ void RMTInit(){
+   for(int i = 0; i < RMTChannelMax; i++){
+     RMTChannels[i].pin = RMTPinEmpty;
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+     rmt_channels[i] = NULL;
+-#endif
+ 
+   }
+ }
+@@ -96,7 +80,6 @@ int RMTInitChannel(Pin pin, bool pulsePolarity){
+   if(i < 0)
+     return -1;
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ 
+   rmt_tx_channel_config_t tx_config = {
+       .gpio_num = pin,
+@@ -111,56 +94,10 @@ int RMTInitChannel(Pin pin, bool pulsePolarity){
+ 
+   rmt_enable(rmt_channels[i]);
+ 
+-#else
+-
+-  rmt_config_t config;
+-
+-  config.rmt_mode = RMT_MODE_TX;
+-  config.channel = i;
+-  config.gpio_num = pin;
+-
+-  config.mem_block_num = 1;
+-
+-  config.tx_config.loop_en = 0;
+-  config.tx_config.carrier_en = 0;
+-  config.tx_config.idle_output_en = 1;
+-
+-  if(pulsePolarity)
+-    config.tx_config.idle_level = RMT_IDLE_LEVEL_HIGH;
+-  else
+-    config.tx_config.idle_level = RMT_IDLE_LEVEL_LOW;
+-
+-  config.tx_config.carrier_duty_percent = 50;
+-  config.tx_config.carrier_freq_hz = 10000;
+-  config.tx_config.carrier_level = 1;
+-
+-  config.clk_div = 80;
+-
+-  rmt_config(&config);
+-  rmt_driver_install(config.channel, 0, 0);
+-
+-#endif
+ 
+   return i;
+ }
+ 
+-#if ESP_IDF_VERSION_MAJOR < 5
+-
+-void setPulseLow(int duration){
+-  items[0].duration0 = duration;
+-  items[0].level0 = 0;
+-  items[0].duration1 = 10;
+-  items[0].level1 = 1;
+-}
+-
+-void setPulseHigh(int duration){
+-  items[0].duration0 = duration;
+-  items[0].level0 = 1;
+-  items[0].duration1 = 10;
+-  items[0].level1 = 0;
+-}
+-
+-#endif
+ 
+ void sendPulse(Pin pin, bool pulsePolarity, int duration){
+ 
+@@ -174,7 +111,6 @@ void sendPulse(Pin pin, bool pulsePolarity, int duration){
+     return;
+   }
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ 
+   /* duration is µs (1MHz clock) */
+ 
+@@ -206,20 +142,4 @@ void sendPulse(Pin pin, bool pulsePolarity, int duration){
+ 
+   rmt_tx_wait_all_done(rmt_channels[i], portMAX_DELAY);
+ 
+-#else
+-
+-  if(pulsePolarity)
+-    setPulseLow(duration);
+-  else
+-    setPulseHigh(duration);
+-
+-#if ESP_IDF_VERSION_MAJOR >= 4
+-  rmt_set_pin(i, RMT_MODE_TX, pin);
+-#else
+-  rmt_set_pin(i, RMT_MODE_TX, pin);
+-#endif
+-
+-  rmt_write_items(i, items, 1, 1);
+-
+-#endif
+ }
+\ No newline at end of file
+diff --git a/targets/esp32/jshardwarePulse.h b/targets/esp32/jshardwarePulse.h
+index 3ca0029a3..0346236eb 100644
+--- a/targets/esp32/jshardwarePulse.h
++++ b/targets/esp32/jshardwarePulse.h
+@@ -25,9 +25,7 @@
+ 
+ typedef struct {
+     Pin pin;
+-#if ESP_IDF_VERSION_MAJOR >= 5
+     void *rmt_handle;   // rmt_channel_handle_t in IDF5, stored as void* for compatibility
+-#endif
+ } RMTChannel;
+ 
+ extern RMTChannel RMTChannels[RMTChannelMax];
+diff --git a/targets/esp32/jshardwareSpi.c b/targets/esp32/jshardwareSpi.c
+index 08ed67697..ea9acd59f 100644
+--- a/targets/esp32/jshardwareSpi.c
++++ b/targets/esp32/jshardwareSpi.c
+@@ -34,13 +34,8 @@
+ #include "jshardwareSpi.h"
+ #include "jsinteractive.h"
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 4     // Modified for issue #2601
+ #define SPICHANNEL0_HOST SPI2_HOST // SPI1_host internal use only
+   #define SPICHANNEL1_HOST SPI3_HOST
+-#else // allow original ESP32 build in IDF V3
+-  #define SPICHANNEL0_HOST HSPI_HOST
+-  #define SPICHANNEL1_HOST VSPI_HOST
+-#endif
+ 
+ SPIChannel SPIChannels[SPIMax];   // <-- THE ONLY definition
+ 
+@@ -91,11 +86,7 @@ void jshSPISetup(
+ 
+   // Modified for issue #2601 - Start
+   int dma_chan = 0;
+-  #if ESP_IDF_VERSION_MAJOR >= 4
+     dma_chan = SPI_DMA_CH_AUTO;
+-  #else
+-    dma_chan = (SPIChannels[channelPnt].HOST == SPICHANNEL0_HOST) ? 1 : 2;
+-  #endif
+ 
+   // Default pins as set in board.py
+   JshPinFunction funcType = jshGetPinFunctionFromDevice(device);
+@@ -247,15 +238,11 @@ void jshSPIWait(IOEventFlags device) {
+   if(!spi_Sending)return;
+   esp_err_t ret;
+ 
+-  #if ESP_IDF_VERSION_MAJOR>=5
+   spi_transaction_t *ret_trans;
+   ret = spi_device_get_trans_result(
+         SPIChannels[channelPnt].spi,
+         &ret_trans,
+         portMAX_DELAY);
+-  #else
+-  ret = spi_device_get_trans_result(SPIChannels[channelPnt].spi, (spi_transaction_t **)&spi_trans, portMAX_DELAY);
+-  #endif
+ 
+ 
+   if (ret != ESP_OK) {
+diff --git a/targets/esp32/jshardwareUart.c b/targets/esp32/jshardwareUart.c
+index 533a7d4ea..6c8f3e0f1 100644
+--- a/targets/esp32/jshardwareUart.c
++++ b/targets/esp32/jshardwareUart.c
+@@ -38,20 +38,7 @@ static volatile bool uartTaskPaused;
+ 
+ #ifdef ESPR_USE_USB_SERIAL_JTAG
+ #include "driver/usb_serial_jtag.h"
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ #include <unistd.h>
+-#else // is_connected not in IDF 4, so make our own
+-#include "hal/usb_serial_jtag_ll.h"
+-uint16_t usb_serial_jtag_idle_counter = 0;
+-uint32_t usb_serial_jtag_last_frame_counter = 0;
+-bool usb_serial_initialised = false;
+-bool usb_serial_jtag_is_driver_installed() {
+-  return usb_serial_initialised;
+-}
+-bool usb_serial_jtag_is_connected() {
+-  return usb_serial_jtag_idle_counter < 1000;
+-}
+-#endif
+ #endif
+ 
+ void jshSetDeviceInitialised(IOEventFlags device, bool isInit);
+@@ -151,34 +138,17 @@ void initConsole() {
+     .tx_buffer_size = 256,
+     .rx_buffer_size = 512
+   };
+-#if ESP_IDF_VERSION_MAJOR>=5
+   if (!usb_serial_jtag_is_driver_installed()) {
+-#else // IDF <5
+-  usb_serial_initialised = true;
+-  usb_serial_jtag_idle_counter = 65535;
+-  usb_serial_jtag_last_frame_counter = USB_SERIAL_JTAG.fram_num.val;
+-  if (true) {
+-#endif
+     ESP_ERROR_CHECK(usb_serial_jtag_driver_install(&usb_serial_config));
+   }
+   jshSetDeviceInitialised(EV_USBSERIAL, true); // No need for USB flow control - backpressure is fine
+   vTaskDelay(pdMS_TO_TICKS(1000)); // Now wait one second to allow USB to init if it's going to
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5
+   bool usbConnected = usb_serial_jtag_is_connected();
+-#else // IDF <5
+-  bool usbConnected = usb_serial_jtag_last_frame_counter != USB_SERIAL_JTAG.fram_num.val;
+-#endif
+   if (usbConnected) {
+     needUART = false;
+-#if ESP_IDF_VERSION_MAJOR<5
+-    usb_serial_jtag_idle_counter = 0; // ensure isconnected return true
+-#endif
+   } else {
+     usb_serial_jtag_driver_uninstall();
+-#if ESP_IDF_VERSION_MAJOR<5
+-    usb_serial_initialised = false;
+-#endif
+   }
+ #endif
+ #ifdef USB
+@@ -214,11 +184,7 @@ void writeSerial(IOEventFlags device, uint8_t *buf, int len){
+     usb_serial_jtag_write_bytes(buf, len, pdMS_TO_TICKS(100)); // could return <0 for an error.
+ /* The USB CDC UART on the C3 only writes the data to USB after a newline.
+     We don't want that, so we call flush in this uart task if any data has been sent. */
+-#if ESP_IDF_VERSION_MAJOR >= 5
+     usb_serial_jtag_wait_tx_done(pdMS_TO_TICKS(10));
+-#else
+-    usb_serial_jtag_ll_txfifo_flush();
+-#endif
+ 
+   }
+ #endif
+@@ -248,15 +214,6 @@ void pollSerialDevices() {
+   bool busy = false;
+   static uint16_t idleCount = 0;
+ #ifdef ESPR_USE_USB_SERIAL_JTAG
+-#if ESP_IDF_VERSION_MAJOR < 5 // hack to work out if we're connected or not on IDF4
+-  if (usb_serial_initialised) {
+-    uint32_t frame = USB_SERIAL_JTAG.fram_num.val;
+-    if (frame != usb_serial_jtag_last_frame_counter) {
+-      usb_serial_jtag_idle_counter = 0;
+-      usb_serial_jtag_last_frame_counter = frame;
+-    } else if (usb_serial_jtag_idle_counter<65535) usb_serial_jtag_idle_counter++;
+-  }
+-#endif
+ #endif
+   // Handle transmission
+   IOEventFlags device = jshGetDeviceToTransmit();
+diff --git a/targets/esp32/jshardwareUart.h b/targets/esp32/jshardwareUart.h
+index d00b7b1e3..ddc6cbb7d 100644
+--- a/targets/esp32/jshardwareUart.h
++++ b/targets/esp32/jshardwareUart.h
+@@ -20,9 +20,3 @@ void initConsole();
+ void initSerial(IOEventFlags device,JshUSARTInfo *inf);
+ void uninitSerial(IOEventFlags device);
+ void pollSerialDevices();
+-
+-#if defined(ESPR_USE_USB_SERIAL_JTAG) && ESP_IDF_VERSION_MAJOR < 5
+-// not in IDF 4, make our own
+-bool usb_serial_jtag_is_driver_installed();
+-bool usb_serial_jtag_is_connected();
+-#endif
+\ No newline at end of file
+diff --git a/targets/esp32/jswrap_esp32.c b/targets/esp32/jswrap_esp32.c
+index 9b6827c71..c56d2c121 100644
+--- a/targets/esp32/jswrap_esp32.c
++++ b/targets/esp32/jswrap_esp32.c
+@@ -24,17 +24,9 @@
+ #include "esp_sleep.h"
+ #include "esp_heap_caps.h"
+ #include "esp_ota_ops.h"
+-#if ESP_IDF_VERSION_MAJOR >= 4
+ #include "esp_chip_info.h"
+ #include "esp_flash.h"
+-#else
+-#include "esp_spi_flash.h"
+-#endif
+-#if ESP_IDF_VERSION_MAJOR >= 5
+ #include "esp_private/esp_clk.h"
+-#else
+-#include "esp_clk.h"
+-#endif
+ 
+ 
+ #ifdef ESPR_USE_USB_SERIAL_JTAG
+@@ -49,9 +41,6 @@
+ #include "jshardwareESP32.h"
+ #include "jshardwareSpi.h"
+ 
+-#ifndef ESP_IDF_VERSION_MAJOR
+-#define ESP_IDF_VERSION_MAJOR 3
+-#endif
+ 
+ #ifndef ESP_ERR_SLEEP_REJECT
+ #define ESP_ERR_SLEEP_REJECT ESP_ERR_INVALID_STATE
+@@ -101,20 +90,7 @@ void jswrap_ESP32_reboot() {
+ static bool esp32IsValidDeepSleepWakeupPin(Pin pin) {
+   gpio_num_t gpio = pinToESP32Pin(pin);
+   if (gpio < 0 || gpio >= GPIO_NUM_MAX) return false;
+-#if ESP_IDF_VERSION_MAJOR >= 4
+   return esp_sleep_is_valid_wakeup_gpio(gpio);
+-#else
+-  switch (gpio) {
+-    case GPIO_NUM_0: case GPIO_NUM_2: case GPIO_NUM_4:
+-    case GPIO_NUM_12: case GPIO_NUM_13: case GPIO_NUM_14: case GPIO_NUM_15:
+-    case GPIO_NUM_25: case GPIO_NUM_26: case GPIO_NUM_27:
+-    case GPIO_NUM_32: case GPIO_NUM_33: case GPIO_NUM_34: case GPIO_NUM_35:
+-    case GPIO_NUM_36: case GPIO_NUM_37: case GPIO_NUM_39:
+-      return true;
+-    default:
+-      return false;
+-  }
+-#endif
+ }
+ 
+ static uint64_t esp32DeepSleepGpioMask(Pin pin) {
+@@ -432,14 +408,10 @@ JsVar *jswrap_ESP32_getState() {
+ 
+   uint32_t flash_size = 0;
+ 
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   esp_err_t flash_err = esp_flash_get_size(NULL, &flash_size);
+   if (flash_err != ESP_OK) {
+     flash_size = 0;
+   }
+-#else
+-  flash_size = spi_flash_get_chip_size();
+-#endif
+ 
+   bool is_emb_flash = (chip_info.features & CHIP_FEATURE_EMB_FLASH) != 0;
+ 
+diff --git a/targets/esp32/main.c b/targets/esp32/main.c
+index 4a6e96890..3d55262d1 100644
+--- a/targets/esp32/main.c
++++ b/targets/esp32/main.c
+@@ -4,12 +4,8 @@
+ #include "esp_wifi.h"
+ #include "esp_system.h"
+ #include "esp_event.h"
+-#if ESP_IDF_VERSION_MAJOR>=5
+ #include "esp_event.h"
+ #include "esp_task_wdt.h"
+-#else
+-#include "esp_event_loop.h"
+-#endif
+ 
+ #include "nvs_flash.h"
+ 
+@@ -40,23 +36,15 @@ uintptr_t espruino_stackHighPtr = 0;
+ #include "BLE/esp32_gatts_func.h"
+ #endif
+ 
+-#if ESP_IDF_VERSION_MAJOR>=5
+ #include "esp_flash.h"
+ #include "spi_flash_mmap.h"
+-#else
+-#include "esp_spi_flash.h"
+-#endif
+ #include "esp_partition.h"
+ #include "esp_log.h"
+ 
+ #include "jsvar.h"
+ 
+ #ifdef CONFIG_ESP_TASK_WDT_EN
+-#if ESP_IDF_VERSION_MAJOR>=5
+ #define TWDT_TICKS 10
+-#else
+-#define TWDT_TICKS 1
+-#endif
+ #endif
+ 
+ extern void initialise_wifi(void);
+@@ -158,11 +146,7 @@ int app_main(void)
+ #ifdef BLUETOOTH
+   jsble_init();
+ #endif
+-#if ESP_IDF_VERSION_MAJOR>=5
+   esp_flash_init(NULL);
+-#else
+-  spi_flash_init();
+-#endif
+   timers_Init();
+   timer_Init("EspruinoTimer",0,0,0);
+ 
+diff --git a/targets/esp32/rtosutil.c b/targets/esp32/rtosutil.c
+index 58507a6c0..a4934c2fc 100644
+--- a/targets/esp32/rtosutil.c
++++ b/targets/esp32/rtosutil.c
+@@ -8,10 +8,8 @@
+ #include "jsinteractive.h"
+ #include "jstimer.h"
+ 
+-#if ESP_IDF_VERSION_MAJOR>=4
+ #include "soc/uart_reg.h"
+ #include "esp_private/esp_clk.h"
+-#endif
+ #include "rom/uart.h"
+ #include "rtosutil.h"
+ #include "soc/timer_group_struct.h"
+@@ -22,11 +20,7 @@ RTOStask_t RTOStasks[taskMax];
+ ESP32Timer_t ESP32Timers[timerMax];
+ 
+ // Universal timer clock source
+-#if ESP_IDF_VERSION_MAJOR>=5
+   #define TIMER_BASE_CLK  esp_clk_apb_freq()
+-#else
+-  #define TIMER_BASE_CLK  80000000ULL  // APB 80MHz
+-#endif
+ 
+ #define TIMER_DIVIDER 80
+ #define TIMER_FINE_ADJ   (((14ULL * (uint64_t)TIMER_BASE_CLK) + (10ULL * TIMER_DIVIDER * 1000000ULL) - 1) / (10ULL * TIMER_DIVIDER * 1000000ULL))
+@@ -35,19 +29,11 @@ ESP32Timer_t ESP32Timers[timerMax];
+ // Universal ESP32 timer macros - IDF 3.x/4.x/5.x compatible
+ #if CONFIG_IDF_TARGET_ESP32
+   #define TIMER_FINE_ADJ   (((14ULL * (uint64_t)TIMER_BASE_CLK) + (10ULL * TIMER_DIVIDER * 1000000ULL) - 1) / (10ULL * TIMER_DIVIDER * 1000000ULL))
+-  #if ESP_IDF_VERSION_MAJOR>=5
+     // IDF5 ESP32 - CORRECT field names from compiler hint
+     #define TIMER_TX_UPDATE(TIMER_N)  (TIMERG0.hw_timer[TIMER_N].update.tx_update = 1)
+     #define TIMER_ALARM_EN(TIMER_N)   (TIMERG0.hw_timer[TIMER_N].config.tx_alarm_en = 1)
+     #define TIMER_0_INT_CLR()         (TIMERG0.int_clr_timers.t0_int_clr = 1)
+     #define TIMER_1_INT_CLR()         (TIMERG0.int_clr_timers.t1_int_clr = 1)
+-  #else
+-    // IDF3/4 ESP32 - legacy fields
+-    #define TIMER_TX_UPDATE(TIMER_N)  (TIMERG0.hw_timer[TIMER_N].update = 1)
+-    #define TIMER_ALARM_EN(TIMER_N)   (TIMERG0.hw_timer[TIMER_N].config.alarm_en = 1)
+-    #define TIMER_0_INT_CLR()         (TIMERG0.int_clr_timers.t0 = 1)
+-    #define TIMER_1_INT_CLR()         (TIMERG0.int_clr_timers.t1 = 1)
+-  #endif
+ #elif CONFIG_IDF_TARGET_ESP32C3
+   #define TIMER_FINE_ADJ   (((14ULL * (uint64_t)esp_clk_apb_freq()) + (10ULL * TIMER_DIVIDER * 1000000ULL) - 1) / (10ULL * TIMER_DIVIDER * 1000000ULL))
+   #define TIMER_TX_UPDATE(TIMER_N) (TIMERG0.hw_timer[TIMER_N].update.tx_update = 1)
+@@ -174,13 +160,8 @@ void timer_Reschedule(int idx, uint64_t duration) {
+   int timer_n = ESP32Timers[idx].index;
+   
+   if (duration < TIMER_FINE_ADJ + 1) duration = TIMER_FINE_ADJ + 1;
+-#if ESP_IDF_VERSION_MAJOR >= 5
+   timer_group_set_alarm_value_in_isr(group, timer_n, duration - TIMER_FINE_ADJ);
+   timer_group_enable_alarm_in_isr(group, timer_n);
+-#else
+-  timer_set_alarm_value(group, timer_n, duration - TIMER_FINE_ADJ);
+-  TIMER_ALARM_EN(timer_n);
+-#endif
+ }
+ 
+ void timer_List() {
