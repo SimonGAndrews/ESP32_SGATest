@@ -50,5 +50,7 @@ test suite.
 
 Current experiment areas:
 
+- `esp32_idf5_consolidation/` - analysis-only transformer and audit-plan
+  generator for the ESP32 IDF5 backend consolidation POC
 - `pico/` - Pico comparison scripts used during watch/debounce and pulse
   investigation work
