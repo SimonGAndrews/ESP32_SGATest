@@ -91,12 +91,12 @@ For the selected correction:
 |---|---|
 | consolidated-master base selected | Complete: `b70eda11e7d2` |
 | fresh firmware branch | Complete: `fix/esp32-wifi-ping-minimal` |
-| issue draft | Complete; issue number pending |
-| PR draft | Complete; issue number pending |
+| issue | Submitted as [Espruino #2790](https://github.com/espruino/Espruino/issues/2790) |
+| PR draft | Complete; references issue #2790 |
 | current-master baseline build and physical probes | Complete: IPv4-string rejection reproduced on ESP32, ESP32-C3 and ESP32-S3 |
 | implementation | Complete: `6fdcebda5` restores IPv4-string parsing |
 | qualification | Complete for the parser correction on ESP32, ESP32-C3 and ESP32-S3; independent result-delivery failures recorded for follow-up |
-| upstream issue and PR | Not opened |
+| upstream issue and PR | Issue #2790 open; PR pending submission |
 
 ## Historical Evidence
 

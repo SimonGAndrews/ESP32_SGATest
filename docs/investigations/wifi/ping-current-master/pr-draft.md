@@ -1,13 +1,11 @@
 # ESP32: restore IPv4 string parsing
 
-Status: implementation and qualification complete; issue number pending.
-
 ESP32 `Wifi.ping()` currently rejects every IPv4 string when lwIP IPv6
 support is disabled because `stringToIP()` always returns `false`. Use lwIP's
 IPv4 parser and return its validation result so valid addresses reach the ping
 API while malformed input remains rejected.
 
-Fixes `#TBD`.
+Fixes #2790.
 
 ### Change
 
