@@ -1,6 +1,7 @@
 # ESP32 `Wifi.ping()` rejects valid IPv4 strings
 
-Submitted as [Espruino issue #2790](https://github.com/espruino/Espruino/issues/2790).
+Submitted as [Espruino issue #2790](https://github.com/espruino/Espruino/issues/2790)
+and closed as completed by upstream commit `fe558e4b3`.
 
 ### Problem
 

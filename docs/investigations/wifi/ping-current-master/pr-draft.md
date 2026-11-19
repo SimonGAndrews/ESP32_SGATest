@@ -1,5 +1,10 @@
 # ESP32: restore IPv4 string parsing
 
+> Submitted as [PR #2791](https://github.com/espruino/Espruino/pull/2791),
+> then closed after Gordon applied the smaller `networkParseIPv4Address()`
+> correction directly to `master` at `fe558e4b3`. The text below records the
+> submitted proposal rather than the final upstream implementation.
+
 ESP32 `Wifi.ping()` currently rejects every IPv4 string when lwIP IPv6
 support is disabled because `stringToIP()` always returns `false`. Use lwIP's
 IPv4 parser and return its validation result so valid addresses reach the ping
