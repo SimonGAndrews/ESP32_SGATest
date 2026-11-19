@@ -49,7 +49,7 @@ coherent first issue:
 | Candidate | Baseline probe | Disposition rule |
 |---|---|---|
 | valid IPv4 string rejected | `esp32_wifi_ping_ipv4_parse.js` | Include only if current master still rejects it |
-| C3 ping task starvation | successful loopback ping on the C3 | Change priority only if current master still reproduces missing delivery |
+| C3 ping task starvation | successful loopback ping on the C3 | Reproduced on current master; issue [#2792](https://github.com/espruino/Espruino/issues/2792) raised and focused PR prepared |
 | overlapping calls share or replace a callback | `esp32_wifi_ping_overlap.js` | Prefer immediate overlap rejection before changing callback state |
 | reset or repeated-session cleanup failure | `esp32_wifi_ping_reset.js` and `esp32_wifi_ping_loopback_soak.js` | Raise separately only if still reproducible after the narrower correction |
 
@@ -97,6 +97,10 @@ For the selected correction:
 | implementation | Upstream `master` commit `fe558e4b3` retains `networkParseIPv4Address()` and returns whether the parsed address is nonzero |
 | qualification | Original candidate qualified on ESP32, ESP32-C3 and ESP32-S3; exact upstream commit clean-built, flashed and parser-checked on ESP32-C3 |
 | upstream issue and PR | Complete; focused upstream confirmation recorded on 2026-11-19 |
+| C3 task-priority issue | [Espruino #2792](https://github.com/espruino/Espruino/issues/2792) raised |
+| task-priority branch | `fix/esp32-ping-task-priority` at `1b820a413` |
+| task-priority qualification | Clean builds and 5/5 physical loopback callbacks on ESP32, ESP32-C3 and ESP32-S3 |
+| task-priority PR | Prepared for submission; not yet raised |
 
 ## Historical Evidence
 
