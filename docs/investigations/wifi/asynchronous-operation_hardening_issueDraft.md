@@ -1,5 +1,13 @@
 # ESP32 Wi-Fi API correctness and asynchronous-operation hardening: ping, connect and disconnect
 
+> **Historical record — 19 November 2026:** This document supplied the
+> investigation behind Espruino issue
+> [#2779](https://github.com/espruino/Espruino/issues/2779), which is now
+> closed. The combined issue and its proposed implementation sequence have
+> been retired in favour of short, independently reviewable issues and pull
+> requests based on the consolidated IDF5 `master`. Current ping work starts
+> at [`ping-current-master/README.md`](ping-current-master/README.md).
+
 This umbrella issue tracks a related set of Espruino ESP32 Wi-Fi API problems found while validating the ESP-IDF 5 port. The investigation now covers shared and IDF4 `Wifi.ping()` correctness as well as the IDF5 ping, station connection and station disconnection lifecycles.
 
 The symptoms do not all have the same direct cause. The IPv4 parser and IDF4 ping-target configuration are correctness defects found while establishing a working test baseline. The remaining problems share an asynchronous-lifecycle concern: once an asynchronous request is accepted, Espruino must retain ownership of the underlying ESP-IDF operation and its JavaScript completion callback until the operation completes or is safely torn down, with the callback delivered once or safely detached.

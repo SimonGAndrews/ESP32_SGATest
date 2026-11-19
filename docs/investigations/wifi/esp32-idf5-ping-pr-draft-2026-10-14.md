@@ -1,5 +1,11 @@
 # Draft PR: restore ESP32 IPv4 ping parsing and complete IDF5 ping sessions
 
+> **Historical record — 19 November 2026:** This draft led to Espruino PR
+> [#2781](https://github.com/espruino/Espruino/pull/2781), which is now closed.
+> It preserves the original evidence but is not the draft for a replacement
+> submission. Current work is documented under
+> [`ping-current-master/`](ping-current-master/README.md).
+
 > Supporting text for the prepared Espruino pull request. The source branch,
 > seven-target build matrix and three-target IDF5 runtime confirmation are
 > complete; the parser-only Web IDE screenshot remains optional supporting

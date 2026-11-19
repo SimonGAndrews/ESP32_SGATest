@@ -2,6 +2,14 @@
 
 Date: 2026-11-05
 
+> **Superseded — 19 November 2026:** This plan records the completed
+> investigation and qualification of the original stacked candidates. Issue
+> [#2779](https://github.com/espruino/Espruino/issues/2779) and ping PR
+> [#2781](https://github.com/espruino/Espruino/pull/2781) are closed, the
+> IDF3/IDF4 backends have since been retired, and the queue-based candidates
+> are not the implementation base for new work. The replacement ping workflow
+> is [`ping-current-master/README.md`](ping-current-master/README.md).
+
 ## Purpose
 
 This plan covers completion of the umbrella investigation and its proposed

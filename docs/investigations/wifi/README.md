@@ -2,6 +2,19 @@
 
 Date opened: 2026-07-20
 
+## Active Work — Current-Master Ping Restart
+
+The active Wi-Fi firmware task is a minimal `Wifi.ping()` correction based on
+the consolidated IDF5 Espruino `master`. The earlier umbrella issue
+[#2779](https://github.com/espruino/Espruino/issues/2779) and ping PR
+[#2781](https://github.com/espruino/Espruino/pull/2781) are closed and retained
+as historical evidence. Their multi-backend and queue-based implementation is
+not being carried forward automatically.
+
+The current workspace, issue draft, PR draft and scope gates are indexed at:
+
+- [`ping-current-master/README.md`](ping-current-master/README.md)
+
 ## Current Conclusion
 
 The V1 two-board Wi-Fi tests identified two confirmed shared ESP32-port
@@ -31,8 +44,9 @@ The matching firmware sources share the defective worker logic.
 
 The newer lifecycle evidence adds a complementary rule: accepted asynchronous
 work must retain explicit ownership until exactly one terminal completion.
-Qualified candidates now apply that rule to ping, station connection and
-station disconnection. See
+Historical candidates applied that rule to ping, station connection and
+station disconnection; the consolidated current-master work now reassesses
+each correction independently. See
 [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md).
 
 For a tutorial explanation of station, access-point, scan, connection,
@@ -48,9 +62,9 @@ save/restore and recovery state transitions, see
 | WIFI-003 | C3-station-to-classic-AP `Wifi.ping()` receives no replies while bidirectional UDP works | Open; endpoint attribution incomplete | [`directional-ping-asymmetry-2026-07-20.md`](directional-ping-asymmetry-2026-07-20.md) |
 | WIFI-004 | Classic legacy build reset during two post-`setIP()` continuation sequences | Open; trigger not isolated | [`classic-post-setip-reset-2026-07-20.md`](classic-post-setip-reset-2026-07-20.md) |
 | WIFI-005 | Classic `ESP32_IDF5` `Wifi.scan()` returns an empty AP list because station startup also starts a connection | Confirmed; candidate validated on classic, C3 and the focused S3 failure path; [Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752) submitted with initial CI passing | [`esp32-idf5-scan-empty-2026-09-14.md`](esp32-idf5-scan-empty-2026-09-14.md) |
-| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | IDF5 correction implemented and cross-family qualified at Espruino commit `610007d3f`; upstream submission pending | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
-| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | IDF5 correction implemented and cross-family qualified at Espruino commit `14cd9932f`; upstream submission pending | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
-| WIFI-008 | IDF5 ping work survives JavaScript `reset()` and queues results against discarded callback state | Correction implemented and cross-family qualified in the stacked ping candidate ending at Espruino commit `bc5f06466e`; upstream submission pending | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | Historical candidate qualified at Espruino commit `610007d3f`; a concise current-master successor will be started only when this issue becomes active work. | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | Historical candidate qualified at Espruino commit `14cd9932f`; a concise current-master successor will be started only when this issue becomes active work. | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
+| WIFI-008 | IDF5 ping work survives JavaScript `reset()` and queues results against discarded callback state | Historical candidate qualified at Espruino commit `bc5f06466e`; umbrella issue #2779 and PR #2781 closed. Reproduction against consolidated current master is pending before any narrower successor is raised. | [`ping-current-master/README.md`](ping-current-master/README.md) |
 
 ## Evidence Boundary
 
