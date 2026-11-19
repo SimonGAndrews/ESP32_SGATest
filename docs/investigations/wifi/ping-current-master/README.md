@@ -100,7 +100,7 @@ For the selected correction:
 | C3 task-priority issue | [Espruino #2792](https://github.com/espruino/Espruino/issues/2792) raised |
 | task-priority branch | `fix/esp32-ping-task-priority` at `1b820a413` |
 | task-priority qualification | Clean builds and 5/5 physical loopback callbacks on ESP32, ESP32-C3 and ESP32-S3 |
-| task-priority PR | Prepared for submission; not yet raised |
+| task-priority PR | [Espruino #2793](https://github.com/espruino/Espruino/pull/2793) open |
 
 ## Historical Evidence
 

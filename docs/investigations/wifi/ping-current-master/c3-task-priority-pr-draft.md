@@ -1,5 +1,7 @@
 # ESP32: run ping task above interpreter priority
 
+Raised as [Espruino PR #2793](https://github.com/espruino/Espruino/pull/2793).
+
 On the single-core ESP32-C3, `Wifi.ping()` accepts a valid request but its
 ESP-IDF ping task remains below Espruino's interpreter task and does not run.
 Explicitly configure the ping task at priority 6, the lowest priority above
