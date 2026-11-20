@@ -1,6 +1,7 @@
 # ESP32-C3 `Wifi.ping()` accepts a request but delivers no callbacks
 
-Submitted as [Espruino issue #2792](https://github.com/espruino/Espruino/issues/2792).
+Submitted as [Espruino issue #2792](https://github.com/espruino/Espruino/issues/2792)
+and closed as completed by [PR #2793](https://github.com/espruino/Espruino/pull/2793).
 
 ### Problem
 

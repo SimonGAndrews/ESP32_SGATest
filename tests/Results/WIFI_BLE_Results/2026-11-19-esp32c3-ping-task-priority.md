@@ -2,6 +2,10 @@
 
 Date: 2026-11-19
 
+Upstream status: merged through Espruino PR `#2793` on 2026-11-20. The
+focused candidate commit `1b820a413` is contained unchanged in upstream merge
+commit `e58f6ca81`.
+
 ## Conclusion
 
 On exact Espruino `master` commit `fe558e4b3`, an ESP32-C3 accepted a
