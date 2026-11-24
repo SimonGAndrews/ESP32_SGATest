@@ -88,9 +88,9 @@ def main() -> int:
     print(f"RUNNER git_commit={metadata['git_commit']}")
     marker_absent = callback_marker in ("None", "undefined")
     if marker_absent:
-        print("PASS active_connect_callback_detached_by_reset")
+        print("PASS pre_reset_connect_callback_not_observed")
     else:
-        print(f"FAIL active_connect_callback_detached_by_reset marker={callback_marker}")
+        print(f"FAIL pre_reset_connect_callback_not_observed marker={callback_marker}")
     for line in output.splitlines():
         cleaned = clean_repl_line(line)
         if cleaned.startswith(("PASS ", "FAIL ", "METRIC ", "DONE=")):
@@ -98,6 +98,9 @@ def main() -> int:
 
     passed = marker_absent and "DONE=PASS" in output
     if not passed:
+        print("RUNNER recovery_output_begin")
+        print(output.rstrip())
+        print("RUNNER recovery_output_end")
         print("RUNNER reset_output_begin")
         print(reset_output.rstrip())
         print("RUNNER reset_output_end")

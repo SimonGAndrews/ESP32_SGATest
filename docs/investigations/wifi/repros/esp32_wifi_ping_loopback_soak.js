@@ -46,8 +46,11 @@ echo(false);
       wifi.ping("127.0.0.1", function (result) {
         callbackCount++;
         callbacksTotal++;
+        // seqNo is global across ping sessions, while totalCount restarts for
+        // each native session. Require one uninterrupted result sequence over
+        // the complete soak rather than incorrectly requiring seqNo to reset.
         if (!result || result.totalCount !== callbackCount ||
-            result.seqNo !== callbackCount || result.timeoutCount !== 0 ||
+            result.seqNo !== callbacksTotal || result.timeoutCount !== 0 ||
             result.bytes !== 64 || result.error !== 0) {
           valid = false;
         }
@@ -64,6 +67,10 @@ echo(false);
         if (roundsCompleted < roundsRequired) {
           setTimeout(function () {
             recordHeap();
+            print(
+              "INFO round_completed=" + roundsCompleted +
+              " free_heap=" + finalFreeHeap
+            );
             runRound();
           }, 20);
           return;
@@ -71,6 +78,10 @@ echo(false);
 
         setTimeout(function () {
           recordHeap();
+          print(
+            "INFO round_completed=" + roundsCompleted +
+            " free_heap=" + finalFreeHeap
+          );
           var heapStable = finalFreeHeap >= firstFreeHeap - 2048;
           finish(
             callbacksTotal === roundsRequired * 5 && heapStable,
