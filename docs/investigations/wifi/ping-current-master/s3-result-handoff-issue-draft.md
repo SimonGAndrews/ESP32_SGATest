@@ -139,10 +139,10 @@ The current preference is a bounded queue local to the ESP32 network backend,
 introduced first for ping and then reused by focused station changes but I would prefer to confirm the intended architecture before preparing the
 PR.
 
-What ever handoff is chosen will need defined behaviour when its bounded storage is full or JavaScript is reset while native results remain pending. In particular, a result belonging to the discarded JavaScript runtime must not later be delivered to a callback registered by a new runtime.  
+What ever handoff is chosen will need defined behaviour when its bounded storage is full or JavaScript is reset while native results remain pending. In particular, a result belonging to the discarded JavaScript runtime must not later be delivered to a callback registered by a new runtime.
 
 Detailed evidence:
 
-- [isolated Web IDE reproduction](../../../tests/Results/WIFI_BLE_Results/2026-11-24-esp32-s3-ping-isolated-webide-reproduction.md)
-- [S3 ping result-handoff investigation](../../../tests/Results/WIFI_BLE_Results/2026-11-23-esp32-s3-ping-result-handoff.md)
-- [station task-context probe](../../../tests/Results/WIFI_BLE_Results/2026-11-23-esp32-network-task-context.md)
+- [isolated Web IDE reproduction](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-24-esp32-s3-ping-isolated-webide-reproduction.md)
+- [S3 ping result-handoff investigation](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-23-esp32-s3-ping-result-handoff.md)
+- [station task-context probe](https://github.com/SimonGAndrews/ESP32_SGATest/blob/main/tests/Results/WIFI_BLE_Results/2026-11-23-esp32-network-task-context.md)
