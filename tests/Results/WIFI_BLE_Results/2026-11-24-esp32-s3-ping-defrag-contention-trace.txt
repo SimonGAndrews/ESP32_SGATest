@@ -1,0 +1,22 @@
+>
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_ping("127.0.0.1")
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+New interpreter error: LOW_MEMORY,MEMORY_BUSY
+CALLBACK={"index":1,"valid":true,"result":{"totalCount":1,"totalBytes":64,"totalTime":0,"respTime":0,"seqNo":1,"timeoutCount":0,"bytes":64,"error":0}}
+CALLBACK_EXCEPTION=InternalError: Variable type cannot be c_nverted to string
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+CALLBACK={"index":3,"valid":true,"result":{"totalCount":3,"totalBytes":192,"totalTime":0,"respTime":0,"seqNo":3,"timeoutCount":0,"bytes":64,"error":0}}
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+CALLBACK={"index":4,"valid":true,"result":{"totalCount":4,"totalBytes":256,"totalTime":0,"respTime":0,"seqNo":4,"timeoutCount":0,"bytes":64,"error":0}}
+Prompt not detected - upload failed. Trying to recover...
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+OUT OF MEMORYNew interpreter error:
+Execution Interrupted
+Uncaught undefined
+Execution Interrupted
+Uncaught undefined
+Uncaught undefined
+Uncaught undefined
+Uncaught undefined
+Uncaught undefin

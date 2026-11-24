@@ -1,0 +1,28 @@
+>[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+CALLBACK={"run":3,"index":2,"valid":true,"result":{"totalCount":2,"totalBytes":128,"totalTime":0,"respTime":0,"seqNo":202,"timeoutCount":0,"bytes":64,"error":0}}
+>
+abort() was called at PC 0x40376c1b on core 0
+Backtrace: 0x40383159:0x3fcbf260 0x40383121:0x3fcbf280 0x40389d6e:0x3fcbf2a0 0x40376c1b:0x3fcbf310 0x40376ce1:0x3fcbf340 0x42006eeb:0x3fcbf360 0x420070a7:0x3fcbf380 0x4210ab9d:0x3fcbf3a0 0x40376fb2:0x3fcbf3c0 0x42027970:0x3fcbf3f0 0x42027eb9:0x3fcbf4e0 0x4200c8f5:0x3fcbf500
+ELF file SHA256: b450275725d2815a
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40383279
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0xd0
+load:0x403c8700,len:0x9f8
+load:0x403cb700,len:0x2544
+entry 0x403c8850
+E (650) gpio: gpio_set_direction(310): GPIO number error
+E (650) gpio: gpio_set_pull_mode(274): GPIO number error
+E (651) gpio: gpio_set_direction(310): GPIO number error
+E (657) gpio: gpio_set_pull_mode(274): GPIO number error
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_esp32_wifi_soft_init()
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_esp32_wifi_soft_init()
+2v29.535 (c) 2026 G.Williams
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_restore
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_restore: No data - not starting WiFi
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/network_esp32.c]:setsockopt(SO_REUSPORT) failed
+>

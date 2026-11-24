@@ -1,0 +1,34 @@
+>
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:jswrap_wifi_ping("127.0.0.1")
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+CALLBACK 1 {"totalCount":1,"totalBytes":64,"totalTime":0,"respTime":0,"seqNo":41,"timeoutCount":0,"bytes":64,"error":0}
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+OUT OF MEMORY    at :1:48
+print('CALLBACK '+ ++count+' '+JSON.stringify(a))
+                                              ^
+[/home/simon/MaBecker/Espruino_master/libs/network/esp32/jswrap_esp32_network.c]:espruino_ping_event
+Guru Meditation Error: Core  0 panic'ed (LoadStoreError). Exception was unhandled.
+Core  0 register dump:
+PC      : 0x4201bb40  PS      : 0x00060b30  A0      : 0x82016272  A1      : 0x3fcbe9a0
+A2      : 0x3fcbe9d4  A3      : 0x00000000  A4      : 0x00000000  A5      : 0x3fcbece0
+A6      : 0x3fcca123  A7      : 0x00000000  A8      : 0x40000000  A9      : 0x00335c46
+A10     : 0x3fcbe9d4  A11     : 0x00000000  A12     : 0x803840b2  A13     : 0x3fc9ef90
+A14     : 0x00000000  A15     : 0x00008259  SAR     : 0x0000001f  EXCCAUSE: 0x00000003
+EXCVADDR: 0x40000000  LBEG    : 0x40055499  LEND    : 0x400554a9  LCOUNT  : 0xfffffffd
+Backtrace: 0x4201bb3d:0x3fcbe9a0 0x4201626f:0x3fcbe9c0 0x42017fad:0x3fcbea10 0x42017fc0:0x3fcbea30 0x4201813e:0x3fcbea50 0x4201d55a:0x3fcbeac0 0x4201dac5:0x3fcbeb40 0x420313df:0x3fcbeb90 0x420311d9:0x3fcbec10 0x42031518:0x3fcbeca0 0x4203155a:0x3fcbece0 0x42046215:0x3fcbed10 0x42021c1b:0x3fcbeda0 0x4201ef69:0x3fcbeeb0 0x4201f0a5:0x3fcbeee0 0x4201f147:0x3fcbef00 0x4201f464:0x3fcbef20 0x4201f589:0x3fcbef90 0x4201f597:0x3fcbefb0 0x4201f5a7:0x3fcbefd0 0x42021b08:0x3fcbeff0 0x4201ef69:0x3fcbf100 0x4201f0a5:0x3fcbf130 0x4201f147:0x3fcbf150 0x4201f583:0x3fcbf170 0x4201f597:0x3fcbf190 0x4201f5a7:0x3fcbf1b0 0x42020349:0x3fcbf1d0 0x42020959:0x3fcbf1f0 0x42020b92:0x3fcbf210 0x42022148:0x3fcbf230 0x42022624:0x3fcbf300 0x42024424:0x3fcbf350 0x420257f2:0x3fcbf380 0x42025874:0x3fcbf3a0 0x420258e5:0x3fcbf3d0 0x42027d38:0x3fcbf3f0 0x42027eb9:0x3fcbf4e0 0x4200c8f5:0x3fcbf500
+ELF file SHA256: b450275725d2815a
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40383279
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0xd0
+load:0x403c8700,len:0x9f8
+load:0x403cb700,len:0x2544
+entry 0x403c8850
+E (640) gpio: gpio_set_direction(310): GPIO number error
+E (640) gpio: gpio_set_pull_mode(274): GPIO number error
+E (641) gpio: gpio_set_direction(310): GPIO number error
+E (647) gpio: gpio_set_pull_mode(274): GPIO number error

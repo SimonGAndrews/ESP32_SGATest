@@ -2,16 +2,25 @@
 
 Date opened: 2026-07-20
 
-## Active Work — Current-Master Ping Restart
+## Active Work — Current-Master Wi-Fi Hardening
 
-The active Wi-Fi firmware task is a minimal `Wifi.ping()` correction based on
+The active Wi-Fi firmware task is a sequence of focused corrections based on
 the consolidated IDF5 Espruino `master`. The earlier umbrella issue
 [#2779](https://github.com/espruino/Espruino/issues/2779) and ping PR
 [#2781](https://github.com/espruino/Espruino/pull/2781) are closed and retained
 as historical evidence. Their multi-backend and queue-based implementation is
 not being carried forward automatically.
 
-The current workspace, issue draft, PR draft and scope gates are indexed at:
+The integrated state, priority and qualification plan is:
+
+- [`current-master-hardening-plan-2026-11-20.md`](current-master-hardening-plan-2026-11-20.md)
+- [`esp32-network-native-event-handoff-2026-11-23.md`](esp32-network-native-event-handoff-2026-11-23.md)
+
+Its current-master physical baseline is:
+
+- [`../../../tests/Results/WIFI_BLE_Results/2026-11-20-esp32-current-master-wifi-async-baseline.md`](../../../tests/Results/WIFI_BLE_Results/2026-11-20-esp32-current-master-wifi-async-baseline.md)
+
+The completed parser and task-priority restart remains indexed at:
 
 - [`ping-current-master/README.md`](ping-current-master/README.md)
 
@@ -57,14 +66,16 @@ save/restore and recovery state transitions, see
 
 | ID | Issue | Status | Primary record |
 |---|---|---|---|
-| WIFI-001 | `setIP` / `setAPIP` callback result is inverted | [Issue #2753](https://github.com/espruino/Espruino/issues/2753); correction validated on five builds and submitted as [PR #2754](https://github.com/espruino/Espruino/pull/2754) | [`ip-configuration-api-2026-07-20.md`](ip-configuration-api-2026-07-20.md) |
-| WIFI-002 | Legacy/IDF4 `Wifi.setIP()` does not stop the station DHCP client and does not apply the requested address after association | [Issue #2753](https://github.com/espruino/Espruino/issues/2753); correction validated on classic and C3 legacy/IDF4 paths and submitted as [PR #2754](https://github.com/espruino/Espruino/pull/2754) | [`ip-configuration-api-2026-07-20.md`](ip-configuration-api-2026-07-20.md) |
+| WIFI-001 | `setIP` / `setAPIP` callback result is inverted | Corrected by merged [PR #2754](https://github.com/espruino/Espruino/pull/2754) | [`ip-configuration-api-2026-07-20.md`](ip-configuration-api-2026-07-20.md) |
+| WIFI-002 | Legacy/IDF4 `Wifi.setIP()` does not stop the station DHCP client and does not apply the requested address after association | Corrected by merged [PR #2754](https://github.com/espruino/Espruino/pull/2754); older backends subsequently retired | [`ip-configuration-api-2026-07-20.md`](ip-configuration-api-2026-07-20.md) |
 | WIFI-003 | C3-station-to-classic-AP `Wifi.ping()` receives no replies while bidirectional UDP works | Open; endpoint attribution incomplete | [`directional-ping-asymmetry-2026-07-20.md`](directional-ping-asymmetry-2026-07-20.md) |
 | WIFI-004 | Classic legacy build reset during two post-`setIP()` continuation sequences | Open; trigger not isolated | [`classic-post-setip-reset-2026-07-20.md`](classic-post-setip-reset-2026-07-20.md) |
-| WIFI-005 | Classic `ESP32_IDF5` `Wifi.scan()` returns an empty AP list because station startup also starts a connection | Confirmed; candidate validated on classic, C3 and the focused S3 failure path; [Espruino PR #2752](https://github.com/espruino/Espruino/pull/2752) submitted with initial CI passing | [`esp32-idf5-scan-empty-2026-09-14.md`](esp32-idf5-scan-empty-2026-09-14.md) |
-| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | Historical candidate qualified at Espruino commit `610007d3f`; a concise current-master successor will be started only when this issue becomes active work. | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
-| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | Historical candidate qualified at Espruino commit `14cd9932f`; a concise current-master successor will be started only when this issue becomes active work. | [`async-operation-lifecycle-2026-11-02.md`](async-operation-lifecycle-2026-11-02.md) |
-| WIFI-008 | IDF5 ping work survives JavaScript `reset()` and queues results against discarded callback state | Historical candidate qualified at Espruino commit `bc5f06466e`; umbrella issue #2779 and PR #2781 closed. Reproduction against consolidated current master is pending before any narrower successor is raised. | [`ping-current-master/README.md`](ping-current-master/README.md) |
+| WIFI-005 | Classic `ESP32_IDF5` `Wifi.scan()` returns an empty AP list because station startup also starts a connection | Corrected by merged [PR #2752](https://github.com/espruino/Espruino/pull/2752) | [`esp32-idf5-scan-empty-2026-09-14.md`](esp32-idf5-scan-empty-2026-09-14.md) |
+| WIFI-006 | Overlapping `Wifi.connect()` mutates callback ownership before acceptance and may report native failure only through `jsError` | Reproduced on consolidated current master across classic, C3 and S3; focused successor planned | [`current-master-hardening-plan-2026-11-20.md`](current-master-hardening-plan-2026-11-20.md) |
+| WIFI-007 | `Wifi.disconnect()` during an active connect invokes one completion callback twice | Reproduced on consolidated current master across classic, C3 and S3; focused successor planned | [`current-master-hardening-plan-2026-11-20.md`](current-master-hardening-plan-2026-11-20.md) |
+| WIFI-008 | Ping work survives JavaScript `reset()` and queues results against discarded callback state | Reproduced on consolidated current master across classic, C3 and S3 | [`current-master-hardening-plan-2026-11-20.md`](current-master-hardening-plan-2026-11-20.md) |
+| WIFI-009 | Native ESP32 ping and station event tasks access JavaScript state directly; S3 ping can corrupt values and interrupt the interpreter | Root cause and shared station boundary confirmed; maintainer handoff decision required before implementation | [`esp32-network-native-event-handoff-2026-11-23.md`](esp32-network-native-event-handoff-2026-11-23.md) |
+| WIFI-010 | Repeated sequential C3 ping sessions exhaust native heap | Confirmed after 24 sessions and 120 callbacks on consolidated current master | [`current-master-hardening-plan-2026-11-20.md`](current-master-hardening-plan-2026-11-20.md) |
 
 ## Evidence Boundary
 
